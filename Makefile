@@ -1,0 +1,197 @@
+# Toplevel Makefile
+# Copyright 2009-2020, dimmalex
+# All Rights Reserved.
+#
+# Macro command rule:
+# 1. Prefix is small g for System global macros
+# 2. Prefix is small gp for Platform-specific global macros
+# 2. Prefix is small gh for Chip-specific global macros
+# 3. Prefix is small gc for PCB-specific global macros
+# 4. Suffix is _DIR is directory
+# 5. Suffix is _CFGFILE is configure file
+# 6. Prefix is small gos for information about running system's rootfs
+# 7. Suffix is _SH is shell
+# 8. Suffix is _CMD is command
+
+ifeq (gBOARDID, $(wildcard gBOARDID))
+sinclude gBOARDID 
+endif
+gBOARDID ?= mtk-mt7628-d218
+
+#####################################
+######### Do not modify #############
+#####################################
+gNPROC=`nproc`
+empty:=
+space:= $(empty) $(empty)
+gBOARDIDS := $(subst -,${space},${gBOARDID})
+# Platform-specific Identify
+gPLATFORM := $(word 1,${gBOARDIDS})
+# Chip-specific Identify
+gHARDWARE := $(word 2,${gBOARDIDS})
+# PCB-specific Identify
+gCUSTOM := $(word 3,${gBOARDIDS})
+# Custom Identify
+gSCOPE := $(word 4,${gBOARDIDS})
+ifeq (${gSCOPE},)
+gSCOPE := std
+endif 
+# Get the date
+#gPUBLISH ?= $(shell date +%m%d%y)
+gPUBLISH ?= 20220218
+gVERSION ?= tiger7-$(gPUBLISH)
+# Name for compiler
+gMAKER ?= dimmalex@gmail.com
+export gNPROC gPLATFORM gHARDWARE gCUSTOM gSCOPE gVERSION gPUBLISH gMAKER
+
+#####################################
+######### Do not modify #############
+#####################################
+# Top directory
+gTOP_DIR := $(shell pwd)
+# Directory for Making ROM or temporary file during compilation
+gBUILD_DIR := ${gTOP_DIR}/build
+# Compile temporary installation directory
+gINSTALL_DIR := ${gBUILD_DIR}/install
+# Runing-system's rootfs directory
+gosROOT_DIR := ${gBUILD_DIR}/rootfs
+# Project directory name
+gosPRJ_NAME := prj
+# Runing-system's project directory
+gosPRJ_DIR := ${gosROOT_DIR}/${gosPRJ_NAME}
+# Platform-specific configure directory
+gPLATFORM_DIR := ${gTOP_DIR}/config/${gPLATFORM}
+# Chip-specific configure directory
+gHARDWARE_DIR := ${gPLATFORM_DIR}/${gHARDWARE}
+# Compile FPK temporary directory
+gSTORE_DIR := ${gBUILD_DIR}/store
+# FPK repositories
+gREPO_DIR := ${gHARDWARE_DIR}/store
+# PCB-specific configure directory
+gCUSTOM_DIR := ${gHARDWARE_DIR}/${gCUSTOM}
+# Custom configure directory
+gSCOPE_DIR := ${gCUSTOM_DIR}/${gSCOPE}
+# Markdown directory for project component
+gCOMFACE_DIR := ${gTOP_DIR}/doc/com
+# Tools directory for compile
+gTOOLS_DIR := ${gTOP_DIR}/tools
+# firmware upgrade setup shell, you can execute some commend at the firmware upgrade
+gFIRMWARE_SETUP_SH := ${gTOP_DIR}/shell/setup.shell
+# Project source code directory
+gPROJECT_DIR := ${gTOP_DIR}/project
+# Commercial customer project source code directory
+gRICE_DIR := ${gTOP_DIR}/rice
+# Project configure json filename
+gPROJECT_INF := prj.json
+# Makefile configure pathname
+gMAKEFILE_CFGFILE := $(shell \
+	if [ -f "${gSCOPE_DIR}/makefile.config" ]; \
+	then echo ${gSCOPE_DIR}/makefile.config; \
+	elif [ -f "${gCUSTOM_DIR}/makefile.config" ]; \
+	then echo ${gCUSTOM_DIR}/makefile.config; \
+	elif [ -f "${gHARDWARE_DIR}/makefile.config" ]; \
+	then echo ${gHARDWARE_DIR}/makefile.config;\
+	else echo ${gPLATFORM_DIR}/makefile.config;\
+	fi)
+# Platform-specific SDK directory
+gSDK_DIR := ${gTOP_DIR}/${gPLATFORM}
+# Makefile for Compile SDK
+gSDK_MAKEFILE := ${gPLATFORM_DIR}/sdk.makefile
+# Makefile for layout complie temporary directory 
+gLAY_MAKEFILE := ${gPLATFORM_DIR}/lay.makefile
+# Makefile for fpk project directory
+gDIR_MAKEFILE := ${gPLATFORM_DIR}/dir.makefile
+# Makefile for fpk project
+gFPK_MAKEFILE := ${gPLATFORM_DIR}/fpk.makefile
+# Makefile for component
+gCOM_MAKEFILE := ${gPLATFORM_DIR}/com.makefile
+# Makefile for library
+gLIB_MAKEFILE := ${gPLATFORM_DIR}/lib.makefile
+# Makefile for execute
+gEXE_MAKEFILE := ${gPLATFORM_DIR}/exe.makefile
+# Export macro
+export gTOP_DIR gBUILD_DIR gINSTALL_DIR
+export gosROOT_DIR gosPRJ_NAME gosPRJ_DIR
+export gPLATFORM_DIR gHARDWARE_DIR gSTORE_DIR gREPO_DIR gCUSTOM_DIR gSCOPE_DIR gCOMFACE_DIR gTOOLS_DIR gPROJECT_DIR gRICE_DIR
+export gPROJECT_INF gMAKEFILE_CFGFILE
+export gSDK_DIR
+export gSDK_MAKEFILE gLAY_MAKEFILE gDIR_MAKEFILE gFPK_MAKEFILE gCOM_MAKEFILE gLIB_MAKEFILE gEXE_MAKEFILE
+# add the tools directory to PATH
+PATH := $(gTOOLS_DIR):$(PATH)
+export PATH
+
+#####################################
+######### Do not modify #############
+#####################################
+# Compile default action
+all:
+	make lay
+	if [ "X${OBJ}" != "X" ]; then \
+		make -f Makefile.target kernel OBJ=package/${OBJ}/compile; \
+		make -f Makefile.target app OBJ=package/${OBJ}/compile; \
+	else \
+		if [ -e ${gFIRMWARE_SETUP_SH} ]; then \
+			cp ${gFIRMWARE_SETUP_SH}  ${gBUILD_DIR}; \
+		fi; \
+		make kernel; \
+		make app; \
+		make kernel_install; \
+		make app_install; \
+	fi
+dep: lay
+	make boot_dep kernel_dep
+
+lay:
+	if [ ! -d ${gREPO_DIR} ]; then \
+		mkdir ${gREPO_DIR}; \
+	fi
+	rm -rf ${gINSTALL_DIR} ${gBUILD_DIR}
+	install -d ${gBUILD_DIR} ${gINSTALL_DIR} ${gINSTALL_DIR}/lib ${gINSTALL_DIR}/include ${gosROOT_DIR} ${gSTORE_DIR}
+	if [ -d ${gPLATFORM_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gPLATFORM_DIR}; fi
+	if [ -d ${gHARDWARE_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gHARDWARE_DIR}; fi
+	if [ -d ${gCUSTOM_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gCUSTOM_DIR}; fi
+	if [ -d ${gSCOPE_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gSCOPE_DIR}; fi
+	make -f ${gLAY_MAKEFILE} fpk_lay
+	make -f ${gLAY_MAKEFILE} fpk_install
+lay_install:
+	if [ -d ${gPLATFORM_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gPLATFORM_DIR} install; fi
+	if [ -d ${gHARDWARE_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gHARDWARE_DIR} install; fi
+	if [ -d ${gCUSTOM_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gCUSTOM_DIR} install; fi
+	if [ -d ${gSCOPE_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gSCOPE_DIR} install; fi
+clean:
+	if [ "X${OBJ}" != "X" ]; then \
+		make -f Makefile.target kernel OBJ=package/${OBJ}/clean; \
+	else \
+		make kernel_clean; \
+		rm -rf ${gINSTALL_DIR} ${gBUILD_DIR}; \
+	fi
+distclean: kernel_distclean boot_distclean
+.PHONY: all dep lay lay_install clean distclean
+
+#####################################
+######### Do not modify #############
+#####################################
+# compile for the tools
+tools:
+	make -C ${gTOOLS_DIR}
+tools_install:
+	make -C ${gTOOLS_DIR} install
+tools_clean:
+	make -C ${gTOOLS_DIR} clean
+menu menuclean menuconfig:
+	make -f Makefile.target $@
+# make only one project is: make kernel OBJ=package/network/compile
+kernel_menuconfig kernel_dep kernel kernel_install kernel_clean kernel_distclean:
+	make -f Makefile.target $@
+app_menuconfig app_dep app app_install app_clean app_distclean:
+	make -f Makefile.target $@
+boot_menuconfig boot_dep boot boot_install boot_clean boot_distclean:
+	make -f Makefile.target $@
+.PHONY: tools tools_install tools_clean
+.PHONY: menu menuclean menuconfig
+.PHONY: boot_menuconfig boot_dep boot boot_install boot_clean boot_distclean
+.PHONY: kernel_menuconfig kernel_dep kernel kernel_install kernel_clean kernel_distclean
+.PHONY: app_menuconfig app_dep app app_install app_clean app_distclean
+
+sinclude Makefile.misc
+

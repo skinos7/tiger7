@@ -1,0 +1,29 @@
+{
+    "name":"arch",
+    "intro":"pc platform layer for farm os",
+    "type":"root",
+    "version":"6.0.0",
+    "author":"dimmalex@gmai.com",
+    "osc":
+    {
+    },
+    "ko":
+    {
+    },
+    "com":
+    {
+        "data":"data management"
+    },
+    "obj":
+    {
+    },
+    "init":
+    {
+    },
+    "uninit":
+    {
+    },
+    "joint":
+    {
+    }
+}
