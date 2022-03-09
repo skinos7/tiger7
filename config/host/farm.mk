@@ -12,7 +12,6 @@ define Package/Define
   MISC_LIST:=$(wildcard *.json *.cfg *.sh *.html)
   FPK_BUILD_DIR:=$(PKG_BUILD_DIR)/.fpk
   FPK_LIB_DIR:=$(PKG_BUILD_DIR)/.fpk/lib
-  FPK_BIN_DIR:=$(PKG_BUILD_DIR)/.fpk/bin
   FPK_ROOTFS_DIR:=$(PKG_BUILD_DIR)/.fpk/rootfs
   PROJECT_ID:=${PKG_NAME}
   VERSION_ID:=${PKG_VERSION}
@@ -127,12 +126,11 @@ define Build/Install/Collect
 	# make the fpk dir
 	$(INSTALL_DIR) $(FPK_BUILD_DIR)
 	$(INSTALL_DIR) $(FPK_LIB_DIR)
-	$(INSTALL_DIR) $(FPK_BIN_DIR)
 	if [ -d ./so ]; then \
 		$(CP) ./so/*.so* $(FPK_LIB_DIR); \
 	fi
 	if [ -d ./bin ]; then \
-		$(CP) ./bin/* $(FPK_BIN_DIR); \
+		$(CP) ./bin/* $(FPK_BUILD_DIR); \
 	fi
 	for c in $(PNG_LIST) $(MISC_LIST) ${RES_LIST}; do \
 		if [ -e ./$$c ]; then \
@@ -160,7 +158,7 @@ define Build/Install/Collect
 	for i in ${EXE_LIST};do \
 		if [ -d $(PKG_BUILD_DIR)/$$i ];then \
 			if [ -e $(PKG_BUILD_DIR)/$$i/$$i ];then \
-				$(INSTALL_BIN) $(PKG_BUILD_DIR)/$$i/$$i $(FPK_BIN_DIR); \
+				$(INSTALL_BIN) $(PKG_BUILD_DIR)/$$i/$$i $(FPK_BUILD_DIR); \
 			fi; \
 		fi; \
 	done

@@ -1,0 +1,48 @@
+#!/bin/bash
+TOPDIR=`pwd`
+TAG=$1
+COMMENT=$2
+
+git tag -a $1 -m $2;git push origin --tags
+
+# core project and mytry6
+if [ -d ${TOPDIR}/core ]; then
+    cd ${TOPDIR}/core
+    list=`ls`
+    for tmp in $list
+    do
+        if [ -d ${TOPDIR}/core/${tmp} ]; then
+            echo "commit the ${tmp}"
+            cd ${TOPDIR}/core/${tmp};git tag -a $1 -m $2;git push origin --tags
+        fi
+    done
+fi
+cd ${TOPDIR}
+
+# Custom
+for tmp in rice
+do
+    if [ -d ${TOPDIR}/${tmp} ]; then
+        echo "commit the ${tmp}"
+        cd ${TOPDIR}/${tmp};git tag -a $1 -m $2;git push origin --tags
+    fi
+done
+
+# MTK platform
+for tmp in smtk config/smtk/ smtk_boot
+do
+    if [ -d ${TOPDIR}/${tmp} ]; then
+        echo "commit the ${tmp}"
+        cd ${TOPDIR}/${tmp};git tag -a $1 -m $2;git push origin --tags
+    fi
+done
+
+# WRT platform
+for tmp in config/swrt/
+do
+    if [ -d ${TOPDIR}/${tmp} ]; then
+        echo "commit the ${tmp}"
+        cd ${TOPDIR}/${tmp};git tag -a $1 -m $2;git push origin --tags
+    fi
+done
+

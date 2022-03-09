@@ -13,7 +13,7 @@ all:
 		cp *.fpk $(gBUILD_DIR); \
 	fi
 
-fpk_lay:
+fpk_distinct:
 	# clear the exsit project fpk for core
 	cd ${gPROJECT_DIR}; \
 	list=`ls`; \
@@ -21,7 +21,16 @@ fpk_lay:
 		if [ -f ${gPROJECT_DIR}/$$i/${gPROJECT_INF} ]; then \
 			rm -fr $(gBUILD_DIR)/$$i-*.fpk; \
 		fi \
-	done
+	done;
+	if [ -d ${gRICE_DIR} ]; then \
+		cd ${gRICE_DIR}; \
+		list=`ls`; \
+		for i in $${list}; do \
+			if [ -f ${gRICE_DIR}/$$i/prj.json ]; then \
+				rm -fr $(gBUILD_DIR)/$$i-*.fpk; \
+			fi \
+		done; \
+	fi
 	# clear the exsit project fpk for platform
 	cd ${gPLATFORM_DIR}; \
 	list="arch pdriver"; \
@@ -42,7 +51,7 @@ fpk_install:
 		done; \
 	fi
 
-install:
+rootfs_install:
 	@if [ -d rootfs ]; then \
 		cp -fdRp rootfs/* ${gosROOT_DIR}; \
 	fi
@@ -50,6 +59,7 @@ install:
 		find ${gosROOT_DIR} -type d -name ".svn"|xargs rm -rf; \
 		find ${gosROOT_DIR} -type d -name ".git"|xargs rm -rf; \
 	fi
+
 ### Phony Target Declare
-.PHONY: all fpk_install install
+.PHONY: all fpk_distinct fpk_install rootfs_install
 

@@ -9,41 +9,41 @@ PROJECTS := ${OBJ}
 subdirs := ${OBJ}
 endif
 all dep:
-	@for i in ${PROJECTS} ;do \
+	for i in ${PROJECTS} ;do \
 		if [ -d $$i ]; then \
 			if [ ! -d ${gBUILD_DIR}/$$i ]; then \
 				cp -Lr $$i ${gBUILD_DIR}; \
 			fi; \
 			if [ -f ${gBUILD_DIR}/$$i/${gPROJECT_INF} ];then \
-				if [ -f ${gBUILD_DIR}/$$i/Makefile.prj ]; then \
-					echo "[`pwd`] make -f ${gBUILD_DIR/}$$i/Makefile.prj -C $$i $@"; \
-					make -f ${gBUILD_DIR}/$$i/Makefile.prj -C ${gBUILD_DIR}/$$i $@ || exit $?; \
-				elif [ -f ${gPRJ_MAKEFILE} ]; then\
-					echo "[`pwd`] make -f ${gPRJ_MAKEFILE} -C $$i $@"; \
-					make -f ${gPRJ_MAKEFILE} -C ${gBUILD_DIR}/$$i $@ || exit $?; \
+				if [ -f ${gBUILD_DIR}/$$i/fpk.makefile ]; then \
+					echo "[`pwd`] make -f ${gBUILD_DIR/}$$i/fpk.makefile -C $$i $@"; \
+					make -f ${gBUILD_DIR}/$$i/fpk.makefile -C ${gBUILD_DIR}/$$i $@ || exit $?; \
+				else \
+					echo "[`pwd`] make -f ${gFPK_MAKEFILE} -C $$i $@"; \
+					make -f ${gFPK_MAKEFILE} -C ${gBUILD_DIR}/$$i $@ || exit $?; \
 				fi; \
 			fi; \
 		fi; \
 	done 
 install:
-	@for i in ${PROJECTS} ;do \
+	for i in ${PROJECTS} ;do \
 		if [ -d $$i ]; then \
 			if [ ! -d ${gBUILD_DIR}/$$i ]; then \
 				cp -Lr $$i ${gBUILD_DIR}; \
 			fi; \
 			if [ -f ${gBUILD_DIR}/$$i/${gPROJECT_INF} ];then \
-				if [ -f ${gBUILD_DIR}/$$i/Makefile.prj ]; then \
-					echo "[`pwd`] make -f ${gBUILD_DIR}/$$i/Makefile.prj -C $$i $@"; \
-					make -f ${gBUILD_DIR}/$$i/Makefile.prj -C ${gBUILD_DIR}/$$i $@ || exit $?; \
-				elif [ -f ${gPRJ_MAKEFILE} ]; then\
-					echo "[`pwd`] make -f ${gPRJ_MAKEFILE} -C $$i $@"; \
-					make -f ${gPRJ_MAKEFILE} -C ${gBUILD_DIR}/$$i $@ || exit $?; \
+				if [ -f ${gBUILD_DIR}/$$i/fpk.makefile ]; then \
+					echo "[`pwd`] make -f ${gBUILD_DIR}/$$i/fpk.makefile -C $$i $@"; \
+					make -f ${gBUILD_DIR}/$$i/fpk.makefile -C ${gBUILD_DIR}/$$i $@ || exit $?; \
+				else \
+					echo "[`pwd`] make -f ${gFPK_MAKEFILE} -C $$i $@"; \
+					make -f ${gFPK_MAKEFILE} -C ${gBUILD_DIR}/$$i $@ || exit $?; \
 				fi; \
 			fi; \
 		fi; \
 	done 
 clean distclean:
-	@for i in ${subdirs} ;do \
+	for i in ${subdirs} ;do \
 		if [ -d ${gBUILD_DIR}/$$i ]; then \
 			rm -fr ${gBUILD_DIR}/$$i; \
 		fi; \

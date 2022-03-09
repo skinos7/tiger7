@@ -11,7 +11,7 @@ PKG_BUILD_DIR:=$(shell pwd)
 $(eval $(call Package/Define))
 # 包编译时的目录
 export PKG_NAME PKG_VERSION PROJECT_ID VERSION_ID PKG_BUILD_DIR FPK_BUILD_DIR FPK_LIB_DIR FPK_BIN_DIR FPK_ROOTFS_DIR
-
+#
 all:
 	$(call Build/Compile/Default)
 	$(call Build/Install/Collect)

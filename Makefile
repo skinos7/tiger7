@@ -126,17 +126,17 @@ export PATH
 # Compile default action
 all:
 	make lay
-	if [ "X${OBJ}" != "X" ]; then \
-		make -f Makefile.target kernel OBJ=package/${OBJ}/compile; \
-		make -f Makefile.target app OBJ=package/${OBJ}/compile; \
+	if [ "X${obj}" != "X" ]; then \
+		make -f Makefile.target kernel COMPILE_PROJECT=package/${obj}/compile; \
+		make -f Makefile.target app COMPILE_PROJECT=package/${obj}/compile; \
 	else \
 		if [ -e ${gFIRMWARE_SETUP_SH} ]; then \
 			cp ${gFIRMWARE_SETUP_SH}  ${gBUILD_DIR}; \
 		fi; \
-		make kernel; \
-		make app; \
-		make kernel_install; \
-		make app_install; \
+		make kernel||exit -1; \
+		make app||exit -1; \
+		make kernel_install||exit-1; \
+		make app_install||exit-1; \
 	fi
 dep: lay
 	make boot_dep kernel_dep
@@ -151,16 +151,17 @@ lay:
 	if [ -d ${gHARDWARE_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gHARDWARE_DIR}; fi
 	if [ -d ${gCUSTOM_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gCUSTOM_DIR}; fi
 	if [ -d ${gSCOPE_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gSCOPE_DIR}; fi
-	make -f ${gLAY_MAKEFILE} fpk_lay
+	make -f ${gLAY_MAKEFILE} fpk_distinct
 	make -f ${gLAY_MAKEFILE} fpk_install
 lay_install:
-	if [ -d ${gPLATFORM_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gPLATFORM_DIR} install; fi
-	if [ -d ${gHARDWARE_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gHARDWARE_DIR} install; fi
-	if [ -d ${gCUSTOM_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gCUSTOM_DIR} install; fi
-	if [ -d ${gSCOPE_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gSCOPE_DIR} install; fi
+	if [ -d ${gPLATFORM_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gPLATFORM_DIR} rootfs_install; fi
+	if [ -d ${gHARDWARE_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gHARDWARE_DIR} rootfs_install; fi
+	if [ -d ${gCUSTOM_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gCUSTOM_DIR} rootfs_install; fi
+	if [ -d ${gSCOPE_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gSCOPE_DIR} rootfs_install; fi
 clean:
-	if [ "X${OBJ}" != "X" ]; then \
-		make -f Makefile.target kernel OBJ=package/${OBJ}/clean; \
+	if [ "X${obj}" != "X" ]; then \
+		make -f Makefile.target kernel COMPILE_PROJECT=package/${obj}/clean; \
+		make -f Makefile.target app COMPILE_PROJECT=package/${obj}/clean; \
 	else \
 		make kernel_clean; \
 		rm -rf ${gINSTALL_DIR} ${gBUILD_DIR}; \
@@ -180,7 +181,6 @@ tools_clean:
 	make -C ${gTOOLS_DIR} clean
 menu menuclean menuconfig:
 	make -f Makefile.target $@
-# make only one project is: make kernel OBJ=package/network/compile
 kernel_menuconfig kernel_dep kernel kernel_install kernel_clean kernel_distclean:
 	make -f Makefile.target $@
 app_menuconfig app_dep app app_install app_clean app_distclean:
@@ -192,6 +192,7 @@ boot_menuconfig boot_dep boot boot_install boot_clean boot_distclean:
 .PHONY: boot_menuconfig boot_dep boot boot_install boot_clean boot_distclean
 .PHONY: kernel_menuconfig kernel_dep kernel kernel_install kernel_clean kernel_distclean
 .PHONY: app_menuconfig app_dep app app_install app_clean app_distclean
+
 
 sinclude Makefile.misc
 

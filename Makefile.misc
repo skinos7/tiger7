@@ -57,13 +57,16 @@ bufclean sdkclean:
 ######## Misc Target ################
 #####################################
 
+local run:
+	make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@
 sz:
 	make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@
 tar: boot
 	make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@
 ftp:
 	make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@
-.PHONY: sz tar ftp
+.PHONY: local run sz tar ftp
+
 
 arch:
 	if [ ! -d ${gTOP_DIR}/config/${gSDK_OPEN}/arch ] && [ -d ${gTOP_DIR}/config/${gSDK_OPEN}/${gHARDWARE}/${gCUSTOM} ]; then \
@@ -79,18 +82,21 @@ repo: arch
 	-mv ${gREPO_DIR}/pdriver-*.fpk ${gTOP_DIR}/config/${gSDK_OPEN}/${gHARDWARE}
 .PHONY: arch repo
 
-install_local local_run:
-	make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@
-.PHONY: install_local local_run
 
-# test
-print:
-	@echo ${gBOARDID}
-	@echo ${gHARDWARE}
-	@echo ${gCUSTOM}
-	@echo ${gSCOPE}
-	@echo ${gPUBLISH}
-	@echo ${REPO_LIST}
-	@echo "make kernel OBJ=package/network/compile"
-.PHONY: test
+
+#####################################
+######### Debug the Value ###########
+#####################################
+debug:
+	env
+	@echo "make kernel obj=network"
+tdebug:
+	if [ "X${obj}" != "X" ]; then \
+		make -f Makefile.target $@ COMPILE_PROJECT=package/${obj}/compile; \
+	else \
+		make -f Makefile.target $@; \
+	fi
+.PHONY: debug tdebug
+
+
 

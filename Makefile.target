@@ -2,6 +2,10 @@
 # include the target makefile configure
 include ${gMAKEFILE_CFGFILE}
 
+# export the COMPILE_PROJECT
+COMPILE_PROJECT := ${COMPILE_PROJECT}
+export COMPILE_PROJECT
+
 menu menuclean menuconfig:
 	if [ -d ${gSDK_DIR} ]; then \
 		make -f ${gSDK_MAKEFILE} -C ${gSDK_DIR} $@; \
@@ -26,6 +30,8 @@ app_menuconfig app_dep app app_install app_clean app_distclean:
 	else \
 		make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@; \
 	fi
+tdebug:
+	env	
 
 .PHONY: menu menuclean menuconfig
 .PHONY: boot_menuconfig boot_dep boot boot_install boot_clean boot_distclean

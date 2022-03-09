@@ -1,0 +1,12 @@
+{
+    "name":"devtools",
+    "intro":"development tools",
+    "desc":"includes component function tests, code templates, debugging tools, and more",
+    "type":"root",
+    "version":"7.0.0",
+    "author":"dimmalex@gmail.com",
+    "exe":
+    {
+        "talk-test":"test the talk function"
+    }
+}
