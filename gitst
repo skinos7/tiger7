@@ -3,7 +3,7 @@ TOPDIR=`pwd`
 
 git status
 
-# core project and mytry6
+# core project and tiger
 if [ -d ${TOPDIR}/core ]; then
     cd ${TOPDIR}/core
     list=`ls`
@@ -35,7 +35,7 @@ do
     fi
 done
 
-# WRT platform
+# RK platform
 for tmp in config/srkw/
 do
     if [ -d ${TOPDIR}/${tmp} ]; then
