@@ -7,6 +7,12 @@
     "author":"dimmalex@gmail.com",
     "exe":
     {
-        "talk-test":"test the talk function"
+        "talk-test":"test the talk function",
+        "param-test":"test the param function"
+    },
+    "com":
+    {
+        "loopcall":"call the child named loopcallback",
+        "loopcallback":"call back to father named loopcall"
     }
 }

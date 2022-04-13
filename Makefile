@@ -65,8 +65,6 @@ gPLATFORM_DIR := ${gTOP_DIR}/config/${gPLATFORM}
 gHARDWARE_DIR := ${gPLATFORM_DIR}/${gHARDWARE}
 # Compile FPK temporary directory
 gSTORE_DIR := ${gBUILD_DIR}/store
-# FPK repositories
-gREPO_DIR := ${gHARDWARE_DIR}/store
 # PCB-specific configure directory
 gCUSTOM_DIR := ${gHARDWARE_DIR}/${gCUSTOM}
 # Custom configure directory
@@ -112,7 +110,7 @@ gEXE_MAKEFILE := ${gPLATFORM_DIR}/exe.makefile
 # Export macro
 export gTOP_DIR gBUILD_DIR gINSTALL_DIR
 export gosROOT_DIR gosPRJ_NAME gosPRJ_DIR
-export gPLATFORM_DIR gHARDWARE_DIR gSTORE_DIR gREPO_DIR gCUSTOM_DIR gSCOPE_DIR gCOMFACE_DIR gTOOLS_DIR gPROJECT_DIR gRICE_DIR
+export gPLATFORM_DIR gHARDWARE_DIR gSTORE_DIR gCUSTOM_DIR gSCOPE_DIR gCOMFACE_DIR gTOOLS_DIR gPROJECT_DIR gRICE_DIR
 export gPROJECT_INF gMAKEFILE_CFGFILE
 export gSDK_DIR
 export gSDK_MAKEFILE gLAY_MAKEFILE gDIR_MAKEFILE gFPK_MAKEFILE gCOM_MAKEFILE gLIB_MAKEFILE gEXE_MAKEFILE
@@ -142,9 +140,6 @@ dep: lay
 	make boot_dep kernel_dep
 
 lay:
-	if [ ! -d ${gREPO_DIR} ]; then \
-		mkdir ${gREPO_DIR}; \
-	fi
 	rm -rf ${gINSTALL_DIR} ${gBUILD_DIR}
 	install -d ${gBUILD_DIR} ${gINSTALL_DIR} ${gINSTALL_DIR}/lib ${gINSTALL_DIR}/include ${gosROOT_DIR} ${gSTORE_DIR}
 	if [ -d ${gPLATFORM_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gPLATFORM_DIR}; fi

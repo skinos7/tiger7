@@ -1,0 +1,8 @@
+{
+    "name":"wifi",
+    "intro":"wireless configure",
+    "desc":"some wireless related configurations",
+    "type":"root",
+    "version":"7.0.0",
+    "author":"dimmalex@gmail.com"
+}

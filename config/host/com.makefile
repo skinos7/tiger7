@@ -10,7 +10,6 @@ CFLAGS += -DgPLATFORM=\"${gPLATFORM}\" \
 		  -DgCUSTOM=\"${gCUSTOM}\" \
 		  -DgSCOPE=\"${gSCOPE}\" \
 		  -DgVERSION=\"${gVERSION}\" \
-		  -DgPUBLISH=\"${gPUBLISH}\" \
 		  -DgMAKER=\"${gMAKER}\" \
 		  -DgPLATFORM__${gPLATFORM} \
 		  -DgHARDWARE__${gHARDWARE} \

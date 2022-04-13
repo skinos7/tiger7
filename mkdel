@@ -1,0 +1,27 @@
+#!/bin/bash
+TOPDIR=`pwd`
+PRJ_LIST=`ls ./project`
+PLAT_LIST=`ls ./config`
+
+for plat in $PLAT_LIST
+do
+    
+    if [ -d ${plat}/build_dir ]
+    then
+        DIR_LIST=`ls ${plat}/build_dir`
+        for dir in $DIR_LIST
+        do
+
+            for prj in $PRJ_LIST
+            do
+                if [ -d ${plat}/build_dir/${dir}/${prj} ]; then
+                    echo "delete the ${plat}/build_dir/${dir}/${prj}"
+                    rm -fr ${plat}/build_dir/${dir}/${prj}
+                fi
+            done
+
+        done
+    fi
+
+done
+

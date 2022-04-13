@@ -4,7 +4,7 @@
  *        Company:  ashyelf
  */
 
-#include "land/farm.h"
+#include "land/skin.h"
 
 /* Usable macro 
 gPLATFORM             String, the platform on which it is compiled, such as MTK platform is "MTK" (this macro is defined in the top Makefile of the SDK)
@@ -16,7 +16,7 @@ gCUSTOM__XXXX         Such as D218 products will have ggCUSTOM D218 macro defini
 PROJECT_ID            String, is the project name
  */
 
-/* Available farm interfaces (specific headers are in the top /doc/ API directory) 
+/* Available skin interfaces (specific headers are in the top /doc/ API directory) 
 link.h              implementation of general linker list
 log.h               log call implementation
 talk.h              implementation of common communication data types
@@ -29,6 +29,7 @@ project.h           provide unified project information operation interface for 
 com.h               implementation communication to other component function use talk structure or parameter structure
 service.h           service implementation
 joint.h             joint implementation
+skinapi.h		    define all the general component api
  */
 
 /* Available Linux interfaces and macros

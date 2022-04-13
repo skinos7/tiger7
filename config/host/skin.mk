@@ -9,7 +9,7 @@ define Package/Define
   KO_LIST:=$(shell prj-read ko)
   MKD_LIST:=$(wildcard *.md)
   PNG_LIST:=$(wildcard *.png *.jpg)
-  MISC_LIST:=$(wildcard *.json *.cfg *.sh *.html)
+  MISC_LIST:=$(wildcard *.json *.cfg *.sh *.ash *.html)
   FPK_BUILD_DIR:=$(PKG_BUILD_DIR)/.fpk
   FPK_LIB_DIR:=$(PKG_BUILD_DIR)/.fpk/lib
   FPK_ROOTFS_DIR:=$(PKG_BUILD_DIR)/.fpk/rootfs
@@ -45,6 +45,9 @@ define Build/Prepare/Default
 		done; \
 	fi
 endef
+
+# 定义项目配置函数
+# 暂无
 
 # 定义编译程序编译函数
 # $(call Build/Compile/FarmBin, NeedBeCompileSubdirList, MakefilePath, CompileTarget);

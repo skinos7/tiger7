@@ -21,13 +21,13 @@ local:
 	if [ -f /prj/shut.sh ]; then \
 		/prj/shut.sh; \
 	fi
-	sudo rm -fr /tmp/.farm
+	sudo rm -fr /tmp/skin
+	sudo rm -fr /var/skin
 	sudo rm -fr /prj
 	sudo cp -ar ${gosROOT_DIR}/bin/* /usr/local/bin
 	sudo cp -ar ${gosROOT_DIR}/lib/* /usr/local/lib
 	sudo cp -ar ${gosROOT_DIR}/prj /
 	sudo ldconfig
-run:
 	if [ -f /prj/setup.sh ]; then \
 		/prj/setup.sh; \
 	fi

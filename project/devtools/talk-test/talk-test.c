@@ -4,7 +4,7 @@
  *        Company:  ashyelf
  */
 
-#include "land/farm.h"
+#include "land/skin.h"
 
 /* Usable macro 
 gPLATFORM             String, the platform on which it is compiled, such as MTK platform is "MTK" (this macro is defined in the top Makefile of the SDK)
@@ -16,9 +16,9 @@ gCUSTOM__XXXX         Such as D218 products will have ggCUSTOM D218 macro defini
 PROJECT_ID            String, is the project name
  */
 
-/* Available farm interfaces (specific headers are in the top /doc/ API directory) 
+/* Available skin interfaces (specific headers are in the top /doc/ API directory) 
 link.h              implementation of general linker list
-log.h               log call implementation
+syslog.h            log call implementation
 talk.h              implementation of common communication data types
 param.h             implementation of parameter structure and related functions
 path.h              implementation of structure and related functions for object path and attribute path
@@ -27,8 +27,8 @@ register.h          global register variable implementation
 config.h            implementation function to get/set/list the config
 project.h           provide unified project information operation interface for the system
 com.h               implementation communication to other component function use talk structure or parameter structure
-service.h           service implementation
-joint.h             joint implementation
+he2com.h            command line order parse and exeute for he command
+skinapi.h		    define all the general component api
  */
 
 /* Available Linux interfaces and macros
@@ -94,7 +94,7 @@ int main( int argc, const char **argv )
 		x = json_json( topjson, "topattr3" );
 		buf = json2string( x );
 		printf( "topattr3=%s\n", buf );
-		free( buf );
+		efree( buf );
 		/* print entire json */
 		talk_print( topjson );
 		printf( "\n\n" );
@@ -131,7 +131,7 @@ int main( int argc, const char **argv )
 			{
 				buf = json2string( x );
 				printf( "%s=%s\n", attr, buf );
-				free( buf );
+				efree( buf );
 			}
 			else
 			{
@@ -140,7 +140,25 @@ int main( int argc, const char **argv )
 		}
 		talk_print( json );
 		printf( "\n\n" );
+
+		/* make a json 
+		{
+			"test1":"newvalue",
+			"topattr3":
+			{
+				"lowattr":"lowvalue",
+				"secattr":"second value"
+			},
+			"topattr":"topvalue"
+		}
+		*/
+		topjson = json_create( axp_create("test1","newvalue",NULL) );
+		json_patch( json, topjson );
 		json_free( json );
+		talk_print( topjson );
+		printf( "\n\n" );
+		json_free( topjson );
+		
 
 	}
 

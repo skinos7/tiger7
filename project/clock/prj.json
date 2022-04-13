@@ -1,0 +1,23 @@
+{
+    "name":"clock",
+    "intro":"System clock management",
+    "desc":"System time/date/clock/timer service",
+    "type":"root",
+    "version":"7.0.0",
+    "author":"dimmalex@gmail.com",
+    "com":
+    {
+        "date":"system date/time management",
+        "restart":"a time-based restart the system scheduler",
+        "ntps":"ntp server"
+    },
+    "osc":
+    {
+        "ntpclient":"ntp client"
+    },
+    "init":
+    {
+        "app":"clock@restart.setup",
+        "general":"clock@ntps.setup"
+    }
+}

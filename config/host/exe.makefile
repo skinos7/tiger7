@@ -14,7 +14,9 @@ CFLAGS += -DgPLATFORM=\"${gPLATFORM}\" \
 		  -DgHARDWARE__${gHARDWARE} \
 		  -DgCUSTOM__${gCUSTOM} \
 		  -DgSCOPE__${gSCOPE} \
-		  -DPROJECT_ID_=\"${PROJECT_ID}\"
+		  -DPROJECT_ID=\"${PROJECT_ID}\" \
+		  -DEXE_ID=\"${BINS}\" \
+		  -DEXE_IDPATH=\"${PROJECT_ID}@${BINS}\"
 CFLAGS += ${gEXE_CFLAGS}
 LDFLAGS += ${gEXE_LDFLAGS}
 

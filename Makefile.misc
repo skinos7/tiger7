@@ -69,17 +69,9 @@ ftp:
 
 
 arch:
-	if [ ! -d ${gTOP_DIR}/config/${gSDK_OPEN}/arch ] && [ -d ${gTOP_DIR}/config/${gSDK_OPEN}/${gHARDWARE}/${gCUSTOM} ]; then \
-		cp ${gBUILD_DIR}/*.fpk ${gTOP_DIR}/config/${gSDK_OPEN}/${gHARDWARE}/${gCUSTOM}; \
-	fi
+	make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@
 repo: arch
-	cp ${gSTORE_DIR}/*.fpk ${gSTORE_DIR}/${gHARDWARE}_${gCUSTOM}_${gSCOPE}.store ${gREPO_DIR}
-	-cp ${gREPO_DIR}/land-*.fpk ${gREPO_DIR}/network-*.fpk ${gREPO_DIR}/modem-*.fpk ${gREPO_DIR}/client-*.fpk ${gREPO_DIR}/forward-*.fpk ${gREPO_DIR}/uart-*.fpk ${gREPO_DIR}/wui-*.fpk ${gTOP_DIR}/config/${gPLATFORM}/${gHARDWARE}
-	if [ ! -d ${gTOP_DIR}/config/${gSDK_OPEN}/${gHARDWARE} ]; then \
-		return; \
-	fi
-	-mv ${gREPO_DIR}/land-*.fpk ${gREPO_DIR}/network-*.fpk ${gREPO_DIR}/modem-*.fpk ${gREPO_DIR}/agent-*.fpk ${gREPO_DIR}/gather-*.fpk ${gREPO_DIR}/client-*.fpk ${gREPO_DIR}/forward-*.fpk ${gREPO_DIR}/uart-*.fpk ${gREPO_DIR}/wui-*.fpk ${gTOP_DIR}/config/${gSDK_OPEN}/${gHARDWARE}
-	-mv ${gREPO_DIR}/pdriver-*.fpk ${gTOP_DIR}/config/${gSDK_OPEN}/${gHARDWARE}
+	make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@
 .PHONY: arch repo
 
 

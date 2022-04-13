@@ -1,0 +1,12 @@
+{
+    "name":"ifname",
+    "intro":"common network connection",
+    "desc":"ip connect and wifi connect component",
+    "type":"root",
+    "version":"7.0.0",
+    "author":"dimmalex@gmail.com",
+    "com":
+    {
+        "ethcon":"ethernet connect component"
+    }
+}

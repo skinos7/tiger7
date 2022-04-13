@@ -1,6 +1,6 @@
 {
     "name":"arch",
-    "intro":"pc platform layer for farm os",
+    "intro":"pc platform layer for skin os",
     "type":"root",
     "version":"7.0.0",
     "author":"dimmalex@gmai.com",
@@ -12,18 +12,8 @@
     },
     "com":
     {
-        "data":"data management"
     },
     "obj":
-    {
-    },
-    "init":
-    {
-    },
-    "uninit":
-    {
-    },
-    "joint":
     {
     }
 }

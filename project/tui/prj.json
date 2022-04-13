@@ -1,0 +1,35 @@
+{
+    "name":"tui",
+    "intro":"Terminal user interface service",
+    "type":"root",
+    "version":"7.0.0",
+    "author":"dimmalex@gmail.com",
+    "com":
+    {
+        "telnet":"telnet server management",
+        "ssh":"ssl shell server management"
+    },
+    "obj":
+    {
+        "telnetd":"telnet",
+        "sshd":"ssh"
+    },
+
+    "joint":
+    {
+        "network/on":
+        {
+            "tui@telnet.reset":"",
+            "tui@ssh.reset":""
+        }
+    },
+
+    "init":
+    {
+        "app":
+        {
+            "tui@telnet.setup":"",
+            "tui@ssh.setup":""
+        }
+    }
+}
