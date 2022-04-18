@@ -1,0 +1,1946 @@
+<!-- ajax layout which only needs content area -->
+<div class="row">
+  <div class="col-xs-12">
+    <!-- PAGE CONTENT BEGINS -->
+
+
+
+      <div class="col-xs-6 col-sm-3 pricing-box" id="ltedev" style="display: none;">
+        <div class="widget-box widget-color-green2">
+          <div class="widget-header"><h5 class="widget-title bigger lighter" data-i18n="LTE Modem"></h5></div>
+          <div class="widget-body">
+            <div class="widget-main">
+            <table class="table table-bordered table-striped">
+        	<tbody>
+                <tr>
+                    <td data-i18n="Status"></td>
+                    <td>
+                        <span id="ltedev_status"></span>&nbsp; &nbsp;
+                    </td>
+                </tr>
+        		<tr>
+        			<td data-i18n="Operator"></td><td id="ltedev_operator"></td>
+        		</tr>
+
+                <!-- 4G -->
+        		<tr id="ltedev_nettype_head">
+        			<td data-i18n="Network"></td><td id="ltedev_nettype"></td>
+        		</tr>
+        		<tr id="ltedev_rssi_head">
+        			<td data-i18n="RSSI"></td>
+        			<td>
+        	            <span><img src="/assets/css/images/signal_0.png" id="ltedev_rssiimg" class="line-signal"></img></span>&nbsp;
+        	            CSQ:<span id="ltedev_csq"></span>&nbsp;
+        	            RSSI:<span id="ltedev_rssi"></span>
+        	        </td>
+        		</tr>
+                <tr id="ltedev_rsrp_head">
+                    <td data-i18n="RSRP/RSRQ">
+                    <td>
+                        <span id="ltedev_rsrp"></span>&nbsp;&nbsp;/&nbsp;&nbsp;<span id="ltedev_rsrq"></span>
+                    </td>
+                </tr>
+                <tr id="ltedev_sinr_head">
+                    <td data-i18n="SINR/SNR"></td><td id="ltedev_sinr"></td>
+                </tr>
+                <tr id="ltedev_band_head" style="display: none;">
+                    <td data-i18n="Band"></td><td><span id="ltedev_band"></span></td>
+                </tr>
+                <!-- 5G -->
+                <tr id="ltedev_nettype5_head">
+                    <td data-i18n="5G Network"></td><td id="ltedev_nettype5"></td>
+                </tr>
+                <tr id="ltedev_rssi5_head">
+                    <td data-i18n="5G RSSI"></td>
+                    <td>
+                        <span><img src="/assets/css/images/signal_0.png" id="ltedev_rssiimg5" class="line-signal"></img></span>&nbsp;
+                        RSRP:<span id="ltedev_rsrp5"></span>
+                    </td>
+                </tr>
+                <tr id="ltedev_rsrq5_head">
+                    <td data-i18n="5G RSRQ"></td><td id="ltedev_rsrq5"></td>
+                </tr>
+                <tr id="ltedev_sinr5_head">
+                    <td data-i18n="5G SINR/SNR"></td><td id="ltedev_sinr5"></td>
+                </tr>
+                <tr id="ltedev_band5_head">
+                    <td data-i18n="5G Band"></td><td id="ltedev_band5"></td>
+                </tr>
+
+        		<tr>
+        			<td data-i18n="VID/PID"></td><td id="ltedev_vidpid"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="IMEI"></td><td id="ltedev_imei"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="IMSI"></td><td id="ltedev_imsi"></td>
+        		</tr>
+                <tr>
+                    <td data-i18n="ICCID"></td><td id="ltedev_iccid"></td>
+                </tr>
+        		<tr>
+        			<td data-i18n="PLMN"></td><td id="ltedev_plmn"></td>
+        		</tr>
+                <tr id="ltedev_lac_head" style="display: none;">
+                    <td data-i18n="LAC"></td><td id="ltedev_lac"></td>
+                </tr>
+                <tr id="ltedev_ci_head" style="display: none;">
+                    <td data-i18n="CI"></td><td id="ltedev_ci"></td>
+                </tr>
+                <tr id="ltedev_arfcn_head" style="display: none;">
+                    <td data-i18n="ARFCN"></td><td><span id="ltedev_arfcn"></span></td>
+                </tr>
+        	</tbody>
+            </table>            
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-6 col-sm-3 pricing-box" id="lte" style="display: none;">
+        <div class="widget-box widget-color-green2">
+          <div class="widget-header"><h5 class="widget-title bigger lighter" data-i18n="LTE"></h5></div>
+          <div class="widget-body">
+            <div class="widget-main">
+            <table class="table table-bordered table-striped">
+        	<tbody>
+        		<tr>
+        			<td data-i18n="Status"></td>
+        			<td>
+        			    <span id="lte_status"></span>&nbsp; &nbsp;
+        			    <a class="btn btn-mini btn-warning" id="lte_btn"><i class="ace-icon fa fa-pause"></i></a>&nbsp;
+        			    <a class="btn btn-mini btn-main" href="#lte"><i class="ace-icon fa fa-wrench"></i></a>
+                    </td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="Operator"></td><td id="lte_operator"></td>
+        		</tr>
+
+                <!-- 4G -->
+                <tr id="lte_nettype_head">
+                    <td data-i18n="Network"></td><td id="lte_nettype"></td>
+                </tr>
+                <tr id="lte_rssi_head">
+                    <td data-i18n="RSSI"></td>
+                    <td>
+                        <span><img src="/assets/css/images/signal_0.png" id="lte_rssiimg" class="line-signal"></img></span>&nbsp;
+                        CSQ:<span id="lte_csq"></span>&nbsp;
+                        RSSI:<span id="lte_rssi"></span>
+                    </td>
+                </tr>
+                <tr id="lte_rsrp_head">
+                    <td data-i18n="RSRP/RSRQ">
+                    <td>
+                        <span id="lte_rsrp"></span>&nbsp;&nbsp;/&nbsp;&nbsp;<span id="lte_rsrq"></span>
+                    </td>
+                </tr>
+                <tr id="lte_sinr_head">
+                    <td data-i18n="SINR/SNR"></td><td id="lte_sinr"></td>
+                </tr>
+                <tr id="lte_band_head" style="display: none;">
+                    <td data-i18n="Band"></td><td><span id="lte_band"></span></td>
+                </tr>
+                <!-- 5G -->
+                <tr id="lte_nettype5_head">
+                    <td data-i18n="5G Network"></td><td id="lte_nettype5"></td>
+                </tr>
+                <tr id="lte_rssi5_head">
+                    <td data-i18n="5G RSSI"></td>
+                    <td>
+                        <span><img src="/assets/css/images/signal_0.png" id="lte_rssiimg5" class="line-signal"></img></span>&nbsp;
+                        RSRP:<span id="lte_rsrp5"></span>
+                    </td>
+                </tr>
+                <tr id="lte_rsrq5_head">
+                    <td data-i18n="5G RSRQ"></td><td id="lte_rsrq5"></td>
+                </tr>
+                <tr id="lte_sinr5_head">
+                    <td data-i18n="5G SINR/SNR"></td><td id="lte_sinr5"></td>
+                </tr>
+                <tr id="lte_band5_head">
+                    <td data-i18n="5G Band"></td><td id="lte_band5"></td>
+                </tr>
+                
+        		<tr id="lte_ack_head">
+        			<td data-i18n="ACK"></td><td id="lte_ack"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="IP Address"></td><td id="lte_ip"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="Subnet Mask"></td><td id="lte_mask"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="Gateway"></td><td id="lte_gateway"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="DNS"></td><td id="lte_dns"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="DNS2"></td><td id="lte_dns2"></td>
+        		</tr>
+                <tr id="lte_method_head" style="display: none;">
+                    <td data-i18n="IPv6 Mode"></td><td id="lte_method"></td>
+                </tr>
+                <tr id="lte_addr_head" style="display: none;">
+                    <td data-i18n="IPv6 Address"></td><td id="lte_addr"></td>
+                </tr>
+                <tr id="lte_addr2_head" style="display: none;">
+                    <td data-i18n="IPv6 Address2"></td><td id="lte_addr2"></td>
+                </tr>
+                <tr id="lte_addr3_head" style="display: none;">
+                    <td data-i18n="IPv6 Address3"></td><td id="lte_addr3"></td>
+                </tr>
+                <tr id="lte_hop_head" style="display: none;">
+                    <td data-i18n="IPv6 Gateway"></td><td id="lte_hop"></td>
+                </tr>
+                <tr id="lte_resolve_head" style="display: none;">
+                    <td data-i18n="IPv6 DNS"></td><td id="lte_resolve"></td>
+                </tr>
+                <tr id="lte_resolve2_head" style="display: none;">
+                    <td data-i18n="IPv6 DNS2"></td><td id="lte_resolve2"></td>
+                </tr>
+        		<tr>
+        			<td data-i18n="Rx/Tx"></td><td id="lte_rxtx"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="Live Time"></td><td id="lte_livetime"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="VID/PID"></td><td id="lte_vidpid"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="IMEI"></td><td id="lte_imei"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="IMSI"></td><td id="lte_imsi"></td>
+        		</tr>
+                <tr>
+                    <td data-i18n="ICCID"></td><td id="lte_iccid"></td>
+                </tr>
+        		<tr>
+        			<td data-i18n="PLMN"></td><td id="lte_plmn"></td>
+        		</tr>
+                <tr id="lte_lac_head" style="display: none;">
+                    <td data-i18n="LAC"></td><td id="lte_lac"></td>
+                </tr>
+                <tr id="lte_ci_head" style="display: none;">
+                    <td data-i18n="CI"></td><td id="lte_ci"></td>
+                </tr>
+                <tr id="lte_arfcn_head" style="display: none;">
+                    <td data-i18n="ARFCN"></td><td><span id="lte_arfcn"></span></td>
+                </tr>
+        	</tbody>
+            </table>            
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="col-xs-6 col-sm-3 pricing-box" id="lte2dev" style="display: none;">
+        <div class="widget-box widget-color-green2">
+          <div class="widget-header"><h5 class="widget-title bigger lighter" data-i18n="LTE/NR Modem"></h5></div>
+          <div class="widget-body">
+            <div class="widget-main">
+            <table class="table table-bordered table-striped">
+            <tbody>
+                <tr>
+                    <td data-i18n="Status"></td>
+                    <td>
+                        <span id="lte2dev_status"></span>&nbsp; &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td data-i18n="Operator"></td><td id="lte2dev_operator"></td>
+                </tr>
+
+                <!-- 4G -->
+                <tr id="lte2dev_nettype_head">
+                    <td data-i18n="Network"></td><td id="lte2dev_nettype"></td>
+                </tr>
+                <tr id="lte2dev_rssi_head">
+                    <td data-i18n="RSSI"></td>
+                    <td>
+                        <span><img src="/assets/css/images/signal_0.png" id="lte2dev_rssiimg" class="line-signal"></img></span>&nbsp;
+                        CSQ:<span id="lte2dev_csq"></span>&nbsp;
+                        RSSI:<span id="lte2dev_rssi"></span>
+                    </td>
+                </tr>
+                <tr id="lte2dev_rsrp_head">
+                    <td data-i18n="RSRP/RSRQ">
+                    <td>
+                        <span id="lte2dev_rsrp"></span>&nbsp;&nbsp;/&nbsp;&nbsp;<span id="lte2dev_rsrq"></span>
+                    </td>
+                </tr>
+                <tr id="lte2dev_sinr_head">
+                    <td data-i18n="SINR/SNR"></td><td id="lte2dev_sinr"></td>
+                </tr>
+                <tr id="lte2dev_band_head" style="display: none;">
+                    <td data-i18n="Band"></td><td><span id="lte2dev_band"></span></td>
+                </tr>
+                <!-- 5G -->
+                <tr id="lte2dev_nettype5_head">
+                    <td data-i18n="5G Network"></td><td id="lte2dev_nettype5"></td>
+                </tr>
+                <tr id="lte2dev_rssi5_head">
+                    <td data-i18n="5G RSSI"></td>
+                    <td>
+                        <span><img src="/assets/css/images/signal_0.png" id="lte2dev_rssiimg5" class="line-signal"></img></span>&nbsp;
+                        RSRP:<span id="lte2dev_rsrp5"></span>
+                    </td>
+                </tr>
+                <tr id="lte2dev_rsrq5_head">
+                    <td data-i18n="5G RSRQ"></td><td id="lte2dev_rsrq5"></td>
+                </tr>
+                <tr id="lte2dev_sinr5_head">
+                    <td data-i18n="5G SINR/SNR"></td><td id="lte2dev_sinr5"></td>
+                </tr>
+                <tr id="lte2dev_band5_head">
+                    <td data-i18n="5G Band"></td><td id="lte2dev_band5"></td>
+                </tr>
+
+                <tr>
+                    <td data-i18n="VID/PID"></td><td id="lte2dev_vidpid"></td>
+                </tr>
+                <tr>
+                    <td data-i18n="IMEI"></td><td id="lte2dev_imei"></td>
+                </tr>
+                <tr>
+                    <td data-i18n="IMSI"></td><td id="lte2dev_imsi"></td>
+                </tr>
+                <tr>
+                    <td data-i18n="ICCID"></td><td id="lte2dev_iccid"></td>
+                </tr>
+                <tr>
+                    <td data-i18n="PLMN"></td><td id="lte2dev_plmn"></td>
+                </tr>
+                <tr id="lte2dev_lac_head" style="display: none;">
+                    <td data-i18n="LAC"></td><td id="lte2dev_lac"></td>
+                </tr>
+                <tr id="lte2dev_ci_head" style="display: none;">
+                    <td data-i18n="CI"></td><td id="lte2dev_ci"></td>
+                </tr>
+                <tr id="lte2dev_arfcn_head" style="display: none;">
+                    <td data-i18n="ARFCN"></td><td><span id="lte2dev_arfcn"></span></td>
+                </tr>
+            </tbody>
+            </table>            
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-xs-6 col-sm-3 pricing-box" id="lte2" style="display: none;">
+        <div class="widget-box widget-color-green">
+          <div class="widget-header"><h5 class="widget-title bigger lighter" data-i18n="LTE/NR"></h5></div>
+          <div class="widget-body">
+            <div class="widget-main">
+            <table class="table table-bordered table-striped">
+        	<tbody>
+        		<tr>
+                    <td data-i18n="Status"></td>
+                    <td>
+                        <span id="lte2_status"></span>&nbsp; &nbsp;
+                        <a class="btn btn-mini btn-warning" id="lte2_btn"><i class="ace-icon fa fa-pause"></i></a>&nbsp;
+                        <a class="btn btn-mini btn-main" href="#lte?obj=ifname@lte2"><i class="ace-icon fa fa-wrench"></i></a>
+                    </td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="Operator"></td><td id="lte2_operator"></td>
+        		</tr>
+
+                <!-- 4G -->
+                <tr id="lte2_nettype_head">
+                    <td data-i18n="Network"></td><td id="lte2_nettype"></td>
+                </tr>
+                <tr id="lte2_rssi_head">
+                    <td data-i18n="RSSI"></td>
+                    <td>
+                        <span><img src="/assets/css/images/signal_0.png" id="lte2_rssiimg" class="line-signal"></img></span>&nbsp;
+                        CSQ:<span id="lte2_csq"></span>&nbsp;
+                        RSSI:<span id="lte2_rssi"></span>
+                    </td>
+                </tr>
+                <tr id="lte2_rsrp_head">
+                    <td data-i18n="RSRP/RSRQ">
+                    <td>
+                        <span id="lte2_rsrp"></span>&nbsp;&nbsp;/&nbsp;&nbsp;<span id="lte2_rsrq"></span>
+                    </td>
+                </tr>
+                <tr id="lte2_sinr_head">
+                    <td data-i18n="SINR/SNR"></td><td id="lte2_sinr"></td>
+                </tr>
+                <tr id="lte2_band_head" style="display: none;">
+                    <td data-i18n="Band"></td><td><span id="lte2_band"></span></td>
+                </tr>
+                <!-- 5G -->
+                <tr id="lte2_nettype5_head">
+                    <td data-i18n="5G Network"></td><td id="lte2_nettype5"></td>
+                </tr>
+                <tr id="lte2_rssi5_head">
+                    <td data-i18n="5G RSSI"></td>
+                    <td>
+                        <span><img src="/assets/css/images/signal_0.png" id="lte2_rssiimg5" class="line-signal"></img></span>&nbsp;
+                        RSRP:<span id="lte2_rsrp5"></span>
+                    </td>
+                </tr>
+                <tr id="lte2_rsrq5_head">
+                    <td data-i18n="5G RSRQ"></td><td id="lte2_rsrq5"></td>
+                </tr>
+                <tr id="lte2_sinr5_head">
+                    <td data-i18n="5G SINR/SNR"></td><td id="lte2_sinr5"></td>
+                </tr>
+                <tr id="lte2_band5_head">
+                    <td data-i18n="5G Band"></td><td id="lte2_band5"></td>
+                </tr>
+
+                <tr id="lte2_ack_head">
+                    <td data-i18n="ACK"></td><td id="lte2_ack"></td>
+                </tr>
+        		<tr>
+        			<td data-i18n="IP Address"></td><td id="lte2_ip"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="Subnet Mask"></td><td id="lte2_mask"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="Gateway"></td><td id="lte2_gateway"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="DNS"></td><td id="lte2_dns"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="DNS2"></td><td id="lte2_dns2"></td>
+        		</tr>
+                <tr id="lte2_method_head" style="display: none;">
+                    <td data-i18n="IPv6 Mode"></td><td id="lte2_method"></td>
+                </tr>
+                <tr id="lte2_addr_head" style="display: none;">
+                    <td data-i18n="IPv6 Address"></td><td id="lte2_addr"></td>
+                </tr>
+                <tr id="lte2_addr2_head" style="display: none;">
+                    <td data-i18n="IPv6 Address2"></td><td id="lte2_addr2"></td>
+                </tr>
+                <tr id="lte2_addr3_head" style="display: none;">
+                    <td data-i18n="IPv6 Address3"></td><td id="lte2_addr3"></td>
+                </tr>
+                <tr id="lte2_hop_head" style="display: none;">
+                    <td data-i18n="IPv6 Gateway"></td><td id="lte2_hop"></td>
+                </tr>
+                <tr id="lte2_resolve_head" style="display: none;">
+                    <td data-i18n="IPv6 DNS"></td><td id="lte2_resolve"></td>
+                </tr>
+                <tr id="lte2_resolve2_head" style="display: none;">
+                    <td data-i18n="IPv6 DNS2"></td><td id="lte2_resolve2"></td>
+                </tr>
+        		<tr>
+        			<td data-i18n="Rx/Tx"></td><td id="lte2_rxtx"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="Live Time"></td><td id="lte2_livetime"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="VID/PID"></td><td id="lte2_vidpid"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="IMEI"></td><td id="lte2_imei"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="IMSI"></td><td id="lte2_imsi"></td>
+        		</tr>
+                <tr>
+                    <td data-i18n="ICCID"></td><td id="lte2_iccid"></td>
+                </tr>
+        		<tr>
+        			<td data-i18n="PLMN"></td><td id="lte2_plmn"></td>
+        		</tr>
+                <tr id="lte2_lac_head" style="display: none;">
+                    <td data-i18n="LAC"></td><td id="lte2_lac"></td>
+                </tr>
+                <tr id="lte2_ci_head" style="display: none;">
+                    <td data-i18n="CI"></td><td id="lte2_ci"></td>
+                </tr>
+                <tr id="lte2_arfcn_head" style="display: none;">
+                    <td data-i18n="ARFCN"></td><td><span id="lte2_arfcn"></span></td>
+                </tr>
+        	</tbody>
+            </table>            
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-xs-6 col-sm-3 pricing-box" id="wan" style="display: none;" >
+        <div class="widget-box widget-color-blue">
+          <div class="widget-header"><h5 class="widget-title bigger lighter" data-i18n="WAN"></h5></div>
+          <div class="widget-body">
+            <div class="widget-main">
+            <table class="table table-bordered table-striped">
+        	<tbody>
+        		<tr>
+                    <td data-i18n="Status"></td>
+                    <td>
+                        <span id="wan_status"></span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        <a class="btn btn-mini btn-warning" id="wan_btn"><i class="ace-icon fa fa-pause"></i></a>&nbsp;
+                        <a class="btn btn-mini btn-main" href="#wan"><i class="ace-icon fa fa-wrench"></i></a>
+                    </td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="MAC"></td><td id="wan_mac"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="Mode"></td><td id="wan_mode"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="ACK"></td><td id="wan_ack"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="IP Address"></td><td id="wan_ip"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="Subnet Mask"></td><td id="wan_mask"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="Gateway"></td><td id="wan_gateway"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="DNS"></td><td id="wan_dns"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="DNS2"></td><td id="wan_dns2"></td>
+        		</tr>
+                <tr id="wan_method_head" style="display: none;">
+                    <td data-i18n="IPv6 Mode"></td><td id="wan_method"></td>
+                </tr>
+                <tr id="wan_addr_head" style="display: none;">
+                    <td data-i18n="IPv6 Address"></td><td id="wan_addr"></td>
+                </tr>
+                <tr id="wan_addr2_head" style="display: none;">
+                    <td data-i18n="IPv6 Address2"></td><td id="wan_addr2"></td>
+                </tr>
+                <tr id="wan_addr3_head" style="display: none;">
+                    <td data-i18n="IPv6 Address3"></td><td id="wan_addr3"></td>
+                </tr>
+                <tr id="wan_hop_head" style="display: none;">
+                    <td data-i18n="IPv6 Gateway"></td><td id="wan_hop"></td>
+                </tr>
+                <tr id="wan_resolve_head" style="display: none;">
+                    <td data-i18n="IPv6 DNS"></td><td id="wan_resolve"></td>
+                </tr>
+                <tr id="wan_resolve2_head" style="display: none;">
+                    <td data-i18n="IPv6 DNS2"></td><td id="wan_resolve2"></td>
+                </tr>
+        		<tr>
+        			<td data-i18n="Rx/Tx"></td><td id="wan_rxtx"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="Live Time"></td><td id="wan_livetime"></td>
+        		</tr>
+        	</tbody>
+            </table>            
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-6 col-sm-3 pricing-box" id="wan2" style="display: none;" >
+        <div class="widget-box widget-color-blue2">
+          <div class="widget-header"><h5 class="widget-title bigger lighter" data-i18n="WAN2"></h5></div>
+          <div class="widget-body">
+            <div class="widget-main">
+            <table class="table table-bordered table-striped">
+        	<tbody>
+        		<tr>
+                    <td data-i18n="Status"></td>
+                    <td>
+                        <span id="wan2_status"></span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        <a class="btn btn-mini btn-warning" id="wan2_btn"><i class="ace-icon fa fa-pause"></i></a>&nbsp;
+                        <a class="btn btn-mini btn-main" href="#wan?obj=ifname@wan2"><i class="ace-icon fa fa-wrench"></i></a>
+                    </td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="MAC"></td><td id="wan2_mac"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="Mode"></td><td id="wan2_mode"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="ACK"></td><td id="wan2_ack"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="IP Address"></td><td id="wan2_ip"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="Subnet Mask"></td><td id="wan2_mask"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="Gateway"></td><td id="wan2_gateway"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="DNS"></td><td id="wan2_dns"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="DNS2"></td><td id="wan2_dns2"></td>
+        		</tr>
+                <tr id="wan2_method_head" style="display: none;">
+                    <td data-i18n="IPv6 Mode"></td><td id="wan2_method"></td>
+                </tr>
+                <tr id="wan2_addr_head" style="display: none;">
+                    <td data-i18n="IPv6 Address"></td><td id="wan2_addr"></td>
+                </tr>
+                <tr id="wan2_addr2_head" style="display: none;">
+                    <td data-i18n="IPv6 Address2"></td><td id="wan2_addr2"></td>
+                </tr>
+                <tr id="wan2_addr3_head" style="display: none;">
+                    <td data-i18n="IPv6 Address3"></td><td id="wan2_addr3"></td>
+                </tr>
+                <tr id="wan2_hop_head" style="display: none;">
+                    <td data-i18n="IPv6 Gateway"></td><td id="wan2_hop"></td>
+                </tr>
+                <tr id="wan2_resolve_head" style="display: none;">
+                    <td data-i18n="IPv6 DNS"></td><td id="wan2_resolve"></td>
+                </tr>
+                <tr id="wan2_resolve2_head" style="display: none;">
+                    <td data-i18n="IPv6 DNS2"></td><td id="wan2_resolve2"></td>
+                </tr>
+        		<tr>
+        			<td data-i18n="Rx/Tx"></td><td id="wan2_rxtx"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="Live Time"></td><td id="wan2_livetime"></td>
+        		</tr>
+        	</tbody>
+            </table>            
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-xs-6 col-sm-3 pricing-box" id="wisp" style="display: none;" >
+        <div class="widget-box widget-color-blue3">
+          <div class="widget-header"><h5 class="widget-title bigger lighter" data-i18n="WISP(2.4G)"></h5></div>
+          <div class="widget-body">
+            <div class="widget-main">
+            <table class="table table-bordered table-striped">
+            <tbody>
+                <tr>
+                    <td data-i18n="Status"></td>
+                    <td>
+                        <span id="wisp_status"></span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        <a class="btn btn-mini btn-warning" id="wisp_btn"><i class="ace-icon fa fa-pause"></i></a>&nbsp;
+                        <a class="btn btn-mini btn-main" href="#wisp"><i class="ace-icon fa fa-wrench"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-i18n="Peer"></td><td id="wisp_peer"></td>
+                </tr>
+                <tr>
+                    <td data-i18n="Peer MAC"></td><td id="wisp_peermac"></td>
+                </tr>
+                <tr>
+                    <td data-i18n="RSSI"></td>
+                    <td>
+                        <span><img src="/assets/css/images/signal_0.png" id="wisp_rssiimg" class="line-signal"></img></span>
+                        <span id="wisp_rssi"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-i18n="Channel"></td><td id="wisp_channel"></td>
+                </tr>
+                <tr>
+                    <td data-i18n="Rate"></td><td id="wisp_rate"></td>
+                </tr>
+                <tr>
+                    <td data-i18n="MAC"></td><td id="wisp_mac"></td>
+                </tr>
+                <tr>
+                    <td data-i18n="Mode"></td><td id="wisp_mode"></td>
+                </tr>
+                <tr>
+                    <td data-i18n="ACK"></td><td id="wisp_ack"></td>
+                </tr>
+                <tr>
+                    <td data-i18n="IP Address"></td><td id="wisp_ip"></td>
+                </tr>
+                <tr>
+                    <td data-i18n="Subnet Mask"></td><td id="wisp_mask"></td>
+                </tr>
+                <tr>
+                    <td data-i18n="Gateway"></td><td id="wisp_gateway"></td>
+                </tr>
+                <tr>
+                    <td data-i18n="DNS"></td><td id="wisp_dns"></td>
+                </tr>
+                <tr>
+                    <td data-i18n="DNS2"></td><td id="wisp_dns2"></td>
+                </tr>
+                <tr id="wisp_method_head" style="display: none;">
+                    <td data-i18n="IPv6 Mode"></td><td id="wisp_method"></td>
+                </tr>
+                <tr id="wisp_addr_head" style="display: none;">
+                    <td data-i18n="IPv6 Address"></td><td id="wisp_addr"></td>
+                </tr>
+                <tr id="wisp_addr2_head" style="display: none;">
+                    <td data-i18n="IPv6 Address2"></td><td id="wisp_addr2"></td>
+                </tr>
+                <tr id="wisp_addr3_head" style="display: none;">
+                    <td data-i18n="IPv6 Address3"></td><td id="wisp_addr3"></td>
+                </tr>
+                <tr id="wisp_hop_head" style="display: none;">
+                    <td data-i18n="IPv6 Gateway"></td><td id="wisp_hop"></td>
+                </tr>
+                <tr id="wisp_resolve_head" style="display: none;">
+                    <td data-i18n="IPv6 DNS"></td><td id="wisp_resolve"></td>
+                </tr>
+                <tr id="wisp_resolve2_head" style="display: none;">
+                    <td data-i18n="IPv6 DNS2"></td><td id="wisp_resolve2"></td>
+                </tr>
+                <tr>
+                    <td data-i18n="Rx/Tx"></td><td id="wisp_rxtx"></td>
+                </tr>
+                <tr>
+                    <td data-i18n="Live Time"></td><td id="wisp_livetime"></td>
+                </tr>
+            </tbody>
+            </table>            
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="col-xs-6 col-sm-3 pricing-box" id="wisp2" style="display: none;" >
+        <div class="widget-box widget-color-blue3">
+          <div class="widget-header"><h5 class="widget-title bigger lighter" data-i18n="WISP(5.8G)"></h5></div>
+          <div class="widget-body">
+            <div class="widget-main">
+            <table class="table table-bordered table-striped">
+            <tbody>
+                <tr>
+                    <td data-i18n="Status"></td>
+                    <td>
+                        <span id="wisp2_status"></span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        <a class="btn btn-mini btn-warning" id="wisp2_btn"><i class="ace-icon fa fa-pause"></i></a>&nbsp;
+                        <a class="btn btn-mini btn-main" href="#wisp2"><i class="ace-icon fa fa-wrench"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-i18n="Peer"></td><td id="wisp2_peer"></td>
+                </tr>
+                <tr>
+                    <td data-i18n="Peer MAC"></td><td id="wisp2_peermac"></td>
+                </tr>
+                <tr>
+                    <td data-i18n="RSSI"></td>
+                    <td>
+                        <span><img src="/assets/css/images/signal_0.png" id="wisp2_rssiimg" class="line-signal"></img></span>
+                        <span id="wisp2_rssi"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-i18n="Channel"></td><td id="wisp2_channel"></td>
+                </tr>
+                <tr>
+                    <td data-i18n="Rate"></td><td id="wisp2_rate"></td>
+                </tr>
+                <tr>
+                    <td data-i18n="MAC"></td><td id="wisp2_mac"></td>
+                </tr>
+                <tr>
+                    <td data-i18n="Mode"></td><td id="wisp2_mode"></td>
+                </tr>
+                <tr>
+                    <td data-i18n="ACK"></td><td id="wisp2_ack"></td>
+                </tr>
+                <tr>
+                    <td data-i18n="IP Address"></td><td id="wisp2_ip"></td>
+                </tr>
+                <tr>
+                    <td data-i18n="Subnet Mask"></td><td id="wisp2_mask"></td>
+                </tr>
+                <tr>
+                    <td data-i18n="Gateway"></td><td id="wisp2_gateway"></td>
+                </tr>
+                <tr>
+                    <td data-i18n="DNS"></td><td id="wisp2_dns"></td>
+                </tr>
+                <tr>
+                    <td data-i18n="DNS2"></td><td id="wisp2_dns2"></td>
+                </tr>
+                <tr id="wisp2_method_head" style="display: none;">
+                    <td data-i18n="IPv6 Mode"></td><td id="wisp2_method"></td>
+                </tr>
+                <tr id="wisp2_addr_head" style="display: none;">
+                    <td data-i18n="IPv6 Address"></td><td id="wisp2_addr"></td>
+                </tr>
+                <tr id="wisp2_addr2_head" style="display: none;">
+                    <td data-i18n="IPv6 Address2"></td><td id="wisp2_addr2"></td>
+                </tr>
+                <tr id="wisp2_addr3_head" style="display: none;">
+                    <td data-i18n="IPv6 Address3"></td><td id="wisp2_addr3"></td>
+                </tr>
+                <tr id="wisp2_hop_head" style="display: none;">
+                    <td data-i18n="IPv6 Gateway"></td><td id="wisp2_hop"></td>
+                </tr>
+                <tr id="wisp2_resolve_head" style="display: none;">
+                    <td data-i18n="IPv6 DNS"></td><td id="wisp2_resolve"></td>
+                </tr>
+                <tr id="wisp2_resolve2_head" style="display: none;">
+                    <td data-i18n="IPv6 DNS2"></td><td id="wisp2_resolve2"></td>
+                </tr>
+                <tr>
+                    <td data-i18n="Rx/Tx"></td><td id="wisp2_rxtx"></td>
+                </tr>
+                <tr>
+                    <td data-i18n="Live Time"></td><td id="wisp2_livetime"></td>
+                </tr>
+            </tbody>
+            </table>            
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+      <div class="col-xs-6 col-sm-3 pricing-box" id="lan" style="display: none;" >
+        <div class="widget-box widget-color-grey">
+          <div class="widget-header"><h5 class="widget-title bigger lighter" data-i18n="LAN"></h5></div>
+          <div class="widget-body">
+            <div class="widget-main">
+            <table class="table table-bordered table-striped">
+        	<tbody>
+        		<tr>
+        			<td data-i18n="Status"></td>
+        			<td>
+        			    <span id="lan_status"></span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        <a class="btn btn-mini btn-main" href="#lan"><i class="ace-icon fa fa-wrench"></i></a>        			    
+        			</td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="MAC"></td><td id="lan_mac"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="IP Address"></td><td id="lan_ip"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="Subnet Mask"></td><td id="lan_mask"></td>
+        		</tr>
+                <tr id="lan_addr_head" style="display: none;">
+                    <td data-i18n="IPv6 Address"></td><td id="lan_addr"></td>
+                </tr>
+                <tr id="lan_addr2_head" style="display: none;">
+                    <td data-i18n="IPv6 Address2"></td><td id="lan_addr2"></td>
+                </tr>
+                <tr id="lan_addr3_head" style="display: none;">
+                    <td data-i18n="IPv6 Address3"></td><td id="lan_addr3"></td>
+                </tr>
+        		<tr>
+        			<td data-i18n="Rx/Tx"></td><td id="lan_rxtx"></td>
+        		</tr>
+        	</tbody>
+            </table>            
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-6 col-sm-3 pricing-box" id="lan2" style="display: none;" >
+        <div class="widget-box widget-color-grey">
+          <div class="widget-header"><h5 class="widget-title bigger lighter" data-i18n="LAN2"></h5></div>
+          <div class="widget-body">
+            <div class="widget-main">
+            <table class="table table-bordered table-striped">
+        	<tbody>
+        		<tr>
+                    <td data-i18n="Status"></td>
+                    <td>
+                        <span id="lan2_status"></span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        <a class="btn btn-mini btn-main" href="#lan?obj=ifname@lan2"><i class="ace-icon fa fa-wrench"></i></a>                     
+                    </td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="MAC"></td><td id="lan2_mac"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="IP Address"></td><td id="lan2_ip"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="Subnet Mask"></td><td id="lan2_mask"></td>
+        		</tr>
+                <tr id="lan2_addr_head" style="display: none;">
+                    <td data-i18n="IPv6 Address"></td><td id="lan2_addr"></td>
+                </tr>
+                <tr id="lan2_addr2_head" style="display: none;">
+                    <td data-i18n="IPv6 Address2"></td><td id="lan2_addr2"></td>
+                </tr>
+                <tr id="lan2_addr3_head" style="display: none;">
+                    <td data-i18n="IPv6 Address3"></td><td id="lan2_addr3"></td>
+                </tr>
+        		<tr>
+        			<td data-i18n="Rx/Tx"></td><td id="lan2_rxtx"></td>
+        		</tr>
+        	</tbody>
+            </table>            
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="col-xs-6 col-sm-3 pricing-box" id="switch" style="display: none;" >
+        <div class="widget-box widget-color-dark">
+          <div class="widget-header"><h5 class="widget-title bigger lighter" data-i18n="Switch"></h5></div>
+          <div class="widget-body">
+            <div class="widget-main">
+            <table class="table table-bordered table-striped">
+        	<tbody>
+        		<tr id="sport1" style="display: none;">
+        			<td id="sport1t"></td><td><span id="sport1v"></span></td>
+        		</tr>
+        		<tr id="sport2" style="display: none;">
+        			<td id="sport2t"></td><td><span id="sport2v"></span></td>
+        		</tr>
+        		<tr id="sport3" style="display: none;">
+        			<td id="sport3t"></td><td><span id="sport3v"></span></td>
+        		</tr>
+        		<tr id="sport4" style="display: none;">
+        			<td id="sport4t"></td><td><span id="sport4v"></span></td>
+        		</tr>
+        		<tr id="sport5" style="display: none;">
+        			<td id="sport5t"></td><td><span id="sport5v"></span></td>
+        		</tr>
+        	</tbody>
+            </table>            
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+    var lte;
+    var lte2;
+    var wan;
+    var wan2;
+    var lan;
+    var lan2;
+    var wisp;
+    var wisp2;
+    var sw;
+
+	function ltedev_show( info, id )
+	{
+	    if ( !info )
+	    {
+	        $(id).hide();
+	        return;
+	    }
+        if ( info.error )
+        {
+            $(id+"_status").text( $.i18n(info.error) );
+        }
+        else if ( info.step )
+        {
+            $(id+"_status").text( $.i18n(info.step) );
+        }
+        $(id).show();
+        $(id+"_operator").text( info.operator||' ' );
+        /* LTE */
+        $(id+"_csq").text( info.csq||' ' );
+        if ( info.rssi )
+        {
+            $(id+"_rssi").text( info.rssi+"dBm" );
+        }
+        if ( info.signal )
+        {
+            $(id+"_rssiimg").attr( "src", "/assets/css/images/signal_"+info.signal+".png" );
+            $(id+"_rssi_head").show();
+        }
+        else
+        {
+            $(id+"_rssiimg").attr( "src", "/assets/css/images/signal_0.png" );
+            $(id+"_rssi_head").hide();
+        }
+        if ( info.rsrp || info.rsrq )
+        {
+            if ( info.rsrp )
+            {
+                $(id+"_rsrp").text( info.rsrp+"dBm" );
+            }
+            else
+            {
+                $(id+"_rsrp").text( "-" );
+            }
+            if ( info.rsrq )
+            {
+                $(id+"_rsrq").text( info.rsrq+"dB" );
+            }
+            else
+            {
+                $(id+"_rsrq").text( "-" );
+            }
+            $(id+"_rsrp_head").show();
+        }
+        else
+        {
+            $(id+"_rsrp_head").hide();
+        }
+        if ( info.sinr )
+        {
+            $(id+"_sinr").text( info.sinr+"dB" );
+            $(id+"_sinr_head").show();
+        }
+        else
+        {
+            $(id+"_sinr_head").hide();
+        }
+        if ( info.band )
+        {
+            $(id+"_band").text( info.band );
+            $(id+"_band_head").show();
+        }
+        else
+        {
+            $(id+"_band_head").hide();
+        }
+        if ( info.arfcn )
+        {
+            $(id+"_arfcn").text( info.arfcn );
+            $(id+"_arfcn_head").show();
+        }
+        else
+        {
+            $(id+"_arfcn_head").hide();
+        }
+
+        if ( info.nettype )
+        {
+            $(id+"_nettype").text( info.nettype );
+            $(id+"_nettype_head").show();
+        }
+        else
+        {
+            $(id+"_nettype_head").hide();
+            $(id+"_rssi_head").hide();
+            $(id+"_rsrp_head").hide();
+            $(id+"_sinr_head").hide();
+            $(id+"_band_head").hide();
+            $(id+"_arfcn_head").hide();
+        }
+        /* 5G */
+		if ( info.nettype5 )
+		{
+            $(id+"_nettype5").text( info.nettype5 );
+            $(id+"_nettype5_head").show();
+            if ( info.rsrp5 )
+            {
+                $(id+"_rsrp5").text( info.rsrp5+"dBm" );
+            }
+            if ( info.signal5 )
+            {
+                $(id+"_rssiimg5").attr( "src", "/assets/css/images/signal_"+info.signal5+".png" );
+                $(id+"_rssi5_head").show();
+            }
+            else
+            {
+                $(id+"_rssi5_head").hide();
+            }
+            if ( info.rsrq5 )
+            {
+                $(id+"_rsrq5").text( info.rsrq5+"dB" );
+                $(id+"_rsrq5_head").show();
+            }
+            else
+            {
+                $(id+"_rsrq5_head").hide();
+            }
+            if ( info.sinr5 )
+            {
+                $(id+"_sinr5").text( info.sinr5+"dB" );
+                $(id+"_sinr5_head").show();
+            }
+            else
+            {
+                $(id+"_sinr5_head").hide();
+            }
+            if ( info.band5 )
+            {
+                $(id+"_band5").text( info.band5 );
+                $(id+"_band5_head").show();
+            }
+            else
+            {
+                $(id+"_band5_head").hide();
+            }
+		}
+		else
+		{
+            $(id+"_nettype5_head").hide();
+            $(id+"_rssi5_head").hide();
+            $(id+"_rsrq5_head").hide();
+            $(id+"_sinr5_head").hide();
+            $(id+"_band5_head").hide();
+            $(id+"_nettype_head").show();
+            $(id+"_rssi_head").show();
+		}
+		/* Device */
+        if ( info.pid )
+        {
+            $(id+"_vidpid").text( (info.vid||' ') +"/"+ (info.pid||' ') );
+        }
+        else
+        {
+            $(id+"_vidpid").text( ' ' );
+        }
+        $(id+"_imei").text( info.imei||' ' );
+        $(id+"_imsi").text( info.imsi||' ' );
+        $(id+"_iccid").text( info.iccid||' ' );
+        $(id+"_plmn").text( info.plmn||' ' );
+        if ( info.lac )
+        {
+            $(id+"_lac").text( info.lac );
+            $(id+"_lac_head").show();
+        }
+        else
+        {
+            $(id+"_lac_head").hide();
+        }
+        if ( info.ci )
+        {
+            $(id+"_ci").text( info.ci );
+            $(id+"_ci_head").show();
+        }
+        else
+        {
+            $(id+"_ci_head").hide();
+        }
+	}
+	function lte_show( info, id )
+	{
+	    if ( !info )
+	    {
+	        $(id).hide();
+	        return;
+	    }
+	    /* status end btn */
+        if ( info.status )
+        {
+            $(id).show();
+            $(id+"_btn").html( '<i class="ace-icon fa fa-pause"></i>' );
+            $(id+"_status").text( $.i18n(info.status) );
+            if ( info.status == "up" )
+            {
+            }
+            else if ( info.status == "uping" )
+            {
+                if ( info.step && info.step != "online" )
+                {
+                    $(id+"_status").text( $.i18n(info.step) );
+                }
+            }
+            else if ( info.status == "down" )
+            {
+                $(id+"_btn").html( '<i class="ace-icon fa fa-play"></i>' );
+                if ( info.step && info.step != "online" )
+                {
+                    $(id+"_status").text( $.i18n(info.step) );
+                }
+            }
+            if ( info.error )
+            {
+                $(id+"_status").text( $.i18n(info.error) );
+            }
+        }
+        else
+        {
+            $(id+"_btn").html( '<i class="ace-icon fa fa-play"></i>' );
+            $(id+"_status").text( $.i18n("down") );
+        }
+        $(id+"_operator").text( info.operator||' ' );
+        /* LTE */
+        $(id+"_csq").text( info.csq||' ' );
+        if ( info.rssi )
+        {
+            $(id+"_rssi").text( info.rssi+"dBm" );
+        }
+        if ( info.signal )
+        {
+            $(id+"_rssiimg").attr( "src", "/assets/css/images/signal_"+info.signal+".png" );
+            $(id+"_rssi_head").show();
+        }
+        else
+        {
+            $(id+"_rssiimg").attr( "src", "/assets/css/images/signal_0.png" );
+            $(id+"_rssi_head").hide();
+        }
+        if ( info.rsrp || info.rsrq )
+        {
+            if ( info.rsrp )
+            {
+                $(id+"_rsrp").text( info.rsrp+"dBm" );
+            }
+            else
+            {
+                $(id+"_rsrp").text( "-" );
+            }
+            if ( info.rsrq )
+            {
+                $(id+"_rsrq").text( info.rsrq+"dB" );
+            }
+            else
+            {
+                $(id+"_rsrq").text( "-" );
+            }
+            $(id+"_rsrp_head").show();
+        }
+        else
+        {
+            $(id+"_rsrp_head").hide();
+        }
+        if ( info.sinr )
+        {
+            $(id+"_sinr").text( info.sinr+"dB" );
+            $(id+"_sinr_head").show();
+        }
+        else
+        {
+            $(id+"_sinr_head").hide();
+        }
+        if ( info.band )
+        {
+            $(id+"_band").text( info.band );
+            $(id+"_band_head").show();
+        }
+        else
+        {
+            $(id+"_band_head").hide();
+        }
+        if ( info.arfcn )
+        {
+            $(id+"_arfcn").text( info.arfcn );
+            $(id+"_arfcn_head").show();
+        }
+        else
+        {
+            $(id+"_arfcn_head").hide();
+        }
+        if ( info.nettype )
+        {
+            $(id+"_nettype").text( info.nettype );
+            $(id+"_nettype_head").show();
+        }
+        else
+        {
+            $(id+"_nettype_head").hide();
+            $(id+"_rssi_head").hide();
+            $(id+"_rsrp_head").hide();
+            $(id+"_sinr_head").hide();
+            $(id+"_band_head").hide();
+            $(id+"_arfcn_head").hide();
+        }
+        /* 5G */
+		if ( info.nettype5 )
+		{
+            $(id+"_nettype5").text( info.nettype5 );
+            $(id+"_nettype5_head").show();
+            if ( info.rsrp5 )
+            {
+                $(id+"_rsrp5").text( info.rsrp5+"dBm" );
+            }
+            if ( info.signal5 )
+            {
+                $(id+"_rssiimg5").attr( "src", "/assets/css/images/signal_"+info.signal5+".png" );
+                $(id+"_rssi5_head").show();
+            }
+            else
+            {
+                $(id+"_rssi5_head").hide();
+            }
+            if ( info.rsrq5 )
+            {
+                $(id+"_rsrq5").text( info.rsrq5+"dB" );
+                $(id+"_rsrq5_head").show();
+            }
+            else
+            {
+                $(id+"_rsrq5_head").hide();
+            }
+            if ( info.sinr5 )
+            {
+                $(id+"_sinr5").text( info.sinr5+"dB" );
+                $(id+"_sinr5_head").show();
+            }
+            else
+            {
+                $(id+"_sinr5_head").hide();
+            }
+            if ( info.band5 )
+            {
+                $(id+"_band5").text( info.band5 );
+                $(id+"_band5_head").show();
+            }
+            else
+            {
+                $(id+"_band5_head").hide();
+            }
+		}
+		else
+		{
+            $(id+"_nettype5_head").hide();
+            $(id+"_rssi5_head").hide();
+            $(id+"_rsrq5_head").hide();
+            $(id+"_sinr5_head").hide();
+            $(id+"_band5_head").hide();
+            $(id+"_nettype_head").show();
+            $(id+"_rssi_head").show();
+		}
+		/* Device */
+        if ( info.pid )
+        {
+            $(id+"_vidpid").text( (info.vid||' ') +"/"+ (info.pid||' ') );
+        }
+        else
+        {
+            $(id+"_vidpid").text( ' ' );        
+        }
+        $(id+"_imei").text( info.imei||' ' );
+        $(id+"_imsi").text( info.imsi||' ' );
+        $(id+"_iccid").text( info.iccid||' ' );
+        $(id+"_plmn").text( info.plmn||' ' );
+        if ( info.lac )
+        {
+            $(id+"_lac").text( info.lac );
+            $(id+"_lac_head").show();
+        }
+        else
+        {
+            $(id+"_lac_head").hide();
+        }
+        if ( info.ci )
+        {
+            $(id+"_ci").text( info.ci );
+            $(id+"_ci_head").show();
+        }
+        else
+        {
+            $(id+"_ci_head").hide();
+        }
+        /* IPV4 */
+        $(id+"_ip").text( info.ip||' ' );
+        $(id+"_mask").text( info.mask||' ' );
+        if ( !info.gw || info.gw == "0.0.0.0" )
+        {
+            $(id+"_gateway").text( info.dstip||' ' );
+        }
+        else
+        {
+            $(id+"_gateway").text( info.gw||' ' );
+        }
+        $(id+"_dns").text( info.dns||' ' );
+        $(id+"_dns2").text( info.dns2||' ' );
+        /* IPV6 */
+        if ( info.method && info.method != "disable" )
+        {
+            $(id+"_method").text( $.i18n(info.method) );
+            $(id+"_method_head").show();
+            if ( info.addr )
+            {
+                $(id+"_addr").text( info.addr );
+                $(id+"_addr_head").show();
+            }
+            else
+            {
+                $(id+"_addr_head").hide();
+            }
+            if ( info.addr2 )
+            {
+                $(id+"_addr2").text( info.addr2 );
+                $(id+"_addr2_head").show();
+            }
+            else
+            {
+                $(id+"_addr2_head").hide();
+            }
+            if ( info.addr3 )
+            {
+                $(id+"_addr3").text( info.addr3 );
+                $(id+"_addr3_head").show();
+            }
+            else
+            {
+                $(id+"_addr3_head").hide();
+            }
+            if ( info.hop )
+            {
+                $(id+"_hop").text( info.hop );
+                $(id+"_hop_head").show();
+            }
+            else
+            {
+                $(id+"_hop_head").hide();
+            }
+            if ( info.resolve )
+            {
+                $(id+"_resolve").text( info.resolve );
+                $(id+"_resolve_head").show();
+            }
+            else
+            {
+                $(id+"_resolve_head").hide();
+            }
+            if ( info.resolve2 )
+            {
+                $(id+"_resolve2").text( info.resolve2 );
+                $(id+"_resolve2_head").show();
+            }
+            else
+            {
+                $(id+"_resolve2_head").hide();
+            }
+        }
+        else
+        {
+            $(id+"_method_head").hide();
+        }
+        /* TC */
+        $(id+"_rxtx").text( byte2readable( (info.rx_bytes||"0") ) + " / " + byte2readable( (info.tx_bytes||"0") ) );
+        if ( info.keeplive )
+        {
+            $(id+"_ack").text( info.keeplive );
+            $(id+"_ack_head").show();
+        }
+        else
+        {
+            $(id+"_ack_head").hide();
+        }
+        $(id+"_livetime").text( info.livetime||' ' );
+	}
+	function wan_show( info, id    )
+	{
+	    if ( !info )
+	    {
+	        $(id).hide();
+	        return;
+	    }
+        if ( info.status )
+        {
+            $(id).show();
+            $(id+"_btn").html( '<i class="ace-icon fa fa-pause"></i>' );
+            $(id+"_status").text( $.i18n(info.status) );
+            if ( info.status == "uping" )
+            {
+                if ( info.step && info.step != "online" )
+                {
+                    $(id+"_status").text( $.i18n(info.step) );
+                }
+            }
+            else if ( info.status == "down" )
+            {
+                if ( info.step && info.step != "online" )
+                {
+                    $(id+"_status").text( $.i18n(info.step) );
+                }
+                $(id+"_btn").html( '<i class="ace-icon fa fa-play"></i>' );
+            }
+            if ( info.error )
+            {
+                $(id+"_status").text( $.i18n(info.error) );
+            }
+        }
+        else
+        {
+            $(id+"_btn").html( '<i class="ace-icon fa fa-play"></i>' );
+            $(id+"_status").text( $.i18n("down") );
+        }
+        if ( info.mode )
+        {
+            $(id+"_mode").text( $.i18n(info.mode) );
+        }
+        $(id+"_mac").text( info.mac||' ' );
+        /* IPV4 */
+        $(id+"_ip").text( info.ip||' ' );
+        $(id+"_mask").text( info.mask||' ' );
+        if ( !info.gw || info.gw == "0.0.0.0" )
+        {
+            $(id+"_gateway").text( info.dstip||' ' );
+        }
+        else
+        {
+            $(id+"_gateway").text( info.gw||' ' );
+        }
+        $(id+"_dns").text( info.dns||' ' );
+        $(id+"_dns2").text( info.dns2||' ' );
+        /* IPV6 */
+        if ( info.method && info.method != "disable" )
+        {
+            $(id+"_method").text( $.i18n(info.method) );
+            $(id+"_method_head").show();
+            if ( info.addr )
+            {
+                $(id+"_addr").text( info.addr );
+                $(id+"_addr_head").show();
+            }
+            else
+            {
+                $(id+"_addr_head").hide();
+            }
+            if ( info.addr2 )
+            {
+                $(id+"_addr2").text( info.addr2 );
+                $(id+"_addr2_head").show();
+            }
+            else
+            {
+                $(id+"_addr2_head").hide();
+            }
+            if ( info.addr3 )
+            {
+                $(id+"_addr3").text( info.addr3 );
+                $(id+"_addr3_head").show();
+            }
+            else
+            {
+                $(id+"_addr3_head").hide();
+            }
+            if ( info.hop )
+            {
+                $(id+"_hop").text( info.hop );
+                $(id+"_hop_head").show();
+            }
+            else
+            {
+                $(id+"_hop_head").hide();
+            }
+            if ( info.resolve )
+            {
+                $(id+"_resolve").text( info.resolve );
+                $(id+"_resolve_head").show();
+            }
+            else
+            {
+                $(id+"_resolve_head").hide();
+            }
+            if ( info.resolve2 )
+            {
+                $(id+"_resolve2").text( info.resolve2 );
+                $(id+"_resolve2_head").show();
+            }
+            else
+            {
+                $(id+"_resolve2_head").hide();
+            }
+        }
+        else
+        {
+            $(id+"_method_head").hide();
+        }
+        /* TC */
+        $(id+"_rxtx").text( byte2readable( (info.rx_bytes||"0") ) + " / " + byte2readable( (info.tx_bytes||"0") ) );
+        if ( info.keeplive )
+        {
+            $(id+"_ack").text( info.keeplive );
+            $(id+"_ack_head").show();
+        }
+        else
+        {
+            $(id+"_ack_head").hide();
+        }
+        $(id+"_livetime").text( info.livetime||' ' );
+        
+	}
+	function lan_show( info, id )
+	{
+	    if ( !info )
+	    {
+	        $(id).hide();
+	        return;
+	    }
+        if ( info.status )
+        {
+            $(id).show();
+            $(id+"_status").text( $.i18n(info.status) );
+            $(id+"_mac").text( info.mac );
+            if ( info.status == "up" )
+            {
+                /* IPV4 */
+                $(id+"_ip").text( info.ip );
+                $(id+"_mask").text( info.mask );
+                $(id+"_rxtx").text( byte2readable( (info.rx_bytes||"0") ) + " / " + byte2readable( (info.tx_bytes||"0") ) );
+                /* IPV6 */
+                if ( info.method && info.method != "disable" )
+                {
+                    $(id+"_method").text( $.i18n(info.method) );
+                    $(id+"_method_head").show();
+                    if ( info.addr )
+                    {
+                        $(id+"_addr").text( info.addr );
+                        $(id+"_addr_head").show();
+                    }
+                    else
+                    {
+                        $(id+"_addr_head").hide();
+                    }
+                    if ( info.addr2 )
+                    {
+                        $(id+"_addr2").text( info.addr2 );
+                        $(id+"_addr2_head").show();
+                    }
+                    else
+                    {
+                        $(id+"_addr2_head").hide();
+                    }
+                    if ( info.addr3 )
+                    {
+                        $(id+"_addr3").text( info.addr3 );
+                        $(id+"_addr3_head").show();
+                    }
+                    else
+                    {
+                        $(id+"_addr3_head").hide();
+                    }
+                    if ( info.hop )
+                    {
+                        $(id+"_hop").text( info.hop );
+                        $(id+"_hop_head").show();
+                    }
+                    else
+                    {
+                        $(id+"_hop_head").hide();
+                    }
+                }
+                else
+                {
+                    $(id+"_method_head").hide();
+                }
+            }
+        }
+        else
+        {
+            $(id+"_status").text( $.i18n("down") );
+        }
+	}
+	function wisp_show( info, id )
+	{
+	    if ( !info )
+	    {
+	        $(id).hide();
+	        return;
+	    }
+	    /* status end btn */
+        if ( info.status )
+        {
+            $(id).show();
+            $(id+"_btn").html( '<i class="ace-icon fa fa-pause"></i>' );
+            $(id+"_status").text( $.i18n(info.status) );
+            if ( info.status == "uping" )
+            {
+                if ( info.step && info.step != "online" )
+                {
+                    $(id+"_status").text( $.i18n(info.step) );
+                }
+            }
+            else if ( info.status == "down" )
+            {
+                if ( info.step && info.step != "online" )
+                {
+                    $(id+"_status").text( $.i18n(info.step) );
+                }
+                $(id+"_btn").html( '<i class="ace-icon fa fa-play"></i>' );
+            }
+            if ( info.error )
+            {
+                $(id+"_status").text( $.i18n(info.error) );
+            }
+        }
+        else
+        {
+            $(id+"_btn").html( '<i class="ace-icon fa fa-play"></i>' );
+            $(id+"_status").text( $.i18n("down") );
+        }
+        if ( info.mode )
+        {
+            $(id+"_mode").text( $.i18n(info.mode) );
+        }
+        $(id+"_peer").text( info.peer||' ' );
+        $(id+"_peermac").text( info.peermac||' ' );
+        if ( info.rate )
+        {
+            $(id+"_rate").text( info.rate+'Mbps' );
+        }
+        $(id+"_channel").text( info.channel||' ' );
+        if ( info.sig )
+        {
+            $(id+"_rssi").text( info.sig+"%" );
+        }
+        else if ( info.rssi )
+        {
+            $(id+"_rssi").text( info.rssi+"dBm" );
+        }
+        if ( info.signal )
+        {
+            $(id+"_rssiimg").attr( "src", "/assets/css/images/signal_"+info.signal+".png" );            
+        }
+        $(id+"_mac").text( info.mac||' ' );
+        /* IPV4 */
+        $(id+"_ip").text( info.ip||' ' );
+        $(id+"_mask").text( info.mask||' ' );
+        if ( !info.gw || info.gw == "0.0.0.0" )
+        {
+            $(id+"_gateway").text( info.dstip||' ' );
+        }
+        else
+        {
+            $(id+"_gateway").text( info.gw||' ' );
+        }
+        $(id+"_dns").text( info.dns||' ' );
+        $(id+"_dns2").text( info.dns2||' ' );
+        /* IPV6 */
+        if ( info.method && info.method != "disable" )
+        {
+            $(id+"_method").text( $.i18n(info.method) );
+            $(id+"_method_head").show();
+            if ( info.addr )
+            {
+                $(id+"_addr").text( info.addr );
+                $(id+"_addr_head").show();
+            }
+            else
+            {
+                $(id+"_addr_head").hide();
+            }
+            if ( info.addr2 )
+            {
+                $(id+"_addr2").text( info.addr2 );
+                $(id+"_addr2_head").show();
+            }
+            else
+            {
+                $(id+"_addr2_head").hide();
+            }
+            if ( info.addr3 )
+            {
+                $(id+"_addr3").text( info.addr3 );
+                $(id+"_addr3_head").show();
+            }
+            else
+            {
+                $(id+"_addr3_head").hide();
+            }
+            if ( info.hop )
+            {
+                $(id+"_hop").text( info.hop );
+                $(id+"_hop_head").show();
+            }
+            else
+            {
+                $(id+"_hop_head").hide();
+            }
+            if ( info.resolve )
+            {
+                $(id+"_resolve").text( info.resolve );
+                $(id+"_resolve_head").show();
+            }
+            else
+            {
+                $(id+"_resolve_head").hide();
+            }
+            if ( info.resolve2 )
+            {
+                $(id+"_resolve2").text( info.resolve2 );
+                $(id+"_resolve2_head").show();
+            }
+            else
+            {
+                $(id+"_resolve2_head").hide();
+            }
+        }
+        else
+        {
+            $(id+"_method_head").hide();
+        }
+        /* TC */
+        $(id+"_rxtx").text( byte2readable( (info.rx_bytes||"0") ) + " / " + byte2readable( (info.tx_bytes||"0") ) );
+        if ( info.keeplive )
+        {
+            $(id+"_ack").text( info.keeplive );
+            $(id+"_ack_head").show();
+        }
+        else
+        {
+            $(id+"_ack_head").hide();
+        }
+        $(id+"_livetime").text( info.livetime||' ' );
+	}
+	function switch_show( info )
+	{
+	    var name;
+	    var value;
+	    var i = 1;
+	    if ( !info )
+	    {
+	        $("#switch").hide();
+	        return;
+	    }
+        $("#switch").show();
+	    for ( name in info )
+	    {
+	        value = info[name];
+	        if ( !value )
+	        {
+	            continue;
+	        }
+	        $("#sport"+i+"t").text( $.i18n(name) );
+	        if ( value.status == "up" )
+	        {
+    	        $("#sport"+i+"v").html( '<i class="ace-icon fa fa-check green"></i>' );
+            }
+            else
+            {
+    	        $("#sport"+i+"v").html( '<i class="ace-icon fa fa-times red"></i>' );
+            }
+	        $("#sport"+i).show();
+	        i++;
+	    }
+	}
+    /* load the configure on the input */
+    function status_load()
+    {
+      he.bkload( [ 'ifname@lte.status', 'ifname@lte2.status', 'modem@lte.status', 'modem@lte2.status', 'ifname@wan.status', 'ifname@wan2.status', 'ifname@lan.status', 'ifname@lan2.status', 'ifname@wisp.status', 'ifname@wisp2.status', 'arch@ethernet.status' ] ).then( function(v){
+        lte = v[0];
+        lte2 = v[1];
+        ltedev = v[2];
+        lte2dev = v[3];
+        wan = v[4];
+        wan2 = v[5];
+        lan = v[6];
+        lan2 = v[7];
+        wisp = v[8];
+        wisp2 = v[9];
+        sw = v[10];
+        if ( lte )
+        {
+    		lte_show( lte, "#lte" );
+		}
+		else
+		{
+            ltedev_show( ltedev, "#ltedev" );
+		}
+        if ( lte2 )
+        {
+    		lte_show( lte2, "#lte2" );
+		}
+		else
+		{
+            ltedev_show( lte2dev, "#lte2dev" );
+		}
+		wan_show( wan, "#wan" );
+		wan_show( wan2, "#wan2" );
+		lan_show( lan, "#lan" );
+		lan_show( lan2, "#lan2" );
+		wisp_show( wisp, "#wisp" );
+		wisp_show( wisp2, "#wisp2" );
+		switch_show( sw );
+      })
+    }
+
+
+    function button_bind()
+    {
+        $('#lte_btn').on(ace.click_event, function () {
+            if ( lte.status == "down" )
+            {
+                he.exec(['arch@debug.ttyd_kill','ifname@lte.setup']).then( function(result){status_load();} );
+            }
+            else
+            {
+                he.exec('ifname@lte.shut').then( function(result){status_load();} );
+            }
+        });
+        $('#lte2_btn').on(ace.click_event, function () {
+            if ( lte2.status == "down" )
+            {
+                he.exec(['arch@debug.ttyd_kill','ifname@lte2.setup']).then( function(result){status_load();} );
+            }
+            else
+            {
+                he.exec('ifname@lte2.shut').then( function(result){status_load();} );
+            }
+        });
+        $('#wan_btn').on(ace.click_event, function () {
+            if ( wan.status == "down" )
+            {
+                he.exec('ifname@wan.setup').then( function(result){status_load();} );
+            }
+            else
+            {
+                he.exec('ifname@wan.shut').then( function(result){status_load();} );
+            }
+        });
+        $('#wan2_btn').on(ace.click_event, function () {
+            if ( wan2.status == "down" )
+            {
+                he.exec('ifname@wan2.setup').then( function(result){status_load();} );
+            }
+            else
+            {
+                he.exec('ifname@wan2.shut').then( function(result){status_load();} );
+            }
+        });
+        $('#wisp_btn').on(ace.click_event, function () {
+            if ( wisp.status == "down" )
+            {
+                he.exec('ifname@wisp.setup').then( function(result){status_load();} );
+            }
+            else
+            {
+                he.exec('ifname@wisp.shut').then( function(result){status_load();} );
+            }
+        });
+        $('#wisp2_btn').on(ace.click_event, function () {
+            if ( wisp2.status == "down" )
+            {
+                he.exec('ifname@wisp2.setup').then( function(result){status_load();} );
+            }
+            else
+            {
+                he.exec('ifname@wisp2.shut').then( function(result){status_load();} );
+            }
+        });
+    }
+    
+
+    /* init */
+    $.i18n().load( page.lang('status') ).then( function () {
+      /* init the langauage */
+      $.i18n().locale = lang; $('body').i18n();
+      /* load the configure */
+      status_load();
+      button_bind();
+      // set timer
+      page.timing({
+        refresh: function ()
+        {
+            status_load();
+        },
+        interval: 5000
+      });
+    });
+
+  })();
+
+</script>

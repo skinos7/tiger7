@@ -1,0 +1,51 @@
+{
+	"Dial Mode":"连接模式",
+	"Static IP":"手动设置",
+	"DHCP":"自动获取",
+
+	"Alternate IP Address":"备用IP地址",
+	"IP Address":"IP地址",
+	"Subnet Mask":"子网掩码",
+	"Gateway":"网关",
+	"DNS":"DNS服务器",
+	"DNS2":"备用DNS服务器",
+	"Custom DNS":"自定义DNS",
+
+	"DHCP Server":"DHCP服务器",
+	"Start IP Address":"起始IP地址",
+	"End IP Address":"结束IP地址",
+	"Subnet Mask":"子网掩码",
+	"Lease(Sec)":"租期",
+	"Assign Gateway":"指定网关",
+	"Assign DNS":"指定DNS",
+	"Assign DNS2":"指定备用DNS",
+
+	"IPV6 Address Type":"IPV6地址类型",
+	"Disable":"禁用",
+	"Manual":"手动设置",
+	"Relay":"中继",	"IPv6 Address":"IPV6地址",
+	"Subnet Prefix":"IPV6子网前缀",
+	"Next Hop":"IPV6下一跳地址",
+
+	"DHCPV6 Server":"DHCPV6服务器",
+	"Start IPv6 Address":"起始IPV6地址",
+	"End IPv6 Address":"结束IPV6地址",
+	"IPv6 Lease(Sec)":"IPV6租期",
+	"IPv6 Next Hop":"IPV6下一跳地址",
+	"IPv6 DNS":"指定IPV6 DNS",
+	"IPv6 DNS2":"指定备用IPV6 DNS",
+
+	"Apply":"应用",
+	"Refresh":"刷新",
+	"Confirm":"确定",
+	"Cancel":"取消",
+	"OK":"确定",
+	"Settings unchanged":"配置未修改, 不需要应用",
+	"Saving":"保存中",
+	"Loading":"加载中",
+	"The system will restart because of the change of configuration":"修改此设置需要重启设备",
+	"Need to restart the system":"需要立即重启系统",
+	"Restarting to apply...":"重启并应用新的设置...",
+	"Make sure that the device is reconnected":"确定重新连接上设备"
+
+}

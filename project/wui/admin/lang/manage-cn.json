@@ -1,0 +1,83 @@
+{
+	"Rmote Manage Server":"远程管理服务器",
+	"Connection Status":"连接状态",
+	"up":"连接成功",
+	"uping":"连接中",
+	"connecting":"连接中",
+	"connected":"连接成功",
+	"down":"未连接",
+	"Account":"管理帐号",
+	"Verification Code":"授权码",
+	"Server":"服务器",
+	"Standby Server":"备用服务器",
+	"Standby Server2":"备用服务器2",
+	"Report Interval":"初始上报间隔",
+	"Report Context":"初始上报信息",
+	"Connect Timeout":"连接超时(秒)",
+	"Post Timeout":"POST超时(秒)",
+
+	"Broadcast Responses":"本地广播回应",
+	"Group":"分组",
+	"Json Talk Server":"JSON指令服务器",
+
+
+	"Telnet Server":"Telnet服务器",
+	"Remote Telnet Access":"远程访问",
+	"Port":"端口",
+
+
+
+	"SSH Server":"SSH服务器",
+	"Remote SSH Access":"远程访问",
+
+
+	"WEB Server":"WEB服务器",
+	"Remote WEB Access":"远程访问",
+	"Enable the reemote access, Please changed the default password for this router in order to enhance network security":"开启远程访问, 请注意修改默认的用户名及密码, 防止来自外网的非法访问",
+
+	"Reboot Mode":"重启模式",
+	"Disable":"禁用",
+	"Idle Reboot":"空闲时重启",
+	"Age":"间隔时间重启",
+	"Point":"定时重启",
+	"Minimum running time(sec)":"最小运行时长(秒)",
+	"Wireless free time(sec)":"设备空间时长(秒)",
+	"Maximum running time(sec)":"最大运行时长(秒)",
+	"Reboot time interval(sec)":"间隔时长(秒)",
+	"Point Reboot Time":"重启时间点",
+
+	"LED Indicate":"LED灯指示",
+	"IO Control Center":"IO控制中心",
+	"Protocol":"协议",
+	"Device ID":"设备ID号",
+	"IO Status":"IO状态",
+	"MQTT Server":"MQTT服务器",
+	"Broker Address":"MQTT服务器",
+	"Broker Port":"端口",
+	"MQTT Identify":"标识(默认MAC地址序号)",
+	"Username":"用户名",
+	"Password":"密码",
+	"Subscribe Topic":"订阅主题",
+	"Subscribe Topic QOS":"订阅主题QOS",
+	"Publish Topic":"发布主题",
+	"Publish Topic QOS":"发布主题QOS",
+	"Keepalive(sec)":"保活间隔(秒)",
+	"Failed Interval(sec)":"失败重连间隔(秒)",
+	"Rx/Tx":"收/发(字节)",
+	"System LED Output":"系统LED灯输出",
+	"Reset Button Input":"复位按键输入",
+	"LTE Signal High":"信号强输出",
+	"LTE Signal Middle":"信号中输出",
+	"LTE Signal Low":"信号弱输出",
+	"g1":"G1",
+	"g2":"G2",
+	"g3":"G3",
+	"g4":"G4",
+	"g5":"G5",
+	"g6":"G6",
+	"g7":"G7",
+	"g8":"G8",
+	"None":"无"
+	
+
+}

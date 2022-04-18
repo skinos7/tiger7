@@ -1,0 +1,20 @@
+{
+	"Type":"类型",
+	"Cold Backup":"冷备份",
+	"Hot Backup":"热备份",
+	"Load Balancing":"负载均衡",
+	"Main Connection":"主链接",
+	"Alternate Connection":"备用链接",
+	"Alternate Connection2":"备用链接2",
+	"King Connection":"导流链接",
+	"Reserve Connection":"保留链接",
+	"NONE":"无",
+	"In Use":"正在使用",
+	"Unused":"未使用",
+
+	"Delay Statistics":"延迟统计次数",
+	"Delay Boundary(ms)":"延迟分界(毫秒)",
+	"Delay Difference(ms)":"延迟差值(毫秒)",
+	"Statistics <Delay Statistics> times, in the link average delay are located in <Delay Boundary(ms)> different sides and the average delay between links is greater than <Delay Difference(ms)> disables the link with high average delay":"统计<延迟统计次数>次, 在链路平均延迟分别位于<延迟分界(毫秒)>不同侧并且链路之间的平均延迟大于<延迟差值(毫秒)>禁用平均延迟大的链路"
+	
+}

@@ -1,0 +1,636 @@
+<!-- ajax layout which only needs content area -->
+<div class="row" id="page-modes">
+  <div class="col-xs-12 form-btn-wrapper">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="form-horizontal" >
+ 
+
+        <!-- 2.4G状态 -->
+        <div id="nwifi">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" for="nstatus" data-i18n="WIFI 2.4G ACL"></label>
+                <div class="col-sm-9">
+                    <label><input id="nstatus" class="ace ace-switch ace-switch-6" type="checkbox" /><span class="lbl"></span></label>
+                </div>
+            </div>
+            <div id="nwifi_content"> 
+                <div class="form-group " id="n_acl_type_div">
+                    <label class="col-sm-3 control-label no-padding-right" data-i18n="ACL Type"></label>
+                    <div class="col-sm-9">
+                        <label><input name="n_acl_type" value="drop" type="radio" class="ace"><span class="lbl" data-i18n="Black List"></span></label>
+                        &nbsp;&nbsp;&nbsp;
+                        <label><input name="n_acl_type" value="accept" type="radio" class="ace"><span class="lbl" data-i18n="White List"></span></label>
+                        &nbsp;&nbsp;&nbsp;
+                    </div>
+                </div>
+
+                <table id="n_acl-grid-table"></table>
+                <div id="n_acl-grid-pager"></div>
+
+                <div id="n_modal-stalist" class="modal" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header"><button type="button" class="close" data-dismiss="modal">&times;</button><h4 data-i18n="Add"></h4></div>
+
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <table id="n_stalist-grid-table"></table>
+                                        <div id="n_stalist-grid-pager"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button class="btn btn-sm btn-second" data-dismiss="modal" data-i18n="Cancel"></button>
+                                <button id="n_add" class="btn btn-sm btn-main" data-i18n="Add"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- nwifi_content -->
+        </div><!-- nwifi -->
+
+
+        <!-- 5.8G状态 -->
+        <div id='awifi'>
+            <div class="hr hr32 hr-dotted"></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" for="astatus" data-i18n="WIFI 5.8G ACL"></label>
+                <div class="col-sm-9">
+                    <label><input id="astatus" class="ace ace-switch ace-switch-6" type="checkbox" /><span class="lbl"></span></label>
+                </div>
+            </div>
+            <div id="awifi_content">
+                <div class="form-group " id="a_acl_type_div">
+                    <label class="col-sm-3 control-label no-padding-right" data-i18n="ACL Type"></label>
+                    <div class="col-sm-9">
+                        <label><input name="a_acl_type" value="accept" type="radio" class="ace"><span class="lbl" data-i18n="White List"></span></label>
+                        &nbsp;&nbsp;&nbsp;
+                        <label><input name="a_acl_type"  value="drop" type="radio" class="ace"><span class="lbl" data-i18n="Black List"></span></label>
+                        &nbsp;&nbsp;&nbsp;
+                    </div>
+                </div>
+
+                <table id="a_acl-grid-table"></table>
+                <div id="a_acl-grid-pager"></div>
+
+                <div id="a_modal-stalist" class="modal" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header"><button type="button" class="close" data-dismiss="modal">&times;</button><h4 data-i18n="Add"></h4></div>
+
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <table id="a_stalist-grid-table"></table>
+                                        <div id="a_stalist-grid-pager"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button class="btn btn-sm btn-second" data-dismiss="modal" data-i18n="Cancel"></button>
+                                <button id="a_add" class="btn btn-sm btn-main" data-i18n="Add"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- awifi_content -->
+        </div><!-- awifi -->
+
+
+        <div class="clearfix form-actions">
+            <div class="col-md-offset-3 col-md-9">
+                <button class="btn btn-second" type="button" id="refresh"><span data-i18n="Refresh"></span></button>
+                &nbsp; &nbsp; &nbsp;
+                <button class="btn btn-main" type="button" id="apply"><span data-i18n="Apply"></span></button>
+            </div>
+        </div>
+
+
+    </div>
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+
+
+
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+    var nssid;
+    var nssidcopy;
+    var assid;
+    var assidcopy;
+    var clientlist;
+
+    var n_acl_table = '#n_acl-grid-table';
+    var n_acl_pager = '#n_acl-grid-pager';
+    var n_stalist_table = '#n_stalist-grid-table';
+    var n_stalist_pager = '#n_stalist-grid-pager';
+
+    var a_acl_table = '#a_acl-grid-table';
+    var a_acl_pager = '#a_acl-grid-pager';
+    var a_stalist_table = '#a_stalist-grid-table';
+    var a_stalist_pager = '#a_stalist-grid-pager';
+
+    /* load the configure on the input */
+    function wifiacl_load()
+    {
+      he.load( [ 'wifi@nssid', 'wifi@assid', 'client@station.list' ] ).then( function(v){
+        nssid = v[0];
+        if ( nssid )
+        {
+            nssidcopy = JSON.parse( JSON.stringify(nssid) );        
+        }
+        assid = v[1];
+        if ( assid )
+        {
+            assidcopy = JSON.parse( JSON.stringify(assid) );
+        }
+        clientlist = v[2];
+
+
+        /* 2.4G */
+        if ( nssid == null )
+        {
+            $('#nwifi').hide();
+        }
+        else
+        {
+            $('#nwifi').show();
+            $('#nstatus').prop( 'checked', able2boole( nssid.acl ) );
+            if ( nssid.acl =="accept" )
+            {
+                $("input[name='n_acl_type'][value=accept]").attr("checked",true); 
+            }
+            else
+            {
+                $("input[name='n_acl_type'][value=drop]").attr("checked",true);  
+            }
+            var list = nssid['acl_table'];
+            var rows = [];
+            for ( var index in list )
+            {
+                var name = list[index];
+                var info = clientlist[index];
+                if ( info )
+                {
+                    if ( !name )
+                    {
+                        name = v.name;
+                    }
+                    rows.push( { mac:index||'', name:name||'', ip:info.ip||'', livetime:(info.livetime?time2string(info.livetime):$.i18n('Leave')), rssi:info.rssi||'' } );
+                }
+                else
+                {
+                    rows.push( { mac:index||'', name:name||'', ip:'', livetime:$.i18n('Leave'), rssi:'' } );
+                }
+            }
+            var scrollPos = jqtable.getScrollPos();
+            $(n_acl_table).jqGrid('clearGridData').jqGrid('setGridParam',{data: rows}).trigger('reloadGrid');
+            jqtable.setScrollPos(scrollPos);
+            
+            $('#nstatus').unbind('change').change(function () {
+                if ($(this).prop('checked'))
+                {
+                    $('#nwifi_content').show();
+                }
+                else
+                {
+                    $('#nwifi_content').hide();
+                }
+            }).trigger('change'); 
+        }
+
+
+
+        /* 5.8G */
+        if ( assid == null )
+        {
+            $('#awifi').hide();
+        }
+        else
+        {
+            $('#awifi').show();
+            $('#astatus').prop( 'checked', able2boole(assid.acl));
+            if ( assid.acl =="accept" )
+            {
+                $("input[name='a_acl_type'][value=accept]").attr("checked",true); 
+            }
+            else
+            {
+                $("input[name='a_acl_type'][value=drop]").attr("checked",true);  
+            }
+            var list = assid['acl_table'];
+            var rows = [];
+            for ( var index in list )
+            {
+                var name = list[index];
+                var info = clientlist[index];
+                if ( info )
+                {
+                    if ( !name )
+                    {
+                        name = v.name;
+                    }
+                    rows.push( { mac:index||'', name:name||'', ip:info.ip||'', livetime:(info.livetime?time2string(info.livetime):$.i18n('Leave')), rssi:info.rssi||'' } );
+                }
+                else
+                {
+                    rows.push( { mac:index||'', name:name||'', ip:'', livetime:$.i18n('Leave'), rssi:'' } );
+                }
+            }
+            var scrollPos = jqtable.getScrollPos();
+            $(a_acl_table).jqGrid('clearGridData').jqGrid('setGridParam',{data: rows}).trigger('reloadGrid');
+            jqtable.setScrollPos(scrollPos);
+
+            $('#astatus').unbind('change').change(function () {
+                if ($(this).prop('checked'))
+                {
+                    $('#awifi_content').show();
+                }
+                else
+                {
+                    $('#awifi_content').hide();
+                }
+            }).trigger('change'); 
+        }
+      });
+    }
+
+
+
+    /* save the configure */
+    function wifiacl_save()
+    {
+        var cmd = [];
+        var needsave = false;
+
+        if ( nssid != null )
+        {
+            if ( $('#nstatus').prop('checked') )
+            {
+                nssid.acl = $('input[name="n_acl_type"]:checked').val();
+                nssid.acl_table = {};
+                var rowNum =  $(n_acl_table).jqGrid('getGridParam', 'rowNum');                   //获取当前页条数
+                var total = $(n_acl_table).jqGrid('getGridParam', 'records');                    //获取总数 （包含未显示的数据）
+                $(n_acl_table).jqGrid('setGridParam', { rowNum: total }).trigger('reloadGrid');  //把grid重新加载成全部数据（前端不会变化）
+                var rows =  $(n_acl_table).jqGrid('getDataIDs');
+                for ( var i = 0; i < rows.length; i++ )
+                {
+                    var row = $(n_acl_table).jqGrid('getRowData', rows[i] );
+                    nssid.acl_table[row.mac] = row.name;
+                }
+                $(n_acl_table).jqGrid('setGridParam', { rowNum: rowNum }).trigger('reloadGrid');  //还原成原先状态        
+            }
+            else
+            {
+                nssid.acl = "disable";
+            }
+            if ( !ocompare( nssid, nssidcopy ) )
+            {
+                cmd.push( "wifi@nssid="+JSON.stringify(nssid) );
+                needsave = true;
+            }
+        }
+        if ( assid != null )
+        {
+            if ( $('#astatus').prop('checked') )
+            {
+                assid.acl = $('input[name="a_acl_type"]:checked').val();
+                assid.acl_table = {};
+                var rowNum =  $(a_acl_table).jqGrid('getGridParam', 'rowNum');                   //获取当前页条数
+                var total = $(a_acl_table).jqGrid('getGridParam', 'records');                    //获取总数 （包含未显示的数据）
+                $(a_acl_table).jqGrid('setGridParam', { rowNum: total }).trigger('reloadGrid');  //把grid重新加载成全部数据（前端不会变化）
+                var rows =  $(a_acl_table).jqGrid('getDataIDs');
+                for ( var i = 0; i < rows.length; i++ )
+                {
+                    var row = $(a_acl_table).jqGrid('getRowData', rows[i] );
+                    assid.acl_table[row.mac] = row.name;
+                }
+                $(a_acl_table).jqGrid('setGridParam', { rowNum: rowNum }).trigger('reloadGrid');  //还原成原先状态        
+            }
+            else
+            {
+                assid.acl = "disable";
+            }
+            if ( !ocompare( assid, assidcopy ) )
+            {
+                cmd.push( "wifi@assid="+JSON.stringify(assid) );
+                needsave = true;
+            }
+        }
+        if ( needsave == false )
+        {
+            page.alert( { message: $.i18n('Settings unchanged') } );
+            return;
+        }
+        page.confirm( { message: $.i18n('The wireless client will be disconneted because of the change of configuration') } ).then( function(result){
+            if ( result )
+            {
+                he.save( cmd ).then( function(){
+                    page.alert( {message:$.i18n('Make sure that the device is reconnected')} );
+                    wifiacl_load();
+                });
+            }
+        });       
+    }
+
+
+
+    /* init */
+    $.i18n().load( page.lang('wifiacl') ).then( function () {
+      /* init the langauage */
+      $.i18n().locale = lang; $('body').i18n();
+
+
+
+      //初始化表格
+      jqtable.create( n_acl_table, n_acl_pager,
+          {
+              caption: " ",
+              colNames: [  $.i18n('MAC'), $.i18n('Hostname'), $.i18n('IP Address'), $.i18n('Live Time'), $.i18n('RSSI'),$.i18n('Operation') ],
+              colModel:
+              [
+                  {
+                      name:'mac', width:120, editable: true, 
+                      editrules:
+                      {
+                          required: true
+                      }
+                  },
+                  {
+                      name:'name', width:150, editable: true
+                  },
+                  {
+                      name:'ip', width:120
+                  },
+                  {
+                      name:'livetime', width:120
+                  },
+                  {
+                      name:'rssi', width:70
+                  },
+                  {
+                      name:'mynav', width:70,
+                      fixed:true,
+                      sortable:false,
+                      resize:false,
+                      formatter:'actions'
+                  }
+              ]
+          }
+      ).jqGrid( 'navGrid', n_acl_pager,
+          $.extend(true, {}, jqtable.navOptions, 
+              {
+                  add: true,addicon : 'ace-icon fa fa-plus-circle purple',
+                  del: true,delicon : 'ace-icon fa fa-trash-o red',
+                  edit: true,editicon : 'ace-icon fa fa-pencil blue',
+                  search: false, refresh: false, view: false
+              }
+          ),
+          jqtable.editOptions,
+          jqtable.addOptions,
+          jqtable.deleteOptions
+      ).navButtonAdd( n_acl_pager,
+          {
+              caption: ' ', title: $.i18n('Scan'),
+              buttonicon: 'ace-icon fa fa-users',
+              onClickButton: function()
+              {
+                  he.load( [ 'wifi@nradio.stalist', 'client@station.list' ] ).then( function(v){
+                      var list = v[0];
+                      clientlist = v[1];
+                      var count = 0;
+                      var rows = [];
+                      for ( var index in list )
+                      {
+                          var info = clientlist[index];
+                          if ( info )
+                          {
+                              rows.push( { mac:index||'', name:info.name||'', ip:info.ip||'', livetime:(info.livetime?time2string(info.livetime):$.i18n('Leave')), rssi:info.rssi||'' } );
+                          }
+                          else
+                          {
+                              rows.push( { mac:index||'', name:'', ip:'', livetime:$.i18n('Leave'), rssi:'' } );
+                          }
+                          count++;
+                      }
+                      
+                      // 表头设置为在线客户端的数量
+                      $(n_stalist_table).jqGrid( "setCaption", $.i18n('ACL List') + '(' + count + ')' );
+                      // 给表格赋值
+                      $(n_stalist_table).jqGrid('clearGridData').jqGrid('setGridParam', {
+                          data: rows
+                      }).trigger('reloadGrid');
+                      // 显示对话框
+                      $('#n_modal-stalist').modal('show');
+                  });
+              }
+          }
+      );
+      //初始化扫描客户端表格
+      jqtable.create( n_stalist_table, n_stalist_pager,
+          {
+              caption: $.i18n('Station List'),
+              colNames: [  $.i18n('MAC'), $.i18n('Hostname'), $.i18n('IP Address'), $.i18n('Live Time'), $.i18n('RSSI') ],
+              colModel:
+              [
+                  { name:'mac', width:120 },
+                  { name:'name', width:150 },
+                  { name:'ip', width:100 },
+                  { name:'livetime', width:100 },
+                  { name:'rssi', width:60 } 
+              ]
+          }
+      );
+      $('#n_add').on(ace.click_event, function () {
+          // 隐藏modal
+          $('#n_modal-stalist').modal('hide');
+          // 获取当前表内容
+          var existlist =  $(n_acl_table).jqGrid('getGridParam', 'data');
+          // acl表格的所有id
+          var ids= $(n_acl_table).jqGrid('getDataIDs');
+          // 新的id, acl表格最大的id加一
+          var newid = Math.max.apply(Math,ids) + 1;
+          // 选中的所有行的id
+          var selRows = $(n_stalist_table).jqGrid('getGridParam','selarrrow');
+          for (var key in selRows)
+          {
+              // 某个选中行的id
+              var id = selRows[key];
+              // 某个选中行的数据
+              var data = $(n_stalist_table).jqGrid('getRowData', id);
+              var had_exist = false;
+              for ( var index in existlist )
+              {
+                  var row = existlist[index];
+                  if( row.mac == data.mac )
+                  {
+                      had_exist = true;
+                  }
+              }
+              if( had_exist == false )
+              {
+                  // 将要添加到acl表的数据
+                  var newData = { mac: data.mac, name:data.name, ip:data.ip, livetime:data.livetime, rssi:data.rssi };
+                  // 添加到acl表
+                  $(n_acl_table).jqGrid('addRowData', newid++, newData, 'first');
+              }
+          }
+      });
+
+
+
+      jqtable.create( a_acl_table, a_acl_pager,
+          {
+              caption: " ",
+              colNames: [  $.i18n('MAC'), $.i18n('Hostname'), $.i18n('IP Address'), $.i18n('Live Time'), $.i18n('RSSI'),$.i18n('Operation') ],
+              colModel:
+              [
+                  {
+                      name:'mac', width:120, editable: true, 
+                      editrules:
+                      {
+                          required: true
+                      }
+                  },
+                  {
+                      name:'name', width:150, editable: true
+                  },
+                  {
+                      name:'ip', width:120
+                  },
+                  {
+                      name:'livetime', width:120
+                  },
+                  {
+                      name:'rssi', width:70
+                  },
+                  {
+                      name:'mynav', width:70,
+                      fixed:true,
+                      sortable:false,
+                      resize:false,
+                      formatter:'actions'
+                  }
+              ]
+          }
+      ).jqGrid( 'navGrid', a_acl_pager,
+          $.extend(true, {}, jqtable.navOptions, 
+              {
+                  add: true,addicon : 'ace-icon fa fa-plus-circle purple',
+                  del: true,delicon : 'ace-icon fa fa-trash-o red',
+                  edit: true,editicon : 'ace-icon fa fa-pencil blue',
+                  search: false, refresh: false, view: false
+              }
+          ),
+          jqtable.editOptions,
+          jqtable.addOptions,
+          jqtable.deleteOptions
+      ).navButtonAdd( a_acl_pager,
+          {
+              caption: ' ', title: $.i18n('Scan'),
+              buttonicon: 'ace-icon fa fa-users',
+              onClickButton: function()
+              {
+                  he.load( [ 'wifi@aradio.stalist', 'client@station.list' ]  ).then( function(v){
+                      var list = v[0];
+                      clientlist = v[1];
+                      var count = 0;
+                      var rows = [];
+                      for ( var index in list )
+                      {
+                          var info = clientlist[index];
+                          if ( info )
+                          {
+                              rows.push( { mac:index||'', name:info.name||'', ip:info.ip||'', livetime:(info.livetime?time2string(info.livetime):$.i18n('Leave')), rssi:info.rssi||'' } );
+                          }
+                          else
+                          {
+                              rows.push( { mac:index||'', name:'', ip:'', livetime:$.i18n('Leave'), rssi:'' } );
+                          }
+                          count++;
+                      }
+
+                      // 表头设置为在线客户端的数量
+                      $(a_stalist_table).jqGrid( "setCaption", $.i18n('ACL List') + '(' + count + ')' );
+                      // 给表格赋值
+                      $(a_stalist_table).jqGrid('clearGridData').jqGrid('setGridParam', {
+                          data: rows
+                      }).trigger('reloadGrid');
+                      // 显示对话框
+                      $('#a_modal-stalist').modal('show');
+                  });
+              }
+          }
+      );
+      //初始化扫描客户端表格
+      jqtable.create( a_stalist_table, a_stalist_pager,
+          {
+              caption: $.i18n('Station List'),
+              colNames: [  $.i18n('MAC'), $.i18n('Hostname'), $.i18n('IP Address'), $.i18n('Live Time'), $.i18n('RSSI') ],
+              colModel:
+              [
+                  { name:'mac', width:120 },
+                  { name:'name', width:150 },
+                  { name:'ip', width:100 },
+                  { name:'livetime', width:100 },
+                  { name:'rssi', width:60 } 
+              ]
+          }
+      );
+      $('#a_add').on(ace.click_event, function () {
+          // 隐藏modal
+          $('#a_modal-stalist').modal('hide');
+          // 获取当前表内容
+          var existlist =  $(a_acl_table).jqGrid('getGridParam', 'data');
+          // acl表格的所有id
+          var ids= $(a_acl_table).jqGrid('getDataIDs');
+          // 新的id, acl表格最大的id加一
+          var newid = Math.max.apply(Math,ids) + 1;
+          // 选中的所有行的id
+          var selRows = $(a_stalist_table).jqGrid('getGridParam','selarrrow');
+          for ( var key in selRows )
+          {
+              // 某个选中行的id
+              var id = selRows[key];
+              // 某个选中行的数据
+              var data = $(a_stalist_table).jqGrid('getRowData', id);
+              var had_exist = false;
+              for ( var index in existlist )
+              {
+                  var row = existlist[index];
+                  if( row.mac == data.mac )
+                  {
+                      had_exist = true;
+                  }
+              }
+              if ( had_exist == false )
+              {
+                  // 将要添加到acl表的数据
+                  var newData = { mac: data.mac, name:data.name, ip:data.ip, livetime:data.livetime, rssi:data.rssi };
+                  // 添加到acl表
+                  $(a_acl_table).jqGrid('addRowData', newid++, newData, 'first');
+              } 
+          }
+      });
+
+      /* load the configure */
+      wifiacl_load();
+      /* bind the refresh */
+      $('#refresh').on(ace.click_event, function () {
+        location.reload();
+      });
+      /* bind the apply */
+      $('#apply').on(ace.click_event, function () {
+        wifiacl_save();
+      });
+    });
+
+  })();
+</script>

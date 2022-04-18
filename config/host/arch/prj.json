@@ -15,5 +15,10 @@
     },
     "obj":
     {
+    },
+    "init":
+    {
+        "ethernet":"arch@ethernet.setup"
     }
+    
 }

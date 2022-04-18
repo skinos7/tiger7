@@ -1,0 +1,141 @@
+<!-- ajax layout which only needs content area -->
+<div class="row">
+  <div class="col-xs-12 form-btn-wrapper">
+    <!-- PAGE CONTENT BEGINS -->
+
+
+
+    <table id="service-grid-table"></table>
+    <div id="service-grid-pager"></div>
+
+
+
+      <div class="clearfix form-actions">
+        <div class="col-md-offset-3 col-md-9">
+          <button class="btn btn-second" type="button" id="refresh"><span data-i18n="Refresh"></span></button>
+        </div>
+      </div>
+
+
+
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+    var rule_status;
+    var rule_table = '#service-grid-table';
+    var rule_pager = '#service-grid-pager';
+
+    /* load the configure on the input */
+    function rule_load()
+    {
+      he.load( [ 'land@service.list' ] ).then( function(v){
+        rule_status = v[0];
+        if ( !rule_status )
+        {
+            return;
+        }
+        // 表格的所有行数据
+        var count = 0;
+        var rows = [];
+        for ( var name in rule_status )
+        {
+            var rule = rule_status[name];
+            var row = {};
+            row[ 'name'] = $.i18n( name );
+            row[ 'sid'] = name;
+            row[ 'pid'] = rule.pid || '';
+            row[ 'obj'] = rule.obj || '';
+            row[ 'op'] = rule.op || '';
+            if ( rule.status == "live" )
+            {
+                row[ 'livetime'] = time2string(rule.livetime);
+                count++;
+                rows.unshift( row );
+            }
+            else
+            {
+                row[ 'livetime'] = $.i18n('Die');
+                rows.push( row );
+            }
+        }
+        // 表头设置为在线客户端的数量
+        $(rule_table).jqGrid( "setCaption", $.i18n('Service Live') + '(' + count + ')' );
+        // 记住滚动条的位置
+        var scrollPos = jqtable.getScrollPos();
+        // 必须先清空表格数据, 然后才能重新给表格赋值,之后需要触发重新加载表格的事件
+        $(rule_table).jqGrid('clearGridData').jqGrid('setGridParam', { data: rows }).trigger('reloadGrid');
+        // 恢复滚动条的位置
+        jqtable.setScrollPos(scrollPos);
+        // 改变离线行的颜色
+        $('td[title=' + $.i18n('Die') + ']').closest('tr').css({color: '#888'});
+      });
+    }
+
+    $.i18n().load( page.lang('debug') ).then( function () {
+        /* init the langauage */
+        $.i18n().locale = lang; $('body').i18n();
+
+        var tbcustom = 
+        {
+            caption: '',
+            multiselect: false,
+            rowNum:20, rowList:[20,40,60],
+            colNames:[ $.i18n('Service Name'), $.i18n('Service ID'), $.i18n('PID'), $.i18n('Component'), $.i18n('Interface'), $.i18n('Run Time'), $.i18n('Operation') ],
+            colModel:
+            [
+                { name:'name', width:150 },
+                { name:'sid', width:150,  hidden: true },
+                { name:'pid', width:80 },
+                { name:'obj', width:150 },
+                { name:'op', width:150 },
+                { name:'livetime', width:150 },
+                {
+                    name: 'reset', width: 80,
+                    fixed: true, sortable: false,
+                    formatter: function ( cellvalue, options, rowObject )
+                    {
+                        return '<button class="btn btn-warning btn-xs btn-choose" onclick="service_reset(' + options.rowId + ')" data-id="' + options.rowId + '">' + $.i18n('Reset') + '</button>'
+                    }
+                }
+            ]
+        };
+        jqtable.create( rule_table, rule_pager, tbcustom );
+
+        /* load the configure */
+        rule_load();
+        /* bind the refresh */
+        $('#refresh').on(ace.click_event, function () {
+            location.reload();
+        });
+    });
+  })();
+  
+  
+  
+  /* 必须在全局中才可以被调用到 */
+  function service_reset( rowId )
+  {
+    // 某个选中行的数据
+    var client = $('#service-grid-table').jqGrid( 'getRowData', rowId );
+    var sid = client.sid;
+    // 执行重启服务
+    he.exec( [ "land@service.reset["+sid+"]" ], $.i18n("Reseting") ).then( function(v){
+        var ret = v[0];
+        if ( ret == true )
+        {
+            page.alert( { message: $.i18n('Reset succeed'), callback: function( result ){location.reload();} } );
+        }
+        else
+        {
+            page.alert( { message: $.i18n('Reset failed') } );
+        }
+    });
+  }
+  
+  
+  
+</script>

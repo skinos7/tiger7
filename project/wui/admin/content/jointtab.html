@@ -1,0 +1,232 @@
+<!-- ajax layout which only needs content area -->
+<div class="row">
+  <div class="col-xs-12 form-btn-wrapper">
+    <!-- PAGE CONTENT BEGINS -->
+
+
+
+    <table id="rule-grid-table"></table>
+    <div id="rule-grid-pager"></div>
+
+
+
+      <div class="clearfix form-actions">
+        <div class="col-md-offset-3 col-md-9">
+          <button class="btn btn-second" type="button" id="refresh"><span data-i18n="Refresh"></span></button>
+        </div>
+      </div>
+
+
+
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+    var rule_status;
+    var rule_table = '#rule-grid-table';
+    var rule_pager = '#rule-grid-pager';
+    var list = { 
+                "network/up":"",
+                "network/online":"",
+                "network/onlive":"",
+                "network/down":"",
+                "network/offline":"",
+                "network/offlive":"",
+                "network/switch":"",
+                "station/join":"",
+                "station/leave":"",
+                "nssid/up":"",
+                "nssid/down":"",
+                "firmware/upgrading":"",
+                "firmware/upgraded":"",
+                "modem/poweron":"",
+                "modem/poweroff":"",
+                "date/modify":"",
+                "signal/flash":"",
+                "auth/modify":""
+               };
+
+    /* load the configure on the input */
+    function rule_load()
+    {
+      he.load( [ 'land@joint' ] ).then( function(v){
+        rule_status = v[0];
+        if ( !rule_status )
+        {
+            return;
+        }
+        // 表格的所有行数据
+        var rows = [];
+        for ( var name in rule_status )
+        {
+            var rule = rule_status[name];
+            // 表格单行的数据
+            var row =
+            {
+                name: name,
+                call: rule.call || '',
+                joint: rule.joint || ''
+            };
+            rows.push(row);
+        }
+
+        // 必须先清空表格数据, 然后才能重新给表格赋值,之后需要触发重新加载表格的事件
+        $(rule_table).jqGrid('clearGridData').jqGrid('setGridParam', { data: rows }).trigger('reloadGrid');
+      });
+    }
+    // 添加规则
+    function add_rule( rule )
+    {
+        // 添加规则的he命令
+        var cmd = '';
+        cmd += 'land@joint.add[';
+        cmd += (rule.name + ',');
+        cmd += (rule.call + ',');
+        cmd += (rule.joint + ']');
+
+        // 执行添加
+        he.exec( cmd ).then(function () {
+            // 重新加载数据
+            return rule_load();
+        }).then(function () {
+            // 提示成功
+            page.hint2succeed( $.i18n('Add successfully') );
+        });
+    }
+    function edit_rule( rule )
+    {
+        // 添加规则的he命令
+        var cmd = '';
+        cmd += 'land@joint.add[';
+        cmd += (rule.name + ',');
+        cmd += (rule.call + ',');
+        cmd += (rule.joint + ']');
+      
+        // 执行添加
+        he.exec( cmd ).then(function () {
+            // 重新加载数据
+            return rule_load();
+        }).then(function () {
+            // 提示成功
+            page.hint2succeed( $.i18n('Edit successfully') );
+        });
+    }
+
+    // 删除多个规则
+    function delete_rule( indexStr )
+    {
+        var key;
+        // 选中的行
+        var indexs = indexStr.split(',');
+        // 删除规则的he命令
+        var cmds = [];
+        for ( var index  = 0; index < indexs.length; index++ )
+        {
+            // 选中行的数据
+            var row = $(rule_table).jqGrid('getRowData', indexs[index]);
+            key = row.name;
+            cmds.push( 'land@joint.delete[' + row.name + ']' );
+        }
+        // 执行删除
+        he.exec( cmds ).then(function (){
+            // 重新加载数据
+            return rule_load();
+        }).then(function (){
+            // 提示成功
+            page.hint2succeed( $.i18n('Delete successfully') );
+        });
+    }
+
+
+    $.i18n().load( page.lang('debug') ).then( function () {
+        /* init the langauage */
+        $.i18n().locale = lang; $('body').i18n();
+
+        var tbcustom = 
+        {
+            caption: $.i18n('Joint Table'),
+            rowNum:20, rowList:[20,40,60],
+            colNames:[ $.i18n('Name(unique)'), $.i18n('Call'), $.i18n('Joint'), $.i18n('Operation') ],
+            colModel:
+            [
+                {
+                    name:'name', width:80,
+                    editable: true,
+                    editrules:
+                    {
+                        required: true
+                    }
+                },
+                {
+                    name:'call', width:300,
+                    editable: true,
+                    editrules:
+                    {
+                        required: true
+                    }
+                },
+                {
+                    name: 'joint',
+                    width: 150,
+                    editable: true,
+                    formatter: 'select',
+                    edittype: 'select',
+                    editoptions:
+                    {
+                        value: (function() {
+                            var str = "";
+                            // 接口列表
+                            for ( var key in list )
+                            {
+                                str += (key + ':' + $.i18n(key) + ';');
+                            }
+                            // 去除最后多余的分号
+                            str = str.substr(0, str.length - 1);
+                            return str;
+                        })()
+                    }
+                },
+                $.extend( true, {}, jqtable.actionOptions,
+                    {
+                        formatoptions:
+                        {
+                            delOptions:{ onclickSubmit: function (params, data) { delete_rule(data); } },
+                            editOptions: { onclickSubmit: function (params, data) { edit_rule(data); } }
+                        }
+                    }
+                )
+            ]
+        };
+        var item = jqtable.create( rule_table, rule_pager, tbcustom );
+
+        // 加入底部操作button
+        item.jqGrid( 'navGrid', rule_pager, 
+            $.extend(true, {}, jqtable.navOptions, 
+                {
+                    add: true,addicon : 'ace-icon fa fa-plus-circle purple',
+                    del: true,delicon : 'ace-icon fa fa-trash-o red',
+                    edit: true,editicon : 'ace-icon fa fa-pencil blue',
+                    search: false, refresh: false, view: false
+                }
+            ),
+            $.extend(true, {}, jqtable.editOptions, { onclickSubmit: function (params, data) { edit_rule(data); } } ),
+            $.extend(true, {}, jqtable.addOptions, {onclickSubmit: function (params, data) { add_rule(data); } }),
+            $.extend(true, {}, jqtable.deleteOptions, { onclickSubmit: function(params, data) { delete_rule(data); } }),
+            {} );
+
+        /* load the configure */
+        rule_load();
+        /* bind the refresh */
+        $('#refresh').on(ace.click_event, function () {
+            location.reload();
+        });
+    });
+
+
+
+
+  })();
+</script>

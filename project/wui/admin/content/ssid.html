@@ -1,0 +1,365 @@
+<!-- ajax layout which only needs content area -->
+<div class="row" id="page-modes">
+  <div class="col-xs-12 form-btn-wrapper">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="form-horizontal" role="form">
+
+
+      <!-- 2.4G状态 -->
+      <div class="form-group" id="nwifi">
+        <label class="col-sm-3 control-label no-padding-right" for="nstatus" data-i18n="WIFI 2.4G"></label>
+        <div class="col-sm-9">
+          <label>
+            <input id="nstatus" class="ace ace-switch ace-switch-6" type="checkbox" />
+            <span class="lbl"></span>
+          </label>
+        </div>
+      </div>
+      <div id="nwifiset">
+        <!-- 名称 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" for="nssid" data-i18n="SSID"></label>
+          <div class="col-sm-9">
+            <div class="clearfix">
+              <input type="text" id="nssid" class="col-xs-10 col-sm-5" maxlength="32" />
+            </div>
+          </div>
+        </div>
+        <!-- 安全模式 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" for="nsecure" data-i18n="Security Mode"></label>
+          <div class="col-sm-9">
+            <select class="col-xs-10 col-sm-5" id="nsecure">
+              <option value="disable" data-i18n="Disable(None)"></option>
+              <option value="wpapsk" data-i18n="WPA-PSK(Private)"></option>
+              <option value="wpa2psk" data-i18n="WPA2-PSK(Private)"></option>
+              <option value="wpapskwpa2psk" data-i18n="Mixed WPA-PSK(Private)"></option>
+            </select>
+          </div>
+        </div>
+        <div id="nsecureSets">
+        <!-- WPA 模式 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" for="nwpa_encrypt" data-i18n="WPA Mode"></label>
+          <div class="col-sm-9">
+            <select class="col-xs-10 col-sm-5" id="nwpa_encrypt">
+              <option value="tkip" data-i18n="TKIP"></option>
+              <option value="aes" data-i18n="AES"></option>
+              <option value="tkipaes" data-i18n="Auto"></option>
+            </select>
+          </div>
+        </div>
+        <!-- 密码 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" for="nwpa_key" data-i18n="Password"></label>
+          <div class="col-sm-9">
+            <div class="clearfix">
+              <span class="input-icon input-icon-right input-icon-form col-xs-10 col-sm-5">
+                <input type="password" id="nwpa_key" maxlength="128" autocomplete="new-password" />
+                <i class="ace-icon fa fa-eye-slash" id="nwpa_key-icon"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+        </div>  <!-- nsecureSets -->
+        <!-- 隐藏SSID开关 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" for="nhide" data-i18n="Hide SSID"></label>
+          <div class="col-sm-9">
+            <label>
+              <input id="nhide" class="ace ace-switch ace-switch-6" type="checkbox" />
+              <span class="lbl"></span>
+            </label>
+          </div>
+        </div>
+        <!-- 隔离客户端 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" for="nisolated" data-i18n="Isolate Clients"></label>
+          <div class="col-sm-9">
+            <label>
+              <input id="nisolated" class="ace ace-switch ace-switch-6" type="checkbox" />
+              <span class="lbl"></span>
+            </label>
+          </div>
+        </div>
+      </div> <!-- nwifiset -->
+
+      <div class="hr hr32 hr-dotted"></div>
+
+      <!-- 5.8G状态 -->
+      <div class="form-group" id="awifi">
+        <label class="col-sm-3 control-label no-padding-right" for="astatus" data-i18n="WIFI 5.8G"></label>
+        <div class="col-sm-9">
+          <label>
+            <input id="astatus" class="ace ace-switch ace-switch-6" type="checkbox" />
+            <span class="lbl"></span>
+          </label>
+        </div>
+      </div>
+      <div id="awifiset">
+        <!-- 名称 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" for="assid" data-i18n="SSID"></label>
+          <div class="col-sm-9">
+            <div class="clearfix">
+              <input type="text" id="assid" class="col-xs-10 col-sm-5" maxlength="32" />
+            </div>
+          </div>
+        </div>
+        <!-- 安全模式 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" for="asecure" data-i18n="Security Mode"></label>
+          <div class="col-sm-9">
+            <select class="col-xs-10 col-sm-5" id="asecure">
+              <option value="disable" data-i18n="Disable"></option>
+              <option value="wpapsk" data-i18n="WPA(Private)"></option>
+              <option value="wpa2psk" data-i18n="WPA2(Private)"></option>
+              <option value="wpapskwpa2psk" data-i18n="WPA-Mixed(Private)"></option>
+            </select>
+          </div>
+        </div>
+        <div id="asecureSets">
+          <!-- WPA 模式 -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" for="awpa_encrypt" data-i18n="WPA Mode"></label>
+            <div class="col-sm-9">
+              <select class="col-xs-10 col-sm-5" id="awpa_encrypt">
+                <option value="tkip" data-i18n="TKIP"></option>
+                <option value="aes" data-i18n="AES"></option>
+                <option value="tkipaes" data-i18n="Auto"></option>
+              </select>
+            </div>
+          </div>
+          <!-- 密码 -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" for="awpa_key" data-i18n="Password"></label>
+            <div class="col-sm-9">
+              <div class="clearfix">
+                <span class="input-icon input-icon-right input-icon-form col-xs-10 col-sm-5">
+                  <input type="password" id="awpa_key" maxlength="64" autocomplete="new-password" />
+                  <i class="ace-icon fa fa-eye-slash" id="awpa_key-icon"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>  <!-- asecureSets -->
+        <!-- 隐藏SSID开关 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" for="ahide" data-i18n="Hide SSID"></label>
+          <div class="col-sm-9">
+            <label>
+              <input id="ahide" class="ace ace-switch ace-switch-6" type="checkbox" />
+              <span class="lbl"></span>
+            </label>
+          </div>
+        </div>
+        <!-- 隔离客户端 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" for="aisolated" data-i18n="Isolate Clients"></label>
+          <div class="col-sm-9">
+            <label>
+              <input id="aisolated" class="ace ace-switch ace-switch-6" type="checkbox" />
+              <span class="lbl"></span>
+            </label>
+          </div>
+        </div>
+
+      </div> <!-- awifiset -->
+
+
+      <div class="clearfix form-actions">
+        <div class="col-md-offset-3 col-md-9">
+          <button class="btn btn-second" type="button" id="refresh"><span data-i18n="Refresh"></span></button>
+          &nbsp; &nbsp; &nbsp;
+          <button class="btn btn-main" type="button" id="apply"><span data-i18n="Apply"></span></button>
+        </div>
+      </div>
+
+
+    </div>
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+
+
+
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+    var nssid;
+    var assid;
+
+    /* load the configure on the input */
+    function ssid_load()
+    {
+      he.load( [ 'wifi@nssid', 'wifi@assid' ] ).then( function(v){
+        nssid = v[0];
+        assid = v[1];
+        /* 2.4G */
+        if ( nssid == null )
+        {
+          $('#nwifi').hide(); $('#nwifiset').hide();
+        }
+        else
+        {
+          $('#nwifi').show();
+          $('#nstatus').prop( 'checked', able2boole(nssid.status) );
+          $('#nssid').val( nssid.ssid || '' );
+          $('#nsecure').val( nssid.secure || 'disable' );
+          $('#nwpa_encrypt').val( nssid.wpa_encrypt || 'tkipaes' );
+          $('#nwpa_key').val( nssid.wpa_key || '' );
+          $('#nhide').prop( 'checked', !able2boole(nssid.broadcast) );
+          $('#nisolated').prop( 'checked', able2boole(nssid.isolated) );
+          $('#nstatus').unbind('change').change(function () {
+            if ($(this).prop('checked'))
+            {
+              $('#nwifiset').show();
+            }
+            else
+            {
+              $('#nwifiset').hide();
+            }
+          }).trigger('change');
+          $('#nsecure').unbind('change').change(function (e) {
+            var secure = e.target.value;
+            if ( secure === 'disable' )
+            {
+              $('#nsecureSets').hide();
+            }
+            else
+            {
+              $('#nsecureSets').show();
+            }
+          }).trigger('change');
+        }
+        /* 5.8G */
+        if ( assid == null )
+        {
+          $('#awifi').hide(); $('#awifiset').hide();
+        }
+        else
+        {
+          $('#awifi').show();
+          $('#astatus').prop( 'checked', able2boole(assid.status) );
+          $('#assid').val( assid.ssid || '' );
+          $('#asecure').val( assid.secure || 'disable' );
+          $('#awpa_encrypt').val( assid.wpa_encrypt || 'tkipaes' );
+          $('#awpa_key').val( assid.wpa_key || '' );
+          $('#ahide').prop( 'checked', !able2boole(assid.broadcast) );
+          $('#aisolated').prop( 'checked', able2boole(assid.isolated) );
+          $('#astatus').unbind('change').change(function () {
+            if ($(this).prop('checked'))
+            {
+              $('#awifiset').show();
+            }
+            else
+            {
+              $('#awifiset').hide();
+            }
+          }).trigger('change');
+          $('#asecure').unbind('change').change(function (e) {
+            var secure = e.target.value;
+            if ( secure === 'disable' )
+            {
+              $('#asecureSets').hide();
+            }
+            else
+            {
+              $('#asecureSets').show();
+            }
+          }).trigger('change');
+        }
+      })
+    }
+
+    /* save the configure */
+    function ssid_save()
+    {
+      var cmd = [];
+      var nssidcopy = null;
+      var assidcopy = null;
+      var needsave = false;
+      if ( nssid != null )
+      {
+        nssidcopy = JSON.parse(JSON.stringify(nssid));
+        nssid.status = boole2able( $('#nstatus').prop('checked') );
+        if ( nssid.status )
+        {
+          nssid.ssid = $('#nssid').val();
+          nssid.secure = $('#nsecure').val();
+          if ( nssid.secure != 'disable' )
+          {
+            nssid.wpa_encrypt = $('#nwpa_encrypt').val();
+            nssid.wpa_key = $('#nwpa_key').val();
+          }
+          nssid.broadcast = boole2able( ! $('#nhide').prop('checked') );
+          nssid.isolated = boole2able( $('#nisolated').prop('checked') );
+        }
+      }
+      if ( assid != null )
+      {
+        assidcopy = JSON.parse(JSON.stringify(assid));
+        assid.status = boole2able( $('#astatus').prop('checked') );
+        if ( assid.status )
+        {
+          assid.ssid = $('#assid').val();
+          assid.secure = $('#asecure').val();
+          if ( assid.secure != 'disable' )
+          {
+            assid.wpa_encrypt = $('#awpa_encrypt').val();
+            assid.wpa_key = $('#awpa_key').val();
+          }
+          assid.broadcast = boole2able( ! $('#ahide').prop('checked') );
+          assid.isolated = boole2able( $('#aisolated').prop('checked') );
+        }
+      }
+      if ( !ocompare( nssid, nssidcopy ) )
+      {
+        cmd.push( "wifi@nssid="+JSON.stringify(nssid) );
+        needsave = true;
+      }
+      if ( !ocompare( assid, assidcopy ) )
+      {
+        cmd.push( "wifi@assid="+JSON.stringify(assid) );
+        needsave = true;
+      }
+      if ( needsave == false )
+      {
+        page.alert( { message: $.i18n('Settings unchanged') } );
+        return;
+      }
+      page.confirm( { message: $.i18n('The wireless client will be disconneted because of the change of configuration') } ).then( function(result){
+        if ( result )
+        {
+          he.save( cmd ).then( function(){
+            page.alert( {message:$.i18n('Make sure that the device is reconnected')} );
+            ssid_load();
+          });
+        }
+      });
+    }
+
+
+
+    /* init */
+    page.password('nwpa_key', 'nwpa_key-icon' );
+    page.password('awpa_key', 'awpa_key-icon' );
+    $.i18n().load( page.lang('ssid') ).then( function () {
+      /* init the langauage */
+      $.i18n().locale = lang; $('body').i18n();
+      /* load the configure */
+      ssid_load();
+      /* bind the refresh */
+      $('#refresh').on(ace.click_event, function () {
+        location.reload();
+      });
+      /* bind the apply */
+      $('#apply').on(ace.click_event, function () {
+        ssid_save();
+      });
+    });
+
+  })();
+</script>

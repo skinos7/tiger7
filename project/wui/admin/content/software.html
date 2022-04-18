@@ -1,0 +1,432 @@
+<!-- ajax layout which only needs content area -->
+<div class="row">
+  <div class="col-xs-12 form-btn-wrapper">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="form-horizontal" role="form">
+    
+        <h3 data-i18n="Firmware"></h3>
+        <!-- 设备型号 -->
+        <div class="form-group" style="display: none;">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Firmware Identifier"></label>
+          <div class="col-sm-9">
+            <div id="firmware_id" class="col-xs-10 col-sm-5 form-right-text"></div>
+          </div>
+        </div>
+        <!-- 软件版本 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" for="firmware_version" data-i18n="Firmware Version"></label>
+          <div class="col-sm-9">
+            <div id="firmware_version" class="col-xs-10 col-sm-5 form-right-text"></div>
+          </div>
+        </div>
+
+        <!-- 本地升级 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" for="upgrade" data-i18n="Upgrade"></label>
+          <div class="col-sm-9">
+            <div class="col-xs-10 col-sm-5">
+              <input type="file" id="upgrade" />
+            </div>
+          </div>
+        </div>
+
+
+      
+        <div id="check_upgrade" style="display: none;">
+            <div class="hr hr32 hr-dotted"></div>
+
+            <h3 data-i18n="Upgrade Online"></h3>
+
+            <!-- 在线升级 -->
+            <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right"></label>
+              <div class="col-sm-9">
+                <div class="btn-group">
+                  <button class="btn btn-main" data-i18n="Check new version" id="check"></button>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group" id="new_version" style="display: none;" >
+              <label class="col-sm-3 control-label no-padding-right" for="newst" data-i18n="New version available"></label>
+              <div class="col-sm-9">
+                  <button class="btn btn-danger" id="upgrade_online"></button>
+              </div>
+            </div>
+
+            <div class="form-group" id="change_log" style="display: none;" >
+              <label class="col-sm-3 control-label no-padding-right" for="changelog" data-i18n="Change Log"></label>
+              <div class="col-sm-9">
+                  <span id="changelog"></span>
+                  <button class="btn btn-second" data-i18n="All version change log" id="changelog_download"></button>
+              </div>
+                <br/>
+            </div>
+        </div>
+
+        
+
+
+        <div class="hr hr32 hr-dotted"></div>
+
+        <h3 data-i18n="Software Repositories"></h3>
+        <div class="form-horizontal" role="form">
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right"></label>
+            <div class="col-sm-9">
+              <div class="btn-group">
+                <a class="btn btn-main" data-i18n="Enter Repositories" id="repo" href="#repo"></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    
+
+        <div class="hr hr32 hr-dotted"></div>
+        <h3 data-i18n="Software List"></h3>
+
+        <table id="project-grid-table"></table>
+
+        <br>
+        <div class="form-horizontal" role="form">
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right"></label>
+            <div class="col-sm-9">
+              <div class="btn-group">
+                <button class="btn btn-warning" data-i18n="Clear Installed Software and Default Configure" id="factory"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </div>
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+
+
+
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+    var projects;
+    var project_table = '#project-grid-table';
+    var newst_url = null;
+
+    /* show the software table */
+    function project_load()
+    {
+      he.load( [ 'land@prj.list' ] ).then( function(v){
+          projects = v[0];
+          var count = 0;
+          var rows = [];
+          for (var index in projects)
+          {
+            var prj = projects[index];
+            var path = prj.path;
+            if ( path && 0 == path.indexOf("/prj" ) )
+            {
+                continue;
+            }
+            rows.push( { pname: index, size:prj.size||'', version:prj.version||'', author:prj.author||'', intro:prj.intro||'' } )
+            count++;
+          }
+          // 表头设置为在线客户端的数量
+          $(project_table).jqGrid( "setCaption", $.i18n('Software Number') + '(' + count + ')' );
+          // 记住滚动条的位置
+          var scrollPos = jqtable.getScrollPos();
+          // 给proejcts表格设置数据
+          $(project_table).jqGrid( 'clearGridData' ).jqGrid( 'setGridParam', { data: rows } ).trigger( 'reloadGrid' );
+          // 恢复滚动条的位置
+          jqtable.setScrollPos(scrollPos);
+      });
+    }
+    /* delete the project */
+    function delete_project( indexStr )
+    {
+        var key;
+        // 选中的行
+        var indexs = indexStr.split(',');
+        // 删除路由的he命令
+        var cmds = [];
+        for ( var index  = 0; index < indexs.length; index++ )
+        {
+            // 选中行的数据
+            var row = $(project_table).jqGrid('getRowData', indexs[index]);
+            key = row.pname;
+            var path = projects[key].path;
+            if ( path && 0 == path.indexOf("/prj" ) )
+            {
+                page.alert( { message: $.i18n("Cannot delete the software buildin firmware") } );
+                return;
+            }
+            cmds.push( 'land@prj.delete[ '+key+']' );
+        }
+        // 执行删除
+        he.exec( cmds ).then(function (){
+            // 重新加载数据
+            project_load();
+        }).then(function (){
+            // 提示成功
+            page.alert( { message: $.i18n('Delete successfully'), callback: function( result ){location.reload();} } );
+        });
+    }
+    
+
+    /* init */
+    $.i18n().load( page.lang('device') ).then( function () {
+      /* init the langauage */
+      $.i18n().locale = lang; $('body').i18n();
+      /* load the configure */
+      $('#firmware_id').text( window.machine.hardware+"-"+window.machine.custom+"-"+window.machine.scope );
+      if ( !wuimenu || wuimenu.boardid != "disable" )
+      {
+          $("#firmware_id").closest('.form-group').show();
+      }
+      $('#firmware_version').text(window.machine_status.version);
+      if ( !wuimenu || wuimenu.checknew != "disable" )
+      {
+          $("#check_upgrade").show();
+      }
+      // factory
+      $('#factory').on(ace.click_event, function () {
+          page.confirm( { message: $.i18n('Are you sure you want to clear all the software and default the system configure') } ).then( function(result){
+              if ( result )
+              {
+                  he.reboot( { title: $.i18n('Restarting...'), hint:$.i18n('Make sure that the device is reconnected'), restartTime:window.custom.upgrade_wait, cmds:["arch@data.factory"] } );
+              }
+          });
+      });
+      // downlaod all change log
+      $('#changelog_download').on(ace.click_event, function (e) {
+          e.preventDefault();
+          var submitForm = document.createElement("FORM");
+          document.body.appendChild(submitForm);
+          submitForm.method= "GET";
+          submitForm.action= "/cgi/changelog";
+          submitForm.submit();
+      });
+      // upgrade online
+      $('#check').unbind(ace.click_event).on(ace.click_event, function () {
+          he.exec( 'arch@firmware.http_check', $.i18n("Checking...") ).then( function(v){
+            if ( !v )
+            {
+                page.alert( { message: $.i18n('No new version'), callback: function( result ){
+                    $('#new_version').hide();
+                    $('#change_log').hide();
+                } } );
+            }
+            else
+            {
+                if ( !v.url )
+                {
+                    page.alert( { message: $.i18n( "It's the latest version"), callback: function( result ){
+                        $('#new_version').hide();
+                        if ( v.log )
+                        {
+                            var log = "";
+                            for ( var i in v.log )
+                            {
+                                log += i;
+                                log += ":";
+                                log += v.log[i];
+                                log += "<br>";
+                            }
+                            $('#changelog').html( log );
+                            $('#change_log').show();
+                        }
+                        else
+                        {
+                            $('#change_log').hide();
+                        }
+                    } } );
+                }
+                else
+                {
+                    newst_url = v.url;
+                    $('#upgrade_online').html( v.version+ '   <i class="ace-icon fa fa-arrow-up">' );
+                    $('#new_version').show();
+                    if ( v.log )
+                    {
+                        var log = "";
+                        for ( var i in v.log )
+                        {
+                            log += i;
+                            log += ":";
+                            log += v.log[i];
+                            log += "<br>";
+                        }
+                        $('#changelog').html( log );
+                        $('#change_log').show();
+                    }
+                    else
+                    {
+                        $('#change_log').hide();
+                    }
+                }
+            }
+          });
+      });
+      $('#upgrade_online').unbind(ace.click_event).on(ace.click_event, function () {
+          if ( !newst_url )
+          {
+              page.hint2warning($.i18n('No new version'));
+              return;
+          }
+          page.confirm( { message: $.i18n('Are you sure you want to upgrade the newst version online, it will take long time') } ).then( function(result){
+              if ( result )
+              {
+                  he.exec( 'arch@firmware.http_upgrade['+newst_url+']', $.i18n("Upgrading...") ).then( function(v){
+                    if ( v )
+                    {
+                        page.confirm( { message: $.i18n("Upgrade online successfully, Restart the system or not"),
+                          callback: function( result )
+                          {
+                            if ( result )
+                            {
+                              he.reboot( { title: $.i18n('Upgrade online successfully, now restarting...'), hint:$.i18n('Make sure that the device is reconnected'), restartTime:window.custom.upgrade_wait } );
+                            }
+                            else
+                            {
+                              location.reload();
+                            }
+                          }
+                        });
+                    
+                    }
+                    else
+                    {
+                        page.alert( { message: $.i18n("Upgrade online Failure, Please try again"), callback: function( result ){} } );
+                    }
+                  });
+              }
+          });
+          
+      });
+      
+      // upgrade local
+      $('#upgrade').ace_file_input( { no_file: $.i18n('No File'), btn_choose: $.i18n('Choose'), btn_change: $.i18n('Change'), icon_remove: '' } );
+      // bind the upgrade
+      $('#upgrade').fileupload({
+        url:'/cgi/firmware', paramName:'filename', dataType:'text',
+        add: function( e, data )
+        { // 选择文件之后，执行升级之前
+          page.confirm( { message: $.i18n('The device may need to be restarted, confirm whether to continue'),
+            callback: function( result )
+            {
+              if ( result )
+              {
+                // 提示正在升级
+                page.overlay($.i18n('Updating...'));
+                // 执行升级
+                data.submit();
+              }
+              else
+              {
+                location.reload();
+              }
+            }
+          })
+        },
+        done: function( e, data )
+        {
+          var hint = "";
+          var wait = null;
+          var result = JSON.parse( data.result );
+          if ( result.msgs )
+          {
+            for( var ind in result.msgs )
+            {
+                hint += ind;
+                hint += "---";
+                hint += $.i18n( result.msgs[ind] );
+                hint += "<br>";
+            }
+          }
+          else if ( result.msg )
+          {
+            hint = $.i18n( result.msg );
+          }
+          if ( result.wait )
+          {
+            wait = result.wait;
+          }
+          page.overlay2hide();
+          if ( result.status === 'success' )
+          { // 升级成功重启
+
+              if ( !result.reboot )
+              {
+                  if ( !hint )
+                  {
+                    hint = $.i18n( "Succeed" );
+                  }
+                  page.alert( { message: hint, callback: function( result ){location.reload();} } );
+              }
+              else
+              {
+                  if ( result.msgs )
+                  {
+                    hint += "<br><br><center>"+$.i18n( "Restart the system or not" )+"</center>";
+                  }
+                  else if ( hint )
+                  {
+                    hint += ", "+$.i18n( "Restart the system or not" );
+                  }
+                  else
+                  {
+                    hint = $.i18n( "Succeed" )+", "+$.i18n( "Restart the system or not" );
+                  }
+                  page.confirm( { message: hint,
+                    callback: function( result )
+                    {
+                      if ( result )
+                      {
+                        he.reboot( { title: $.i18n('Update successfully, now restarting...'), hint:$.i18n('Make sure that the device is reconnected'), restartTime:wait } );
+                      }
+                      else
+                      {
+                        location.reload();
+                      }
+                    }
+                  });
+              }
+          }
+          else
+          { // 升级失败
+            page.alert( { message: hint } );
+          }
+        }
+      });
+
+      /* init the table */
+      jqtable.create( project_table, null, 
+        {
+            caption: ' ', // 必需设置值, 防止表格不能折叠
+            multiselect: false,
+            rowNum:100,
+            hideRowList: true, pgbuttons : false, pginput : false,
+            colNames: [$.i18n('Name'), $.i18n('Size'), $.i18n('Version'), $.i18n('Author'), $.i18n('Introduction'), $.i18n('Operation') ],
+            colModel:
+            [
+              { name:'pname', width:100 },
+              { name:'size', width:100 },
+              { name:'version', width:100 },
+              { name:'author', width:130 },
+              { name:'intro', width:300 },
+              $.extend( true, {}, jqtable.actionOptions,
+                  { formatoptions:{ delOptions:{ onclickSubmit:function(params, data) { delete_project(data); } }, editformbutton:false, editbutton:false } } )
+            ]
+        }
+      );
+      project_load();
+      
+    });
+
+
+
+  })();
+</script>

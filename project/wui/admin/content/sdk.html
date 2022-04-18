@@ -1,0 +1,79 @@
+<!-- ajax layout which only needs content area -->
+<style>
+  p {
+    margin: 26px 8px;
+  }
+</style>
+
+<div class="row">
+  <div class="col-xs-12">
+    <!-- PAGE CONTENT BEGINS -->
+
+
+
+    <h4 data-i18n="a. How to download SDK and compile upgrade package"></h4>
+    <p data-i18n="1. The compilation environment of this SDK is similar to Openwrt. It is recommended to download this SDK after setting up the compilation environment in Ubuntu"></p>
+    <p data-i18n="2. Enter the following command line to download from the Ubuntu terminal command line" ></p>
+        git clone https://gitee.com/ashyelf/mytry6.git
+    <p data-i18n="3. After waiting for the download, enter the mytry6 directory and input the following instructions to update the SDK to the latest state" ></p>
+      cd mytry6 <br>
+      make ubuntu_preset</br>
+      make pid gBOARDID=<span id="gBOARDID"></span><br>
+      make update</br>
+      make menu</br>
+    <p data-i18n="4. After waiting for the update, you can input the following instructions to compile the corresponding products" ></p>
+      make dep <br>
+      make
+    <p data-i18n="5. After waiting for the compilation, an upgrade package file ending with.zz will be generated in the./build directory, which can be upgraded through the upgrade interface of the router"></p>
+
+
+
+    <h4 data-i18n="b. How to develop their own router program"></h4>
+    <p data-i18n="1. Readme.md in SDK directory is a basic introduction to the whole SDK and its development"></p>
+    <p data-i18n="2. In the doc/dev directory of SDK directory, there are detailed step-by-step documents to guide the development of router components (under preparation)."></p>
+    <p data-i18n="3. These documents will be updated from time to time, please execute make update in the SDK directory to update"></p>
+    <p data-i18n="4. Visit www.ashyelf.com for more development help (under construction)"></p>
+
+
+
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+
+    $.i18n().load( page.lang('debug') ).then( function () {
+      /* init the langauage */
+      $.i18n().locale = lang; $('body').i18n();
+
+      he.load( 'land@machine' ).then( function(v){
+          var gBOARDID = '';
+          var platform = v.platform;
+          if ( platform == "smtk" )
+          {
+            platform = "mtk";
+          }
+          if ( platform == "smtk2" )
+          {
+            platform = "mtk2";
+          }
+          if ( platform == "sath" )
+          {
+            platform = "ath";
+          }
+          if ( v.scope == "std" )
+          {
+            gBOARDID = platform + '-' + v.hardware + '-' + v.custom;
+          }
+          else
+          {
+            gBOARDID = platform + '-' + v.hardware + '-' + v.custom + '-' + v.scope;
+          }
+          $('#gBOARDID').text(gBOARDID);
+      });
+    });
+
+  })();
+</script>

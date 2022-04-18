@@ -1,0 +1,688 @@
+<!-- ajax layout which only needs content area -->
+<div class="row">
+  <div class="col-xs-12 form-btn-wrapper">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="form-horizontal" role="form">
+     
+
+      <div id="nwifi">
+          <!-- 国家 -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="2.4G Country"></label>
+            <div class="col-sm-9">
+              <select class="col-xs-10 col-sm-5" id="ncountry">
+              <option value="db" data-i18n="ALL"></option>
+              <option value="al" data-i18n="ALBANIA"></option>
+              <option value="dz" data-i18n="ALGERIA"></option>
+
+              <option value="ar" data-i18n="ARGENTINA"></option>
+              <option value="am" data-i18n="ARMENIA"></option>
+              <option value="au" data-i18n="AUSTRALIA"></option>
+              
+              <option value="at" data-i18n="AUSTRIA"></option>
+              <option value="az" data-i18n="AZERBAIJAN"></option>
+              <option value="bh" data-i18n="BAHRAIN"></option>
+
+              <option value="by" data-i18n="BELARUS"></option>
+              <option value="be" data-i18n="BELGIUM"></option>
+              <option value="bz" data-i18n="BELIZE"></option>
+              
+              <option value="bo" data-i18n="BOLIVIA"></option>
+              <option value="br" data-i18n="BRAZIL"></option>
+              <option value="bn" data-i18n="BRUNEI"></option>
+
+              <option value="bg" data-i18n="BULGARIA"></option>
+              <option value="ca" data-i18n="CANADA"></option>
+              <option value="cl" data-i18n="CHILE"></option>
+
+              <option value="cn" data-i18n="CHINA"></option>
+              <option value="co" data-i18n="COLOMBIA"></option>
+              <option value="cr" data-i18n="COSTA RICA"></option>
+
+              <option value="hr" data-i18n="CROATIA"></option>
+              <option value="cy" data-i18n="CYPRUS"></option>
+              <option value="cz" data-i18n="CZECH REPUBLIC"></option>
+
+              <option value="dk" data-i18n="DENMARK"></option>
+              <option value="do" data-i18n="DOMINICAN REPUBLIC"></option>
+              <option value="ec" data-i18n="ECUADOR"></option>
+
+              <option value="eg" data-i18n="EGYPT"></option>
+              <option value="sv" data-i18n="EL SALVADOR"></option>
+              <option value="ee" data-i18n="ESTONIA"></option>
+
+              <option value="fi" data-i18n="FINLAND"></option>
+              <option value="fr" data-i18n="FRANCE"></option>
+              <option value="ge" data-i18n="GEORGIA"></option>
+
+              <option value="de" data-i18n="GERMANY"></option>
+              <option value="gr" data-i18n="GREECE"></option>
+              <option value="gt" data-i18n="GUATEMALA"></option>
+
+              <option value="hn" data-i18n="HONDURAS"></option>
+              <option value="hk" data-i18n="HONG KONG"></option>
+              <option value="hu" data-i18n="HUNGARY"></option>
+
+              <option value="is" data-i18n="ICELAND"></option>
+              <option value="in" data-i18n="INDIA"></option>
+              <option value="di" data-i18n="INDONESIA"></option>
+
+              <option value="ir" data-i18n="IRAN"></option>
+              <option value="ie" data-i18n="IRELAND"></option>
+              <option value="il" data-i18n="ISRAEL"></option>
+
+              <option value="it" data-i18n="ITALY"></option>
+              <option value="jp" data-i18n="JAPAN"></option>
+              <option value="jo" data-i18n="JORDAN"></option>
+
+              <option value="kz" data-i18n="KAZAKHSTAN"></option>
+              <option value="kp" data-i18n="KOREA REPUBLIC"></option>
+              <option value="kr" data-i18n="NORTH KOREA"></option>
+
+              <option value="kw" data-i18n="KUWAIT"></option>
+              <option value="lv" data-i18n="LATVIA"></option>
+              <option value="lb" data-i18n="LEBANON"></option>
+
+              <option value="li" data-i18n="LIECHTENSTEIN"></option>
+              <option value="lt" data-i18n="LITHUANIA"></option>
+              <option value="lu" data-i18n="LUXEMBOURG"></option>
+
+              <option value="mo" data-i18n="CHINA MACAU"></option>
+              <option value="mk" data-i18n="MACEDONIA"></option>
+              <option value="my" data-i18n="MALAYSIA"></option>
+
+              <option value="mx" data-i18n="MEXICO"></option>
+              <option value="mc" data-i18n="MONACO"></option>
+              <option value="ma" data-i18n="MOROCCO"></option>
+
+              <option value="nl" data-i18n="NETHERLANDS"></option>
+              <option value="nz" data-i18n="NEW ZEALAND"></option>
+              <option value="no" data-i18n="NORWAY"></option>
+
+              <option value="om" data-i18n="OMAN"></option>
+              <option value="pk" data-i18n="PAKISTAN"></option>
+              <option value="pa" data-i18n="PANAMA"></option>
+
+              <option value="pe" data-i18n="PERU"></option>
+              <option value="ph" data-i18n="PHILIPPINES"></option>
+              <option value="pl" data-i18n="POLAND"></option>
+
+              <option value="pt" data-i18n="PORTUGAL"></option>
+              <option value="pr" data-i18n="PUERTO RICO"></option>
+              <option value="qa" data-i18n="QATAR"></option>
+
+              <option value="ro" data-i18n="ROMANIA"></option>
+              <option value="ru" data-i18n="RUSSIAN"></option>
+              <option value="sa" data-i18n="SAUDI ARABIA"></option>
+
+              <option value="sg" data-i18n="SINGAPORE"></option>
+              <option value="sk" data-i18n="SLOVAKIA"></option>
+              <option value="si" data-i18n="SLOVENIA"></option>
+
+              <option value="za" data-i18n="SOUTH AFRICA"></option>
+              <option value="es" data-i18n="SPAIN"></option>
+              <option value="se" data-i18n="SWEDEN"></option>
+
+              <option value="ch" data-i18n="SWITZERLAND"></option>
+              <option value="sy" data-i18n="SYRIAN ARAB REPUBLIC"></option>
+              <option value="tw" data-i18n="TAIWAN"></option>
+
+              <option value="th" data-i18n="THAILAND"></option>
+              <option value="tt" data-i18n="TRINIDAD AND TOBAGO"></option>
+              <option value="tn" data-i18n="TUNISIA"></option>
+
+              <option value="tr" data-i18n="TURKEY"></option>
+              <option value="ua" data-i18n="UKRAINE"></option>
+              <option value="ae" data-i18n="UNITED ARAB EMIRATES"></option>
+
+              <option value="gb" data-i18n="UNITED KINGDOM"></option>
+              <option value="us" data-i18n="UNITED STATES"></option>
+              <option value="uy" data-i18n="URUGUAY"></option>
+
+              <option value="uz" data-i18n="UZBEKISTAN"></option>
+              <option value="ve" data-i18n="VENEZUELA"></option>
+              <option value="vn" data-i18n="VIET NAM"></option>
+
+              <option value="ye" data-i18n="YEMEN"></option>
+              <option value="zw" data-i18n="ZIMBABWE"></option>          
+              </select>
+            </div>
+          </div>
+          <!-- 频宽 -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="2.4G Band Width"></label>
+            <div class="col-sm-9">
+              <select class="col-xs-10 col-sm-5" id="nbandwidth">
+              <option value="20" data-i18n="20M"></option>
+              <option value="2040" data-i18n="20/40M"></option>
+              <option value="40" data-i18n="40M"></option>
+              </select>
+            </div>
+          </div>      
+          <!-- Beacon -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="2.4G Beacon"></label>
+            <div class="col-sm-9">
+              <div class="clearfix">
+                <input type="text" id="nbeacon" class="col-xs-10 col-sm-5" maxlength="5" />
+              </div>
+            </div>
+          </div>
+          <!-- dtim -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="2.4G DTIM"></label>
+            <div class="col-sm-9">
+              <div class="clearfix">
+                <input type="text" id="ndtim" class="col-xs-10 col-sm-5" maxlength="5" />
+              </div>
+            </div>
+          </div>
+          <!-- STBC -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="2.4G STBC"></label>
+            <div class="col-sm-9">
+              <label>
+                <input id="nstbc" class="ace ace-switch ace-switch-6" type="checkbox" />
+                <span class="lbl"></span>
+              </label>
+            </div>
+          </div>
+          <!-- GI -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="2.4G Guard Interval"></label>
+            <div class="col-sm-9">
+              <select class="col-xs-10 col-sm-5" id="ngi">
+              <option value="short" data-i18n="Short"></option>
+              <option value="long" data-i18n="Long"></option>
+              </select>
+            </div>
+          </div>
+          <!-- TxPower -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="2.4G Tx Power"></label>
+            <div class="col-sm-9">
+              <select class="col-xs-10 col-sm-5" id="ntxpower">
+              </select>
+            </div>
+          </div>
+          <!-- TX stream -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Tx Stream"></label>
+            <div class="col-sm-9">
+              <select class="col-xs-10 col-sm-5" id="ntxstream">
+                <option value="1">1</option>
+                <option value="2">2</option>
+              </select>
+            </div>
+          </div>
+          <!-- TX stream -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Rx Stream"></label>
+            <div class="col-sm-9">
+              <select class="col-xs-10 col-sm-5" id="nrxstream">
+                <option value="1">1</option>
+                <option value="2">2</option>
+              </select>
+            </div>
+          </div>
+      </div> <!-- nwifi -->
+
+
+      <div id="awifi">
+          <div class="hr hr32 hr-dotted"></div>
+          <!-- 5.8G -->
+          <!-- 国家 -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="5.8G Country"></label>
+            <div class="col-sm-9">
+              <select class="col-xs-10 col-sm-5" id="acountry">
+              <option value="db" data-i18n="ALL"></option>
+              <option value="al" data-i18n="ALBANIA"></option>
+              <option value="dz" data-i18n="ALGERIA"></option>
+
+              <option value="ar" data-i18n="ARGENTINA"></option>
+              <option value="am" data-i18n="ARMENIA"></option>
+              <option value="au" data-i18n="AUSTRALIA"></option>
+              
+              <option value="at" data-i18n="AUSTRIA"></option>
+              <option value="az" data-i18n="AZERBAIJAN"></option>
+              <option value="bh" data-i18n="BAHRAIN"></option>
+
+              <option value="by" data-i18n="BELARUS"></option>
+              <option value="be" data-i18n="BELGIUM"></option>
+              <option value="bz" data-i18n="BELIZE"></option>
+              
+              <option value="bo" data-i18n="BOLIVIA"></option>
+              <option value="br" data-i18n="BRAZIL"></option>
+              <option value="bn" data-i18n="BRUNEI"></option>
+
+              <option value="bg" data-i18n="BULGARIA"></option>
+              <option value="ca" data-i18n="CANADA"></option>
+              <option value="cl" data-i18n="CHILE"></option>
+
+              <option value="cn" data-i18n="CHINA"></option>
+              <option value="co" data-i18n="COLOMBIA"></option>
+              <option value="cr" data-i18n="COSTA RICA"></option>
+
+              <option value="hr" data-i18n="CROATIA"></option>
+              <option value="cy" data-i18n="CYPRUS"></option>
+              <option value="cz" data-i18n="CZECH REPUBLIC"></option>
+
+              <option value="dk" data-i18n="DENMARK"></option>
+              <option value="do" data-i18n="DOMINICAN REPUBLIC"></option>
+              <option value="ec" data-i18n="ECUADOR"></option>
+
+              <option value="eg" data-i18n="EGYPT"></option>
+              <option value="sv" data-i18n="EL SALVADOR"></option>
+              <option value="ee" data-i18n="ESTONIA"></option>
+
+              <option value="fi" data-i18n="FINLAND"></option>
+              <option value="fr" data-i18n="FRANCE"></option>
+              <option value="ge" data-i18n="GEORGIA"></option>
+
+              <option value="de" data-i18n="GERMANY"></option>
+              <option value="gr" data-i18n="GREECE"></option>
+              <option value="gt" data-i18n="GUATEMALA"></option>
+
+              <option value="hn" data-i18n="HONDURAS"></option>
+              <option value="hk" data-i18n="HONG KONG"></option>
+              <option value="hu" data-i18n="HUNGARY"></option>
+
+              <option value="is" data-i18n="ICELAND"></option>
+              <option value="in" data-i18n="INDIA"></option>
+              <option value="di" data-i18n="INDONESIA"></option>
+
+              <option value="ir" data-i18n="IRAN"></option>
+              <option value="ie" data-i18n="IRELAND"></option>
+              <option value="il" data-i18n="ISRAEL"></option>
+
+              <option value="it" data-i18n="ITALY"></option>
+              <option value="jp" data-i18n="JAPAN"></option>
+              <option value="jo" data-i18n="JORDAN"></option>
+
+              <option value="kz" data-i18n="KAZAKHSTAN"></option>
+              <option value="kp" data-i18n="KOREA REPUBLIC"></option>
+              <option value="kr" data-i18n="NORTH KOREA"></option>
+
+              <option value="kw" data-i18n="KUWAIT"></option>
+              <option value="lv" data-i18n="LATVIA"></option>
+              <option value="lb" data-i18n="LEBANON"></option>
+
+              <option value="li" data-i18n="LIECHTENSTEIN"></option>
+              <option value="lt" data-i18n="LITHUANIA"></option>
+              <option value="lu" data-i18n="LUXEMBOURG"></option>
+
+              <option value="mo" data-i18n="CHINA MACAU"></option>
+              <option value="mk" data-i18n="MACEDONIA"></option>
+              <option value="my" data-i18n="MALAYSIA"></option>
+
+              <option value="mx" data-i18n="MEXICO"></option>
+              <option value="mc" data-i18n="MONACO"></option>
+              <option value="ma" data-i18n="MOROCCO"></option>
+
+              <option value="nl" data-i18n="NETHERLANDS"></option>
+              <option value="nz" data-i18n="NEW ZEALAND"></option>
+              <option value="no" data-i18n="NORWAY"></option>
+
+              <option value="om" data-i18n="OMAN"></option>
+              <option value="pk" data-i18n="PAKISTAN"></option>
+              <option value="pa" data-i18n="PANAMA"></option>
+
+              <option value="pe" data-i18n="PERU"></option>
+              <option value="ph" data-i18n="PHILIPPINES"></option>
+              <option value="pl" data-i18n="POLAND"></option>
+
+              <option value="pt" data-i18n="PORTUGAL"></option>
+              <option value="pr" data-i18n="PUERTO RICO"></option>
+              <option value="qa" data-i18n="QATAR"></option>
+
+              <option value="ro" data-i18n="ROMANIA"></option>
+              <option value="ru" data-i18n="RUSSIAN"></option>
+              <option value="sa" data-i18n="SAUDI ARABIA"></option>
+
+              <option value="sg" data-i18n="SINGAPORE"></option>
+              <option value="sk" data-i18n="SLOVAKIA"></option>
+              <option value="si" data-i18n="SLOVENIA"></option>
+
+              <option value="za" data-i18n="SOUTH AFRICA"></option>
+              <option value="es" data-i18n="SPAIN"></option>
+              <option value="se" data-i18n="SWEDEN"></option>
+
+              <option value="ch" data-i18n="SWITZERLAND"></option>
+              <option value="sy" data-i18n="SYRIAN ARAB REPUBLIC"></option>
+              <option value="tw" data-i18n="TAIWAN"></option>
+
+              <option value="th" data-i18n="THAILAND"></option>
+              <option value="tt" data-i18n="TRINIDAD AND TOBAGO"></option>
+              <option value="tn" data-i18n="TUNISIA"></option>
+
+              <option value="tr" data-i18n="TURKEY"></option>
+              <option value="ua" data-i18n="UKRAINE"></option>
+              <option value="ae" data-i18n="UNITED ARAB EMIRATES"></option>
+
+              <option value="gb" data-i18n="UNITED KINGDOM"></option>
+              <option value="us" data-i18n="UNITED STATES"></option>
+              <option value="uy" data-i18n="URUGUAY"></option>
+
+              <option value="uz" data-i18n="UZBEKISTAN"></option>
+              <option value="ve" data-i18n="VENEZUELA"></option>
+              <option value="vn" data-i18n="VIET NAM"></option>
+
+              <option value="ye" data-i18n="YEMEN"></option>
+              <option value="zw" data-i18n="ZIMBABWE"></option>          
+              </select>
+            </div>
+          </div>
+          <!-- 频宽 -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="5.8G Band Width"></label>
+            <div class="col-sm-9">
+              <select class="col-xs-10 col-sm-5" id="abandwidth">
+              <option value="20" data-i18n="20M"></option>
+              <option value="40" data-i18n="40M"></option>
+              <option value="80" data-i18n="80M"></option>
+              <option value="160" data-i18n="160M"></option>
+              </select>
+            </div>
+          </div>      
+          <!-- Beacon -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="5.8G Beacon"></label>
+            <div class="col-sm-9">
+              <div class="clearfix">
+                <input type="text" id="abeacon" class="col-xs-10 col-sm-5" maxlength="5" />
+              </div>
+            </div>
+          </div>
+          <!-- dtim -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="5.8G DTIM"></label>
+            <div class="col-sm-9">
+              <div class="clearfix">
+                <input type="text" id="adtim" class="col-xs-10 col-sm-5" maxlength="5" />
+              </div>
+            </div>
+          </div>
+          <!-- STBC -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="5.8G STBC"></label>
+            <div class="col-sm-9">
+              <label>
+                <input id="astbc" class="ace ace-switch ace-switch-6" type="checkbox" />
+                <span class="lbl"></span>
+              </label>
+            </div>
+          </div>
+          <!-- GI -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="5.8G Guard Interval"></label>
+            <div class="col-sm-9">
+              <select class="col-xs-10 col-sm-5" id="agi">
+              <option value="short" data-i18n="Short"></option>
+              <option value="long" data-i18n="Long"></option>
+              </select>
+            </div>
+          </div>
+          <!-- TxPower -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="5.8G Tx Power"></label>
+            <div class="col-sm-9">
+              <select class="col-xs-10 col-sm-5" id="atxpower">
+              </select>
+            </div>
+          </div>
+          <!-- TX stream -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Tx Stream"></label>
+            <div class="col-sm-9">
+              <select class="col-xs-10 col-sm-5" id="atxstream">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              </select>
+            </div>
+          </div>
+          <!-- TX stream -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Rx Stream"></label>
+            <div class="col-sm-9">
+              <select class="col-xs-10 col-sm-5" id="arxstream">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              </select>
+            </div>
+          </div>
+      </div> <!-- awifi -->
+
+
+
+
+      <div class="clearfix form-actions">
+        <div class="col-md-offset-3 col-md-9">
+          <button class="btn btn-second" type="button" id="refresh"><span data-i18n="Refresh"></span></button>
+          &nbsp; &nbsp; &nbsp;
+          <button class="btn btn-main" type="button" id="apply"><span data-i18n="Apply"></span></button>
+        </div>
+      </div>
+
+    </div>
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+    var nradio;
+    var nwifi;
+    var aradio;
+    var awifi;
+
+    function radio_load()
+    {
+      he.load( [ 'wifi@nradio', 'arch@nwifi', 'wifi@aradio','arch@awifi' ] ).then( function(v){
+        nradio = v[0];
+        nwifi = v[1];
+        aradio = v[2];
+        awifi = v[3];
+        if ( nradio == null )
+        {
+          $('#nwifi').hide();
+        }
+        else
+        {
+          $('#nwifi').show();
+          $('#ncountry').val( nradio.country );
+          $('#nbandwidth').val( nradio.bandwidth );
+          $('#nbeacon').val( nradio.beacon );
+          $('#ndtim').val( nradio.dtim );
+          $('#nstbc').prop( 'checked', able2boole(nradio.stbc) );
+          $('#ngi').val( nradio.gi );
+          if ( nradio.txpower_unit == "dBm" )
+          {
+            for ( var i=1; i<=30; i++ )
+            {
+                $("#ntxpower").append("<option value='"+i+"'>"+i+"dBm</option>");
+            }
+          }
+          else
+          {
+            $("#ntxpower").empty();
+            $("#ntxpower").append("<option value='5'>5%(-12dBm)</option>");
+            $("#ntxpower").append("<option value='15'>15%(-9dBm)</option>");
+            $("#ntxpower").append("<option value='30'>30%(-6dBm)</option>");
+            $("#ntxpower").append("<option value='50'>50%(-3dBm)</option>");
+            $("#ntxpower").append("<option value='75'>75%(-1dBm)</option>");
+            $("#ntxpower").append("<option value='100'>100%</option>");
+          }
+          $('#ntxpower').val( nradio.txpower );
+          if ( nwifi )
+          {
+              $('#ntxstream').val( nwifi.txstream );
+              $('#nrxstream').val( nwifi.rxstream );
+          }
+        }
+        /* 5.8G */
+        if ( aradio == null )
+        {
+          $('#awifi').hide();
+        }
+        else
+        {
+          $('#awifi').show();
+          $('#acountry').val( aradio.country );
+          $('#abandwidth').val( aradio.bandwidth );
+          $('#abeacon').val( aradio.beacon );
+          $('#adtim').val( aradio.dtim );
+          $('#astbc').prop( 'checked', able2boole(aradio.stbc) );
+          $('#agi').val( aradio.gi );
+          if ( aradio.txpower_unit == "dBm" )
+          {
+            for ( var i=1; i<=30; i++ )
+            {
+                $("#atxpower").append("<option value='"+i+"'>"+i+"dBm</option>");
+            }
+          }
+          else
+          {
+            $("#atxpower").empty();
+            $("#atxpower").append("<option value='5'>5%(-12dBm)</option>");
+            $("#atxpower").append("<option value='15'>15%(-9dBm)</option>");
+            $("#atxpower").append("<option value='30'>30%(-6dBm)</option>");
+            $("#atxpower").append("<option value='50'>50%(-3dBm)</option>");
+            $("#atxpower").append("<option value='75'>75%(-1dBm)</option>");
+            $("#atxpower").append("<option value='100'>100%</option>");
+          }
+          $('#atxpower').val( aradio.txpower );
+          if ( awifi )
+          {
+              $('#atxstream').val( awifi.txstream );
+              $('#arxstream').val( awifi.rxstream );
+          }
+        }
+      })
+    }
+
+    /* save the configure */
+    function radio_save()
+    {
+      var cmd = [];
+      var nradiocopy = null;
+      var nwificopy = null;
+      var aradiocopy = null;
+      var awificopy = null;
+      var needsave = false;
+      var needreboot = false;
+      if ( nradio != null )
+      {
+        nradiocopy = JSON.parse(JSON.stringify(nradio));
+        nradio.country = $('#ncountry').val();
+        nradio.bandwidth = $('#nbandwidth').val();
+        nradio.beacon = $('#nbeacon').val();
+        nradio.dtim = $('#ndtim').val();
+        nradio.stbc = boole2able( $('#nstbc').prop('checked') );
+        nradio.gi = $('#ngi').val();
+        nradio.txpower = $('#ntxpower').val();
+        if ( !ocompare( nradio, nradiocopy ) )
+        {
+          cmd.push( "wifi@nradio="+JSON.stringify(nradio) );
+          needsave = true;
+        }
+        if ( nwifi != null )
+        {
+          nwificopy = JSON.parse(JSON.stringify(nwifi));
+          nwifi.txstream = $('#ntxstream').val();
+          nwifi.rxstream = $('#nrxstream').val();
+          if ( !ocompare( nwifi, nwificopy ) )
+          {
+            cmd.push( "arch@nwifi="+JSON.stringify(nwifi) );
+            needsave = true;
+            needreboot = true;
+          }
+        }
+      }
+      if ( aradio != null )
+      {
+        aradiocopy = JSON.parse(JSON.stringify(aradio));
+        aradio.country = $('#acountry').val();
+        aradio.bandwidth = $('#abandwidth').val();
+        aradio.beacon = $('#abeacon').val();
+        aradio.dtim = $('#adtim').val();
+        aradio.stbc = boole2able( $('#astbc').prop('checked') );
+        aradio.gi = $('#agi').val();
+        aradio.txpower = $('#atxpower').val();
+        if ( !ocompare( aradio, aradiocopy ) )
+        {
+          cmd.push( "wifi@aradio="+JSON.stringify(aradio) );
+          needsave = true;
+        }
+        if ( awifi != null )
+        {
+          awificopy = JSON.parse(JSON.stringify(awifi));
+          awifi.txstream = $('#atxstream').val();
+          awifi.rxstream = $('#arxstream').val();
+          if ( !ocompare( awifi, awificopy ) )
+          {
+            cmd.push( "arch@awifi="+JSON.stringify(awifi) );
+            needsave = true;
+            needreboot = true;
+          }
+        }
+      }
+      if ( needsave == false )
+      {
+        page.alert( { message: $.i18n('Settings unchanged') } );
+        radio_load();
+        return;
+      }
+      if ( needreboot )
+      {
+          page.confirm( { message: $.i18n('The system will restart because of the change of settings') } ).then( function(result){
+              if ( result )
+              {
+                  he.save( cmd ).then( function(){
+                      page.confirm( { message: $.i18n('Restart the system to apply') } ).then( function(result){
+                          if ( result )
+                          {
+                              he.reboot( { title: $.i18n('Restarting to apply...'), hint:$.i18n('Make sure that the device is reconnected') } );
+                          }
+                      });
+                  });
+              }
+              else
+              {
+                  radio_load();
+              }
+          });
+      }
+      else
+      {
+          page.confirm( { message: $.i18n('The wireless client will be disconneted because of the change of configuration') } ).then( function(result){
+            if ( result )
+            {
+              he.save( cmd ).then( function(){
+                page.alert( {message:$.i18n('Make sure that the device is reconnected')} );
+                radio_load();
+              });
+            }
+          });
+      }
+    }
+
+     /* init */
+   
+    $.i18n().load( page.lang('ssid') ).then( function () {
+      /* init the langauage */
+      $.i18n().locale = lang; $('body').i18n();
+      /* load the configure */
+      radio_load();
+      /* bind the refresh */
+      $('#refresh').on(ace.click_event, function () {
+        location.reload();
+      });
+      /* bind the apply */
+      $('#apply').on(ace.click_event, function () {
+        radio_save();
+      });
+    });
+  })();
+</script>

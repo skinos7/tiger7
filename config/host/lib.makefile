@@ -39,7 +39,7 @@ clean distclean:
 ${STATIC_LIB}: ${OBJS}
 	${AR} rcs $@ $^ ${LIBA_ADDIN}
 ${DYNAMIC_LIB}: ${OBJS}
-	$(CC) $(CFLAGS) $(LDFLAGS) -shared -o $@ $^ ${LIBSO_ADDIN} 
+	$(CC) -shared -o $@ $^ ${LIBSO_ADDIN} $(CFLAGS) $(LDFLAGS) 
 ${OBJS}:%.o:%.c
 	${CC} -c ${CFLAGS} -fPIC $< -o $@
 .PHONY: all install clean distclean

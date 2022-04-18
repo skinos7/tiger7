@@ -1,0 +1,141 @@
+<!-- ajax layout which only needs content area -->
+<div class="row">
+  <div class="col-xs-12 form-btn-wrapper">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="form-horizontal" role="form">
+    
+        <h3 data-i18n="Repositories Software List"></h3>
+
+        <table id="repo-grid-table"></table>
+
+        <br>
+        <div class="clearfix form-actions">
+          <div class="col-md-offset-3 col-md-9">
+            <button class="btn btn-main" type="button" id="repo_update"><span data-i18n="Refresh"></span></button>
+          </div>
+        </div>
+
+    </div>
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+
+
+
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  var repos;
+  (function () {
+    var repo_table = '#repo-grid-table';
+
+    /* show the software table */
+    function repo_load()
+    {
+      he.load( [ 'land@repo.list' ] ).then( function(v){
+          repos = v[0];
+          var count = 0;
+          var rows = [];
+          for (var index in repos)
+          {
+            var prj = repos[index];
+            rows.push( { pname: index, size:prj.size||'', version:prj.version||'', author:prj.author||'', intro:prj.intro||'' } )
+            count++;
+          }
+          // 表头设置为在线客户端的数量
+          $(repo_table).jqGrid( "setCaption", $.i18n('Software Number') + '(' + count + ')' );
+          // 记住滚动条的位置
+          var scrollPos = jqtable.getScrollPos();
+          // 给proejcts表格设置数据
+          $(repo_table).jqGrid( 'clearGridData' ).jqGrid( 'setGridParam', { data: rows } ).trigger( 'reloadGrid' );
+          // 恢复滚动条的位置
+          jqtable.setScrollPos(scrollPos);
+      });
+    }
+    /* bind the refresh */
+    $('#repo_update').on(ace.click_event, function () {
+        he.exec( [ 'land@repo.update' ], $.i18n("Updating") ).then( function(v){
+            repos = v[0];
+            var count = 0;
+            var rows = [];
+            for (var index in repos)
+            {
+              var prj = repos[index];
+              rows.push( { pname: index, size:prj.size||'', version:prj.version||'', author:prj.author||'', intro:prj.intro||'' } )
+              count++;
+            }
+            // 表头设置为在线客户端的数量
+            $(repo_table).jqGrid( "setCaption", $.i18n('Software Number') + '(' + count + ')' );
+            // 记住滚动条的位置
+            var scrollPos = jqtable.getScrollPos();
+            // 给proejcts表格设置数据
+            $(repo_table).jqGrid( 'clearGridData' ).jqGrid( 'setGridParam', { data: rows } ).trigger( 'reloadGrid' );
+            // 恢复滚动条的位置
+            jqtable.setScrollPos(scrollPos);
+        });
+    });
+
+
+    /* init */
+    $.i18n().load( page.lang('device') ).then( function () {
+      /* init the langauage */
+      $.i18n().locale = lang; $('body').i18n();
+      /* init the table */
+      jqtable.create( repo_table, null, 
+        {
+            caption: ' ', // 必需设置值, 防止表格不能折叠
+            multiselect: false,
+            rowNum:500,
+            hideRowList: true, pgbuttons : false, pginput : false,
+            colNames: [$.i18n('Name(unique)'), $.i18n('Size'), $.i18n('Version'), $.i18n('Author'), $.i18n('Introduction'), $.i18n('Operation') ],
+            colModel:
+            [
+              { name:'pname', width:100 },
+              { name:'size', width:100 },
+              { name:'version', width:100 },
+              { name:'author', width:130 },
+              { name:'intro', width:300 },
+              {
+                  name: 'install', width: 80,
+                  fixed: true, sortable: false,
+                  formatter: function ( cellvalue, options, rowObject )
+                  {
+                      return '<button class="btn btn-warning btn-xs btn-choose" onclick="repo_install(' + options.rowId + ')" data-id="' + options.rowId + '">' + $.i18n('Install') + '</button>'
+                  }
+              }
+            ]
+        }
+      );
+      repo_load();
+    });
+
+
+  })();
+
+
+  /* 必须在全局中才可以被调用到 */
+  function repo_install( rowId )
+  {
+    // 某个选中行的数据
+    var comdoc = $('#repo-grid-table').jqGrid( 'getRowData', rowId );
+    var name = comdoc.pname;
+    var repo = repos[name];
+    var file = repo.fpk;
+
+    // 执行安装
+    he.exec( [ "land@repo.install["+file+"]" ], $.i18n("Installing") ).then( function(v){
+        var ret = v[0];
+        if ( ret == true )
+        {
+            page.alert( { message: $.i18n('Install succeed, The new install software will be under the application menu'), callback: function( result ){location.reload();} } );
+        }
+        else
+        {
+            page.alert( { message: $.i18n('Install failed') } );
+        }
+    });
+  }
+
+
+</script>

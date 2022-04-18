@@ -1,0 +1,30 @@
+{
+
+	"down":"DOWN",
+	"uping":"UPPING",
+	"up":"UP",
+	"nosignal":"NO Signal",
+	"nodevice":"NO Device",
+	"noimei":"IMEI Wrong",
+	"pin":"Need PIN",
+	"puk":"PIN Error",
+	"nosim":"NO SIM",
+	"noimsi":"IMSI Wrong",
+	"noreg":"NO Register",
+	"unreg":"UN Register",
+	"dereg":"DE Register",
+	"found":"Found Device",
+	"setup":"Setup",
+	"checksim":"Check SIM",
+	"checknet":"Check Network",
+	"checksig":"Check Signal",
+	"ready":"Device Ready",
+	"dial":"Dial",
+	"online":"ONLINE",
+	"offline":"OFFLINE",
+	"reset":"Reset Device",
+	"dhcpc":"DHCP",
+	"pppoec":"PPPOE",
+	"static":"Static"
+
+}

@@ -1,0 +1,522 @@
+<!-- ajax layout which only needs content area -->
+<div class="row">
+  <div class="col-xs-12">
+    <!-- PAGE CONTENT BEGINS -->
+
+
+      <div class="col-xs-6 col-sm-3 pricing-box" id="cpu" style="display: none;">
+        <div class="widget-box widget-color-purple">
+          <div class="widget-header"><h5 class="widget-title bigger lighter" data-i18n="CPU"></h5></div>
+          <div class="widget-body">
+            <div class="widget-main">
+            <table class="table table-bordered table-striped">
+        	<tbody>
+        		<tr>
+        			<td data-i18n="Usage"></td>
+        			<td>
+        			    <div class="easy-pie-chart percentage" id="cpu_usage_pie" data-percent="100">
+                            <span class="percent" id="cpu_usage"></span>%
+						</div>
+                    </td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="User"></td><td><span id="cpu_user"></span></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="System"></td><td id="cpu_system"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="Idle"></td><td id="cpu_idle"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="IO Wait"></td><td id="cpu_iowait"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="IRQ"></td><td id="cpu_irq"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="Soft IRQ"></td><td id="cpu_softirq"></td>
+        		</tr>
+        	</tbody>
+            </table>            
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-6 col-sm-3 pricing-box" id="cpu0" style="display: none;">
+        <div class="widget-box widget-color-purple">
+          <div class="widget-header"><h5 class="widget-title bigger lighter" data-i18n="CPU0"></h5></div>
+          <div class="widget-body">
+            <div class="widget-main">
+            <table class="table table-bordered table-striped">
+        	<tbody>
+                <tr>
+                    <td data-i18n="Usage"></td>
+                    <td>
+                        <div class="easy-pie-chart percentage" id="cpu0_usage_pie" data-percent="100">
+                            <span class="percent" id="cpu0_usage"></span>%
+                        </div>
+                    </td>
+                </tr>
+        		<tr>
+        			<td data-i18n="User"></td><td><span id="cpu0_user"></span></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="System"></td><td id="cpu0_system"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="Idle"></td><td id="cpu0_idle"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="IO Wait"></td><td id="cpu0_iowait"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="IRQ"></td><td id="cpu0_irq"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="Soft IRQ"></td><td id="cpu0_softirq"></td>
+        		</tr>
+        	</tbody>
+            </table>            
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-6 col-sm-3 pricing-box" id="cpu1" style="display: none;">
+        <div class="widget-box widget-color-purple">
+          <div class="widget-header"><h5 class="widget-title bigger lighter" data-i18n="CPU1"></h5></div>
+          <div class="widget-body">
+            <div class="widget-main">
+            <table class="table table-bordered table-striped">
+        	<tbody>
+                <tr>
+                    <td data-i18n="Usage"></td>
+                    <td>
+                        <div class="easy-pie-chart percentage" id="cpu1_usage_pie" data-percent="100">
+                            <span class="percent" id="cpu1_usage"></span>%
+                        </div>
+                    </td>
+                </tr>
+        		<tr>
+        			<td data-i18n="User"></td><td><span id="cpu1_user"></span></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="System"></td><td id="cpu1_system"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="Idle"></td><td id="cpu1_idle"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="IO Wait"></td><td id="cpu1_iowait"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="IRQ"></td><td id="cpu1_irq"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="Soft IRQ"></td><td id="cpu1_softirq"></td>
+        		</tr>
+        	</tbody>
+            </table>            
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-6 col-sm-3 pricing-box" id="cpu2" style="display: none;">
+        <div class="widget-box widget-color-purple">
+          <div class="widget-header"><h5 class="widget-title bigger lighter" data-i18n="CPU2"></h5></div>
+          <div class="widget-body">
+            <div class="widget-main">
+            <table class="table table-bordered table-striped">
+        	<tbody>
+                <tr>
+                    <td data-i18n="Usage"></td>
+                    <td>
+                        <div class="easy-pie-chart percentage" id="cpu2_usage_pie" data-percent="100">
+                            <span class="percent" id="cpu2_usage"></span>%
+                        </div>
+                    </td>
+                </tr>
+        		<tr>
+        			<td data-i18n="User"></td><td><span id="cpu2_user"></span></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="System"></td><td id="cpu2_system"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="Idle"></td><td id="cpu2_idle"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="IO Wait"></td><td id="cpu2_iowait"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="IRQ"></td><td id="cpu2_irq"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="Soft IRQ"></td><td id="cpu2_softirq"></td>
+        		</tr>
+        	</tbody>
+            </table>            
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-xs-6 col-sm-3 pricing-box" id="cpu3" style="display: none;">
+        <div class="widget-box widget-color-purple">
+          <div class="widget-header"><h5 class="widget-title bigger lighter" data-i18n="CPU3"></h5></div>
+          <div class="widget-body">
+            <div class="widget-main">
+            <table class="table table-bordered table-striped">
+        	<tbody>
+                <tr>
+                    <td data-i18n="Usage"></td>
+                    <td>
+                        <div class="easy-pie-chart percentage" id="cpu3_usage_pie" data-percent="100">
+                            <span class="percent" id="cpu3_usage"></span>%
+                        </div>
+                    </td>
+                </tr>
+        		<tr>
+        			<td data-i18n="User"></td><td><span id="cpu3_user"></span></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="System"></td><td id="cpu3_system"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="Idle"></td><td id="cpu3_idle"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="IO Wait"></td><td id="cpu3_iowait"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="IRQ"></td><td id="cpu3_irq"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="Soft IRQ"></td><td id="cpu3_softirq"></td>
+        		</tr>
+        	</tbody>
+            </table>            
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-xs-6 col-sm-3 pricing-box" id="memory" style="display: none;">
+        <div class="widget-box widget-color-red">
+          <div class="widget-header"><h5 class="widget-title bigger lighter" data-i18n="Memory"></h5></div>
+          <div class="widget-body">
+            <div class="widget-main">
+            <table class="table table-bordered table-striped">
+        	<tbody>
+                <tr>
+                    <td data-i18n="Usage"></td>
+                    <td>
+                        <div class="easy-pie-chart percentage" id="mem_usage_pie" data-percent="100">
+                            <span class="percent" id="mem_usage"></span>%
+                        </div>
+                    </td>
+                </tr>
+        		<tr>
+        			<td data-i18n="Total"></td><td id="mem_total"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="Use"></td><td id="mem_use"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="Free"></td><td><span id="mem_free"></span></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="Buffers"></td><td id="mem_buffers"></td>
+        		</tr>
+        		<tr>
+        			<td data-i18n="Cached"></td><td id="mem_cached"></td>
+        		</tr>
+        	</tbody>
+            </table>            
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+    <div class="col-xs-6 col-sm-3 pricing-box" id="sg1" style="display: none;">
+      <div class="widget-box widget-color-dark">
+        <div class="widget-header"><h5 class="widget-title bigger lighter" id="sg1_name"></h5></div>
+        <div class="widget-body">
+          <div class="widget-main">
+          <table class="table table-bordered table-striped">
+          <tbody>
+              <tr>
+                  <td data-i18n="Usage"></td>
+                  <td>
+                      <div class="easy-pie-chart percentage" id="sg1_usage_pie" data-percent="100">
+                          <span class="percent" id="sg1_usage"></span>%
+                      </div>
+                  </td>
+              </tr>
+              <tr>
+                  <td data-i18n="Mounted"></td><td id="sg1_mount"></td>
+              </tr>
+              <tr>
+                  <td data-i18n="Total"></td><td id="sg1_total"></td>
+              </tr>
+              <tr>
+                  <td data-i18n="Use"></td><td id="sg1_use"></td>
+              </tr>
+              <tr>
+                  <td data-i18n="Free"></td><td><span id="sg1_free"></span></td>
+              </tr>
+          </tbody>
+          </table>            
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xs-6 col-sm-3 pricing-box" id="sg2" style="display: none;">
+      <div class="widget-box widget-color-dark">
+        <div class="widget-header"><h5 class="widget-title bigger lighter" id="sg2_name"></h5></div>
+        <div class="widget-body">
+          <div class="widget-main">
+          <table class="table table-bordered table-striped">
+          <tbody>
+              <tr>
+                  <td data-i18n="Usage"></td>
+                  <td>
+                      <div class="easy-pie-chart percentage" id="sg2_usage_pie" data-percent="100">
+                          <span class="percent" id="sg2_usage"></span>%
+                      </div>
+                  </td>
+              </tr>
+              <tr>
+                  <td data-i18n="Mounted"></td><td id="sg2_mount"></td>
+              </tr>
+              <tr>
+                  <td data-i18n="Total"></td><td id="sg2_total"></td>
+              </tr>
+              <tr>
+                  <td data-i18n="Use"></td><td id="sg2_use"></td>
+              </tr>
+              <tr>
+                  <td data-i18n="Free"></td><td><span id="sg2_free"></span></td>
+              </tr>
+          </tbody>
+          </table>            
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xs-6 col-sm-3 pricing-box" id="sg3" style="display: none;">
+      <div class="widget-box widget-color-dark">
+        <div class="widget-header"><h5 class="widget-title bigger lighter" id="sg3_name"></h5></div>
+        <div class="widget-body">
+          <div class="widget-main">
+          <table class="table table-bordered table-striped">
+          <tbody>
+              <tr>
+                  <td data-i18n="Usage"></td>
+                  <td>
+                      <div class="easy-pie-chart percentage" id="sg3_usage_pie" data-percent="100">
+                          <span class="percent" id="sg3_usage"></span>%
+                      </div>
+                  </td>
+              </tr>
+              <tr>
+                  <td data-i18n="Mounted"></td><td id="sg3_mount"></td>
+              </tr>
+              <tr>
+                  <td data-i18n="Total"></td><td id="sg3_total"></td>
+              </tr>
+              <tr>
+                  <td data-i18n="Use"></td><td id="sg3_use"></td>
+              </tr>
+              <tr>
+                  <td data-i18n="Free"></td><td><span id="sg3_free"></span></td>
+              </tr>
+          </tbody>
+          </table>            
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xs-6 col-sm-3 pricing-box" id="sg4" style="display: none;">
+      <div class="widget-box widget-color-dark">
+        <div class="widget-header"><h5 class="widget-title bigger lighter" id="sg4_name"></h5></div>
+        <div class="widget-body">
+          <div class="widget-main">
+          <table class="table table-bordered table-striped">
+          <tbody>
+              <tr>
+                  <td data-i18n="Usage"></td>
+                  <td>
+                      <div class="easy-pie-chart percentage" id="sg4_usage_pie" data-percent="100">
+                          <span class="percent" id="sg4_usage"></span>%
+                      </div>
+                  </td>
+              </tr>
+              <tr>
+                  <td data-i18n="Mounted"></td><td id="sg4_mount"></td>
+              </tr>
+              <tr>
+                  <td data-i18n="Total"></td><td id="sg4_total"></td>
+              </tr>
+              <tr>
+                  <td data-i18n="Use"></td><td id="sg4_use"></td>
+              </tr>
+              <tr>
+                  <td data-i18n="Free"></td><td><span id="sg4_free"></span></td>
+              </tr>
+          </tbody>
+          </table>            
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+    var buff = {};
+    var cpuid = [ "cpu", "cpu0", "cpu1", "cpu2", "cpu3" ];
+    for( var i in cpuid )
+    {
+        var id = cpuid[i];
+        buff[id+"total"] = 0;
+        buff[id+"usage"] = 0;
+    }
+	function cpuinfo_show( id, info )
+	{
+	    var ousage = buff[id+"usage"];
+	    var ototal = buff[id+"total"];
+	    var nusage = parseInt(info.user)+parseInt(info.system)+parseInt(info.nice)+parseInt(info.iowait)+parseInt(info.irq)+parseInt(info.softirq);
+	    var ntotal = nusage+parseInt(info.idle);
+	    var usage = ((nusage-ousage)/(ntotal-ototal))*100;
+        $("#"+id+"_usage").text( usage.toFixed(2) );
+        $("#"+id+"_usage_pie").data('easyPieChart').update( usage.toFixed(2) );        
+        buff[id+"usage"] = nusage;
+        buff[id+"total"] = ntotal;
+
+        $("#"+id+"_user").text( info.user );
+        $("#"+id+"_system").text( info.system );
+        $("#"+id+"_idle").text( info.idle );
+        $("#"+id+"_iowait").text( info.iowait );
+        $("#"+id+"_irq").text( info.irq );
+        $("#"+id+"_softirq").text( info.softirq );
+	}
+	function meminfo_show( info )
+	{
+	    var use = info.total-info.free;
+	    var usage = (use/info.total)*100;
+        $("#mem_usage").text( usage.toFixed(2) );
+        $("#mem_usage_pie").data('easyPieChart').update( usage.toFixed(2) );        
+        $("#mem_total").text( info.total );
+        $("#mem_use").text( use );
+        $("#mem_free").text( info.free );
+        $("#mem_buffers").text( info.buffers );
+        $("#mem_cached").text( info.cached );
+	}
+	function sginfo_show( id, name, info )
+	{
+        $(id+"_name").text( $.i18n(name) );
+	    var usage = parseInt( info.use );
+        $(id+"_usage").text( usage );
+        $(id+"_usage_pie").data('easyPieChart').update( usage );        
+        $(id+"_mount").text( info.path );
+        $(id+"_total").text( info.size );
+        $(id+"_use").text( info.used );
+        $(id+"_free").text( info.available );
+	}
+	
+    /* load the configure on the input */
+    function cpu_load()
+    {
+      he.bkload( [ 'land@machine.cpuinfo', 'land@machine.meminfo', 'land@machine.sginfo' ] ).then( function(v){
+        var cpuinfo = v[0];
+        var meminfo = v[1];
+        var sginfo = v[2];
+        for( var i in cpuid )
+        {
+            var id = cpuid[i];
+            var info = cpuinfo[id];
+            if ( info )
+            {
+                $("#"+id).show();
+                cpuinfo_show( id, info );
+            }
+            else
+            {
+                $("#"+id).hide();
+            }
+        }
+        $("#memory").show();
+        meminfo_show( meminfo );
+
+        if ( sginfo )
+        {
+            var i=1;
+            for ( var key in sginfo )
+            {
+                var value = sginfo[key];
+                sginfo_show( "#sg"+i, key, value );
+                $("#sg"+i).show();
+                i++;
+            }
+            for( ; i<=4; i++ )
+            {
+                $("#sg"+i).hide();
+            }
+        }
+      })
+    }
+
+    /* init */
+    $.i18n().load( page.lang('status') ).then( function () {
+      /* init the langauage */
+      $.i18n().locale = lang; $('body').i18n();
+      /* load the configure */
+      cpu_load();
+      /* pie chart setup */
+      $('.easy-pie-chart.percentage').each( function(){
+        $(this).easyPieChart( {
+            barColor: function( percent )
+            {
+                percent /= 100;
+                return "rgb(" + Math.round(255 * percent) + ", " + Math.round(255 * (1-percent)) + ", 0)";
+			},
+            trackColor: '#EEEEEE',
+            scaleColor: false,
+            lineCap: 'butt',
+            lineWidth: 8,
+            animate: ace.vars['old_ie'] ? false : 1000,
+            size:75
+        }).css( 'color', $(this).data('color') );
+      });      
+      // 设置定时器
+      page.timing({
+        refresh: function ()
+        {
+            cpu_load();
+        },
+        interval: 2000
+      });
+    });
+
+  })();
+
+</script>

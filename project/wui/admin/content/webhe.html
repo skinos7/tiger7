@@ -1,0 +1,235 @@
+<!-- ajax layout which only needs content area -->
+<div class="row">
+  <div class="col-xs-12">
+    <!-- PAGE CONTENT BEGINS -->
+
+
+    <div class="clearfix form-actions">
+      <div class="col-md-9">
+        <span> <button class="btn btn-danger" type="button" id="close"><span data-i18n="Close before leave"></span></button>&nbsp; &nbsp; &nbsp;</span>
+        <span> <button class="btn btn-second" type="button" id="hetui"><span data-i18n="HE Terminal"></span></button> &nbsp; &nbsp; &nbsp;</span>
+        <span id="serial_line" style="display: none;"> <button class="btn btn-warning" type="button" id="serial"><span data-i18n="Serial Terminal"></span></button>&nbsp; &nbsp; &nbsp;</span>
+        <span id="serial2_line" style="display: none;"> <button class="btn btn-warning" type="button" id="serial2"><span data-i18n="Serial2 Terminal"></span></button>&nbsp; &nbsp; &nbsp;</span>
+        <span id="serial3_line" style="display: none;"> <button class="btn btn-warning" type="button" id="serial3"><span data-i18n="Serial3 Terminal"></span></button>&nbsp; &nbsp; &nbsp;</span>
+        <span id="lte_line" style="display: none;"> <button class="btn btn-success" type="button" id="lte"><span data-i18n="LTE Terminal"></span></button>&nbsp; &nbsp; &nbsp;</span>
+        <span id="lte2_line" style="display: none;"> <button class="btn btn-success" type="button" id="lte2"><span data-i18n="LTE/NR Terminal"></span></button>&nbsp; &nbsp; &nbsp;</span>
+      </div>
+    </div>
+
+
+    <div id="tips" class="alert alert-warning">
+      <button type="button" class="close" data-dismiss="alert">
+        <i class="ace-icon fa fa-times"></i>
+      </button>
+      <span data-i18n="I'm sorry that this feature does not support the current browser. It is recommended that you update and install Chrome, Firefox or IE11+."></span>
+    </div>
+    <iframe id="terminal" frameborder="0" width="100%" height="500px" style="display: none;"></iframe>
+
+
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+    var serial;
+    var serial2;
+    var serial3;
+    var lte;
+    var lte2;
+
+    function open_term()
+    {
+        if ( window.ie && window.ie < 11)
+        {
+          $('#terminal').hide();
+          $('#tips').show();
+          return;
+        } 
+        else
+        {
+          var wh = $(window).height();
+          $('#terminal').attr('height', wh - 130 + 'px');
+          $('#terminal').attr('src', window.location.protocol+"//"+window.location.hostname + ':' + (admin.termport || '81'));
+          $('#terminal').show();
+          $('#tips').hide();
+        }
+    }
+
+    $.i18n().load( page.lang('debug') ).then( function () {        
+      /* init the langauage */
+      $.i18n().locale = lang; $('body').i18n();
+      /* load the configure */
+      he.load( [ 'wui@admin', 'arch@debug.ttyd_he', "uart@serial", "uart@serial2", "uart@serial3", "modem@lte.status", "modem@lte2.status" ] ).then( function(v){
+          admin = v[0];
+          serial = v[2]
+          serial2 = v[3];
+          serial3 = v[4];
+          lte = v[5];
+          lte2 = v[6];
+          if ( admin == null )
+          {
+            return;
+          }
+          if ( serial && serial.tty )
+          {
+            $('#serial_line').show();
+          }
+          if ( serial2 && serial2.tty )
+          {
+            $('#serial2_line').show();
+          }
+          if ( serial3 && serial3.tty )
+          {
+            $('#serial3_line').show();
+          }
+          if ( lte && (lte.stty||lte.mtty) )
+          {
+            $('#lte_line').show();
+          }
+          if ( lte2 && (lte2.stty||lte2.mtty) )
+          {
+            $('#lte2_line').show();
+          }
+          if ( v[1] == true )
+          {
+            open_term();
+          }
+      });
+
+      $('#hetui').on(ace.click_event, function () {
+          $('#terminal').hide();
+          he.exec( 'arch@debug.ttyd_he', $.i18n("Opening...") ).then( function(v){
+            if ( v == true )
+            {
+                $('#terminal').attr('src', null );
+                open_term();
+            }
+            else
+            {
+                page.alert( { message: $.i18n('Cannot open it') } );
+                return;
+            }
+          });
+      });
+      $('#serial').on(ace.click_event, function () {
+          page.confirm( { message: $.i18n('Will shutdown serial application when open the serial terminal, Are you sure you want to open it') } ).then( function(result){
+              if ( result )
+              {
+                  $('#terminal').hide();
+                  he.exec( 'arch@debug.ttyd_serial[uart@serial]', $.i18n("Opening...") ).then( function(v){
+                    if ( v == true )
+                    {
+                        $('#terminal').attr('src', null );
+                        open_term();
+                    }
+                    else
+                    {
+                        page.alert( { message: $.i18n('Cannot open it') } );
+                        return;
+                    }
+                  });
+              }
+          });
+      });
+      $('#serial2').on(ace.click_event, function () {
+          page.confirm( { message: $.i18n('Will shutdown serial application when open the serial terminal, Are you sure you want to open it') } ).then( function(result){
+              if ( result )
+              {
+                  $('#terminal').hide();
+                  he.exec( 'arch@debug.ttyd_serial[uart@serial2]', $.i18n("Opening...") ).then( function(v){
+                    if ( v == true )
+                    {
+                        $('#terminal').attr('src', null );
+                        open_term();
+                    }
+                    else
+                    {
+                        page.alert( { message: $.i18n('Cannot open it') } );
+                        return;
+                    }
+                  });
+              }
+          });
+      });
+      $('#serial3').on(ace.click_event, function () {
+          page.confirm( { message: $.i18n('Will shutdown serial application when open the serial terminal, Are you sure you want to open it') } ).then( function(result){
+              if ( result )
+              {
+                  $('#terminal').hide();
+                  he.exec( 'arch@debug.ttyd_serial[uart@serial3]', $.i18n("Opening...") ).then( function(v){
+                    if ( v == true )
+                    {
+                        $('#terminal').attr('src', null );
+                        open_term();
+                    }
+                    else
+                    {
+                        page.alert( { message: $.i18n('Cannot open it') } );
+                        return;
+                    }
+                  });
+              }
+          });
+      });
+      $('#lte').on(ace.click_event, function () {
+          page.confirm( { message: $.i18n('Will shutdown LTE application when open the LTE terminal, Are you sure you want to open it') } ).then( function(result){
+              if ( result )
+              {
+                  $('#terminal').hide();
+                  he.exec( 'arch@debug.ttyd_lte[modem@lte]', $.i18n("Opening...") ).then( function(v){
+                    if ( v == true )
+                    {
+                        $('#terminal').attr('src', null );
+                        open_term();
+                    }
+                    else
+                    {
+                        page.alert( { message: $.i18n('Cannot open it') } );
+                        return;
+                    }
+                  });
+              }
+          });
+      });
+      $('#lte2').on(ace.click_event, function () {
+          page.confirm( { message: $.i18n('Will shutdown LTE/NR application when open the LTE/NR terminal, Are you sure you want to open it') } ).then( function(result){
+              if ( result )
+              {
+                  $('#terminal').hide();
+                  he.exec( 'arch@debug.ttyd_lte[modem@lte2]', $.i18n("Opening...") ).then( function(v){
+                    if ( v == true )
+                    {
+                        $('#terminal').attr('src', null );
+                        open_term();
+                    }
+                    else
+                    {
+                        page.alert( { message: $.i18n('Cannot open it') } );
+                        return;
+                    }
+                  });
+              }
+          });
+      });
+      $('#close').on(ace.click_event, function () {
+          he.exec( 'arch@debug.ttyd_kill', $.i18n("closing...") ).then( function(v){
+            if ( v == true )
+            {
+                $('#terminal').hide();
+            }
+            else
+            {
+                page.alert( { message: $.i18n('Cannot close it') } );
+                return;
+            }
+          });
+      });
+
+
+    });
+
+
+  })();
+</script>

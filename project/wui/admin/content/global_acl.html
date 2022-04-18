@@ -1,0 +1,511 @@
+<!-- ajax layout which only needs content area -->
+<div class="row">
+  <div class="col-xs-12 form-btn-wrapper">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="form-horizontal" role="form">
+
+
+    <!-- 接口 -->
+    <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" for="interface" data-i18n="Interface"></label>
+        <div class="col-sm-9"><select class="col-xs-10 col-sm-5" id="interface"></select></div>
+    </div>
+
+
+    <!-- 状态 -->
+    <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" for="status" data-i18n="Status"></label>
+        <div class="col-sm-9">
+            <label><input id="status" class="ace ace-switch ace-switch-6" type="checkbox" /><span class="lbl"></span></label>
+        </div>
+    </div>
+
+
+    <div id="rule" style="display: none;" >
+        <table id="rules-grid-table"></table>
+        <div id="rules-grid-pager"></div>
+    </div>
+
+
+    <!-- intro -->
+    <div class="hr hr32 hr-dotted"></div>
+    <div >
+    <span class="grey" data-i18n="Configure access control for the entire network, need click <apply> to save and apply"></span>
+    </div>
+
+
+
+    <div class="clearfix form-actions">
+        <div class="col-md-offset-3 col-md-9">
+            <button class="btn btn-second" type="button" id="refresh"><span data-i18n="Refresh"></span></button>
+            &nbsp; &nbsp; &nbsp;
+            <button class="btn btn-main" type="button" id="apply"><span data-i18n="Apply"></span></button>
+        </div>
+    </div>
+
+
+    </div>
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+    var obj = "client@global";
+    var cfg;
+    var cfgcopy;
+    var rules_table = '#rules-grid-table';
+    var rules_pager = '#rules-grid-pager';
+    var index = location.hash.indexOf("obj=");
+    if ( index > 0 )
+    {
+      obj = location.hash.substring( index+4 );
+    }
+
+
+    /* edit form custom */
+    function edit_rule_before( form, action )
+    {
+        $('#tr_timesets').show();
+        var ds = form.find('input[name=datestart]');
+        var de = form.find('input[name=datestop]');
+        var ts = form.find('input[name=timestart]');
+        var te = form.find('input[name=timestop]');
+        var ws = $('#weekdays').val();
+        if ( ds.val() || de.val() || ts.val() || te.val() || ws )
+        {
+            $('#timesets').val( "enable" );
+        }
+        else
+        {
+            $('#timesets').val( "disable" );
+        }
+        // 格式化日期输入框
+        ds.datepicker({format:'yyyy-mm-dd',autoclose:true});
+        de.datepicker({format:'yyyy-mm-dd',autoclose:true});
+        // 保存 timestart 的值
+        var timestartArr = ts.val().split(':');
+        ts.replaceWith( jqtable.timer_select_make('timestart') );
+        // 保存 timestop的值
+        var timestopArr = te.val().split(':');
+        te.replaceWith( jqtable.timer_select_make('timestop') );
+
+        // 表单的行为为编辑
+        if (action == 'edit')
+        {
+            // 将原输入框的值提取到时间下拉框里面
+            $('#timestart-hour').val(timestartArr[0] || '00')
+            $('#timestart-min').val(timestartArr[1] || '00')
+            $('#timestart-sec').val(timestartArr[2] || '00')
+            $('#timestop-hour').val(timestopArr[0] || '00')
+            $('#timestop-min').val(timestopArr[1] || '00')
+            $('#timestop-sec').val(timestopArr[2] || '00')
+        }
+        else
+        { // 表单的行为为新增
+            // 给时间下拉框赋默认值
+            $('#timestart-hour').val('00')
+            $('#timestart-min').val('00')
+            $('#timestart-sec').val('00')
+            $('#timestop-hour').val('23')
+            $('#timestop-min').val('59')
+            $('#timestop-sec').val('59')
+        }
+        // 当前选中星期的数组
+        var weekdaysArr = ws.split(',');
+        // 格式化星期勾选框
+        form.find('#tr_weekdays td.DataTD').html( jqtable.weekday_select_make());
+        if ( action == 'edit' )
+        {
+            // 选中对应的星期
+            for (var i = 0; i < weekdaysArr.length; i++)
+            {
+                $('#weekday' + weekdaysArr[i]).prop('checked', true)
+            }
+        }
+        else
+        {
+            // 默认选中所有的星期
+            $('[id^=weekday]').prop('checked', true);
+        }
+
+        $('#proto').unbind('change').change(function () {
+            if ( $('#proto').val() === 'tcp' || $('#proto').val() === 'udp' )
+            {
+                $('#tr_destport').show();
+            }
+            else
+            {
+                $('#tr_destport').hide();
+            }
+            $(window).triggerHandler('resize.jqGrid');            
+        }).trigger('change');
+        $('#timesets').unbind('change').change(function () {
+            if ( $('#timesets').val() === 'enable' )
+            {
+                $('#tr_datestart').show();
+                $('#tr_datestop').show();
+                $('#tr_timestart').show();
+                $('#tr_timestop').show();
+                $('#tr_weekdays').show();
+            }
+            else
+            {
+                $('#tr_datestart').hide();
+                $('#tr_datestop').hide();
+                $('#tr_timestart').hide();
+                $('#tr_timestop').hide();
+                $('#tr_weekdays').hide();
+            }
+            $(window).triggerHandler('resize.jqGrid');            
+        }).trigger('change');
+        
+        // 调成表单的样式
+        jqtable.style_edit_form( form );
+    }
+    /* edit data custom */
+    function edit_rule_submit( params, postdata )
+    {
+        if ( postdata.timesets == "enable" )
+        {
+            // 保存开始时间 hh:mm:ss
+            var timestart = '';
+            timestart += $('#timestart-hour').val();
+            timestart += ':';
+            timestart += $('#timestart-min').val();
+            timestart += ':';
+            timestart += $('#timestart-sec').val();
+            postdata.timestart = timestart;
+
+            // 保存结束时间 hh:mm:ss
+            var timestop = '';
+            timestop += $('#timestop-hour').val();
+            timestop += ':';
+            timestop += $('#timestop-min').val();
+            timestop += ':';
+            timestop += $('#timestop-sec').val();
+            postdata.timestop = timestop;
+
+            // 保存星期
+            var weekdays = '';
+            for ( var i = 1; i <= 7; i++ )
+            {
+                if ($('#weekday' + i).prop('checked'))
+                {
+                    weekdays += (i + ',')
+                }
+            }
+            // 去掉最后的逗号
+            if ( weekdays.length > 0 )
+            {
+                weekdays = weekdays.substring(0, weekdays.length - 1);
+            }
+            postdata.weekdays = weekdays;
+        }
+        else
+        {
+        }
+        return postdata;
+    }
+    /* init the table infomation */
+    function init_table( )
+    {
+        jqtable.create( rules_table, rules_pager,
+          {
+              caption: $.i18n('ACL Rule'),
+              colNames: [ $.i18n('Rule Name'), $.i18n('Action'), $.i18n('Dest'), $.i18n('Protocol'), $.i18n('Port'), $.i18n('Time Settings'), $.i18n('Start Date'), $.i18n('End Date'), $.i18n('Start time'), $.i18n('End time'), $.i18n('Week'), $.i18n('Operation') ],
+              colModel: [
+                  {
+                      name:'name', width:80,
+                      editable: true,
+                      editrules:
+                      {
+                          required: true
+                      }
+                  },
+                  {
+                      name: 'action', width: 80,
+                      editable: true,
+                      formatter: 'select',
+                      edittype: 'select',
+                      editoptions:
+                      {
+                          value: 'drop:' + $.i18n('Drop') + ';accept:' + $.i18n('Accept') + ';return:' + $.i18n('Return')
+                      }
+                  },
+                  {
+                      name: 'dest',
+                      width: 120,
+                      editable: true,
+                      editoptions: {maxlength: '128'}
+                  },
+                  {
+                      name: 'proto',
+                      width: 60,
+                      editable: true,
+                      formatter: 'select',
+                      edittype: 'select',
+                      editoptions:
+                      {
+                          value: 'all:' + $.i18n('ALL') + ';tcp:TCP;udp:UDP'
+                      }
+                  },
+                  {
+                      name: 'destport',
+                      width: 80,
+                      editable: true,
+                      editoptions: {maxlength: '6'},
+                      editrules:
+                      {
+                          number:true,
+                          custom: true,
+                          custom_func: function( value, label )
+                          {
+                              var proto = $('#proto').val();
+                              if ( proto == "tcp" || proto == "udp" )
+                              {
+                                  return [ value!=''&&value>0 ,label + ': ' + $.i18n('Please enter a valid port number')]
+                              }
+                              else
+                              {
+                                  return [true, null];
+                              }
+                          }
+                      }
+                  },
+                  {
+                      name: 'timesets',
+                      editable: true,
+                      formatter: 'select',
+                      edittype: 'select',
+                      editoptions:
+                      {
+                          value: 'enable:' + $.i18n('Enable') + ';disable:' + $.i18n('Disable')
+                      },
+                      hidden: true
+                  },
+                  {
+                      name: 'datestart',
+                      width: 100,
+                      editable: true,
+                      editoptions: {maxlength: '10'}
+                  },
+                  {
+                      name: 'datestop',
+                      width: 100,
+                      editable: true,
+                      editoptions: {maxlength:'10'}
+                  },
+                  {
+                      name: 'timestart',
+                      width: 100,
+                      editable: true,
+                      editoptions: {maxlength:'8'}
+                  },
+                  {
+                      name: 'timestop',
+                      width: 100,
+                      editable: true,
+                      editoptions: {maxlength:'8'}
+                  },
+                  {
+                      name: 'weekdays',
+                      width: 100,
+                      editable: true,
+                      editoptions: {maxlength:'13'}
+                  },
+                  $.extend( true, {}, jqtable.actionOptions,
+                      {
+                          formatoptions:
+                          {
+                              editOptions: { beforeShowForm : edit_rule_before, onclickSubmit: edit_rule_submit }
+                          }
+                      }
+                  )
+              ]
+          }
+        ).jqGrid( 
+              'navGrid', rules_pager,
+              $.extend(true, {}, jqtable.navOptions, 
+                  {
+                      add: true,addicon : 'ace-icon fa fa-plus-circle purple',
+                      del: true,delicon : 'ace-icon fa fa-trash-o red',
+                      edit: true,editicon : 'ace-icon fa fa-pencil blue',
+                      search: false, refresh: false, view: true
+                  }
+              ),
+              $.extend(true, {}, jqtable.editOptions, { beforeShowForm : edit_rule_before, onclickSubmit: edit_rule_submit } ),
+              $.extend(true, {}, jqtable.addOptions, { beforeShowForm : edit_rule_before, onclickSubmit: edit_rule_submit } ),
+              $.extend(true, {}, jqtable.deleteOptions ),
+              {},
+              jqtable.viewOptions
+        );
+        
+    }
+
+    /* load the configure fill the page */
+    function load_cfg()
+    {
+        he.load( [ obj ] ).then( function(v){
+            cfg = v[0];
+            if ( !cfg )
+            {
+                return;
+            }
+            /* 初始化select */
+            var ifnum = 0;
+            var ifselect = "";
+            for ( var interface in cfg )
+            {
+                ifnum++;
+                ifselect += ('<option value="' + interface + '">' + $.i18n( interface ) + '</option>');
+            }
+            $("#interface").html( ifselect );
+            // 如果只有一个接口，则隐藏接口列表
+            //if ( ifnum <= 1 )
+            //{
+            //    $("#interface").closest('.form-group').hide();
+            //}
+
+            // 切换接口
+            $('#interface').unbind('change').change(function (e) {
+                // 当前的接口
+                var interface = e.target.value;
+                if ( !interface )
+                {
+                    return;
+                }
+                // 状态
+                $('#status').prop('checked', able2boole( cfg[interface].acl ) );
+                // 规则
+                var count = 0;
+                var list = cfg[interface].acl_rule;
+                // 保存所有的客户端行
+                var rows = [];
+                for ( var index in list )
+                {
+                    var rule = list[index];
+                    var row = 
+                    {
+                        name: index||'',
+                        action: rule.action,
+                        dest: rule.dest,
+                        proto: rule.proto,
+                        destport: rule.destport,
+                        datestart: rule.datestart || '',
+                        datestop: rule.datestop || '',
+                        timestart: rule.timestart || '',
+                        timestop: rule.timestop || '',
+                        weekdays: rule.weekdays || ''
+                    };
+                    rows.push( row );
+                    count++;
+                }
+                // 表头设置
+                if ( count > 0 )
+                {
+                    $(rules_table).jqGrid( "setCaption", $.i18n('ACL Rule') + '(' + count + ')' );
+                }
+                else
+                {
+                    $(rules_table).jqGrid( "setCaption", $.i18n('ACL Rule') );
+                }
+                // 记住滚动条的位置
+                var scrollPos = jqtable.getScrollPos();
+                // 给clients表格设置数据
+                $(rules_table).jqGrid('clearGridData').jqGrid('setGridParam',{data: rows}).trigger('reloadGrid');
+                // 恢复滚动条的位置
+                jqtable.setScrollPos(scrollPos);
+            }).trigger('change');
+
+            // 切换状态
+            $('#status').unbind('change').change(function () {
+                if ($(this).prop('checked'))
+                {
+                    $('#rule').show();
+                }
+                else
+                {
+                    $('#rule').hide();
+                }
+            }).trigger('change');
+        });
+    }
+    /* save the rule infomation */
+    function save_cfg()
+    {
+        var interface = $('#interface').val();
+        if ( !cfg )
+        {
+            cfg = {};
+        }
+        if ( !interface )
+        {
+            return;
+        }
+        cfgcopy = JSON.parse(JSON.stringify(cfg));
+        // 清除所有旧规则
+        cfg[interface].acl_rule = {};
+        var rules = cfg[interface].acl_rule;
+        // 状态
+        cfg[interface].acl = boole2able($('#status').prop('checked'));
+        // 根据表格数据生成acl规则
+        var rowNum =  $(rules_table).jqGrid('getGridParam', 'rowNum');                   //获取当前页条数
+        var total = $(rules_table).jqGrid('getGridParam', 'records');                    //获取总数 （包含未显示的数据）
+        $(rules_table).jqGrid('setGridParam', { rowNum: total }).trigger('reloadGrid');  //把grid重新加载成全部数据（前端不会变化）
+        var rows =  $(rules_table).jqGrid('getDataIDs');
+        for ( var i = 0; i < rows.length; i++ )
+        {
+            var row = $(rules_table).jqGrid('getRowData', rows[i] );
+            rules[row.name] =
+            {
+                action: row.action,
+                dest: row.dest,
+                proto: row.proto,
+                destport: row.destport,
+                datestart: row.datestart,
+                datestop: row.datestop,
+                timestart: row.timestart,
+                timestop: row.timestop,
+                weekdays: row.weekdays
+            }
+        }
+        $(rules_table).jqGrid('setGridParam', { rowNum: rowNum }).trigger('reloadGrid');  //还原成原先状态        
+        if ( ocompare( cfg, cfgcopy ) )
+        {
+            page.alert( { message: $.i18n('Settings unchanged') } );
+            return;
+        }
+        he.save( [ obj+"="+JSON.stringify(cfg) ] ).then( function(){
+            page.hint2succeed( $.i18n('Modify successfully') );
+            load_cfg();
+        });
+    }
+
+
+
+    $.i18n().load( page.lang('station') ).then( function () {
+      /* init the langauage */
+      $.i18n().locale = lang; $('body').i18n();
+
+      /* init the table */
+      init_table( );
+
+      /* load the configure */
+      load_cfg();
+
+      /* bind the refresh */
+      $('#refresh').on(ace.click_event, function () {
+        location.reload();
+      });
+      /* bind the apply */
+      $('#apply').on(ace.click_event, function () {
+        save_cfg();
+      });
+    });
+
+
+
+  })();
+</script>

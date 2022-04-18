@@ -1,0 +1,142 @@
+<!-- ajax layout which only needs content area -->
+<div class="row">
+  <div class="col-xs-12 form-btn-wrapper">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="form-horizontal" role="form">
+
+      <!-- 状态 -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" for="status" data-i18n="WEB Server"></label>
+        <div class="col-sm-9">
+          <label>
+            <input id="status" class="ace ace-switch ace-switch-6" type="checkbox" />
+            <span class="lbl"></span>
+          </label>
+        </div>
+      </div>
+
+      <div id="statusSets">
+        <!-- 远程访问 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" for="remote" data-i18n="Remote WEB Access"></label>
+          <div class="col-sm-9">
+            <label>
+              <input id="remote" class="ace ace-switch ace-switch-6" type="checkbox" />
+              <span class="lbl"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- 端口 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" for="port" data-i18n="Port"></label>
+          <div class="col-sm-9">
+            <input type="text" id="port" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+      </div>
+
+      <div class="clearfix form-actions">
+        <div class="col-md-offset-3 col-md-9">
+          <button class="btn btn-second" type="button" id="refresh"><span data-i18n="Refresh"></span></button>
+          &nbsp; &nbsp; &nbsp;
+          <button class="btn btn-main" type="button" id="apply"><span data-i18n="Apply"></span></button>
+        </div>
+      </div>
+      
+    </div>
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+    var obj;
+    var webs;
+
+    obj = "wui@"+window.object;
+    function load_webs()
+    {
+        he.load( [ obj, 'land@auth.changed' ] ).then( function(v){
+            webs = v[0];
+            $('#status').prop('checked', able2boole(webs.status));
+            $('#remote').prop('checked', able2boole(webs.remote));
+            $('#port').val(webs.port || '');
+            $('#status').unbind('change').change(function () {
+                if ($(this).prop('checked'))
+                {
+                    $('#statusSets').show();
+                }
+                else
+                {
+                    $('#statusSets').hide();
+                }
+            }).trigger('change');
+            $('#remote').unbind('change').change(function () {
+                if ($(this).prop('checked'))
+                {
+                    if ( v[1] == false )
+                    {
+                        page.alert({message: $.i18n("Enable the reemote access, Please changed the default password for this router in order to enhance network security") });
+                    }
+                }
+            }).trigger('change');
+        });
+    }
+    function save_webs()
+    {
+        if ( webs == null )
+        {
+            return;
+        }
+        var webscopy = JSON.parse(JSON.stringify(webs));
+
+        webs.status = boole2able( $('#status').prop('checked') );
+        if ( webs.status == "enable" )
+        {
+            webs.remote = boole2able($('#remote').prop('checked'));
+            webs.port = $('#port').val();
+        }
+        if ( ocompare( webs, webscopy ) )
+        {
+            page.alert( { message: $.i18n('Settings unchanged') } );
+            return;
+        }
+        page.confirm( { message: $.i18n('The system will restart because of the change of settings') } ).then( function(result){
+            if ( result )
+            {
+                he.save( [ obj+"="+JSON.stringify(webs) ] ).then( function(){
+                    page.confirm( { message: $.i18n('Restart the system to apply') } ).then( function(result){
+                        if ( result )
+                        {
+                            he.reboot( { title: $.i18n('Restarting to apply...'), hint:$.i18n('Make sure that the device is reconnected') } );
+                        }
+                    });
+                });
+            }
+            else
+            {
+                load_webs();
+            }
+        });
+    }
+
+    $.i18n().load( page.lang('manage') ).then( function () {
+      /* init the langauage */
+      $.i18n().locale = lang; $('body').i18n();
+      /* load the configure */
+      load_webs();
+      /* bind the refresh */
+      $('#refresh').on(ace.click_event, function () {
+        location.reload();
+      });
+      /* bind the apply to save configure */
+      $('#apply').on(ace.click_event, function () {
+        save_webs();
+      });
+    });
+
+
+  })();
+</script>

@@ -1,0 +1,221 @@
+<!-- ajax layout which only needs content area -->
+<div class="row">
+    <div class="col-xs-12">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="form-horizontal" role="form">
+
+
+
+        <!-- 接口 -->
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" for="dmzhost" data-i18n="Interface"></label>
+            <div class="col-sm-9"><select class="col-xs-10 col-sm-5" id="interface"></select></div>
+        </div>
+
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" for="dmzhost" data-i18n="DMZ Host Address"></label>
+          <div class="col-sm-9">
+            <input type="text" id="dmzhost" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+
+
+        <!-- 端口映射表格 -->
+        <table id="nat-grid-table"></table>
+        <div id="nat-grid-pager"></div>
+
+
+        <!-- Hint -->
+        <div class="hr hr32 hr-dotted"></div>
+        <span class="grey" data-i18n="Warnning: Firewall will enable the ports of the NAT/DMZ table"></span>
+
+
+        <div class="clearfix form-actions">
+            <div class="col-md-offset-3 col-md-9">
+                <button class="btn btn-second" type="button" id="refresh"><span data-i18n="Refresh"></span></button>
+                &nbsp; &nbsp; &nbsp;
+                <button class="btn btn-main" type="button" id="apply"><span data-i18n="Apply"></span></button>
+            </div>
+        </div>
+
+
+
+    </div>
+    <!-- PAGE CONTENT ENDS -->
+    </div><!-- /.col -->
+</div><!-- /.row -->
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+    var obj = "forward@nat";
+    var nat;
+    var natcopy;
+    var nat_table = '#nat-grid-table';
+    var nat_pager = '#nat-grid-pager';
+
+
+
+    /* load the configure fill the page */
+    function nat_load()
+    {
+        he.load( [ obj ] ).then( function(v){
+            nat = v[0];
+            if ( !nat )
+            {
+                return;
+            }
+            /* 初始化select */
+            var ifnum = 0;
+            var ifselect = "";
+            for ( var interface in nat )
+            {
+                ifnum++;
+                ifselect += ('<option value="' + interface + '">' + $.i18n( interface ) + '</option>');
+            }
+            $("#interface").html( ifselect );
+            // 如果只有一个接口，则隐藏接口列表
+            if ( ifnum <= 1 )
+            {
+                $("#interface").closest('.form-group').hide();
+            }
+
+            // 切换接口
+            $('#interface').unbind('change').change(function (e) {
+                // 当前的接口
+                var interface = e.target.value;
+                if ( !interface )
+                {
+                    return;
+                }
+                $('#dmzhost').val( nat[interface].dmzhost );
+                var rules = nat[interface].rule;
+                var rows = json2array( rules, {} );
+                // 记住滚动条的位置
+                var scrollPos = jqtable.getScrollPos();
+                // 给表格设置数据
+                $(nat_table).jqGrid('clearGridData').jqGrid('setGridParam', { data: rows }).trigger('reloadGrid');
+                // 恢复滚动条的位置
+                jqtable.setScrollPos(scrollPos);
+            }).trigger('change');
+        });
+    }
+    function nat_save()
+    {
+        var interface = $('#interface').val();
+        if ( !nat )
+        {
+            nat = {};
+        }
+        if ( !interface )
+        {
+            return;
+        }
+        natcopy = JSON.parse(JSON.stringify(nat));
+        // 清除所有旧规则
+        nat[interface].rule = {};
+        var rules = nat[interface].rule;
+        // DMZ获取
+        nat[interface].dmzhost = $('#dmzhost').val();
+        // 根据表格数据生成nat规则
+        var rowNum =  $(nat_table).jqGrid('getGridParam', 'rowNum');                   //获取当前页条数
+        var total = $(nat_table).jqGrid('getGridParam', 'records');                    //获取总数 （包含未显示的数据）
+        $(nat_table).jqGrid('setGridParam', { rowNum: total }).trigger('reloadGrid');  //把grid重新加载成全部数据（前端不会变化）
+        var rows =  $(nat_table).jqGrid('getDataIDs');
+        for ( var i = 0; i < rows.length; i++ )
+        {
+            var row = $(nat_table).jqGrid('getRowData', rows[i] );
+            rules[row.name] =
+            {
+                targetport: row.targetport,
+                protocol: row.protocol,
+                destip: row.destip,
+                destport: row.destport
+            }
+        }
+        $(nat_table).jqGrid('setGridParam', { rowNum: rowNum }).trigger('reloadGrid');  //还原成原先状态        
+        if ( ocompare( nat, natcopy ) )
+        {
+            page.alert( { message: $.i18n('Settings unchanged') } );
+            return;
+        }
+        he.save( [ obj+"="+JSON.stringify(nat) ] ).then( function(){
+            page.hint2succeed( $.i18n('Modify successfully') );
+            nat_load();
+        });
+    }
+    
+
+
+    /* init */
+    $.i18n().load( page.lang('forward') ).then( function () {
+        /* init the langauage */
+        $.i18n().locale = window.lang; $('body').i18n();
+
+        //初始化表格
+        jqtable.create( nat_table, nat_pager,
+            {
+                caption: $.i18n('NAT Rule Table'),
+                colNames: [ $.i18n('Name(unique)'), $.i18n('Port'), $.i18n('Protocol'), $.i18n('Intranet Address'), $.i18n('Intranet Port'),$.i18n('Operation') ],
+                colModel:
+                [
+                    {
+                        name:'name', width:120, editable: true, 
+                        editrules:
+                        {
+                            required: true
+                        }
+                    },
+                    {
+                        name: 'targetport', width: 100, editable: true, editoptions: {maxlength:'5'}
+                    },
+                    {
+                        name: 'protocol', width: 100, editable: true,
+                        formatter: 'select',
+                        edittype: 'select',
+                        editoptions:
+                        {
+                            value: 'tcpudp:TCP+UDP;tcp:TCP;udp:UDP'
+                        }
+                    },
+                    {
+                        name: 'destip', width: 130, editable: true, editoptions: {maxlength:'15'}
+                    },
+                    {
+                        name: 'destport', width: 100, editable: true, editoptions: {maxlength:'5'}
+                    },
+                    jqtable.actionOptions,
+                ]
+            }
+        ).jqGrid( 'navGrid', nat_pager,
+            $.extend(true, {}, jqtable.navOptions, 
+                {
+                    add: true,addicon : 'ace-icon fa fa-plus-circle purple',
+                    del: true,delicon : 'ace-icon fa fa-trash-o red',
+                    edit: true,editicon : 'ace-icon fa fa-pencil blue',
+                    search: false, refresh: false, view: false
+                }
+            ),
+            jqtable.editOptions,
+            jqtable.addOptions,
+            jqtable.deleteOptions
+        );
+
+        /* 加载参数 */
+        nat_load();
+        /* bind the refresh */
+        $('#refresh').on(ace.click_event, function () {
+          location.reload();
+        });
+        /* bind the apply */
+        $('#apply').on(ace.click_event, function () {
+          nat_save();
+        });
+
+    });
+
+
+
+  })();
+</script>

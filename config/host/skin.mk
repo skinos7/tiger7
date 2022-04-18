@@ -85,12 +85,7 @@ define Build/Compile/Default
 	$(call Build/Compile/FarmBin,${COM_LIST},${gCOM_MAKEFILE})
 	$(call Build/Compile/FarmBin,${EXE_LIST},${gEXE_MAKEFILE})
 	$(call Build/Compile/FarmKo,${KO_LIST})
-	if [ "X" == "X$(1)" ];then \
-		$(call Build/Compile/FarmBin,${OSC_LIST},$(2)); \
-	fi
-	if [ "X" != "X$(1)" ];then \
-		$(call Build/Compile/FarmBin,$(1),$(2)); \
-	fi
+	#$(call Build/Compile/FarmBin,${OSC_LIST})
 endef
 
 # 定义项目安装函数

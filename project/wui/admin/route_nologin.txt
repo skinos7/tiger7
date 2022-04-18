@@ -1,0 +1,8 @@
+
+route uri=/pub/ handler=jst
+route uri=/action/ handler=action
+route uri=/cgi/ handler=cgi
+route uri=/upload handler=upload
+route uri=/ extensions=jst,asp,html handler=jst
+
+route uri=/

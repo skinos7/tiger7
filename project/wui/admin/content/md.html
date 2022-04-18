@@ -1,0 +1,92 @@
+<!-- ajax layout which only needs content area -->
+<div class="row">
+  <div class="col-xs-12 form-btn-wrapper">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="form-horizontal" role="form">
+    
+        <table id="com-grid-table"></table>
+
+    </div>
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+    var coms;
+    var com_table = '#com-grid-table';
+
+    /* show the software table */
+    function com_load()
+    {
+      he.load( [ 'land@prj.md_list' ] ).then( function(v){
+          coms = v[0];
+          var count = 0;
+          var rows = [];
+          for (var index in coms)
+          {
+            var file = coms[index];
+            rows.push( { com: index, path:file||'' } )
+            count++;
+          }
+          // 表头设置为在线客户端的数量
+          $(com_table).jqGrid( "setCaption", $.i18n('Component API Number') + '(' + count + ')' );
+          // 记住滚动条的位置
+          var scrollPos = jqtable.getScrollPos();
+          // 给proejcts表格设置数据
+          $(com_table).jqGrid( 'clearGridData' ).jqGrid( 'setGridParam', { data: rows } ).trigger( 'reloadGrid' );
+          // 恢复滚动条的位置
+          jqtable.setScrollPos(scrollPos);
+      });
+    }
+    
+
+    /* init */
+    $.i18n().load( page.lang('debug') ).then( function () {
+      /* init the langauage */
+      $.i18n().locale = lang; $('body').i18n();      
+
+      /* init the table */
+      jqtable.create( com_table, null, 
+        {
+            caption: ' ', // 必需设置值, 防止表格不能折叠
+            multiselect: false,
+            rowNum:100,
+            hideRowList: true, pgbuttons : false, pginput : false,
+            colNames: [$.i18n('Component API Name'), $.i18n('PATH'), $.i18n('Operation') ],
+            colModel:
+            [
+              { name:'com', width:200 },
+              { name:'path', width:500 },
+              {
+                  name: 'choose', width: 80,
+                  fixed: true, sortable: false,
+                  formatter: function ( cellvalue, options, rowObject )
+                  {
+                      return '<button class="btn btn-main btn-xs btn-choose" onclick="com_select(' + options.rowId + ')" data-id="' + options.rowId + '">' + $.i18n('View') + '</button>'
+                  }
+              }
+            ]
+        }
+      );
+      com_load();
+      
+    });
+
+
+
+  })();
+
+  /* 必须在全局中才可以被调用到 */
+  function com_select( rowId )
+  {
+    // 某个选中行的数据
+    var comdoc = $('#com-grid-table').jqGrid( 'getRowData', rowId );
+    var path = comdoc.path;
+    window.location.href = '#app?page='+base64.encode(comdoc.path);
+  }
+  
+</script>

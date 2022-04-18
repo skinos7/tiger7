@@ -1,0 +1,226 @@
+<!-- ajax layout which only needs content area -->
+<div class="row">
+  <div class="col-xs-12 form-btn-wrapper">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="form-horizontal" role="form">
+
+      <!-- 状态 -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" for="status" data-i18n="Syslog"></label>
+        <div class="col-sm-9">
+          <label>
+            <input id="status" class="ace ace-switch ace-switch-6" type="checkbox" />
+            <span class="lbl"></span>
+          </label>
+        </div>
+      </div>
+
+      <div id="statusSets">
+        <!-- 日志存放位置 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" for="level" data-i18n="Log Location"></label>
+          <div class="col-sm-9">
+            <select class="col-xs-10 col-sm-5" id="location">
+              <option value="memory" data-i18n="Memory"></option>
+              <option value="internal" data-i18n="Internal"></option>
+              <option value="storage" data-i18n="Storage"></option>
+            </select>
+          </div>
+        </div>
+        <!-- Buffer -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" for="size" data-i18n="Log Max Size(KB)"></label>
+          <div class="col-sm-9">
+            <div class="clearfix">
+              <input type="text" id="size" class="col-xs-10 col-sm-5" maxlength="128" />
+            </div>
+          </div>
+        </div>
+        <!-- 日志等级 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" for="level" data-i18n="Log Level"></label>
+          <div class="col-sm-9">
+            <select class="col-xs-10 col-sm-5" id="level">
+              <option value="error" data-i18n="Error"></option>
+              <option value="warn" data-i18n="Warn"></option>
+              <option value="info" data-i18n="Info"></option>
+              <option value="debug" data-i18n="Debug"></option>
+            </select>
+          </div>
+        </div>
+        <!-- 远程日志 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" for="remote" data-i18n="Remote Log"></label>
+          <div class="col-sm-9">
+            <label>
+              <input id="remote" class="ace ace-switch ace-switch-6" type="checkbox" />
+              <span class="lbl"></span>
+            </label>
+          </div>
+        </div>
+        <div id="syslogdSets">
+          <!-- 日志服务器 -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" for="server" data-i18n="Log Server"></label>
+            <div class="col-sm-9">
+              <div class="clearfix">
+                <input type="text" id="server" class="col-xs-10 col-sm-5" maxlength="128" />
+              </div>
+            </div>
+          </div>
+          <!-- 端口 -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" for="port" data-i18n="Port"></label>
+            <div class="col-sm-9">
+              <div class="clearfix">
+                <input type="text" id="port" class="col-xs-10 col-sm-5" maxlength="128" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 当前日志 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Log Operation"></label>
+          <div class="col-sm-9 form-right-text">
+            <button id="clear-log" class="btn btn-main btn-mini" data-i18n="Clear"></button>
+            <button id="download-log" class="btn btn-mini" data-i18n="Download"></button>
+          </div>
+        </div>
+      </div> <!-- statusSets -->
+
+      <div class="clearfix form-actions">
+        <div class="col-md-offset-3 col-md-9">
+          <button class="btn btn-second" type="button" id="refresh"><span data-i18n="Refresh"></span></button>
+          &nbsp; &nbsp; &nbsp;
+          <button class="btn btn-main" type="button" id="apply"><span data-i18n="Apply"></span></button>
+        </div>
+      </div>
+
+    </div>
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+    var syslog;
+    function load_syslog()
+    {
+        he.load( [ 'land@syslog' ] ).then( function(v){
+            syslog = v[0];
+            if ( syslog.status == "enable" || syslog.status == "both" )
+            {
+                $('#status').prop('checked', true );
+            }
+            else
+            {
+                $('#status').prop('checked', false );
+            }
+            $('#location').val( syslog.location );
+            $('#size').val( syslog.size );
+            $('#level').val( syslog.level );
+            $('#remote').prop('checked', !!syslog.remote);
+            $('#server').val(syslog.remote);
+            $('#port').val(syslog.port);
+
+            $('#status').unbind('change').change(function () {
+                if ($(this).prop('checked'))
+                {
+                    $('#statusSets').show()
+                }
+                else
+                {
+                    $('#statusSets').hide()
+                }
+            }).trigger('change');
+
+            $('#remote').unbind('change').change(function () {
+                if ($(this).prop('checked'))
+                {
+                    $('#syslogdSets').show();
+                }
+                else
+                {
+                    $('#syslogdSets').hide();
+                }
+            }).trigger('change')
+            
+        });
+    }
+    function save_syslog()
+    {
+        if ( syslog == null )
+        {
+            return;
+        }
+        var syslogcopy = JSON.parse(JSON.stringify(syslog));
+
+        if ( $('#status').prop('checked') == true )
+        {
+            syslog.status = "enable";
+            syslog.location = $('#location').val();
+            syslog.size = $('#size').val();
+            syslog.level = $('#level').val();
+            // 启用远程日志
+            if ( $('#remote').prop('checked') )
+            {
+                syslog.remote = $('#server').val();
+                syslog.port = $('#port').val();
+            }
+            else
+            {
+                syslog.remote = '';
+            }
+        }
+        else
+        {
+            syslog.status = "disable";
+        }
+        if ( ocompare( syslog, syslogcopy ) )
+        {
+            page.alert( { message: $.i18n('Settings unchanged') } );
+            return;
+        }
+        he.save( [ "land@syslog="+JSON.stringify(syslog) ] ).then( function(){
+            page.hint2succeed( $.i18n('Modify successfully') );
+            load_syslog();
+        });
+    }
+
+    $.i18n().load( page.lang('debug') ).then( function () {
+      /* init the langauage */
+      $.i18n().locale = lang; $('body').i18n();
+      /* load the configure */
+      load_syslog();
+      /* bind the refresh */
+      $('#refresh').on(ace.click_event, function () {
+        location.reload();
+      });
+      /* bind the apply to save configure */
+      $('#apply').on(ace.click_event, function () {
+        save_syslog();
+      });
+      // 清除日志
+      $('#clear-log').on(ace.click_event, function (e) {
+        e.preventDefault();
+        he.exec('land@syslog.clear').then(function () {
+          $('.page-content-area').ace_ajax('reload');
+        });
+      });
+      
+      // 下载日志
+      $('#download-log').on(ace.click_event, function (e) {
+        e.preventDefault();
+        var submitForm = document.createElement("FORM");
+        document.body.appendChild(submitForm);
+        submitForm.method= "GET";
+        submitForm.action= "/cgi/log";
+        submitForm.submit();
+      });
+      
+    });
+
+
+  })();
+</script>

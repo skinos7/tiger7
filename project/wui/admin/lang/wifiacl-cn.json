@@ -1,0 +1,23 @@
+{
+	"WIFI 2.4G ACL": "无线2.4G访问控制",
+	"WIFI 5.8G ACL": "无线5.8G访问控制",
+	"ACL Type": "控制模式",
+	"ACL Status": "访问控制状态",
+	"ACL Table": "访问控制列表",
+	"White List": "白名单（列表中终端允许访问）",
+	"Black List": "黑名单（列表中终端禁止访问）",
+	"ACL Lists": "名单列表",
+	"Black Lists": "黑名单",
+	"Scan": "扫描",
+
+	"ACL List": "访问控制名单",
+	"Station List": "客户端列表",
+	"MAC":"MAC地址",
+	"IP Address":"IP地址",
+	"Hostname":"主机名",
+	"Live Time":"在线时长",
+	"RSSI":"信号强度",
+	"Operation": "操作",
+	"The wireless client will be disconneted because of the change of configuration":"修改无线配置将导致无线客户端断开连接"
+	
+}

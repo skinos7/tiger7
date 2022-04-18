@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta charset="utf-8" />
+
+		<!-- <meta name="description" content="overview &amp; stats" /> -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+		<!-- bootstrap & fontawesome -->
+		<link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="/assets/css/font-awesome.min.css" />
+
+		<!-- text fonts -->
+        <link rel="stylesheet" href="/assets/css/ace-fonts.min.css" />
+		<!--<link rel="stylesheet" href="/assets/css/fonts.googleapis.com.css" />-->
+		<!-- ace styles -->
+		<link rel="stylesheet" href="/assets/css/ace.min.css" />
+		<!--[if lte IE 9]>
+			<link rel="stylesheet" href="/assets/css/ace-part2.min.css" />
+		<![endif]-->
+		<link rel="stylesheet" href="/assets/css/ace-skins.min.css" />
+		<!-- <link rel="stylesheet" href="/assets/css/ace-rtl.min.css" /> -->
+
+		<!--[if lte IE 9]>
+		  <link rel="stylesheet" href="/assets/css/ace-ie.min.css" />
+		<![endif]-->
+		<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+
+		<!--[if lte IE 8]>
+		<script src="/assets/js/html5shiv.min.js"></script>
+		<script src="/assets/js/respond.min.js"></script>
+		<![endif]-->
+
+
+
+		<!-- custom styles related to this page -->
+        <%csspath(); %>;
+        <!--<link rel="stylesheet" href="/assets/css/custom.css" />-->
+
+
+		
+	</head>
+
+	<body class="login-layout">
+		<div class="main-container">
+			<div class="main-content">
+				<div class="row">
+					<div class="col-sm-10 col-sm-offset-1">
+						<div class="login-container">
+							<div class="center" id="logo">
+								<h1><span class="white" id="id-text2" data-i18n="Management"></span></h1>
+								<h4 class="blue" id="copywrong">&copy; Ashyelf</h4>
+							</div>
+							<div class="space-6"></div>
+							<div class="position-relative">
+
+
+							
+								<div id="login-box" class="login-box visible widget-box no-border">
+									<div class="widget-body">
+										<div class="widget-main">
+											<h4 class="header blue lighter bigger" id="login-header" ><i class="ace-icon fa fa-coffee main-color"></i>&nbsp;<span class="main-color" id="prompt"></span></h4>
+											<div class="space-6"></div>
+											<form method="post" action="/action/login">
+												<fieldset>
+													<label class="block clearfix">
+														<span class="block input-icon input-icon-right"><input type="text" class="form-control" name="username" id="username" /><i class="ace-icon fa fa-user"></i></span>
+													</label>
+													<label class="block clearfix">
+														<span class="block input-icon input-icon-right"><input type="password" class="form-control" name="password" id="password" /><i class="ace-icon fa fa-eye-slash" id="password-icon"></i></span>
+													</label>
+													<div class="space"></div>
+													<div class="clearfix">
+														<button type="submit" class="width-35 pull-right btn btn-sm btn-main"><i class="ace-icon fa fa-key"></i><span class="bigger-110" data-i18n="Login"></span></button>
+													</div>
+													<div class="space-4"></div>
+												</fieldset>
+											</form>
+										</div><!-- /.widget-main -->
+
+										<div class="toolbar clearfix" style="display: none;" >
+											<div><a href="#" data-target="#forgot-box" class="forgot-password-link"><i class="ace-icon fa fa-arrow-left"></i><span data-i18n="Auto Test"></span></a></div>
+											<div><a href="#" data-target="#signup-box" class="user-signup-link"><span data-i18n="Status View"></span><i class="ace-icon fa fa-arrow-right"></i></a></div>
+										</div>
+									</div><!-- /.widget-body -->
+								</div><!-- /.login-box -->
+
+
+
+								
+							</div><!-- /.position-relative -->
+
+						</div>
+					</div><!-- /.col -->
+				</div><!-- /.row -->
+			</div><!-- /.main-content -->
+		</div><!-- /.main-container -->
+
+		<!-- basic scripts -->
+
+		<!--[if !IE]> -->
+		<script src="/assets/js/jquery-2.2.1.min.js"></script>
+		<!-- <![endif]-->
+		<!--[if IE]>
+		<script src="assets/js/jquery-1.12.1.min.js"></script>
+		<![endif]-->
+		<script type="text/javascript">
+			if('ontouchstart' in document.documentElement) document.write("<script src='/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+		</script>
+
+		<!-- ace scripts -->
+		<script src="/assets/js/ace.min.js"></script>
+
+		<!-- add by dimmalex for i18n -->
+		<script src="/assets/js/jquery.i18n.js"></script>
+		<script src="/assets/js/jquery.i18n.messagestore.js"></script>
+		<!-- add by dimmalex for api -->
+		<script src="/api/code.js"></script>
+		<script src="/api/he.js"></script>
+		<script src="/api/misc.js"></script>
+
+		<!-- inline scripts related to this page -->
+		<script type="text/javascript">
+			window.object = <%object(); %>;
+			document.title = <%he('machine:title'); %>;	
+			window.machine = <%he('machine'); %>;
+			window.machine_status = <%he('machine.status'); %>;
+			window.custom = <%he('arch@custom'); %>;
+			window.wui = <%config(); %>;
+			window.lang = window.machine.language;
+			$('#prompt').html( document.title );
+            if ( window.wui && window.wui.logo_file )
+            {
+                $('body').attr('class', 'login-layout light-login');
+                var stamp = '<img src="/assets/css/' + window.wui.logo_file + '" width="' + (window.wui.logo_width || '180px') + '" height="' + (window.wui.logo_height || '100px') + '" /></div>';
+                if ( window.wui.logo_align )
+				{
+                    $('#logo').removeClass("center").addClass( window.wui.logo_align );
+				}
+                $('#logo').html(stamp);
+            }
+            else if ( window.machine.copywrong )
+            {
+                if ( window.machine.copywrong == "hide" )
+                {
+                    $("#copywrong").hide();
+                }
+                else
+                {
+                    $("#copywrong").html( window.machine.copywrong );
+                }
+            }
+
+
+            $('#username').val( window.object );
+			page.password('password', 'password-icon' );
+			/* get the machine config and setup the language */
+			$.i18n().load( page.lang('index') ).then( function () { 
+				$.i18n().locale = lang; $('body').i18n();
+
+				/* focus on the input */
+				$('#password').focus();
+				if (page.param('warn') === 'loginfailed' )
+				{
+						$('#login-header').text($.i18n('Incorrect password')).removeClass('blue').css({
+							color: 'red'
+						});
+				}
+                        
+			})
+
+			jQuery(function($) {
+			 $(document).on('click', '.toolbar a[data-target]', function(e) {
+				e.preventDefault();
+				var target = $(this).data('target');
+				$('.widget-box.visible').removeClass('visible');//hide others
+				$(target).addClass('visible');//show target
+			 });
+			});
+
+		</script>
+	</body>
+</html>

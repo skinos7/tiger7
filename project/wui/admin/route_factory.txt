@@ -1,0 +1,22 @@
+route uri=/assets/
+route uri=/css/
+route uri=/js/
+route uri=/imgs/
+route uri=/lang/
+route uri=/api/
+route uri=/pub/ handler=jst
+
+route uri=/factory.html handler=jst
+route uri=/status.html handler=jst
+route uri=/test.html handler=jst
+route uri=/action/ handler=action
+route uri=/cgi/ handler=cgi
+route uri=/upload handler=upload
+route uri=/content/
+route uri=/prj/
+route uri=/ auth=form handler=continue redirect=401@/factory.html
+route uri=/ extensions=jst,asp,html handler=jst
+
+route uri=/
+
+

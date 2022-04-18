@@ -1,0 +1,27 @@
+{
+	"ntp":"NTP Server",
+	"rtc":"RTC",
+	"lte":"LTE",
+	"set":"Manual",
+	"sourcenull":"Invalid",
+
+	"gateway":"Gateway",
+	"dgateway":"Dual WAN Gateway",
+	"wisp":"2.4G WISP",
+	"nwisp":"5.8G WISP",
+	"dwisp":"Dual WISP Gateway",
+	"mbridge":"LTE/NR Modem",
+	"misp":"LTE Gateway",
+	"nmisp":"LTE/NR Gateway",
+	"dmisp":"Dual 4G Gateway",
+	"ap":"AP",
+	"bridge":"Brige",
+	"repeater":"Repeater",
+	"mix":"Mix",
+
+	"cn":"中文",
+	"en":"English",
+	"th":"ภาษาไทย"
+	
+
+}

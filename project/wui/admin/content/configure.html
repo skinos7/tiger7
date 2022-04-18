@@ -1,0 +1,127 @@
+<!-- ajax layout which only needs content area -->
+<div class="row">
+  <div class="col-xs-12 form-btn-wrapper">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="form-horizontal" role="form">
+
+
+
+
+    <!-- 配置版本 -->
+    <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" for="cfgversion" data-i18n="Configure Version"></label>
+        <div class="col-sm-9">
+          <div id="cfgversion" class="col-xs-10 col-sm-5 form-right-text"></div>
+        </div>
+    </div>
+
+    <div class="hr hr32 hr-dotted"></div>
+    <div class="form-horizontal" role="form">
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right"></label>
+        <div class="col-sm-9">
+          <div class="btn-group">
+            <button class="btn btn-second" data-i18n="Backup Configure" id="backup"></button>
+            <button class="btn btn-warning" data-i18n="Default Configure" id="default"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <!-- 导入配置 -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" for="restore" data-i18n="Restore Configure"></label>
+        <div class="col-sm-9">
+          <div class="col-xs-10 col-sm-5">
+            <input type="file" id="restore" />
+          </div>
+        </div>
+      </div>
+
+
+
+
+    </div>
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+
+
+
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+(function () {    
+
+
+    /* init */
+    $.i18n().load( page.lang('device') ).then( function () {
+        /* init the langauage */
+        $.i18n().locale = lang; $('body').i18n();
+        /* load the info */
+        $('#cfgversion').text(window.machine.cfgversion||$.i18n('Default'));
+        // default
+        $('#default').on(ace.click_event, function () {
+            page.confirm( { message: $.i18n('Are you sure you want to default the system configure') } ).then( function(result){
+                if ( result )
+                {
+                    he.reboot( { title: $.i18n('Restarting...'), hint:$.i18n('Make sure that the device is reconnected'), cmds:["arch@data.default"] } );
+                }
+            });
+        });
+        // 备份配置
+        $('#backup').on(ace.click_event, function () {
+            var submitForm = document.createElement("FORM");
+            document.body.appendChild(submitForm);
+            submitForm.method= "GET";
+            submitForm.action= "/cgi/backup";
+            setTimeout(function() {
+                submitForm.submit();
+            }, 200);
+        });
+        // 导入配置
+        $('#restore').ace_file_input( { no_file: $.i18n('No File'), btn_choose: $.i18n('Choose'), btn_change: $.i18n('Change'), icon_remove: '' } );
+        $('#restore').fileupload({
+            url: '/cgi/restore',
+            paramName: 'filename',
+            dataType: 'text',
+            add: function (e, data)
+            { // 选择文件之后，执行导入之前
+                page.confirm( { message: $.i18n('Need to restart, whether to continue'),
+                    callback: function (result) {
+                        if (result)
+                        {
+                            // 提示正在导入配置
+                            page.overlay($.i18n('Restore...'));
+                            // 执行导入
+                            data.submit();
+                        }
+                    }
+                })
+            },
+            done: function (e, data)
+            {
+                var result = JSON.parse(data.result);
+
+                // 隐藏遮罩
+                page.overlay2hide();
+
+                if ( result.status === 'success')
+                { // 导入成功重启
+                    he.reboot( { title: $.i18n('Restore the configuration is successful, now restarting...'), hint:$.i18n('Make sure that the device is reconnected') } );
+                    
+                }
+                else
+                {
+                    // 提示升级失败
+                    page.alert( { message: $.i18n('Restore Failure') } ).then( function(){ location.reload(); } );
+                }
+            }
+        });
+
+        
+    });
+
+})();
+</script>

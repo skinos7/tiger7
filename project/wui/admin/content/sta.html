@@ -1,0 +1,1017 @@
+<!-- ajax layout which only needs content area -->
+<div class="row" id="page-modes">
+  <div class="col-xs-12 form-btn-wrapper">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="form-horizontal" role="form">
+
+
+        <!-- 2.4G状态 -->
+        <div class="form-group" id="nsta">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="2.4G AP Client"></label>
+          <div class="col-sm-9">
+            <label>
+              <input id="nstatus" class="ace ace-switch ace-switch-6" type="checkbox" />
+              <span class="lbl"></span>
+            </label>
+          </div>
+        </div>
+
+        <div id="nstaset">
+            <!-- 连接状态 -->
+            <table class="table table-bordered table-striped">
+            <tbody>
+                <tr>
+                    <th data-i18n="Status"></th>
+                    <td>
+                        <span id="nstatus_status"></span>&nbsp; &nbsp;
+                        <a class="btn btn-mini btn-warning" id="nstatus_btn"><i class="ace-icon fa fa-pause"></i></a>&nbsp;
+                    </td>
+                    <th data-i18n="MAC"></th>
+                    <td id="nstatus_mac"></td>
+                </tr>
+                <tr>
+                    <th data-i18n="Peer"></th>
+                    <td id="nstatus_peer"></td>
+                    <th data-i18n="Peer MAC"></th>
+                    <td id="nstatus_peermac"></td>
+                </tr>
+                <tr>
+                    <th data-i18n="RSSI"></th>
+                    <td>
+                        <span><img src="/assets/css/images/signal_0.png" id="nstatus_rssiimg" class="line-signal"></img></span>
+                        <span id="nstatus_rssi"></span>
+                    </td>
+                    <th data-i18n="Channel"></th>
+                    <td id="nstatus_channel"></td>
+                </tr>
+                <tr>
+                    <th data-i18n="Rx/Tx"></th>
+                    <td id="nstatus_rxtx"></td>  
+                    <th data-i18n="Rate"></th>
+                    <td id="nstatus_rate"></td>
+                </tr>
+            </tbody>
+            </table>            
+
+            <!-- 扫描 -->
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" data-i18n="Scan"></label>
+                <div class="col-sm-9 form-right-text"><button class="btn btn-main btn-mini" id="napscan" data-i18n="Scan"></button></div>
+            </div>
+            <!-- 对端 -->
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" data-i18n="Peer SSID"></label>
+                <div class="col-sm-9"><input type="text" id="npeer" class="col-xs-10 col-sm-5" maxlength="128" /></div>
+            </div>
+            <!-- 对端2 -->
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" data-i18n="Peer SSID2"></label>
+                <div class="col-sm-9"><input type="text" id="npeer2" class="col-xs-10 col-sm-5" maxlength="128" /></div>
+            </div>
+            <!-- 对端3 -->
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" data-i18n="Peer SSID3"></label>
+                <div class="col-sm-9"><input type="text" id="npeer3" class="col-xs-10 col-sm-5" maxlength="128" /></div>
+            </div>
+            <!-- 锁定信号最强SSID -->
+            <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Lock Strong Signal"></label>
+              <div class="col-sm-9">
+                <label>
+                  <input id="nstrong" class="ace ace-switch ace-switch-6" type="checkbox" />
+                  <span class="lbl"></span>
+                </label>
+              </div>
+            </div>
+            <!-- 锁定MAC -->
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" data-i18n="Lock BSSID"></label>
+                <div class="col-sm-9"><label><input id="nlock" class="ace ace-switch ace-switch-6" type="checkbox" /><span class="lbl"></span></label></div>
+            </div>
+            <div id="nlockSets">
+                <!-- 对端MAC -->
+                <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right" data-i18n="Peer BSSID"></label>
+                    <div class="col-sm-9"><input type="text" id="npeermac" class="col-xs-10 col-sm-5" maxlength="128" /></div>
+                </div>
+            </div>
+            <!-- 安全模式 -->
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" data-i18n="Security Mode"></label>
+                <div class="col-sm-9">
+                    <select class="col-xs-10 col-sm-5" id="nsecure">
+                        <option value="disable" data-i18n="Disable(None)"></option>
+                        <option value="wpapsk" data-i18n="WPA(Private)"></option>
+                        <option value="wpa2psk" data-i18n="WPA2(Private)"></option>
+                        <option value="wpapskwpa2psk" data-i18n="WPA-Mixed(Private)"></option>
+                    </select>
+                </div>
+            </div>
+            <div id="nsecureSets">
+                <!-- WPA 模式 -->
+                <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" data-i18n="WPA Mode"></label>
+                    <div class="col-sm-9">
+                        <select class="col-xs-10 col-sm-5" id="nwpa_encrypt">
+                            <option value="tkip" data-i18n="TKIP"></option>
+                            <option value="aes" data-i18n="AES"></option>
+                            <option value="tkipaes" data-i18n="Auto"></option>
+                        </select>
+                    </div>
+                </div>
+                <!-- 密码 -->
+                <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right" data-i18n="Password"></label>
+                    <div class="col-sm-9">
+                        <span class="input-icon input-icon-right input-icon-form col-xs-10 col-sm-5">
+                            <input type="password" id="nwpa_key" maxlength="128" autocomplete="new-password" />
+                            <i class="ace-icon fa fa-eye-slash" id="nwpa_key-icon"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <!-- Hidden SSID -->
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" data-i18n="Hidden SSID"></label>
+                <div class="col-sm-9"><label><input id="nhidden" class="ace ace-switch ace-switch-6" type="checkbox" /><span class="lbl"></span></label></div>
+            </div>
+            <div id="nhiddenSets">
+                <!-- 信道 -->
+                <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" data-i18n="Channel"></label>
+                    <div class="col-sm-9">
+                        <select class="col-xs-10 col-sm-5" id="nchannel">
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+      </div> <!-- nstaset -->
+
+
+
+      <!-- 5.8G状态 -->
+      <div class="hr hr32 hr-dotted"></div>
+      <div class="form-group" id="asta">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="5.8G AP Client"></label>
+        <div class="col-sm-9">
+          <label>
+            <input id="astatus" class="ace ace-switch ace-switch-6" type="checkbox" />
+            <span class="lbl"></span>
+          </label>
+        </div>
+      </div>
+    
+      <div id="astaset">
+          <!-- 连接状态 -->
+          <table class="table table-bordered table-striped">
+          <tbody>
+              <tr>
+                  <th data-i18n="Status"></th>
+                  <td>
+                      <span id="astatus_status"></span>&nbsp; &nbsp;
+                      <a class="btn btn-mini btn-warning" id="astatus_btn"><i class="ace-icon fa fa-pause"></i></a>&nbsp;
+                  </td>
+                  <th data-i18n="MAC"></th>
+                  <td id="astatus_mac"></td>
+              </tr>
+              <tr>
+                  <th data-i18n="Peer"></th>
+                  <td id="astatus_peer"></td>
+                  <th data-i18n="Peer MAC"></th>
+                  <td id="astatus_peermac"></td>
+              </tr>
+              <tr>
+                  <th data-i18n="RSSI"></th>
+                  <td>
+                      <span><img src="/assets/css/images/signal_0.png" id="astatus_rssiimg" class="line-signal"></img></span>
+                      <span id="astatus_rssi"></span>
+                  </td>
+                  <th data-i18n="Channel"></th>
+                  <td id="astatus_channel"></td>
+              </tr>
+              <tr>
+                  <th data-i18n="Rx/Tx"></th>
+                  <td id="astatus_rxtx"></td>
+                  <th data-i18n="Rate"></th>
+                  <td id="astatus_rate"></td>
+              </tr>
+          </tbody>
+          </table>            
+    
+          <!-- 扫描 -->
+          <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Scan"></label>
+              <div class="col-sm-9 form-right-text"><button class="btn btn-main btn-mini" id="aapscan" data-i18n="Scan"></button></div>
+          </div>
+          <!-- 对端 -->
+          <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Peer SSID"></label>
+              <div class="col-sm-9"><input type="text" id="apeer" class="col-xs-10 col-sm-5" maxlength="128" /></div>
+          </div>
+          <!-- 对端2 -->
+          <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Peer SSID2"></label>
+              <div class="col-sm-9"><input type="text" id="apeer2" class="col-xs-10 col-sm-5" maxlength="128" /></div>
+          </div>
+          <!-- 对端3 -->
+          <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Peer SSID3"></label>
+              <div class="col-sm-9"><input type="text" id="apeer3" class="col-xs-10 col-sm-5" maxlength="128" /></div>
+          </div>
+          <!-- 锁定信号最强SSID -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Lock Strong Signal"></label>
+            <div class="col-sm-9">
+              <label>
+                <input id="astrong" class="ace ace-switch ace-switch-6" type="checkbox" />
+                <span class="lbl"></span>
+              </label>
+            </div>
+          </div>
+          <!-- 锁定MAC -->
+          <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Lock BSSID"></label>
+              <div class="col-sm-9"><label><input id="alock" class="ace ace-switch ace-switch-6" type="checkbox" /><span class="lbl"></span></label></div>
+          </div>
+          <div id="alockSets">
+              <!-- 对端MAC -->
+              <div class="form-group">
+                  <label class="col-sm-3 control-label no-padding-right" data-i18n="Peer BSSID"></label>
+                  <div class="col-sm-9"><input type="text" id="apeermac" class="col-xs-10 col-sm-5" maxlength="128" /></div>
+              </div>
+          </div>
+          <!-- 安全模式 -->
+          <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Security Mode"></label>
+              <div class="col-sm-9">
+                  <select class="col-xs-10 col-sm-5" id="asecure">
+                      <option value="disable" data-i18n="Disable(None)"></option>
+                      <option value="wpapsk" data-i18n="WPA(Private)"></option>
+                      <option value="wpa2psk" data-i18n="WPA2(Private)"></option>
+                      <option value="wpapskwpa2psk" data-i18n="WPA-Mixed(Private)"></option>
+                  </select>
+              </div>
+          </div>
+          <div id="asecureSets">
+              <!-- WPA 模式 -->
+              <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="WPA Mode"></label>
+                  <div class="col-sm-9">
+                      <select class="col-xs-10 col-sm-5" id="awpa_encrypt">
+                          <option value="tkip" data-i18n="TKIP"></option>
+                          <option value="aes" data-i18n="AES"></option>
+                          <option value="tkipaes" data-i18n="Auto"></option>
+                      </select>
+                  </div>
+              </div>
+              <!-- 密码 -->
+              <div class="form-group">
+                  <label class="col-sm-3 control-label no-padding-right" data-i18n="Password"></label>
+                  <div class="col-sm-9">
+                      <span class="input-icon input-icon-right input-icon-form col-xs-10 col-sm-5">
+                          <input type="password" id="awpa_key" maxlength="128" autocomplete="new-password" />
+                          <i class="ace-icon fa fa-eye-slash" id="awpa_key-icon"></i>
+                      </span>
+                  </div>
+              </div>
+          </div>
+          <!-- Hidden SSID -->
+          <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Hidden SSID"></label>
+              <div class="col-sm-9"><label><input id="ahidden" class="ace ace-switch ace-switch-6" type="checkbox" /><span class="lbl"></span></label></div>
+          </div>
+          <div id="ahiddenSets">
+              <!-- 信道 -->
+              <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Channel"></label>
+                  <div class="col-sm-9">
+                      <select class="col-xs-10 col-sm-5" id="achannel">
+                      </select>
+                  </div>
+              </div>
+          </div>
+    
+    </div> <!-- astaset -->
+    
+
+
+
+      <div class="clearfix form-actions">
+        <div class="col-md-offset-3 col-md-9">
+          <button class="btn btn-second" type="button" id="refresh"><span data-i18n="Refresh"></span></button>
+          &nbsp; &nbsp; &nbsp;
+          <button class="btn btn-main" type="button" id="apply"><span data-i18n="Apply"></span></button>
+        </div>
+      </div>
+
+
+
+
+      <div id="aplist-modal" class="modal" tabindex="-1">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header"><button type="button" class="close" data-dismiss="modal">&times;</button><h4 data-i18n="Choose"></h4></div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <table id="aplist-grid-table"></table>
+                            <div id="aplist-grid-pager"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-sm btn-main" id="rescan" data-i18n="Rescan"></button>
+                    <button class="btn btn-sm btn-second" data-dismiss="modal" data-i18n="Cancel"></button>
+                </div>
+              </div>
+          </div>
+      </div>
+
+
+
+    </div>
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+    /* get the object */
+    var nsta;
+    var asta;
+    var nchlist;
+    var achlist;
+
+
+
+    /* load the configure on the input */
+    function cfg_load()
+    {
+      he.load( [ 'wifi@nsta', 'wifi@nsta.chlist', 'wifi@asta', 'wifi@asta.chlist' ] ).then( function(v){
+
+        /* 2.4G */
+        nsta = v[0];
+        nchlist = v[1];
+        if ( nchlist == null )
+        {
+            $('#nsta').hide(); $('#nstaset').hide();
+        }
+        else
+        {
+            var selects = "";
+            $('#nsta').show();
+            for ( var ch in nchlist )
+            {
+                selects += ('<option value="' + ch + '">' + $.i18n( ch ) + '</option>');
+            }
+            $("#nchannel").html( selects );
+            if ( nsta )
+            {
+                if ( nsta.status )
+                {
+                    $('#nstatus').prop( 'checked', able2boole(nsta.status) );
+                }
+                else if ( nsta.peer || nsta.peermac )
+                {
+                    $('#nstatus').prop( 'checked', true );
+                }
+                $('#npeer').val( nsta.peer || '' );
+                $('#npeer2').val( nsta.peer2 || '' );
+                $('#npeer3').val( nsta.peer3 || '' );
+                $('#nstrong').prop( 'checked', able2boole(nsta.strong) );
+                $('#npeermac').val( nsta.peermac || '' );
+                $('#nsecure').val( nsta.secure || 'disable' );
+                $('#nwpa_encrypt').val( nsta.wpa_encrypt || 'tkipaes' );
+                $('#nwpa_key').val( nsta.wpa_key || '' );
+                $('#nlock').prop( 'checked', nsta.peermac );
+                $('#nhidden').prop( 'checked', nsta.peermode=="hidden" );
+                $('#nchannel').val( nsta.channel || '1' );
+            }
+            else
+            {
+                $('#nstatus').prop( 'checked', false );
+            }
+            $('#nstatus').unbind('change').change(function () {
+              if ($(this).prop('checked'))
+              {
+                $('#nstaset').show();
+              }
+              else
+              {
+                $('#nstaset').hide();
+              }
+            }).trigger('change');
+            $('#nsecure').unbind('change').change(function (e) {
+                var secure = e.target.value;
+                if ( secure === 'disable' )
+                {
+                    $('#nsecureSets').hide();
+                }
+                else
+                {
+                    $('#nsecureSets').show();
+                }
+            }).trigger('change');
+            $('#nstrong').unbind('change').change(function (e) {
+                if ($(this).prop('checked'))
+                {
+                    $('#nlock').prop( 'checked', false );
+                    $('#nlockSets').hide();
+                }
+            }).trigger('change');
+            $('#nlock').unbind('change').change(function (e) {
+                if ($(this).prop('checked'))
+                {
+                    $('#nstrong').prop( 'checked', false );
+                    $('#nlockSets').show();
+                }
+                else
+                {
+                    $('#nlockSets').hide();
+                }
+            }).trigger('change');
+            $('#nhidden').unbind('change').change(function (e) {
+                if ($(this).prop('checked'))
+                {
+                    $('#nhiddenSets').show();
+                }
+                else
+                {
+                    $('#nhiddenSets').hide();
+                }
+            }).trigger('change');
+        }
+
+        /* 5.8G */
+        asta = v[2];
+        achlist = v[3];
+        if ( achlist == null )
+        {
+            $('#asta').hide(); $('#astaset').hide();
+        }
+        else
+        {
+            var selects = "";
+            $('#asta').show();
+            for ( var ch in achlist )
+            {
+                selects += ('<option value="' + ch + '">' + $.i18n( ch ) + '</option>');
+            }
+            $("#achannel").html( selects );
+            if ( asta )
+            {
+                if ( asta.status )
+                {
+                    $('#astatus').prop( 'checked', able2boole(asta.status) );
+                }
+                else if ( asta.peer || asta.peermac )
+                {
+                    $('#astatus').prop( 'checked', true );
+                }
+                $('#apeer').val( asta.peer || '' );
+                $('#apeer2').val( asta.peer2 || '' );
+                $('#apeer3').val( asta.peer3 || '' );
+                $('#astrong').prop( 'checked', able2boole(asta.strong) );
+                $('#apeermac').val( asta.peermac || '' );
+                $('#asecure').val( asta.secure || 'disable' );
+                $('#awpa_encrypt').val( asta.wpa_encrypt || 'tkipaes' );
+                $('#awpa_key').val( asta.wpa_key || '' );
+                $('#alock').prop( 'checked', asta.peermac );
+                $('#ahidden').prop( 'checked', asta.peermode=="hidden" );
+                $('#achannel').val( asta.channel || '1' );
+            }
+            else
+            {
+                $('#astatus').prop( 'checked', false );
+            }
+            $('#astatus').unbind('change').change(function () {
+              if ($(this).prop('checked'))
+              {
+                $('#astaset').show();
+              }
+              else
+              {
+                $('#astaset').hide();
+              }
+            }).trigger('change');
+            $('#asecure').unbind('change').change(function (e) {
+                var secure = e.target.value;
+                if ( secure === 'disable' )
+                {
+                    $('#asecureSets').hide();
+                }
+                else
+                {
+                    $('#asecureSets').show();
+                }
+            }).trigger('change');
+            $('#astrong').unbind('change').change(function (e) {
+                if ($(this).prop('checked'))
+                {
+                    $('#alock').prop( 'checked', false );
+                    $('#alockSets').hide();
+                }
+            }).trigger('change');
+            $('#alock').unbind('change').change(function (e) {
+                if ($(this).prop('checked'))
+                {
+                    $('#astrong').prop( 'checked', false );
+                    $('#alockSets').show();
+                }
+                else
+                {
+                    $('#alockSets').hide();
+                }
+            }).trigger('change');
+            $('#ahidden').unbind('change').change(function (e) {
+                if ($(this).prop('checked'))
+                {
+                    $('#ahiddenSets').show();
+                }
+                else
+                {
+                    $('#ahiddenSets').hide();
+                }
+            }).trigger('change');
+        }
+
+      })
+    }
+
+
+    /* load the status */
+    function status_load()
+    {
+      he.bkload( [ "wifi@nsta.status", "wifi@asta.status" ] ).then( function(v){
+        /* 2.4G */
+        var id = "#nstatus";
+        var info = v[0];
+        if ( info )
+        {
+            if ( info.status )
+            {
+                $(id+"_btn").html( '<i class="ace-icon fa fa-pause"></i>' );
+                $(id+"_status").text( $.i18n(info.status) );
+                if ( info.status == "uping" )
+                {
+                    if ( info.step )
+                    {
+                        $(id+"_status").text( $.i18n(info.step) );
+                    }
+                }
+                else if ( info.status == "down" )
+                {
+                    $(id+"_btn").html( '<i class="ace-icon fa fa-play"></i>' );
+                }
+                if ( info.error )
+                {
+                    $(id+"_status").text( $.i18n(info.error) );
+                }
+            }
+            else
+            {
+                $(id+"_btn").html( '<i class="ace-icon fa fa-play"></i>' );
+                $(id+"_status").text( $.i18n("down") );
+            }
+            if ( info.rate )
+            {
+                $(id+"_rate").text( info.rate+'Mbps' );
+            }
+            $(id+"_peer").text( info.peer||' ' );
+            $(id+"_peermac").text( info.peermac||' ' );
+            $(id+"_channel").text( info.channel||' ' );
+            if ( info.sig )
+            {
+                $(id+"_rssi").text( info.sig+"%" );
+            }
+            else if ( info.rssi )
+            {
+                $(id+"_rssi").text( info.rssi+"dBm" );
+            }
+            if ( info.signal )
+            {
+                $(id+"_rssiimg").attr( "src", "/assets/css/images/signal_"+info.signal+".png" );            
+            }
+            $(id+"_mac").text( info.mac||' ' );
+            $(id+"_rxtx").text( byte2readable( (info.rx_bytes||"0") ) + " / " + byte2readable( (info.tx_bytes||"0") ) );
+        }
+
+        /* 5.8G */
+        var id = "#astatus";
+        var info = v[1];
+        if ( info )
+        {
+            if ( info.status )
+            {
+                $(id+"_btn").html( '<i class="ace-icon fa fa-pause"></i>' );
+                $(id+"_status").text( $.i18n(info.status) );
+                if ( info.status == "uping" )
+                {
+                    if ( info.step )
+                    {
+                        $(id+"_status").text( $.i18n(info.step) );
+                    }
+                }
+                else if ( info.status == "down" )
+                {
+                    $(id+"_btn").html( '<i class="ace-icon fa fa-play"></i>' );
+                }
+                if ( info.error )
+                {
+                    $(id+"_status").text( $.i18n(info.error) );
+                }
+            }
+            else
+            {
+                $(id+"_btn").html( '<i class="ace-icon fa fa-play"></i>' );
+                $(id+"_status").text( $.i18n("down") );
+            }
+            if ( info.rate )
+            {
+                $(id+"_rate").text( info.rate+'Mbps' );
+            }
+            $(id+"_peer").text( info.peer||' ' );
+            $(id+"_peermac").text( info.peermac||' ' );
+            $(id+"_channel").text( info.channel||' ' );
+            if ( info.sig )
+            {
+                $(id+"_rssi").text( info.sig+"%" );
+            }
+            if ( info.signal )
+            {
+                $(id+"_rssiimg").attr( "src", "/assets/css/images/signal_"+info.signal+".png" );            
+            }
+            $(id+"_mac").text( info.mac||' ' );
+            $(id+"_rxtx").text( byte2readable( (info.rx_bytes||"0") ) + " / " + byte2readable( (info.tx_bytes||"0") ) );
+        }
+        
+      })
+    }
+
+    /* save the configure */
+    function cfg_save()
+    {
+      var cmd = [];
+      var nstacopy = null;
+      var astacopy = null;
+      var needsave = false;
+
+      /* 2.4G */
+      if ( nchlist != null )
+      {
+          if ( nsta == null )
+          {
+            nsta = {};
+          }
+          var nstacopy = JSON.parse(JSON.stringify(nsta));
+          nsta.status = boole2able( $('#nstatus').prop('checked') );
+          if ( nsta.status == "enable" )
+          {
+            nsta.peer = $('#npeer').val();
+            nsta.peer2 = $('#npeer2').val();
+            nsta.peer3 = $('#npeer3').val();
+            nsta.strong = boole2able( $('#nstrong').prop('checked') );
+            nsta.peermac = '';
+            if ( $('#nlock').prop('checked') )
+            {
+                nsta.peermac = $('#npeermac').val();
+                if ( check.mac( nsta.peermac, true ) == false )
+                {
+                    page.alert( {
+                        message: $.i18n('Peer BSSID')+" "+$.i18n('must be a valid MAC address'),
+                        callback: function()
+                        {
+                            $('#npeermac').select();
+                        }
+                    } );
+                    return;
+                }
+            }
+            nsta.secure = $('#nsecure').val();
+            if ( nsta.secure != 'disable' )
+            {
+                nsta.wpa_encrypt = $('#nwpa_encrypt').val();
+                nsta.wpa_key = $('#nwpa_key').val();
+                if ( !nsta.wpa_key )
+                {
+                  page.alert( { message: $.i18n('Password')+" "+$.i18n('can not be empty') } );
+                  return;
+                }
+            }
+            delete nsta.peermode;
+            delete nsta.channel;
+            if ( $('#nhidden').prop('checked') )
+            {
+                nsta.peermode = "hidden";
+                nsta.channel = $('#nchannel').val();
+                if ( !nsta.channel )
+                {
+                  page.alert( { message: $.i18n('Channel')+" "+$.i18n('can not be empty') } );
+                  return;
+                }
+            }
+          }
+          if ( !ocompare( nsta, nstacopy ) )
+          {
+            cmd.push( "wifi@nsta="+JSON.stringify(nsta) );
+          }
+      }
+      /* 5.8G */
+      if ( achlist != null )
+      {
+          if ( asta == null )
+          {
+            asta = {};
+          }
+          var astacopy = JSON.parse(JSON.stringify(asta));
+          asta.status = boole2able( $('#astatus').prop('checked') );
+          if ( asta.status == "enable" )
+          {
+            asta.peer = $('#apeer').val();
+            asta.peer2 = $('#apeer2').val();
+            asta.peer3 = $('#apeer3').val();
+            asta.strong = boole2able( $('#astrong').prop('checked') );
+            asta.peermac = '';
+            if ( $('#alock').prop('checked') )
+            {
+                asta.peermac = $('#apeermac').val();
+                if ( check.mac( asta.peermac, true ) == false )
+                {
+                    page.alert( {
+                        message: $.i18n('Peer BSSID')+" "+$.i18n('must be a valid MAC address'),
+                        callback: function()
+                        {
+                            $('#apeermac').select();
+                        }
+                    } );
+                    return;
+                }
+            }
+            asta.secure = $('#asecure').val();
+            if ( asta.secure != 'disable' )
+            {
+                asta.wpa_encrypt = $('#awpa_encrypt').val();
+                asta.wpa_key = $('#awpa_key').val();
+                if ( !asta.wpa_key )
+                {
+                  page.alert( { message: $.i18n('Password')+" "+$.i18n('can not be empty') } );
+                  return;
+                }
+            }
+            delete asta.peermode;
+            delete asta.channel;
+            if ( $('#ahidden').prop('checked') )
+            {
+                asta.peermode = "hidden";
+                asta.channel = $('#achannel').val();
+                if ( !asta.channel )
+                {
+                  page.alert( { message: $.i18n('Channel')+" "+$.i18n('can not be empty') } );
+                  return;
+                }
+            }
+          }
+          if ( !ocompare( asta, astacopy ) )
+          {
+            cmd.push( "wifi@asta="+JSON.stringify(asta) );
+          }
+      }
+
+      /* ifname
+      if ( !ocompare( ifname, ifnamecopy ) )
+      {
+          cmd.push( ifobj+"="+JSON.stringify(ifname) );
+          page.confirm( { message: $.i18n('The system will restart because of the change of configuration') } ).then( function(result){
+              if ( result )
+              {
+                  he.save( cmd ).then( function(){
+                      page.confirm( { message: $.i18n('Need to restart the system') } ).then( function(result){
+                          if ( result )
+                          {
+                              he.reboot( { title: $.i18n('Restarting to apply...'), hint:$.i18n('Make sure that the device is reconnected') } );
+                          }
+                          else
+                          {
+                              cfg_load();
+                          }
+                      });
+                  });
+              }
+          });
+          return;
+      }
+      else */
+      {
+          he.save( cmd ).then( function(){
+            page.hint2succeed( $.i18n('Modify successfully') );
+            cfg_load();
+          });
+      }
+    }
+    
+
+
+    /* init */
+    page.password('nwpa_key', 'nwpa_key-icon' );
+    page.password('awpa_key', 'awpa_key-icon' );
+    $.i18n().load( page.lang('wan') ).then( function () {
+        /* init the langauage */
+        $.i18n().locale = lang; $('body').i18n();
+        //初始化扫描表格
+        jqtable.create( '#aplist-grid-table', '#aplist-grid-pager',
+            {
+                multiselect: false,
+                caption: $.i18n('AP List'),
+                colNames: [ $.i18n('Choose'), $.i18n('SSID'), $.i18n('Channel'), $.i18n('Signal'), $.i18n('MAC'), $.i18n('Security Mode'), $.i18n('WPA Mode') ],
+                colModel:
+                [
+                    {
+                        name: 'choose', width: 80,
+                        fixed: true, sortable: false,
+                        formatter: function ( cellvalue, options, rowObject )
+                        {
+                            return '<button class="btn btn-main btn-xs btn-choose" onclick="sta_ap_select(' + options.rowId + ')" data-id="' + options.rowId + '">' + $.i18n('Choose') + '</button>'
+                        }
+                    },
+                    { name: 'ssid', width: 180 },
+                    { name: 'channel', width: 50 },
+                    {
+                        name: 'signal', width: 50,
+                        formatter: function ( cellvalue, options, rowObject )
+                        {
+                            if ( cellvalue > 0 )
+                            {
+                                return "<img src='/assets/css/images/signal_"+cellvalue+".png' class='line-signal'></img>";
+                            }
+                            else
+                            {
+                                return "<img src='/assets/css/images/signal_0.png' class='line-signal'></img>";
+                            }
+                        }
+                    },
+                    { name: 'mac', width: 130 },
+                    {
+                        name: 'secure', width: 130,
+                        formatter: function ( cellvalue )
+                        {
+                            return '<span data-secure="' + cellvalue + '">' + $.i18n(cellvalue) + '</span>';
+                        },
+                        unformat: function (cellvalue, options, cell)
+                        {
+                            return $(cell).children('span').data('secure');
+                        }
+                    },
+                    {
+                        name: 'wpa_encrypt', width: 80,
+                        formatter: function (cellvalue)
+                        {
+                            return '<span data-wpa_encrypt="' + cellvalue + '">' + $.i18n(cellvalue) + '</span>';
+                        },
+                        unformat: function (cellvalue, options, cell)
+                        {
+                            return $(cell).children('span').data('wpa_encrypt');
+                        }
+                    }
+                ]
+            }
+        ).jqGrid( 
+              'navGrid', '#aplist-grid-pager',
+              $.extend(true, {}, jqtable.navOptions,
+              		{
+              			add: false,
+						edit: false,
+						search: false,
+						refresh: false,
+						del: false,
+						view: false
+					}
+			  ),
+              {},{},{}
+        );
+
+        /* load the configure */
+        status_load();
+        cfg_load();
+        $('#nstatus_btn').on(ace.click_event, function () {
+            if ( $('#nstatus_status').text() == $.i18n('down') )
+            {
+                he.exec( 'wifi@nsta.up').then( function(result){status_load();} );
+            }
+            else
+            {
+                he.exec( 'wifi@nsta.down').then( function(result){status_load();} );
+            }
+        });
+        $('#astatus_btn').on(ace.click_event, function () {
+            if ( $('#astatus_status').text() == $.i18n('down') )
+            {
+                he.exec( 'wifi@asta.up').then( function(result){status_load();} );
+            }
+            else
+            {
+                he.exec( 'wifi@asta.down').then( function(result){status_load();} );
+            }
+        });
+
+        // 设置定时器
+        page.timing({
+          refresh: function ()
+          {
+              status_load();
+          },
+          interval: 3000
+        });
+
+        // 扫描周围的ap
+        $('#napscan').unbind(ace.click_event).on(ace.click_event, function () {
+            sta_ap_prefix = "#n";
+            sta_ap_cmd = "wifi@nsta.aplist";
+            he.exec( [ sta_ap_cmd ], $.i18n("Scanning") ).then( function(v){
+                var list = v[0];
+                var rows = json2array( list, {}, "mac" );
+                // 给表格赋值
+                $('#aplist-grid-table').jqGrid('clearGridData').jqGrid('setGridParam', {
+                    data: rows
+                }).trigger('reloadGrid');
+                $('#aplist-modal').modal('show');
+            });
+        });
+        $('#aapscan').unbind(ace.click_event).on(ace.click_event, function () {
+            sta_ap_prefix = "#a";
+            sta_ap_cmd = "wifi@asta.aplist";
+            he.exec( [ sta_ap_cmd ], $.i18n("Scanning") ).then( function(v){
+                var list = v[0];
+                var rows = json2array( list, {}, "mac" );
+                // 给表格赋值
+                $('#aplist-grid-table').jqGrid('clearGridData').jqGrid('setGridParam', {
+                    data: rows
+                }).trigger('reloadGrid');
+                $('#aplist-modal').modal('show');
+            });
+        });
+        $('#rescan').unbind(ace.click_event).on(ace.click_event, function () {
+            he.exec( [ sta_ap_cmd ], $.i18n("Scanning") ).then( function(v){
+                var list = v[0];
+                var rows = json2array( list, {}, "mac" );
+                // 给表格赋值
+                $('#aplist-grid-table').jqGrid('clearGridData').jqGrid('setGridParam', {
+                    data: rows
+                }).trigger('reloadGrid');
+                // 显示对话框
+                $('#aplist-modal').modal('show');
+            });
+        });
+
+        /* bind the refresh */
+        $('#refresh').on(ace.click_event, function () {
+            location.reload();
+        });
+        /* bind the apply */
+        $('#apply').on(ace.click_event, function () {
+            cfg_save();
+        });
+
+    });
+
+
+  })();
+
+  /* 必须在全局中才可以被调用到 */
+  var sta_ap_cmd = null;
+  var sta_ap_prefix = null;
+  function sta_ap_select( rowId )
+  {
+    // 隐藏表格
+    $('#aplist-modal').modal('hide');
+    // 某个选中行的数据
+    var ap = $('#aplist-grid-table').jqGrid( 'getRowData', rowId );
+    // 将选中的数据填到对应的输入框中
+    $(sta_ap_prefix+'peer').val( ap.ssid );
+    $(sta_ap_prefix+'peermac').val( ap.mac );
+    $(sta_ap_prefix+'lock').prop( 'checked', false );
+    $(sta_ap_prefix+'lock').trigger('change');
+    $(sta_ap_prefix+'secure').val( ap.secure || 'disable');
+    // wpa_encrypt 为auto 时设置为tkipaes
+    if ( ap.wpa_encrypt === 'auto' )
+    {
+        $(sta_ap_prefix+'wpa_encrypt').val('tkipaes');
+    }
+    else
+    {
+        $(sta_ap_prefix+'wpa_encrypt').val(ap.wpa_encrypt || 'tkipaes');
+    }
+    // 手动触发change，以便显示隐藏密码输入框
+    $(sta_ap_prefix+'secure').trigger('change');
+    // $('#wpa_key').val('');
+    $(sta_ap_prefix+'hidden').prop( 'checked', false );
+    $(sta_ap_prefix+'hidden').trigger('change');
+    $(sta_ap_prefix+'radio').val('');
+    $(sta_ap_prefix+'channel').val('');
+  }
+
+  
+</script>

@@ -70,8 +70,7 @@ talk_t _setup( obj_t this, param_t param )
     /* run the app connection */
     ret = tfalse;
     info( "%s startup", object );
-	ret = scalls( SERVICE_COM, "register", "%s,0,%s,%s", object, object, "service" );
-
+	ret = service_start( object, object, "service", NULL );
     talk_free( cfg );
     return ret;
 }
@@ -492,7 +491,8 @@ talk_t _status( obj_t this, param_t param )
 				ptr = axp_get_attr( axp );
 				if ( strstr( ptr, "sta" ) != NULL )
 				{
-					strncpy( mifdev, ptr, sizeof(mifdev) );
+					strncpy( mifdev, ptr, sizeof(mifdev)-1 );
+					mifdev[sizeof(mifdev)-1] = '\0';
 					break;
 				}
 			}
@@ -558,32 +558,11 @@ talk_t _service( obj_t this, param_t param )
     }
 	json_set_string( cfg, "ifname", object );
 	tid = json_string( cfg, "tid" );
-	if ( tid != NULL )
-	{
-		string2register( object, "tid", reg_tid, tid, 0, 20 );
-	}
-	else
-	{
-		string2register( object, "tid", reg_tid, "", 0, 20 );
-	}
+	string2register( object, "tid", reg_tid, tid, 20 );
 	mode = json_string( cfg, "mode" );
-	if ( mode != NULL )
-	{
-		string2register( object, "mode", reg_mode, mode, 0, 20 );
-	}
-	else
-	{
-		string2register( object, "mode", reg_mode, "", 0, 20 );
-	}
+	string2register( object, "mode", reg_mode, mode, 20 );
 	method = json_string( cfg, "method" );
-	if ( method != NULL )
-	{
-		string2register( object, "method", reg_method, method, 0, 20 );
-	}
-	else
-	{
-		string2register( object, "method", reg_method, "", 0, 20 );
-	}
+	string2register( object, "method", reg_method, method, 20 );
 
     /* ifdev up take this cfg */
     info( "%s up", ifdev );
@@ -854,7 +833,7 @@ boole_t _online( obj_t this, param_t param )
 	ptr = json_string( json_value( cfg, "keeplive"), "type" );
 	if ( ptr != NULL )
 	{
-		string2register( object, "keeplive", reg_keeplive, ptr, 0, 20 );
+		string2register( object, "keeplive", reg_keeplive, ptr, 20 );
 	}
 
 	/* get mode */
@@ -869,7 +848,7 @@ boole_t _online( obj_t this, param_t param )
 	{
 		dns = json_string( value, "dns" );
 		dns2 = json_string( value, "dns2" );
-		string2register( object, "custom_dns", reg_custom_dns, custom_dns, 0, 20 );
+		string2register( object, "custom_dns", reg_custom_dns, custom_dns, 20 );
 	}
 	else
 	{
@@ -880,17 +859,17 @@ boole_t _online( obj_t this, param_t param )
 		{
 			string3file( path, "search %s\n", ptr );
 		}
-		string2register( object, "custom_dns", reg_custom_dns, "disable", 0, 20 );
+		string2register( object, "custom_dns", reg_custom_dns, "disable", 20 );
 	}
 	if ( dns != NULL && *dns != '\0' )
 	{
-		string2register( object, "dns", reg_dns, dns, 0, 20 );
+		string2register( object, "dns", reg_dns, dns, 20 );
 		string3file( path, "nameserver %s\n", dns );
 		route_switch( NULL, dns, NULL, NULL, v, true );
 	}
 	if ( dns2 != NULL && *dns2 != '\0' )
 	{
-		string2register( object, "dns2", reg_dns2, dns2, 0, 20 );
+		string2register( object, "dns2", reg_dns2, dns2, 20 );
 		string3file( path, "nameserver %s\n", dns2 );
 		route_switch( NULL, dns2, NULL, NULL, v, true );
 	}

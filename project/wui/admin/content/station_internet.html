@@ -1,0 +1,558 @@
+<!-- ajax layout which only needs content area -->
+<div class="row">
+  <div class="col-xs-12 form-btn-wrapper">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="form-horizontal" role="form">
+
+    <table id="clients-grid-table"></table>
+    <div id="clients-grid-pager"></div>
+
+
+    <div id="rule" style="display: none;" >
+        <div class="hr hr32 hr-dotted"></div>
+        <table id="rules-grid-table"></table>
+        <div id="rules-grid-pager"></div>
+    </div>
+
+
+    <!-- intro -->
+    <div class="hr hr32 hr-dotted"></div>
+    <div >
+    <span class="grey" data-i18n="Set the internet control of each station separately, if you need to set timing internet, first modify the mode on the station to <Timing Rule>, then select the station and click <Timing Rule> in the table below"></span>
+    </div>
+
+      
+    </div>
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+    var clients;
+    var clientsinfo;
+    var clientscount;
+    var clients_table = '#clients-grid-table';
+    var clients_pager = '#clients-grid-pager';
+    var rules_table = '#rules-grid-table';
+    var rules_pager = '#rules-grid-pager';
+
+
+    /* edit form custom */
+    function edit_rule_before( form, action )
+    {
+        // 格式化日期输入框
+        form.find('input[name=datestart], input[name=datestop]').datepicker({format:'yyyy-mm-dd',autoclose:true});
+        // 保存 timestart 的值
+        var $timestart = form.find('input[name=timestart]');
+        var timestartArr = $timestart.val().split(':');
+        // 替换为下拉框
+        $timestart.replaceWith( jqtable.timer_select_make('timestart') );
+
+        // 保存 timestop的值
+        var $timestop = form.find('input[name=timestop]');
+        var timestopArr = $timestop.val().split(':');
+        // 替换为下拉框
+        $timestop.replaceWith( jqtable.timer_select_make('timestop') );
+
+        // 表单的行为为编辑
+        if (action == 'edit')
+        {
+            // 将原输入框的值提取到时间下拉框里面
+            $('#timestart-hour').val(timestartArr[0] || '00')
+            $('#timestart-min').val(timestartArr[1] || '00')
+            $('#timestart-sec').val(timestartArr[2] || '00')
+            $('#timestop-hour').val(timestopArr[0] || '00')
+            $('#timestop-min').val(timestopArr[1] || '00')
+            $('#timestop-sec').val(timestopArr[2] || '00')
+        }
+        else
+        { // 表单的行为为新增
+            // 给时间下拉框赋默认值
+            $('#timestart-hour').val('00')
+            $('#timestart-min').val('00')
+            $('#timestart-sec').val('00')
+            $('#timestop-hour').val('23')
+            $('#timestop-min').val('59')
+            $('#timestop-sec').val('59')
+        }
+        // 当前选中星期的数组
+        var weekdaysArr = $('#weekdays').val().split(',');
+        // 格式化星期勾选框
+        form.find('#tr_weekdays td.DataTD').html( jqtable.weekday_select_make());
+        if ( action == 'edit' )
+        {
+            // 选中对应的星期
+            for (var i = 0; i < weekdaysArr.length; i++)
+            {
+                $('#weekday' + weekdaysArr[i]).prop('checked', true)
+            }
+        }
+        else
+        {
+            // 默认选中所有的星期
+            $('[id^=weekday]').prop('checked', true);
+        }
+        // 调成表单的样式
+        jqtable.style_edit_form( form );
+    }
+    /* init the table infomation */
+    function init_table( )
+    {
+        jqtable.create( clients_table, clients_pager,
+          {
+              caption: $.i18n('Station List'),
+              colNames: [ $.i18n('Hostname'), $.i18n('MAC'), $.i18n('IP Address'), $.i18n('Live Time'), $.i18n('Interface'), $.i18n('Internet'), $.i18n('Operation') ],
+              colModel: [
+                  { name:'name', width:200 },
+                  { name:'mac', width:120, editable: true, editrules: { required: true } },
+                  { name:'ip', width:110 },
+                  { name:'livetime', width:90 },
+                  {
+                      name:'ifname', width:80,
+                      editable: true,
+                      formatter: 'select',
+                      edittype: 'select',
+                      editoptions:
+                      {
+                          value: (function()
+                          {
+                              var str = '';
+                              // 接口列表
+                              for ( var interface in window.local_list )
+                              {
+                                  str += ( interface + ':' + $.i18n(interface) + ';');
+                              }
+                              // 去除最后多余的分号
+                              str = str.substr(0, str.length - 1);
+                              return str;
+                          })()
+                      }
+                  },
+                  {
+                      name:'internet', width:100,
+                      editable: true,
+                      formatter: 'select',
+                      edittype: 'select',
+                      editoptions:
+                      {
+                          value: (function()
+                          {
+                              var str = '';
+                              var opt = {'disable':$.i18n('Forbidden'),'enable':$.i18n('Allow'),'timer':$.i18n('Timing Rule')}
+                              for ( var type in opt )
+                              {
+                                  str += ( type + ':' + opt[type] + ';');
+                              }
+                              // 去除最后多余的分号
+                              str = str.substr(0, str.length - 1);
+                              return str;
+                          })()
+                      }
+                  },
+                  $.extend( true, {}, jqtable.actionOptions,
+                      {
+                          formatoptions:
+                          {
+                              delOptions:{ onclickSubmit: function (params, data) { del_internet(data); } },
+                              editOptions: { onclickSubmit: function (params, data) { edit_internet(data); } }
+                          }
+                      }
+                  )
+              ]
+          }
+        ).jqGrid( 
+              'navGrid', clients_pager,
+              $.extend(true, {}, jqtable.navOptions, 
+                  {
+                      add: true,addicon : 'ace-icon fa fa-plus-circle purple',
+                      del: true,delicon : 'ace-icon fa fa-trash-o red',
+                      edit: true,editicon : 'ace-icon fa fa-pencil blue',
+                      search: false, refresh: false, view: false
+                  }
+              ),
+              $.extend(true, {}, jqtable.editOptions, { onclickSubmit: function (params, data) { edit_internet(data); } } ),
+              $.extend(true, {}, jqtable.addOptions, { onclickSubmit: function (params, data) { add_internet(data); } } ),
+              $.extend(true, {}, jqtable.deleteOptions, { onclickSubmit: function (params, data) { del_internet(data); } } )
+        ).navButtonAdd(
+              clients_pager,
+              {
+                  caption: $.i18n('Timing Rule Settings'),
+                  buttonicon: 'ui-icon ace-icon fa fa-clock-o blue',
+                  onClickButton: function()
+                  {
+                      //获取选到的id
+                      var selectid = $(clients_table).jqGrid( "getGridParam", "selrow" );
+                      if ( !selectid )
+                      {
+                          page.alert( {"message":$.i18n("Please select a station")} );
+                          return false;
+                      }
+                      //由id获得对应数据行
+                      var row = $(clients_table).jqGrid('getRowData', selectid );
+                      var type = row.internet;
+                      if ( type != "timer" )
+                      {
+                          page.alert( {"message":$.i18n('Please set the internet mode to timing first')} );
+                          return false;
+                      }
+                      load_rule( row.mac );
+                  }
+              }
+        );
+
+        jqtable.create( rules_table, rules_pager,
+          {
+              caption: " ",
+              colNames: [ $.i18n('Rule Name'), $.i18n('Start Date'), $.i18n('End Date'), $.i18n('Start time'), $.i18n('End time'), $.i18n('Week'), $.i18n('Operation') ],
+              colModel: [
+                  {
+                      name:'name', width:100,
+                      editable: true,
+                      editrules:
+                      {
+                          required: true
+                      }
+                  },
+                  {
+                      name: 'datestart',
+                      width: 100,
+                      editable: true,
+                      editoptions: {maxlength: '10'}
+                  },
+                  {
+                      name: 'datestop',
+                      width: 100,
+                      editable: true,
+                      editoptions: {maxlength:'10'}
+                  },
+                  {
+                      name: 'timestart',
+                      width: 100,
+                      editable: true,
+                      editoptions: {maxlength:'8'}
+                  },
+                  {
+                      name: 'timestop',
+                      width: 100,
+                      editable: true,
+                      editoptions: {maxlength:'8'}
+                  },
+                  {
+                      name: 'weekdays',
+                      width: 100,
+                      editable: true,
+                      editoptions: {maxlength:'13'}
+                  },
+                  $.extend( true, {}, jqtable.actionOptions,
+                      {
+                          formatoptions:
+                          {
+                              delOptions:{ onclickSubmit: function (params, data) { del_rule(data); } },
+                              editOptions: { beforeShowForm : edit_rule_before, onclickSubmit: function (params, data) { edit_rule(data); } }
+                          }
+                      }
+                  )
+              ]
+          }
+        ).jqGrid( 
+              'navGrid', rules_pager,
+              $.extend(true, {}, jqtable.navOptions, 
+                  {
+                      add: true,addicon : 'ace-icon fa fa-plus-circle purple',
+                      del: true,delicon : 'ace-icon fa fa-trash-o red',
+                      edit: true,editicon : 'ace-icon fa fa-pencil blue',
+                      search: false, refresh: false, view: false
+                  }
+              ),
+              $.extend(true, {}, jqtable.editOptions, { beforeShowForm : edit_rule_before, onclickSubmit: function (params, data) { edit_rule(data); } } ),
+              $.extend(true, {}, jqtable.addOptions, { beforeShowForm : edit_rule_before, onclickSubmit: function (params, data) { add_rule(data); } } ),
+              $.extend(true, {}, jqtable.deleteOptions, { onclickSubmit: function (params, data) { del_rule(data); } } )
+        );
+        
+    }
+    /* load the table infomation */
+    function load_clients( mac )
+    {
+        he.load( [ 'client@station', 'client@station.list' ] ).then( function(v){
+            clients = v[0];
+            clientsinfo = v[1];
+            if ( clientsinfo )
+            {
+                clientscount = Object.keys(clientsinfo).length;
+            }
+            else
+            {
+                clientscount = 0;
+            }
+            // 合并
+            var list = $.extend( true, clientsinfo, clients );
+            // 保存所有的客户端行
+            var rows = [];
+            for ( var index in list )
+            {
+                var client = list[index];
+                var row = 
+                {
+                    mac: index||'',
+                    ip: client.ip || '',
+                    name: client.name || '',
+                    livetime: client.livetime?time2string(client.livetime):$.i18n('Leave'),
+                    ifname: client.ifname || '',
+                    internet: client.internet || ''
+                };
+                if ( client.livetime )
+                {
+                    rows.unshift( row );
+                }
+                else
+                {
+                    rows.push( row );
+                }
+            }
+            // 记住滚动条的位置
+            var scrollPos = jqtable.getScrollPos();
+            // 给clients表格设置数据
+            $(clients_table).jqGrid('clearGridData').jqGrid('setGridParam',{data: rows}).trigger('reloadGrid');
+            // 恢复滚动条的位置
+            jqtable.setScrollPos(scrollPos);
+            // 改变离线行的颜色
+            $('td[title=' + $.i18n('Leave') + ']').closest('tr').css({color: '#888'});
+            if ( mac )
+            {
+                load_rule( mac );
+            }
+            else
+            {
+                $("#rule").hide();
+            }
+        });
+    }
+    function add_internet( data )
+    {
+        if ( !clients )
+        {
+            clients = {};
+        }
+        var value = {};
+        value['internet'] = data.internet;
+        value['ifname'] = data.ifname;
+        clients[data.mac] = value;
+        he.save( 'client@station='+JSON.stringify(clients) ).then( function(){
+            page.hint2succeed( $.i18n('Add successfully') );
+            load_clients();
+        });
+    }
+    function edit_internet( data )
+    {
+        if ( !clients )
+        {
+            clients = {};
+        }
+        var value = clients[data.mac];
+        if ( !value )
+        {
+            value = {};
+            clients[data.mac] = value;
+        }
+        value['internet'] = data.internet;
+        value['ifname'] = data.ifname;
+        he.save( 'client@station='+JSON.stringify(clients) ).then( function(){
+            page.hint2succeed( $.i18n('Add successfully') );
+            load_clients();
+        });
+    }
+    function del_internet( data )
+    {
+        var key;
+        // 选中的行
+        var indexs = data.split(',');
+        // 删除路由的he命令
+        var cmds = [];
+        for ( var index  = 0; index < indexs.length; index++ )
+        {
+            // 选中行的数据
+            var row = $(clients_table).jqGrid('getRowData', indexs[index]);
+            key = row.mac;
+            // 通过mac删除
+            var value = clients[key];
+            if ( value )
+            {
+                delete value['internet'];
+            }
+        }
+        // 执行删除
+        he.save( 'client@station='+JSON.stringify(clients) ).then( function(){
+            page.hint2succeed( $.i18n('Delete successfully') );
+            load_clients();
+        });
+    }
+
+
+
+    /* load the rule infomation */
+    var internet_mac = null;
+    var internet_timer = null;
+    function load_rule( mac )
+    {
+        $("#rule").show();
+
+        var value = clients[mac];
+        var list = value['internet_timer'];
+        if ( !list )
+        {
+            value['internet_timer'] = {};
+            list = value['internet_timer'];
+        }
+        internet_mac = mac;
+        internet_timer = list;
+        var count = Object.keys(list).length;
+        // 保存所有的客户端行
+        var rows = [];
+        for ( var index in list )
+        {
+            var rule = list[index];
+            var row = 
+            {
+                name: index||'',
+                datestart: rule.datestart || '',
+                datestop: rule.datestop || '',
+                timestart: rule.timestart || '',
+                timestop: rule.timestop || '',
+                weekdays: rule.weekdays || ''
+            };
+            rows.push( row );
+        }
+        // 表头设置
+        $(rules_table).jqGrid( "setCaption", mac + " " +$.i18n('Timing Rule') + '(' + count + ')' );
+        // 记住滚动条的位置
+        var scrollPos = jqtable.getScrollPos();
+        // 给clients表格设置数据
+        $(rules_table).jqGrid('clearGridData').jqGrid('setGridParam',{data: rows}).trigger('reloadGrid');
+        // 恢复滚动条的位置
+        jqtable.setScrollPos(scrollPos);
+    }
+    function add_rule( data )
+    {
+        if ( !internet_timer )
+        {
+            return false;
+        }
+        var value = internet_timer[data.name] ={};
+        value['datestart'] = data.datestart;
+        value['datestop'] = data.datestop;
+        // 保存开始时间 hh:mm:ss
+        var timestart = '';
+        timestart += $('#timestart-hour').val();
+        timestart += ':';
+        timestart += $('#timestart-min').val();
+        timestart += ':';
+        timestart += $('#timestart-sec').val();
+        value['timestart'] = timestart;
+        // 保存结束时间 hh:mm:ss
+        var timestop = '';
+        timestop += $('#timestop-hour').val();
+        timestop += ':';
+        timestop += $('#timestop-min').val();
+        timestop += ':';
+        timestop += $('#timestop-sec').val();
+        value['timestop'] = timestop;
+        // 保存勾选的星期
+        var weekdays = '';
+        for (var i = 1; i <= 7; i++) {
+          if ($('#weekday' + i).prop('checked')) {
+            weekdays += (i + ',')
+          }
+        }
+        // 去除最后的逗号
+        if (weekdays.length > 0) {
+          weekdays = weekdays.substring(0, weekdays.length - 1);
+        }
+        value['weekdays'] = weekdays;
+
+        he.save( 'client@station='+JSON.stringify(clients) ).then( function(){
+            page.hint2succeed( $.i18n('Add successfully') );
+            load_clients( internet_mac );
+        });
+    }
+    function edit_rule( data )
+    {
+        if ( !internet_timer )
+        {
+            return false;
+        }
+        var value = internet_timer[data.name] ={};
+        value['datestart'] = data.datestart;
+        value['datestop'] = data.datestop;
+        // 保存开始时间 hh:mm:ss
+        var timestart = '';
+        timestart += $('#timestart-hour').val();
+        timestart += ':';
+        timestart += $('#timestart-min').val();
+        timestart += ':';
+        timestart += $('#timestart-sec').val();
+        value['timestart'] = timestart;
+        // 保存结束时间 hh:mm:ss
+        var timestop = '';
+        timestop += $('#timestop-hour').val();
+        timestop += ':';
+        timestop += $('#timestop-min').val();
+        timestop += ':';
+        timestop += $('#timestop-sec').val();
+        value['timestop'] = timestop;
+        // 保存勾选的星期
+        var weekdays = '';
+        for (var i = 1; i <= 7; i++) {
+          if ($('#weekday' + i).prop('checked')) {
+            weekdays += (i + ',')
+          }
+        }
+        // 去除最后的逗号
+        if (weekdays.length > 0) {
+          weekdays = weekdays.substring(0, weekdays.length - 1);
+        }
+        value['weekdays'] = weekdays;
+
+        he.save( 'client@station='+JSON.stringify(clients) ).then( function(){
+            page.hint2succeed( $.i18n('Add successfully') );
+            load_clients( internet_mac );
+        });
+    }
+    function del_rule( data )
+    {
+        var key;
+        // 选中的行
+        var indexs = data.split(',');
+        // 删除路由的he命令
+        var cmds = [];
+        for ( var index  = 0; index < indexs.length; index++ )
+        {
+            // 选中行的数据
+            var row = $(rules_table).jqGrid('getRowData', indexs[index]);
+            delete internet_timer[row.name];
+        }
+        // 执行删除
+        he.save( 'client@station='+JSON.stringify(clients) ).then( function(){
+            page.hint2succeed( $.i18n('Delete successfully') );
+            load_clients( internet_mac );
+        });
+    }
+    
+
+
+    $.i18n().load( page.lang('station') ).then( function () {
+      /* init the langauage */
+      $.i18n().locale = lang; $('body').i18n();
+
+      /* init the table */
+      init_table( );
+
+      /* load the configure */
+      load_clients();
+
+    });
+
+
+  })();
+</script>

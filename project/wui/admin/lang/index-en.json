@@ -1,0 +1,17 @@
+{
+	"ifname@lte":"LTE",
+	"ifname@lte2":"LTE/NR",
+	"ifname@lan":"LAN",
+	"ifname@lan2":"LAN2",
+	"ifname@wisp":"WISP",
+	"ifname@wan":"WAN",
+	"ifname@wan2":"WAN",	
+	"modem@lte":"LTE Modem",
+	"modem@lte2":"LTE/NR Modem",
+	"vpn@l2tpc":"L2TP Client",
+	"vpn@pptpc":"PPTP Client",
+	"vpn@gre":"GRE Tunnel",
+	"openvpnc@vpn":"OPENVPN Client",
+
+	"recordtext":"View {0} - {1} of {2}"
+}

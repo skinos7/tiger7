@@ -1,0 +1,299 @@
+<!-- ajax layout which only needs content area -->
+<div class="row">
+  <div class="col-xs-12 form-btn-wrapper">
+    <!-- PAGE CONTENT BEGINS -->
+
+
+
+    <table id="route-grid-table"></table>
+    <div id="route-grid-pager"></div>
+
+
+
+      <div class="clearfix form-actions">
+        <div class="col-md-offset-3 col-md-9">
+          <button class="btn btn-second" type="button" id="refresh"><span data-i18n="Refresh"></span></button>
+        </div>
+      </div>
+
+
+
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+    var route_status;
+    var route_table = '#route-grid-table';
+    var route_pager = '#route-grid-pager';
+
+    /* load the configure on the input */
+    function route_load()
+    {
+      he.load( [ 'forward@route.status' ] ).then( function(v){
+        route_status = v[0];
+        if ( !route_status )
+        {
+            return;
+        }
+        // 表格的所有行数据
+        var rows = [];
+        for ( var name in route_status )
+        {
+            var route = route_status[name];
+            // 表格单行的数据
+            var row =
+            {
+                name: name,
+                target: route.target || '',
+                mask: route.mask || '',
+                gw: route.gw || '',
+                ifname: route.ifname || '',
+                device: route.device || '',
+                metric: route.metric || '',
+                status: route.status || ''
+            };
+            // 将系统规则放到最前面
+            if ( name.substring(0, 1) === '~' )
+            {
+                rows.unshift(row);
+            }
+            else
+            {
+                rows.push(row);
+            }
+        }
+
+        // 必须先清空表格数据, 然后才能重新给表格赋值,之后需要触发重新加载表格的事件
+        $(route_table).jqGrid('clearGridData').jqGrid('setGridParam', { data: rows }).trigger('reloadGrid');
+        // status不等于up的行改为灰色
+        setTimeout(function () { $('[aria-describedby=route-grid-table_status][title!=up]').closest('tr').css({color: '#999'})}, 200);
+      });
+    }
+    // 添加路由
+    function add_route( route )
+    {
+        // 添加路由的he命令
+        var cmd = '';
+        cmd += 'forward@route.add[';
+        cmd += (route.name + ',');
+        cmd += (route.target + ',');
+        cmd += (route.mask + ',');
+        cmd += (route.gw + ',');
+        cmd += (route.ifname + ',');
+        cmd += (route.metric + ']');
+      
+        // 执行添加
+        he.exec( cmd ).then(function () {
+            // 重新加载数据
+            return route_load();
+        }).then(function () {
+            // 提示成功
+            page.hint2succeed( $.i18n('Add successfully') );
+        });
+    }
+
+    // 删除多个路由
+    function delete_routes( indexStr )
+    {
+        var key;
+        // 选中的行
+        var indexs = indexStr.split(',');
+        // 删除路由的he命令
+        var cmds = [];
+        for ( var index  = 0; index < indexs.length; index++ )
+        {
+            // 选中行的数据
+            var row = $(route_table).jqGrid('getRowData', indexs[index]);
+            key = row.name;
+            // 通过name删除
+            if ( typeof key == 'string' && key.indexOf( '~' ) == 0 )
+            {
+                cmds.push( 'forward@route.delete[,' + row.target + ',' + row.mask + ',' + row.gw + ',' + row.ifname + ']' );
+            }
+            else
+            {
+                cmds.push( 'forward@route.delete[' + row.name + ']' );
+            }
+        }
+        // 执行删除
+        he.exec( cmds ).then(function (){
+            // 重新加载数据
+            return route_load();
+        }).then(function (){
+            // 提示成功
+            page.hint2succeed( $.i18n('Delete successfully') );
+        });
+    }
+
+
+    $.i18n().load( page.lang('forward') ).then( function () {
+        /* init the langauage */
+        $.i18n().locale = lang; $('body').i18n();
+
+        var tbcustom = 
+        {
+            caption: $.i18n('Route Table'),
+            rowNum:20, rowList:[20,40,60],
+            onPaging: function () 
+            {
+                // status不等于up的行改为灰色
+                setTimeout(function () { $('[aria-describedby=route-grid-table_status][title!=up]').closest('tr').css({color: '#999'})}, 200);
+            },
+            colNames:[ $.i18n('Name(unique)'), $.i18n('IP Address'), $.i18n('Subnet Mask'),$.i18n('Gateway'), $.i18n('Interface'), $.i18n('Network Device'), $.i18n('Metric'), 'status', $.i18n('Operation') ],
+            colModel:
+            [
+                {
+                    name: 'name', width: 100, editable: true, editoptions:{maxlength:'128'},
+                    editrules:
+                    {
+                        required: true,
+                        custom: true,
+                        custom_func: function (value)
+                        {
+                            // 名称不能以~开头
+                            return [value.substr(0, 1) !== '~', $.i18n('The name cannot begin with \"~\"')]
+                        }
+                    },
+                    formatter: function (cellvalue)
+                    {
+                        // 用span包裹名称,并在span的data-name上保存原始的值
+                        if (cellvalue.substr(0, 1) === '~' )
+                        {
+                            // 以~开头的格式化为系统规则
+                            return '<span data-name="' + cellvalue + '">' + $.i18n('System Rules') + '</span>'
+                        }
+                        else
+                        {
+                            return '<span data-name="' + cellvalue + '"> ' + cellvalue + ' </span>'
+                        }
+                    },
+                    unformat: function (cellvalue, options, cell)
+                    {
+                        // 获得name格式化之前的值
+                        return $(cell).children('span').data('name');
+                    },
+                },
+                {
+                    name: 'target',
+                    width: 120,
+                    editable: true,
+                    editoptions:{maxlength:'128'},
+                    editrules:
+                    {
+                        required:true,
+                        custom: true,
+                        custom_func: function (value, label)
+                        {
+                            return [ check.ip(value), label + ': ' +  $.i18n('Please enter a valid IP address')]
+                        }
+                    }
+                },
+                {
+                    name: 'mask',
+                    width: 120,
+                    editable: true,
+                    editoptions:{maxlength:'128'},
+                    editrules:
+                    {
+                        required:true,
+                        custom: true,
+                        custom_func: function (value, label)
+                        {
+                            return [ check.ip(value), label + ': ' + $.i18n('Please enter a valid IP address.')]
+                        }
+                    }
+                },
+                {
+                    name: 'gw',
+                    width: 120,
+                    editable: true,
+                    editoptions:{maxlength:'128'},
+                    editrules:
+                    {
+                        custom: true,
+                        custom_func: function (value, label)
+                        {
+                            var ifname = $('#ifname').val();
+                            var errorText = label + ': ' + $.i18n('Please enter a valid IP address.')
+                            if (ifname)
+                            {
+                                return [!value || check.ip(value), errorText]
+                            }
+                            return [ check.ip(value), errorText ]
+                      }
+                    }
+                },
+                {
+                    name: 'ifname',
+                    width: 80,
+                    editable: true,
+                    formatter: 'select',
+                    edittype: 'select',
+                    editoptions:
+                    {
+                        value: (function() {
+                            var str = '';
+                            // 未指定
+                            str += ':' + $.i18n('Not Specified') + ';';
+                            // 接口列表
+                            for ( var interface in window.ifname_list )
+                            {
+                                str += (interface + ':' + $.i18n(interface) + ';');
+                            }
+                            // 去除最后多余的分号
+                            str = str.substr(0, str.length - 1);
+                            return str;
+                        })()
+                    }
+                },
+                {
+                    name: 'device',
+                    width: 110,
+                    editable: false
+                },
+                {
+                    name: 'metric',
+                    width: 90,
+                    editable: true,
+                    editoptions:{maxlength:'128'},
+                    editrules:
+                    {
+                        integer: true,
+                        minValue: 0,
+                        maxValue: 9999
+                    }
+                },
+                {
+                    name: 'status',
+                    hidden: true
+                },
+                $.extend( true, {}, jqtable.actionOptions,
+                    { formatoptions:{ delOptions:{ onclickSubmit:function(params, data) { delete_routes(data); } }, editformbutton:false, editbutton:false } } )
+            ]
+        };
+        var item = jqtable.create( route_table, route_pager, tbcustom );
+
+        // 加入底部操作button
+        item.jqGrid( 'navGrid', route_pager, 
+            $.extend(true, {}, jqtable.navOptions, {edit: false, view: false}),
+            jqtable.editOptions,
+            $.extend(true, {}, jqtable.addOptions, {onclickSubmit: function (params, data) { add_route(data); } }),
+            $.extend(true, {}, jqtable.deleteOptions, { onclickSubmit: function(params, data) { delete_routes(data); } }),
+            {} );
+
+        /* load the configure */
+        route_load();
+        /* bind the refresh */
+        $('#refresh').on(ace.click_event, function () {
+            location.reload();
+        });
+    });
+
+
+
+
+  })();
+</script>

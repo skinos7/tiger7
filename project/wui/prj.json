@@ -1,0 +1,12 @@
+{
+    "name":"wui",
+    "intro":"web system basic ui page",
+    "type":"root",
+    "version":"7.0.0",
+    "author":"dimmalex@gmail.com",
+
+    "res":
+    {
+        "admin":"main web page management interface"
+    }
+}

@@ -1,0 +1,515 @@
+<!-- ajax layout which only needs content area -->
+<div class="row">
+  <div class="col-xs-12 form-btn-wrapper">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="form-horizontal" role="form">
+
+      <!-- 状态 -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="LED Indicate"></label>
+        <div class="col-sm-9">
+          <label>
+            <input id="led" class="ace ace-switch ace-switch-6" type="checkbox" />
+            <span class="lbl"></span>
+          </label>
+        </div>
+      </div>
+      <div class="hr hr32 hr-dotted"></div>
+
+
+    <div id="ioSets">
+
+      <!-- IO中心状态 -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="IO Control Center"></label>
+        <div class="col-sm-9">
+          <label>
+            <input id="remote" class="ace ace-switch ace-switch-6" type="checkbox" />
+            <span class="lbl"></span>
+          </label>
+        </div>
+      </div>
+
+      <div id="remoteSets">
+        <!-- 服务器地址 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Server"></label>
+          <div class="col-sm-9">
+            <div class="clearfix">
+              <input type="text" id="server" name="server" class="col-xs-10 col-sm-5" maxlength="128" />
+            </div>
+          </div>
+        </div>
+        <!-- 协议 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Protocol"></label>
+            <div class="col-sm-9">
+              <select class="col-xs-10 col-sm-5" id="proto">
+                <option value="udp">UDP</option>
+                <option value="tcp">TCP</option>
+              </select>
+            </div>
+        </div>
+        <!-- 端口 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Port"></label>
+          <div class="col-sm-9">
+            <div class="clearfix">
+              <input type="text" id="port" name="port" class="col-xs-10 col-sm-5" maxlength="5" />
+            </div>
+          </div>
+        </div>
+        <!-- ID号 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Device ID"></label>
+          <div class="col-sm-9">
+            <div class="clearfix">
+              <input type="text" id="id" name="id" class="col-xs-10 col-sm-5" maxlength="128" />
+            </div>
+          </div>
+        </div>
+        <!-- 用户名 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Username"></label>
+          <div class="col-sm-9">
+            <div class="clearfix">
+              <input type="text" id="user" name="user" class="col-xs-10 col-sm-5" maxlength="128" />
+            </div>
+          </div>
+        </div>
+        <!-- 认证码 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Verification Code"></label>
+          <div class="col-sm-9">
+            <div class="clearfix">
+              <input type="text" id="vcode" name="vcode" class="col-xs-10 col-sm-5" maxlength="128" />
+            </div>
+          </div>
+        </div>
+        <!-- 连接状态 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Connection Status"></label>
+          <div class="col-sm-9 form-right-text">
+            <span id="connection"></span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Rx/Tx"></label>
+          <div class="col-sm-9 form-right-text">
+            <span id="rxtx"></span>
+          </div>
+        </div>
+      </div><!-- remoteSets -->
+      <div class="hr hr32 hr-dotted"></div>
+
+      
+      <!-- MQTT状态 -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="MQTT Server"></label>
+        <div class="col-sm-9">
+          <label>
+            <input id="mqtt" class="ace ace-switch ace-switch-6" type="checkbox" />
+            <span class="lbl"></span>
+          </label>
+        </div>
+      </div>
+      <div id="mqttSets">
+        <!-- 服务器地址 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Broker Address"></label>
+          <div class="col-sm-9">
+            <input type="text" id="mqtt_broker" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+        <!-- 端口 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Broker Port"></label>
+          <div class="col-sm-9">
+            <input type="text" id="mqtt_port" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+        <!-- 客户端标识 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="MQTT Identify"></label>
+          <div class="col-sm-9">
+            <input type="text" id="mqtt_id" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+        <!-- 用户名 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Username"></label>
+          <div class="col-sm-9">
+            <input type="text" id="mqtt_username" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+        <!-- 密码 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Password"></label>
+          <div class="col-sm-9">
+            <input type="text" id="mqtt_password" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+        <!-- 订阅主题   -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Subscribe Topic"></label>
+          <div class="col-sm-9">
+            <input type="text" id="mqtt_subscribe" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+        <!-- 订阅主题    Qos -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Subscribe Topic QOS"></label>
+          <div class="col-sm-9">
+            <input type="text" id="mqtt_subscribe_qos" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+        <!-- 发布主题   -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Publish Topic"></label>
+          <div class="col-sm-9">
+            <input type="text" id="mqtt_publish" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+        <!-- 发布主题    Qos -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Publish Topic QOS"></label>
+          <div class="col-sm-9">
+            <input type="text" id="mqtt_publish_qos" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+        <!-- 保活间隔  -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Keepalive(sec)"></label>
+          <div class="col-sm-9">
+            <input type="text" id="mqtt_keepalive" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+        <!-- 失败后的连接间隔   -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Failed Interval(sec)"></label>
+          <div class="col-sm-9">
+            <input type="text" id="mqtt_interval" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+        <!-- 连接状态 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Connection Status"></label>
+          <div class="col-sm-9 form-right-text">
+            <span id="mqtt_connection"></span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Rx/Tx"></label>
+          <div class="col-sm-9 form-right-text">
+            <span id="mqtt_rxtx"></span>
+          </div>
+        </div>
+      </div><!-- mqttSets -->
+      <div class="hr hr32 hr-dotted"></div>
+
+
+
+      <!-- IO mode -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="IO Status"></label>
+        <div class="col-sm-9 form-right-text">
+          <span id="state"></span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="System LED Output"></label>
+          <div class="col-sm-9">
+            <!-- <input type="text" id="vcode" name="sys" class="col-xs-10 col-sm-5" maxlength="128" /> -->
+            <select class="col-xs-10 col-sm-5" id="sys"></select>
+          </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Reset Button Input"></label>
+          <div class="col-sm-9">
+            <!-- <input type="text" id="vcode" name="reset" class="col-xs-10 col-sm-5" maxlength="128" /> -->
+            <select class="col-xs-10 col-sm-5" id="reset"></select>
+          </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="LTE Signal High"></label>
+          <div class="col-sm-9">
+            <!-- <input type="text" id="vcode" name="lte_sig_high" class="col-xs-10 col-sm-5" maxlength="128" /> -->
+            <select class="col-xs-10 col-sm-5" id="lte_sig_high"></select>
+          </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="LTE Signal Middle"></label>
+          <div class="col-sm-9">
+            <!-- <input type="text" id="vcode" name="lte_sig_mid" class="col-xs-10 col-sm-5" maxlength="128" /> -->
+            <select class="col-xs-10 col-sm-5" id="lte_sig_mid"></select>
+          </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="LTE Signal Low"></label>
+          <div class="col-sm-9">
+            <!-- <input type="text" id="vcode" name="lte_sig_low" class="col-xs-10 col-sm-5" maxlength="128" /> -->
+            <select class="col-xs-10 col-sm-5" id="lte_sig_low"></select>
+          </div>
+      </div>
+
+    </div> <!--ioSets-->
+
+
+      <div class="clearfix form-actions">
+        <div class="col-md-offset-3 col-md-9">
+          <button class="btn btn-second" type="button" id="refresh"><span data-i18n="Refresh"></span></button>
+          &nbsp; &nbsp; &nbsp;
+          <button class="btn btn-main" type="button" id="apply"><span data-i18n="Apply"></span></button>
+        </div>
+      </div>
+
+
+    </div>
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+    var cfg;
+    var info;
+    var iolist;
+
+    /* load the status */
+    function status_load()
+    {
+      he.bkload( [ "arch@reggpio.status" ] ).then( function(v){
+          info = v[0];
+          if ( info && info.remote )
+          {
+              $("#connection").text( $.i18n(info.remote.status) );
+              $("#rxtx").text( (info.remote.rx||' ') +"/"+ (info.remote.tx||' ') );
+          }
+          else
+          {
+              $('#connection').text( $.i18n('down') );
+          }
+          if ( info && info.mqtt )
+          {
+              $("#mqtt_connection").text( $.i18n(info.mqtt.status) );
+              $("#mqtt_rxtx").text( (info.mqtt.rx||' ') +"/"+ (info.mqtt.tx||' ') );
+          }
+          else
+          {
+              $('#mqtt_connection').text( $.i18n('down') );
+          }
+          if ( info && info.io )
+          {
+              $("#state").text( info.io );
+          }
+      })
+    }
+    /* load the configure */
+    function load_cfg( init )
+    {
+        he.load( [ 'arch@reggpio', 'arch@reggpio.iolist' ] ).then( function(v){
+            cfg = v[0];
+            iolist = v[1];
+            $('#led').prop('checked', able2boole(cfg.led));
+
+            if ( json_empty( iolist ) == true )
+            {
+                $('#ioSets').hide();
+                return;
+            }
+            
+            if ( cfg.remote && cfg.remote.status == "enable" )
+            {
+                $('#remote').prop('checked',  true );
+            }
+            else
+            {
+                $('#remote').prop('checked',  false );
+            }
+            if ( cfg.remote )
+            {
+                $('#server').val( cfg.remote.server || '' );
+                $('#proto').val( cfg.remote.proto || '' );
+                $('#port').val( cfg.remote.port || '' );
+                $('#id').val( cfg.remote.id || '' );
+                $('#user').val( cfg.remote.user || '' );
+                $('#vcode').val( cfg.remote.vcode || '' );
+            }
+            if ( cfg.mqtt && cfg.mqtt.status == "enable" )
+            {
+                $('#mqtt').prop('checked',  true );
+            }
+            else
+            {
+                $('#mqtt').prop('checked',  false );
+            }
+            if ( cfg.mqtt )
+            {
+                $('#mqtt_broker').val( cfg.mqtt.broker );
+                $('#mqtt_port').val( cfg.mqtt.port );
+                $('#mqtt_id').val( cfg.mqtt.id );
+                $('#mqtt_username').val( cfg.mqtt.username );
+                $('#mqtt_password').val( cfg.mqtt.password );
+                if ( cfg.mqtt.subscribe )
+                {
+                    for (var key in cfg.mqtt.subscribe )
+                    {
+                        $('#mqtt_subscribe').val( key||"" );
+                        $('#mqtt_subscribe_qos').val( cfg.mqtt.subscribe[key]||"0" );
+                        break;
+                    }
+                }
+                $('#mqtt_publish').val( cfg.mqtt.publish );
+                $('#mqtt_publish_qos').val( cfg.mqtt.publish_qos );
+                $('#mqtt_keepalive').val( cfg.mqtt.keepalive );
+                $('#mqtt_interval').val( cfg.mqtt.interval );
+            }
+            var ioselect = ('<option value="">' + $.i18n( "None" ) + '</option>');
+            for ( var io in iolist )
+            {
+                ioselect += ('<option value="' + io + '">' + $.i18n( io ) + '</option>');
+            }
+            $("#sys").html( ioselect );
+            $("#reset").html( ioselect );
+            $("#lte_sig_low").html( ioselect );
+            $("#lte_sig_mid").html( ioselect );
+            $("#lte_sig_high").html( ioselect );
+            if ( cfg.led2io )
+            {
+                $("#sys").val( cfg.led2io.sys );
+                $("#reset").val( cfg.led2io.reset );
+                $("#lte_sig_low").val( cfg.led2io.lte_sig_low );
+                $("#lte_sig_mid").val( cfg.led2io.lte_sig_mid );
+                $("#lte_sig_high").val( cfg.led2io.lte_sig_high );
+            }
+            $('#remote').unbind('change').change(function () {
+                if ($(this).prop('checked'))
+                {
+                    $('#remoteSets').show();
+                }
+                else
+                {
+                    $('#remoteSets').hide();
+                }
+            }).trigger('change');
+            $('#mqtt').unbind('change').change(function () {
+                if ($(this).prop('checked'))
+                {
+                    $('#mqttSets').show();
+                }
+                else
+                {
+                    $('#mqttSets').hide();
+                }
+            }).trigger('change');
+            
+            status_load();
+            // 设置定时器
+            if ( init == true )
+            {
+                page.timing({
+                  refresh: function ()
+                  {
+                      status_load();
+                  },
+                  interval: 3000
+                });
+            }
+        });
+    }
+
+    function save_cfg()
+    {
+        if ( cfg == null )
+        {
+            return;
+        }
+        var cfgcopy = JSON.parse(JSON.stringify(cfg));
+
+        cfg.led = boole2able( $('#led').prop('checked') );
+
+        if ( json_empty( iolist ) == false )
+        {
+            if ( !cfg.remote )
+            {
+                cfg.remote = {};
+            }
+            cfg.remote.status = boole2able( $('#remote').prop('checked') );
+            if ( cfg.remote.status == "enable" )
+            {
+                cfg.remote.server = $('#server').val();
+                cfg.remote.proto = $('#proto').val();
+                cfg.remote.port = $('#port').val();
+                cfg.remote.id = $('#id').val();
+                cfg.remote.user = $('#user').val();
+                cfg.remote.vcode = $('#vcode').val();
+            }
+            if ( !cfg.mqtt )
+            {
+                cfg.mqtt = {};
+            }
+            cfg.mqtt.status = boole2able( $('#mqtt').prop('checked') );
+            if ( cfg.mqtt.status == "enable" )
+            {
+                cfg.mqtt.broker = $('#mqtt_broker').val();
+                cfg.mqtt.port = $('#mqtt_port').val();
+                cfg.mqtt.id = $('#mqtt_id').val();
+                cfg.mqtt.username = $('#mqtt_username').val();
+                cfg.mqtt.password = $('#mqtt_password').val();
+                var key = $('#mqtt_subscribe').val();
+                if ( key )
+                {
+                    cfg.mqtt.subscribe = {};
+                    cfg.mqtt.subscribe[key] = $('#mqtt_subscribe_qos').val()||"0";
+                }
+                else
+                {
+                    cfg.mqtt.subscribe = {};
+                }
+                cfg.mqtt.publish = $('#mqtt_publish').val();
+                cfg.mqtt.publish_qos = $('#mqtt_publish_qos').val()||"0";
+                cfg.mqtt.keepalive = $('#mqtt_keepalive').val();
+                cfg.mqtt.interval = $('#mqtt_interval').val();
+            }
+            if ( !cfg.led2io )
+            {
+                cfg.led2io = {};
+            }
+            cfg.led2io.sys = $('#sys').val();
+            cfg.led2io.reset = $('#reset').val();
+            cfg.led2io.lte_sig_low = $('#lte_sig_low').val();
+            cfg.led2io.lte_sig_mid = $('#lte_sig_mid').val();
+            cfg.led2io.lte_sig_high = $('#lte_sig_high').val();
+        }
+
+        if ( ocompare( cfg, cfgcopy ) )
+        {
+            page.alert( { message: $.i18n('Settings unchanged') } );
+            return;
+        }
+        he.save( [ "arch@reggpio="+JSON.stringify(cfg) ] ).then( function(){
+            page.hint2succeed( $.i18n('Modify successfully') );
+            load_cfg();
+        });
+    }
+
+    $.i18n().load( page.lang('manage') ).then( function () {
+      /* init the langauage */
+      $.i18n().locale = lang; $('body').i18n();
+      /* load the configure */
+      load_cfg( true );
+
+      /* bind the refresh */
+      $('#refresh').on(ace.click_event, function () {
+        location.reload();
+      });
+      /* bind the apply to save configure */
+      $('#apply').on(ace.click_event, function () {
+        save_cfg();
+      });
+    });
+
+
+  })();
+</script>
