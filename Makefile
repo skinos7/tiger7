@@ -16,7 +16,7 @@
 ifeq (gBOARDID, $(wildcard gBOARDID))
 sinclude gBOARDID 
 endif
-gBOARDID ?= mtk-mt7628-d218
+gBOARDID ?= host-x86-ubuntu
 
 #####################################
 ######### Do not modify #############
