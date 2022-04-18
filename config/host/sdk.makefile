@@ -7,6 +7,10 @@
 
 
 update:
+	# 更新fpk
+	if [ ! -e ${gCUSTOM_DIR}/${gHARDWARE}_${gCUSTOM}_std.store ]; then \
+		cd ${gCUSTOM_DIR}; wget -nH -nd -m ftp://ftp.wmdevice.com/sdk/${gPLATFORM}/${gHARDWARE}/${gCUSTOM}/*; \
+	fi
 adjust:
 menu:
 menuconfig:
