@@ -1,9 +1,0 @@
--rwxrwxrwx 1 user group           1236  Apr 19 01:00 arch-7.0.0-x86.fpk
--rwxrwxrwx 1 user group           9414  Apr 19 01:00 devtools-7.0.0-x86.fpk
--rwxrwxrwx 1 user group          37074  Apr 19 01:00 gather-7.0.0-x86.fpk
--rwxrwxrwx 1 user group          11284  Apr 19 01:00 ifname-7.0.0-x86.fpk
--rwxrwxrwx 1 user group         201755  Apr 19 01:00 land-7.0.0-x86.fpk
--rwxrwxrwx 1 user group          34907  Apr 19 01:00 network-7.0.0-x86.fpk
--rwxrwxrwx 1 user group         298106  Apr 19 01:00 webs-7.0.0-x86.fpk
--rwxrwxrwx 1 user group       18921628  Apr 19 01:00 wui-7.0.0-x86.fpk
--rwxrwxrwx 1 user group           1906  Apr 19 01:00 x86_ubuntu_std.store
