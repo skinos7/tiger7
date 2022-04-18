@@ -17,6 +17,7 @@ menuconfig:
 menuclean:
 bufclean:
 sdkclean:
+		cd ${gCUSTOM_DIR}; rm -fr *.fpk *.store
 .PHONY: update adjust menu menuconfig menuclean bufclean sdkclean
 
 
