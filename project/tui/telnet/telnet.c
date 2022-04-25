@@ -75,7 +75,7 @@ boole_t _setup( obj_t this, param_t param )
     talk_free( cfg );
     return ttrue;
 }
-talk_t _shut( obj_t this, param_t param )
+boole_t _shut( obj_t this, param_t param )
 {
     iptables( "-t filter -F %s_%s", PROJECT_ID, COM_ID );
     iptables( "-t filter -D INPUT -j  %s_%s", PROJECT_ID, COM_ID );
@@ -83,13 +83,13 @@ talk_t _shut( obj_t this, param_t param )
     service_reset( COM_IDPATH );
     return ttrue;
 }
-talk_t _reset( obj_t this, param_t param )
+boole_t _reset( obj_t this, param_t param )
 {
     service_reset( COM_IDPATH );
     return ttrue;
 }
 char *reg_local_netdev;
-talk_t _service( obj_t this, param_t param )
+boole_t _service( obj_t this, param_t param )
 {
     int i;
     talk_t cfg;
@@ -102,7 +102,7 @@ talk_t _service( obj_t this, param_t param )
     cfg = config_sget( COM_IDPATH, NULL );
     if ( cfg == NULL )
     {
-        return TALK_ERROR;
+        return terror;
     }
 	/* get the local netdev */
 	nreg2string( "local_netdev", reg_local_netdev, local_netdev, NULL );

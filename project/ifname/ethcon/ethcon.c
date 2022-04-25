@@ -10,7 +10,7 @@
 
 
 
-talk_t _setup( obj_t this, param_t param )
+boole_t _setup( obj_t this, param_t param )
 {
     talk_t v;
     talk_t cfg;
@@ -74,7 +74,7 @@ talk_t _setup( obj_t this, param_t param )
     talk_free( cfg );
     return ret;
 }
-talk_t _shut( obj_t this, param_t param )
+boole_t _shut( obj_t this, param_t param )
 {
     talk_t v;
     talk_t cfg;
@@ -513,7 +513,7 @@ talk_t _status( obj_t this, param_t param )
 
 
 
-talk_t _service( obj_t this, param_t param )
+boole_t _service( obj_t this, param_t param )
 {
     int ready;
     int check;
@@ -535,7 +535,7 @@ talk_t _service( obj_t this, param_t param )
     obj = obj_com( this );
     if ( 0 == strcmp( obj, COM_ID ) )
     {
-        return TALK_EINVAL;
+        return terror;
     }
     object = obj_combine( this );
 	/* get the ifdev */
@@ -554,7 +554,7 @@ talk_t _service( obj_t this, param_t param )
     cfg = config_get( this, NULL ); 
     if ( cfg == NULL )
     {
-    	return TALK_EINVAL;
+    	return terror;
     }
 	json_set_string( cfg, "ifname", object );
 	tid = json_string( cfg, "tid" );
@@ -729,7 +729,7 @@ talk_t _service( obj_t this, param_t param )
     talk_free( cfg );
     return ret;
 }
-talk_t _automatic( obj_t this, param_t param )
+boole_t _automatic( obj_t this, param_t param )
 {
 	talk_t ret;
     talk_t cfg;
@@ -751,7 +751,7 @@ talk_t _automatic( obj_t this, param_t param )
     cfg = config_get( this, NULL ); 
     if ( cfg == NULL )
     {
-        return TALK_ERROR;
+        return terror;
     }
 	method = json_string( cfg, "method" );
 
@@ -779,7 +779,7 @@ talk_t _automatic( obj_t this, param_t param )
         return tfalse;
     }
 
-	ret = TALK_ERROR;
+	ret = terror;
 	/* automatic setting */
 	if ( method != NULL && 0 == strcmp( method, "automatic" ) )
 	{
@@ -813,7 +813,7 @@ boole_t _online( obj_t this, param_t param )
     obj = obj_com( this );
     if ( 0 == strcmp( obj, COM_ID ) )
     {
-        return NULL;
+        return tfalse;
     }
     object = obj_combine( this );
 

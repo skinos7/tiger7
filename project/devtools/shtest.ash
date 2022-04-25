@@ -73,7 +73,7 @@ service()
         he log.info[ "reggpio log test loop( $number )"  ]
         sleep 1
     done
-    creturn ttrue
+    creturn tfalse
 }
 # the service will exit with tfalse, then system will start it again
 exit_service()
@@ -89,12 +89,12 @@ bad_service()
     sleep 1
     creturn tfalse
 }
-# the service will exit with TALK_ERROR, then system never start it again
+# the service will exit with terror, then system never start it again
 error_service()
 {
     he log.info[ $PROJECT+"@"+$COM+"."+"error_service is start" ]
     sleep 1
-    creturn TALK_ERROR
+    creturn terror
 }
 
 
