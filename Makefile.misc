@@ -63,16 +63,12 @@ sz:
 	make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@
 tar: boot
 	make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@
-ftp:
-	make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@
-.PHONY: local run sz tar ftp
+.PHONY: local run sz tar
 
 
-arch:
-	make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@
-repo: arch
-	make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@
-.PHONY: arch repo
+ftp repo:
+	make -f Makefile.target $@
+.PHONY: ftp repo
 
 
 
@@ -82,7 +78,7 @@ repo: arch
 debug:
 	env
 	@echo "make kernel obj=network"
-tdebug:
+dtebug:
 	if [ "X${obj}" != "X" ]; then \
 		make -f Makefile.target $@ COMPILE_PROJECT=package/${obj}/compile; \
 	else \

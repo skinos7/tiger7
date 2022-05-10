@@ -7,6 +7,7 @@
     "author":"dimmalex@gmail.com",
     "com":
     {
-        "ethcon":"ethernet connect component"
+        "ethcon":"ethernet connect component",
+        "ltecon":"lte modem connect component"
     }
 }

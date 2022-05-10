@@ -15,15 +15,6 @@
         "sshd":"ssh"
     },
 
-    "joint":
-    {
-        "network/on":
-        {
-            "tui@telnet.reset":"",
-            "tui@ssh.reset":""
-        }
-    },
-
     "init":
     {
         "app":

@@ -29,8 +29,8 @@ setup()
     he land@register.set_string[land,custom,$gCUSTOM]
     he land@register.set_string[land,scope,$gSCOPE]
     he land@register.set_string[land,version,$gVERSION]
-    he land@register.set_string[network,local_ifname,ifname@lan]
-    he land@register.set_string[network,local_netdev,enp89s0]
+    he land@register.set_string[land,local_ifname,ifname@lan]
+    he land@register.set_string[land,local_netdev,enp89s0]
     # default the configure if order
     if [ $VROOT/.cfg/.erasev6 ]; then
         rm -fr $VROOT/.cfg/*

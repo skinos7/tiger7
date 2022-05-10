@@ -81,76 +81,36 @@ boole_t _shut( obj_t this, param_t param )
     iptables( "-t filter -F %s_%s", PROJECT_ID, COM_ID );
     iptables( "-t filter -D INPUT -j  %s_%s", PROJECT_ID, COM_ID );
     iptables( "-t filter -X %s_%s", PROJECT_ID, COM_ID );
-    service_reset( COM_IDPATH );
+    service_delete( COM_IDPATH );
     return ttrue;
 }
 boole_t _reset( obj_t this, param_t param )
 {
-    service_reset( COM_IDPATH );
+    service_reset( COM_IDPATH, COM_IDPATH, "service", NULL );
     return ttrue;
 }
-char *reg_local_netdev;
 boole_t _service( obj_t this, param_t param )
 {
-    int i;
     talk_t cfg;
     const char *port;
-    const char *remote;
-    char lanip[NAME_MAX];
-    char address[NAME_MAX];
-	const char *local_netdev = NULL;
 
     cfg = config_sget( COM_IDPATH, NULL );
     if ( cfg == NULL )
     {
         return terror;
     }
-	/* get the local netdev */
-	nreg2string( "local_netdev", reg_local_netdev, local_netdev, NULL );
     /* get the port */
     port = json_get_string( cfg, "port" );
     if ( port == NULL || *port == '\0' )
     {
         port = "22";
     }
-    /* get the remote allow */
-    remote = json_get_string( cfg, "remote" );
-    if ( remote != NULL && 0 == strcmp( remote, "enable" ) )
-    {
-        debug( "dropbear -F -p %s", port );
-        execlp( "dropbear", "dropbear", "-F", "-p", port, "-K", "300", (char*)0 );
-    }
-    else
-    {
-        address[0] = '\0';
-        /* wait the lan up */
-		if ( local_netdev != NULL || *local_netdev != '\0' )
-		{
-	        for ( i=0; i<5; i++ )
-	        {
-	            if ( netdev_info( local_netdev, lanip, sizeof(lanip), NULL, 0, NULL, 0, NULL, 0 ) == 0 )
-	            {
-	                snprintf( address, sizeof(address), "%s:%s", lanip, port );
-	                break;
-	            }
-	            sleep( 2 );
-	        }
-		}
-        if ( address[0] == '\0' )
-        {
-            debug( "dropbear -F -p %s", port );
-            execlp( "dropbear", "dropbear", "-F", "-p", port, "-K", "300", (char*)0 );
-        }
-        else
-        {
-            debug( "dropbear -F -p %s", address);
-            execlp( "dropbear", "dropbear", "-F", "-p", address, "-K", "300", (char*)0 );
-        }
-    }
-
-    talk_free( cfg );
+    debug( "dropbear -F -p %s", port );
     /* execl */
+    execlp( "dropbear", "dropbear", "-F", "-p", port, "-K", "300", (char*)0 );
+
     faulting( "exec the dropbear error" );
+    talk_free( cfg );
     return tfalse;
 }
 
