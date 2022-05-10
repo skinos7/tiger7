@@ -358,12 +358,11 @@
 		<!-- add by dimmalex for global -->
 		<script type="text/javascript">
             window.object = <%object(); %>;
-			document.title = <%he('machine:title'); %>;	
             window.username = <%username(); %>;
+			window.custom = <%he('arch@custom'); %>;
+			window.ability = <%he('arch@ability'); %>;
 			window.machine = <%he('machine'); %>;
 			window.machine_status = <%he('machine.status'); %>;
-			window.ability = <%he('arch@ability'); %>;
-			window.custom = <%he('arch@custom'); %>;
 			window.network_frame = <%he('network@frame'); %>;
 			window.ifname_list = <%he('network@frame.list'); %>;
 			window.local_list = <%he('network@frame.list[local]'); %>;
@@ -375,6 +374,7 @@
 			window.wui = <%config(); %>;
 			window.wuiterm = "<%shell( 'which ttyd | tr -d "\n"' ); %>";
 			window.lang = window.machine.language;
+			document.title = window.machine.name;
 			$('#prompt').html( document.title );
 			var wuimenu = wui.menu;
 			// disable load the subpage, loading when after i18n loadin

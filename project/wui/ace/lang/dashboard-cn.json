@@ -1,0 +1,45 @@
+{
+	"Status":"状态",
+	"down":"未连接",
+	"uping":"正在连接",
+	"connect":"正在连接",
+	"up":"连接成功",	
+	"nodevice":"无基带",
+	"noimei":"IMEI错误",
+	"noimsi":"IMSI错误",
+	"pin":"PIN码",
+	"puk":"PIN码错误",
+	"nosim":"无SIM卡",
+	"noreg":"未注册",
+	"unreg":"未注册",
+	"dereg":"拒绝注册",
+	"search":"查找基带",
+	"setup":"初始化",
+	"register":"正在注册",
+	"ready":"基带正常",
+	"reset":"重启基带",
+
+	"Network":"网络",
+	"Signal":"信号",
+	"IPv4 Address":"IPv4地址",
+	"Online Time":"在线时长",
+	"Byte":"字节",
+	"Packet":"包",
+
+	"ifname@lte Speed":"4G网络速率",
+	"ifname@lte2 Speed":"4G/5G网络速率",
+
+	"CPU":"处理器",
+	"Core0":"核心0",
+	"Core1":"核心1",
+	"Core2":"核心2",
+	"Core3":"核心3",
+	"Memory":"内存",
+	"config":"配置区",
+	"int":"FPK区",
+
+	"FPKs":"FPK数",
+	"Services":"服务数",
+	"Processes":"进程数"
+
+}

@@ -4,7 +4,7 @@
     <!-- PAGE CONTENT BEGINS -->
     <div class="form-horizontal" role="form">
     
-        <h3 data-i18n="Repositories Software List"></h3>
+        <h3 data-i18n="Repositories FPK List"></h3>
 
         <table id="repo-grid-table"></table>
 
@@ -33,7 +33,7 @@
     /* show the software table */
     function repo_load()
     {
-      he.load( [ 'land@repo.list' ] ).then( function(v){
+      he.load( [ 'land@fpk.repo_list' ] ).then( function(v){
           repos = v[0];
           var count = 0;
           var rows = [];
@@ -44,7 +44,7 @@
             count++;
           }
           // 表头设置为在线客户端的数量
-          $(repo_table).jqGrid( "setCaption", $.i18n('Software Number') + '(' + count + ')' );
+          $(repo_table).jqGrid( "setCaption", $.i18n('FPK Number') + '(' + count + ')' );
           // 记住滚动条的位置
           var scrollPos = jqtable.getScrollPos();
           // 给proejcts表格设置数据
@@ -55,7 +55,7 @@
     }
     /* bind the refresh */
     $('#repo_update').on(ace.click_event, function () {
-        he.exec( [ 'land@repo.update' ], $.i18n("Updating") ).then( function(v){
+        he.exec( [ 'land@fpk.repo_update' ], $.i18n("Updating...") ).then( function(v){
             repos = v[0];
             var count = 0;
             var rows = [];
@@ -66,7 +66,7 @@
               count++;
             }
             // 表头设置为在线客户端的数量
-            $(repo_table).jqGrid( "setCaption", $.i18n('Software Number') + '(' + count + ')' );
+            $(repo_table).jqGrid( "setCaption", $.i18n('FPK Number') + '(' + count + ')' );
             // 记住滚动条的位置
             var scrollPos = jqtable.getScrollPos();
             // 给proejcts表格设置数据
@@ -88,13 +88,13 @@
             multiselect: false,
             rowNum:500,
             hideRowList: true, pgbuttons : false, pginput : false,
-            colNames: [$.i18n('Name(unique)'), $.i18n('Size'), $.i18n('Version'), $.i18n('Author'), $.i18n('Introduction'), $.i18n('Operation') ],
+            colNames: [$.i18n('Name'), $.i18n('Size'), $.i18n('Version'), $.i18n('Author'), $.i18n('Introduction'), $.i18n('Operation') ],
             colModel:
             [
               { name:'pname', width:100 },
               { name:'size', width:100 },
-              { name:'version', width:100 },
-              { name:'author', width:130 },
+              { name:'version', width:80 },
+              { name:'author', width:150 },
               { name:'intro', width:300 },
               {
                   name: 'install', width: 80,
@@ -124,11 +124,11 @@
     var file = repo.fpk;
 
     // 执行安装
-    he.exec( [ "land@repo.install["+file+"]" ], $.i18n("Installing") ).then( function(v){
+    he.exec( [ "land@fpk.repo_install["+file+"]" ], $.i18n("Installing...") ).then( function(v){
         var ret = v[0];
         if ( ret == true )
         {
-            page.alert( { message: $.i18n('Install succeed, The new install software will be under the application menu'), callback: function( result ){location.reload();} } );
+            page.alert( { message: $.i18n('Install succeed, The new install FPK will be under the application menu'), callback: function( result ){location.reload();} } );
         }
         else
         {

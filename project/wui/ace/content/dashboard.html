@@ -1,0 +1,502 @@
+<!-- ajax layout which only needs content area -->
+<div class="row" id="page-modes">
+  <div class="col-xs-12 form-btn-wrapper">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- PAGE CONTENT BEGINS -->
+
+
+
+            <div class="row" id="ifname@lte2" style="display: none;">
+                <div class="space-6"></div>
+                <div class="col-sm-5">
+                    <div class="widget-box">
+                        <div class="widget-header widget-header-flat widget-header-small"><i class="ace-icon fa fa-signal"></i> <h5 class="widget-title" data-i18n="ifname@lte2"></h5></div>
+                        <div class="space-6"></div>
+                        <div class="row">
+                            <div class="col-sm-4" >
+                                <div class="space-6"></div>
+                                <div class="center">
+                                    <div class="easy-pie-chart percentage" data-percent="100" data-size="100" id="ifname@lte2_downusage_pie" ><span class="percent" id="ifname@lte2_downusage">100</span>%<i class="ace-icon fa fa-arrow-down fa-2x purple"></i></div>
+                                    <div class="space-6"></div><div class="space-6"></div>
+                                    <div class="easy-pie-chart percentage" data-percent="100" data-size="100" id="ifname@lte2_upusage_pie" ><span class="percent" id="ifname@lte2_upusage">100</span>%<i class="ace-icon fa fa-arrow-up fa-2x red"></i></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-8" >
+                                <div class="widget-body">
+                                    <div class="widget-main no-padding">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr><td data-i18n="Status"></td><td id="ifname@lte2_status"></td></tr>
+                                                <tr><td data-i18n="IMEI"></td><td id="ifname@lte2_imei"></td></tr>
+                                                <tr><td data-i18n="ICCID"></td><td id="ifname@lte2_iccid"></td></tr>
+                                                <tr><td data-i18n="Network"></td>
+                                                    <td>
+                                                        <span id="ifname@lte2_operator"></span>&nbsp;
+                                                        <span id="ifname@lte2_nettype"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr><td data-i18n="Signal"></td>
+                                                    <td>
+                                                        <span><img src="/assets/css/images/signal_0.png" id="ifname@lte2_rssiimg" class="line-signal"></img></span>
+                                                        <span id="ifname@lte2_rssi"></span>
+                                                        <span id="ifname@lte2_csq"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr><td data-i18n="IPv4 Address"></td><td id="ifname@lte2_ip"></td></tr>
+                                                <tr><td data-i18n="Online Time"></td><td id="ifname@lte2_livetime"></td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div><!-- /.widget-main -->
+                                </div><!-- /.widget-body -->
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main">
+                                <div class="clearfix">
+                                    <!-- #section:custom/extra.grid -->
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-down fa-2x purple"></i><span data-i18n="Byte"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@lte2_rx_bytes"></h4>
+                                    </div>
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-down fa-2x purple"></i><span data-i18n="Packet"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@lte2_rx_packets"></h4>
+                                    </div>
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-up fa-2x red"></i><span data-i18n="Byte"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@lte2_tx_bytes"></h4>
+                                    </div>
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-up fa-2x red"></i><span data-i18n="Packet"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@lte2_tx_packets"></h4>
+                                    </div>
+                                    <!-- /section:custom/extra.grid -->
+                                </div>
+                            </div><!-- /.widget-main -->
+                        </div><!-- /.widget-body -->
+                    </div><!-- /.widget-box -->
+                </div><!-- /.col -->
+
+                <div class="col-sm-5">
+                    <div class="widget-box widget-color-green2">
+                        <div class="widget-header"><h5 class="widget-title bigger lighter" data-i18n="ifname@lte2 Speed"></h5></div>
+                        <div class="widget-body">
+                            <div class="widget-main"><div id="ifname@lte2-charts" style="height:294px"></div></div>
+                        </div>
+                    </div>
+               </div>
+
+            </div><!-- /.row -->
+
+
+            <div class="hr hr32 hr-dotted"></div>
+            <div class="row">
+                <div class="col-sm-9 infobox-container">
+
+
+                    <div class="infobox infobox-blue2" id="cpu" style="display: none;">
+                        <div class="infobox-progress"><div class="easy-pie-chart percentage" data-percent="100" data-size="46" id="cpu_usage_pie"><span class="percent" id="cpu_usage">100</span>%</div></div>
+                        <div class="infobox-data"><span class="infobox-data-number">CPU</span><div class="infobox-content"></div></div>
+                    </div>
+                    <div class="infobox infobox-blue2" id="cpu0" style="display: none;">
+                        <div class="infobox-progress"><div class="easy-pie-chart percentage" data-percent="100" data-size="46" id="cpu0_usage_pie"><span class="percent" id="cpu0_usage">100</span>%</div></div>
+                        <div class="infobox-data"><span class="infobox-data-number" data-i18n="Core0"></span><div class="infobox-content"></div></div>
+                    </div>
+                    <div class="infobox infobox-blue2" id="cpu1" style="display: none;">
+                        <div class="infobox-progress"><div class="easy-pie-chart percentage" data-percent="100" data-size="46" id="cpu1_usage_pie"><span class="percent" id="cpu1_usage">100</span>%</div></div>
+                        <div class="infobox-data"><span class="infobox-data-number" data-i18n="Core1"></span><div class="infobox-content"></div></div>
+                    </div>
+                    <div class="infobox infobox-blue2" id="cpu2" style="display: none;">
+                        <div class="infobox-progress"><div class="easy-pie-chart percentage" data-percent="100" data-size="46" id="cpu2_usage_pie"><span class="percent" id="cpu2_usage">100</span>%</div></div>
+                        <div class="infobox-data"><span class="infobox-data-number" data-i18n="Core2"></span><div class="infobox-content"></div></div>
+                    </div>
+                    <div class="infobox infobox-blue2" id="cpu3" style="display: none;">
+                        <div class="infobox-progress"><div class="easy-pie-chart percentage" data-percent="100" data-size="46" id="cpu3_usage_pie"><span class="percent" id="cpu3_usage">100</span>%</div></div>
+                        <div class="infobox-data"><span class="infobox-data-number" data-i18n="Core3"></span><div class="infobox-content"></div></div>
+                    </div>
+
+
+                    <div class="infobox infobox-blue2">
+                        <div class="infobox-icon"><div class="easy-pie-chart percentage" data-percent="100" data-size="50" id="mem_usage_pie"><span class="percent" id="mem_usage">100</span>%</div></div>
+                        <div class="infobox-data">
+                            <span class="infobox-data-number" data-i18n="Memory"></span>
+                            <div class="infobox-content" id="mem_free"></div>
+                        </div>
+                        <div class="badge badge-success" id="mem_total"></div>
+                    </div>
+
+
+
+
+                    <div class="infobox infobox-blue" id="sg1" style="display: none;">
+                        <div class="infobox-icon"><div class="easy-pie-chart percentage" data-percent="100" data-size="50" id="sg1_usage_pie"><span class="percent" id="sg1_usage">100</span>%</div></div>
+                        <div class="infobox-data">
+                            <span class="infobox-data-number" id="sg1_name"></span>
+                            <div class="infobox-content" id="sg1_free"></div>
+                        </div>
+                        <div class="badge badge-success" id="sg1_total"></div>
+                    </div>
+                    <div class="infobox infobox-blue" id="sg2" style="display: none;">
+                        <div class="infobox-icon"><div class="easy-pie-chart percentage" data-percent="100" data-size="50" id="sg2_usage_pie"><span class="percent" id="sg2_usage">100</span>%</div></div>
+                        <div class="infobox-data">
+                            <span class="infobox-data-number" id="sg2_name"></span>
+                            <div class="infobox-content" id="sg2_free"></div>
+                        </div>
+                        <div class="badge badge-success" id="sg2_total"></div>
+                    </div>
+                    <div class="infobox infobox-blue" id="sg3" style="display: none;">
+                        <div class="infobox-icon"><div class="easy-pie-chart percentage" data-percent="100" data-size="50" id="sg3_usage_pie"><span class="percent" id="sg3_usage">100</span>%</div></div>
+                        <div class="infobox-data">
+                            <span class="infobox-data-number" id="sg3_name"></span>
+                            <div class="infobox-content" id="sg3_free"></div>
+                        </div>
+                        <div class="badge badge-success" id="sg3_total"></div>
+                    </div>
+                    <div class="infobox infobox-blue" id="sg4" style="display: none;">
+                        <div class="infobox-icon"><div class="easy-pie-chart percentage" data-percent="100" data-size="50" id="sg4_usage_pie"><span class="percent" id="sg4_usage">100</span>%</div></div>
+                        <div class="infobox-data">
+                            <span class="infobox-data-number" id="sg4_name"></span>
+                            <div class="infobox-content" id="sg4_free"></div>
+                        </div>
+                        <div class="badge badge-success" id="sg4_total"></div>
+                    </div>
+
+
+                </div>
+
+            </div><!-- /.row -->
+
+
+            <div class="row">
+                    <div class="col-sm-9 infobox-container">
+                    <div class="infobox infobox-grey infobox-small infobox-dark">
+                        <div class="infobox-icon">
+                            <i class="ace-icon fa fa-download"></i>
+                        </div>
+                        <div class="infobox-data">
+                            <div class="infobox-content" data-i18n="FPKs"></div>
+                            <div class="infobox-content" id="fpks" ></div>
+                        </div>
+                    </div>
+                    <div class="infobox infobox-grey infobox-small infobox-dark">
+                        <div class="infobox-icon">
+                            <i class="ace-icon fa fa-download"></i>
+                        </div>
+                        <div class="infobox-data">
+                            <div class="infobox-content" data-i18n="Processes"></div>
+                            <div class="infobox-content" id="processes"></div>
+                        </div>
+                    </div>
+                    <div class="infobox infobox-grey infobox-small infobox-dark">
+                        <div class="infobox-icon">
+                            <i class="ace-icon fa fa-download"></i>
+                        </div>
+                        <div class="infobox-data">
+                            <div class="infobox-content" data-i18n="Services"></div>
+                            <div class="infobox-content" id="services"></div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.row -->
+
+
+
+
+
+            <div class="hr hr32 hr-dotted"></div>
+
+
+
+
+            <!-- PAGE CONTENT ENDS -->
+        </div><!-- /.col -->
+    </div><!-- /.row -->
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+
+
+
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () { 
+    /* flush interval */
+    var flush_interval = 1;
+    /* global buffer */
+    var buff = {};
+    /* init the ifname@lte info */
+    buff["ifname@lte_max"] = 15;
+    buff["ifname@lte_rx"] = 0;
+    buff["ifname@lte_tx"] = 0;
+    buff["ifname@lte_rxdata"] = [];
+    buff["ifname@lte_txdata"] = [];
+    /* init the ifname@lte2 info */
+    buff["ifname@lte2_max"] = 15;
+    buff["ifname@lte2_rx"] = 0;
+    buff["ifname@lte2_tx"] = 0;
+    buff["ifname@lte2_rxdata"] = [];
+    buff["ifname@lte2_txdata"] = [];
+    /* init the ifname@wan info */
+    buff["ifname@wan_max"] = 15;
+    buff["ifname@wan_rx"] = 0;
+    buff["ifname@wan_tx"] = 0;
+    buff["ifname@wan_rxdata"] = [];
+    buff["ifname@wan_txdata"] = [];
+    /* init the ifname@wan2 info */
+    buff["ifname@wan2_max"] = 15;
+    buff["ifname@wan2_rx"] = 0;
+    buff["ifname@wan2_tx"] = 0;
+    buff["ifname@wan2_rxdata"] = [];
+    buff["ifname@wan2_txdata"] = [];
+    /* init the ifname@wisp info */
+    buff["ifname@wisp_max"] = 15;
+    buff["ifname@wisp_rx"] = 0;
+    buff["ifname@wisp_tx"] = 0;
+    buff["ifname@wisp_rxdata"] = [];
+    buff["ifname@wisp_txdata"] = [];
+    function lte_show( ifname, value )
+    {
+        $("[id='"+ifname+"']").show();
+        $("[id='"+ifname+"_status']").html( $.i18n(value.status) );
+        $("[id='"+ifname+"_imei']").html(  $.i18n(value.imei) );
+        $("[id='"+ifname+"_iccid']").html( $.i18n(value.iccid) );
+
+        if ( value.operator )
+        {
+            $("[id='"+ifname+"_operator']").text( value.operator );
+        }
+        else if ( value.plmn )
+        {
+            $("[id='"+ifname+"_operator']").text( $.i18n(value.plmn) );
+        }
+        else
+        {
+            $("[id='"+ifname+"_operator']").text( "" );
+        }
+        $("[id='"+ifname+"_nettype']").html( value.nettype||' ' );
+
+        if ( value.signal )
+        {
+            $("[id='"+ifname+"_rssiimg']").attr( "src", "/assets/css/images/signal_"+value.signal+".png" );
+        }
+        else
+        {
+            $("[id='"+ifname+"_rssiimg']").attr( "src", "/assets/css/images/signal_0.png" );
+        }
+        if ( value.rsrp )
+        {
+            $("[id='"+ifname+"_rssi']").text( "RSSI:"+value.rsrp+"dBm" );
+        }
+        else if ( value.rssi )
+        {
+            $("[id='"+ifname+"_rssi']").text( "RSSI:"+value.rssi+"dBm" );            
+        }
+        else
+        {
+            $("[id='"+ifname+"_rssi']").text( "" );            
+        }
+        if ( value.csq )
+        {
+            $("[id='"+ifname+"_csq']").text( "CSQ:"+value.csq );
+        }
+        else
+        {
+            $("[id='"+ifname+"_csq']").text( "" );            
+        }
+
+        $("[id='"+ifname+"_ip']").html( value.ip||"" );
+        $("[id='"+ifname+"_livetime']").html( value.livetime||"" );
+
+        if ( value.status != "up" )
+        {
+            return;
+        }
+        $("[id='"+ifname+"_rx_bytes']").html( byte2readable( value.rx_bytes||"0" ) );
+        $("[id='"+ifname+"_rx_packets']").html( value.rx_packets||"0" );
+        $("[id='"+ifname+"_tx_bytes']").html( byte2readable( value.tx_bytes||"0" ) );
+        $("[id='"+ifname+"_tx_packets']").html( value.tx_packets||"0" );
+
+        /* get the time */
+        var date = new Date();
+        var day = date.getHours();
+        date = date.setHours( 8+day );
+        var newdate = new Date( date );
+        var d_time = newdate.getTime();
+        /* get the byte */
+        var rx = 0;
+        var tx = 0;
+        var orx = buff[ ifname+"_rx" ];
+        var otx = buff[ ifname+"_tx" ];
+        buff[ ifname+"_rx" ] = parseInt( value.rx_bytes );
+        buff[ ifname+"_tx" ] = parseInt( value.tx_bytes );
+        if ( orx != 0 || otx != 0 )
+        {
+            rx = buff[ ifname+"_rx" ] - orx;
+            tx = buff[ ifname+"_tx" ] - otx;
+            if ( rx < 0 )
+            {
+                rx = 0;
+            }
+            if ( tx < 0 )
+            {
+                tx = 0;
+            }
+        }
+        if ( rx > 0 )
+        {
+            rx = Math.round( rx/1024 );
+        }
+        if ( tx > 0 )
+        {
+            tx = Math.round( tx/1024 );
+        }
+        if ( buff[ ifname+"_max" ] < rx )
+        {
+            buff[ ifname+"_max" ] = rx;
+        }
+        if ( buff[ ifname+"_max" ] < tx )
+        {
+            buff[ ifname+"_max" ] = tx;
+        }
+        buff[ifname+"_txdata"].push( [ d_time, tx ] );
+        buff[ifname+"_rxdata"].push( [ d_time, rx ] );
+        $("[id='"+ifname+"-charts']").css( {'width':'100%' , 'height':'294px'} );
+        var datas =
+        [
+            { label: $.i18n('TX byte'), color: "#0000ff", data: buff[ifname+"_txdata"] },
+            { label: $.i18n('RX byte'), color: "#00ff00", data: buff[ifname+"_rxdata"] },
+        ];
+        var opt =
+        {
+            points:{ clickable:true, hoverable:true },
+            lines:{ show:true, lineWidth: 1 },
+            selection: { mode: "x" },
+            yaxis: { max: buff[ifname+"_max"], tickFormatter:function(axis) { return axis.toFixed(0)+"K"; } },
+            xaxis: { mode: "time", timeformat: "%M:%S", minTickSize: [1, "second"] },
+            legend: { position: "ne", backgroundColor:"#fff" } 
+        };
+        $.plot( "[id='"+ifname+"-charts']", datas, opt );
+
+	    var usage;
+	    usage = (rx/(4*1024))*100;
+        if ( usage > 0 )
+        {
+            usage = 0;
+        }
+        $("[id='"+ifname+"_downusage']").text( usage.toFixed(2) );
+        $("[id='"+ifname+"_downusage_pie']").data('easyPieChart').update( usage.toFixed(2) );
+        usage = (tx/(3*1024))*100;
+        if ( usage > 0 )
+        {
+            usage = 0;
+        }
+        $("[id='"+ifname+"_upusage']").text( usage.toFixed(2) );
+        $("[id='"+ifname+"_upusage_pie']").data('easyPieChart').update( usage.toFixed(2) );
+    }
+	function cpu_show( id, info )
+	{
+	    var user = parseInt(info.user)+parseInt(info.system)+parseInt(info.nice)+parseInt(info.iowait)+parseInt(info.irq)+parseInt(info.softirq);
+	    var total = user+parseInt(info.idle);
+	    var usage = ((user)/(total))*100;
+        $("#"+id).show();
+        $("#"+id+"_usage").text( usage.toFixed(0) );
+        $("#"+id+"_usage_pie").data('easyPieChart').update( usage.toFixed(0) );
+	}
+	function mem_show( info )
+	{
+	    var use = info.total-info.free;
+	    var usage = (use/info.total)*100;
+        $("#mem_usage").text( usage.toFixed(0) );
+        $("#mem_usage_pie").data('easyPieChart').update( usage.toFixed(0) );
+        $("#mem_total").text( info.total+"K" );
+        $("#mem_free").text( info.free+"K" );
+	}
+	function sg_show( id, name, info )
+	{
+        $(id).show();
+        $(id+"_name").text( $.i18n(name) );
+	    var usage = parseInt( info.use );
+        $(id+"_usage").text( usage );
+        $(id+"_usage_pie").data('easyPieChart').update( usage );        
+        $(id+"_total").text( info.size );
+        $(id+"_free").text( info.available );
+	}	
+    /* load the configure on the input */
+    function data_reload()
+    {
+        var i;
+        var id;
+        var value;
+        he.bkload( [ 'network@frame.extern', 'land@machine.cpuinfo', 'land@machine.meminfo', 'land@machine.sginfo', 'land@fpk.number', 'land@service.number', 'land@machine.psnumber', 'network@frame.gateway', 'client@station.count', "wifi@nssid.status", "wifi@assid.status" ] ).then( function(v){
+
+            for ( id in v[0] )
+            {
+                value = v[0][id];
+                lte_show( id, value );
+            }
+
+            for ( id in v[1] )
+            {
+                value = v[1][id];
+                cpu_show( id, value );
+            }
+
+            mem_show( v[2] );
+
+            i = 1;
+            for ( id in v[3] )
+            {
+                value = v[3][id];
+                sg_show( "#sg"+i, id, value );
+                i++;
+            }
+            $("#fpks").text( v[4] );
+            $("#services").text( v[5] );
+            $("#processes").text( v[6] );
+        })
+    }
+
+    /* init */
+    $.i18n().load( page.lang('dashboard') ).then( function () {
+
+        /* init the langauage */
+        $.i18n().locale = lang; $('body').i18n();
+
+        /* init the easy-pie-chart */
+        $('.easy-pie-chart.percentage').each( function(){
+            $(this).easyPieChart( {
+                barColor: function( percent )
+                {
+                    percent /= 100;
+                    return "rgb(" + Math.round(255 * percent) + ", " + Math.round(255 * (1-percent)) + ", 0)";
+                },
+                trackColor: '#EEEEEE',
+                scaleColor: false,
+                lineCap: 'butt',
+                lineWidth: 8,
+                animate: ace.vars['old_ie'] ? false : 1000,
+                size:75
+            }).css( 'color', $(this).data('color') );
+        });
+
+        /* load the configure */
+        data_reload();
+        /* set the timer flush */
+        page.timing({
+            refresh: function ()
+            {
+                data_reload();
+            },
+            interval: flush_interval*1000
+        });
+
+    });
+
+
+  })();
+
+</script>

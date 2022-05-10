@@ -30,6 +30,8 @@ endef
 define Package/$(PKG_NAME)/install
 	$(call Build/Install/Collect,$(1))
 	# ########## 在此可添加额外的安装指示: 开始 ########### # 
+	$(INSTALL_DIR) $(FPK_BUILD_DIR)/admin
+	$(CP) ${gpWUI_ADMIN_THEME}/* $(FPK_BUILD_DIR)/admin
 	# ########## 在此可添加额外的安装指示: 结束 ########### # 
 	$(call Build/Install/Fpk,$(1))
 endef

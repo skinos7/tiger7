@@ -237,13 +237,7 @@
                                 <div id="name_string" class="col-xs-10 col-sm-5 form-right-text"></div>
                               </div>
                             </div>
-                            <!-- 软件编号 -->
-                            <div class="form-group">
-                              <label class="col-sm-3 control-label no-padding-right" data-i18n="Firmware Identifier"></label>
-                              <div class="col-sm-9">
-                                <div id="firmware_id" class="col-xs-10 col-sm-5 form-right-text"></div>
-                              </div>
-                            </div>
+
                             <!-- 软件版本 -->
                             <div class="form-group">
                               <label class="col-sm-3 control-label no-padding-right" data-i18n="Firmware Version"></label>
@@ -251,29 +245,29 @@
                                 <div id="firmware_version" class="col-xs-10 col-sm-5 form-right-text"></div>
                               </div>
                             </div>
-                            <!-- 发布日期 -->
+                            <!-- 软件标识 -->
                             <div class="form-group">
-                              <label class="col-sm-3 control-label no-padding-right" data-i18n="Firmware Publish"></label>
+                              <label class="col-sm-3 control-label no-padding-right" data-i18n="Firmware Identifier"></label>
                               <div class="col-sm-9">
-                                <div id="firmware_publish" class="col-xs-10 col-sm-5 form-right-text"></div>
+                                <div id="firmware_id" class="col-xs-10 col-sm-5 form-right-text"></div>
                               </div>
                             </div>
-                            <!-- 系统升级 -->
+
+                            <!-- 本地升级 -->
                             <div class="form-group">
                               <label class="col-sm-3 control-label no-padding-right" data-i18n="Upgrade"></label>
                               <div class="col-sm-9">
-                                <div class="col-xs-10 col-sm-5">
-                                  <input type="file" id="upgrade" />
-                                </div>
+                                <div class="col-xs-10 col-sm-5"><input type="file" id="upgrade" /></div>
                               </div>
                             </div>
+
                             <!-- 恢复软件设置 -->
                             <div class="form-horizontal" role="form">
                               <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right"></label>
                                 <div class="col-sm-9">
                                   <div class="btn-group">
-                                    <button class="btn btn-danger" data-i18n="Clear Software and Default Configure" id="factory"></button>
+                                    <button class="btn btn-danger" data-i18n="Clear Installed FPK and Default Configure" id="factory"></button>
                                   </div>
                                 </div>
                               </div>
@@ -349,20 +343,6 @@
                             </div>
 
 
-                            <div class="form-horizontal" role="form">
-                              <!-- 调试模式 -->
-                              <div class="form-group">
-                                <label class="col-sm-3 control-label no-padding-right"></label>
-                                <div class="col-sm-9">
-                                  <div class="btn-group">
-                                    <button class="btn btn-success" data-i18n="System Debug" id="debug"></button>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-
-
-
                         </div>
                     </div>
                 </div>
@@ -418,11 +398,12 @@
 
         <!-- add by dimmalex for global -->
         <script type="text/javascript">
-          window.machine = <%he('machine'); %>;
           window.custom = <%he('arch@custom'); %>;
           window.ability = <%he('arch@ability'); %>;
+          window.machine = <%he('machine'); %>;
           window.machine_status = <%he('machine.status'); %>;
           window.lang = window.machine.language;
+          document.title = window.machine.name;
           // disable load the subpage, loading when after i18n loadin
           ace.demo.functions.enableDemoAjax= function () {};
         </script>
@@ -441,7 +422,106 @@
 
 
 
+              /* load the firmware info */
               $('#name_string').text(window.machine.name);
+              $('#firmware_version').text(window.machine_status.version);
+              $('#firmware_id').text( window.machine_status.hardware+"-"+window.machine_status.custom+"-"+window.machine_status.scope );
+
+              // upgrade local
+              $('#upgrade').ace_file_input( { no_file: $.i18n('No File'), btn_choose: $.i18n('Choose'), btn_change: $.i18n('Change'), icon_remove: '' } );
+              // bind the upgrade
+              $('#upgrade').fileupload({
+                url:'/cgi/upgrade', paramName:'filename', dataType:'text',
+                add: function( e, data )
+                { // 选择文件之后，执行升级之前
+                    // 提示正在升级
+                    page.overlay($.i18n('Upgrading...'));
+                    // 执行升级
+                    data.submit();
+                },
+                done: function( e, data )
+                {
+                  var hint = "";
+                  var wait = null;
+                  var result = JSON.parse( data.result );
+                  if ( result.msgs )
+                  {
+                    for( var ind in result.msgs )
+                    {
+                        hint += ind;
+                        hint += "---";
+                        hint += $.i18n( result.msgs[ind] );
+                        hint += "<br>";
+                    }
+                  }
+                  else
+                  {
+                    hint = $.i18n( result.msg );
+                  }
+                  if ( result.wait )
+                  {
+                    wait = result.wait;
+                  }
+                  page.overlay2hide();
+                  if ( result.status === 'success' )
+                  { // 升级成功重启
+              
+                      if ( !result.restart )
+                      {
+                          if ( !hint )
+                          {
+                            hint = $.i18n( "Success" );
+                          }
+                          page.alert( { message: hint, callback: function( result ){location.reload();} } );
+                      }
+                      else
+                      {
+                          if ( result.msgs )
+                          {
+                            hint += "<br><br><center>"+$.i18n( "Restart the system or not" )+"</center>";
+                          }
+                          else if ( hint )
+                          {
+                            hint += ", "+$.i18n( "Restart the system or not" );
+                          }
+                          else
+                          {
+                            hint = $.i18n( "Success" )+", "+$.i18n( "Restart the system or not" );
+                          }
+                          page.confirm( { message: hint,
+                            callback: function( result )
+                            {
+                              if ( result )
+                              {
+                                he.reboot( { title: $.i18n('Update successfully, now restarting...'), hint:$.i18n('Make sure that the device is reconnected'), restartTime:wait } );
+                              }
+                              else
+                              {
+                                location.reload();
+                              }
+                            }
+                          });
+                      }
+                  }
+                  else
+                  { // 升级失败
+                    // 重新刷新
+                    software_load();
+                    project_load();
+                    // 提示升级失败
+                    page.alert( { message: hint } );
+                  }
+                }
+              })
+
+              // factory
+              $('#factory').on(ace.click_event, function () {
+                    he.reboot( { title: $.i18n('Restarting...'), hint:$.i18n('Make sure that the device is reconnected'), restartTime:window.custom.upgrade_wait, cmds:["arch@data.factory"] } );
+              });
+
+
+
+
               $('#model_string').val( window.machine_status.model );
               $('#model_modify').click(function () {
                   var nmodel = $("#model_string").val();
@@ -495,98 +575,7 @@
               $('#mac_clear').on(ace.click_event, function () {
                     he.reboot( { title: $.i18n('Restarting...'), hint:$.i18n('Make sure that the device is reconnected'), cmds:["arch@data:mac=00:0C:43:03:04:00"] } );
               });
-              // 产测模式
-              $('#debug').on(ace.click_event, function () {
-                  he.exec( [ "arch@debug.log" ] ).then( function(){
-                      location.reload(true);
-                  });
-              });
 
-              $('#firmware_id').text( window.machine.platform+"-"+window.machine.hardware+"-"+window.machine.custom+"-"+window.machine.scope );
-              $('#firmware_version').text(window.machine_status.version);
-              $('#firmware_publish').text(window.machine_status.publish);
-              // factory
-              $('#factory').on(ace.click_event, function () {
-                    he.reboot( { title: $.i18n('Restarting...'), hint:$.i18n('Make sure that the device is reconnected'), restartTime:window.custom.upgrade_wait, cmds:["arch@data.factory"] } );
-              });
-              // add file input style
-              $('#upgrade').ace_file_input( { no_file: $.i18n('No File'), btn_choose: $.i18n('Choose'), btn_change: $.i18n('Change'), icon_remove: '' } );
-              // bind the upgrade
-              $('#upgrade').fileupload({
-                url:'/cgi/firmware', paramName:'filename', dataType:'text',
-                add: function( e, data )
-                { // 选择文件之后，执行升级之前
-                    // 提示正在升级
-                    page.overlay($.i18n('Updating...'));
-                    // 执行升级
-                    data.submit();
-                },
-                done: function( e, data )
-                {
-                  var hint = "";
-                  var wait = null;
-                  var result = JSON.parse( data.result );
-                  if ( result.msgs )
-                  {
-                    for( var ind in result.msgs )
-                    {
-                        hint += ind;
-                        hint += "---";
-                        hint += $.i18n( result.msgs[ind] );
-                        hint += "<br>";
-                    }
-                  }
-                  else
-                  {
-                    hint = $.i18n( result.msg );
-                  }
-                  if ( result.wait )
-                  {
-                    wait = result.wait;
-                  }
-                  page.overlay2hide();
-                  if ( result.status === 'success' )
-                  { // 升级成功重启
-              
-                      if ( !result.reboot )
-                      {
-                          page.alert( { message: hint, callback: function( result ){location.reload();} } );
-                      }
-                      else
-                      {
-                          if ( result.msgs )
-                          {
-                            hint += "<br><br><center>"+$.i18n( "Restart the system or not" )+"</center>";
-                          }
-                          else
-                          {
-                            hint += ", "+$.i18n( "Restart the system or not" );
-                          }
-                          page.confirm( { message: hint,
-                            callback: function( result )
-                            {
-                              if ( result )
-                              {
-                                he.reboot( { title: $.i18n('Update successfully, now restarting...'), hint:$.i18n('Make sure that the device is reconnected'), restartTime:wait } );
-                              }
-                              else
-                              {
-                                location.reload();
-                              }
-                            }
-                          });
-                      }
-                  }
-                  else
-                  { // 升级失败
-                    // 重新刷新
-                    software_load();
-                    project_load();
-                    // 提示升级失败
-                    page.alert( { message: hint } );
-                  }
-                }
-              })
 
 
             });

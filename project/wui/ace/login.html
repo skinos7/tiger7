@@ -122,12 +122,12 @@
 		<!-- inline scripts related to this page -->
 		<script type="text/javascript">
 			window.object = <%object(); %>;
-			document.title = <%he('machine:title'); %>;	
+            window.custom = <%he('arch@custom'); %>;
 			window.machine = <%he('machine'); %>;
 			window.machine_status = <%he('machine.status'); %>;
-			window.custom = <%he('arch@custom'); %>;
 			window.wui = <%config(); %>;
 			window.lang = window.machine.language;
+			document.title = window.machine.name;
 			$('#prompt').html( document.title );
             if ( window.wui && window.wui.logo_file )
             {
