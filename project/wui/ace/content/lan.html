@@ -7,7 +7,7 @@
 
         <!-- IP地址 -->
         <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right" data-i18n="IP Address"></label>
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv4 Address"></label>
             <div class="col-sm-9">
               <div class="clearfix">
                 <input type="text" id="ip" class="col-xs-10 col-sm-5" maxlength="128" />
@@ -38,7 +38,7 @@
         </div>
       </div>
       
-      <div id="dhcpsSets" style="display: none;">
+      <div id="dhcps_cfg" style="display: none;">
 
         <!-- 起始IP -->
         <div class="form-group">
@@ -107,11 +107,12 @@
 
 
 
-        <div id="ipv6Sets" style="display: none;" >
-        <div class="hr hr32 hr-dotted" id="oneset_line"></div>
+        <div id="ipv6_cfg" style="display: none;" >
+
+            <div class="hr hr32 hr-dotted"></div>
             <!-- IPV6地址 -->
             <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" data-i18n="IPV6 Address Type"></label>
+                <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv6 Mode"></label>
                 <div class="col-sm-9">
                     <select class="col-xs-10 col-sm-5" id="method">
                       <option value="disable" data-i18n="Disable"></option>
@@ -120,7 +121,7 @@
                     </select>
                 </div>
             </div>
-            <div id="ipv6Manual" style="display: none;" >
+            <div id="manual_cfg" style="display: none;" >
                 <!-- IPV6地址 -->
                 <div class="form-group">
                     <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv6 Address"></label>
@@ -155,7 +156,7 @@
 
 
 
-        <div id="dhcpsv6Sets" style="display: none;" >
+        <div id="dhcpsv6_cfg" style="display: none;" >
             <!-- 起始IPV6 -->
             <div class="form-group">
               <label class="col-sm-3 control-label no-padding-right" data-i18n="Start IPv6 Address"></label>
@@ -240,21 +241,28 @@
   (function () {
     /* get the object */
     var lan;
-    var obj = page.param( 'obj', location.hash );
-    if ( !obj )
+    obj = "ifname@lan";
+    var index = location.hash.indexOf("obj=");
+    if ( index > 0 )
     {
-      obj = "ifname@lan";
+      obj = location.hash.substring( index+4 );
     }
     /* load the configure on the input */
-    function lan_load()
+    function config_load()
     {
       he.load( [ obj ] ).then( function(v){
         lan = v[0];
-        if ( lan.static && lan.static.ipaddr )
+        if ( !lan )
         {
-            $('#ip').val(lan.static.ipaddr.ip || '');
-            $('#mask').val(lan.static.ipaddr.mask || '');
+            return;
         }
+        /* ipv4 */
+        if ( lan.static )
+        {
+            $('#ip').val(lan.static.ip || '');
+            $('#mask').val(lan.static.mask || '');
+        }
+        /* dhcps */
         if ( lan.dhcps )
         {
             var dhcps = lan.dhcps;
@@ -268,15 +276,15 @@
             $('#dhcps').unbind('change').change(function (){
                 if ($(this).prop('checked'))
                 {
-                    $('#dhcpsSets').show();
+                    $('#dhcps_cfg').show();
                 }
                 else
                 {
-                    $('#dhcpsSets').hide();
+                    $('#dhcps_cfg').hide();
                 }
             }).trigger('change');
         }
-
+        /* ipv6 */
         if ( lan.manual && lan.manual.addr )
         {
             $('#addr').val(lan.manual.addr || '');
@@ -284,23 +292,24 @@
         }
         if ( lan.method )
         {
-            $('#ipv6Sets').show();
+            $('#ipv6_cfg').show();
             $('#method').val( lan.method||"disable" );
             $('#method').unbind('change').change(function (e) {
               var type = e.target.value;
               switch (type)
               {
                 case 'disable':
-                  $('#ipv6Manual').hide();
+                  $('#manual_cfg').hide();
                   break;
                 case 'relay':
-                  $('#ipv6Manual').hide();
+                  $('#manual_cfg').hide();
                   break;
                 case 'manual':
-                  $('#ipv6Manual').show();
+                  $('#manual_cfg').show();
                   break;
               }
             }).trigger('change');
+              /* dhcpsv6 */
             if ( lan.dhcpsv6 )
             {
                 var dhcps = lan.dhcpsv6;
@@ -315,11 +324,11 @@
             $('#dhcpsv6').unbind('change').change(function (){
                 if ($(this).prop('checked'))
                 {
-                    $('#dhcpsv6Sets').show();
+                    $('#dhcpsv6_cfg').show();
                 }
                 else
                 {
-                    $('#dhcpsv6Sets').hide();
+                    $('#dhcpsv6_cfg').hide();
                 }
             }).trigger('change');
         }
@@ -327,41 +336,38 @@
     }
 
     /* save the configure */
-    function lan_save()
+    function config_save()
     {
-        var v6 = false;
         if ( lan == null )
         {
             return;
         }
         var lancopy = JSON.parse(JSON.stringify(lan));
+
+        /* IPV4 addr */
         if ( !lan.static )
         {
             lan.static = {};
         }
-        if ( !lan.static.ipaddr )
+        lan.mode = "static";
+        lan.static.ip = $('#ip').val();
+        if ( check.ip(lan.static.ip) == false )
         {
-            lan.static.ipaddr = {};
-        }
-        /* IPV4 addr */
-        lan.static.ipaddr.ip = $('#ip').val();
-        if ( check.ip(lan.static.ipaddr.ip) == false )
-        {
-            page.alert( { message: $.i18n('IP Address')+" "+$.i18n('must be a valid IP address') } );
+            page.alert( { message: $.i18n('IPv4 Address')+" "+$.i18n('must be a valid IP address') } );
             return;
         }
-        lan.static.ipaddr.mask = $('#mask').val();
-        if ( check.ip(lan.static.ipaddr.mask) == false )
+        lan.static.mask = $('#mask').val();
+        if ( check.ip(lan.static.mask) == false )
         {
             page.alert( { message: $.i18n('Subnet Mask')+" "+$.i18n('must be a valid IP address') } );
             return;
         }
+        /* IPV4 dhcps */
         if ( !lan.dhcps )
         {
             lan.dhcps = {};
         }
         var dhcps = lan.dhcps;
-        /* IPV4 dhcps */
         dhcps.status = boole2able( $('#dhcps').prop('checked') );
         if ( dhcps.status == "enable" )
         {
@@ -403,7 +409,6 @@
                 return;
             }
         }
-
         /* IPV6 addr */
         if ( lan.method )
         {
@@ -484,11 +489,11 @@
         }
 
         // 校正DHCP池地址
-        if ( lan.static.ipaddr.ip != lancopy.static.ipaddr.ip 
+        if ( lan.static.ip != lancopy.static.ip 
             && lan.dhcps.startip == lancopy.dhcps.startip
             && lan.dhcps.endip == lancopy.dhcps.endip )
         {
-            var arr = ipadd2array( lan.static.ipaddr.ip, lan.static.ipaddr.mask );
+            var arr = ipadd2array( lan.static.ip, lan.static.mask );
             // 起始IP
             arr[3] = 2;
             lan.dhcps.startip = arr.join('.');
@@ -508,7 +513,7 @@
                         }
                         else
                         {
-                            lan_load();
+                            config_load();
                         }
                     });
                 });
@@ -522,15 +527,17 @@
     $.i18n().load( page.lang('lan') ).then( function () {
       /* init the langauage */
       $.i18n().locale = lang; $('body').i18n();
+
       /* load the configure */
-      lan_load();
+      config_load();
+
       /* bind the refresh */
       $('#refresh').on(ace.click_event, function () {
         location.reload();
       });
       /* bind the apply */
       $('#apply').on(ace.click_event, function () {
-        lan_save();
+        config_save();
       });
     });
 

@@ -14,9 +14,9 @@
     <h4 data-i18n="a. How to download SDK and compile upgrade package"></h4>
     <p data-i18n="1. The compilation environment of this SDK is similar to Openwrt. It is recommended to download this SDK after setting up the compilation environment in Ubuntu"></p>
     <p data-i18n="2. Enter the following command line to download from the Ubuntu terminal command line" ></p>
-        git clone https://gitee.com/ashyelf/mytry6.git
+        git clone https://gitee.com/tiger7/tiger7.git
     <p data-i18n="3. After waiting for the download, enter the mytry6 directory and input the following instructions to update the SDK to the latest state" ></p>
-      cd mytry6 <br>
+      cd tiger7 <br>
       make ubuntu_preset</br>
       make pid gBOARDID=<span id="gBOARDID"></span><br>
       make update</br>
@@ -48,7 +48,7 @@
       /* init the langauage */
       $.i18n().locale = lang; $('body').i18n();
 
-      he.load( 'land@machine' ).then( function(v){
+      he.load( 'land@machine.status' ).then( function(v){
           var gBOARDID = '';
           var platform = v.platform;
           if ( platform == "smtk" )

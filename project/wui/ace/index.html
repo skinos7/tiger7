@@ -238,8 +238,8 @@
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="ace-icon fa fa-tasks"></i><span class="badge badge-grey">4</span></a>
 							<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
 								<li class="dropdown-header"><i class="ace-icon fa fa-check"></i>4 Projects</li>
-								<li class="dropdown-content">####Here list the proejcts####<!--land@prj.list--></li>
-								<li class="dropdown-footer"><a href="#"><span data-i18n="See projects with details"></span><i class="ace-icon fa fa-arrow-right"></i></a></li>
+								<li class="dropdown-content">####Here list the proejcts####<!--land@fpk.list--></li>
+								<li class="dropdown-footer"><a href="#"><span data-i18n="See new FPK with details"></span><i class="ace-icon fa fa-arrow-right"></i></a></li>
 							</ul>
 						</li>
 
@@ -357,10 +357,10 @@
 
 		<!-- add by dimmalex for global -->
 		<script type="text/javascript">
+            window.obj = <%obj(); %>;
             window.object = <%object(); %>;
             window.username = <%username(); %>;
 			window.custom = <%he('arch@custom'); %>;
-			window.ability = <%he('arch@ability'); %>;
 			window.machine = <%he('machine'); %>;
 			window.machine_status = <%he('machine.status'); %>;
 			window.network_frame = <%he('network@frame'); %>;
@@ -370,8 +370,8 @@
 			window.outer_list = <%he('network@frame.list[outer]'); %>;
 			window.nradio = <%he('wifi@nradio'); %>;
 			window.aradio = <%he('wifi@aradio'); %>;
-			window.app_list = <%he('land@prj.wui_list'); %>;
 			window.wui = <%config(); %>;
+			window.fpk_menu = <%he('land@fpk.wui_menu'); %>;
 			window.wuiterm = "<%shell( 'which ttyd | tr -d "\n"' ); %>";
 			window.lang = window.machine.language;
 			document.title = window.machine.name;
@@ -727,7 +727,7 @@
 				var menus = [];
 				var router = true;
 				var homepage = "dashboard";
-                if ( window.machine.mode == "ap" || window.machine.mode.indexOf("bridge") >= 0 )
+                if ( window.machine.mode == "default" || window.machine.mode.indexOf("bridge") >= 0 )
                 {
                     router = false;
                     $('#extern_nav').attr('href','#');
@@ -737,16 +737,24 @@
 				{
 				    if ( !wuimenu || wuimenu.wan != "disable" )
 				    {
-                        $('#extern_nav').attr('href','#wan');
-                        $('#extern_nav_mini').attr('href','#wan');
+                        $('#extern_nav').attr('href','#wan?obj=ifname@wan');
+                        $('#extern_nav_mini').attr('href','#wan?obj=ifname@wan');
+                    }
+				}
+				else if ( window.machine.mode == "ngateway" )
+				{
+				    if ( !wuimenu || wuimenu.wan2 != "disable" )
+				    {
+                        $('#extern_nav').attr('href','#wan?obj=ifname@wan2');
+                        $('#extern_nav_mini').attr('href','#wan?obj=ifname@wan2');
                     }
 				}
 				else if ( window.machine.mode == "wisp" || window.machine.mode == "dwisp" )
 				{
 				    if ( !wuimenu || wuimenu.wisp != "disable" )
 				    {
-                        $('#extern_nav').attr('href','#wisp');
-                        $('#extern_nav_mini').attr('href','#wisp');
+                        $('#extern_nav').attr('href','#wisp?obj=ifname@wisp');
+                        $('#extern_nav_mini').attr('href','#wisp?obj=ifname@wisp');
                     }
 				}
 				else if ( window.machine.mode == "nwisp" )
@@ -769,18 +777,14 @@
 				{
 				    if ( !wuimenu || wuimenu.lte != "disable" )
 				    {
-                        $('#extern_nav').attr('href','#lte');
-                        $('#extern_nav_mini').attr('href','#lte' );
+                        
+                        $('#extern_nav').attr('href','#lte?obj=ifname@lte');
+                        $('#extern_nav_mini').attr('href','#lte?obj=ifname@lte' );
                     }
 				}
 
                 menu.add( menus, $.i18n( 'Dashboard' ), 'dashboard', 'menu-icon fa fa-area-chart'  );
-				menu.add( menus, $.i18n( 'Resource' ), 'resource', 'menu-icon fa fa-pie-chart' );
 				menu.add( menus, $.i18n( 'Interface' ), 'interface', 'menu-icon fa fa-list' );
-				//menu.add( menus, $.i18n( 'Status' ), 'network', 'menu-icon fa fa-pie-chart' );
-				//menu.addlink( menus, $.i18n( 'Status' ), $.i18n( 'Resource' ), 'resource' );
-				//menu.addlink( menus, $.i18n( 'Status' ), $.i18n( 'Interface' ), 'interface' );
-				//menu.addlink( menus, $.i18n( 'Status' ), $.i18n( 'Message' ), 'message' );
 
                 menu.add( menus, $.i18n( 'Network' ), 'network', 'menu-icon fa fa-sitemap' );
 				if ( router == true )
@@ -792,134 +796,132 @@
     					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'Connection' ), window.machine_status.mode );
                         }
                     }
-    				if ( <%he('ifname@lte.status'); %> )
+    				if ( <%he('.ifname@lte.status'); %> )
     				{
                         if ( !wuimenu || wuimenu.lte != "disable" )
                         {
-    					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE' ), 'lte' );
+    					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE' ), 'lte?obj=ifname@lte' );
                         }
     				}
-    				if ( <%he('ifname@lte2.status'); %> )
+    				if ( <%he('.ifname@lte2.status'); %> )
     				{
                         if ( !wuimenu || wuimenu.lte2 != "disable" )
                         {
     					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE/NR' ), 'lte?obj=ifname@lte2' );
                         }
     				}
-    				if ( <%he('ifname@wan.status'); %> )
+    				if ( <%he('.ifname@wan.status'); %> )
     				{
                         if ( !wuimenu || wuimenu.wan != "disable" )
                         {
-    					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'WAN' ), 'wan' );
+    					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'WAN' ), 'wan?obj=ifname@wan' );
                         }
     				}
-    				if ( <%he('ifname@wan2.status'); %> )
+    				if ( <%he('.ifname@wan2.status'); %> )
     				{
                         if ( !wuimenu || wuimenu.wan2 != "disable" )
                         {
     					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'WAN2' ), 'wan?obj=ifname@wan2' );
                         }
     				}
-    				if ( <%he('ifname@wisp.status'); %> )
+    				if ( <%he('.ifname@wisp.status'); %> )
     				{
                         if ( !wuimenu || wuimenu.wisp != "disable" )
                         {
-    					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'WISP(2.4G)' ), 'wisp' );
+    					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'WISP(2.4G)' ), 'wisp?obj=ifname@wisp' );
                         }
     				}
-    				if ( <%he('ifname@wisp2.status'); %> )
+    				if ( <%he('.ifname@wisp2.status'); %> )
     				{
                         if ( !wuimenu || wuimenu.wisp2 != "disable" )
                         {
     					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'WISP(5.8G)' ), 'wisp?obj=ifname@wisp2' );
                         }
     				}
-                    if ( <%he('ifname@lan.status'); %> )
+                    if ( <%he('.ifname@lan.status'); %> )
                     {
                         if ( !wuimenu || wuimenu.lan != "disable" )
                         {
-                            menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LAN' ), 'lan' );
+                            menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LAN' ), 'lan?obj=ifname@lan' );
                         }
                     }
                 }
                 else
                 {
-    				if ( <%he('modem@lte.status'); %> )
-    				{
-                        if ( !wuimenu || wuimenu.lte != "disable" )
-                        {
-    					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE Modem' ), 'ltedev' );
-                        }
-    				}
-    				if ( <%he('modem@lte2.status'); %> )
-    				{
-                        if ( !wuimenu || wuimenu.lte2 != "disable" )
-                        {
-    					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE/NR Modem' ), 'ltedev?obj=modem@lte2' );
-                        }
-    				}
-                    if ( <%he('ifname@lan.status'); %> )
+                    if ( <%he('.ifname@lan.status'); %> )
                     {
                         if ( !wuimenu || wuimenu.lwan != "disable" )
                         {
-                            menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LAN' ), 'lwan' );
+                            menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LAN' ), 'lwan?obj=ifname@lan' );
                         }
                     }
                 }
-				if ( <%he('ifname@lan2.status'); %> )
+				if ( <%he('.ifname@lan2.status'); %> )
 				{
                     if ( !wuimenu || wuimenu.lan2 != "disable" )
                     {
 					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LAN2' ), 'lan?obj=ifname@lan2' );
 					}
 				}
-				if ( window.machine.mode.indexOf("wisp") < 0 && ( <%he('wifi@nsta.chlist'); %> || <%he('wifi@asta.chlist'); %> ) )
-				{
-                    if ( !wuimenu || wuimenu.sta != "disable" )
-                    {
-					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'AP Client' ), 'sta' );
-                    }
-				}
-
 				
-                menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'Routing Table' ), 'route' );
-				if ( router == true )
-				{
-                    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'Advanced Routing' ), 'routes' );
-                    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'Port Map' ), 'nat' );
-                    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'Firewall' ), 'firewall' );
-                    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'ALG' ), 'alg' );
-                    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'Hosts' ), 'hosts' );
-                }
-
-                if ( window.nradio != null || window.aradio != null )
-                {
-    				menu.add( menus, $.i18n( 'Wireless' ), 'ssid', 'menu-icon fa fa-wifi' );
-    				menu.addlink( menus, $.i18n( 'Wireless' ), $.i18n( 'SSID' ), 'ssid' );
-    				menu.addlink( menus, $.i18n( 'Wireless' ), $.i18n( 'Channel' ), 'channel' );
-    				menu.addlink( menus, $.i18n( 'Wireless' ), $.i18n( 'Advanced' ), 'radio' );
-    				menu.addlink( menus, $.i18n( 'Wireless' ), $.i18n( 'ACL' ), 'wifiacl' );
-				}
+                menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'Hosts' ), 'hosts' );
+                
+                menu.add( menus, $.i18n( 'Wireless' ), 'ssid', 'menu-icon fa fa-wifi' );
 
 				menu.add( menus, $.i18n( 'Station Control' ), 'station', 'menu-icon fa fa-mobile' );
-				menu.addlink( menus, $.i18n( 'Station Control' ), $.i18n( 'Station List' ), 'station' );
-				menu.addlink( menus, $.i18n( 'Station Control' ), $.i18n( 'Station Address Bind' ), 'station_bind' );
-				menu.addlink( menus, $.i18n( 'Station Control' ), $.i18n( 'Station Wake Up' ), 'station_wol' );
-				if ( router == true )
+
+                menu.add( menus, $.i18n( 'Application' ), '', 'menu-icon fa fa-building' );
+
+				menu.add( menus, $.i18n( 'System' ), 'device', 'menu-icon fa fa-cogs' );
+				menu.addlink( menus, $.i18n( 'System' ), $.i18n( 'Device' ), 'device' );
+                if ( !wuimenu || wuimenu.configure != "disable" )
+                {
+				    menu.addlink( menus, $.i18n( 'System' ), $.i18n( 'Configure' ), 'configure' );
+                }
+                if ( !wuimenu || wuimenu.software != "disable" )
+                {
+				    menu.addlink( menus, $.i18n( 'System' ), $.i18n( 'Software' ), 'software' );
+                }
+				menu.addlink( menus, $.i18n( 'System' ), $.i18n( 'Password' ), 'password' );
+				menu.addlink( menus, $.i18n( 'System' ), $.i18n( 'Auto Reboot' ), 'restart' );
+
+				menu.add( menus, $.i18n( 'Debug' ), 'debug', 'menu-icon fa fa-bug' );
+				menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'Syslog' ), 'syslog' );
+				if ( window.wuiterm && ( !wuimenu || wuimenu.terminal != "disable" ) )
 				{
-    				menu.addlink( menus, $.i18n( 'Station Control' ), $.i18n( 'Internet Control' ), 'global_internet' );
-    				menu.addlink( menus, $.i18n( 'Station Control' ), $.i18n( 'Station Internet Control' ), 'station_internet' );
-    				menu.addlink( menus, $.i18n( 'Station Control' ), $.i18n( 'Access Control' ), 'global_acl' );
-    				menu.addlink( menus, $.i18n( 'Station Control' ), $.i18n( 'Station Access Control' ), 'station_acl' );
-    				menu.addlink( menus, $.i18n( 'Station Control' ), $.i18n( 'Total Bandwidth' ), 'global_tc' );
-    				menu.addlink( menus, $.i18n( 'Station Control' ), $.i18n( 'Station Bandwidth Control' ), 'station_tc' );
-    				menu.addlink( menus, $.i18n( 'Station Control' ), $.i18n( 'Default Bandwidth Control' ), 'global_tc?obj=client@default' );
+                    menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'Terminal' ), 'terminal' );
+    				if ( <%he('.modem@lte.status'); %> )
+    				{
+                        if ( !wuimenu || wuimenu.lte != "disable" )
+                        {
+    					    menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'AT command(LTE)' ), 'atcommand?obj=modem@lte' );
+                        }
+    				}
+    				if ( <%he('.modem@lte2.status'); %> )
+    				{
+                        if ( !wuimenu || wuimenu.lte2 != "disable" )
+                        {
+    					    menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'AT command(LTE/NR)' ), 'atcommand?obj=modem@lte2' );
+                        }
+    				}
+                }
+				if ( window.machine_status.scope == "std" )
+				{
+    				if ( !wuimenu || wuimenu.development != "disable" )
+    				{
+                        menu.add( menus, $.i18n( 'Development' ), 'sdk', 'menu-icon fa fa-gavel' );
+                        menu.addlink( menus, $.i18n( 'Development' ), $.i18n( 'SDK' ), 'sdk' );
+                        menu.addlink( menus, $.i18n( 'Development' ), $.i18n( 'Inittab' ), 'inittab' );
+                        menu.addlink( menus, $.i18n( 'Development' ), $.i18n( 'Uninittab' ), 'uninittab' );
+                        menu.addlink( menus, $.i18n( 'Development' ), $.i18n( 'Jointtab' ), 'jointtab' );
+                        menu.addlink( menus, $.i18n( 'Development' ), $.i18n( 'Service' ), 'service' );
+                        menu.addlink( menus, $.i18n( 'Development' ), $.i18n( 'Crontab' ), 'crontab' );
+                    }
                 }
 
-				var appmenu = false;
-				for( var index in window.app_list )
+				for( var index in window.fpk_menu )
 				{
-				    var app = window.app_list[index];
+				    var app = window.fpk_menu[index];
 				    var app_mode = app['mode'];
 				    if ( app_mode )
 				    {
@@ -944,7 +946,6 @@
 				    {
 				        app_hash += '&lang='+base64.encode(app_lang);
 				    }
-				    var app_menu = app['menu'];
 				    var app_title = app[window.lang];
 				    if ( !app_title )
 				    {
@@ -954,92 +955,26 @@
 				    {
 				        continue;
 				    }
-				    if ( app_menu && app_menu == "quick" )
+				    var app_menu = app['menu'];
+				    if ( !app_menu )
+				    {
+				        app_menu = 'Application';
+				    }
+				    if ( app_menu == "quick" )
 				    {
                         menu.insert( menus, $.i18n( 'Quick' ), app_hash, 'menu-icon fa fa-bolt' );
                         homepage = app_hash;
 				    }
 				    else
 				    {
-				        if ( appmenu == false )
-				        {
-                            appmenu = true;
-                            menu.add( menus, $.i18n( 'Application' ), '', 'menu-icon fa fa-building' );
-				        }
-				        menu.addlink( menus, $.i18n( 'Application' ), app_title, app_hash );
+				        menu.addlink( menus, $.i18n( app_menu ), app_title, app_hash );
 				    }
 				}
 
-				menu.add( menus, $.i18n( 'System' ), 'device', 'menu-icon fa fa-cogs' );
-				menu.addlink( menus, $.i18n( 'System' ), $.i18n( 'Device' ), 'device' );
-                if ( !wuimenu || wuimenu.configure != "disable" )
-                {
-				    menu.addlink( menus, $.i18n( 'System' ), $.i18n( 'Configure' ), 'configure' );
-                }
-                if ( !wuimenu || wuimenu.software != "disable" )
-                {
-				    menu.addlink( menus, $.i18n( 'System' ), $.i18n( 'Software' ), 'software' );
-                }
-				menu.addlink( menus, $.i18n( 'System' ), $.i18n( 'Password' ), 'password' );
-				menu.addlink( menus, $.i18n( 'System' ), $.i18n( 'Web Server' ), 'webs' );
-				menu.addlink( menus, $.i18n( 'System' ), $.i18n( 'Telnet Server' ), 'telnetd' );
-				if ( <%he('tui@ssh'); %> )
-				{
-				    menu.addlink( menus, $.i18n( 'System' ), $.i18n( 'SSH Server' ), 'sshd' );
-                }
-				menu.addlink( menus, $.i18n( 'System' ), $.i18n( 'Manage Server' ), 'agent' );
-				menu.addlink( menus, $.i18n( 'System' ), $.i18n( 'Auto Reboot' ), 'restart' );
-				if ( !window.ability || window.ability.iocontrol != "disable" )
-				{
-				    menu.addlink( menus, $.i18n( 'System' ), $.i18n( 'LED/IO Control' ), 'io' );
-				}
 
-				menu.add( menus, $.i18n( 'Debug' ), 'debug', 'menu-icon fa fa-bug' );
-				menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'Syslog' ), 'syslog' );
-				if ( window.wuiterm && ( !wuimenu || wuimenu.webhe != "disable" ) )
-				{
-                    menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'Terminal' ), 'webhe' );
-                }
-				//menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'Ping' ), 'ping' );
-				//menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'Traceroute' ), 'traceroute' );
-				//menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'Iperf' ), 'iperf' );
-				//menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'Tcpdump' ), 'tcpdump' );
-				if ( router == true )
-				{
-    				if ( <%he('ifname@lte.status'); %> )
-    				{
-                        if ( !wuimenu || wuimenu.lteadv != "disable" )
-                        {
-    					    menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'LTE Adjust' ), 'lteadv' );
-                        }
-    				}
-    				if ( <%he('ifname@lte2.status'); %> )
-    				{
-                        if ( !wuimenu || wuimenu.lte2adv != "disable" )
-                        {
-    					    menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'LTE/NR Adjust' ), 'lteadv?obj=ifname@lte2' );
-                        }
-    				}
-                }
-				if ( window.machine.scope == "std" )
-				{
-				    if( !window.ability || window.ability.development != "hide" )
-				    {
-				        menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'Development' ), 'development' );
-				    }
-				}
-				if ( window.ability && window.ability.development == "enable" )
-				{
-                    menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'SDK' ), 'sdk' );
-                    menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'Crontab' ), 'crontab' );
-                    menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'Inittab' ), 'inittab' );
-                    menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'Uninittab' ), 'uninittab' );
-                    menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'Jointtab' ), 'jointtab' );
-                    menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'Service' ), 'service' );
-				    menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'COM Interface' ), 'md' );
-                }
+
                 
-				menu.mark( menus, $.i18n( 'Status' ) );
+				menu.mark( menus, $.i18n( 'Dashboard' ) );
 				menu.display( "#nav-list", menus );
 
     			/* Logout event

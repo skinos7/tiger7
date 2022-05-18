@@ -121,6 +121,7 @@
 
 		<!-- inline scripts related to this page -->
 		<script type="text/javascript">
+			window.obj = <%obj(); %>;
 			window.object = <%object(); %>;
             window.custom = <%he('arch@custom'); %>;
 			window.machine = <%he('machine'); %>;
@@ -152,7 +153,7 @@
             }
 
 
-            $('#username').val( window.object );
+            $('#username').val( window.obj );
 			page.password('password', 'password-icon' );
 			/* get the machine config and setup the language */
 			$.i18n().load( page.lang('index') ).then( function () { 

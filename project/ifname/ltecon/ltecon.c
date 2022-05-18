@@ -783,24 +783,24 @@ boole_t _service( obj_t this, param_t param )
 	/* get the count */
 	ret = tfalse;
 	register2int( object, "connect_failed", reg_connect_failed, connect_failed, 0 );
-	if ( connect_failed == 2 )
-	{
-		ret = ttrue;
-	}
-	else if ( connect_failed == 7 )
-	{
-		ret = ttrue;
-	}
-	else if ( connect_failed == 15 )
-	{
-		ret = ttrue;
-	}
-	else if ( (connect_failed%24) == 0 )
-	{
-		ret = ttrue;
-	}
 	if ( connect_failed > 0 )
 	{
+		if ( connect_failed == 2 )
+		{
+			ret = ttrue;
+		}
+		else if ( connect_failed == 7 )
+		{
+			ret = ttrue;
+		}
+		else if ( connect_failed == 15 )
+		{
+			ret = ttrue;
+		}
+		else if ( (connect_failed%24) == 0 )
+		{
+			ret = ttrue;
+		}
 		warn( "%s cannot connect %d times", object, connect_failed );
 	}
 	connect_failed++;
@@ -808,7 +808,10 @@ boole_t _service( obj_t this, param_t param )
 	if ( ret == ttrue )
 	{
 		talk_free( cfg );
-		return scall( ifdev, "reset", NULL );
+		if ( com_sexist( ifdev, "reset" ) == true )
+		{
+			return scall( ifdev, "reset", NULL );
+		}
 	}
 
     /* ifdev up take this cfg */
@@ -1124,7 +1127,7 @@ boole_t _online( obj_t this, param_t param )
 	}
 
 	gateway = json_string( v, "gw" );
-	info( "%s(%s) online[ %s, %s, %s ]", object, netdev, gateway?:"", dns?:"", dns2?:"" );
+	info( "%s(%s) online[ %s, %s ]", object, netdev, gateway?:"", dns?:"" );
 
 	/* clear the connect failed count */
 	i = 0;
@@ -1200,50 +1203,28 @@ boole _set( obj_t this, talk_t v, attr_t path )
             mcfg = json_create( NULL );
             while ( NULL != ( axp = json_next( v, axp ) ) )
             {
-                ptr = axp_get_attr( axp );
+                ptr = axp_id( axp );
 				info = axp_get_value( axp );
-				if ( 0 == strcmp( ptr, "pin" )
-					|| 0 == strcmp( ptr, "netmode" )
+				if ( 0 == strcmp( ptr, "lock_imei" )
+					|| 0 == strcmp( ptr, "lock_imsi" )
+					|| 0 == strcmp( ptr, "lock_pin" )
+					|| 0 == strcmp( ptr, "lock_nettype" )
+					|| 0 == strcmp( ptr, "lock_band" )
+					|| 0 == strcmp( ptr, "lock_arfcn" )
+					|| 0 == strcmp( ptr, "lock_cellid" )
+					|| 0 == strcmp( ptr, "gnss" )
+
+					|| 0 == strcmp( ptr, "need_simcard" )
+					|| 0 == strcmp( ptr, "need_plmn" )
+					|| 0 == strcmp( ptr, "need_signal" )
+					|| 0 == strcmp( ptr, "watch_interval" )
+
 					|| 0 == strcmp( ptr, "profile" )
 					|| 0 == strcmp( ptr, "profile_cfg" )
 
-					|| 0 == strcmp( ptr, "lockimei" )
-					|| 0 == strcmp( ptr, "lockimsi" )
-					|| 0 == strcmp( ptr, "band" )
-					|| 0 == strcmp( ptr, "arfcn" )
-					|| 0 == strcmp( ptr, "uarfcn" )
-					|| 0 == strcmp( ptr, "earfcn" )
-					|| 0 == strcmp( ptr, "cellid" )
-
-					|| 0 == strcmp( ptr, "checksim" )
-					|| 0 == strcmp( ptr, "needsim" )
-					|| 0 == strcmp( ptr, "checksim2reset" )
-					|| 0 == strcmp( ptr, "checksim2reset2add" )
-					|| 0 == strcmp( ptr, "checksim2reset2max" )
-
-					|| 0 == strcmp( ptr, "checknet" )
-					|| 0 == strcmp( ptr, "neednet" )
-					|| 0 == strcmp( ptr, "checknet2reset" )
-					|| 0 == strcmp( ptr, "checknet2reset2add" )
-					|| 0 == strcmp( ptr, "checknet2reset2max" )
-
-					|| 0 == strcmp( ptr, "checksig" )
-					|| 0 == strcmp( ptr, "needsig" )
-					|| 0 == strcmp( ptr, "checksig2reset" )
-					|| 0 == strcmp( ptr, "checksig2reset2add" )
-					|| 0 == strcmp( ptr, "checksig2reset2max" )
-
-					|| 0 == strcmp( ptr, "watch" )
-					|| 0 == strcmp( ptr, "watchsig2quit" )
-					|| 0 == strcmp( ptr, "watchnet2reset" )
-					|| 0 == strcmp( ptr, "watchnet_mode" )
-
-					|| 0 == strcmp( ptr, "reset2reboot" )
-					
-					|| 0 == strcmp( ptr, "gnss" )
-
 					|| 0 == strcmp( ptr, "bsim" )
 					|| 0 == strcmp( ptr, "bsim_cfg" )
+
 					|| 0 == strcmp( ptr, "ssim" )
 					|| 0 == strcmp( ptr, "ssim_cfg" )
 					)
@@ -1275,48 +1256,26 @@ boole _set( obj_t this, talk_t v, attr_t path )
     }
     else
     {
-		if ( 0 == strcmp( ptr, "pin" )
-			|| 0 == strcmp( ptr, "netmode" )
+		if ( 0 == strcmp( ptr, "lock_imei" )
+			|| 0 == strcmp( ptr, "lock_imsi" )
+			|| 0 == strcmp( ptr, "lock_pin" )
+			|| 0 == strcmp( ptr, "lock_nettype" )
+			|| 0 == strcmp( ptr, "lock_band" )
+			|| 0 == strcmp( ptr, "lock_arfcn" )
+			|| 0 == strcmp( ptr, "lock_cellid" )
+			|| 0 == strcmp( ptr, "gnss" )
+		
+			|| 0 == strcmp( ptr, "need_simcard" )
+			|| 0 == strcmp( ptr, "need_plmn" )
+			|| 0 == strcmp( ptr, "need_signal" )
+			|| 0 == strcmp( ptr, "watch_interval" )
+		
 			|| 0 == strcmp( ptr, "profile" )
 			|| 0 == strcmp( ptr, "profile_cfg" )
-
-			|| 0 == strcmp( ptr, "lockimei" )
-			|| 0 == strcmp( ptr, "lockimsi" )
-			|| 0 == strcmp( ptr, "band" )
-			|| 0 == strcmp( ptr, "arfcn" )
-			|| 0 == strcmp( ptr, "uarfcn" )
-			|| 0 == strcmp( ptr, "earfcn" )
-			|| 0 == strcmp( ptr, "cellid" )
-
-			|| 0 == strcmp( ptr, "checksim" )
-			|| 0 == strcmp( ptr, "needsim" )
-			|| 0 == strcmp( ptr, "checksim2reset" )
-			|| 0 == strcmp( ptr, "checksim2reset2add" )
-			|| 0 == strcmp( ptr, "checksim2reset2max" )
-
-			|| 0 == strcmp( ptr, "checknet" )
-			|| 0 == strcmp( ptr, "neednet" )
-			|| 0 == strcmp( ptr, "checknet2reset" )
-			|| 0 == strcmp( ptr, "checknet2reset2add" )
-			|| 0 == strcmp( ptr, "checknet2reset2max" )
-
-			|| 0 == strcmp( ptr, "checksig" )
-			|| 0 == strcmp( ptr, "needsig" )
-			|| 0 == strcmp( ptr, "checksig2reset" )
-			|| 0 == strcmp( ptr, "checksig2reset2add" )
-			|| 0 == strcmp( ptr, "checksig2reset2max" )
-
-			|| 0 == strcmp( ptr, "watch" )
-			|| 0 == strcmp( ptr, "watchsig2quit" )
-			|| 0 == strcmp( ptr, "watchnet2reset" )
-			|| 0 == strcmp( ptr, "watchnet_mode" )
-
-			|| 0 == strcmp( ptr, "reset2reboot" )
-
-			|| 0 == strcmp( ptr, "gnss" )
-
+		
 			|| 0 == strcmp( ptr, "bsim" )
 			|| 0 == strcmp( ptr, "bsim_cfg" )
+		
 			|| 0 == strcmp( ptr, "ssim" )
 			|| 0 == strcmp( ptr, "ssim_cfg" )
 			)

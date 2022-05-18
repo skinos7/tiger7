@@ -6,7 +6,7 @@
 
       <!-- 状态 -->
       <div class="form-group">
-        <label class="col-sm-3 control-label no-padding-right" for="status" data-i18n="Syslog"></label>
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Syslog"></label>
         <div class="col-sm-9">
           <label>
             <input id="status" class="ace ace-switch ace-switch-6" type="checkbox" />
@@ -18,39 +18,49 @@
       <div id="statusSets">
         <!-- 日志存放位置 -->
         <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" for="level" data-i18n="Log Location"></label>
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Location"></label>
           <div class="col-sm-9">
             <select class="col-xs-10 col-sm-5" id="location">
               <option value="memory" data-i18n="Memory"></option>
-              <option value="internal" data-i18n="Internal"></option>
+              <option value="int" data-i18n="Internal"></option>
               <option value="storage" data-i18n="Storage"></option>
             </select>
           </div>
         </div>
-        <!-- Buffer -->
+        <!--  日志大小 -->
         <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" for="size" data-i18n="Log Max Size(KB)"></label>
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Max Size(KB)"></label>
           <div class="col-sm-9">
             <div class="clearfix">
               <input type="text" id="size" class="col-xs-10 col-sm-5" maxlength="128" />
             </div>
           </div>
         </div>
+
+        
         <!-- 日志等级 -->
         <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" for="level" data-i18n="Log Level"></label>
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Level"></label>
           <div class="col-sm-9">
             <select class="col-xs-10 col-sm-5" id="level">
               <option value="error" data-i18n="Error"></option>
               <option value="warn" data-i18n="Warn"></option>
               <option value="info" data-i18n="Info"></option>
               <option value="debug" data-i18n="Debug"></option>
+              <option value="verbose" data-i18n="Verbose"></option>
             </select>
           </div>
         </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Type(separated by ;)"></label>
+            <div class="col-sm-9">
+              <textarea type="text" id="type" class="col-xs-10 col-sm-5" maxlength="1024" />
+            </div>
+        </div>
+
         <!-- 远程日志 -->
         <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" for="remote" data-i18n="Remote Log"></label>
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Remote Log"></label>
           <div class="col-sm-9">
             <label>
               <input id="remote" class="ace ace-switch ace-switch-6" type="checkbox" />
@@ -61,7 +71,7 @@
         <div id="syslogdSets">
           <!-- 日志服务器 -->
           <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right" for="server" data-i18n="Log Server"></label>
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Remote Server"></label>
             <div class="col-sm-9">
               <div class="clearfix">
                 <input type="text" id="server" class="col-xs-10 col-sm-5" maxlength="128" />
@@ -70,7 +80,7 @@
           </div>
           <!-- 端口 -->
           <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right" for="port" data-i18n="Port"></label>
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Remote Port"></label>
             <div class="col-sm-9">
               <div class="clearfix">
                 <input type="text" id="port" class="col-xs-10 col-sm-5" maxlength="128" />
@@ -80,7 +90,7 @@
         </div>
         <!-- 当前日志 -->
         <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" data-i18n="Log Operation"></label>
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Operation"></label>
           <div class="col-sm-9 form-right-text">
             <button id="clear-log" class="btn btn-main btn-mini" data-i18n="Clear"></button>
             <button id="download-log" class="btn btn-mini" data-i18n="Download"></button>
@@ -120,6 +130,7 @@
             $('#location').val( syslog.location );
             $('#size').val( syslog.size );
             $('#level').val( syslog.level );
+            $('#type').val( syslog.type );
             $('#remote').prop('checked', !!syslog.remote);
             $('#server').val(syslog.remote);
             $('#port').val(syslog.port);
@@ -162,6 +173,7 @@
             syslog.location = $('#location').val();
             syslog.size = $('#size').val();
             syslog.level = $('#level').val();
+            syslog.type = $('#type').val();
             // 启用远程日志
             if ( $('#remote').prop('checked') )
             {

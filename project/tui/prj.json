@@ -22,5 +22,35 @@
             "tui@telnet.setup":"",
             "tui@ssh.setup":""
         }
+    },
+
+    "wui":
+    {
+        "telnet":
+        {
+            "menu":"System",
+            "en":"Telnet Server",
+            "cn":"Telnet服务器",
+            "page":"telnet.html",
+            "config":"tui@telnet",
+            "lang":
+            {
+                "cn":"cn.json",
+                "en":"en.json"
+            }
+        },
+        "ssh":
+        {
+            "menu":"System",
+            "en":"SSH Server",
+            "cn":"SSH服务器",
+            "page":"ssh.html",
+            "config":"tui@ssh",
+            "lang":
+            {
+                "cn":"cn.json",
+                "en":"en.json"
+            }
+        }
     }
 }

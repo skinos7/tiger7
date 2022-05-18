@@ -456,46 +456,65 @@ talk_t _status( obj_t this, param_t param )
 	}
 
     /* get the ifdev or main ifdev info */
-	if ( ifdev != NULL && NULL != ( v = scalls( ifdev, "state", object ) ) )
+	if ( com_sexist( ifdev, "state" ) == true )
 	{
+		v = scalls( ifdev, "state", object );
 		talk_patch( v, ret );
-	    talk_free( v );
-	}
-	else if ( ifdev != NULL )
-	{
-		talk_t axp;
-		talk_t list;
-		char mifdev[NAME_MAX];
-
-		/* only for repeator */
-		axp = NULL;
-		list = scalls( ifdev, "list", NULL );
-		if ( list != NULL )
+		ptr = json_string( v, "state" );
+		if ( ptr != NULL && 0 != strcmp( ptr, "connect" ) )
 		{
-			mifdev[0] = '\0';
-			while( NULL != ( axp = json_each( list, axp ) ) )
-			{
-				ptr = axp_get_attr( axp );
-				if ( strstr( ptr, "sta" ) != NULL )
-				{
-					strncpy( mifdev, ptr, sizeof(mifdev)-1 );
-					mifdev[sizeof(mifdev)-1] = '\0';
-					break;
-				}
-			}
-			if ( *mifdev != '\0' )
-			{
-				if ( (com_sexist( mifdev, "state" ) == true) && (NULL != ( v = scalls( mifdev, "state", object ) ) ) )
-				{
-					talk_patch( v, ret );
-					talk_free( v );
-				}
-			}
-			talk_free( list );
+			json_set_string( ret, "status", ptr );
 		}
+		talk_free( v );
 	}
 
     return ret;
+}
+/* only for apclient */
+talk_t _aplist( obj_t this, param_t param )
+{
+	talk_t ret;
+	const char *obj;
+	const char *ifdev;
+	const char *object;
+
+	obj = obj_com( this );
+	if ( 0 == strcmp( obj, COM_ID) )
+	{
+		return NULL;
+	}
+	object = obj_combine( this );
+	ret = NULL;
+	/* get the ifdev */
+	register2string( object, "ifdev", reg_ifdev, ifdev, NULL );
+	if ( ifdev != NULL && *ifdev != '\0' )
+	{
+		ret = scall( ifdev, "aplist", NULL );
+	}
+	return ret;
+}
+/* only for apclient */
+talk_t _chlist( obj_t this, param_t param )
+{
+	talk_t ret;
+	const char *obj;
+	const char *ifdev;
+	const char *object;
+
+	obj = obj_com( this );
+	if ( 0 == strcmp( obj, COM_ID) )
+	{
+		return NULL;
+	}
+	object = obj_combine( this );
+	ret = NULL;
+	/* get the ifdev */
+	register2string( object, "ifdev", reg_ifdev, ifdev, NULL );
+	if ( ifdev != NULL && *ifdev != '\0' )
+	{
+		ret = scall( ifdev, "chlist", NULL );
+	}
+	return ret;
 }
 
 
@@ -516,6 +535,7 @@ boole_t _service( obj_t this, param_t param )
 	const char *ifdev;
 	const char *netdev;
 	const char *method;
+	int connect_failed;
 	char name[NAME_MAX];
 
     /* get the component identify */
@@ -548,6 +568,40 @@ boole_t _service( obj_t this, param_t param )
 	string2register( object, "mode", reg_mode, mode, 20 );
 	method = json_string( cfg, "method" );
 	string2register( object, "method", reg_method, method, 20 );
+
+	/* get the count */
+	ret = tfalse;
+	register2int( object, "connect_failed", reg_connect_failed, connect_failed, 0 );
+	if ( connect_failed > 0 )
+	{
+		if ( connect_failed == 2 )
+		{
+			ret = ttrue;
+		}
+		else if ( connect_failed == 7 )
+		{
+			ret = ttrue;
+		}
+		else if ( connect_failed == 15 )
+		{
+			ret = ttrue;
+		}
+		else if ( (connect_failed%24) == 0 )
+		{
+			ret = ttrue;
+		}
+		warn( "%s cannot connect %d times", object, connect_failed );
+	}
+	connect_failed++;
+	int2register( object, "connect_failed", reg_connect_failed, connect_failed );
+	if ( ret == ttrue )
+	{
+		talk_free( cfg );
+		if ( com_sexist( ifdev, "reset" ) == true )
+		{
+			return scall( ifdev, "reset", NULL );
+		}
+	}
 
     /* ifdev up take this cfg */
 	json_set_string( cfg, "ifname", object );
@@ -860,7 +914,14 @@ boole_t _online( obj_t this, param_t param )
 	}
 
 	gateway = json_string( v, "gw" );
-	info( "%s(%s) online[ %s, %s, %s ]", object, netdev, gateway?:"", dns?:"", dns2?:"" );
+	if ( gateway != NULL && *gateway != '\0' )
+	{
+		info( "%s(%s) online[ %s, %s ]", object, netdev, gateway, dns?:"" );
+	}
+	else
+	{
+		info( "%s(%s) online", object, netdev );
+	}
 
 	/* clear the connect failed count */
 	i = 0;

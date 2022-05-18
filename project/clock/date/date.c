@@ -5,6 +5,7 @@
  */
 
 #include "land/skin.h"
+char *reg_date_src;
 
 
 
@@ -28,12 +29,12 @@ static boole time_setting( const char *tt, const char *zone )
         tm_current.tm_mon--;
         tm_current.tm_isdst = -1;
         info( "system date modifyed to %s", tt );
-        clock_setting( mktime( &tm_current ), zone );
+        date_set( mktime( &tm_current ), zone );
 		/* tell the hardware clock */
         shell( "hwclock -w >/dev/null 2>&1" );
         /* tell the system that time is ok */
-		reg_set( NULL, "date_src", "set", sizeof("set") );
-        joint_casts( "date/modify", "set" );
+		string2reg( "date_src", reg_date_src, "set", 20 );
+        joint_calls( "date/modify", "set" );
     }
     return true;
 }
@@ -41,23 +42,23 @@ static boole time_setting( const char *tt, const char *zone )
 static boole ntpclient_sync( const char* server, const char* zone )
 {
     boole ret;
-    char path[PATHNAME_SIZE];
+    char path[PATH_MAX];
 
     if ( server == NULL || *server == '\0' )
     {
         return false;
     }
     ret = false;
-    project_osc_path( path, sizeof(path), PROJECT_ID, "ntpclient" );
+    project_exe_path( path, sizeof(path), PROJECT_ID, "ntpclient" );
     /* sync the time */
-    if ( 0 == exec( 20, 1, "%s -h %s -s" , path, server ) )
+    if ( 0 == execute( 20, 1, "%s -h %s -s" , path, server ) )
     {
         ret = true;
         info( "sync the system time from %s succeed", server );
         shell( "hwclock -w >/dev/null 2>&1" );
         /* tell the system that time is ok */
-		reg_set( NULL, "date_src", "ntp", sizeof("ntp") );
-        joint_casts( "date/modify", "ntp" );
+		string2reg( "date_src", reg_date_src, "ntp", 20 );
+        joint_calls( "date/modify", "ntp" );
         /*
         if ( NULL != zone && strlen(zone) )
         {
@@ -75,46 +76,51 @@ talk_t _setup( obj_t this, param_t param )
 {
     talk_t cfg;
     const char *ptr;
-    const char *zone;
+    const char *ozone;
+    const char *nzone;
 
-    zone = "CTT-8";
+    ozone = "CTT-8";
+    nzone = "GMT+8";
 	/* get the configure */
     cfg = config_sget( COM_IDPATH, NULL );
+    /* set time zone with old style(ulibc) */
     ptr = json_string( cfg, "timezone" );
     if ( ptr != NULL )
     {
-        if ( 0 == strcasecmp( ptr, "-12" ) ){zone = "GMT12";}
-        else if ( 0 == strcasecmp( ptr, "-11" ) ){zone = "GMT11";}
-        else if ( 0 == strcasecmp( ptr, "-10" ) ){zone = "GMT10";}
-        else if ( 0 == strcasecmp( ptr, "-9" ) ){zone = "GMT9";}
-        else if ( 0 == strcasecmp( ptr, "-8" ) ){zone = "GMT8";}
-        else if ( 0 == strcasecmp( ptr, "-7" ) ){zone = "GMT7";}
-        else if ( 0 == strcasecmp( ptr, "-6" ) ){zone = "GMT6";}
-        else if ( 0 == strcasecmp( ptr, "-5" ) ){zone = "GMT5";}
-        else if ( 0 == strcasecmp( ptr, "-4" ) ){zone = "GMT4";}
-        else if ( 0 == strcasecmp( ptr, "-3:30" ) ){zone = "GMT3:30";}
-        else if ( 0 == strcasecmp( ptr, "-2" ) ){zone = "GMT2";}
-        else if ( 0 == strcasecmp( ptr, "-1" ) ){zone = "GMT1";}
-        else if ( 0 == strcasecmp( ptr, "0" ) ){zone = "UTC0";}
-        else if ( 0 == strcasecmp( ptr, "1" ) ){zone = "ECT-1";}
-        else if ( 0 == strcasecmp( ptr, "2" ) ){zone = "EET-2";}
-        else if ( 0 == strcasecmp( ptr, "3" ) ){zone = "EAT-3";}
-        else if ( 0 == strcasecmp( ptr, "3:30" ) ){zone = "GMT-3:30";}
-        else if ( 0 == strcasecmp( ptr, "4" ) ){zone = "NET-4";}
-        else if ( 0 == strcasecmp( ptr, "4:30" ) ){zone = "GMT-4:30";}
-        else if ( 0 == strcasecmp( ptr, "5" ) ){zone = "PLT-5";}
-        else if ( 0 == strcasecmp( ptr, "5:30" ) ){zone = "GMT-5:30";}
-        else if ( 0 == strcasecmp( ptr, "6" ) ){zone = "BST-6";}
-        else if ( 0 == strcasecmp( ptr, "7" ) ){zone = "VST-7";}
-        else if ( 0 == strcasecmp( ptr, "8" ) ){zone = "CTT-8";}
-        else if ( 0 == strcasecmp( ptr, "9" ) ){zone = "JST-9";}
-        else if ( 0 == strcasecmp( ptr, "9:30" ) ){zone = "GMT-9:30";}
-        else if ( 0 == strcasecmp( ptr, "10" ) ){zone = "AET-10";}
-        else if ( 0 == strcasecmp( ptr, "11" ) ){zone = "SST-11";}
-        else if ( 0 == strcasecmp( ptr, "12" ) ){zone = "NST-12";}
+        if ( 0 == strcasecmp( ptr, "-12" ) ){ozone = "GMT12";nzone = "GMT-12";}
+        else if ( 0 == strcasecmp( ptr, "-11" ) ){ozone = "GMT11";nzone = "GMT+11";}
+        else if ( 0 == strcasecmp( ptr, "-10" ) ){ozone = "GMT10";nzone = "GMT+10";}
+        else if ( 0 == strcasecmp( ptr, "-9" ) ){ozone = "GMT9";nzone = "GMT+9";}
+        else if ( 0 == strcasecmp( ptr, "-8" ) ){ozone = "GMT8";nzone = "GMT+8";}
+        else if ( 0 == strcasecmp( ptr, "-7" ) ){ozone = "GMT7";nzone = "GMT+7";}
+        else if ( 0 == strcasecmp( ptr, "-6" ) ){ozone = "GMT6";nzone = "GMT+6";}
+        else if ( 0 == strcasecmp( ptr, "-5" ) ){ozone = "GMT5";nzone = "GMT+5";}
+        else if ( 0 == strcasecmp( ptr, "-4" ) ){ozone = "GMT4";nzone = "GMT+4";}
+        else if ( 0 == strcasecmp( ptr, "-3:30" ) ){ozone = "GMT3:30";nzone = "GMT+4";}
+        else if ( 0 == strcasecmp( ptr, "-2" ) ){ozone = "GMT2";nzone = "GMT+2";}
+        else if ( 0 == strcasecmp( ptr, "-1" ) ){ozone = "GMT1";nzone = "GMT+1";}
+        else if ( 0 == strcasecmp( ptr, "0" ) ){ozone = "UTC0";nzone = "GMT0";}
+        else if ( 0 == strcasecmp( ptr, "1" ) ){ozone = "ECT-1";nzone = "GMT-1";}
+        else if ( 0 == strcasecmp( ptr, "2" ) ){ozone = "EET-2";nzone = "GMT-2";}
+        else if ( 0 == strcasecmp( ptr, "3" ) ){ozone = "EAT-3";nzone = "GMT-3";}
+        else if ( 0 == strcasecmp( ptr, "3:30" ) ){ozone = "GMT-3:30";nzone = "GMT-3";}
+        else if ( 0 == strcasecmp( ptr, "4" ) ){ozone = "NET-4";nzone = "GMT-4";}
+        else if ( 0 == strcasecmp( ptr, "4:30" ) ){ozone = "GMT-4:30";nzone = "GMT-4";}
+        else if ( 0 == strcasecmp( ptr, "5" ) ){ozone = "PLT-5";nzone = "GMT-5";}
+        else if ( 0 == strcasecmp( ptr, "5:30" ) ){ozone = "GMT-5:30";nzone = "GMT-5";}
+        else if ( 0 == strcasecmp( ptr, "6" ) ){ozone = "BST-6";nzone = "GMT-6";}
+        else if ( 0 == strcasecmp( ptr, "7" ) ){ozone = "VST-7";nzone = "GMT-7";}
+        else if ( 0 == strcasecmp( ptr, "8" ) ){ozone = "CTT-8";nzone = "GMT-8";}
+        else if ( 0 == strcasecmp( ptr, "9" ) ){ozone = "JST-9";nzone = "GMT-9";}
+        else if ( 0 == strcasecmp( ptr, "9:30" ) ){ozone = "GMT-9:30";nzone = "GMT-9";}
+        else if ( 0 == strcasecmp( ptr, "10" ) ){ozone = "AET-10";nzone = "GMT-10";}
+        else if ( 0 == strcasecmp( ptr, "11" ) ){ozone = "SST-11";nzone = "GMT-11";}
+        else if ( 0 == strcasecmp( ptr, "12" ) ){ozone = "NST-12";nzone = "GMT-12";}
     }
-    /* set time zone */
-    string2file( "/etc/TZ", "%s\n", zone ); /* because the TZ file in the /tmp/TZ, so you can write anytime */
+    string2file( "/etc/TZ", "%s\n", ozone ); /* because the TZ file in the /tmp/TZ, so you can write anytime */
+    /* set time zone with new style(libc) */
+	unlink( "/etc/localtime" );
+	shell( "ln -s /usr/share/zoneinfo/%s /etc/localtime", nzone );
 
 	/* read from the RTC when have RTC */
 	/* XXXXXXXXXXXXXXX */
@@ -123,7 +129,7 @@ talk_t _setup( obj_t this, param_t param )
     ptr = json_string( cfg, "ntpclient" );
     if ( ptr != NULL && 0 == strcmp( ptr, "enable" ) )
     {
-        serv_start( this, "ntploop", NULL, COM_IDPATH );
+        service_start( COM_IDPATH, COM_IDPATH, "ntploop", NULL );
     }
 
     talk_free( cfg );
@@ -132,7 +138,7 @@ talk_t _setup( obj_t this, param_t param )
 talk_t _shut( obj_t this, param_t param )
 {
 	/* stop the service */
-    serv_stop( COM_IDPATH );
+    service_stop( COM_IDPATH );
 	/* kill the ntpclient to prevent the ntpclient pause */
 	shell( "killall ntpclient" );
     return ttrue;
@@ -145,12 +151,12 @@ talk_t _ntploop( obj_t this, param_t param )
     int interval;
     const char *ptr;
     const char *zone;
-    char key[IDENTIFY_SIZE];
+    char key[NAME_MAX];
 
     /* wait the online */
     do
     {
-        if ( route_exist( "0.0.0.0", NULL, NULL, NULL ) == true )
+        if ( route_info( "0.0.0.0", NULL, NULL, NULL ) == true )
         {
             break;
         }
@@ -161,8 +167,8 @@ talk_t _ntploop( obj_t this, param_t param )
     ret = false;
     interval = 0;
     cfg = config_sget( COM_IDPATH, NULL );
-    zone = json_get_string( cfg, "timezone" );
-    ptr = json_get_string( cfg, "ntpinterval" );
+    zone = json_string( cfg, "timezone" );
+    ptr = json_string( cfg, "ntpinterval" );
     if ( ptr != NULL )
     {
         interval = atoi( ptr );
@@ -181,7 +187,7 @@ talk_t _ntploop( obj_t this, param_t param )
             {
                 snprintf( key, sizeof(key), "ntpserver%d", t );
             }
-            ptr = json_get_string( cfg, key );
+            ptr = json_string( cfg, key );
             if ( ptr == NULL || *ptr == '\0' )
             {
                 continue;
@@ -218,29 +224,25 @@ talk_t _status( obj_t this, param_t param )
 {
 	talk_t ret;
 	const char *ptr;
-	char buffer[IDENTIFY_SIZE];
+	char buffer[NAME_MAX];
 
-	ret = json_create();
-	ptr = reg_get( NULL, "date_src" );
+	ret = json_create( NULL );
+	ptr = register_pointer( LAND_PROJECT, "date_src" );
 	if ( ptr != NULL && *ptr != '\0' )
 	{
 		json_set_string( ret, "source", ptr );
 	}
-	ptr = time_getting( buffer, sizeof(buffer) );
+	ptr = date_desc( buffer, sizeof(buffer) );
 	if ( ptr != NULL )
 	{
 		json_set_string( ret, "current", ptr );
 	}
-	ptr = livetime_getting( buffer, sizeof(buffer) );
+	ptr = uptime_desc( buffer, sizeof(buffer) );
 	if ( ptr != NULL )
 	{
 		json_set_string( ret, "livetime", ptr );
 	}
-	ptr = uptime_getting( buffer, sizeof(buffer) );
-	if ( ptr != NULL )
-	{
-		json_set_string( ret, "uptime", ptr );
-	}
+	json_set_number( ret, "uptime", uptime_int() );
 	return ret;
 }
 talk_t _ntpsync( obj_t this, param_t param )
@@ -250,12 +252,12 @@ talk_t _ntpsync( obj_t this, param_t param )
     talk_t cfg;
     const char *ptr;
     const char *zone;
-    char key[IDENTIFY_SIZE];
+    char key[NAME_MAX];
 
     ret = false;
-    ptr = param_option( param, 1 );
+    ptr = param_string( param, 1 );
     cfg = config_sget( COM_IDPATH, NULL );
-    zone = json_get_string( cfg, "timezone" );
+    zone = json_string( cfg, "timezone" );
     if ( ptr != NULL )
     {
         ret = ntpclient_sync( ptr, zone );
@@ -272,7 +274,7 @@ talk_t _ntpsync( obj_t this, param_t param )
             {
                 snprintf( key, sizeof(key), "ntpserver%d", t );
             }
-            ptr = json_get_string( cfg, key );
+            ptr = json_string( cfg, key );
             if ( ptr == NULL || *ptr == '\0' )
             {
                 continue;
@@ -295,11 +297,9 @@ talk_t _current( obj_t this, param_t param )
 {
     const char *ptr;
 
-	ptr = param_option( param, 1 );
+	ptr = param_string( param, 1 );
 	if ( time_setting( ptr, NULL ) == true )
 	{
-        _shut( this, NULL );
-        _setup( this, NULL );
 		return ttrue;
 	}
 	return tfalse;
@@ -307,13 +307,13 @@ talk_t _current( obj_t this, param_t param )
 
 
 
-boole _set( obj_t this, path_t path, talk_t v )
+boole _set( obj_t this, talk_t v, attr_t path )
 {
 	obj_t o;
 	boole ret;
 
 	o = obj_create( COM_IDPATH );
-	ret = config_set( o, path, v );
+    ret = config_set( o, v, path );
 	if ( ret == true )
 	{
 		_shut( this, NULL );
@@ -322,7 +322,7 @@ boole _set( obj_t this, path_t path, talk_t v )
 	obj_free( o );
 	return ret;
 }
-talk_t _get( obj_t this, path_t path )
+talk_t _get( obj_t this, attr_t path )
 {
 	obj_t o;
 	talk_t ret;

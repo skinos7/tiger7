@@ -30,7 +30,7 @@
  <!-- page specific plugin scripts -->
 <script type="text/javascript">
   (function () {
-    var obj = "land@hosts";
+    var obj = "network@hosts";
     var hosts;
     var hosts_table = '#hosts-grid-table';
     var hosts_pager = '#hosts-grid-pager';
@@ -90,7 +90,7 @@
 
 
     /* init */
-    $.i18n().load( page.lang('forward') ).then( function () {
+    $.i18n().load( page.lang('lan') ).then( function () {
         /* init the langauage */
         $.i18n().locale = window.lang; $('body').i18n();
 

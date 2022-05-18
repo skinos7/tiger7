@@ -3,5 +3,22 @@
     "intro":"web system basic ui page",
     "type":"root",
     "version":"7.0.0",
-    "author":"dimmalex@gmail.com"
+    "author":"dimmalex@gmail.com",
+
+    "wui":
+    {
+        "webs":
+        {
+            "menu":"System",
+            "cn":"WEB服务器",
+            "en":"Web Server",
+            "page":"wui.html",
+            "config":"wui@admin",
+            "lang":
+            {
+                "cn":"cn.json",
+                "en":"en.json"
+            }
+        }
+    }
 }

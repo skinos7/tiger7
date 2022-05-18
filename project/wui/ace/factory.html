@@ -297,7 +297,7 @@
 
                             <!-- 语言 -->
                             <div class="form-group">
-                                <label class="col-sm-3 control-label no-padding-right" for="language" data-i18n="Language Settings"></label>
+                                <label class="col-sm-3 control-label no-padding-right" data-i18n="Language Settings"></label>
                                 <div class="col-sm-9">
                                   <select class="col-xs-10 col-sm-5" id="language">
                                     <option value="cn">中文</option>
@@ -325,18 +325,6 @@
                                 <div class="col-sm-9">
                                   <div class="btn-group">
                                     <button class="btn btn-success" data-i18n="Default Configure" id="default"></button>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div class="form-horizontal" role="form">
-                              <!-- 产测模式 -->
-                              <div class="form-group">
-                                <label class="col-sm-3 control-label no-padding-right"></label>
-                                <div class="col-sm-9">
-                                  <div class="btn-group">
-                                    <button class="btn btn-danger" data-i18n="System Factory" id="mac_clear"></button>
                                   </div>
                                 </div>
                               </div>
@@ -570,10 +558,6 @@
               // 恢复出厂设置
               $('#default').on(ace.click_event, function () {
                     he.reboot( { title: $.i18n('Restarting...'), hint:$.i18n('Make sure that the device is reconnected'), cmds:["arch@data.default"] } );
-              });
-              // 产测模式
-              $('#mac_clear').on(ace.click_event, function () {
-                    he.reboot( { title: $.i18n('Restarting...'), hint:$.i18n('Make sure that the device is reconnected'), cmds:["arch@data:mac=00:0C:43:03:04:00"] } );
               });
 
 

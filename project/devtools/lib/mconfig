@@ -1,0 +1,12 @@
+
+# Compile-time increment CFLAGS
+CFLAGS += -I../
+
+# Compile-time increment LDFLAGS
+LDFLAGS +=
+
+# The library file that links to the.a or.so added at compile time
+LIBA_ADDIN :=
+LIBSO_ADDIN :=
+
+

@@ -6,9 +6,10 @@
 	"MAC Address":"MAC地址",
 	"Current Time":"当前时间",
 	"Time Source":"时间来源",
-	"ntp":"NTP服务器",
+	"ntp":"NTP对时",
 	"rtc":"RTC",
-	"lte":"LTE",
+	"lte":"LTE对时",
+	"gps":"LTE对时",
 	"set":"手动设置",
 	"sourcenull":"无有效来源",
 	"Copy from computer":"与电脑对时",
@@ -17,6 +18,7 @@
 	"Are you sure you want to restart":"确定重启系统",
 
 	"Operation Mode":"工作模式",
+	"default":"无线热点",
 	"gateway":"宽带路由器",
 	"dgateway":"双宽带路由器",
 	"wisp":"2.4G无线连网",
@@ -26,7 +28,6 @@
 	"misp":"4G路由器",
 	"nmisp":"5G路由器",
 	"dmisp":"双4G5G路由器",
-	"ap":"无线热点",
 	"bridge":"无线网桥",
 	"repeater":"无线中继",
 	"mix":"混合",
@@ -157,14 +158,11 @@
 
 
 
-
-
 	"Configure Version":"配置版本",
+	"Default":"出厂配置",
 	"Backup Configure":"备份配置",
 	"Default Configure":"恢复出厂设置",
 	"Restore Configure":"导入配置",
-	"System Factory":"产测模式",
-	"System Debug":"系统调试",
 	"Restore...":"导入配置...",
 	"Restore Failure":"导入配置失败",
 	"Are you sure you want to default the system configure":"确定恢复出厂设置",
@@ -174,8 +172,10 @@
 
 
 
+
+
 	"Username":"用户名",
-	"Old Password":"原密码",
+	"Original Password":"原密码",
 	"New Password":"新密码",
 	"Repeat New Password":"重输新密码",
 	"Username cannot be empty":"用户名不能为空",

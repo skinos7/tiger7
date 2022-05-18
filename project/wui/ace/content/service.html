@@ -48,17 +48,17 @@
             row[ 'name'] = $.i18n( name );
             row[ 'sid'] = name;
             row[ 'pid'] = rule.pid || '';
-            row[ 'obj'] = rule.obj || '';
+            row[ 'object'] = rule.com || '';
             row[ 'op'] = rule.op || '';
-            if ( rule.status == "live" )
+            if ( rule.pid )
             {
-                row[ 'livetime'] = time2string(rule.livetime);
+                row[ 'uptime'] = rule.last_start;
                 count++;
                 rows.unshift( row );
             }
             else
             {
-                row[ 'livetime'] = $.i18n('Die');
+                row[ 'uptime'] = $.i18n(rule.status);
                 rows.push( row );
             }
         }
@@ -71,7 +71,10 @@
         // 恢复滚动条的位置
         jqtable.setScrollPos(scrollPos);
         // 改变离线行的颜色
-        $('td[title=' + $.i18n('Die') + ']').closest('tr').css({color: '#888'});
+        $('td[title=' + $.i18n('reset') + ']').closest('tr').css({color: '#888'});
+        $('td[title=' + $.i18n('stop') + ']').closest('tr').css({color: '#888'});
+        $('td[title=' + $.i18n('unregiser') + ']').closest('tr').css({color: '#888'});
+        $('td[title=' + $.i18n('finish') + ']').closest('tr').css({color: '#888'});
       });
     }
 
@@ -84,15 +87,15 @@
             caption: '',
             multiselect: false,
             rowNum:20, rowList:[20,40,60],
-            colNames:[ $.i18n('Service Name'), $.i18n('Service ID'), $.i18n('PID'), $.i18n('Component'), $.i18n('Interface'), $.i18n('Run Time'), $.i18n('Operation') ],
+            colNames:[ $.i18n('Service Name'), $.i18n('Service ID'), $.i18n('PID'), $.i18n('Component'), $.i18n('Interface'), $.i18n('Uptime'), $.i18n('Operation') ],
             colModel:
             [
                 { name:'name', width:150 },
                 { name:'sid', width:150,  hidden: true },
                 { name:'pid', width:80 },
-                { name:'obj', width:150 },
+                { name:'object', width:150 },
                 { name:'op', width:150 },
-                { name:'livetime', width:150 },
+                { name:'uptime', width:150 },
                 {
                     name: 'reset', width: 80,
                     fixed: true, sortable: false,

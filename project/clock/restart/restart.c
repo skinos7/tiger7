@@ -1,40 +1,31 @@
 /*
- *    Description:  auto restart plan management
- *          Author:  dimmalex (dim), dimmalex@gmail.com
- *      Company:  HP
+  * Description:  auto restart plan management
+ *       Author:  dimmalex (dim), dimmalex@gmail.com
+ *      Company:  ASHYELF
  */
 
 #include "land/skin.h"
 
 
 
-const char *_intro( obj_t this )
-{
-    const char *str = \
-"{"\
-"\n    \"setup\":\"setup the restart plan\","\
-"\n    \"shut\":\"shutdown the restart plan\""\
-"\n}\n";
-    return str;
-}
 talk_t _setup( obj_t this, param_t param )
 {
     const char *ptr;
 
-    ptr = config_sgets( COM_IDPATH, "mode", NULL, 0 );
+    ptr = config_sgets_string( NULL, 0, COM_IDPATH, "mode" );
     if ( ptr != NULL 
         && ( ( 0 == strcmp( ptr, "age" ) )
         || ( 0 == strcmp( ptr, "point" ) )
         || ( 0 == strcmp( ptr, "idle" ) ) ) )
     {
-        serv_start( this, "service", NULL, COM_IDPATH );
+        service_start( COM_IDPATH, COM_IDPATH, "service", NULL );
     }
 
     return ttrue;
 }
 talk_t _shut( obj_t this, param_t param )
 {
-    serv_stop( COM_IDPATH );
+    service_stop( COM_IDPATH );
     return ttrue;
 }
 talk_t _service( obj_t this, param_t param )
@@ -42,15 +33,15 @@ talk_t _service( obj_t this, param_t param )
     char *end;
     talk_t cfg;
     unsigned int i;
+    char string[64];
     const char *ptr;
     const char *mode;
-    char string[64];
     unsigned int pass;
 
     /* sleep 2 second for action, get pass time */
     sleep( 120 );
     memset( string, 0, sizeof(string) );
-    read_string( "/proc/uptime", string, sizeof(string) );
+    file2string( "/proc/uptime", string, sizeof(string) );
     end = strstr( string, "." );
     if ( end == NULL )
     {
@@ -61,11 +52,11 @@ talk_t _service( obj_t this, param_t param )
 
     /* restart */
     cfg = config_sget( COM_IDPATH, NULL );
-    mode = json_get_string( cfg, "mode" );
+    mode = json_string( cfg, "mode" );
     if ( mode != NULL && 0 == strcmp( mode, "age" ) )
     {
         i = 0;
-        ptr = json_get_string( cfg, "age" );
+        ptr = json_string( cfg, "age" );
         if ( ptr != NULL )
         {
             i = atoi( ptr );
@@ -78,7 +69,7 @@ talk_t _service( obj_t this, param_t param )
                 sleep( i );
             }
             info( "restart the system by %s for %s mode", COM_IDPATH, mode );
-            com_scall( MACHINE_COM, "restart", NULL );
+            scall( MACHINE_COM, "restart", NULL );
         }
     }
 
@@ -96,17 +87,17 @@ talk_t _service( obj_t this, param_t param )
 		age = 208800;        // two day
         hour = 3;            // 03
 		minute = 30;         // 30
-        ptr = json_get_string( cfg, "point_hour" );
+        ptr = json_string( cfg, "point_hour" );
         if ( ptr != NULL )
         {
             hour = atoi( ptr );
         }
-        ptr = json_get_string( cfg, "point_minute" );
+        ptr = json_string( cfg, "point_minute" );
         if ( ptr != NULL )
         {
             minute = atoi( ptr );
         }
-        ptr = json_get_string( cfg, "point_age" );
+        ptr = json_string( cfg, "point_age" );
         if ( ptr != NULL )
         {
             age = atoi( ptr );
@@ -116,7 +107,7 @@ talk_t _service( obj_t this, param_t param )
         {
             if ( date_src == NULL )
             {
-                date_src = reg_get( NULL, "date_src" );
+                date_src = register_pointer( LAND_PROJECT, "date_src" );
             }
             if ( date_src != NULL && *date_src != '\0' )
             {
@@ -125,14 +116,14 @@ talk_t _service( obj_t this, param_t param )
                 if ( hour == ptime->tm_hour && minute == ptime->tm_min )
                 {
                     info( "restart the system by %s for %s mode(%u:%u)", COM_IDPATH, mode, hour, minute );
-                    com_scall( MACHINE_COM, "restart", NULL );
+                    scall( MACHINE_COM, "restart", NULL );
                 }
             }
 			up = uptime_int();
 			if ( up >= age )
 			{
 				info( "restart the system by %s for %s mode(age:%d:%d)", COM_IDPATH, mode, age, up );
-				com_scall( MACHINE_COM, "restart", NULL );
+				scall( MACHINE_COM, "restart", NULL );
 			}
             sleep( 50 );
         }while(1);
@@ -148,17 +139,17 @@ talk_t _service( obj_t this, param_t param )
         start = 172800;  // two day
         idle = 300;       // five minute
         age = 604800; // one week
-        ptr = json_get_string( cfg, "idle_start" );
+        ptr = json_string( cfg, "idle_start" );
         if ( ptr != NULL )
         {
             start = atoi( ptr );
         }
-        ptr = json_get_string( cfg, "idle_wireless_time" );
+        ptr = json_string( cfg, "idle_wireless_time" );
         if ( ptr != NULL )
         {
             idle = atoi( ptr );
         }
-        ptr = json_get_string( cfg, "idle_age" );
+        ptr = json_string( cfg, "idle_age" );
         if ( ptr != NULL )
         {
             age = atoi( ptr );
@@ -178,7 +169,7 @@ talk_t _service( obj_t this, param_t param )
             idle_count = idle/30;
             do
             {
-                v  = com_scall( STATION_COM, "list", NULL );
+                v  = scall( STATION_COM, "list", NULL );
                 if ( json_each( v, NULL ) != NULL )
                 {
                     i = 0;
@@ -203,7 +194,7 @@ talk_t _service( obj_t this, param_t param )
             {
                 info( "restart the system by %s for %s mode wireless age(%s)", COM_IDPATH, mode, ptr );
             }
-            com_scall( MACHINE_COM, "restart", NULL );
+            scall( MACHINE_COM, "restart", NULL );
             return ttrue;
         }
     }
@@ -214,30 +205,30 @@ talk_t _service( obj_t this, param_t param )
 
 
 
-boole _set( obj_t this, path_t path, talk_t v )
+boole _set( obj_t this, talk_t v, attr_t path )
 {
-    obj_t o;
-    boole ret;
+	obj_t o;
+	boole ret;
 
-    o = obj_create( COM_IDPATH );
-    ret = config_set( o, path, v );
-    if ( ret == true )
-    {
-        _shut( this, NULL );
-        _setup( this, NULL );
-    }
-    obj_free( o );
-    return ret;
+	o = obj_create( COM_IDPATH );
+    ret = config_set( o, v, path );
+	if ( ret == true )
+	{
+		_shut( this, NULL );
+		_setup( this, NULL );
+	}
+	obj_free( o );
+	return ret;
 }
-talk_t _get( obj_t this, path_t path )
+talk_t _get( obj_t this, attr_t path )
 {
-    obj_t o;
-    talk_t ret;
+	obj_t o;
+	talk_t ret;
 
-    o = obj_create( COM_IDPATH );
-    ret = config_get( o, path );
-    obj_free( o );
-    return ret;
+	o = obj_create( COM_IDPATH );
+	ret = config_get( o, path );
+	obj_free( o );
+	return ret;
 }
 
 

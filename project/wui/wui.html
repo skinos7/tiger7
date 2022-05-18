@@ -1,0 +1,173 @@
+<!-- ajax layout which only needs content area -->
+<div class="row">
+  <div class="col-xs-12 form-btn-wrapper">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="form-horizontal" role="form">
+
+      <!-- 状态 -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Web Server"></label>
+        <div class="col-sm-9">
+          <label>
+            <input id="status" class="ace ace-switch ace-switch-6" type="checkbox" />
+            <span class="lbl"></span>
+          </label>
+        </div>
+      </div>
+
+      <div id="statusSets">
+      
+        <!-- 指定地址访问 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Designated Address Access"></label>
+          <div class="col-sm-9">
+            <label>
+              <input id="manager_status" class="ace ace-switch ace-switch-6" type="checkbox" />
+              <span class="lbl"></span>
+            </label>
+          </div>
+        </div>
+        <div class="form-group" id="managerSets" >
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Address(separated by semicolon)"></label>
+            <div class="col-sm-9">
+              <textarea type="text" id="manager" class="col-xs-10 col-sm-5" maxlength="1024" />
+            </div>
+        </div>
+
+        <!-- 端口 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Port"></label>
+          <div class="col-sm-9">
+            <input type="text" id="port" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+      </div>
+
+      <div class="clearfix form-actions">
+        <div class="col-md-offset-3 col-md-9">
+          <button class="btn btn-second" type="button" id="refresh"><span data-i18n="Refresh"></span></button>
+          &nbsp; &nbsp; &nbsp;
+          <button class="btn btn-main" type="button" id="apply"><span data-i18n="Apply"></span></button>
+        </div>
+      </div>
+      
+    </div>
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+    var config;
+    var object = window.object;
+    var index = page.param( 'obj', location.hash );
+    if ( index )
+    {
+        object = index;
+    }
+    var langjson = base64.decode( page.param( 'lang', location.hash ) );
+    function load_config()
+    {
+        he.load( [ object ] ).then( function(v){
+            config = v[0];
+            $('#status').prop('checked', able2boole(config.status));
+            $('#port').val(config.port || '');
+            $('#manager').val( config.manager||"" );
+            if ( config.manager )
+            {
+                $('#manager_status').prop('checked', true );
+            }
+            else
+            {
+                $('#manager_status').prop('checked', false );
+            }
+            $('#status').unbind('change').change(function () {
+                if ($(this).prop('checked'))
+                {
+                    $('#statusSets').show();
+                }
+                else
+                {
+                    $('#statusSets').hide();
+                }
+            }).trigger('change');
+            $('#manager_status').unbind('change').change(function () {
+                if ($(this).prop('checked'))
+                {
+                    $('#managerSets').show();
+                }
+                else
+                {
+                    $('#managerSets').hide();
+                }
+            }).trigger('change');
+        });
+    }
+    function save_config()
+    {
+        if ( config == null )
+        {
+            return;
+        }
+        var configcopy = JSON.parse(JSON.stringify(config));
+
+        config.status = boole2able( $('#status').prop('checked') );
+        if ( config.status == "enable" )
+        {
+            config.port = $('#port').val();
+            if ( $('#manager_status').prop('checked') == true )
+            {
+                config.manager = $('#manager').val();
+            }
+            else
+            {
+                delete config.manager;
+            }
+        }
+        if ( ocompare( config, configcopy ) )
+        {
+            page.alert( { message: $.i18n('Settings unchanged') } );
+            return;
+        }
+        page.confirm( { message: $.i18n('The system will restart because of the change of settings') } ).then( function(result){
+            if ( result )
+            {
+                he.save( [ object+"="+JSON.stringify(config) ] ).then( function(){
+                    page.confirm( { message: $.i18n('Restart the system to apply') } ).then( function(result){
+                        if ( result )
+                        {
+                            he.reboot( { title: $.i18n('Restarting to apply...'), hint:$.i18n('Make sure that the device is reconnected') } );
+                        }
+                    });
+                });
+            }
+            else
+            {
+                load_config();
+            }
+        });
+    }
+
+
+
+    $.i18n().load( page.lang(langjson) ).then( function () {
+      /* init the langauage */
+      $.i18n().locale = lang; $('body').i18n();
+
+      /* load the configure */
+      load_config();
+      /* bind the refresh */
+      $('#refresh').on(ace.click_event, function () {
+        location.reload();
+      });
+      /* bind the apply to save configure */
+      $('#apply').on(ace.click_event, function () {
+        save_config();
+      });
+
+    });
+
+
+  })();
+</script>

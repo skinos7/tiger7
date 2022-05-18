@@ -68,7 +68,7 @@
     <div class="hr hr32 hr-dotted"></div>
 
     <!-- 工作模式 -->
-    <div class="form-group" id="opmode" style="display: none;">
+    <div class="form-group" id="mode_change" style="display: none;">
         <label class="col-sm-3 control-label no-padding-right" data-i18n="Operation Mode"></label>
         <div class="col-sm-9">
           <select class="col-xs-10 col-sm-5" id="mode">
@@ -80,7 +80,7 @@
     <div class="hr hr32 hr-dotted"></div>
 
     <!-- 语言 -->
-    <div class="form-group">
+    <div class="form-group" id="language_change" style="display: none;">
         <label class="col-sm-3 control-label no-padding-right" data-i18n="Language Settings"></label>
         <div class="col-sm-9">
           <select class="col-xs-10 col-sm-5" id="language">
@@ -364,6 +364,7 @@
     $.i18n().load( page.lang('device') ).then( function () {
       /* init the langauage */
       $.i18n().locale = lang; $('body').i18n();
+
       /* load the info */
       $('#name_string').text(window.machine.name);
       $('#model_string').text(window.machine_status.model);
@@ -372,6 +373,7 @@
           $("#model_string").closest('.form-group').show();
       }
       $('#mac').text(window.machine.mac);
+
       // 修改设备名
       $('#name_modify').on(ace.click_event, function () {
           page.prompt( { message: $.i18n('Input new device name'), value:window.machine.name, callback:function(result){
@@ -388,6 +390,7 @@
               }
           } } );
       });
+
       // 系统重启
       $('#reboot').on(ace.click_event, function () {
           page.confirm( { message: $.i18n('Are you sure you want to restart') } ).then( function(result){
@@ -397,13 +400,14 @@
               }
           });
       });
+
       /* load the mode */
-      if ( window.ability && window.ability.mode )
+      if ( window.custom && window.custom.mode )
       {
         var m;
-        for( m in window.ability.mode )
+        for( m in window.custom.mode )
         {
-            if ( window.ability.mode[m] != "null" )
+            if ( window.custom.mode[m] != "null" )
             {
                 $("#mode").append("<option value='"+m+"'>" + $.i18n(m) + "</option>");
             }
@@ -411,6 +415,7 @@
       }
       else
       {
+        $("#mode").append("<option value='default'>"+$.i18n('default')+"</option>");
         $("#mode").append("<option value='misp'>"+$.i18n('misp')+"</option>");
         $("#mode").append("<option value='gateway'>"+$.i18n('gateway')+"</option>");
         $("#mode").append("<option value='wisp'>"+$.i18n('wisp')+"</option>");
@@ -441,14 +446,15 @@
       });
       if ( !wuimenu || wuimenu.opmode != "disable" )
       {
-        $("#opmode").show();
+        $("#mode_change").show();
       }
+
       /* load the langauge */
-      if ( window.ability && window.ability.language )
+      if ( window.custom && window.custom.language )
       {
         var m;
         $("#language").empty();
-        for( m in window.ability.language )
+        for( m in window.custom.language )
         {
             $("#language").append("<option value='"+m+"'>"+$.i18n(m)+"</option>");
         }
@@ -472,6 +478,12 @@
             });
         }
       });      
+      if ( !wuimenu || wuimenu.language != "disable" )
+      {
+        $("#language_change").show();
+      }
+
+      /* load date */
       date_load();
 
       /* bind the refresh */

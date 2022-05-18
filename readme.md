@@ -1,8 +1,9 @@
 
 # brief 
-The research and development of Internet edge computing based on Linux operating system makes innovative changes in software and hardware to meet the needs of market diversification and complexity
-- Software development **Software base development platform**, unified encapsulation of embedded hardware, to provide unified and extensible interface  
-- Hardware development of highly integrated and interface rich **routing module** or **edge computing gateway module**, based on the module to develop targeted routing products and terminal computing products  
+The research and development of Internet edge computing based on Linux operating system makes innovative changes in both software and hardware to meet the diversified and complex needs of the market
+- Software-based development of the **Software Foundation Development Platform**, which encapsulates embedded hardware in a unified way, providing a unified and scalable interface upwards 
+- In terms of hardware, we develop highly integrated and interface-rich **routing modules** or **edge computing gateway modules**, and develop targeted routing products and terminal computing products based on modules 
+
 
 
 # hardware product
@@ -32,8 +33,8 @@ Through the above means, the embedded application software developed based on th
 - And save the r&d cost in the future update of embedded chip
 
 
-----
-Temporarily translated by machine
+
+
 
 
 

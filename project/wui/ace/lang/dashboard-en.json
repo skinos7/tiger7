@@ -2,29 +2,46 @@
 
 	"down":"DOWN",
 	"uping":"UPPING",
+	"connect":"Connecting",
 	"up":"UP",
-	"nosignal":"NO Signal",
 	"nodevice":"NO Device",
 	"noimei":"IMEI Wrong",
+	"noimsi":"IMSI Wrong",
 	"pin":"Need PIN",
 	"puk":"PIN Error",
 	"nosim":"NO SIM",
-	"noimsi":"IMSI Wrong",
 	"noreg":"NO Register",
 	"unreg":"UN Register",
 	"dereg":"DE Register",
-	"found":"Found Device",
+	"nosignal":"NO Signal",
+	"search":"Searching",
 	"setup":"Setup",
-	"checksim":"Check SIM",
-	"checknet":"Check Network",
-	"checksig":"Check Signal",
+	"register":"Registering",
 	"ready":"Device Ready",
-	"dial":"Dial",
-	"online":"ONLINE",
-	"offline":"OFFLINE",
 	"reset":"Reset Device",
+
+
 	"dhcpc":"DHCP",
 	"pppoec":"PPPOE",
-	"static":"Static"
+	"static":"Static",
+	"slaac":"SLAAC",
+	"automatic":"DHCPv6",
+	"manual":"Manual",
+
+
+	"config":"Config",
+	"int":"FPK",
+	"mmcblk0p1":"TF Card",
+	"mmcblk0p2":"TF Card2",
+	"mmcblk0p3":"TF Card3",
+	"mmcblk0p4":"TF Card4",
+
+
+	"lan":"LAN",
+	"lan1":"LAN1",
+	"lan2":"LAN2",
+	"lan3":"LAN3",
+	"lan4":"LAN4",
+	"wan":"WAN"
 
 }

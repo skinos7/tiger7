@@ -43,6 +43,8 @@ Administration of equipment Management web page
         "lan":"show or not",                      // [ enable, disable  ]
         "sta":"show or not",                      // [ enable, disable  ]
         "connection":"show or not",               // [ enable, disable  ]
+        "opmode":"show or not",                   // [ enable, disable  ]
+        "language":"show or not",                 // [ enable, disable  ]
 
         "terminal":"show or not",                  // [ enable, disable  ]
         "development":"show or not",               // [ enable, disable  ]

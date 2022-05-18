@@ -2,40 +2,45 @@
 	
 	"Syslog":"系统日志",
 
-	"Log Location":"日志存储位置",
+	"Location":"存储位置",
 	"Memory":"内存",
 	"Internal":"内部存储",
 	"Storage":"外部存储",
 
-	"Log Max Size(KB)":"日志存储限制(KB)",
-	"Log Level":"日志级别",
+	"Max Size(KB)":"存储限制(KB)",
+	"Level":"级别",
+	"Type(separated by ;)":"类型",
 	"Remote Log":"远程日志",
-	"Log Server":"日志服务器",
-	"Port":"端口",
-	"Log Operation":"日志操作",
+	"Remote Server":"日志服务器",
+	"Remote Port":"端口",
+	"Operation":"日志操作",
 	"Clear":"清除日志",
 	"Download":"下载日志",
 	"Error":"错误",
 	"Warn":"警告",
 	"Info":"信息",
 	"Debug":"调试",
+	"Verbose":"详细",
 
 
-	"HE Terminal":"HE终端",
-	"Serial Terminal":"串口终端",
-	"Serial2 Terminal":"串口2终端",
-	"Serial3 Terminal":"串口3终端",
-	"LTE Terminal":"4G模块终端",
-	"LTE/NR Terminal":"4G/5G模块终端",
+
+
+
+	"Open HE Terminal":"HE终端",
 	"Close before leave":"离开前必须点此关闭",
 	"I'm sorry that this feature does not support the current browser. It is recommended that you update and install Chrome, Firefox or IE11+.":"当前浏览器不支持终端模式, 请将使用IE11以上的浏览器或谷歌火狐最新的浏览器",
 	"Opening...":"正在打开...",
 	"Closing...":"正在关闭...",
-	"Will shutdown serial application when open the serial terminal, Are you sure you want to open it":"打开串口终端将导致所有此串口上的应用被强制关闭, 确认是否打开",
-	"Will shutdown LTE application when open the LTE terminal, Are you sure you want to open it":"打开4G模块终端将导致所有此模块上的应用被强制关闭, 确认是否打开",
-	"Will shutdown LTE/NR application when open the LTE/NR terminal, Are you sure you want to open it":"打开4G/5G模块终端将导致所有此模块上的应用被强制关闭, 确认是否打开",
 	"Cannot open it":"未能正常打开, 请确认设备是否正常",
 	"Cannot close it":"未能正常关闭, 请重启设备",
+
+	"Open AT Command":"AT终端",
+	"Will shutdown LTE/NR application when open the LTE/NR terminal, Are you sure you want to open it":"打开4G/5G模块终端将导致所有此模块上的应用被强制关闭, 确认是否打开",
+
+
+
+
+
 
 	"Development Option":"开发者选项",
 
@@ -79,7 +84,6 @@
 	"Service Live":"活动服务数",
 
 	"Service Name":"服务名称",
-	"arch@reggpio":"IO服务",
 	"wui@admin":"网页服务",
 	"tui@telnet":"TELNET服务",
 	"tui@ssh":"SSH服务",
@@ -89,6 +93,7 @@
 	"uart@serial":"串口服务",
 	"uart@serial2":"串口2服务",
 	"uart@serial3":"串口3服务",
+	"arch@usb":"USB管理",
 	"modem@lte":"4G基带",
 	"modem@lte2":"4G/5G基带",
 	"ifname@lte":"4G网络",
@@ -101,7 +106,7 @@
 	"ifname@wan2-keeplive":"有线宽带2保活",
 	"ifname@wisp":"无线连网",
 	"ifname@wisp-keeplive":"无线连网保活",
-	"network@connect":"连接管理",
+	"network@frame":"连接管理",
 	"dnsmasq":"DHCP服务器",
 	"clock@restart":"重启管理",
 	"clock@date":"时间管理",
@@ -110,7 +115,13 @@
 	"PID":"进程ID",
 	"Component":"组件",
 	"Interface":"接口",
-	"Run Time":"运行时长",
+	"Uptime":"启动时计数",
+	"start":"开始",
+	"off":"未控制",
+	"stop":"停止",
+	"reset":"重启",
+	"unregiser":"删除中",
+	"finish":"已完成",
 	"Operation":"操作",
 	"Reset":"重启服务",
 	"Reset succeed":"重启服务成功",

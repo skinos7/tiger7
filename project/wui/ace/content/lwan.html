@@ -8,9 +8,9 @@
 
         <!-- 拨号模式 -->
         <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" for="dialmode" data-i18n="Dial Mode"></label>
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv4 Mode"></label>
           <div class="col-sm-9">
-            <select class="col-xs-10 col-sm-5" id="dialmode">
+            <select class="col-xs-10 col-sm-5" id="mode">
               <option value="dhcpc" data-i18n="DHCP"></option>
               <option value="static" data-i18n="Static IP"></option>
             </select>
@@ -18,10 +18,10 @@
         </div>
 
         <!-- dhcpc设置-->
-        <div id="dhcpcSets" style="display: none;" >
+        <div id="dhcpc_cfg" style="display: none;" >
             <!-- 开启备用IP -->
             <div class="form-group">
-              <label class="col-sm-3 control-label no-padding-right" for="static" data-i18n="Alternate IP Address"></label>
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Alternate IP Address"></label>
               <div class="col-sm-9">
                 <label>
                   <input id="static" class="ace ace-switch ace-switch-6" type="checkbox" />
@@ -32,10 +32,10 @@
         </div>
 
         <!-- Static设置-->
-        <div id="staticSets" style="display: none;" >
+        <div id="static_cfg" style="display: none;" >
             <!-- IP地址 -->
             <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="ip" data-i18n="IP Address"></label>
+                <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv4 Address"></label>
                 <div class="col-sm-9">
                   <div class="clearfix">
                     <input type="text" id="ip" class="col-xs-10 col-sm-5" maxlength="128" />
@@ -44,7 +44,7 @@
             </div>
             <!-- 掩码 -->
             <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="mask" data-i18n="Subnet Mask"></label>
+                <label class="col-sm-3 control-label no-padding-right" data-i18n="Subnet Mask"></label>
                 <div class="col-sm-9">
                   <div class="clearfix">
                     <input type="text" id="mask" class="col-xs-10 col-sm-5" maxlength="128" />
@@ -52,10 +52,10 @@
                 </div>
             </div>
 
-            <div id="gatewaySets" style="display: none;" >
+            <div id="gateway_cfg" style="display: none;" >
                 <!-- 网关 -->
                 <div class="form-group">
-                  <label class="col-sm-3 control-label no-padding-right" for="gw" data-i18n="Gateway"></label>
+                  <label class="col-sm-3 control-label no-padding-right" data-i18n="Gateway"></label>
                   <div class="col-sm-9">
                     <div class="clearfix">
                       <input type="text" id="gw" class="col-xs-10 col-sm-5" maxlength="128" />
@@ -64,7 +64,7 @@
                 </div>
                 <!-- DNS -->
                 <div class="form-group">
-                  <label class="col-sm-3 control-label no-padding-right" for="dns" data-i18n="DNS"></label>
+                  <label class="col-sm-3 control-label no-padding-right" data-i18n="DNS"></label>
                   <div class="col-sm-9">
                     <div class="clearfix">
                       <input type="text" id="dns" class="col-xs-10 col-sm-5" maxlength="128" />
@@ -73,7 +73,7 @@
                 </div>
                 <!-- DNS2 -->
                 <div class="form-group">
-                  <label class="col-sm-3 control-label no-padding-right" for="dns2" data-i18n="DNS2"></label>
+                  <label class="col-sm-3 control-label no-padding-right" data-i18n="DNS2"></label>
                   <div class="col-sm-9">
                     <div class="clearfix">
                       <input type="text" id="dns2" class="col-xs-10 col-sm-5" maxlength="128" />
@@ -82,11 +82,11 @@
                 </div>
             </div> <!-- gatewaySets -->
 
-            <div id="dhcpsServer"  style="display: none;">
+            <div id="dhcps_cfg"  style="display: none;">
                 <div class="hr hr32 hr-dotted"></div>
                 <!-- DHCP服务器状态 -->
                 <div class="form-group">
-                  <label class="col-sm-3 control-label no-padding-right" for="status" data-i18n="DHCP Server"></label>
+                  <label class="col-sm-3 control-label no-padding-right" data-i18n="DHCP Server"></label>
                   <div class="col-sm-9">
                     <label>
                       <input id="dhcps" class="ace ace-switch ace-switch-6" type="checkbox" />
@@ -98,7 +98,7 @@
                 <div id="dhcpsSets" style="display: none;">
                   <!-- 起始IP -->
                   <div class="form-group">
-                    <label class="col-sm-3 control-label no-padding-right" for="startip" data-i18n="Start IP Address"></label>
+                    <label class="col-sm-3 control-label no-padding-right" data-i18n="Start IP Address"></label>
                     <div class="col-sm-9">
                       <div class="clearfix">
                         <input type="text" id="startip" class="col-xs-10 col-sm-5" maxlength="128" />
@@ -108,7 +108,7 @@
                 
                   <!-- 结束IP -->
                   <div class="form-group">
-                    <label class="col-sm-3 control-label no-padding-right" for="endip" data-i18n="End IP Address"></label>
+                    <label class="col-sm-3 control-label no-padding-right" data-i18n="End IP Address"></label>
                     <div class="col-sm-9">
                       <div class="clearfix">
                         <input type="text" id="endip" class="col-xs-10 col-sm-5" maxlength="128" />
@@ -118,7 +118,7 @@
                 
                   <!-- 租期 -->
                   <div class="form-group">
-                    <label class="col-sm-3 control-label no-padding-right" for="lease" data-i18n="Lease(Sec)"></label>
+                    <label class="col-sm-3 control-label no-padding-right" data-i18n="Lease(Sec)"></label>
                     <div class="col-sm-9">
                       <div class="clearfix">
                         <input type="text" id="lease" class="col-xs-10 col-sm-5" maxlength="128" />
@@ -128,7 +128,7 @@
                 
                   <!-- 网关 -->
                   <div class="form-group">
-                    <label class="col-sm-3 control-label no-padding-right" for="gw" data-i18n="Assign Gateway"></label>
+                    <label class="col-sm-3 control-label no-padding-right" data-i18n="Assign Gateway"></label>
                     <div class="col-sm-9">
                       <div class="clearfix">
                         <input type="text" id="assign_gw" class="col-xs-10 col-sm-5" maxlength="128" />
@@ -138,7 +138,7 @@
                 
                   <!-- DNS -->
                   <div class="form-group">
-                    <label class="col-sm-3 control-label no-padding-right" for="dns" data-i18n="Assign DNS"></label>
+                    <label class="col-sm-3 control-label no-padding-right" data-i18n="Assign DNS"></label>
                     <div class="col-sm-9">
                       <div class="clearfix">
                         <input type="text" id="assign_dns" class="col-xs-10 col-sm-5" maxlength="128" />
@@ -148,7 +148,7 @@
                 
                   <!-- DNS2 -->
                   <div class="form-group">
-                    <label class="col-sm-3 control-label no-padding-right" for="dns2" data-i18n="Assign DNS2"></label>
+                    <label class="col-sm-3 control-label no-padding-right" data-i18n="Assign DNS2"></label>
                     <div class="col-sm-9">
                       <div class="clearfix">
                         <input type="text" id="assign_dns2" class="col-xs-10 col-sm-5" maxlength="128" />
@@ -164,9 +164,9 @@
 
 
     <!-- 自定义DNS -->
-    <div id="custom_dns-select" style="display: none;">
+    <div id="customdns_cfg" style="display: none;">
         <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" for="custom_dns" data-i18n="Custom DNS"></label>
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Custom DNS"></label>
           <div class="col-sm-9">
             <label>
               <input id="custom_dns" class="ace ace-switch ace-switch-6" type="checkbox" />
@@ -174,23 +174,23 @@
             </label>
           </div>
         </div>
-        <div id="custom_dns-sets" style="display: none;">
+        <div id="customdns_config" style="display: none;">
           <!-- DNS -->
           <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right" for="cdns" data-i18n="DNS"></label>
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="DNS"></label>
             <div class="col-sm-9">
               <input type="text" id="cdns" class="col-xs-10 col-sm-5" maxlength="128" />
             </div>
           </div>
           <!-- DNS2 -->
           <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right" for="cdns2" data-i18n="DNS2"></label>
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="DNS2"></label>
             <div class="col-sm-9">
               <input type="text" id="cdns2" class="col-xs-10 col-sm-5" maxlength="128" />
             </div>
           </div>
         </div>
-    </div><!-- custom_dns-select -->
+    </div><!-- customdns_cfg -->
       
 
       
@@ -223,22 +223,20 @@
       obj = location.hash.substring( index+4 );
     }
     /* load the configure on the input */
-    function wan_load()
+    function config_load()
     {
       he.load( [ obj ] ).then( function(v){
         wan = v[0];
+        /* ipv4 */
         if ( !wan )
         {
             return;
         }
-        $('#dialmode').val( wan.mode || 'dhcpc' );
+        $('#mode').val( wan.mode || 'dhcpc' );
         if ( wan.static )
         {
-          if ( wan.static.ipaddr )
-          {
-            $('#ip').val(wan.static.ipaddr.ip);
-            $('#mask').val(wan.static.ipaddr.mask);
-          }
+          $('#ip').val(wan.static.ip);
+          $('#mask').val(wan.static.mask);
           $('#gw').val(wan.static.gw);
           $('#dns').val(wan.static.dns);
           $('#dns2').val(wan.static.dns2);
@@ -247,6 +245,70 @@
         {
             $('#static').prop('checked', able2boole(wan.dhcpc.static) );
         }
+        $('#mode').unbind('change').change(function (e) {
+          var type = e.target.value;
+          switch (type)
+          {
+            case 'dhcpc':
+              $('#static_cfg').hide();
+              $('#dhcpc_cfg').show();
+              $('#dhcps_cfg').hide();
+              $('#gateway_cfg').hide();
+              $('#customdns_cfg').show();
+              if ( wan.dhcpc )
+              {
+                $('#static').prop('checked', able2boole(wan.dhcpc.static) );
+                $('#custom_dns').prop('checked', able2boole(wan.dhcpc.custom_dns));
+                $('#cdns').val( wan.dhcpc.dns );
+                $('#cdns2').val( wan.dhcpc.dns2 );
+              }
+              if ($('#static').prop('checked'))
+              {
+                $('#static_cfg').show();
+              }
+              else
+              {
+                $('#static_cfg').hide();
+              }
+              if ($('#custom_dns').prop('checked'))
+              {
+                $('#customdns_config').show();
+              }
+              else
+              {
+                $('#customdns_config').hide();
+              }
+              break;
+            case 'static':
+              $('#static_cfg').show();
+              $('#dhcpc_cfg').hide();
+              $('#dhcps_cfg').show();
+              $('#gateway_cfg').show();
+              $('#customdns_cfg').hide();
+              break;
+          }
+        }).trigger('change');
+        $('#static').unbind('change').change(function () {
+          if ($(this).prop('checked'))
+          {
+            $('#static_cfg').show();
+          }
+          else
+          {
+            $('#static_cfg').hide();
+          }
+        }).trigger('change');
+        $('#custom_dns').unbind('change').change(function () {
+          if ($(this).prop('checked'))
+          {
+            $('#customdns_config').show();
+          }
+          else
+          {
+            $('#customdns_config').hide();
+          }
+        }).trigger('change');
+        /* dhcps */
         if ( wan.dhcps )
         {
             var dhcps = wan.dhcps;
@@ -257,90 +319,23 @@
             $('#assign_gw').val(dhcps.gw || '');
             $('#assign_dns').val(dhcps.dns || '');
             $('#assign_dns2').val(dhcps.dns2 || '');
+            $('#dhcps').unbind('change').change(function (){
+                if ($(this).prop('checked'))
+                {
+                    $('#dhcps_cfg').show();
+                }
+                else
+                {
+                    $('#dhcps_cfg').hide();
+                }
+            }).trigger('change');
         }
-
-        $('#custom_dns').unbind('change').change(function () {
-          if ($(this).prop('checked'))
-          {
-            $('#custom_dns-sets').show();
-          }
-          else
-          {
-            $('#custom_dns-sets').hide();
-          }
-        }).trigger('change');
-
-        $('#static').unbind('change').change(function () {
-          if ($(this).prop('checked'))
-          {
-            $('#staticSets').show();
-          }
-          else
-          {
-            $('#staticSets').hide();
-          }
-        }).trigger('change');
-
-        $('#dhcps').unbind('change').change(function (){
-            if ($(this).prop('checked'))
-            {
-                $('#dhcpsSets').show();
-            }
-            else
-            {
-                $('#dhcpsSets').hide();
-            }
-        }).trigger('change');
-
-        $('#dialmode').unbind('change').change(function (e) {
-          var type = e.target.value;
-          switch (type)
-          {
-            case 'dhcpc':
-              $('#staticSets').hide();
-              $('#dhcpcSets').show();
-              $('#dhcpsServer').hide();
-              $('#gatewaySets').hide();
-              $('#custom_dns-select').show();
-              if ( wan.dhcpc )
-              {
-                $('#static').prop('checked', able2boole(wan.dhcpc.static) );
-                $('#custom_dns').prop('checked', able2boole(wan.dhcpc.custom_dns));
-                $('#cdns').val( wan.dhcpc.dns );
-                $('#cdns2').val( wan.dhcpc.dns2 );
-              }
-              if ($('#static').prop('checked'))
-              {
-                $('#staticSets').show();
-              }
-              else
-              {
-                $('#staticSets').hide();
-              }
-              if ($('#custom_dns').prop('checked'))
-              {
-                $('#custom_dns-sets').show();
-              }
-              else
-              {
-                $('#custom_dns-sets').hide();
-              }
-              break;
-            case 'static':
-              $('#staticSets').show();
-              $('#dhcpcSets').hide();
-              $('#gatewaySets').show();
-              $('#dhcpsServer').show();
-              $('#custom_dns-select').hide();
-              break;
-          }
-        }).trigger('change');
 
       })
     }
 
     /* save the configure */
-    function wan_save()
+    function config_save()
     {
       if ( wan == null )
       {
@@ -348,7 +343,8 @@
       }
       var wancopy = JSON.parse(JSON.stringify(wan));;
 
-      wan.mode = $('#dialmode').val();
+      /* IPV4 addr */
+      wan.mode = $('#mode').val();
       if ( wan.mode == "dhcpc" )
       {
         if ( !wan.dhcpc )
@@ -379,18 +375,14 @@
         {
             wan.static = {};
         }
-        if ( !wan.static.ipaddr )
+        wan.static.ip = $('#ip').val();
+        if ( check.ip(wan.static.ip) == false )
         {
-            wan.static.ipaddr = {};
-        }
-        wan.static.ipaddr.ip = $('#ip').val();
-        if ( check.ip(wan.static.ipaddr.ip) == false )
-        {
-            page.alert( { message: $.i18n('IP Address')+" "+$.i18n('must be a valid IP address') } );
+            page.alert( { message: $.i18n('IPv4 Address')+" "+$.i18n('must be a valid IP address') } );
             return;
         }
-        wan.static.ipaddr.mask = $('#mask').val();
-        if ( check.ip(wan.static.ipaddr.mask) == false )
+        wan.static.mask = $('#mask').val();
+        if ( check.ip(wan.static.mask) == false )
         {
             page.alert( { message: $.i18n('Subnet Mask')+" "+$.i18n('must be a valid IP address') } );
             return;
@@ -413,7 +405,7 @@
             page.alert( { message: $.i18n('DNS2')+" "+$.i18n('must be a valid IP address') } );
             return;
         }
-        /* DHCP Server */
+        /* DHCPS */
         if ( !wan.dhcps )
         {
             wan.dhcps = {};
@@ -470,11 +462,11 @@
       }
 
       // 校正DHCP池地址
-      if ( wan.static.ipaddr.ip != wancopy.static.ipaddr.ip 
+      if ( wan.static.ip != wancopy.static.ip 
           && wan.dhcps.startip == wancopy.dhcps.startip
           && wan.dhcps.endip == wancopy.dhcps.endip )
       {
-          var arr = ipadd2array( wan.static.ipaddr.ip, wan.static.ipaddr.mask );
+          var arr = ipadd2array( wan.static.ip, wan.static.mask );
           // 起始IP
           arr[3] = 2;
           wan.dhcps.startip = arr.join('.');
@@ -506,13 +498,12 @@
 
 
     /* init */
-    page.password('password', 'password-icon' );
     $.i18n().load( page.lang('lan') ).then( function () {
         /* init the langauage */
         $.i18n().locale = lang; $('body').i18n();
 
         /* load the configure */
-        wan_load();
+        config_load();
 
         /* bind the refresh */
         $('#refresh').on(ace.click_event, function () {
@@ -520,7 +511,7 @@
         });
         /* bind the apply */
         $('#apply').on(ace.click_event, function () {
-            wan_save();
+            config_save();
         });
     });
 

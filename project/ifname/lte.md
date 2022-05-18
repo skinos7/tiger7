@@ -1,5 +1,5 @@
 ***
-## LTE/NR network management components( ifname@lte )
+## LTE/NR network management components
 Manage LTE/NR networks and 4G/NR basebands. This component must depend on the LTE/NR baseband components and network Management Framework project  
 Usually ifname@lte is the first LTE/NR network and module. If there are multiple LTE/NR modules in the system, ifname@lte2 will be the second LTE/NR network and module, and increase by degress
 
@@ -14,9 +14,8 @@ Usually ifname@lte is the first LTE/NR network and module. If there are multiple
 
     // IPv4
     "tid":"table identify number",         // [ number ] exclusive route table ID, only for multiple WAN
-    "mode":"IPV4 address mode",            // [ dhcpc ] for DHCP, [ static ] for manual setting， [ ppp ] for PPP dial
-    "masq":"out stream share the interface IPv4 address to access the Internet",  // [ disable, enable ]
-    "static":                                       // detial configure for mode is [ static ]
+    "mode":"IPV4 address mode",            // [ dhcpc ] for DHCP, [ static ] for manual setting, [ ppp ] for PPP dial
+    "static":                                       // detial configure for "mode" is [ static ]
     {
         "ip":"IPv4 address",                        // < IPv4 address >
         "mask":"IPv4 netmask",                      // < IPv4 etmask >
@@ -24,7 +23,7 @@ Usually ifname@lte is the first LTE/NR network and module. If there are multiple
         "dns":"IPv4 DNS",                           // [ IPv4 address ]
         "dns2":"IPv4 DNS"                           // [ IPv4 address ]
     },
-    "dhcpc":                                                       // detial configure for mode is [ dhcpc ]
+    "dhcpc":                                                       // detial configure for "mode" is [ dhcpc ]
     {
         "static":"Set an IP address before obtaining IP via DHCP", // [ disable, enable ]
         "routeopt":"dhcp option static route",                     // [ disable, enable ]
@@ -32,7 +31,7 @@ Usually ifname@lte is the first LTE/NR network and module. If there are multiple
         "dns":"Custom DNS1",                                       // [ IP address ], This is valid when custom_dns is [ enable ]
         "dns2":"Custom DNS2"                                       // [ IP address ], This is valid when custom_dns is [ enable ]
     },
-    "ppp":                                               // detial configure for mode is [ ppp ]
+    "ppp":                                               // detial configure for "mode" is [ ppp ]
     {
         "mtu":"Maximum transmission unit",               // [ number ], The unit is in bytes
         "mss":"TCP Maximum Segment Size",                // [ number ], The unit is in bytes
@@ -43,11 +42,14 @@ Usually ifname@lte is the first LTE/NR network and module. If there are multiple
         "dns":"Custom DNS1",                             // [ IP address ], This is valid when custom_dns is [ enable ]
         "dns2":"Custom DNS2"                             // [ IP address ], This is valid when custom_dns is [ enable ]
     },
+    "masq":"out stream share the interface IPv4 address to access the Internet",  // [ disable, enable ]
 
     // IPv6
-    "method":"IPv6 address mode",                                                        // [ disable ] is not use ipv6, [ manual ] for manual setting， [ automatic ] for DHCPv6, [ slaac ] for Stateless address autoconfiguration
-    "masquerade":"out stream share the interface IPv6 address to access the Internet",   // [ disable, enable ]
-    "manual":                             // detial configure for method is [ manual ]
+    "method":"IPv6 address mode",                       // [ disable ] is not use ipv6
+                                                        // [ manual ] for manual setting
+                                                        // [ automatic ] for DHCPv6
+                                                        // [ slaac ] for Stateless address autoconfiguration
+    "manual":                             // detial configure for "method" is [ manual ]
     {
         "addr":"IPv6 address",            // < IPv6 address >
         "prefix":"IPv6 prefix",           // < number >, 1-128
@@ -55,12 +57,13 @@ Usually ifname@lte is the first LTE/NR network and module. If there are multiple
         "resolve":"IPv6 DNS",             // [ IPv6 address ]
         "resolve2":"IPv6 DNS2"            // [ IPv6 address ]
     },
-    "automatic":                                     // detial configure for method is [ automatic ]
+    "automatic":                                     // detial configure for "method" is [ automatic ]
     {
         "custom_dns":"Custom DNS",                   // [ disable, enable ]
         "dns":"Custom DNS1",                         // [ IPv6 address ], This is valid when custom_dns is [ enable ]
         "dns2":"Custom DNS2"                         // [ IPv6 address ], This is valid when custom_dns is [ enable ]
     },
+    "masquerade":"out stream share the interface IPv6 address to access the Internet",   // [ disable, enable ]
 
     // Configure for link detection mechanism, or call it keeplive mechanism
     "keeplive":
@@ -129,7 +132,7 @@ Usually ifname@lte is the first LTE/NR network and module. If there are multiple
     ```json
     // Attributes introduction of talk by the method return
     {
-        "state":"Current state",        // [ setup, register, ready, nodevice, reset, down, up ]
+        "status":"Current state",        // [ setup, register, ready, nodevice, reset, down, up ]
                                              // setup for setup the modem
                                              // register for register the network
                                              // ready for ready to connect to internet, hint signal/network/simcard all ok
@@ -144,6 +147,7 @@ Usually ifname@lte is the first LTE/NR network and module. If there are multiple
         "dns2":"dns2 ip address",       // [ ip address ]
         "ip":"ip address",              // [ ip address ]
         "mask":"network mask",          // [ ip address ]
+        "delay":"delay time",           // [ failed, 0-10000 ], failed for icmp failed
         "livetime":"online time",       // hour:minute:second:day
         "rx_bytes":"send bytes",        // [ number ]
         "rx_packets":"send packets",    // [ number ]
@@ -198,21 +202,21 @@ Usually ifname@lte is the first LTE/NR network and module. If there are multiple
 + `netdev[]` **get the netdev**, *succeed return netdev, failed return NULL, error return terror*
     ```shell
     # examples, get the first LTE network netdev
-    modem@lte.netdev
+    ifname@lte.netdev
     usb0
     ```
 
-+ `shut[]` **shutdown the modem**, *succeed return ttrue, failed return tfalse, error return terror*
++ `shut[]` **shutdown the modem network**, *succeed return ttrue, failed return tfalse, error return terror*
     ```shell
-    # examples, shutdown the frist modem
-    modem@lte.shut
+    # examples, shutdown the frist LTE network
+    ifname@lte.shut
     ttrue
     ```
 
-+ `setup[]` **setup the modem**, *succeed return ttrue, failed return tfalse, error return terror*
++ `setup[]` **setup the modem network**, *succeed return ttrue, failed return tfalse, error return terror*
     ```shell
-    # examples, setup the frist modem
-    modem@lte.setup
+    # examples, setup the second LTE network
+    ifname@lte2.setup
     ttrue
     ```
 

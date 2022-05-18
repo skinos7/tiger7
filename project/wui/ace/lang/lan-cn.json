@@ -1,10 +1,10 @@
 {
-	"Dial Mode":"连接模式",
+	"IPv4 Mode":"IPv4模式",
 	"Static IP":"手动设置",
 	"DHCP":"自动获取",
 
 	"Alternate IP Address":"备用IP地址",
-	"IP Address":"IP地址",
+	"IPv4 Address":"IPv4地址",
 	"Subnet Mask":"子网掩码",
 	"Gateway":"网关",
 	"DNS":"DNS服务器",
@@ -20,7 +20,7 @@
 	"Assign DNS":"指定DNS",
 	"Assign DNS2":"指定备用DNS",
 
-	"IPV6 Address Type":"IPV6地址类型",
+	"IPv6 Mode":"IPV6地址模式",
 	"Disable":"禁用",
 	"Manual":"手动设置",
 	"Relay":"中继",	"IPv6 Address":"IPV6地址",
@@ -35,17 +35,13 @@
 	"IPv6 DNS":"指定IPV6 DNS",
 	"IPv6 DNS2":"指定备用IPV6 DNS",
 
-	"Apply":"应用",
-	"Refresh":"刷新",
-	"Confirm":"确定",
-	"Cancel":"取消",
-	"OK":"确定",
-	"Settings unchanged":"配置未修改, 不需要应用",
-	"Saving":"保存中",
-	"Loading":"加载中",
-	"The system will restart because of the change of configuration":"修改此设置需要重启设备",
-	"Need to restart the system":"需要立即重启系统",
-	"Restarting to apply...":"重启并应用新的设置...",
-	"Make sure that the device is reconnected":"确定重新连接上设备"
+
+
+	"Hosts Table":"Hosts映射表",
+	"Hostname":"主机名",
+	"IP Address":"IP地址",
+	"Operation":"操作",
+	"Warnning: Intranet device to use this mapping need set DNS to this router":"注意：局域网设备要使用此映射，需要将DNS设置为此路由器"
+	
 
 }

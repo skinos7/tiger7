@@ -21,20 +21,6 @@
 	"Json Talk Server":"JSON指令服务器",
 
 
-	"Telnet Server":"Telnet服务器",
-	"Remote Telnet Access":"远程访问",
-	"Port":"端口",
-
-
-
-	"SSH Server":"SSH服务器",
-	"Remote SSH Access":"远程访问",
-
-
-	"WEB Server":"WEB服务器",
-	"Remote WEB Access":"远程访问",
-	"Enable the reemote access, Please changed the default password for this router in order to enhance network security":"开启远程访问, 请注意修改默认的用户名及密码, 防止来自外网的非法访问",
-
 	"Reboot Mode":"重启模式",
 	"Disable":"禁用",
 	"Idle Reboot":"空闲时重启",

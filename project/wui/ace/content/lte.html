@@ -5,6 +5,8 @@
     <div class="form-horizontal" role="form">
 
 
+
+
         <!-- 连接状态 -->
         <table class="table table-bordered table-striped">
         <tbody>
@@ -14,28 +16,33 @@
                     <span id="lte_status"></span>&nbsp; &nbsp;
                     <a class="btn btn-mini btn-warning" id="lte_btn"><i class="ace-icon fa fa-pause"></i></a>&nbsp;
                 </td>
-                <th data-i18n="IP Address"></th><td id="lte_ip"></td>
+                <th data-i18n="IPv4 Address"></th><td id="lte_ip"></td>
             </tr>
             <tr>
-                <th data-i18n="Operator"></th><td id="lte_operator"></td> <th data-i18n="Network"></th><td id="lte_nettype"></td>
-            </tr>
-            <tr>
+                <th data-i18n="Network"></th>
+                <td>
+                    <span id="lte_operator"></span>&nbsp;
+                    <span id="lte_nettype"></span>
+                </td>
                 <th data-i18n="RSSI"></th>
                 <td>
                     <span><img src="/assets/css/images/signal_0.png" id="lte_rssiimg" class="line-signal"></img></span>
+                    <span id="lte_csq"></span>
                     <span id="lte_rssi"></span>
                 </td>
-                <th data-i18n="IMEI"></th>
-                <td id="lte_imei"></td>
             </tr>
             <tr>
-                <th data-i18n="Live Time"></th><td id="lte_livetime"></td> <th data-i18n="ICCID"></th><td id="lte_iccid"></td>
+                <th data-i18n="IMEI"></th><td id="lte_imei"></td> <th data-i18n="ICCID"></th><td id="lte_iccid"></td>
             </tr>
             <tr>
-                <th data-i18n="Rx/Tx"></th><td id="lte_rxtx"></td> <th data-i18n="IMSI"></th><td id="lte_imsi"></td>
+                <th data-i18n="Online Time"></th><td id="lte_livetime"></td> <th data-i18n="Rx/Tx"></th><td id="lte_rxtx"></td>
             </tr>
         </tbody>
         </table>            
+
+
+
+
 
 
 
@@ -45,38 +52,33 @@
         <div class="form-group">
           <label class="col-sm-3 control-label no-padding-right" data-i18n="Attach Mode"></label>
           <div class="col-sm-9">
-            <select class="col-xs-10 col-sm-5" id="netmode">
+            <select class="col-xs-10 col-sm-5" id="lock_nettype">
             </select>
           </div>
         </div>
-
-        <!-- 保持指定的模式 -->
+        <!-- PIN码 -->
         <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" data-i18n="Maintain Network Mode"></label>
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="PIN Code"></label>
           <div class="col-sm-9">
-            <select class="col-xs-10 col-sm-5" id="watchnet_mode">
-              <option value="disable" data-i18n="Disable"></option>
-              <option value="4g" data-i18n="4G"></option>
-              <option value="3g4g" data-i18n="3G4G"></option>
-            </select>
+            <input type="text" id="lock_pin" class="col-xs-10 col-sm-5" maxlength="128" />
           </div>
         </div>
-        <div id="watchnetSets" style="display: none;">
-          <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right" data-i18n="Detect Network Mode Times"></label>
-            <div class="col-sm-9">
-              <input type="text" id="watchnet2reset" class="col-xs-10 col-sm-5" maxlength="128" />
-            </div>
+        <!-- GPS -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="GPS"></label>
+          <div class="col-sm-9">
+            <label>
+              <input id="gnss" class="ace ace-switch ace-switch-6" type="checkbox" />
+              <span class="lbl"></span>
+            </label>
           </div>
-          <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right"></label>
-            <div class="col-sm-9">
-              <span data-i18n="Network mode is detected every 10 seconds. If the baseband is not in the specified network mode and reaches the specified number of times, the baseband will be restarted" ></span>
-            </div>
-          </div>
-        </div> <!-- watchnetSets -->
+        </div>      
 
         <div class="hr hr32 hr-dotted"></div>
+
+
+
+
 
 
         <!-- APN自定义 -->
@@ -84,21 +86,12 @@
           <label class="col-sm-3 control-label no-padding-right" data-i18n="APN Custom"></label>
           <div class="col-sm-9">
             <label>
-              <input id="operator" class="ace ace-switch ace-switch-6" type="checkbox" />
+              <input id="profile" class="ace ace-switch ace-switch-6" type="checkbox" />
               <span class="lbl"></span>
             </label>
           </div>
         </div>
-        <!-- APN列表 -->
-        <div class="form-group" id="apnList" style="display: none;">
-          <label class="col-sm-3 control-label no-padding-right" data-i18n="APN List"></label>
-          <div class="col-sm-9">
-            <div class="col-sm-9 form-right-text">
-              <span class="link second-color" id="apn_list" data-i18n="Edit"></span>
-            </div>
-          </div>
-        </div>
-        <div id="apnSets" style="display: none;">
+        <div id="profile_cfg" style="display: none;">
           <!-- APN -->
           <div class="form-group">
             <label class="col-sm-3 control-label no-padding-right" data-i18n="APN"></label>
@@ -118,7 +111,7 @@
             <label class="col-sm-3 control-label no-padding-right" data-i18n="Password"></label>
             <div class="col-sm-9">
               <span class="input-icon input-icon-right input-icon-form col-xs-10 col-sm-5">
-                <input type="password" id="password" maxlength="128" autocomplete="new-password" />
+                <input type="password" id="passwd" maxlength="128" autocomplete="new-password" />
                 <i class="ace-icon fa fa-eye-slash" id="password-icon"></i>
               </span>
             </div>
@@ -148,180 +141,38 @@
             </div>
           </div>
           <!-- 拨号号码 -->
-          <div class="form-group" name="apnadv"  style="display: none;">
+          <div class="form-group">
             <label class="col-sm-3 control-label no-padding-right" data-i18n="Dial Number"></label>
             <div class="col-sm-9">
               <input type="text" id="dial" class="col-xs-10 col-sm-5" maxlength="128" />
             </div>
           </div>
           <!-- 拨号CID -->
-          <div class="form-group" name="apnadv"  style="display: none;">
+          <div class="form-group">
             <label class="col-sm-3 control-label no-padding-right" data-i18n="Dial CID"></label>
             <div class="col-sm-9">
               <input type="text" id="cid" class="col-xs-10 col-sm-5" maxlength="128" />
             </div>
           </div>
         </div>
-        <!-- PIN码 -->
-        <div class="form-group" name="apnadv"  style="display: none;">
-          <label class="col-sm-3 control-label no-padding-right" data-i18n="PIN Code"></label>
-          <div class="col-sm-9">
-            <input type="text" id="pin" class="col-xs-10 col-sm-5" maxlength="128" />
-          </div>
-        </div>
-        <!-- 显示更多 -->
-        <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" data-i18n="Detail Settings"></label>
-          <div class="col-sm-9">
-            <label>
-              <input id="detail" class="ace ace-switch ace-switch-6" type="checkbox" />
-              <span class="lbl"></span>
-            </label>
-          </div>
-        </div>
         <div class="hr hr32 hr-dotted"></div>
 
 
-        <!-- 备卡设置 -->
-        <div id="bsimSets" style="display: none;">
-          <div class="form-group">
-              <label class="col-sm-3 control-label no-padding-right" data-i18n="Backup SIM Card"></label>
-              <div class="col-sm-9"><label><input id="bsim" class="ace ace-switch ace-switch-6" type="checkbox" /><span class="lbl"></span></label></div>
-          </div>
-          <div id="bsimConfigs" style="display: none;">
-		      <!-- 当前状态 -->
-		      <div class="form-group">
-	   	          <label class="col-sm-3 control-label no-padding-right" data-i18n="Current Simcard state"></label>
-	   	          <div class="col-sm-9 form-right-text">
-	   	            <span id="bsim_state"></span>
-	   	          </div>
-		      </div>
-		      <!-- 备卡模式 -->
-              <div class="form-group" name="bsim_apnadv"  style="display: none;">
-                  <label class="col-sm-3 control-label no-padding-right" data-i18n="Simcard select"></label>
-                  <div class="col-sm-9">
-                    <select class="col-xs-10 col-sm-5" id="bsim_mode">
-                      <option value="" data-i18n="Auto"></option>
-                      <option value="msim" data-i18n="Main simcard"></option>
-                      <option value="bsim" data-i18n="Backup simcard"></option>
-                    </select>
-                  </div>
-              </div>
-              <!-- 备卡切换检查卡次数 -->
-              <div class="form-group" name="bsim_apnadv"  style="display: none;">
-                <label class="col-sm-3 control-label no-padding-right" data-i18n="Simcard failed switch"></label>
-                <div class="col-sm-9"><input type="text" id="bsim_simcard_failed" class="col-xs-10 col-sm-5" maxlength="20" /></div>
-              </div>
-              <!-- 备卡切换检查网络次数 -->
-              <div class="form-group" name="bsim_apnadv"  style="display: none;">
-                <label class="col-sm-3 control-label no-padding-right" data-i18n="Network failed switch"></label>                <div class="col-sm-9"><input type="text" id="bsim_network_failed" class="col-xs-10 col-sm-5" maxlength="20" /></div>
-              </div>
-              <!-- 备卡切换检查信号次数 -->
-              <div class="form-group" name="bsim_apnadv"  style="display: none;">
-                <label class="col-sm-3 control-label no-padding-right" data-i18n="Signal failed switch"></label>
-                <div class="col-sm-9"><input type="text" id="bsim_signal_failed" class="col-xs-10 col-sm-5" maxlength="20" /></div>
-              </div>
-              <!-- 备卡切换拨号次数 -->
-              <div class="form-group" name="bsim_apnadv"  style="display: none;">
-                <label class="col-sm-3 control-label no-padding-right" data-i18n="Dial failed switch"></label>                <div class="col-sm-9"><input type="text" id="bsim_dial_failed" class="col-xs-10 col-sm-5" maxlength="20" /></div>
-              </div>
 
-              <!-- 备卡APN自定义 -->
-              <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" data-i18n="BSIM APN Custom"></label>
-                <div class="col-sm-9"><label><input id="bsim_operator" class="ace ace-switch ace-switch-6" type="checkbox" /><span class="lbl"></span></label></div>
-              </div>
-              <div id="bsim_apnSets" style="display: none;">
-                <!-- 备卡APN -->
-                <div class="form-group">
-                  <label class="col-sm-3 control-label no-padding-right" data-i18n="BSIM APN"></label>
-                  <div class="col-sm-9"><input type="text" id="bsim_apn" class="col-xs-10 col-sm-5" maxlength="128" /></div>
-                </div>
-                <!-- 备卡用户名 -->
-                <div class="form-group">
-                  <label class="col-sm-3 control-label no-padding-right" data-i18n="BSIM Username"></label>
-                  <div class="col-sm-9"><input type="text" id="bsim_user" class="col-xs-10 col-sm-5" maxlength="128" /></div>
-                </div>
-                <!-- 备卡密码 -->
-                <div class="form-group">
-                  <label class="col-sm-3 control-label no-padding-right" data-i18n="BSIM Password"></label>
-                  <div class="col-sm-9">
-                    <span class="input-icon input-icon-right input-icon-form col-xs-10 col-sm-5">
-                      <input type="password" id="bsim_password" maxlength="128" autocomplete="new-password" />
-                      <i class="ace-icon fa fa-eye-slash" id="bsim_password-icon"></i>
-                    </span>
-                  </div>
-                </div>
-                <!-- 备卡IP方式 -->
-                <div class="form-group">
-                  <label class="col-sm-3 control-label no-padding-right" data-i18n="BSIM IP Type"></label>
-                  <div class="col-sm-9">
-                    <select class="col-xs-10 col-sm-5" id="bsim_type">
-                      <option value="" data-i18n="IP"></option>
-                      <option value="ipv4v6" data-i18n="IPv4v6"></option>
-                      <option value="ipv6" data-i18n="IPv6"></option>
-                    </select>
-                  </div>
-                </div>
-                <!-- 备卡鉴权方式 -->
-                <div class="form-group">
-                  <label class="col-sm-3 control-label no-padding-right" data-i18n="BSIM Authentication"></label>
-                  <div class="col-sm-9">
-                    <select class="col-xs-10 col-sm-5" id="bsim_auth">
-                      <option value="" data-i18n="Auto"></option>
-                      <option value="disable" data-i18n="None"></option>
-                      <option value="pap" data-i18n="PAP"></option>
-                      <option value="chap" data-i18n="CHAP"></option>
-                      <option value="papchap" data-i18n="PAP&CHAP"></option>
-                    </select>
-                  </div>
-                </div>
-                <!-- 备卡拨号号码 -->
-                <div class="form-group" name="bsim_apnadv"  style="display: none;">
-                  <label class="col-sm-3 control-label no-padding-right" data-i18n="BSIM Dial Number"></label>
-                  <div class="col-sm-9"><input type="text" id="bsim_dial" class="col-xs-10 col-sm-5" maxlength="128" /></div>
-                </div>
-                <!-- 备卡拨号CID -->
-                <div class="form-group" name="bsim_apnadv"  style="display: none;">
-                  <label class="col-sm-3 control-label no-padding-right" data-i18n="BSIM Dial CID"></label>
-                  <div class="col-sm-9"><input type="text" id="bsim_cid" class="col-xs-10 col-sm-5" maxlength="128" /></div>
-                </div>
-              </div> <!-- bsim_apnSets -->
-              <!-- 备卡PIN码 -->
-              <div class="form-group" name="bsim_apnadv"  style="display: none;">
-                <label class="col-sm-3 control-label no-padding-right" data-i18n="BSIM PIN Code"></label>
-                <div class="col-sm-9">
-                  <input type="text" id="bsim_pin" class="col-xs-10 col-sm-5" maxlength="128" />
-                </div>
-              </div>
-
-              <!-- 显示更多 -->
-              <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" data-i18n="Detail Settings"></label>
-                <div class="col-sm-9">
-                  <label>
-                    <input id="bsim_detail" class="ace ace-switch ace-switch-6" type="checkbox" />
-                    <span class="lbl"></span>
-                  </label>
-                </div>
-              </div>
-          </div> <!-- bsimConfigs -->
-        <div class="hr hr32 hr-dotted"></div>
-        </div><!-- bsimSets -->
 
 
 
         <!-- IPV4拨号模式 -->
         <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" data-i18n="Dial Mode"></label>
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv4 Mode"></label>
           <div class="col-sm-9">
-            <select class="col-xs-10 col-sm-5" id="dialmode">
+            <select class="col-xs-10 col-sm-5" id="mode">
             </select>
           </div>
         </div>
 
         <!-- PPP设置-->
-        <div id="pppSets" style="display: none;" >
+        <div id="ppp_cfg" style="display: none;" >
             <!-- mtu -->
             <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right" data-i18n="MTU"></label>
@@ -350,20 +201,19 @@
                   <textarea type="text" id="pppopt" class="col-xs-10 col-sm-5" maxlength="1024" />
                 </div>
             </div>
-        </div> <!-- pppSets -->
+        </div> <!-- ppp_cfg -->
 
         <!-- Static设置-->
-        <div id="staticSets" style="display: none;" >
+        <div id="static_cfg" style="display: none;" >
             <!-- IP地址 -->
             <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" data-i18n="IP Address"></label>
+                <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv4 Address"></label>
                 <div class="col-sm-9">
                   <div class="clearfix">
                     <input type="text" id="ip" class="col-xs-10 col-sm-5" maxlength="128" />
                   </div>
                 </div>
             </div>
-      
             <!-- 掩码 -->
             <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right" data-i18n="Subnet Mask"></label>
@@ -382,7 +232,6 @@
                 </div>
               </div>
             </div>
-      
             <!-- DNS -->
             <div class="form-group">
               <label class="col-sm-3 control-label no-padding-right" data-i18n="DNS"></label>
@@ -392,7 +241,6 @@
                 </div>
               </div>
             </div>
-      
             <!-- DNS2 -->
             <div class="form-group">
               <label class="col-sm-3 control-label no-padding-right" data-i18n="DNS2"></label>
@@ -402,11 +250,10 @@
                 </div>
               </div>
             </div>
-        </div> <!-- staticSets -->
+        </div> <!-- static_cfg -->
   
-
         <!-- 自定义DNS -->
-        <div id="custom_dns-select" style="display: none;">
+        <div id="customdns_cfg" style="display: none;">
             <div class="form-group">
               <label class="col-sm-3 control-label no-padding-right" data-i18n="Custom DNS"></label>
               <div class="col-sm-9">
@@ -416,7 +263,7 @@
                 </label>
               </div>
             </div>
-            <div id="custom_dns-sets" style="display: none;">
+            <div id="customdns_config" style="display: none;">
               <!-- DNS -->
               <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right" data-i18n="DNS"></label>
@@ -436,7 +283,7 @@
         
         <!-- IP伪装 -->
         <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right" data-i18n="IP Masquerade(NAT)"></label>
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv4 Masquerade(NAT)"></label>
             <div class="col-sm-9">
                 <label>
                     <input id="masq" class="ace ace-switch ace-switch-6" type="checkbox" />
@@ -447,116 +294,119 @@
   
 
 
-<div id="ipv6Sets" style="display: none;" >
 
-    <div class="hr hr32 hr-dotted"></div>
-    <!-- IPV6拨号模式 -->
-    <div class="form-group">
-      <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv6 Mode"></label>
-      <div class="col-sm-9">
-        <select class="col-xs-10 col-sm-5" id="method">
-          <option value="disable" data-i18n="Disable"></option>
-          <option value="slaac" data-i18n="SLAAC"></option>
-          <!-- <option value="automatic" data-i18n="Automatic"></option>
-          <option value="manual" data-i18n="Manual"></option> -->
-        </select>
-      </div>
-    </div>
 
-    <!-- Manual设置 -->
-    <div id="manualSets" style="display: none;" >
-        <!-- IPV6地址 -->
-        <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv6 Address"></label>
-            <div class="col-sm-9">
-              <div class="clearfix">
-                <input type="text" id="addr" class="col-xs-10 col-sm-5" maxlength="128" />
+
+
+        <div id="ipv6_cfg" style="display: none;" >
+
+            <div class="hr hr32 hr-dotted"></div>
+            <!-- IPV6拨号模式 -->
+            <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv6 Mode"></label>
+              <div class="col-sm-9">
+                <select class="col-xs-10 col-sm-5" id="method">
+                  <option value="disable" data-i18n="Disable"></option>
+                  <option value="slaac" data-i18n="SLAAC"></option>
+                  <!-- <option value="automatic" data-i18n="Automatic"></option>
+                  <option value="manual" data-i18n="Manual"></option> -->
+                </select>
               </div>
             </div>
-        </div>
-  
-        <!-- 掩码 -->
-        <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right" data-i18n="Subnet Prefix"></label>
-            <div class="col-sm-9">
-              <div class="clearfix">
-                <input type="text" id="prefix" class="col-xs-10 col-sm-5" maxlength="128" />
-              </div>
-            </div>
-        </div>
-        <!-- 网关 -->
-        <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" data-i18n="Next Hop"></label>
-          <div class="col-sm-9">
-            <div class="clearfix">
-              <input type="text" id="hop" class="col-xs-10 col-sm-5" maxlength="128" />
-            </div>
-          </div>
-        </div>
-  
-        <!-- DNS -->
-        <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv6 DNS"></label>
-          <div class="col-sm-9">
-            <div class="clearfix">
-              <input type="text" id="resolve" class="col-xs-10 col-sm-5" maxlength="128" />
-            </div>
-          </div>
-        </div>
-  
-        <!-- DNS2 -->
-        <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv6 DNS2"></label>
-          <div class="col-sm-9">
-            <div class="clearfix">
-              <input type="text" id="resolve2" class="col-xs-10 col-sm-5" maxlength="128" />
-            </div>
-          </div>
-        </div>
-    </div> <!-- manualSets -->
 
-    <!-- 自定义IPV6 DNS
-    <div id="custom_resolve-select" style="display: none;">
-        <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" data-i18n="Custom IPv6 DNS"></label>
-          <div class="col-sm-9">
-            <label>
-              <input id="custom_resolve" class="ace ace-switch ace-switch-6" type="checkbox" />
-              <span class="lbl"></span>
-            </label>
-          </div>
-        </div>
-        <div id="custom_resolve-sets" style="display: none;">
-          <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv6 DNS"></label>
-            <div class="col-sm-9">
-              <input type="text" id="cresolve" class="col-xs-10 col-sm-5" maxlength="128" />
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv6 DNS2"></label>
-            <div class="col-sm-9">
-              <input type="text" id="cresolve2" class="col-xs-10 col-sm-5" maxlength="128" />
-            </div>
-          </div>
-        </div>
-    </div> 
-    
-    <div id="masqueradeSets" style="display: none;" >
-        <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv6 Masquerade(NAT)"></label>
-            <div class="col-sm-9">
-                <label>
-                    <input id="masquerade" class="ace ace-switch ace-switch-6" type="checkbox" />
-                    <span class="lbl"></span>
-                </label>
-            </div>
-        </div>
-    </div> -->
+            <!-- Manual设置 -->
+            <div id="manual_cfg" style="display: none;" >
+                <!-- IPV6地址 -->
+                <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv6 Address"></label>
+                    <div class="col-sm-9">
+                      <div class="clearfix">
+                        <input type="text" id="addr" class="col-xs-10 col-sm-5" maxlength="128" />
+                      </div>
+                    </div>
+                </div>
+          
+                <!-- 掩码 -->
+                <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right" data-i18n="Subnet Prefix"></label>
+                    <div class="col-sm-9">
+                      <div class="clearfix">
+                        <input type="text" id="prefix" class="col-xs-10 col-sm-5" maxlength="128" />
+                      </div>
+                    </div>
+                </div>
+                <!-- 网关 -->
+                <div class="form-group">
+                  <label class="col-sm-3 control-label no-padding-right" data-i18n="Next Hop"></label>
+                  <div class="col-sm-9">
+                    <div class="clearfix">
+                      <input type="text" id="hop" class="col-xs-10 col-sm-5" maxlength="128" />
+                    </div>
+                  </div>
+                </div>
+          
+                <!-- DNS -->
+                <div class="form-group">
+                  <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv6 DNS"></label>
+                  <div class="col-sm-9">
+                    <div class="clearfix">
+                      <input type="text" id="resolve" class="col-xs-10 col-sm-5" maxlength="128" />
+                    </div>
+                  </div>
+                </div>
+          
+                <!-- DNS2 -->
+                <div class="form-group">
+                  <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv6 DNS2"></label>
+                  <div class="col-sm-9">
+                    <div class="clearfix">
+                      <input type="text" id="resolve2" class="col-xs-10 col-sm-5" maxlength="128" />
+                    </div>
+                  </div>
+                </div>
+            </div> <!-- manual_cfg -->
 
+            <!-- 自定义IPV6 DNS
+            <div id="customresolve_cfg" style="display: none;">
+                <div class="form-group">
+                  <label class="col-sm-3 control-label no-padding-right" data-i18n="Custom IPv6 DNS"></label>
+                  <div class="col-sm-9">
+                    <label>
+                      <input id="custom_resolve" class="ace ace-switch ace-switch-6" type="checkbox" />
+                      <span class="lbl"></span>
+                    </label>
+                  </div>
+                </div>
+                <div id="customresolve_config" style="display: none;">
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv6 DNS"></label>
+                    <div class="col-sm-9">
+                      <input type="text" id="cresolve" class="col-xs-10 col-sm-5" maxlength="128" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv6 DNS2"></label>
+                    <div class="col-sm-9">
+                      <input type="text" id="cresolve2" class="col-xs-10 col-sm-5" maxlength="128" />
+                    </div>
+                  </div>
+                </div>
+            </div> 
+            
+            <div id="masquerade_cfg" style="display: none;" >
+                <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv6 Masquerade(NAT)"></label>
+                    <div class="col-sm-9">
+                        <label>
+                            <input id="masquerade" class="ace ace-switch ace-switch-6" type="checkbox" />
+                            <span class="lbl"></span>
+                        </label>
+                    </div>
+                </div>
+            </div> -->
 
-    
-</div> <!-- ipv6Sets -->
+        </div> <!-- ipv6_cfg -->
+
 
 
 
@@ -569,14 +419,14 @@
         <label class="col-sm-3 control-label no-padding-right" data-i18n="Availability Check"></label>
         <div class="col-sm-9">
           <select class="col-xs-10 col-sm-5" id="keeplive">
-            <option value="watch" data-i18n="Disable"></option>
+            <option value="disable" data-i18n="Disable"></option>
             <option value="icmp" data-i18n="ICMP"></option>
             <option value="recv" data-i18n="Receive Count"></option>
           </select>
         </div>
       </div>
       <!-- icmp配置 -->
-      <div id="icmpSets" style="display: none;">
+      <div id="icmp_cfg" style="display: none;">
         <!-- 地址 -->
         <div class="form-group">
           <label class="col-sm-3 control-label no-padding-right" data-i18n="Test Address"></label>
@@ -623,7 +473,7 @@
         </div>
       </div>
       <!-- Receive配置 -->
-      <div id="recvSets" style="display: none;">
+      <div id="recv_cfg" style="display: none;">
         <!-- 超时 -->
         <div class="form-group">
           <label class="col-sm-3 control-label no-padding-right" data-i18n="Duration(sec)"></label>
@@ -648,17 +498,12 @@
       </div>
 
 
-     <div class="hr hr32 hr-dotted"></div>
-     <!-- GPS -->
-     <div class="form-group">
-       <label class="col-sm-3 control-label no-padding-right" data-i18n="GPS"></label>
-       <div class="col-sm-9">
-         <label>
-           <input id="gnss" class="ace ace-switch ace-switch-6" type="checkbox" />
-           <span class="lbl"></span>
-         </label>
-       </div>
-     </div>      
+
+
+
+
+
+
 
       <div class="clearfix form-actions">
         <div class="col-md-offset-3 col-md-9">
@@ -688,70 +533,134 @@
     {
       obj = location.hash.substring( index+4 );
     }
+
+    /* load the status */
+    function status_load()
+    {
+      he.bkload( [ obj+".status" ] ).then( function(v){
+          ltes = v[0];
+          var info = ltes;
+          var id = "#lte";
+          /* status end btn */
+          if ( info.status )
+          {
+              $(id+"_btn").html( '<i class="ace-icon fa fa-pause"></i>' );
+              $(id+"_status").text( $.i18n(info.status) );
+              if ( info.status == "up" || info.status == "uping" || info.status == "connect" )
+              {
+              }
+              else
+              {
+                  $(id+"_btn").html( '<i class="ace-icon fa fa-play"></i>' );
+              }
+          }
+          else
+          {
+              $(id+"_btn").html( '<i class="ace-icon fa fa-play"></i>' );
+              $(id+"_status").text( $.i18n("down") );
+          }
+          /* network */
+          if ( info.operator )
+          {
+              $(id+"_operator").text( info.operator );
+          }
+          else if ( info.plmn )
+          {
+              $(id+"_operator").text( $.i18n(info.plmn) );
+          }
+          else
+          {
+              $(id+"_operator").text( "" );
+          }
+          if ( info.nettype )
+          {
+              $(id+"_nettype").text( info.nettype );
+          }
+          else
+          {
+              $(id+"_nettype").text( "" );
+          }
+          /* signal */
+          if ( info.csq )
+          {
+              $(id+"_csq").text( "CSQ:"+info.csq );
+          }
+          else
+          {
+              $(id+"_csq").text( "" );
+          }
+          if ( info.rsrp )
+          {
+              $(id+"_rssi").text( "RSRP:"+info.rsrp+"dBm" );
+          }
+          else if ( info.rssi )
+          {
+              $(id+"_rssi").text( "RSSI:"+info.rssi+"dBm" );
+          }
+          else
+          {
+               $(id+"_rssi").text( "" );
+          }
+          if ( info.signal )
+          {
+              $(id+"_rssiimg").attr( "src", "/assets/css/images/signal_"+info.signal+".png" );
+          }
+          else
+          {
+              $(id+"_rssiimg").attr( "src", "/assets/css/images/signal_0.png" );
+              $(id+"_csq").text( $.i18n("nosignal") );
+          }
+          /* device info */
+          $(id+"_imei").text( info.imei||' ' );
+          $(id+"_imsi").text( info.imsi||' ' );
+          if ( info.iccid )
+          {
+              $(id+"_iccid").text( $.i18n(info.iccid) );
+          }
+          else
+          {
+              $(id+"_iccid").text( "" );
+          }
+          /* network */
+          $(id+"_ip").text( info.ip||' ' );
+          $(id+"_rxtx").text( byte2readable( (info.rx_bytes||"0") ) + " / " + byte2readable( (info.tx_bytes||"0") ) );
+          $(id+"_livetime").text( info.livetime||' ' );
+      })
+    }
+
     /* load the configure on the input */
-    function lte_load()
+    function config_load()
     {
       he.load( [ obj ] ).then( function(v){
         lte = v[0];
+
         /* Modem */
-        $('#netmode').val(lte.netmode || 'auto');
-        $('#watchnet_mode').val(lte.watchnet_mode || 'disable');
-        $('#watchnet2reset').val(lte.watchnet2reset|| '' );
-        if ( lte.bsim )
+        $('#lock_nettype').val(lte.lock_nettype || 'auto');
+        $('#lock_pin').val(lte.lock_pin || '');
+        if ( lte.gnss && lte.gnss == "enable" )
         {
-            $('#bsimSets').show();
-            $('#bsim').prop('checked', able2boole(lte.bsim) );
-            if ( lte.bsim_cfg )
-            {
-		        $('#bsim_mode').val( lte.bsim_cfg.mode || '');
-		        $('#bsim_simcard_failed').val( lte.bsim_cfg.simcard_failed || '');
-		        $('#bsim_network_failed').val( lte.bsim_cfg.network_failed || '');
-		        $('#bsim_signal_failed').val( lte.bsim_cfg.signal_failed || '');
-		        $('#bsim_dial_failed').val( lte.bsim_cfg.dial_failed || '');
-                if ( lte.bsim_cfg.operator == "enable" )
-                {
-                    $('#bsim_operator').prop('checked', true );
-                }
-                else
-                {
-                    $('#bsim_operator').prop('checked', false );
-                }
-                if ( lte.bsim_cfg.operator_cfg )
-                {
-                  $('#bsim_dial').val(lte.bsim_cfg.operator_cfg.dial);
-                  $('#bsim_apn').val(lte.bsim_cfg.operator_cfg.apn);
-                  $('#bsim_user').val(lte.bsim_cfg.operator_cfg.user);
-                  $('#bsim_password').val(lte.bsim_cfg.operator_cfg.passwd);
-                  $('#bsim_type').val(lte.bsim_cfg.operator_cfg.type);
-                  $('#bsim_auth').val(lte.bsim_cfg.operator_cfg.auth);
-                  $('#bsim_cid').val(lte.bsim_cfg.operator_cfg.cid);
-                }
-            }
-            $('#bsim').unbind('change').change(function () {
-              if ($(this).prop('checked'))
-              {
-                $('#bsimConfigs').show();
-              } 
-              else
-              {
-                $('#bsimConfigs').hide();
-              }
-            }).trigger('change');
-        }
-        if ( lte.operator == "enable" )
-        {
-            $('#operator').prop('checked', true );
+            $('#gnss').prop('checked',  true );
         }
         else
         {
-            $('#operator').prop('checked', false );
+            $('#gnss').prop('checked',  false );
         }
-        if ( lte.operator_cfg )
+
+        /* profile */
+        if ( lte.profile == "enable" )
+        {
+            $('#profile').prop('checked', true );
+        }
+        else
+        {
+            $('#profile').prop('checked', false );
+        }
+        if ( lte.profile_cfg )
         {
           $('#dial').val(lte.operator_cfg.dial);
           $('#apn').val(lte.operator_cfg.apn);
           $('#user').val(lte.operator_cfg.user);
-          $('#password').val(lte.operator_cfg.passwd);
+          $('#passwd').val(lte.operator_cfg.passwd);
           $('#type').val(lte.operator_cfg.type);
           $('#auth').val(lte.operator_cfg.auth);
           $('#cid').val(lte.operator_cfg.cid);
@@ -769,15 +678,19 @@
                 $('#cid').val(ltes.operator_advise.cid);
             }
         }
-        $('#pin').val(lte.pin);
-        $('#gnss').prop('checked',  false );
-        if ( lte.gnss && lte.gnss.status == "enable" )
-        {
-            $('#gnss').prop('checked',  true );
-        }
+        $('#profile').unbind('change').change(function () {
+          if ($(this).prop('checked'))
+          {
+            $('#profile_cfg').show();
+          } 
+          else
+          {
+            $('#profile_cfg').hide();
+          }
+        }).trigger('change');
+
         /* IPV4 */
-        $('#masq').prop('checked', able2boole(lte.masq));
-        $('#dialmode').val(lte.mode || '');
+        $('#mode').val( lte.mode||"" );
         if ( lte.ppp )
         {
           $('#mtu').val(lte.ppp.mtu);
@@ -787,15 +700,162 @@
         }
         if ( lte.static )
         {
-          if ( lte.static.ipaddr )
-          {
-            $('#ip').val(lte.static.ipaddr.ip);
-            $('#mask').val(lte.static.ipaddr.mask);
-          }
+          $('#ip').val(lte.static.ip);
+          $('#mask').val(lte.static.mask);
           $('#gw').val(lte.static.gw);
           $('#dns').val(lte.static.dns);
           $('#dns2').val(lte.static.dns2);
         }
+        $('#masq').prop('checked', able2boole(lte.masq));
+        $('#mode').unbind('change').change(function (e) {
+          var type = e.target.value;
+          switch (type)
+          {
+            case '':
+                $('#static_cfg').hide();
+                $('#ppp_cfg').hide();
+                $('#customdns_cfg').hide();
+                break;
+            case 'static':
+                $('#static_cfg').show();
+                $('#ppp_cfg').hide();
+                $('#customdns_cfg').hide();
+                break;
+            case 'dhcpc':
+                $('#static_cfg').hide();
+                $('#ppp_cfg').hide();
+                $('#customdns_cfg').show();
+                if ( lte.dhcpc )
+                {
+                  $('#custom_dns').prop('checked', able2boole(lte.dhcpc.custom_dns));
+                  $('#cdns').val( lte.dhcpc.dns );
+                  $('#cdns2').val( lte.dhcpc.dns2 );
+                }
+                if ($('#custom_dns').prop('checked'))
+                {
+                  $('#customdns_config').show();
+                }
+                else
+                {
+                  $('#customdns_config').hide();
+                }
+                break;
+            case 'ppp':
+                $('#static_cfg').hide();
+                $('#ppp_cfg').show();
+                $('#customdns_cfg').show();
+                if ( lte.ppp )
+                {
+                  $('#custom_dns').prop('checked', able2boole(lte.ppp.custom_dns));
+                  $('#cdns').val( lte.ppp.dns );
+                  $('#cdns2').val( lte.ppp.dns2 );
+                }
+                if ($('#custom_dns').prop('checked'))
+                {
+                  $('#customdns_config').show();
+                }
+                else
+                {
+                  $('#customdns_config').hide();
+                }
+                break;
+          }
+        }).trigger('change');
+        $('#custom_dns').unbind('change').change(function () {
+          if ($(this).prop('checked'))
+          {
+            $('#customdns_config').show();
+          }
+          else
+          {
+            $('#customdns_config').hide();
+          }
+        }).trigger('change');
+
+        /* IPV6 */
+        if ( lte.method )
+        {
+            $('#ipv6_cfg').show();
+            $('#method').val(lte.method);
+            if ( lte.manual )
+            {
+              if ( lte.manual.addr )
+              {
+                $('#addr').val(lte.manual.addr);
+                $('#prefix').val(lte.manual.prefix);
+              }
+              $('#hop').val(lte.manual.hop);
+              $('#resolve').val(lte.manual.resolve);
+              $('#resolve2').val(lte.manual.resolve2);
+            }
+            $('#masquerade').prop('checked', able2boole(lte.masquerade));
+            $('#method').unbind('change').change(function (e) {
+              var type = e.target.value;
+              switch (type)
+              {
+                case 'disable':
+                    $('#manual_cfg').hide();
+                    $('#masquerade_cfg').hide();
+                    $('#customresolve_cfg').hide();
+                    break;
+                case 'manual':
+                    $('#manual_cfg').show();
+                    $('#masqueradeSets').show();
+                    $('#customresolve_cfg').hide();
+                    break;
+                case 'slaac':
+                    $('#manual_cfg').hide();
+                    $('#masqueradeSets').show();
+                    $('#customresolve_cfg').show();
+                    if ( lte.slaac )
+                    {
+                      $('#custom_resolve').prop('checked', able2boole(lte.slaac.custom_resolve));
+                      $('#cresolve').val( lte.slaac.resolve );
+                      $('#cresolve2').val( lte.slaac.resolve2 );
+                    }
+                    if ($('#custom_resolve').prop('checked'))
+                    {
+                      $('#customresolve_config').show();
+                    }
+                    else
+                    {
+                      $('#customresolve_config').hide();
+                    }
+                    break;
+                case 'automatic':
+                    $('#manual_cfg').hide();
+                    $('#masqueradeSets').show();
+                    $('#customresolve_cfg').show();
+                    if ( lte.automatic )
+                    {
+                      $('#custom_resolve').prop('checked', able2boole(lte.automatic.custom_resolve));
+                      $('#cresolve').val( lte.automatic.resolve );
+                      $('#cresolve2').val( lte.automatic.resolve2 );
+                    }
+                    if ($('#custom_resolve').prop('checked'))
+                    {
+                      $('#customresolve_config').show();
+                    }
+                    else
+                    {
+                      $('#customresolve_config').hide();
+                    }
+                    break;
+              }
+            }).trigger('change');
+            $('#custom_resolve').unbind('change').change(function () {
+              if ($(this).prop('checked'))
+              {
+                $('#customresolve_config').show();
+              }
+              else
+              {
+                $('#customresolve_config').hide();
+              }
+            }).trigger('change');
+        }
+
+        /* Keeplive */
         $('#keeplive').val( lte.keeplive.type || 'disable');
         if ( lte.keeplive.icmp )
         {
@@ -815,230 +875,21 @@
           $('#recv_failed').val(lte.keeplive.recv.failed);
           $('#recv_packets').val(lte.keeplive.recv.packets);
         }
-        /* IPV6 */
-        if ( lte.method )
-        {
-            $('#ipv6Sets').show();
-            $('#method').val(lte.method);
-            if ( lte.manual )
-            {
-              if ( lte.manual.addr )
-              {
-                $('#addr').val(lte.manual.addr);
-                $('#prefix').val(lte.manual.prefix);
-              }
-              $('#hop').val(lte.manual.hop);
-              $('#resolve').val(lte.manual.resolve);
-              $('#resolve2').val(lte.manual.resolve2);
-            }
-            $('#masquerade').prop('checked', able2boole(lte.masquerade));
-        }
-
-        /* Modem */
-        $('#watchnet_mode').unbind('change').change(function (e) {
-          var type = e.target.value;
-          if ( type == "4g" || type == "3g4g" )
-          {
-            $('#watchnetSets').show();
-          }
-          else
-          {
-            $('#watchnetSets').hide();
-          }
-        }).trigger('change');
-          /* simcard APN */
-        $('#operator').unbind('change').change(function () {
-          if ($(this).prop('checked'))
-          {
-            $('#apnSets').show();
-            $('#apnList').hide();
-          } 
-          else
-          {
-            $('#apnSets').hide();
-            $('#apnList').hide();
-          }
-        }).trigger('change');
-        $('#detail').unbind('change').change(function () {
-          if ($(this).prop('checked'))
-          {
-            $("[name='apnadv']").show();
-          } 
-          else
-          {
-            $("[name='apnadv']").hide();
-          }
-        }).trigger('change');
-        /* back simcard APN */
-        $('#bsim_operator').unbind('change').change(function () {
-          if ($(this).prop('checked'))
-          {
-            $('#bsim_apnSets').show();
-          } 
-          else
-          {
-            $('#bsim_apnSets').hide();
-          }
-        }).trigger('change');
-        $('#bsim_detail').unbind('change').change(function () {
-          if ($(this).prop('checked'))
-          {
-            $("[name='bsim_apnadv']").show();
-          } 
-          else
-          {
-            $("[name='bsim_apnadv']").hide();
-          }
-        }).trigger('change');
-        /* IPV4 */
-        $('#custom_dns').unbind('change').change(function () {
-          if ($(this).prop('checked'))
-          {
-            $('#custom_dns-sets').show();
-          }
-          else
-          {
-            $('#custom_dns-sets').hide();
-          }
-        }).trigger('change');
-        $('#dialmode').unbind('change').change(function (e) {
-          var type = e.target.value;
-          switch (type)
-          {
-            case '':
-                $('#staticSets').hide();
-                $('#pppSets').hide();
-                $('#custom_dns-select').hide();
-                break;
-            case 'dhcpc':
-              $('#staticSets').hide();
-              $('#pppSets').hide();
-              $('#custom_dns-select').show();
-              if ( lte.dhcpc )
-              {
-                $('#custom_dns').prop('checked', able2boole(lte.dhcpc.custom_dns));
-                $('#cdns').val( lte.dhcpc.dns );
-                $('#cdns2').val( lte.dhcpc.dns2 );
-              }
-              if ($('#custom_dns').prop('checked'))
-              {
-                $('#custom_dns-sets').show();
-              }
-              else
-              {
-                $('#custom_dns-sets').hide();
-              }
-              break;
-            case 'static':
-              $('#staticSets').show();
-              $('#pppSets').hide();
-              $('#custom_dns-select').hide();
-              break;
-            case 'ppp':
-              $('#staticSets').hide();
-              $('#pppSets').show();
-              $('#custom_dns-select').show();
-              if ( lte.ppp )
-              {
-                $('#custom_dns').prop('checked', able2boole(lte.ppp.custom_dns));
-                $('#cdns').val( lte.ppp.dns );
-                $('#cdns2').val( lte.ppp.dns2 );
-              }
-              if ($('#custom_dns').prop('checked'))
-              {
-                $('#custom_dns-sets').show();
-              }
-              else
-              {
-                $('#custom_dns-sets').hide();
-              }
-              break;
-          }
-        }).trigger('change');
         $('#keeplive').unbind('change').change(function (e) {
           var type = e.target.value;
           switch (type)
           {
             case 'disable':
-              $('#icmpSets').hide();
-              $('#recvSets').hide();
-              break;
-            case 'watch':
-              $('#icmpSets').hide();
-              $('#recvSets').hide();
+              $('#icmp_cfg').hide();
+              $('#recv_cfg').hide();
               break;
             case 'icmp':
-              $('#icmpSets').show();
-              $('#recvSets').hide();
+              $('#icmp_cfg').show();
+              $('#recv_cfg').hide();
               break;
             case 'recv':
-              $('#icmpSets').hide();
-              $('#recvSets').show();
-              break;
-          }
-        }).trigger('change');
-        /* IPV6 */
-        $('#custom_resolve').unbind('change').change(function () {
-          if ($(this).prop('checked'))
-          {
-            $('#custom_resolve-sets').show();
-          }
-          else
-          {
-            $('#custom_resolve-sets').hide();
-          }
-        }).trigger('change');
-        $('#method').unbind('change').change(function (e) {
-          var type = e.target.value;
-          switch (type)
-          {
-            case 'disable':
-                $('#manualSets').hide();
-                $('#masqueradeSets').hide();
-                $('#custom_resolve-select').hide();
-                break;
-            case 'slaac':
-                $('#manualSets').hide();
-                $('#masqueradeSets').show();
-                $('#custom_resolve-select').show();
-                if ( lte.slaac )
-                {
-                  $('#custom_resolve').prop('checked', able2boole(lte.slaac.custom_resolve));
-                  $('#cresolve').val( lte.slaac.resolve );
-                  $('#cresolve2').val( lte.slaac.resolve2 );
-                }
-                if ($('#custom_resolve').prop('checked'))
-                {
-                  $('#custom_resolve-sets').show();
-                }
-                else
-                {
-                  $('#custom_resolve-sets').hide();
-                }
-                break;
-            case 'automatic':
-                $('#manualSets').hide();
-                $('#masqueradeSets').show();
-                $('#custom_resolve-select').show();
-                if ( lte.automatic )
-                {
-                  $('#custom_resolve').prop('checked', able2boole(lte.automatic.custom_resolve));
-                  $('#cresolve').val( lte.automatic.resolve );
-                  $('#cresolve2').val( lte.automatic.resolve2 );
-                }
-                if ($('#custom_resolve').prop('checked'))
-                {
-                  $('#custom_resolve-sets').show();
-                }
-                else
-                {
-                  $('#custom_resolve-sets').hide();
-                }
-                break;
-            case 'manual':
-                $('#manualSets').show();
-                $('#masqueradeSets').show();
-                $('#custom_resolve-select').hide();
+              $('#icmp_cfg').hide();
+              $('#recv_cfg').show();
               break;
           }
         }).trigger('change');
@@ -1048,106 +899,8 @@
     }
 
 
-    /* load the status */
-    function status_load()
-    {
-      he.bkload( [ obj+".status" ] ).then( function(v){
-          ltes = v[0];
-          var info = ltes;
-          var id = "#lte";
-          /* status end btn */
-          if ( info.status )
-          {
-              $(id).show();
-              $(id+"_btn").html( '<i class="ace-icon fa fa-pause"></i>' );
-              $(id+"_status").text( $.i18n(info.status) );
-              if ( info.status == "up" )
-              {
-              }
-              else if ( info.status == "uping" )
-              {
-                  if ( info.step && info.step != "online" )
-                  {
-                      $(id+"_status").text( $.i18n(info.step) );
-                  }
-              }
-              else if ( info.status == "down" )
-              {
-                  $(id+"_btn").html( '<i class="ace-icon fa fa-play"></i>' );
-                  if ( info.step && info.step != "online" )
-                  {
-                      $(id+"_status").text( $.i18n(info.step) );
-                  }
-              }
-              if ( info.error )
-              {
-                  $(id+"_status").text( $.i18n(info.error) );
-              }
-          }
-          else
-          {
-              $(id+"_btn").html( '<i class="ace-icon fa fa-play"></i>' );
-              $(id+"_status").text( $.i18n("down") );
-          }
-          /* modom */
-          $(id+"_operator").text( info.operator||' ' );
-          $(id+"_nettype").text( info.nettype||' ' );
-          if ( info.rssi )
-          {
-              $(id+"_rssi").text( info.rssi+"dBm" );
-          }
-          if ( info.signal )
-          {
-              $(id+"_rssiimg").attr( "src", "/assets/css/images/signal_"+info.signal+".png" );            
-          }
-          else
-          {
-              $(id+"_rssiimg").attr( "src", "/assets/css/images/signal_0.png" );            
-          }
-          if ( info.nettype5 && info.signal5 )
-          {
-              $(id+"_nettype").text( info.nettype5||' ' );
-              if ( info.rsrp5 )
-              {
-                  $(id+"_rssi").text( info.rsrp5+"dBm" );
-              }
-              if ( info.signal5 )
-              {
-                  $(id+"_rssiimg").attr( "src", "/assets/css/images/signal_"+info.signal5+".png" );            
-              }
-          }
-          $(id+"_imei").text( info.imei||' ' );
-          $(id+"_imsi").text( info.imsi||' ' );
-          if ( info.simstate )
-          {
-              $(id+"_iccid").text( $.i18n(info.simstate)+"["+(info.iccid||' ')+"]" );
-          }
-          else
-          {
-            $(id+"_iccid").text( info.iccid||' ' );
-          }
-          /* network */
-          $(id+"_ip").text( info.ip||' ' );
-          $(id+"_rxtx").text( byte2readable( (info.rx_bytes||"0") ) + " / " + byte2readable( (info.tx_bytes||"0") ) );
-          $(id+"_livetime").text( info.livetime||' ' );
-		  /* bsim */
-		  if ( lte && lte.bsim )
-		  {
-		  	if ( info.bsim == "bsim" )
-			{
-				$( "#bsim_state" ).text( $.i18n("Backup simcard") );
-			}
-			else
-			{
-				$( "#bsim_state" ).text( $.i18n("Main simcard") );
-			}
-        }
-      })
-    }
-
-
     /* save the configure */
-    function lte_save()
+    function config_save()
     {
       if ( lte == null )
       {
@@ -1155,77 +908,42 @@
       }
       var ltecopy = JSON.parse(JSON.stringify(lte));;
 
-      lte.netmode = $('#netmode').val();
-      lte.watchnet_mode = $('#watchnet_mode').val();
-      lte.watchnet2reset = $('#watchnet2reset').val();
-      if ( lte.bsim )
+      /* modem */
+      lte.lock_nettype = $('#lock_nettype').val();
+      lte.lock_pin = $('#lock_pin').val();
+      if ( $('#gnss').prop('checked') == true )
       {
-          lte.bsim = boole2able( $('#bsim').prop('checked') );
-          if ( !lte.bsim_cfg )
-          {
-            lte.bsim_cfg = {};
-          }
-          lte.bsim_cfg.mode = $('#bsim_mode').val();
-          lte.bsim_cfg.simcard_failed = $('#bsim_simcard_failed').val();
-          lte.bsim_cfg.network_failed = $('#bsim_network_failed').val();
-          lte.bsim_cfg.signal_failed = $('#bsim_signal_failed').val();
-          lte.bsim_cfg.dial_failed = $('#bsim_dial_failed').val();
-          lte.bsim_cfg.pin = $('#bsim_pin').val();
-          lte.bsim_cfg.operator = boole2able( $('#bsim_operator').prop('checked') );
-          if ( lte.bsim_cfg.operator == "enable" )
-          {
-            if ( !lte.bsim_cfg.operator_cfg )
-            {
-              lte.bsim_cfg.operator_cfg = {};
-            }
-            lte.bsim_cfg.operator_cfg.dial = $('#bsim_dial').val();
-            lte.bsim_cfg.operator_cfg.apn = $('#bsim_apn').val();
-            /* if ( !lte.bsim_cfg.operator_cfg.apn )
-            {
-                page.alert( { message: $.i18n('BSIM APN')+" "+$.i18n('can not be empty') } );
-                return;
-            } */
-            lte.bsim_cfg.operator_cfg.user = $('#bsim_user').val();
-            lte.bsim_cfg.operator_cfg.passwd = $('#bsim_password').val();
-            lte.bsim_cfg.operator_cfg.type = $('#bsim_type').val();
-            lte.bsim_cfg.operator_cfg.auth = $('#bsim_auth').val();
-            lte.bsim_cfg.operator_cfg.cid = $('#bsim_cid').val();
-            if ( lte.bsim_cfg.operator_cfg.cid && check.number(lte.bsim_cfg.operator_cfg.cid) == false )
-            {
-                page.alert( { message: $.i18n('BSIM Dial CID')+" "+$.i18n('must be a valid number') } );
-                return;
-            }
-          }
+        lte.gnss = "enable";
       }
-      lte.pin = $('#pin').val();
-      lte.operator = boole2able( $('#operator').prop('checked') );
-      if ( lte.operator == "enable" )
+      else
       {
-        if ( !lte.operator_cfg )
+        lte.gnss = "disable";
+      }
+
+      /* profile */
+      lte.profile = boole2able( $('#profile').prop('checked') );
+      if ( lte.profile == "enable" )
+      {
+        if ( !lte.profile_cfg )
         {
-          lte.operator_cfg = {};
+          lte.profile_cfg = {};
         }
-        lte.operator_cfg.dial = $('#dial').val();
-        lte.operator_cfg.apn = $('#apn').val();
-        /* if ( !lte.operator_cfg.apn )
-        {
-            page.alert( { message: $.i18n('APN')+" "+$.i18n('can not be empty') } );
-            return;
-        } */
-        lte.operator_cfg.user = $('#user').val();
-        lte.operator_cfg.passwd = $('#password').val();
-        lte.operator_cfg.type = $('#type').val();
-        lte.operator_cfg.auth = $('#auth').val();
-        lte.operator_cfg.cid = $('#cid').val();
-        if ( lte.operator_cfg.cid && check.number(lte.operator_cfg.cid) == false )
+        lte.profile_cfg.dial = $('#dial').val();
+        lte.profile_cfg.apn = $('#apn').val();
+        lte.profile_cfg.user = $('#user').val();
+        lte.profile_cfg.passwd = $('#passwd').val();
+        lte.profile_cfg.type = $('#type').val();
+        lte.profile_cfg.auth = $('#auth').val();
+        lte.profile_cfg.cid = $('#cid').val();
+        if ( lte.profile_cfg.cid && check.number(lte.profile_cfg.cid) == false )
         {
             page.alert( { message: $.i18n('Dial CID')+" "+$.i18n('must be a valid number') } );
             return;
         }
       }
+
       /* IPV4 */
-      lte.masq = boole2able( $('#masq').prop('checked') );
-      lte.mode = $('#dialmode').val();
+      lte.mode = $('#mode').val();
       if ( lte.mode == "ppp" )
       {
         if ( !lte.ppp )
@@ -1297,18 +1015,14 @@
         {
             lte.static = {};
         }
-        if ( !lte.static.ipaddr )
-        {
-            lte.static.ipaddr = {};
-        }
-        lte.static.ipaddr.ip = $('#ip').val();
-        if ( check.ip(lte.static.ipaddr.ip) == false )
+        lte.static.ip = $('#ip').val();
+        if ( check.ip(lte.static.ip) == false )
         {
             page.alert( { message: $.i18n('IP Address')+" "+$.i18n('must be a valid IP address') } );
             return;
         }
-        lte.static.ipaddr.mask = $('#mask').val();
-        if ( check.ip(lte.static.ipaddr.mask) == false )
+        lte.static.mask = $('#mask').val();
+        if ( check.ip(lte.static.mask) == false )
         {
             page.alert( { message: $.i18n('Subnet Mask')+" "+$.i18n('must be a valid IP address') } );
             return;
@@ -1332,10 +1046,11 @@
             return;
         }
       }
+      lte.masq = boole2able( $('#masq').prop('checked') );
+
       /* IPV6 */
       if ( lte.method )
       {
-          lte.masquerade = boole2able( $('#masquerade').prop('checked') );
           lte.method = $('#method').val();
           if ( lte.method == "manual" )
           {
@@ -1420,7 +1135,9 @@
               }
             }
           }
+          lte.masquerade = boole2able( $('#masquerade').prop('checked') );
       }
+
       /* Keeplive */
       if ( !lte.keeplive )
       {
@@ -1489,22 +1206,6 @@
             return;
         }
       }
-      if ( $('#gnss').prop('checked') == true )
-      {
-        if ( !lte.gnss )
-        {
-            lte.gnss = {};
-        }
-        lte.gnss.status = "enable";
-      }
-      else
-      {
-        if ( lte.gnss )
-        {
-            lte.gnss.status = "disable";
-        }
-      }
-
       if ( ocompare( lte, ltecopy ) )
       {
           page.alert( { message: $.i18n('Settings unchanged') } );
@@ -1515,7 +1216,7 @@
         {
           he.save( [ obj+"="+JSON.stringify(lte)] ).then( function(){
             page.hint2succeed( $.i18n('Modify successfully') );
-            lte_load();
+            config_load();
           });
         }
       });
@@ -1524,52 +1225,54 @@
 
 
     /* init */
-    page.password('password', 'password-icon' );
-    page.password('bsim_password', 'bsim_password-icon' );
+    page.password('passwd', 'password-icon' );
     $.i18n().load( page.lang('lte') ).then( function () {
       /* init the langauage */
       $.i18n().locale = lang; $('body').i18n();
       /* init the network mode select */
-      $("#netmode").append("<option value='auto'>" + $.i18n("Auto") + "</option>");
+      $("#lock_nettype").append("<option value='auto'>" + $.i18n("Auto") + "</option>");
       if ( obj == "ifname@lte" )
       {
-          $("#netmode").append("<option value='lte'>" + "LTE(4G)" + "</option>");
-          $("#netmode").append("<option value='wcdma'>" + "WCDMA" + "</option>");
-          $("#netmode").append("<option value='tdscdma'>" + "TDSCDMA" + "</option>");
-          $("#netmode").append("<option value='evdo'>" + "EVDO" + "</option>");
-          $("#netmode").append("<option value='cdma'>" + "CDMA" + "</option>");
-          $("#netmode").append("<option value='gsm'>" + "GSM" + "</option>");
+          $("#lock_nettype").append("<option value='lte'>" + "LTE(4G)" + "</option>");
+          $("#lock_nettype").append("<option value='wcdma'>" + "WCDMA" + "</option>");
+          $("#lock_nettype").append("<option value='tdscdma'>" + "TDSCDMA" + "</option>");
+          $("#lock_nettype").append("<option value='evdo'>" + "EVDO" + "</option>");
+          $("#lock_nettype").append("<option value='cdma'>" + "CDMA" + "</option>");
+          $("#lock_nettype").append("<option value='gsm'>" + "GSM" + "</option>");
       }
       else if ( obj == "ifname@lte2" )
       {
-          $("#netmode").append("<option value='nsa'>" + "NSA(5G)" + "</option>");
-          $("#netmode").append("<option value='sa'>" + "SA(5G)" + "</option>");
-          $("#netmode").append("<option value='lte'>" + "LTE(4G)" + "</option>");
-          $("#netmode").append("<option value='wcdma'>" + "WCDMA" + "</option>");
-          $("#netmode").append("<option value='tdscdma'>" + "TDSCDMA" + "</option>");
-          $("#netmode").append("<option value='evdo'>" + "EVDO" + "</option>");
-          $("#netmode").append("<option value='cdma'>" + "CDMA" + "</option>");
-          $("#netmode").append("<option value='gsm'>" + "GSM" + "</option>");
+          $("#lock_nettype").append("<option value='nsa'>" + "NSA(5G)" + "</option>");
+          $("#lock_nettype").append("<option value='sa'>" + "SA(5G)" + "</option>");
+          $("#lock_nettype").append("<option value='lte'>" + "LTE(4G)" + "</option>");
+          $("#lock_nettype").append("<option value='wcdma'>" + "WCDMA" + "</option>");
+          $("#lock_nettype").append("<option value='tdscdma'>" + "TDSCDMA" + "</option>");
+          $("#lock_nettype").append("<option value='evdo'>" + "EVDO" + "</option>");
+          $("#lock_nettype").append("<option value='cdma'>" + "CDMA" + "</option>");
+          $("#lock_nettype").append("<option value='gsm'>" + "GSM" + "</option>");
       }
       /* init the dial mode select */
-      $("#dialmode").append("<option value=''>"+$.i18n('Advise')+"</option>");
+      $("#mode").append("<option value=''>"+$.i18n('Advise')+"</option>");
       if ( obj == "ifname@lte" )
       {
-          $("#dialmode").append("<option value='ppp'>"+$.i18n('PPP')+"</option>");
+          $("#mode").append("<option value='ppp'>"+$.i18n('PPP')+"</option>");
       }
-      $("#dialmode").append("<option value='dhcpc'>"+$.i18n('DHCP')+"</option>");
-      $("#dialmode").append("<option value='static'>"+$.i18n('Static IP')+"</option>");
+      $("#mode").append("<option value='dhcpc'>"+$.i18n('DHCP')+"</option>");
+      $("#mode").append("<option value='static'>"+$.i18n('Static IP')+"</option>");
+
+      /* load the status */
+      status_load();
       /* load the configure */
-      status_load(); // load first for show the operator_advise
-      lte_load();
+      config_load();
+
       $('#lte_btn').on(ace.click_event, function () {
-          if ( ltes.status == "down" )
+          if ( ltes.status == "up" || ltes.status == "uping" || ltes.status == "connect" )
           {
-              he.exec( ['arch@debug.ttyd_kill',obj+'.setup'] ).then( function(result){status_load();} );
+              he.exec( obj+'.shut').then( function(result){status_load();} );
           }
           else
           {
-              he.exec( obj+'.shut').then( function(result){status_load();} );
+              he.exec( ['arch@debug.ttyd_kill',obj+'.setup'] ).then( function(result){status_load();} );
           }
       });
 
@@ -1579,7 +1282,7 @@
         {
             status_load();
         },
-        interval: 3000
+        interval: 1000
       });
       
       /* bind the refresh */
@@ -1588,7 +1291,7 @@
       });
       /* bind the apply */
       $('#apply').on(ace.click_event, function () {
-        lte_save();
+        config_save();
       });
     });
 

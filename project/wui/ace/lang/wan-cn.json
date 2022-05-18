@@ -8,32 +8,30 @@
 	"RSSI":"信号强度",
 	"Rx/Tx":"收/发(字节)",
 	"Live Time":"在线时长",
-	"Peer":"对端SSID",
-	"Peer MAC":"对端MAC",
 	"Channel":"信道",
 	"Rate":"速率",
 
 
-	"Dial Mode":"连接模式",
+	"IPv4 Mode":"IPv4模式",
 	"Static IP":"手动设置",
 	"PPPOE":"PPPOE宽带拨号",
 	"DHCP":"自动获取",
 
 	"Route Options":"路由选项",
-	"IP Address":"IP地址",
+	"IPv4 Address":"IP地址",
 	"Subnet Mask":"子网掩码",
 	"Gateway":"网关",
 	"DNS":"域名服务器",
 	"DNS2":"域名服务器2",
-	"IP Masquerade(NAT)": "地址共享(NAT)",
+	"IPv4 Masquerade(NAT)": "地址共享(NAT)",
 
 	"Username":"用户名",
 	"Password":"密码",
 	"MTU":"最大传输单元(MTU)",
 	"LCP Echo Interval":"LCP检测间隔(秒)",
 	"LCP Echo Times":"LCP检测次数",
-
 	"Custom DNS":"自定义DNS",
+
 
 	"IPv6 Mode":"IPV6地址模式",
 	"Disable":"禁用",
@@ -97,11 +95,7 @@
 	"Rescan":"重新扫描",
 	"Scanning":"扫描中",
 	
-	"The WISP connecttion will be disconneted because of the change of configuration":"设备无线连接配置将导致网络断开重连",
-	"The system will restart because of the change of configuration":"修改此设置需要重启设备",
-	"Need to restart the system":"需要立即重启系统",
-	"Restarting to apply...":"重启并应用新的设置...",
-	"Make sure that the device is reconnected":"确定重新连接上设备"
+	"The WISP connecttion will be disconneted because of the change of configuration":"设备无线连接配置将导致网络断开重连"
 	
 
 }

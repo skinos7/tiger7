@@ -42,30 +42,78 @@ boole_t _setup( obj_t this, param_t param )
 	manager_init = false;
 	port = json_string( cfg, "port" );
     v = json_value( cfg, "manager" );
-	while( NULL != ( axp = json_next( v, axp ) ) )
-    {
-    	ptr = axp_string( axp );
-		if ( ptr == NULL || *ptr == '\0' )
+	if ( json_check( v ) == true )
+	{
+		while( NULL != ( axp = json_next( v, axp ) ) )
 		{
-			continue;
+			ptr = axp_string( axp );
+			if ( ptr == NULL || *ptr == '\0' )
+			{
+				continue;
+			}
+			if ( manager_init == false )
+			{
+				manager_init = true;
+				iptables( "-t filter -N %s_%s", PROJECT_ID, COM_ID );
+				iptables( "-t filter -F %s_%s", PROJECT_ID, COM_ID );
+				iptables( "-t filter -D INPUT -p tcp --dport %s -j %s_%s", port, PROJECT_ID, COM_ID );
+				iptables( "-t filter -A INPUT -p tcp --dport %s -j %s_%s", port, PROJECT_ID, COM_ID );
+			}
+			if ( inet_pton( AF_INET, ptr, &iptest ) == 1 )
+			{
+				iptables( "-A %s_%s -s %s -j ACCEPT", PROJECT_ID, COM_ID, ptr );
+			}
+			else
+			{
+				iptables( "-A %s_%s -m mac --mac-source %s -j ACCEPT", PROJECT_ID, COM_ID, ptr );
+			}
 		}
-		if ( manager_init == false )
+	}
+	else
+	{
+		ptr = json_string( cfg, "manager" );
+		if ( ptr != NULL && *ptr != '\0' )
 		{
-			manager_init = true;
-	        iptables( "-t filter -N %s_%s", PROJECT_ID, COM_ID );
-	        iptables( "-t filter -A INPUT -p tcp --dport %s -j  %s_%s", port, PROJECT_ID, COM_ID );
+			char *tok;
+			char *tokkey;
+			char buffer[LINE_MAX];
+		
+			memset( buffer, 0, sizeof(buffer) );
+			strncpy( buffer, ptr, sizeof(buffer)-1 );
+			tokkey = tok = buffer;
+			while( tokkey != NULL && *tok != '\0' )
+			{
+				tokkey = strstr( tok, ";" );
+				if ( tokkey != NULL )
+				{
+					*tokkey = '\0';
+				}
+
+				if ( manager_init == false )
+				{
+					manager_init = true;
+					iptables( "-t filter -N %s_%s", PROJECT_ID, COM_ID );
+					iptables( "-t filter -F %s_%s", PROJECT_ID, COM_ID );
+					iptables( "-t filter -D INPUT -p tcp --dport %s -j %s_%s", port, PROJECT_ID, COM_ID );
+					iptables( "-t filter -A INPUT -p tcp --dport %s -j %s_%s", port, PROJECT_ID, COM_ID );
+				}
+				if ( inet_pton( AF_INET, tok, &iptest ) == 1 )
+				{
+					iptables( "-A %s_%s -s %s -j ACCEPT", PROJECT_ID, COM_ID, tok );
+				}
+				else
+				{
+					iptables( "-A %s_%s -m mac --mac-source %s -j ACCEPT", PROJECT_ID, COM_ID, tok );
+				}
+
+				tok = tokkey+1;
+			}
 		}
-        if ( inet_pton( AF_INET, ptr, &iptest ) == 1 )
-        {
-            iptables( "-A %s_%s -s %s -j ACCEPT", PROJECT_ID, COM_ID, ptr );
-        }
-        else
-        {
-            iptables( "-A %s_%s -m mac --mac-source %s -j ACCEPT", PROJECT_ID, COM_ID, ptr );
-        }
-    }
+
+	}
 	if ( manager_init == true )
 	{
+		iptables( "-D %s_%s -j DROP", PROJECT_ID, COM_ID );
 		iptables( "-A %s_%s -j DROP", PROJECT_ID, COM_ID );
 	}
 
@@ -122,7 +170,6 @@ boole _set( obj_t this, talk_t v, attr_t path )
     {
         _shut( this, NULL );
         _setup( this, NULL );
-        scall( "forward@firewall", "setup", NULL );
     }
     obj_free( o );
     return ret;

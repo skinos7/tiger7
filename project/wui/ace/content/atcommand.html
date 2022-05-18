@@ -1,0 +1,104 @@
+<!-- ajax layout which only needs content area -->
+<div class="row">
+  <div class="col-xs-12">
+    <!-- PAGE CONTENT BEGINS -->
+
+
+    <div class="clearfix form-actions">
+      <div class="col-md-9">
+        <span> <button class="btn btn-danger" type="button" id="close"><span data-i18n="Close before leave"></span></button>&nbsp; &nbsp; &nbsp;</span>
+        <span> <button class="btn btn-warning" type="button" id="lte"><span data-i18n="Open AT Command"></span></button>&nbsp; &nbsp; &nbsp;</span>
+      </div>
+    </div>
+
+
+    <div id="tips" class="alert alert-warning">
+      <button type="button" class="close" data-dismiss="alert">
+        <i class="ace-icon fa fa-times"></i>
+      </button>
+      <span data-i18n="I'm sorry that this feature does not support the current browser. It is recommended that you update and install Chrome, Firefox or IE11+."></span>
+    </div>
+    <iframe id="terminal" frameborder="0" width="100%" height="500px" style="display: none;"></iframe>
+
+
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+    var obj = "modem@lte";
+    var index = location.hash.indexOf("obj=");
+    if ( index > 0 )
+    {
+      obj = location.hash.substring( index+4 );
+    }
+
+    if ( window.ie && window.ie < 11)
+    {
+      $('#terminal').hide();
+      $('#tips').show();
+    } 
+    function open_term()
+    {
+        if ( window.ie && window.ie < 11)
+        {
+          $('#terminal').hide();
+          $('#tips').show();
+          return;
+        } 
+        else
+        {
+          var wh = $(window).height();
+          $('#terminal').attr('height', wh - 130 + 'px');
+          $('#terminal').attr('src', window.location.protocol+"//"+window.location.hostname + ':' + (window.wui.termport || '81'));
+          $('#terminal').show();
+          $('#tips').hide();
+        }
+    }
+
+    $.i18n().load( page.lang('debug') ).then( function () {        
+      /* init the langauage */
+      $.i18n().locale = lang; $('body').i18n();
+
+      $('#lte').on(ace.click_event, function () {
+          page.confirm( { message: $.i18n('Will shutdown LTE/NR application when open the LTE/NR terminal, Are you sure you want to open it') } ).then( function(result){
+              if ( result )
+              {
+                  $('#terminal').hide();
+                  he.exec( 'wui@admin.ttyd_lte['+obj+']', $.i18n("Opening...") ).then( function(v){
+                    if ( v == true )
+                    {
+                        $('#terminal').attr('src', null );
+                        open_term();
+                    }
+                    else
+                    {
+                        page.alert( { message: $.i18n('Cannot open it') } );
+                        return;
+                    }
+                  });
+              }
+          });
+      });
+      $('#close').on(ace.click_event, function () {
+          he.exec( 'wui@admin.ttyd_kill', $.i18n("closing...") ).then( function(v){
+            if ( v == true )
+            {
+                $('#terminal').hide();
+            }
+            else
+            {
+                page.alert( { message: $.i18n('Cannot close it') } );
+                return;
+            }
+          });
+      });
+
+
+    });
+
+
+  })();
+</script>
