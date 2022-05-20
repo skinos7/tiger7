@@ -5,18 +5,21 @@ PLAT_LIST=`ls ./config`
 
 for plat in $PLAT_LIST
 do
-    
-    if [ -d ${plat}/build_dir ]
+    if [ ${plat} == "srkw" ] || [ ${plat} == "rkw" ]; then
+        DIR_ROOT=${plat}/openwrt/build_dir
+    else
+        DIR_ROOT=${plat}/build_dir
+    fi
+    if [ -d ${DIR_ROOT} ]
     then
-        DIR_LIST=`ls ${plat}/build_dir`
+        DIR_LIST=`ls ${DIR_ROOT}`
         for dir in $DIR_LIST
         do
-
-            for prj in $PRJ_LIST
+            for prj in $PRJ_LIST arch
             do
-                if [ -d ${plat}/build_dir/${dir}/${prj} ]; then
-                    echo "delete the ${plat}/build_dir/${dir}/${prj}"
-                    rm -fr ${plat}/build_dir/${dir}/${prj}
+                if [ -d ${DIR_ROOT}/${dir}/${prj} ]; then
+                    echo "delete the ${DIR_ROOT}/${dir}/${prj}"
+                    rm -fr ${DIR_ROOT}/${dir}/${prj}
                 fi
             done
 
