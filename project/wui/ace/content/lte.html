@@ -32,7 +32,7 @@
                 </td>
             </tr>
             <tr>
-                <th data-i18n="IMEI"></th><td id="lte_imei"></td> <th data-i18n="ICCID"></th><td id="lte_iccid"></td>
+                <th data-i18n="ICCID"></th><td id="lte_iccid"></td><th data-i18n="IMEI"></th><td id="lte_imei"></td>
             </tr>
             <tr>
                 <th data-i18n="Online Time"></th><td id="lte_livetime"></td> <th data-i18n="Rx/Tx"></th><td id="lte_rxtx"></td>
@@ -527,26 +527,24 @@
     /* get the object */
     var lte;
     var ltes;
-    var obj = "ifname@lte";
-    var index = location.hash.indexOf("obj=");
-    if ( index > 0 )
+    var object = "ifname@lte";
+    var index = page.param( 'object', location.hash );
+    if ( index )
     {
-      obj = location.hash.substring( index+4 );
+        object = index;
     }
-
     /* load the status */
     function status_load()
     {
-      he.bkload( [ obj+".status" ] ).then( function(v){
-          ltes = v[0];
-          var info = ltes;
+      he.bkload( [ object+".status" ] ).then( function(v){
           var id = "#lte";
+          ltes = v[0];
           /* status end btn */
-          if ( info.status )
+          if ( ltes.status )
           {
               $(id+"_btn").html( '<i class="ace-icon fa fa-pause"></i>' );
-              $(id+"_status").text( $.i18n(info.status) );
-              if ( info.status == "up" || info.status == "uping" || info.status == "connect" )
+              $(id+"_status").text( $.i18n(ltes.status) );
+              if ( ltes.status == "up" || ltes.status == "uping" || ltes.status == "connect" )
               {
               }
               else
@@ -560,50 +558,50 @@
               $(id+"_status").text( $.i18n("down") );
           }
           /* network */
-          if ( info.operator )
+          if ( ltes.operator )
           {
-              $(id+"_operator").text( info.operator );
+              $(id+"_operator").text( ltes.operator );
           }
-          else if ( info.plmn )
+          else if ( ltes.plmn )
           {
-              $(id+"_operator").text( $.i18n(info.plmn) );
+              $(id+"_operator").text( $.i18n(ltes.plmn) );
           }
           else
           {
               $(id+"_operator").text( "" );
           }
-          if ( info.nettype )
+          if ( ltes.nettype )
           {
-              $(id+"_nettype").text( info.nettype );
+              $(id+"_nettype").text( ltes.nettype );
           }
           else
           {
               $(id+"_nettype").text( "" );
           }
           /* signal */
-          if ( info.csq )
+          if ( ltes.csq )
           {
-              $(id+"_csq").text( "CSQ:"+info.csq );
+              $(id+"_csq").text( "CSQ:"+ltes.csq );
           }
           else
           {
               $(id+"_csq").text( "" );
           }
-          if ( info.rsrp )
+          if ( ltes.rsrp )
           {
-              $(id+"_rssi").text( "RSRP:"+info.rsrp+"dBm" );
+              $(id+"_rssi").text( "RSRP:"+ltes.rsrp+"dBm" );
           }
-          else if ( info.rssi )
+          else if ( ltes.rssi )
           {
-              $(id+"_rssi").text( "RSSI:"+info.rssi+"dBm" );
+              $(id+"_rssi").text( "RSSI:"+ltes.rssi+"dBm" );
           }
           else
           {
                $(id+"_rssi").text( "" );
           }
-          if ( info.signal )
+          if ( ltes.signal )
           {
-              $(id+"_rssiimg").attr( "src", "/assets/css/images/signal_"+info.signal+".png" );
+              $(id+"_rssiimg").attr( "src", "/assets/css/images/signal_"+ltes.signal+".png" );
           }
           else
           {
@@ -611,27 +609,27 @@
               $(id+"_csq").text( $.i18n("nosignal") );
           }
           /* device info */
-          $(id+"_imei").text( info.imei||' ' );
-          $(id+"_imsi").text( info.imsi||' ' );
-          if ( info.iccid )
+          $(id+"_imei").text( ltes.imei||' ' );
+          $(id+"_imsi").text( ltes.imsi||' ' );
+          if ( ltes.iccid )
           {
-              $(id+"_iccid").text( $.i18n(info.iccid) );
+              $(id+"_iccid").text( $.i18n(ltes.iccid) );
           }
           else
           {
               $(id+"_iccid").text( "" );
           }
           /* network */
-          $(id+"_ip").text( info.ip||' ' );
-          $(id+"_rxtx").text( byte2readable( (info.rx_bytes||"0") ) + " / " + byte2readable( (info.tx_bytes||"0") ) );
-          $(id+"_livetime").text( info.livetime||' ' );
+          $(id+"_ip").text( ltes.ip||' ' );
+          $(id+"_rxtx").text( byte2readable( (ltes.rx_bytes||"0") ) + " / " + byte2readable( (ltes.tx_bytes||"0") ) );
+          $(id+"_livetime").text( ltes.livetime||' ' );
       })
     }
 
     /* load the configure on the input */
     function config_load()
     {
-      he.load( [ obj ] ).then( function(v){
+      he.load( [ object ] ).then( function(v){
         lte = v[0];
 
         /* Modem */
@@ -657,13 +655,13 @@
         }
         if ( lte.profile_cfg )
         {
-          $('#dial').val(lte.operator_cfg.dial);
-          $('#apn').val(lte.operator_cfg.apn);
-          $('#user').val(lte.operator_cfg.user);
-          $('#passwd').val(lte.operator_cfg.passwd);
-          $('#type').val(lte.operator_cfg.type);
-          $('#auth').val(lte.operator_cfg.auth);
-          $('#cid').val(lte.operator_cfg.cid);
+          $('#dial').val(lte.profile_cfg.dial);
+          $('#apn').val(lte.profile_cfg.apn);
+          $('#user').val(lte.profile_cfg.user);
+          $('#passwd').val(lte.profile_cfg.passwd);
+          $('#type').val(lte.profile_cfg.type);
+          $('#auth').val(lte.profile_cfg.auth);
+          $('#cid').val(lte.profile_cfg.cid);
         }
         else
         {
@@ -1214,7 +1212,7 @@
       page.confirm( { message: $.i18n('The LTE connecttion will be disconneted because of the change of configuration') } ).then( function(result){
         if ( result )
         {
-          he.save( [ obj+"="+JSON.stringify(lte)] ).then( function(){
+          he.save( [ object+"="+JSON.stringify(lte)] ).then( function(){
             page.hint2succeed( $.i18n('Modify successfully') );
             config_load();
           });
@@ -1231,7 +1229,7 @@
       $.i18n().locale = lang; $('body').i18n();
       /* init the network mode select */
       $("#lock_nettype").append("<option value='auto'>" + $.i18n("Auto") + "</option>");
-      if ( obj == "ifname@lte" )
+      if ( object == "ifname@lte" )
       {
           $("#lock_nettype").append("<option value='lte'>" + "LTE(4G)" + "</option>");
           $("#lock_nettype").append("<option value='wcdma'>" + "WCDMA" + "</option>");
@@ -1240,7 +1238,7 @@
           $("#lock_nettype").append("<option value='cdma'>" + "CDMA" + "</option>");
           $("#lock_nettype").append("<option value='gsm'>" + "GSM" + "</option>");
       }
-      else if ( obj == "ifname@lte2" )
+      else if ( object == "ifname@lte2" )
       {
           $("#lock_nettype").append("<option value='nsa'>" + "NSA(5G)" + "</option>");
           $("#lock_nettype").append("<option value='sa'>" + "SA(5G)" + "</option>");
@@ -1253,7 +1251,7 @@
       }
       /* init the dial mode select */
       $("#mode").append("<option value=''>"+$.i18n('Advise')+"</option>");
-      if ( obj == "ifname@lte" )
+      if ( object == "ifname@lte" )
       {
           $("#mode").append("<option value='ppp'>"+$.i18n('PPP')+"</option>");
       }
@@ -1268,11 +1266,11 @@
       $('#lte_btn').on(ace.click_event, function () {
           if ( ltes.status == "up" || ltes.status == "uping" || ltes.status == "connect" )
           {
-              he.exec( obj+'.shut').then( function(result){status_load();} );
+              he.exec( object+'.shut').then( function(result){status_load();} );
           }
           else
           {
-              he.exec( ['arch@debug.ttyd_kill',obj+'.setup'] ).then( function(result){status_load();} );
+              he.exec( ['arch@debug.ttyd_kill',object+'.setup'] ).then( function(result){status_load();} );
           }
       });
 

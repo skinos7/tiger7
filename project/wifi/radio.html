@@ -1,0 +1,585 @@
+<!-- ajax layout which only needs content area -->
+<div class="row" id="page-modes">
+  <div class="col-xs-12 form-btn-wrapper">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="form-horizontal" role="form">
+
+
+      <!-- 状态 -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Status"></label>
+        <div class="col-sm-9">
+          <label>
+            <input id="status" class="ace ace-switch ace-switch-6" type="checkbox" />
+            <span class="lbl"></span>
+          </label>
+        </div>
+      </div>
+
+      <div id="ssid_cfg">
+        <!-- 名称 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="SSID"></label>
+          <div class="col-sm-9">
+            <div class="clearfix">
+              <input type="text" id="ssid" class="col-xs-10 col-sm-5" maxlength="32" />
+            </div>
+          </div>
+        </div>
+        <!-- 安全模式 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Security Mode"></label>
+          <div class="col-sm-9">
+            <select class="col-xs-10 col-sm-5" id="secure">
+              <option value="disable" data-i18n="Disable(None)"></option>
+              <option value="wpapsk" data-i18n="WPA-PSK(Private)"></option>
+              <option value="wpa2psk" data-i18n="WPA2-PSK(Private)"></option>
+              <option value="wpapskwpa2psk" data-i18n="Mixed WPA-PSK(Private)"></option>
+            </select>
+          </div>
+        </div>
+        <div id="secure_cfg">
+        <!-- WPA 模式 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="WPA Mode"></label>
+          <div class="col-sm-9">
+            <select class="col-xs-10 col-sm-5" id="wpa_encrypt">
+              <option value="tkip" data-i18n="TKIP"></option>
+              <option value="aes" data-i18n="AES"></option>
+              <option value="tkipaes" data-i18n="Auto"></option>
+            </select>
+          </div>
+        </div>
+        <!-- 密码 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Password"></label>
+          <div class="col-sm-9">
+            <div class="clearfix">
+              <span class="input-icon input-icon-right input-icon-form col-xs-10 col-sm-5">
+                <input type="password" id="wpa_key" maxlength="128" autocomplete="new-password" />
+                <i class="ace-icon fa fa-eye-slash" id="wpa_key-icon"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+        </div>  <!-- secure_cfg -->
+        <!-- 隐藏SSID开关 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Hide SSID"></label>
+          <div class="col-sm-9">
+            <label>
+              <input id="hide" class="ace ace-switch ace-switch-6" type="checkbox" />
+              <span class="lbl"></span>
+            </label>
+          </div>
+        </div>
+        <!-- 隔离客户端 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Isolate Clients"></label>
+          <div class="col-sm-9">
+            <label>
+              <input id="isolated" class="ace ace-switch ace-switch-6" type="checkbox" />
+              <span class="lbl"></span>
+            </label>
+          </div>
+        </div>
+        <!-- ACL -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Clients ACL"></label>
+            <div class="col-sm-9">
+              <div class="btn-group">
+                <div class="btn-group">
+                  <a class="btn btn-second" data-i18n="ACL Settings" id="acl" href="#"></a>
+                </div>
+              </div>
+            </div>
+        </div>
+
+      </div> <!-- ssid_cfg -->
+
+
+
+
+
+
+
+
+      <div class="hr hr32 hr-dotted"></div>
+
+      <!-- 模式 -->
+      <div class="form-group" id="mode_set" style="display: none;">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Mode"></label>
+        <div class="col-sm-9">
+          <select class="col-xs-10 col-sm-5" id="mode">
+          </select>
+        </div>
+      </div>
+      <!-- 频宽 -->
+      <div class="form-group" id="bandwidth_set" style="display: none;">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Band Width"></label>
+        <div class="col-sm-9">
+          <select class="col-xs-10 col-sm-5" id="bandwidth">
+          </select>
+        </div>
+      </div>
+      <!-- 国家 -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Country"></label>
+        <div class="col-sm-9">
+          <select class="col-xs-10 col-sm-5" id="country">
+          <option value="db" data-i18n="ALL"></option>
+          <option value="al" data-i18n="ALBANIA"></option>
+          <option value="dz" data-i18n="ALGERIA"></option>
+
+          <option value="ar" data-i18n="ARGENTINA"></option>
+          <option value="am" data-i18n="ARMENIA"></option>
+          <option value="au" data-i18n="AUSTRALIA"></option>
+          
+          <option value="at" data-i18n="AUSTRIA"></option>
+          <option value="az" data-i18n="AZERBAIJAN"></option>
+          <option value="bh" data-i18n="BAHRAIN"></option>
+
+          <option value="by" data-i18n="BELARUS"></option>
+          <option value="be" data-i18n="BELGIUM"></option>
+          <option value="bz" data-i18n="BELIZE"></option>
+          
+          <option value="bo" data-i18n="BOLIVIA"></option>
+          <option value="br" data-i18n="BRAZIL"></option>
+          <option value="bn" data-i18n="BRUNEI"></option>
+
+          <option value="bg" data-i18n="BULGARIA"></option>
+          <option value="ca" data-i18n="CANADA"></option>
+          <option value="cl" data-i18n="CHILE"></option>
+
+          <option value="cn" data-i18n="CHINA"></option>
+          <option value="co" data-i18n="COLOMBIA"></option>
+          <option value="cr" data-i18n="COSTA RICA"></option>
+
+          <option value="hr" data-i18n="CROATIA"></option>
+          <option value="cy" data-i18n="CYPRUS"></option>
+          <option value="cz" data-i18n="CZECH REPUBLIC"></option>
+
+          <option value="dk" data-i18n="DENMARK"></option>
+          <option value="do" data-i18n="DOMINICAN REPUBLIC"></option>
+          <option value="ec" data-i18n="ECUADOR"></option>
+
+          <option value="eg" data-i18n="EGYPT"></option>
+          <option value="sv" data-i18n="EL SALVADOR"></option>
+          <option value="ee" data-i18n="ESTONIA"></option>
+
+          <option value="fi" data-i18n="FINLAND"></option>
+          <option value="fr" data-i18n="FRANCE"></option>
+          <option value="ge" data-i18n="GEORGIA"></option>
+
+          <option value="de" data-i18n="GERMANY"></option>
+          <option value="gr" data-i18n="GREECE"></option>
+          <option value="gt" data-i18n="GUATEMALA"></option>
+
+          <option value="hn" data-i18n="HONDURAS"></option>
+          <option value="hk" data-i18n="HONG KONG"></option>
+          <option value="hu" data-i18n="HUNGARY"></option>
+
+          <option value="is" data-i18n="ICELAND"></option>
+          <option value="in" data-i18n="INDIA"></option>
+          <option value="di" data-i18n="INDONESIA"></option>
+
+          <option value="ir" data-i18n="IRAN"></option>
+          <option value="ie" data-i18n="IRELAND"></option>
+          <option value="il" data-i18n="ISRAEL"></option>
+
+          <option value="it" data-i18n="ITALY"></option>
+          <option value="jp" data-i18n="JAPAN"></option>
+          <option value="jo" data-i18n="JORDAN"></option>
+
+          <option value="kz" data-i18n="KAZAKHSTAN"></option>
+          <option value="kp" data-i18n="KOREA REPUBLIC"></option>
+          <option value="kr" data-i18n="NORTH KOREA"></option>
+
+          <option value="kw" data-i18n="KUWAIT"></option>
+          <option value="lv" data-i18n="LATVIA"></option>
+          <option value="lb" data-i18n="LEBANON"></option>
+
+          <option value="li" data-i18n="LIECHTENSTEIN"></option>
+          <option value="lt" data-i18n="LITHUANIA"></option>
+          <option value="lu" data-i18n="LUXEMBOURG"></option>
+
+          <option value="mo" data-i18n="CHINA MACAU"></option>
+          <option value="mk" data-i18n="MACEDONIA"></option>
+          <option value="my" data-i18n="MALAYSIA"></option>
+
+          <option value="mx" data-i18n="MEXICO"></option>
+          <option value="mc" data-i18n="MONACO"></option>
+          <option value="ma" data-i18n="MOROCCO"></option>
+
+          <option value="nl" data-i18n="NETHERLANDS"></option>
+          <option value="nz" data-i18n="NEW ZEALAND"></option>
+          <option value="no" data-i18n="NORWAY"></option>
+
+          <option value="om" data-i18n="OMAN"></option>
+          <option value="pk" data-i18n="PAKISTAN"></option>
+          <option value="pa" data-i18n="PANAMA"></option>
+
+          <option value="pe" data-i18n="PERU"></option>
+          <option value="ph" data-i18n="PHILIPPINES"></option>
+          <option value="pl" data-i18n="POLAND"></option>
+
+          <option value="pt" data-i18n="PORTUGAL"></option>
+          <option value="pr" data-i18n="PUERTO RICO"></option>
+          <option value="qa" data-i18n="QATAR"></option>
+
+          <option value="ro" data-i18n="ROMANIA"></option>
+          <option value="ru" data-i18n="RUSSIAN"></option>
+          <option value="sa" data-i18n="SAUDI ARABIA"></option>
+
+          <option value="sg" data-i18n="SINGAPORE"></option>
+          <option value="sk" data-i18n="SLOVAKIA"></option>
+          <option value="si" data-i18n="SLOVENIA"></option>
+
+          <option value="za" data-i18n="SOUTH AFRICA"></option>
+          <option value="es" data-i18n="SPAIN"></option>
+          <option value="se" data-i18n="SWEDEN"></option>
+
+          <option value="ch" data-i18n="SWITZERLAND"></option>
+          <option value="sy" data-i18n="SYRIAN ARAB REPUBLIC"></option>
+          <option value="tw" data-i18n="TAIWAN"></option>
+
+          <option value="th" data-i18n="THAILAND"></option>
+          <option value="tt" data-i18n="TRINIDAD AND TOBAGO"></option>
+          <option value="tn" data-i18n="TUNISIA"></option>
+
+          <option value="tr" data-i18n="TURKEY"></option>
+          <option value="ua" data-i18n="UKRAINE"></option>
+          <option value="ae" data-i18n="UNITED ARAB EMIRATES"></option>
+
+          <option value="gb" data-i18n="UNITED KINGDOM"></option>
+          <option value="us" data-i18n="UNITED STATES"></option>
+          <option value="uy" data-i18n="URUGUAY"></option>
+
+          <option value="uz" data-i18n="UZBEKISTAN"></option>
+          <option value="ve" data-i18n="VENEZUELA"></option>
+          <option value="vn" data-i18n="VIET NAM"></option>
+
+          <option value="ye" data-i18n="YEMEN"></option>
+          <option value="zw" data-i18n="ZIMBABWE"></option>          
+          </select>
+        </div>
+      </div>
+
+      <!-- 信道 -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Channel"></label>
+        <div class="col-sm-9">
+          <select class="col-xs-10 col-sm-5" id="channel">
+          </select>
+        </div>
+      </div>
+
+      <!-- Beacon -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Beacon"></label>
+        <div class="col-sm-9">
+          <div class="clearfix">
+            <input type="text" id="beacon" class="col-xs-10 col-sm-5" maxlength="5" />
+          </div>
+        </div>
+      </div>
+      <!-- dtim -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="DTIM"></label>
+        <div class="col-sm-9">
+          <div class="clearfix">
+            <input type="text" id="dtim" class="col-xs-10 col-sm-5" maxlength="5" />
+          </div>
+        </div>
+      </div>
+      <!-- STBC -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="STBC"></label>
+        <div class="col-sm-9">
+          <label>
+            <input id="stbc" class="ace ace-switch ace-switch-6" type="checkbox" />
+            <span class="lbl"></span>
+          </label>
+        </div>
+      </div>
+      <!-- Short GI -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Short GI"></label>
+        <div class="col-sm-9">
+          <label>
+            <input id="shortgi" class="ace ace-switch ace-switch-6" type="checkbox" />
+            <span class="lbl"></span>
+          </label>
+        </div>
+      </div>
+      <!-- TxPower -->
+      <div class="form-group"  id="txpower_set" style="display: none;">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Tx Power"></label>
+        <div class="col-sm-9">
+          <select class="col-xs-10 col-sm-5" id="txpower">
+          </select>
+        </div>
+      </div>
+
+
+
+
+      <div class="clearfix form-actions">
+        <div class="col-md-offset-3 col-md-9">
+          <button class="btn btn-second" type="button" id="refresh"><span data-i18n="Refresh"></span></button>
+          &nbsp; &nbsp; &nbsp;
+          <button class="btn btn-main" type="button" id="apply"><span data-i18n="Apply"></span></button>
+        </div>
+      </div>
+
+
+    </div>
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+
+
+
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+    /* get the object */
+    var ssid;
+    var ssid2;
+    var radio;
+    var radioopt;
+    var chlist;
+    var object = "wifi@x";
+    var index = page.param( 'object', location.hash );
+    if ( index )
+    {
+        object = index;
+    }
+    var langjson = base64.decode( page.param( 'lang', location.hash ) );
+    var robj = object;
+    var sobj = object+"ssid";
+    var s2obj = object+"ssid2";
+    /* load the configure on the input */
+
+
+
+    
+    function flash_channel( mode, country, channel, acs )
+    {
+        he.bkload( robj+".chlist["+mode+","+country+"]" ).then( function(v){
+            if ( v )
+            {
+            
+                $("#channel").empty();
+                if ( !acs || acs != "disable" )
+                {
+                    $("#channel").append("<option value='0'>" + $.i18n("Auto") + "</option>");
+                }
+                for( c in v )
+                {
+                    $("#channel").append("<option value='"+c+"'>" + c + "</option>");
+                }
+                if ( channel )
+                {
+                    $('#channel').val( channel );
+                }
+            }
+        })
+    }
+    function cfg_load()
+    {
+      he.load( [ robj, robj+".options", sobj, s2obj ] ).then( function(v){
+        radio = v[0];
+        radioopt = v[1];
+        ssid = v[2];
+        ssid2 = v[3];
+
+        /* ssid */
+        $('#status').prop( 'checked', able2boole(ssid.status) );
+        $('#ssid').val( ssid.ssid || '' );
+        $('#secure').val( ssid.secure || 'disable' );
+        $('#wpa_encrypt').val( ssid.wpa_encrypt || 'tkipaes' );
+        $('#wpa_key').val( ssid.wpa_key || '' );
+        $('#hide').prop( 'checked', !able2boole(ssid.broadcast) );
+        $('#isolated').prop( 'checked', able2boole(ssid.isolated) );
+        $('#status').unbind('change').change(function () {
+          if ($(this).prop('checked'))
+          {
+            $('#ssid_cfg').show();
+          }
+          else
+          {
+            $('#ssid_cfg').hide();
+          }
+        }).trigger('change');
+        $('#secure').unbind('change').change(function (e) {
+          var secure = e.target.value;
+          if ( secure === 'disable' )
+          {
+            $('#secure_cfg').hide();
+          }
+          else
+          {
+            $('#secure_cfg').show();
+          }
+        }).trigger('change');
+        /* radio */
+        $('#beacon').val( radio.beacon );
+        $('#dtim').val( radio.dtim );
+        $('#stbc').prop( 'checked', able2boole(radio.stbc) );
+        $('#shortgi').prop( 'checked', able2boole(radio.shortgi) );
+        $('#country').val( radio.country );
+        $('#country').unbind('change').change(function (e) {
+            var country = e.target.value;
+            flash_channel( $('#mode').val(), country, radio.channel, radioopt.acs );
+        }).trigger('change');
+        flash_channel( "", "", radio.channel, radioopt.acs );
+        if ( radioopt && radioopt.mode )
+        {
+            $("#mode").empty();            
+            for( m in radioopt.mode )
+            {
+                $("#mode").append("<option value='"+m+"'>" + $.i18n(m) + "</option>");
+            }
+            $('#mode').val( radio.mode );
+            $("#mode_set").show();
+            $('#mode').unbind('change').change(function (e) {
+              var mode = e.target.value;
+              if ( radioopt && radioopt.mode && radioopt.mode[mode] )
+              {
+                  $("#bandwidth").empty();            
+                  for( b in radioopt.mode[mode] )
+                  {
+                      $("#bandwidth").append("<option value='"+b+"'>" + $.i18n(b) + "</option>");
+                  }
+                  $("#bandwidth_set").show();
+                  $('#bandwidth').val( radio.bandwidth );
+              }
+              else
+              {
+                  $("#bandwidth_set").hide();
+              }
+              flash_channel( mode, $('#country').val(), radio.channel, radioopt.acs );
+            }).trigger('change');
+        }
+        else
+        {
+            $("#mode_set").hide();
+        }
+        if ( radioopt && radioopt.txpower )
+        {
+            for( t in radioopt.txpower )
+            {
+                $("#txpower").append("<option value='"+t+"'>" + $.i18n(t) + "</option>");
+            }
+            $("#txpower_set").show();
+            $('#txpower').val( radio.txpower );
+        }
+        else
+        {
+            $("#txpower_set").hide();
+        }
+        // ACL
+        var link = '#app?page='+base64.encode("/prj/wifi/acl.html");
+        link += '&object='+sobj;
+        link += '&lang='+base64.encode(langjson);
+        $('#acl').attr( "href", link );
+      })
+    }
+
+    /* save the configure */
+    function ssid_save()
+    {
+      var cmd = [];
+      var ssidcopy = null;
+      var radiocopy = null;
+
+      if ( ssid == null )
+      {
+        ssid = {};
+      }
+      ssidcopy = JSON.parse(JSON.stringify(ssid));
+      ssid.status = boole2able( $('#status').prop('checked') );
+      if ( ssid.status )
+      {
+        ssid.ssid = $('#ssid').val();
+        ssid.secure = $('#secure').val();
+        if ( ssid.secure != 'disable' )
+        {
+          ssid.wpa_encrypt = $('#wpa_encrypt').val();
+          ssid.wpa_key = $('#wpa_key').val();
+        }
+        ssid.broadcast = boole2able( ! $('#hide').prop('checked') );
+        ssid.isolated = boole2able( $('#isolated').prop('checked') );
+      }
+
+      if ( radio == null )
+      {
+        radio = {};
+      }
+      var radiocopy = JSON.parse(JSON.stringify(radio));
+      if ( $('#mode').val() )
+      {
+        radio.mode = $('#mode').val()
+      }
+      if ( $('#bandwidth').val() )
+      {
+        radio.bandwidth = $('#bandwidth').val()
+      }
+      radio.country = $('#country').val();
+      radio.channel = $('#channel').val();
+      radio.beacon = $('#beacon').val();
+      radio.dtim = $('#dtim').val();
+      radio.stbc = boole2able( $('#stbc').prop('checked') );
+      radio.shortgi = boole2able( $('#shortgi').prop('checked') );
+      if ( $('#txpower').val() )
+      {
+        radio.txpower = $('#txpower').val()
+      }
+
+      if ( !ocompare( radio, radiocopy ) )
+      {
+        cmd.push( robj+"="+JSON.stringify(radio) );
+      }
+      if ( !ocompare( ssid, ssidcopy ) )
+      {
+          cmd.push( sobj+"="+JSON.stringify(ssid) );
+      }
+      if ( cmd.length == 0 )
+      {
+          page.alert( { message: $.i18n('Settings unchanged') } );
+          return;
+      }
+      page.confirm( { message: $.i18n('The wireless client will be disconneted because of the change of configuration') } ).then( function(result){
+        if ( result )
+        {
+          he.save( cmd ).then( function(){
+            page.alert( {message:$.i18n('Make sure that the device is reconnected')} );
+            cfg_load();
+          });
+        }
+      });
+    }
+
+
+    /* init */
+    page.password('wpa_key', 'wpa_key-icon' );
+    $.i18n().load( page.lang(langjson) ).then( function () {
+      /* init the langauage */
+      $.i18n().locale = lang; $('body').i18n();
+      /* load the configure */
+      cfg_load();
+      /* bind the refresh */
+      $('#refresh').on(ace.click_event, function () {
+        location.reload();
+      });
+      /* bind the apply */
+      $('#apply').on(ace.click_event, function () {
+        ssid_save();
+      });
+    });
+
+  })();
+</script>

@@ -25,6 +25,9 @@
                         <span id="ltedev_nettype"></span>
                     </td>
                 </tr>
+                <tr>
+                    <td data-i18n="ICCID"></td><td id="ltedev_iccid"></td>
+                </tr>
 
                 <!-- 4G -->
                 <tr>
@@ -76,9 +79,6 @@
         		<tr>
         			<td data-i18n="IMSI"></td><td id="ltedev_imsi"></td>
         		</tr>
-                <tr>
-                    <td data-i18n="ICCID"></td><td id="ltedev_iccid"></td>
-                </tr>
                 <tr id="ltedev_lac_head" style="display: none;">
                     <td data-i18n="LAC"></td><td id="ltedev_lac"></td>
                 </tr>
@@ -116,6 +116,9 @@
                         <span id="lte_operator"></span>&nbsp;
                         <span id="lte_nettype"></span>
                     </td>
+                </tr>
+                <tr>
+                    <td data-i18n="ICCID"></td><td id="lte_iccid"></td>
                 </tr>
 
                 <!-- 4G -->
@@ -214,9 +217,6 @@
         		<tr>
         			<td data-i18n="IMSI"></td><td id="lte_imsi"></td>
         		</tr>
-                <tr>
-                    <td data-i18n="ICCID"></td><td id="lte_iccid"></td>
-                </tr>
                 <tr id="lte_lac_head" style="display: none;">
                     <td data-i18n="LAC"></td><td id="lte_lac"></td>
                 </tr>
@@ -254,6 +254,9 @@
                         <span id="lte2dev_operator"></span>&nbsp;
                         <span id="lte2dev_nettype"></span>
                     </td>
+                </tr>
+                <tr>
+                    <td data-i18n="ICCID"></td><td id="lte2dev_iccid"></td>
                 </tr>
 
                 <!-- 4G -->
@@ -307,9 +310,6 @@
                 <tr>
                     <td data-i18n="IMSI"></td><td id="lte2dev_imsi"></td>
                 </tr>
-                <tr>
-                    <td data-i18n="ICCID"></td><td id="lte2dev_iccid"></td>
-                </tr>
                 <tr id="lte2dev_lac_head" style="display: none;">
                     <td data-i18n="LAC"></td><td id="lte2dev_lac"></td>
                 </tr>
@@ -348,6 +348,9 @@
                         <span id="lte2_nettype"></span>
         			</td>
         		</tr>
+                <tr>
+                    <td data-i18n="ICCID"></td><td id="lte2_iccid"></td>
+                </tr>
 
                 <!-- 4G -->
                 <tr>
@@ -445,9 +448,6 @@
         		<tr>
         			<td data-i18n="IMSI"></td><td id="lte2_imsi"></td>
         		</tr>
-                <tr>
-                    <td data-i18n="ICCID"></td><td id="lte2_iccid"></td>
-                </tr>
                 <tr id="lte2_lac_head" style="display: none;">
                     <td data-i18n="LAC"></td><td id="lte2_lac"></td>
                 </tr>
@@ -1035,48 +1035,48 @@
         {
             $(id+"_band_head").hide();
         }
-		if ( info.nettype5 )
+		if ( info.nettype2 )
 		{
-            $(id+"_nettype5").text( info.nettype5 );
+            $(id+"_nettype5").text( info.nettype2 );
             $(id+"_nettype5_head").show();
-            if ( info.rsrp5 )
+            if ( info.rsrp2 )
             {
-                $(id+"_rsrp5").text( info.rsrp5+"dBm" );
+                $(id+"_rsrp5").text( info.rsrp2+"dBm" );
             }
-            if ( info.signal5 )
+            if ( info.signal2 )
             {
-                $(id+"_rssiimg5").attr( "src", "/assets/css/images/signal_"+info.signal5+".png" );
+                $(id+"_rssiimg5").attr( "src", "/assets/css/images/signal_"+info.signal2+".png" );
                 $(id+"_rssi5_head").show();
             }
             else
             {
                 $(id+"_rssi5_head").hide();
             }
-            if ( info.rsrq5 )
+            if ( info.rsrq2 )
             {
-                $(id+"_rsrq5").text( "RSRQ:"+info.rsrq5+"dB" );
+                $(id+"_rsrq5").text( "RSRQ:"+info.rsrq2+"dB" );
                 $(id+"_rsrq5_head").show();
             }
             else
             {
                 $(id+"_rsrq5").text( "" );
             }
-            if ( info.sinr5 )
+            if ( info.sinr2 )
             {
-                $(id+"_sinr5").text( "SINR:"+info.sinr5+"dB" );
+                $(id+"_sinr5").text( "SINR:"+info.sinr2+"dB" );
                 $(id+"_rsrq5_head").show();
             }
             else
             {
                 $(id+"_sinr5").text( "" );
             }
-            if ( !info.sinr5 && !info.rsrq5 )
+            if ( !info.sinr2 && !info.rsrq2 )
             {
                 $(id+"_rsrq5_head").hide();
             }
-            if ( info.band5 )
+            if ( info.band2 )
             {
-                $(id+"_band5").text( info.band5 );
+                $(id+"_band5").text( info.band2 );
                 $(id+"_band5_head").show();
             }
             else
@@ -1246,48 +1246,48 @@
             $(id+"_band_head").hide();
         }
         /* 5G signal */
-		if ( info.nettype5 )
+		if ( info.nettype2 )
 		{
-            $(id+"_nettype5").text( info.nettype5 );
+            $(id+"_nettype5").text( info.nettype2 );
             $(id+"_nettype5_head").show();
-            if ( info.rsrp5 )
+            if ( info.rsrp2 )
             {
-                $(id+"_rsrp5").text( info.rsrp5+"dBm" );
+                $(id+"_rsrp5").text( info.rsrp2+"dBm" );
             }
-            if ( info.signal5 )
+            if ( info.signal2 )
             {
-                $(id+"_rssiimg5").attr( "src", "/assets/css/images/signal_"+info.signal5+".png" );
+                $(id+"_rssiimg5").attr( "src", "/assets/css/images/signal_"+info.signal2+".png" );
                 $(id+"_rssi5_head").show();
             }
             else
             {
                 $(id+"_rssi5_head").hide();
             }
-            if ( info.rsrq5 )
+            if ( info.rsrq2 )
             {
-                $(id+"_rsrq5").text( "RSRQ:"+info.rsrq5+"dB" );
+                $(id+"_rsrq5").text( "RSRQ:"+info.rsrq2+"dB" );
                 $(id+"_rsrq5_head").show();
             }
             else
             {
                 $(id+"_rsrq5").text( "" );
             }
-            if ( info.sinr5 )
+            if ( info.sinr2 )
             {
-                $(id+"_sinr5").text( "SINR:"+info.sinr5+"dB" );
+                $(id+"_sinr5").text( "SINR:"+info.sinr2+"dB" );
                 $(id+"_rsrq5_head").show();
             }
             else
             {
                 $(id+"_sinr5").text( "" );
             }
-            if ( !info.sinr5 && !info.rsrq5 )
+            if ( !info.sinr2 && !info.rsrq2 )
             {
                 $(id+"_rsrq5_head").hide();
             }
-            if ( info.band5 )
+            if ( info.band2 )
             {
-                $(id+"_band5").text( info.band5 );
+                $(id+"_band5").text( info.band2 );
                 $(id+"_band5_head").show();
             }
             else

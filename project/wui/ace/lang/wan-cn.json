@@ -58,8 +58,7 @@
 	"The WAN connecttion will be disconneted because of the change of configuration":"设备WAN配置将导致网络断开重连",
 
 
-	"2.4G AP Client":"2.4G无线网卡",
-	"5.8G AP Client":"5.8G无线网卡",
+	"MAC Address":"MAC地址",
 	"Peer SSID":"对端SSID",
 	"Peer SSID2":"对端SSID2",
 	"Peer SSID3":"对端SSID3",

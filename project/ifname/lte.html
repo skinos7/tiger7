@@ -1,0 +1,477 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>no title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+    .markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview .pagebreak,.markdown-preview .newpage{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center !important}.markdown-preview:not([for="preview"]) .code-chunk .btn-group{display:none}.markdown-preview:not([for="preview"]) .code-chunk .status{display:none}.markdown-preview:not([for="preview"]) .code-chunk .output-div{margin-bottom:16px}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0}@media screen and (min-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{font-size:14px !important;padding:1em}}@media print{html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,0.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{padding:0 1.6em;margin-top:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc li{margin-bottom:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{list-style-type:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% -  300px);padding:2em calc(50% - 457px -  150px);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}/**
+ * prism.js Github theme based on GitHub's theme.
+ * @author Sam Clarke
+ */
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #333;
+  background: none;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.4;
+
+  -moz-tab-size: 8;
+  -o-tab-size: 8;
+  tab-size: 8;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+  padding: .8em;
+  overflow: auto;
+  /* border: 1px solid #ddd; */
+  border-radius: 3px;
+  /* background: #fff; */
+  background: #f5f5f5;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+  padding: .1em;
+  border-radius: .3em;
+  white-space: normal;
+  background: #f5f5f5;
+}
+
+.token.comment,
+.token.blockquote {
+  color: #969896;
+}
+
+.token.cdata {
+  color: #183691;
+}
+
+.token.doctype,
+.token.punctuation,
+.token.variable,
+.token.macro.property {
+  color: #333;
+}
+
+.token.operator,
+.token.important,
+.token.keyword,
+.token.rule,
+.token.builtin {
+  color: #a71d5d;
+}
+
+.token.string,
+.token.url,
+.token.regex,
+.token.attr-value {
+  color: #183691;
+}
+
+.token.property,
+.token.number,
+.token.boolean,
+.token.entity,
+.token.atrule,
+.token.constant,
+.token.symbol,
+.token.command,
+.token.code {
+  color: #0086b3;
+}
+
+.token.tag,
+.token.selector,
+.token.prolog {
+  color: #63a35c;
+}
+
+.token.function,
+.token.namespace,
+.token.pseudo-element,
+.token.class,
+.token.class-name,
+.token.pseudo-class,
+.token.id,
+.token.url-reference .token.variable,
+.token.attr-name {
+  color: #795da3;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+.token.title,
+.token.title .token.punctuation {
+  font-weight: bold;
+  color: #1d3e81;
+}
+
+.token.list {
+  color: #ed6a43;
+}
+
+.token.inserted {
+  background-color: #eaffea;
+  color: #55a532;
+}
+
+.token.deleted {
+  background-color: #ffecec;
+  color: #bd2c00;
+}
+
+.token.bold {
+  font-weight: bold;
+}
+
+.token.italic {
+  font-style: italic;
+}
+
+
+/* JSON */
+.language-json .token.property {
+  color: #183691;
+}
+
+.language-markup .token.tag .token.punctuation {
+  color: #333;
+}
+
+/* CSS */
+code.language-css,
+.language-css .token.function {
+  color: #0086b3;
+}
+
+/* YAML */
+.language-yaml .token.atrule {
+  color: #63a35c;
+}
+
+code.language-yaml {
+  color: #183691;
+}
+
+/* Ruby */
+.language-ruby .token.function {
+  color: #333;
+}
+
+/* Markdown */
+.language-markdown .token.url {
+  color: #795da3;
+}
+
+/* Makefile */
+.language-makefile .token.symbol {
+  color: #795da3;
+}
+
+.language-makefile .token.variable {
+  color: #183691;
+}
+
+.language-makefile .token.builtin {
+  color: #0086b3;
+}
+
+/* Bash */
+.language-bash .token.keyword {
+  color: #0086b3;
+}
+
+/* highlight */
+pre[data-line] {
+  position: relative;
+  padding: 1em 0 1em 3em;
+}
+pre[data-line] .line-highlight-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  display: block;
+  width: 100%;
+}
+
+pre[data-line] .line-highlight {
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: inherit 0;
+  margin-top: 1em;
+  background: hsla(24, 20%, 50%,.08);
+  background: linear-gradient(to right, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
+  pointer-events: none;
+  line-height: inherit;
+  white-space: pre;
+}
+
+pre[data-line] .line-highlight:before, 
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-start);
+  position: absolute;
+  top: .4em;
+  left: .6em;
+  min-width: 1em;
+  padding: 0 .5em;
+  background-color: hsla(24, 20%, 50%,.4);
+  color: hsl(24, 20%, 95%);
+  font: bold 65%/1.5 sans-serif;
+  text-align: center;
+  vertical-align: .3em;
+  border-radius: 999px;
+  text-shadow: none;
+  box-shadow: 0 1px white;
+}
+
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-end);
+  top: auto;
+  bottom: .4em;
+}.emoji {
+  height: 0.8em;
+}html body{font-family:"Helvetica Neue",Helvetica,"Segoe UI",Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ul,html body>ol{margin-bottom:16px}html body ul,html body ol{padding-left:2em}html body ul.no-list,html body ol.no-list{padding:0;list-style-type:none}html body ul ul,html body ul ol,html body ol ol,html body ol ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:bold;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:bold}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em !important;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::before,html body code::after{letter-spacing:-0.2em;content:"\00a0"}html body pre>code{padding:0;margin:0;font-size:.85em !important;word-break:normal;white-space:pre;background:transparent;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;font-size:.85em !important;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:before,html body pre tt:before,html body pre code:after,html body pre tt:after{content:normal}html body p,html body blockquote,html body ul,html body ol,html body dl,html body pre{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body pre,html body code{word-wrap:break-word;white-space:pre}}
+    /* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+    </style>
+    
+  </head>
+  <body for="html-export">
+    <div class="mume markdown-preview">
+    <html><head></head><body><div><hr>
+<h2 class="mume-header" id="ltenr-network-management-components" ebook-toc-level-2 heading="LTE/NR network management components">LTE/NR network management components</h2>
+
+<p>Manage LTE/NR networks and 4G/NR basebands. This component must depend on the LTE/NR baseband components and network Management Framework project<br>
+Usually ifname@lte is the first LTE/NR network and module. If there are multiple LTE/NR modules in the system, ifname@lte2 will be the second LTE/NR network and module, and increase by degress</p>
+<h4 class="mume-header" id="configuration-ifnamelte" ebook-toc-level-4 heading="&lt;strong&gt;configuration( ifname@lte )&lt;/strong&gt;"><strong>configuration( ifname@lte )</strong></h4>
+
+<p><strong>ifname@lte</strong> is first LTE network<br>
+<strong>ifname@lte2</strong> is second LTE network</p>
+<pre data-role="codeBlock" data-info="json" class="language-json"><span class="token comment">// Attribute introduction</span>
+<span class="token punctuation">{</span>
+    <span class="token property">&quot;status&quot;</span><span class="token operator">:</span><span class="token string">&quot;start at system startup&quot;</span><span class="token punctuation">,</span>    <span class="token comment">// [ enable, disable ]</span>
+
+    <span class="token comment">// IPv4</span>
+    <span class="token property">&quot;tid&quot;</span><span class="token operator">:</span><span class="token string">&quot;table identify number&quot;</span><span class="token punctuation">,</span>         <span class="token comment">// [ number ] exclusive route table ID, only for multiple WAN</span>
+    <span class="token property">&quot;metric&quot;</span><span class="token operator">:</span><span class="token string">&quot;default route metric&quot;</span><span class="token punctuation">,</span>       <span class="token comment">// [ number  ]</span>
+    <span class="token property">&quot;mode&quot;</span><span class="token operator">:</span><span class="token string">&quot;IPV4 address mode&quot;</span><span class="token punctuation">,</span>            <span class="token comment">// [ dhcpc ] for DHCP, [ static ] for manual setting, [ ppp ] for PPP dial</span>
+    <span class="token property">&quot;static&quot;</span><span class="token operator">:</span>                                       <span class="token comment">// detial configure for &quot;mode&quot; is [ static ]</span>
+    <span class="token punctuation">{</span>
+        <span class="token property">&quot;ip&quot;</span><span class="token operator">:</span><span class="token string">&quot;IPv4 address&quot;</span><span class="token punctuation">,</span>                        <span class="token comment">// &lt; IPv4 address &gt;</span>
+        <span class="token property">&quot;mask&quot;</span><span class="token operator">:</span><span class="token string">&quot;IPv4 netmask&quot;</span><span class="token punctuation">,</span>                      <span class="token comment">// &lt; IPv4 etmask &gt;</span>
+        <span class="token property">&quot;gw&quot;</span><span class="token operator">:</span><span class="token string">&quot;IPv4 gateway&quot;</span><span class="token punctuation">,</span>                        <span class="token comment">// [ IPv4 address ]</span>
+        <span class="token property">&quot;dns&quot;</span><span class="token operator">:</span><span class="token string">&quot;IPv4 DNS&quot;</span><span class="token punctuation">,</span>                           <span class="token comment">// [ IPv4 address ]</span>
+        <span class="token property">&quot;dns2&quot;</span><span class="token operator">:</span><span class="token string">&quot;IPv4 DNS&quot;</span>                           <span class="token comment">// [ IPv4 address ]</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;dhcpc&quot;</span><span class="token operator">:</span>                                                       <span class="token comment">// detial configure for &quot;mode&quot; is [ dhcpc ]</span>
+    <span class="token punctuation">{</span>
+        <span class="token property">&quot;static&quot;</span><span class="token operator">:</span><span class="token string">&quot;Set an IP address before obtaining IP via DHCP&quot;</span><span class="token punctuation">,</span> <span class="token comment">// [ disable, enable ]</span>
+        <span class="token property">&quot;routeopt&quot;</span><span class="token operator">:</span><span class="token string">&quot;dhcp option static route&quot;</span><span class="token punctuation">,</span>                     <span class="token comment">// [ disable, enable ]</span>
+        <span class="token property">&quot;custom_dns&quot;</span><span class="token operator">:</span><span class="token string">&quot;Custom DNS&quot;</span><span class="token punctuation">,</span>                                 <span class="token comment">// [ disable, enable ]</span>
+        <span class="token property">&quot;dns&quot;</span><span class="token operator">:</span><span class="token string">&quot;Custom DNS1&quot;</span><span class="token punctuation">,</span>                                       <span class="token comment">// [ IP address ], This is valid when custom_dns is [ enable ]</span>
+        <span class="token property">&quot;dns2&quot;</span><span class="token operator">:</span><span class="token string">&quot;Custom DNS2&quot;</span>                                       <span class="token comment">// [ IP address ], This is valid when custom_dns is [ enable ]</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;ppp&quot;</span><span class="token operator">:</span>                                               <span class="token comment">// detial configure for &quot;mode&quot; is [ ppp ]</span>
+    <span class="token punctuation">{</span>
+        <span class="token property">&quot;mtu&quot;</span><span class="token operator">:</span><span class="token string">&quot;Maximum transmission unit&quot;</span><span class="token punctuation">,</span>               <span class="token comment">// [ number ], The unit is in bytes</span>
+        <span class="token property">&quot;mss&quot;</span><span class="token operator">:</span><span class="token string">&quot;TCP Maximum Segment Size&quot;</span><span class="token punctuation">,</span>                <span class="token comment">// [ number ], The unit is in bytes</span>
+        <span class="token property">&quot;lcp_echo_interval&quot;</span><span class="token operator">:</span><span class="token string">&quot;LCP echo interval&quot;</span><span class="token punctuation">,</span>         <span class="token comment">// [ number ], The unit is in seconds</span>
+        <span class="token property">&quot;lcp_echo_failure&quot;</span><span class="token operator">:</span><span class="token string">&quot;LCP echo failure times&quot;</span><span class="token punctuation">,</span>     <span class="token comment">// [ number ]</span>
+        <span class="token property">&quot;pppopt&quot;</span><span class="token operator">:</span><span class="token string">&quot;PPP options&quot;</span><span class="token punctuation">,</span>                          <span class="token comment">// [ string ], Multiple options are separated by colons</span>
+        <span class="token property">&quot;custom_dns&quot;</span><span class="token operator">:</span><span class="token string">&quot;Custom DNS&quot;</span><span class="token punctuation">,</span>                       <span class="token comment">// [ disable, enable ]</span>
+        <span class="token property">&quot;dns&quot;</span><span class="token operator">:</span><span class="token string">&quot;Custom DNS1&quot;</span><span class="token punctuation">,</span>                             <span class="token comment">// [ IP address ], This is valid when custom_dns is [ enable ]</span>
+        <span class="token property">&quot;dns2&quot;</span><span class="token operator">:</span><span class="token string">&quot;Custom DNS2&quot;</span>                             <span class="token comment">// [ IP address ], This is valid when custom_dns is [ enable ]</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;masq&quot;</span><span class="token operator">:</span><span class="token string">&quot;out stream share the interface IPv4 address to access the Internet&quot;</span><span class="token punctuation">,</span>  <span class="token comment">// [ disable, enable ]</span>
+
+    <span class="token comment">// IPv6</span>
+    <span class="token property">&quot;method&quot;</span><span class="token operator">:</span><span class="token string">&quot;IPv6 address mode&quot;</span><span class="token punctuation">,</span>                       <span class="token comment">// [ disable ] is not use ipv6</span>
+                                                        <span class="token comment">// [ manual ] for manual setting</span>
+                                                        <span class="token comment">// [ automatic ] for DHCPv6</span>
+                                                        <span class="token comment">// [ slaac ] for Stateless address autoconfiguration</span>
+    <span class="token property">&quot;manual&quot;</span><span class="token operator">:</span>                             <span class="token comment">// detial configure for &quot;method&quot; is [ manual ]</span>
+    <span class="token punctuation">{</span>
+        <span class="token property">&quot;addr&quot;</span><span class="token operator">:</span><span class="token string">&quot;IPv6 address&quot;</span><span class="token punctuation">,</span>            <span class="token comment">// &lt; IPv6 address &gt;</span>
+        <span class="token property">&quot;prefix&quot;</span><span class="token operator">:</span><span class="token string">&quot;IPv6 prefix&quot;</span><span class="token punctuation">,</span>           <span class="token comment">// &lt; number &gt;, 1-128</span>
+        <span class="token property">&quot;hop&quot;</span><span class="token operator">:</span><span class="token string">&quot;IPv6 gateway&quot;</span><span class="token punctuation">,</span>             <span class="token comment">// [ IPv6 address ]</span>
+        <span class="token property">&quot;resolve&quot;</span><span class="token operator">:</span><span class="token string">&quot;IPv6 DNS&quot;</span><span class="token punctuation">,</span>             <span class="token comment">// [ IPv6 address ]</span>
+        <span class="token property">&quot;resolve2&quot;</span><span class="token operator">:</span><span class="token string">&quot;IPv6 DNS2&quot;</span>            <span class="token comment">// [ IPv6 address ]</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;automatic&quot;</span><span class="token operator">:</span>                                     <span class="token comment">// detial configure for &quot;method&quot; is [ automatic ]</span>
+    <span class="token punctuation">{</span>
+        <span class="token property">&quot;custom_dns&quot;</span><span class="token operator">:</span><span class="token string">&quot;Custom DNS&quot;</span><span class="token punctuation">,</span>                   <span class="token comment">// [ disable, enable ]</span>
+        <span class="token property">&quot;dns&quot;</span><span class="token operator">:</span><span class="token string">&quot;Custom DNS1&quot;</span><span class="token punctuation">,</span>                         <span class="token comment">// [ IPv6 address ], This is valid when custom_dns is [ enable ]</span>
+        <span class="token property">&quot;dns2&quot;</span><span class="token operator">:</span><span class="token string">&quot;Custom DNS2&quot;</span>                         <span class="token comment">// [ IPv6 address ], This is valid when custom_dns is [ enable ]</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;masquerade&quot;</span><span class="token operator">:</span><span class="token string">&quot;out stream share the interface IPv6 address to access the Internet&quot;</span><span class="token punctuation">,</span>   <span class="token comment">// [ disable, enable ]</span>
+
+    <span class="token comment">// Configure for link detection mechanism, or call it keeplive mechanism</span>
+    <span class="token property">&quot;keeplive&quot;</span><span class="token operator">:</span>
+    <span class="token punctuation">{</span>
+        <span class="token property">&quot;type&quot;</span><span class="token operator">:</span><span class="token string">&quot;keeplive mode&quot;</span><span class="token punctuation">,</span>   <span class="token comment">// [ disable ] for disable the keeplive, [ icmp ] for ping keeplive, [ recv ] for count receive packet to keeplive</span>
+        <span class="token property">&quot;icmp&quot;</span><span class="token operator">:</span>                                                                           <span class="token comment">// detial configure for type is [ icmp ]</span>
+        <span class="token punctuation">{</span>
+            <span class="token property">&quot;dest&quot;</span><span class="token operator">:</span>                                                                       <span class="token comment">// destination address for ICMP keeplive</span>
+            <span class="token punctuation">{</span>
+                <span class="token comment">// &quot;...&quot;:&quot;...&quot; You can configure multiple destination IP addresses. If only one PING echo packet is returned, the detection succeeds. If no PING echo packet is returned, the detection fails  </span>
+                <span class="token property">&quot;destination identify2&quot;</span><span class="token operator">:</span><span class="token string">&quot;destination address1&quot;</span><span class="token punctuation">,</span> <span class="token comment">// [ string ]:[ IP address ]</span>
+                <span class="token property">&quot;destination identify2&quot;</span><span class="token operator">:</span><span class="token string">&quot;destination address2&quot;</span>  <span class="token comment">// [ string ]:[ IP address ]</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token property">&quot;timeout&quot;</span><span class="token operator">:</span><span class="token string">&quot;Maximum time to wait for the return of a PING echo packet&quot;</span><span class="token punctuation">,</span>     <span class="token comment">// [ number ], The unit is in seconds</span>
+            <span class="token property">&quot;failed&quot;</span><span class="token operator">:</span><span class="token string">&quot;Number of detection failures&quot;</span><span class="token punctuation">,</span>                                   <span class="token comment">// [ number ], If the number of detection failures exceeds this threshold, the link is deactivated</span>
+            <span class="token property">&quot;interval&quot;</span><span class="token operator">:</span><span class="token string">&quot;Interval of each Successful detection&quot;</span><span class="token punctuation">,</span>                        <span class="token comment">// [ number ], The unit is in seconds</span>
+
+            <span class="token comment">// Line shake calculation  </span>
+            <span class="token property">&quot;ill_range&quot;</span><span class="token operator">:</span><span class="token string">&quot;Total number of counts&quot;</span><span class="token punctuation">,</span>                                      <span class="token comment">// [ number], Total number of counts</span>
+            <span class="token property">&quot;ill_delay&quot;</span><span class="token operator">:</span><span class="token string">&quot;Delay threshold&quot;</span><span class="token punctuation">,</span>                                             <span class="token comment">// [ number], The unit is in millisecond</span>
+            <span class="token property">&quot;ill_time&quot;</span><span class="token operator">:</span><span class="token string">&quot;Maximum time to warnning&quot;</span><span class="token punctuation">,</span>                                     <span class="token comment">// [ number]</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;recv&quot;</span><span class="token operator">:</span>                                                                                          <span class="token comment">// detial configure for type is [ recv ]</span>
+        <span class="token punctuation">{</span>
+            <span class="token property">&quot;timeout&quot;</span><span class="token operator">:</span><span class="token string">&quot;How many seconds did not receive a packet considered a failure&quot;</span><span class="token punctuation">,</span>                  <span class="token comment">// [ number ], The unit is in seconds</span>
+            <span class="token property">&quot;packets&quot;</span><span class="token operator">:</span><span class="token string">&quot;How many packets&quot;</span><span class="token punctuation">,</span>                                                                <span class="token comment">// [ number ]</span>
+            <span class="token property">&quot;failed&quot;</span><span class="token operator">:</span><span class="token string">&quot;failed times&quot;</span>                                                                      <span class="token comment">// [ number ]</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+    <span class="token comment">// For LTE/NR baseband Settings, the parameters are the same as modem@lte</span>
+    <span class="token comment">// ##### For details, see configuration of modem@lte  #####</span>
+
+<span class="token punctuation">}</span>
+<span class="token comment">// Examples</span>
+<span class="token punctuation">{</span>
+    <span class="token property">&quot;tid&quot;</span><span class="token operator">:</span><span class="token string">&quot;2&quot;</span><span class="token punctuation">,</span>                                       <span class="token comment">// exclusive route table ID is 2</span>
+                                                     <span class="token comment">// mode default is dhcpc</span>
+
+    <span class="token property">&quot;ppp&quot;</span><span class="token operator">:</span>                                           <span class="token comment">// ppp configure will be used when &quot;mode&quot; is ppp</span>
+    <span class="token punctuation">{</span>
+        <span class="token property">&quot;lcp_echo_interval&quot;</span><span class="token operator">:</span><span class="token string">&quot;10&quot;</span><span class="token punctuation">,</span>                         <span class="token comment">// LCP echo interval is 10 second</span>
+        <span class="token property">&quot;lcp_echo_failure&quot;</span><span class="token operator">:</span><span class="token string">&quot;12&quot;</span>                           <span class="token comment">// LCP echo failure times is 12</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;method&quot;</span><span class="token operator">:</span><span class="token string">&quot;slaac&quot;</span><span class="token punctuation">,</span>                                <span class="token comment">// IPv6 address mode is slaac</span>
+    <span class="token property">&quot;masq&quot;</span><span class="token operator">:</span><span class="token string">&quot;enable&quot;</span><span class="token punctuation">,</span>                                 <span class="token comment">// out stream share the interface IPv4 address to access the Internet</span>
+    <span class="token property">&quot;keeplive&quot;</span><span class="token operator">:</span>                                      <span class="token comment">// keeplive mechanism configure save here</span>
+    <span class="token punctuation">{</span>
+        <span class="token property">&quot;type&quot;</span><span class="token operator">:</span><span class="token string">&quot;recv&quot;</span><span class="token punctuation">,</span>                               <span class="token comment">// use count receive packet to keeplive</span>
+        <span class="token property">&quot;recv&quot;</span><span class="token operator">:</span>                                      <span class="token comment">// If no 1 packet is received within 20X30 second(10 minutes), the link is considered unavailable</span>
+        <span class="token punctuation">{</span>
+            <span class="token property">&quot;timeout&quot;</span><span class="token operator">:</span><span class="token string">&quot;20&quot;</span><span class="token punctuation">,</span>
+            <span class="token property">&quot;failed&quot;</span><span class="token operator">:</span><span class="token string">&quot;30&quot;</span><span class="token punctuation">,</span>
+            <span class="token property">&quot;packets&quot;</span><span class="token operator">:</span><span class="token string">&quot;1&quot;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</pre><h4 class="mume-header" id="methods" ebook-toc-level-4 heading="&lt;strong&gt;Methods&lt;/strong&gt;"><strong>Methods</strong></h4>
+
+<p><strong>ifname@lte</strong> is first LTE network<br>
+<strong>ifname@lte2</strong> is second LTE/NR network</p>
+<ul>
+<li>
+<p><code>status[]</code> <strong>get the LTE network infomation</strong>, <em>succeed return talk to describes infomation, failed reeturn NULL, error return terror</em></p>
+<pre data-role="codeBlock" data-info="json" class="language-json"><span class="token comment">// Attributes introduction of talk by the method return</span>
+<span class="token punctuation">{</span>
+    <span class="token property">&quot;status&quot;</span><span class="token operator">:</span><span class="token string">&quot;Current state&quot;</span><span class="token punctuation">,</span>        <span class="token comment">// [ setup, register, ready, nodevice, reset, down, up ]</span>
+                                         <span class="token comment">// setup for setup the modem</span>
+                                         <span class="token comment">// register for register the network</span>
+                                         <span class="token comment">// ready for ready to connect to internet, hint signal/network/simcard all ok</span>
+                                         <span class="token comment">// nodevice for the corresponding module could not be found</span>
+                                         <span class="token comment">// reset for reset the modem</span>
+                                         <span class="token comment">// down for the network is down</span>
+                                         <span class="token comment">// up for the network is connect succeed</span>
+    <span class="token property">&quot;mode&quot;</span><span class="token operator">:</span><span class="token string">&quot;IPV4 address mode&quot;</span><span class="token punctuation">,</span>     <span class="token comment">// [ dhcpc ] for DHCP, [ static ] for manual setting&#xFF0C; [ ppp ] for PPP dial</span>
+    <span class="token property">&quot;netdev&quot;</span><span class="token operator">:</span><span class="token string">&quot;netdev name&quot;</span><span class="token punctuation">,</span>         <span class="token comment">// [ string ]</span>
+    <span class="token property">&quot;gw&quot;</span><span class="token operator">:</span><span class="token string">&quot;gateway ip address&quot;</span><span class="token punctuation">,</span>      <span class="token comment">// [ ip address ]</span>
+    <span class="token property">&quot;dns&quot;</span><span class="token operator">:</span><span class="token string">&quot;dns ip address&quot;</span><span class="token punctuation">,</span>         <span class="token comment">// [ ip address ]</span>
+    <span class="token property">&quot;dns2&quot;</span><span class="token operator">:</span><span class="token string">&quot;dns2 ip address&quot;</span><span class="token punctuation">,</span>       <span class="token comment">// [ ip address ]</span>
+    <span class="token property">&quot;ip&quot;</span><span class="token operator">:</span><span class="token string">&quot;ip address&quot;</span><span class="token punctuation">,</span>              <span class="token comment">// [ ip address ]</span>
+    <span class="token property">&quot;mask&quot;</span><span class="token operator">:</span><span class="token string">&quot;network mask&quot;</span><span class="token punctuation">,</span>          <span class="token comment">// [ ip address ]</span>
+    <span class="token property">&quot;delay&quot;</span><span class="token operator">:</span><span class="token string">&quot;delay time&quot;</span><span class="token punctuation">,</span>           <span class="token comment">// [ failed, 0-10000 ], failed for icmp failed</span>
+    <span class="token property">&quot;livetime&quot;</span><span class="token operator">:</span><span class="token string">&quot;online time&quot;</span><span class="token punctuation">,</span>       <span class="token comment">// hour:minute:second:day</span>
+    <span class="token property">&quot;rx_bytes&quot;</span><span class="token operator">:</span><span class="token string">&quot;send bytes&quot;</span><span class="token punctuation">,</span>        <span class="token comment">// [ number ]</span>
+    <span class="token property">&quot;rx_packets&quot;</span><span class="token operator">:</span><span class="token string">&quot;send packets&quot;</span><span class="token punctuation">,</span>    <span class="token comment">// [ number ]</span>
+    <span class="token property">&quot;tx_bytes&quot;</span><span class="token operator">:</span><span class="token string">&quot;receive bytes&quot;</span><span class="token punctuation">,</span>     <span class="token comment">// [ number ]</span>
+    <span class="token property">&quot;tx_packets&quot;</span><span class="token operator">:</span><span class="token string">&quot;receive packets&quot;</span><span class="token punctuation">,</span> <span class="token comment">// [ number ]</span>
+    <span class="token property">&quot;mac&quot;</span><span class="token operator">:</span><span class="token string">&quot;MAC address&quot;</span><span class="token punctuation">,</span>            <span class="token comment">// [ MAC address ]</span>
+    <span class="token property">&quot;method&quot;</span><span class="token operator">:</span><span class="token string">&quot;IPv6 address mode&quot;</span><span class="token punctuation">,</span>   <span class="token comment">// [ disable ] is not use ipv6, [ manual ] for manual setting&#xFF0C; [ automatic ] for DHCPv6, [ slaac ] for Stateless address autoconfiguration</span>
+    <span class="token property">&quot;addr&quot;</span><span class="token operator">:</span><span class="token string">&quot;IPv6 address&quot;</span><span class="token punctuation">,</span>          <span class="token comment">// [ IPv6 address ]</span>
+    <span class="token comment">// For LTE/NR baseband Status, the parameters are the same as modem@lte.status</span>
+    <span class="token comment">// ##### For details, see status of modem@lte  #####</span>
+<span class="token punctuation">}</span>
+</pre><pre data-role="codeBlock" data-info="shell" class="language-shell"><span class="token comment"># examples, get the first lte network infomation</span>
+ifname@lte.status
+<span class="token punctuation">{</span>
+    <span class="token string">&quot;mode&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;dhcpc&quot;</span>,                    <span class="token comment"># IPv4 connect mode is DHCP</span>
+    <span class="token string">&quot;netdev&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;usb0&quot;</span>,                   <span class="token comment"># netdev is usb0</span>
+    <span class="token string">&quot;gw&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;10.137.89.118&quot;</span>,              <span class="token comment"># gateway is 10.137.89.118</span>
+    <span class="token string">&quot;dns&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;120.80.80.80&quot;</span>,              <span class="token comment"># dns is 120.80.80.80</span>
+    <span class="token string">&quot;dns2&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;221.5.88.88&quot;</span>,              <span class="token comment"># backup dns is 221.5.88.88</span>
+    <span class="token string">&quot;status&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;up&quot;</span>,                     <span class="token comment"># connect is succeed</span>
+    <span class="token string">&quot;ip&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;10.137.89.117&quot;</span>,              <span class="token comment"># ip address is 10.137.89.117</span>
+    <span class="token string">&quot;mask&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;255.255.255.252&quot;</span>,          <span class="token comment"># network mask is 255.255.255.252</span>
+    <span class="token string">&quot;livetime&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;00:15:50:0&quot;</span>,           <span class="token comment"># already online 15 minute and 50 second</span>
+    <span class="token string">&quot;rx_bytes&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;1256&quot;</span>,                 <span class="token comment"># receive 1256 bytes</span>
+    <span class="token string">&quot;rx_packets&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;4&quot;</span>,                  <span class="token comment"># receive 4 packets</span>
+    <span class="token string">&quot;tx_bytes&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;1320&quot;</span>,                 <span class="token comment"># send 1320 bytes</span>
+    <span class="token string">&quot;tx_packets&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;4&quot;</span>,                  <span class="token comment"># send 4 packets</span>
+    <span class="token string">&quot;mac&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;02:50:F4:00:00:00&quot;</span>,         <span class="token comment"># netdev MAC address is 02:50:F4:00:00:00</span>
+    <span class="token string">&quot;method&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;slaac&quot;</span>,                  <span class="token comment"># IPv6 address mode is slaac</span>
+    <span class="token string">&quot;addr&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;fe80::50:f4ff:fe00:0&quot;</span>,     <span class="token comment"># local IPv6 address is fe80::50:f4ff:fe00:0</span>
+    <span class="token string">&quot;imei&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;867160040494084&quot;</span>,          <span class="token comment"># imei is 867160040494084</span>
+    <span class="token string">&quot;imsi&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;460015356123463&quot;</span>,          <span class="token comment"># imei is 460015356123463</span>
+    <span class="token string">&quot;iccid&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;89860121801097564807&quot;</span>,    <span class="token comment"># imei is 89860121801097564807</span>
+    <span class="token string">&quot;csq&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;3&quot;</span>,                         <span class="token comment"># CSQ nubmer is 3</span>
+    <span class="token string">&quot;signal&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;3&quot;</span>,                      <span class="token comment"># signal level is 3</span>
+    <span class="token string">&quot;state&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;connect&quot;</span>,                 <span class="token comment"># state is connect to the internet</span>
+    <span class="token string">&quot;plmn&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;46001&quot;</span>,                    <span class="token comment"># plmn is 46001</span>
+    <span class="token string">&quot;nettype&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;WCDMA&quot;</span>,                 <span class="token comment"># nettype is WCDMA</span>
+    <span class="token string">&quot;rssi&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;-107&quot;</span>,                     <span class="token comment"># signal intensity is -107</span>
+    <span class="token string">&quot;operator&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;&#x4E2D;&#x56FD;&#x8054;&#x901A;&quot;</span>,             <span class="token comment"># operator name is &#x4E2D;&#x56FD;&#x8054;&#x901A;</span>
+    <span class="token string">&quot;operator_advise&quot;</span><span class="token builtin class-name">:</span>                 <span class="token comment"># recommended profile for &#x4E2D;&#x56FD;&#x8054;&#x901A;</span>
+    <span class="token punctuation">{</span>
+        <span class="token string">&quot;name&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;&#x4E2D;&#x56FD;&#x8054;&#x901A;&quot;</span>,                 <span class="token comment"># name is &#x4E2D;&#x56FD;&#x8054;&#x901A;</span>
+        <span class="token string">&quot;dial&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;*99#&quot;</span>,                     <span class="token comment"># dial number is *99#</span>
+        <span class="token string">&quot;apn&quot;</span><span class="token builtin class-name">:</span><span class="token string">&quot;3gnet&quot;</span>                      <span class="token comment"># APN is 3gnet</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</pre></li>
+<li>
+<p><code>netdev[]</code> <strong>get the netdev</strong>, <em>succeed return netdev, failed return NULL, error return terror</em></p>
+<pre data-role="codeBlock" data-info="shell" class="language-shell"><span class="token comment"># examples, get the first LTE network netdev</span>
+ifname@lte.netdev
+usb0
+</pre></li>
+<li>
+<p><code>shut[]</code> <strong>shutdown the modem network</strong>, <em>succeed return ttrue, failed return tfalse, error return terror</em></p>
+<pre data-role="codeBlock" data-info="shell" class="language-shell"><span class="token comment"># examples, shutdown the frist LTE network</span>
+ifname@lte.shut
+ttrue
+</pre></li>
+<li>
+<p><code>setup[]</code> <strong>setup the modem network</strong>, <em>succeed return ttrue, failed return tfalse, error return terror</em></p>
+<pre data-role="codeBlock" data-info="shell" class="language-shell"><span class="token comment"># examples, setup the second LTE network</span>
+ifname@lte2.setup
+ttrue
+</pre></li>
+</ul>
+</div></body></html>
+    </div>
+  </body>
+</html>

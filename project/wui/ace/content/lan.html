@@ -241,16 +241,16 @@
   (function () {
     /* get the object */
     var lan;
-    obj = "ifname@lan";
-    var index = location.hash.indexOf("obj=");
-    if ( index > 0 )
+    object = "ifname@lan";
+    var index = page.param( 'object', location.hash );
+    if ( index )
     {
-      obj = location.hash.substring( index+4 );
+        object = index;
     }
     /* load the configure on the input */
     function config_load()
     {
-      he.load( [ obj ] ).then( function(v){
+      he.load( [ object ] ).then( function(v){
         lan = v[0];
         if ( !lan )
         {
@@ -505,7 +505,7 @@
         page.confirm( { message: $.i18n('The system will restart because of the change of configuration') } ).then( function(result){
             if ( result )
             {
-                he.save( [ obj+"="+JSON.stringify(lan)] ).then( function(){
+                he.save( [ object+"="+JSON.stringify(lan)] ).then( function(){
                     page.confirm( { message: $.i18n('Need to restart the system') } ).then( function(result){
                         if ( result )
                         {

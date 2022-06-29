@@ -15,7 +15,7 @@ talk_t _setup( obj_t this, param_t param )
     const char *ptr;
 
     cfg = config_sget( COM_IDPATH, NULL );
-    ptr = json_get_string( cfg, "status" );
+    ptr = json_string( cfg, "status" );
     if ( ptr != NULL && 0 == strcmp( ptr, "enable" ) )
     {
         service_start( COM_IDPATH, COM_IDPATH, "service", NULL );

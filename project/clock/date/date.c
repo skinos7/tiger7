@@ -51,11 +51,11 @@ static boole ntpclient_sync( const char* server, const char* zone )
     ret = false;
     project_exe_path( path, sizeof(path), PROJECT_ID, "ntpclient" );
     /* sync the time */
-    if ( 0 == execute( 20, 1, "%s -h %s -s" , path, server ) )
+    if ( 0 == execute( 120, true, "%s -h %s -s" , path, server ) )
     {
         ret = true;
         info( "sync the system time from %s succeed", server );
-        shell( "hwclock -w >/dev/null 2>&1" );
+        execute( 0, true, "hwclock -w" );
         /* tell the system that time is ok */
 		string2reg( "date_src", reg_date_src, "ntp", 20 );
         joint_calls( "date/modify", "ntp" );
@@ -140,7 +140,7 @@ talk_t _shut( obj_t this, param_t param )
 	/* stop the service */
     service_stop( COM_IDPATH );
 	/* kill the ntpclient to prevent the ntpclient pause */
-	shell( "killall ntpclient" );
+	execute( 0, true, "killall ntpclient" );
     return ttrue;
 }
 talk_t _ntploop( obj_t this, param_t param )

@@ -299,7 +299,7 @@
 				</div>
 			</div><!-- /.main-content -->
 
-			<div class="footer"><div class="footer-inner"><div class="footer-content"><span class="bigger-120" id="copywrong"><span class="blue bolder">Ashyelf</span> &copy; 2019-2020</span></div></div></div>
+			<div class="footer"><div class="footer-inner"><div class="footer-content"><span class="bigger-120" id="copywrong"><span class="blue bolder">ASHYELF</span> &copy; 2019-2020</span></div></div></div>
 
 			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse"><i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i></a>
 		</div><!-- /.main-container -->
@@ -737,40 +737,40 @@
 				{
 				    if ( !wuimenu || wuimenu.wan != "disable" )
 				    {
-                        $('#extern_nav').attr('href','#wan?obj=ifname@wan');
-                        $('#extern_nav_mini').attr('href','#wan?obj=ifname@wan');
+                        $('#extern_nav').attr('href','#wan?object=ifname@wan');
+                        $('#extern_nav_mini').attr('href','#wan?object=ifname@wan');
                     }
 				}
 				else if ( window.machine.mode == "ngateway" )
 				{
 				    if ( !wuimenu || wuimenu.wan2 != "disable" )
 				    {
-                        $('#extern_nav').attr('href','#wan?obj=ifname@wan2');
-                        $('#extern_nav_mini').attr('href','#wan?obj=ifname@wan2');
+                        $('#extern_nav').attr('href','#wan?object=ifname@wan2');
+                        $('#extern_nav_mini').attr('href','#wan?object=ifname@wan2');
                     }
 				}
 				else if ( window.machine.mode == "wisp" || window.machine.mode == "dwisp" )
 				{
 				    if ( !wuimenu || wuimenu.wisp != "disable" )
 				    {
-                        $('#extern_nav').attr('href','#wisp?obj=ifname@wisp');
-                        $('#extern_nav_mini').attr('href','#wisp?obj=ifname@wisp');
+                        $('#extern_nav').attr('href','#wisp?object=ifname@wisp');
+                        $('#extern_nav_mini').attr('href','#wisp?object=ifname@wisp');
                     }
 				}
 				else if ( window.machine.mode == "nwisp" )
 				{
 				    if ( !wuimenu || wuimenu.wisp2 != "disable" )
 				    {
-                        $('#extern_nav').attr('href','#wisp?obj=ifname@wisp2');
-                        $('#extern_nav_mini').attr('href','#wisp?obj=ifname@wisp2');
+                        $('#extern_nav').attr('href','#wisp?object=ifname@wisp2');
+                        $('#extern_nav_mini').attr('href','#wisp?object=ifname@wisp2');
                     }
 				}
 				else if ( window.machine.mode == "nmisp" )
 				{
 				    if ( !wuimenu || wuimenu.lte2 != "disable" )
 				    {
-                        $('#extern_nav').attr('href','#lte?obj=ifname@lte2' );
-                        $('#extern_nav_mini').attr('href','#lte?obj=ifname@lte2' );
+                        $('#extern_nav').attr('href','#lte?object=ifname@lte2' );
+                        $('#extern_nav_mini').attr('href','#lte?object=ifname@lte2' );
                     }
 				}
 				else
@@ -778,8 +778,8 @@
 				    if ( !wuimenu || wuimenu.lte != "disable" )
 				    {
                         
-                        $('#extern_nav').attr('href','#lte?obj=ifname@lte');
-                        $('#extern_nav_mini').attr('href','#lte?obj=ifname@lte' );
+                        $('#extern_nav').attr('href','#lte?object=ifname@lte');
+                        $('#extern_nav_mini').attr('href','#lte?object=ifname@lte' );
                     }
 				}
 
@@ -800,49 +800,49 @@
     				{
                         if ( !wuimenu || wuimenu.lte != "disable" )
                         {
-    					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE' ), 'lte?obj=ifname@lte' );
+    					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE' ), 'lte?object=ifname@lte' );
                         }
     				}
     				if ( <%he('.ifname@lte2.status'); %> )
     				{
                         if ( !wuimenu || wuimenu.lte2 != "disable" )
                         {
-    					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE/NR' ), 'lte?obj=ifname@lte2' );
+    					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE/NR' ), 'lte?object=ifname@lte2' );
                         }
     				}
     				if ( <%he('.ifname@wan.status'); %> )
     				{
                         if ( !wuimenu || wuimenu.wan != "disable" )
                         {
-    					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'WAN' ), 'wan?obj=ifname@wan' );
+    					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'WAN' ), 'wan?object=ifname@wan' );
                         }
     				}
     				if ( <%he('.ifname@wan2.status'); %> )
     				{
                         if ( !wuimenu || wuimenu.wan2 != "disable" )
                         {
-    					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'WAN2' ), 'wan?obj=ifname@wan2' );
+    					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'WAN2' ), 'wan?object=ifname@wan2' );
                         }
     				}
     				if ( <%he('.ifname@wisp.status'); %> )
     				{
                         if ( !wuimenu || wuimenu.wisp != "disable" )
                         {
-    					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'WISP(2.4G)' ), 'wisp?obj=ifname@wisp' );
+    					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'WISP(2.4G)' ), 'wisp?object=ifname@wisp' );
                         }
     				}
     				if ( <%he('.ifname@wisp2.status'); %> )
     				{
                         if ( !wuimenu || wuimenu.wisp2 != "disable" )
                         {
-    					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'WISP(5.8G)' ), 'wisp?obj=ifname@wisp2' );
+    					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'WISP(5.8G)' ), 'wisp?object=ifname@wisp2' );
                         }
     				}
                     if ( <%he('.ifname@lan.status'); %> )
                     {
                         if ( !wuimenu || wuimenu.lan != "disable" )
                         {
-                            menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LAN' ), 'lan?obj=ifname@lan' );
+                            menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LAN' ), 'lan?object=ifname@lan' );
                         }
                     }
                 }
@@ -852,7 +852,7 @@
                     {
                         if ( !wuimenu || wuimenu.lwan != "disable" )
                         {
-                            menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LAN' ), 'lwan?obj=ifname@lan' );
+                            menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LAN' ), 'lwan?object=ifname@lan' );
                         }
                     }
                 }
@@ -860,7 +860,7 @@
 				{
                     if ( !wuimenu || wuimenu.lan2 != "disable" )
                     {
-					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LAN2' ), 'lan?obj=ifname@lan2' );
+					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LAN2' ), 'lan?object=ifname@lan2' );
 					}
 				}
 				
@@ -894,14 +894,14 @@
     				{
                         if ( !wuimenu || wuimenu.lte != "disable" )
                         {
-    					    menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'AT command(LTE)' ), 'atcommand?obj=modem@lte' );
+    					    menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'AT command(LTE)' ), 'atcommand?object=modem@lte' );
                         }
     				}
     				if ( <%he('.modem@lte2.status'); %> )
     				{
                         if ( !wuimenu || wuimenu.lte2 != "disable" )
                         {
-    					    menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'AT command(LTE/NR)' ), 'atcommand?obj=modem@lte2' );
+    					    menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'AT command(LTE/NR)' ), 'atcommand?object=modem@lte2' );
                         }
     				}
                 }
@@ -925,7 +925,7 @@
 				    var app_mode = app['mode'];
 				    if ( app_mode )
 				    {
-				        if ( app_mode != window.machine.mode && app_mode != "mix" )
+				        if ( app_mode[window.machine.mode] != "enable" )
 				        {
 				            continue;
 				        }
@@ -936,10 +936,10 @@
 				        continue;
 				    }
 				    var app_hash = 'app?page='+base64.encode(app_page);
-				    var app_obj = app['obj'];
-				    if ( app_obj )
+				    var app_object = app['object'];
+				    if ( app_object )
 				    {
-				        app_hash += '&obj='+app_obj;
+				        app_hash += '&object='+app_object;
 				    }
 				    var app_lang = app['lang'][window.lang];
 				    if ( app_lang )

@@ -367,7 +367,14 @@
 
       /* load the info */
       $('#name_string').text(window.machine.name);
-      $('#model_string').text(window.machine_status.model);
+      if ( window.machine_status.cmodel )
+      {
+        $('#model_string').text(window.machine_status.cmodel);
+      }
+      else
+      {
+        $('#model_string').text(window.machine_status.model);
+      }
       if ( !wuimenu || wuimenu.model != "disable" )
       {
           $("#model_string").closest('.form-group').show();

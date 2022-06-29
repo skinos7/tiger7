@@ -28,13 +28,12 @@
 <!-- page specific plugin scripts -->
 <script type="text/javascript">
   (function () {
-    var obj = "modem@lte";
-    var index = location.hash.indexOf("obj=");
-    if ( index > 0 )
+    var object = "modem@lte";
+    var index = page.param( 'object', location.hash );
+    if ( index )
     {
-      obj = location.hash.substring( index+4 );
+        object = index;
     }
-
     if ( window.ie && window.ie < 11)
     {
       $('#terminal').hide();
@@ -67,7 +66,7 @@
               if ( result )
               {
                   $('#terminal').hide();
-                  he.exec( 'wui@admin.ttyd_lte['+obj+']', $.i18n("Opening...") ).then( function(v){
+                  he.exec( 'wui@admin.ttyd_lte['+object+']', $.i18n("Opening...") ).then( function(v){
                     if ( v == true )
                     {
                         $('#terminal').attr('src', null );

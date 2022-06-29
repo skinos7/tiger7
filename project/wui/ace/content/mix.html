@@ -8,23 +8,23 @@
       <!-- 状态 -->
       <table class="table table-bordered table-striped" >
       <tbody>
-          <tr id="wan" style="display: none;">
-              <th data-i18n="ifname@wan"></th><td id="wan_state"></td>
+          <tr id="wan" style="display: none;">
+              <th data-i18n="ifname@wan"></th><td id="wan_status"></td><td id="wan_state"></td>
           </tr>
-          <tr id="wan2" style="display: none;">
-              <th data-i18n="ifname@wan2"></th><td id="wan2_state"></td>
+          <tr id="wan2" style="display: none;">
+              <th data-i18n="ifname@wan2"></th><td id="wan2_status"></td><td id="wan2_state"></td>
           </tr>
-          <tr id="wisp" style="display: none;">
-              <th data-i18n="ifname@wisp"></th><td id="wisp_state"></td>
+          <tr id="wisp" style="display: none;">
+              <th data-i18n="ifname@wisp"></th><td id="wisp_status"></td><td id="wisp_state"></td>
           </tr>
-          <tr id="wisp2" style="display: none;">
-              <th data-i18n="ifname@wisp2"></th><td id="wisp2_state"></td>
+          <tr id="wisp2" style="display: none;">
+              <th data-i18n="ifname@wisp2"></th><td id="wisp2_status"></td><td id="wisp2_state"></td>
           </tr>
-          <tr id="lte" style="display: none;">
-              <th data-i18n="ifname@lte"></th><td id="lte_state"></td>
+          <tr id="lte" style="display: none;">
+              <th data-i18n="ifname@lte"></th><td id="lte_status"></td><td id="lte_state"></td>
           </tr>
-          <tr id="lte2" style="display: none;">
-              <th data-i18n="ifname@lte2"></th><td id="lte2_state"></td>
+          <tr id="lte2" style="display: none;">
+              <th data-i18n="ifname@lte2"></th><td id="lte2_status"></td><td id="lte2_state"></td>
           </tr>
       </tbody>
       </table>            
@@ -37,8 +37,7 @@
         <label class="col-sm-3 control-label no-padding-right" data-i18n="Type"></label>
         <div class="col-sm-9">
           <select class="col-xs-10 col-sm-5" id="type">
-            <option value="cold" data-i18n="Cold Backup"></option>
-            <option value="hot" data-i18n="Hot Backup"></option>
+            <option value="hot" data-i18n="Link Backup"></option>
             <option value="dbdc" data-i18n="Load Balancing"></option>
           </select>
         </div>
@@ -216,6 +215,10 @@
         }
         if ( list["ifname@wan"] )
         {
+            if ( list["ifname@wan"].status )
+            {
+                $('#wan_status').html( $.i18n( list["ifname@wan"].status ) );
+            }
             if ( list["ifname@wan"].inuse == "enable" )
             {
                 $('#wan_state').html( $.i18n('In Use') );
@@ -232,6 +235,10 @@
         }
         if ( list["ifname@wan2"] )
         {
+            if ( list["ifname@wan2"].status )
+            {
+                $('#wan_status').html( $.i18n( list["ifname@wan2"].status ) );
+            }
             if ( list["ifname@wan2"].inuse == "enable" )
             {
                 $('#wan2_state').html( $.i18n('In Use') );
@@ -249,6 +256,10 @@
 
         if ( list["ifname@wisp"] )
         {
+            if ( list["ifname@wisp"].status )
+            {
+                $('#wisp_status').html( $.i18n(list["ifname@wisp"].status) );
+            }
             if ( list["ifname@wisp"].inuse == "enable" )
             {
                 $('#wisp_state').html( $.i18n('In Use') );
@@ -265,6 +276,10 @@
         }
         if ( list["ifname@wisp2"] )
         {
+            if ( list["ifname@wisp2"].status )
+            {
+                $('#wisp2_status').html( $.i18n(list["ifname@wisp2"].status) );
+            }
             if ( list["ifname@wisp2"].inuse == "enable" )
             {
                 $('#wisp2_state').html( $.i18n('In Use') );
@@ -282,6 +297,10 @@
         
         if ( list["ifname@lte"] )
         {
+            if ( list["ifname@lte"].status )
+            {
+                $('#lte_status').html( $.i18n(list["ifname@lte"].status) );
+            }
             if ( list["ifname@lte"].inuse == "enable" )
             {
                 $('#lte_state').html( $.i18n('In Use') );
@@ -298,6 +317,10 @@
         }
         if ( list["ifname@lte2"] )
         {
+            if ( list["ifname@lte2"].status )
+            {
+                $('#lte2_status').html( $.i18n(list["ifname@lte2"].status) );
+            }
             if ( list["ifname@lte2"].inuse == "enable" )
             {
                 $('#lte2_state').html( $.i18n('In Use') );

@@ -12,6 +12,7 @@
 
 boole_t _setup( obj_t this, param_t param )
 {
+	int tid;
     talk_t v;
     talk_t cfg;
     talk_t ret;
@@ -38,6 +39,13 @@ boole_t _setup( obj_t this, param_t param )
         talk_free( cfg );
         return tfalse;
     }
+	/* set the tid */
+	ptr = json_string( cfg, "tid" );
+	if ( ptr != NULL && *ptr != '\0' )
+	{
+		tid = atoi( ptr );
+		register_set( object, "tid", &tid, sizeof(tid), 0 );
+	}
     /* get the ifdev */
 	ifdev = register_pointer( object, "ifdev" );
     if ( ifdev == NULL || *ifdev == '\0' )
@@ -181,23 +189,9 @@ talk_t _netdev( obj_t this, param_t param )
 
     return string2x( netdev );
 }
-int *reg_delay;
-char *reg_keeplive;
-char *reg_ifdev;
-char *reg_netdev;
-char *reg_tid;
-char *reg_mode;
-char *reg_method;
-char *reg_custom_dns;
-char *reg_dns;
-char *reg_dns2;
-char *reg_custom_resolve;
-char *reg_resolve;
-char *reg_resolve2;
-char *reg_resolve2;
-int *reg_connect_failed;
-talk_t _status( obj_t this, param_t param )
+talk_t _state( obj_t this, param_t param )
 {
+	int *tid;
 	int delay;
     talk_t ret;
     talk_t v;
@@ -206,7 +200,6 @@ talk_t _status( obj_t this, param_t param )
     const char *ptr;
     const char *obj;
     const char *object;
-	const char *tid;
     const char *ifdev;
     const char *netdev;
 	const char *device;
@@ -219,6 +212,7 @@ talk_t _status( obj_t this, param_t param )
 	const char *resolve;
 	const char *resolve2;
     char path[PATH_MAX];
+	int *reg_delay = NULL;
 
     obj = obj_com( this );
     if ( 0 == strcmp( obj, COM_ID ) )
@@ -229,9 +223,9 @@ talk_t _status( obj_t this, param_t param )
 	netdev = device = NULL;
 
 	/* get the ifdev */
-	register2string( object, "ifdev", reg_ifdev, ifdev, NULL );
+	ifdev = register_pointer( object, "ifdev" );
     /* get the keeplive */
-	register2string( object, "keeplive", reg_keeplive, ptr, NULL );
+	ptr = register_pointer( object, "keeplive" );
     if ( ptr != NULL && 0 == strcmp( ptr, "icmp" ) )
     {
     	keeplive = true;
@@ -242,16 +236,16 @@ talk_t _status( obj_t this, param_t param )
 		keeplive = false;
 	}
 	/* get mode */
-	register2string( object, "tid", reg_tid, tid, NULL );
-	register2string( object, "mode", reg_mode, mode, NULL );
-	register2string( object, "method", reg_method, method, NULL );
+	tid = register_pointer( object, "tid" );
+	mode = register_pointer( object, "mode" );
+	method = register_pointer( object, "method" );
     /* get the custom_dns */
-	register2string( object, "custom_dns", reg_custom_dns, custom_dns, NULL );
-	register2string( object, "dns", reg_dns, dns, NULL );
-	register2string( object, "dns2", reg_dns2, dns2, NULL );
-	register2string( object, "custom_resolve", reg_custom_resolve, custom_resolve, NULL );
-	register2string( object, "resolve", reg_resolve, resolve, NULL );
-	register2string( object, "resolve2", reg_resolve2, resolve2, NULL );
+	custom_dns = register_pointer( object, "custom_dns" );
+	dns = register_pointer( object, "dns" );
+	dns2 = register_pointer( object, "dns2" );
+	custom_resolve = register_pointer( object, "custom_resolve" );
+	resolve = register_pointer( object, "resolve" );
+	resolve2 = register_pointer( object, "resolve2" );
 
     /* get the ipv4 online status */
     project_var_path( path, sizeof(path), NETWORK_PROJECT, "%s.ol", object );
@@ -262,7 +256,7 @@ talk_t _status( obj_t this, param_t param )
 		{
 			json_set_string( ret, "ifdev", ifdev );
 			/* get the netdev */
-			register2string( ifdev, "netdev", reg_netdev, netdev, NULL );
+			netdev = register_pointer( ifdev, "netdev" );
 			if ( netdev != NULL && *netdev != '\0' )
 			{
 				json_set_string( ret, "netdev", netdev );
@@ -366,7 +360,7 @@ talk_t _status( obj_t this, param_t param )
 		if ( 0 == strcmp( mac, "00:00:00:00:00:00" ) || 0 == strcasecmp( mac, "ff:ff:ff:ff:ff:ff" ) ) // ppp interface mac
 		{
 			/* get the netdev */
-			register2string( ifdev, "netdev", reg_netdev, netdev, NULL );
+			netdev = register_pointer( ifdev, "netdev" );
 			if ( netdev != NULL && *netdev != '\0' )
 			{
 				netdev_info( netdev, NULL, 0, NULL, 0, NULL, 0, mac, sizeof(mac) );
@@ -376,9 +370,9 @@ talk_t _status( obj_t this, param_t param )
     }
 
     /* get the mode of configure */
-	if ( tid != NULL && *tid != '\0' )
+	if ( tid != NULL && *tid != 0 )
 	{
-		json_set_string( ret, "tid", tid );
+		json_set_number( ret, "tid", *tid );
 	}
 	if ( mode != NULL && *mode != '\0' )
 	{
@@ -455,6 +449,25 @@ talk_t _status( obj_t this, param_t param )
 		}
 	}
 
+    return ret;
+}
+talk_t _status( obj_t this, param_t param )
+{
+	talk_t v;
+	talk_t ret;
+	const char *ptr;
+	const char *ifdev;
+	const char *object;
+
+	ret = _state( this, param );
+	if ( ret == NULL )
+	{
+		return NULL;
+	}
+	object = obj_combine( this );
+	/* get the ifdev */
+	ifdev = register_pointer( object, "ifdev" );
+
     /* get the ifdev or main ifdev info */
 	if ( com_sexist( ifdev, "state" ) == true )
 	{
@@ -470,6 +483,7 @@ talk_t _status( obj_t this, param_t param )
 
     return ret;
 }
+
 /* only for apclient */
 talk_t _aplist( obj_t this, param_t param )
 {
@@ -486,7 +500,7 @@ talk_t _aplist( obj_t this, param_t param )
 	object = obj_combine( this );
 	ret = NULL;
 	/* get the ifdev */
-	register2string( object, "ifdev", reg_ifdev, ifdev, NULL );
+	ifdev = register_pointer( object, "ifdev" );
 	if ( ifdev != NULL && *ifdev != '\0' )
 	{
 		ret = scall( ifdev, "aplist", NULL );
@@ -509,7 +523,7 @@ talk_t _chlist( obj_t this, param_t param )
 	object = obj_combine( this );
 	ret = NULL;
 	/* get the ifdev */
-	register2string( object, "ifdev", reg_ifdev, ifdev, NULL );
+	ifdev = register_pointer( object, "ifdev" );
 	if ( ifdev != NULL && *ifdev != '\0' )
 	{
 		ret = scall( ifdev, "chlist", NULL );
@@ -519,6 +533,9 @@ talk_t _chlist( obj_t this, param_t param )
 
 
 
+char *reg_mode;
+char *reg_method;
+int *reg_connect_failed;
 boole_t _service( obj_t this, param_t param )
 {
     int ready;
@@ -529,7 +546,6 @@ boole_t _service( obj_t this, param_t param )
     talk_t value;
     const char *ptr;
     const char *obj;
-	const char *tid;
 	const char *mode;
     const char *object;
 	const char *ifdev;
@@ -562,8 +578,6 @@ boole_t _service( obj_t this, param_t param )
     {
     	return terror;
     }
-	tid = json_string( cfg, "tid" );
-	string2register( object, "tid", reg_tid, tid, 20 );
 	mode = json_string( cfg, "mode" );
 	string2register( object, "mode", reg_mode, mode, 20 );
 	method = json_string( cfg, "method" );
@@ -596,9 +610,9 @@ boole_t _service( obj_t this, param_t param )
 	int2register( object, "connect_failed", reg_connect_failed, connect_failed );
 	if ( ret == ttrue )
 	{
-		talk_free( cfg );
 		if ( com_sexist( ifdev, "reset" ) == true )
 		{
+			talk_free( cfg );
 			return scall( ifdev, "reset", NULL );
 		}
 	}
@@ -735,7 +749,7 @@ boole_t _service( obj_t this, param_t param )
 			v = json_value( cfg, "manual" );
 			ret = automatic_client_connect( object, ifdev, netdev, v );
 		}
-		pause();
+		ret = ttrue;
 	}
 	else
 	{
@@ -847,6 +861,7 @@ boole_t _online( obj_t this, param_t param )
 	const char *custom_dns;
 	const char *dns;
 	const char *dns2;
+	const char *metric;
 	char path[PATH_MAX];
 
 	obj = obj_com( this );
@@ -870,13 +885,13 @@ boole_t _online( obj_t this, param_t param )
 	}
 	/* get the keeplive */
 	ptr = json_string( json_value( cfg, "keeplive"), "type" );
-	if ( ptr != NULL )
-	{
-		string2register( object, "keeplive", reg_keeplive, ptr, 20 );
-	}
+	register_set( object, "keeplive", ptr, strlen(ptr)+1, 20 );
+	/* get the metric */
+	metric = json_string( cfg, "metric" );
+	register_set( object, "metric", metric, strlen(metric)+1, 20 );
 
 	/* get mode */
-	register2string( object, "mode", reg_mode, mode, NULL );
+	mode = register_pointer( object, "mode" );
 
 	/* get the custom_dns */
 	snprintf( path, sizeof(path), "%s/%s", RESOLV_DIR, object );
@@ -887,7 +902,7 @@ boole_t _online( obj_t this, param_t param )
 	{
 		dns = json_string( value, "dns" );
 		dns2 = json_string( value, "dns2" );
-		string2register( object, "custom_dns", reg_custom_dns, custom_dns, 20 );
+		register_set( object, "custom_dns", "enbale", strlen("enbale")+1, 20 );
 	}
 	else
 	{
@@ -898,17 +913,17 @@ boole_t _online( obj_t this, param_t param )
 		{
 			string3file( path, "search %s\n", ptr );
 		}
-		string2register( object, "custom_dns", reg_custom_dns, "disable", 20 );
+		register_set( object, "custom_dns", "disable", strlen("disable")+1, 20 );
 	}
 	if ( dns != NULL && *dns != '\0' )
 	{
-		string2register( object, "dns", reg_dns, dns, 20 );
+		register_set( object, "dns", dns, strlen(dns)+1, 20 );
 		string3file( path, "nameserver %s\n", dns );
 		route_switch( NULL, dns, NULL, NULL, v, true );
 	}
 	if ( dns2 != NULL && *dns2 != '\0' )
 	{
-		string2register( object, "dns2", reg_dns2, dns2, 20 );
+		register_set( object, "dns2", dns2, strlen(dns2)+1, 20 );
 		string3file( path, "nameserver %s\n", dns2 );
 		route_switch( NULL, dns2, NULL, NULL, v, true );
 	}
@@ -925,7 +940,7 @@ boole_t _online( obj_t this, param_t param )
 
 	/* clear the connect failed count */
 	i = 0;
-	int2register( object, "connect_failed", reg_connect_failed, i );
+	register_set( object, "connect_failed", &i, sizeof(i), 0 );
 
 	/* masq */
 	iptables( "-t nat -D %s -o %s -j MASQUERADE", MASQ_CHAIN, netdev );
@@ -937,7 +952,7 @@ boole_t _online( obj_t this, param_t param )
 	/* ppp tcp mss */
 	if ( 0 == strncmp( netdev, "ppp", 3 ) )
 	{
-		ptr = json_string( v, "txqueuelen" );
+		ptr = json_string( cfg, "txqueuelen" );
 		if ( ptr == NULL || *ptr == '\0' )
 		{
 			ptr = "500";

@@ -11,7 +11,8 @@ Administration of equipment Management web page
     "status":"start at system startup",     // [ disable, enable ]
     "login":"authentication is required",   // [ enable, disable ], WARNING: disable will not require login
     "port":"service port",                  // [ number ], 1-65535, default is 80
-    "termport":"Terminal port",              // [ number ], 1-65535, default is 81
+    "sslport":"https port",                 // [ number ], 1-65535, default is 443
+    "termport":"Terminal port",             // [ number ], 1-65535, default is 81
     "manager":                              // Only the specified IP address or MAC address is allowed for access
     {
         // "...":"..." You can configure multiple host who can access
@@ -56,6 +57,7 @@ Administration of equipment Management web page
     "status":"enable",             // start this service at system startup
     "login":"disable",             // you can access to webpage with no login
     "port":"80",                   // service port 80
+    "sslport":"443",               // https port 443
     "manager":                     // only the 192.168.8.111 and 00:03:7F:12:AA:B0 can access
     {
         "pc1":"192.168.8.111",

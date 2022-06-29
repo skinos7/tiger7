@@ -10,7 +10,6 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
 
 # 包含Openwrt的一些有关包处理的函数
 include $(INCLUDE_DIR)/package.mk
-include $(INCLUDE_DIR)/kernel.mk
 include $(gSKIN_MKFILE)
 # 生成项目通用定义
 $(eval $(call Package/Define))
@@ -19,7 +18,7 @@ $(eval $(call Package/Define))
 define Package/$(PKG_NAME)
   CATEGORY:=Skin system
   TITLE:=$(INTRO_STR)
-  DEPENDS:=+PACKAGE_arch:arch +PACKAGE_land:land +PACKAGE_network:network
+  DEPENDS:=+PACKAGE_arch:arch +PACKAGE_land:land
 endef
 # menuconfig的界面上的帮助
 define Package/$(PKG_NAME)/description

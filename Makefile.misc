@@ -16,31 +16,11 @@ pid:
 	@echo '\ngBOARDID=${gBOARDID}' >> gBOARDID
 	@echo "Switch the Board Identify to ${gBOARDID}"
 
+
+
 # SDK Download
 update:
-	# Update the tiger7 SDK
-	@git pull
-	# Update the Platform-specific configure repositories
-	if [ -d ${gPLATFORM_DIR} ]; then \
-		echo "cd ${gPLATFORM_DIR}; git pull"; \
-	else \
-		echo "cd ${gTOP_DIR}/config; git clone git@gitee.com:ashyelf/${gPLATFORM}"; \
-	fi
-	# Platform-specific SDK Makefile update
-	make -f ${gSDK_MAKEFILE} $@
-	# Adjust the Platform-specific SDK
-	make adjust
-	# Refresh the menu
-	make menu
-
-# Adjust the Platform-specific SDK
-adjust:
-	if [ -d ${gSDK_DIR} ]; then \
-		make -f ${gSDK_MAKEFILE} -C ${gSDK_DIR} $@; \
-	else \
-		make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@; \
-	fi
-
+	make -f Makefile.target $@
 # SDK clear
 bufclean sdkclean:
 	if [ -d ${gSDK_DIR} ]; then \
@@ -49,7 +29,7 @@ bufclean sdkclean:
 		make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@; \
 	fi
 
-.PHONY: ubuntu_preset pid update adjust bufclean sdkclean
+.PHONY: ubuntu_preset pid update bufclean sdkclean
 
 
 

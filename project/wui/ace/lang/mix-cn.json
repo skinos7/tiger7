@@ -1,7 +1,6 @@
 {
 	"Type":"类型",
-	"Cold Backup":"冷备份",
-	"Hot Backup":"热备份",
+	"Link Backup":"链路备份",
 	"Load Balancing":"负载均衡",
 	"Main Connection":"主链接",
 	"Alternate Connection":"备用链接",
@@ -9,8 +8,12 @@
 	"King Connection":"导流链接",
 	"Reserve Connection":"保留链接",
 	"NONE":"无",
+	"Online":"在线",
+	"Offline":"离线",
 	"In Use":"正在使用",
 	"Unused":"未使用",
+	"valid":"可用",
+	"invalid":"不可用",
 
 	"Delay Statistics":"延迟统计次数",
 	"Delay Boundary(ms)":"延迟分界(毫秒)",

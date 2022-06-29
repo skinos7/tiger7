@@ -2,7 +2,8 @@
 	"Device Name":"设备名称",
 	"Modify":"修改",
 	"Input new device name":"输入新的设备名称",
-	"Model":"型号",
+	"Custom Model":"客户型号",
+	"Model":"硬件型号",
 	"MAC Address":"MAC地址",
 	"Current Time":"当前时间",
 	"Time Source":"时间来源",
@@ -16,6 +17,7 @@
 	"Run Time":"运行时长",
 	"System Reboot":"系统重启",
 	"Are you sure you want to restart":"确定重启系统",
+	"Restarting...":"重启中...",
 
 	"Operation Mode":"工作模式",
 	"default":"无线热点",
@@ -159,13 +161,22 @@
 
 
 	"Configure Version":"配置版本",
-	"Default":"出厂配置",
+	"Default":"默认配置",
 	"Backup Configure":"备份配置",
-	"Default Configure":"恢复出厂设置",
+	"Default Configure":"恢复默认设置",
 	"Restore Configure":"导入配置",
+
+	"Save Default Configure":"保存默认配置",
+	"Factory Configure":"恢复出厂设置",
+	"Restore Default Configure":"导入默认配置",
+
 	"Restore...":"导入配置...",
 	"Restore Failure":"导入配置失败",
-	"Are you sure you want to default the system configure":"确定恢复出厂设置",
+	"Are you sure you want to default the system configure":"确定恢复默认设置",
+	"Are you sure you want to save current configure to default configure":"确定将当前设置保存为默认设置",
+	"Save configure to default succeed":"保存当前设置为默认设置成功",
+	"Save configure to default failed":"保存当前设置为默认设置失败",
+	"Are you sure you want to default the system configure to factory state":"确定恢复出厂设置",
 	"Restore the configuration is successful, now restarting...":"导入配置成功, 重启中...",
 	
 

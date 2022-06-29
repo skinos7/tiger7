@@ -1,0 +1,593 @@
+<!-- ajax layout which only needs content area -->
+<div class="row" id="page-modes">
+  <div class="col-xs-12 form-btn-wrapper">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="form-horizontal" role="form">
+
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="AP Client"></label>
+          <div class="col-sm-9">
+            <label>
+              <input id="status" class="ace ace-switch ace-switch-6" type="checkbox" />
+              <span class="lbl"></span>
+            </label>
+          </div>
+        </div>
+
+        <div id="sta_config">
+            <!-- 连接状态 -->
+            <table class="table table-bordered table-striped">
+            <tbody>
+                <tr>
+                    <th data-i18n="Status"></th>
+                    <td>
+                        <span id="status_status"></span>&nbsp; &nbsp;
+                        <a class="btn btn-mini btn-warning" id="status_btn"><i class="ace-icon fa fa-pause"></i></a>&nbsp;
+                    </td>
+                    <th data-i18n="MAC Address"></th>
+                    <td id="status_mac"></td>
+                </tr>
+                <tr>
+                    <th data-i18n="Peer SSID"></th>
+                    <td id="status_peer"></td>
+                    <th data-i18n="Peer BSSID"></th>
+                    <td id="status_peermac"></td>
+                </tr>
+                <tr>
+                    <th data-i18n="RSSI"></th>
+                    <td>
+                        <span><img src="/assets/css/images/signal_0.png" id="status_rssiimg" class="line-signal"></img></span>
+                        <span id="status_rssi"></span>
+                    </td>
+                    <th data-i18n="Channel"></th>
+                    <td id="status_channel"></td>
+                </tr>
+                <tr>
+                    <th data-i18n="Rx/Tx"></th>
+                    <td id="status_rxtx"></td>  
+                    <th data-i18n="Rate"></th>
+                    <td id="status_rate"></td>
+                </tr>
+            </tbody>
+            </table>            
+
+            <!-- 扫描 -->
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" data-i18n="Scan"></label>
+                <div class="col-sm-9 form-right-text"><button class="btn btn-main btn-mini" id="apscan" data-i18n="Scan"></button></div>
+            </div>
+            <!-- 对端 -->
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" data-i18n="Peer SSID"></label>
+                <div class="col-sm-9"><input type="text" id="peer" class="col-xs-10 col-sm-5" maxlength="128" /></div>
+            </div>
+            <!-- 对端2 -->
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" data-i18n="Peer SSID2"></label>
+                <div class="col-sm-9"><input type="text" id="peer2" class="col-xs-10 col-sm-5" maxlength="128" /></div>
+            </div>
+            <!-- 对端3 -->
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" data-i18n="Peer SSID3"></label>
+                <div class="col-sm-9"><input type="text" id="peer3" class="col-xs-10 col-sm-5" maxlength="128" /></div>
+            </div>
+            <!-- 锁定信号最强SSID -->
+            <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Lock Strong Signal"></label>
+              <div class="col-sm-9">
+                <label>
+                  <input id="strong" class="ace ace-switch ace-switch-6" type="checkbox" />
+                  <span class="lbl"></span>
+                </label>
+              </div>
+            </div>
+            <!-- 锁定MAC -->
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" data-i18n="Lock BSSID"></label>
+                <div class="col-sm-9"><label><input id="lock" class="ace ace-switch ace-switch-6" type="checkbox" /><span class="lbl"></span></label></div>
+            </div>
+            <div id="lock_config">
+                <!-- 对端MAC -->
+                <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right" data-i18n="Peer BSSID"></label>
+                    <div class="col-sm-9"><input type="text" id="peermac" class="col-xs-10 col-sm-5" maxlength="128" /></div>
+                </div>
+            </div>
+            <!-- 安全模式 -->
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" data-i18n="Security Mode"></label>
+                <div class="col-sm-9">
+                    <select class="col-xs-10 col-sm-5" id="secure">
+                        <option value="disable" data-i18n="Disable(None)"></option>
+                        <option value="wpapsk" data-i18n="WPA(Private)"></option>
+                        <option value="wpa2psk" data-i18n="WPA2(Private)"></option>
+                        <option value="wpapskwpa2psk" data-i18n="WPA-Mixed(Private)"></option>
+                    </select>
+                </div>
+            </div>
+            <div id="secure_config">
+                <!-- WPA 模式 -->
+                <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" data-i18n="WPA Mode"></label>
+                    <div class="col-sm-9">
+                        <select class="col-xs-10 col-sm-5" id="wpa_encrypt">
+                            <option value="tkip" data-i18n="TKIP"></option>
+                            <option value="aes" data-i18n="AES"></option>
+                            <option value="tkipaes" data-i18n="Auto"></option>
+                        </select>
+                    </div>
+                </div>
+                <!-- 密码 -->
+                <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right" data-i18n="Password"></label>
+                    <div class="col-sm-9">
+                        <span class="input-icon input-icon-right input-icon-form col-xs-10 col-sm-5">
+                            <input type="password" id="wpa_key" maxlength="128" autocomplete="new-password" />
+                            <i class="ace-icon fa fa-eye-slash" id="wpa_key-icon"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <!-- Hidden SSID -->
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" data-i18n="Hidden SSID"></label>
+                <div class="col-sm-9"><label><input id="hidden" class="ace ace-switch ace-switch-6" type="checkbox" /><span class="lbl"></span></label></div>
+            </div>
+            <div id="hidden_config">
+                <!-- 信道 -->
+                <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" data-i18n="Channel"></label>
+                    <div class="col-sm-9">
+                        <select class="col-xs-10 col-sm-5" id="channel">
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+      </div> <!-- sta_config -->
+
+
+
+      <div class="clearfix form-actions">
+        <div class="col-md-offset-3 col-md-9">
+          <button class="btn btn-second" type="button" id="refresh"><span data-i18n="Refresh"></span></button>
+          &nbsp; &nbsp; &nbsp;
+          <button class="btn btn-main" type="button" id="apply"><span data-i18n="Apply"></span></button>
+        </div>
+      </div>
+
+
+
+
+      <div id="aplist-modal" class="modal" tabindex="-1">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header"><button type="button" class="close" data-dismiss="modal">&times;</button><h4 data-i18n="Choose"></h4></div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <table id="aplist-grid-table"></table>
+                            <div id="aplist-grid-pager"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-sm btn-main" id="rescan" data-i18n="Rescan"></button>
+                    <button class="btn btn-sm btn-second" data-dismiss="modal" data-i18n="Cancel"></button>
+                </div>
+              </div>
+          </div>
+      </div>
+
+
+
+    </div>
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+    /* get the object */
+    var sta;
+    var chlist;
+    var object = "wifi@xsta";
+    var index = page.param( 'object', location.hash );
+    if ( index )
+    {
+        object = index;
+    }
+    var langjson = base64.decode( page.param( 'lang', location.hash ) );
+
+    /* load the configure on the input */
+    function cfg_load()
+    {
+      he.load( [ object, object+'.chlist' ] ).then( function(v){
+        sta = v[0];
+        chlist = v[1];
+        var selects = "";
+        for ( var ch in chlist )
+        {
+            selects += ('<option value="' + ch + '">' + $.i18n( ch ) + '</option>');
+        }
+        $("#channel").html( selects );
+        if ( sta )
+        {
+            if ( sta.status )
+            {
+                $('#status').prop( 'checked', able2boole(sta.status) );
+            }
+            else if ( sta.peer || sta.peermac )
+            {
+                $('#status').prop( 'checked', true );
+            }
+            $('#peer').val( sta.peer || '' );
+            $('#peer2').val( sta.peer2 || '' );
+            $('#peer3').val( sta.peer3 || '' );
+            $('#strong').prop( 'checked', able2boole(sta.strong) );
+            $('#peermac').val( sta.peermac || '' );
+            $('#secure').val( sta.secure || 'disable' );
+            $('#wpa_encrypt').val( sta.wpa_encrypt || 'tkipaes' );
+            $('#wpa_key').val( sta.wpa_key || '' );
+            $('#lock').prop( 'checked', sta.peermac );
+            $('#hidden').prop( 'checked', sta.peermode=="hidden" );
+            $('#channel').val( sta.channel || '1' );
+        }
+        else
+        {
+            $('#status').prop( 'checked', false );
+        }
+        $('#status').unbind('change').change(function () {
+          if ($(this).prop('checked'))
+          {
+            $('#sta_config').show();
+          }
+          else
+          {
+            $('#sta_config').hide();
+          }
+        }).trigger('change');
+        $('#secure').unbind('change').change(function (e) {
+            var secure = e.target.value;
+            if ( secure === 'disable' )
+            {
+                $('#secure_config').hide();
+            }
+            else
+            {
+                $('#secure_config').show();
+            }
+        }).trigger('change');
+        $('#strong').unbind('change').change(function (e) {
+            if ($(this).prop('checked'))
+            {
+                $('#lock').prop( 'checked', false );
+                $('#lock_config').hide();
+            }
+        }).trigger('change');
+        $('#lock').unbind('change').change(function (e) {
+            if ($(this).prop('checked'))
+            {
+                $('#strong').prop( 'checked', false );
+                $('#lock_config').show();
+            }
+            else
+            {
+                $('#lock_config').hide();
+            }
+        }).trigger('change');
+        $('#hidden').unbind('change').change(function (e) {
+            if ($(this).prop('checked'))
+            {
+                $('#hidden_config').show();
+            }
+            else
+            {
+                $('#hidden_config').hide();
+            }
+        }).trigger('change');
+      });
+    }
+
+    /* load the status */
+    function status_load()
+    {
+      he.bkload( [ object+".status" ] ).then( function(v){
+        var info = v[0];
+        if ( info )
+        {
+            if ( info.state )
+            {
+                $("#status_btn").html( '<i class="ace-icon fa fa-pause"></i>' );
+                $("#status_status").text( $.i18n(info.state) );
+                if ( info.state == "down" )
+                {
+                    $("#status_btn").html( '<i class="ace-icon fa fa-play"></i>' );
+                }
+                if ( info.error )
+                {
+                    $("#status_status").text( $.i18n(info.error) );
+                }
+            }
+            else
+            {
+                $("#status_btn").html( '<i class="ace-icon fa fa-play"></i>' );
+                $("#status_status").text( $.i18n("down") );
+            }
+            if ( info.rate )
+            {
+                $("#status_rate").text( info.rate+'Mbps' );
+            }
+            $("#status_peer").text( info.peer||' ' );
+            $("#status_peermac").text( info.peermac||' ' );
+            $("#status_channel").text( info.channel||' ' );
+            if ( info.sig )
+            {
+                $("#status_rssi").text( info.sig+"%" );
+            }
+            else if ( info.rssi )
+            {
+                $("#status_rssi").text( info.rssi+"dBm" );
+            }
+            if ( info.signal )
+            {
+                $("#status_rssiimg").attr( "src", "/assets/css/images/signal_"+info.signal+".png" );            
+            }
+            $("#status_mac").text( info.mac||' ' );
+            $("#status_rxtx").text( byte2readable( (info.rx_bytes||"0") ) + " / " + byte2readable( (info.tx_bytes||"0") ) );
+        }
+        
+      });
+    }
+
+    /* save the configure */
+    function cfg_save()
+    {
+      var cmd = [];
+      var stacopy = null;
+
+      if ( sta == null )
+      {
+        sta = {};
+      }
+      var stacopy = JSON.parse(JSON.stringify(sta));
+      sta.status = boole2able( $('#status').prop('checked') );
+      if ( sta.status == "enable" )
+      {
+        sta.peer = $('#peer').val();
+        sta.peer2 = $('#peer2').val();
+        sta.peer3 = $('#peer3').val();
+        sta.strong = boole2able( $('#strong').prop('checked') );
+        sta.peermac = '';
+        if ( $('#lock').prop('checked') )
+        {
+            sta.peermac = $('#peermac').val();
+            if ( check.mac( sta.peermac, true ) == false )
+            {
+                page.alert( {
+                    message: $.i18n('Peer BSSID')+" "+$.i18n('must be a valid MAC address'),
+                    callback: function()
+                    {
+                        $('#peermac').select();
+                    }
+                } );
+                return;
+            }
+        }
+        sta.secure = $('#secure').val();
+        if ( sta.secure != 'disable' )
+        {
+            sta.wpa_encrypt = $('#wpa_encrypt').val();
+            sta.wpa_key = $('#wpa_key').val();
+            if ( !sta.wpa_key )
+            {
+              page.alert( { message: $.i18n('Password')+" "+$.i18n('can not be empty') } );
+              return;
+            }
+        }
+        delete sta.peermode;
+        delete sta.channel;
+        if ( $('#hidden').prop('checked') )
+        {
+            sta.peermode = "hidden";
+            sta.channel = $('#channel').val();
+            if ( !sta.channel )
+            {
+              page.alert( { message: $.i18n('Channel')+" "+$.i18n('can not be empty') } );
+              return;
+            }
+        }
+      }
+      if ( !ocompare( sta, stacopy ) )
+      {
+        cmd.push( object+"="+JSON.stringify(sta) );
+      }
+      if ( cmd.length == 0 )
+      {
+          page.alert( { message: $.i18n('Settings unchanged') } );
+          return;
+      }
+      he.save( cmd ).then( function(){
+        page.hint2succeed( $.i18n('Modify successfully') );
+        cfg_load();
+      });
+    }
+    
+
+
+    /* init */
+    page.password('wpa_key', 'wpa_key-icon' );
+    $.i18n().load( page.lang(langjson) ).then( function () {
+        /* init the langauage */
+        $.i18n().locale = lang; $('body').i18n();
+        //初始化扫描表格
+        jqtable.create( '#aplist-grid-table', '#aplist-grid-pager',
+            {
+                multiselect: false,
+                caption: $.i18n('AP List'),
+                colNames: [ $.i18n('Choose'), $.i18n('SSID'), $.i18n('Channel'), $.i18n('Signal'), $.i18n('MAC'), $.i18n('Security Mode'), $.i18n('WPA Mode') ],
+                colModel:
+                [
+                    {
+                        name: 'choose', width: 80,
+                        fixed: true, sortable: false,
+                        formatter: function ( cellvalue, options, rowObject )
+                        {
+                            return '<button class="btn btn-main btn-xs btn-choose" onclick="sta_ap_select(' + options.rowId + ')" data-id="' + options.rowId + '">' + $.i18n('Choose') + '</button>'
+                        }
+                    },
+                    { name: 'ssid', width: 180 },
+                    { name: 'channel', width: 50 },
+                    {
+                        name: 'signal', width: 50,
+                        formatter: function ( cellvalue, options, rowObject )
+                        {
+                            if ( cellvalue > 0 )
+                            {
+                                return "<img src='/assets/css/images/signal_"+cellvalue+".png' class='line-signal'></img>";
+                            }
+                            else
+                            {
+                                return "<img src='/assets/css/images/signal_0.png' class='line-signal'></img>";
+                            }
+                        }
+                    },
+                    { name: 'mac', width: 130 },
+                    {
+                        name: 'secure', width: 130,
+                        formatter: function ( cellvalue )
+                        {
+                            return '<span data-secure="' + cellvalue + '">' + $.i18n(cellvalue) + '</span>';
+                        },
+                        unformat: function (cellvalue, options, cell)
+                        {
+                            return $(cell).children('span').data('secure');
+                        }
+                    },
+                    {
+                        name: 'wpa_encrypt', width: 80,
+                        formatter: function (cellvalue)
+                        {
+                            return '<span data-wpa_encrypt="' + cellvalue + '">' + $.i18n(cellvalue) + '</span>';
+                        },
+                        unformat: function (cellvalue, options, cell)
+                        {
+                            return $(cell).children('span').data('wpa_encrypt');
+                        }
+                    }
+                ]
+            }
+        ).jqGrid( 
+              'navGrid', '#aplist-grid-pager',
+              $.extend(true, {}, jqtable.navOptions,
+              		{
+              			add: false,
+						edit: false,
+						search: false,
+						refresh: false,
+						del: false,
+						view: false
+					}
+			  ),
+              {},{},{}
+        );
+
+        /* load the configure */
+        status_load();
+        cfg_load();
+        $('#status_btn').on(ace.click_event, function () {
+            if ( $('#status_status').text() == $.i18n('down') )
+            {
+                he.exec( object+'.up').then( function(result){status_load();} );
+            }
+            else
+            {
+                he.exec( object+'.down').then( function(result){status_load();} );
+            }
+        });
+
+        // 设置定时器
+        page.timing({
+          refresh: function ()
+          {
+              status_load();
+          },
+          interval: 3000
+        });
+
+        // 扫描周围的ap
+        $('#apscan').unbind(ace.click_event).on(ace.click_event, function () {
+            sta_ap_cmd = object+".aplist";
+            he.exec( [ sta_ap_cmd ], $.i18n("Scanning") ).then( function(v){
+                var list = v[0];
+                var rows = json2array( list, {}, "mac" );
+                // 给表格赋值
+                $('#aplist-grid-table').jqGrid('clearGridData').jqGrid('setGridParam', {
+                    data: rows
+                }).trigger('reloadGrid');
+                $('#aplist-modal').modal('show');
+            });
+        });
+        $('#rescan').unbind(ace.click_event).on(ace.click_event, function () {
+            he.exec( [ sta_ap_cmd ], $.i18n("Scanning") ).then( function(v){
+                var list = v[0];
+                var rows = json2array( list, {}, "mac" );
+                // 给表格赋值
+                $('#aplist-grid-table').jqGrid('clearGridData').jqGrid('setGridParam', {
+                    data: rows
+                }).trigger('reloadGrid');
+                // 显示对话框
+                $('#aplist-modal').modal('show');
+            });
+        });
+
+        /* bind the refresh */
+        $('#refresh').on(ace.click_event, function () {
+            location.reload();
+        });
+        /* bind the apply */
+        $('#apply').on(ace.click_event, function () {
+            cfg_save();
+        });
+
+    });
+
+
+  })();
+
+  /* 必须在全局中才可以被调用到 */
+  function sta_ap_select( rowId )
+  {
+    // 隐藏表格
+    $('#aplist-modal').modal('hide');
+    // 某个选中行的数据
+    var ap = $('#aplist-grid-table').jqGrid( 'getRowData', rowId );
+    // 将选中的数据填到对应的输入框中
+    $('#peer').val( ap.ssid );
+    $('#peermac').val( ap.mac );
+    $('#lock').prop( 'checked', false );
+    $('#lock').trigger('change');
+    $('#secure').val( ap.secure || 'disable');
+    // wpa_encrypt 为auto 时设置为tkipaes
+    if ( ap.wpa_encrypt === 'auto' )
+    {
+        $('#wpa_encrypt').val('tkipaes');
+    }
+    else
+    {
+        $('#wpa_encrypt').val(ap.wpa_encrypt || 'tkipaes');
+    }
+    // 手动触发change，以便显示隐藏密码输入框
+    $('#secure').trigger('change');
+    // $('#wpa_key').val('');
+    $('#hidden').prop( 'checked', false );
+    $('#hidden').trigger('change');
+    $('#channel').val('');
+  }
+
+  
+</script>

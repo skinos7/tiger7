@@ -1,0 +1,160 @@
+<!-- ajax layout which only needs content area -->
+<div class="row">
+  <div class="col-xs-12 form-btn-wrapper">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="form-horizontal" role="form">
+
+    <table id="clients-grid-table"></table>
+
+    </div>
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  var knock_object = null;
+  (function () {
+    var timer;
+    var stalist;
+    var clients;
+    var object = "wifi@x";
+    var index = page.param( 'object', location.hash );
+    if ( index )
+    {
+        object = index;
+    }
+    knock_object = object;
+    var langjson = base64.decode( page.param( 'lang', location.hash ) );
+    var clients_table = '#clients-grid-table';
+
+    /* load the table infomation */
+    function load_clients()
+    {
+        he.bkload( [ object+".stalist", 'client@station.list' ] ).then( function(v){
+            stalist = v[0];
+            clients = v[1];
+            // 合并
+            var count = 0;
+            var rows = [];
+            for ( var index in stalist )
+            {
+                var sta = stalist[index];
+                var client = clients[index];
+                var row = {};
+                row[ 'mac'] =  index;
+                row[ 'name'] = client.name || '';
+                row[ 'ip'] = client.ip || '';
+                if ( sta.rx_bytes || sta.tx_bytes )
+                {
+                    row[ 'rxtx' ] = byte2readable( sta.rx_bytes ) + " / " + byte2readable(sta.tx_bytes);
+                }
+                else
+                {
+                    if ( !client.rx_bytes )
+                    {
+                        client.rx_bytes = "0";
+                    }
+                    if ( !client.tx_bytes )
+                    {
+                        client.tx_bytes = "0";
+                    }
+                    row[ 'rxtx' ] = byte2readable( client.rx_bytes ) + " / " + byte2readable(client.tx_bytes);
+                }
+                if ( sta.rssi )
+                {
+                    row[ 'rssi'] = sta.rssi+'dBm';
+                }
+                else
+                {
+                    row[ 'rssi'] = '';
+                }
+                if ( client.livetime )
+                {
+                    row[ 'livetime'] = time2string(client.livetime);
+                    count++;
+                    rows.unshift( row );
+                }
+                else
+                {
+                    row[ 'livetime'] = $.i18n('Leave');
+                    rows.push( row );
+                }
+            }
+            // 表头设置为在线客户端的数量
+            $(clients_table).jqGrid( "setCaption", $.i18n('Online Number') + '(' + count + ')' );
+            // 记住滚动条的位置
+            var scrollPos = jqtable.getScrollPos();
+            // 给clients表格设置数据
+            $(clients_table).jqGrid('clearGridData').jqGrid('setGridParam',{data: rows}).trigger('reloadGrid');
+            // 恢复滚动条的位置
+            jqtable.setScrollPos(scrollPos);
+            // 改变离线行的颜色
+            $('td[title=' + $.i18n('Leave') + ']').closest('tr').css({color: '#888'});
+        });
+    }
+
+    $.i18n().load( page.lang(langjson) ).then( function () {
+      /* init the langauage */
+      $.i18n().locale = lang; $('body').i18n();
+      /* load the configure */
+      jqtable.create(  clients_table, null,
+        {
+            caption: ' ', // 必需设置值, 防止表格不能折叠
+            multiselect: false,
+            colNames: [ $.i18n('Hostname'), $.i18n('MAC Address'), $.i18n('IP Address'), $.i18n('Live Time'), $.i18n('Rx/Tx'), $.i18n('RSSI'), $.i18n('Operation') ],
+            colModel: [
+                { name:'name', width:200, editable:true },
+                { name:'mac', width:120, editable:true, editrules:{ required:true } },
+                { name:'ip', width:110 },
+                { name:'livetime', width:90 },
+                { name:'rxtx', width:150 },
+                { name:'rssi', width:150 },
+                {
+                    name: 'wakeup', width: 80,
+                    fixed: true, sortable: false,
+                    formatter: function ( cellvalue, options, rowObject )
+                    {
+                        return '<button class="btn btn-warning btn-xs btn-choose" onclick="knock_client( ' + options.rowId + ')" data-id="' + options.rowId + '">' + $.i18n('Knock') + '</button>'
+                    }
+                }
+            ]
+        }
+      );
+
+      load_clients();
+      /* 设置定时器 */
+      timer = page.timing({
+        refresh: function ()
+        {
+            load_clients()
+        },
+        interval: 1000
+      });
+
+    });
+
+
+  })();
+
+  /* 必须在全局中才可以被调用到 */
+  function knock_client(  rowId )
+  {
+    // 某个选中行的数据
+    var client = $('#clients-grid-table').jqGrid( 'getRowData', rowId );
+    var mac = client.mac;
+    // 执行唤醒
+    he.exec( [ knock_object+".stabeat["+mac+"]" ], $.i18n("Waking up") ).then( function(v){
+        var ret = v[0];
+        if ( ret == true )
+        {
+            page.alert( { message: $.i18n('Knock it succeed'), callback: function( result ){location.reload();} } );
+        }
+        else
+        {
+            page.alert( { message: $.i18n('Knock it failed') } );
+        }
+    });
+  }
+
+</script>

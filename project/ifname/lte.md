@@ -14,6 +14,7 @@ Usually ifname@lte is the first LTE/NR network and module. If there are multiple
 
     // IPv4
     "tid":"table identify number",         // [ number ] exclusive route table ID, only for multiple WAN
+    "metric":"default route metric",       // [ number  ]
     "mode":"IPV4 address mode",            // [ dhcpc ] for DHCP, [ static ] for manual setting, [ ppp ] for PPP dial
     "static":                                       // detial configure for "mode" is [ static ]
     {

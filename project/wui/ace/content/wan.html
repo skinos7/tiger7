@@ -376,17 +376,16 @@
     /* get the object */
     var wan;
     var wans;
-    var obj = "ifname@wan";
-    var index = location.hash.indexOf("obj=");
-    if ( index > 0 )
+    var object = "ifname@wan";
+    var index = page.param( 'object', location.hash );
+    if ( index )
     {
-      obj = location.hash.substring( index+4 );
+        object = index;
     }
-
     /* load the status */
     function status_load()
     {
-      he.bkload( [ obj+".status" ] ).then( function(v){
+      he.bkload( [ object+".status" ] ).then( function(v){
           wans = v[0];
           var info = wans;
           var id = "#wan";
@@ -432,7 +431,7 @@
     /* load the configure on the input */
     function config_load()
     {
-      he.load( [ obj ] ).then( function(v){
+      he.load( [ object ] ).then( function(v){
         wan = v[0];
         /* IPV4 */
         $('#mode').val( wan.mode || 'dhcpc' );
@@ -829,7 +828,7 @@
       page.confirm( { message: $.i18n('The WAN connecttion will be disconneted because of the change of configuration') } ).then( function(result){
         if ( result )
         {
-          he.save( [ obj+"="+JSON.stringify(wan)] ).then( function(){
+          he.save( [ object+"="+JSON.stringify(wan)] ).then( function(){
             page.hint2succeed( $.i18n('Modify successfully') );
             config_load();
           });
@@ -852,11 +851,11 @@
         $('#wan_btn').on(ace.click_event, function () {
             if ( wans.status == "down" )
             {
-                he.exec(obj+'.setup').then( function(result){status_load();} );
+                he.exec(object+'.setup').then( function(result){status_load();} );
             }
             else
             {
-                he.exec(obj+'.shut').then( function(result){status_load();} );
+                he.exec(object+'.shut').then( function(result){status_load();} );
             }
         });
 

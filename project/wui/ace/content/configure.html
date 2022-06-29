@@ -28,17 +28,40 @@
       </div>
     </div>
 
-      <!-- 导入配置 -->
+    <!-- 导入配置 -->
+    <div class="form-group">
+      <label class="col-sm-3 control-label no-padding-right" data-i18n="Restore Configure"></label>
+      <div class="col-sm-9">
+        <div class="col-xs-10 col-sm-5">
+          <input type="file" id="restore" />
+        </div>
+      </div>
+    </div>
+
+    <div class="hr hr32 hr-dotted"></div>
+
+
+    <div class="form-horizontal" role="form">
       <div class="form-group">
-        <label class="col-sm-3 control-label no-padding-right" data-i18n="Restore Configure"></label>
+        <label class="col-sm-3 control-label no-padding-right"></label>
         <div class="col-sm-9">
-          <div class="col-xs-10 col-sm-5">
-            <input type="file" id="restore" />
+          <div class="btn-group">
+            <button class="btn btn-inverse" data-i18n="Save Default Configure" id="save"></button>
+            <button class="btn btn-danger" data-i18n="Factory Configure" id="factory"></button>
           </div>
         </div>
       </div>
+    </div>
 
-
+    <!-- 导入配置 -->
+    <div class="form-group">
+      <label class="col-sm-3 control-label no-padding-right" data-i18n="Restore Default Configure"></label>
+      <div class="col-sm-9">
+        <div class="col-xs-10 col-sm-5">
+          <input type="file" id="restore_default" />
+        </div>
+      </div>
+    </div>
 
 
     </div>
@@ -59,17 +82,10 @@
     $.i18n().load( page.lang('device') ).then( function () {
         /* init the langauage */
         $.i18n().locale = lang; $('body').i18n();
+
         /* load the info */
         $('#cfgversion').text(window.machine.cfgversion||$.i18n('Default'));
-        // default
-        $('#default').on(ace.click_event, function () {
-            page.confirm( { message: $.i18n('Are you sure you want to default the system configure') } ).then( function(result){
-                if ( result )
-                {
-                    he.reboot( { title: $.i18n('Restarting...'), hint:$.i18n('Make sure that the device is reconnected'), cmds:["arch@data.default"] } );
-                }
-            });
-        });
+
         // 备份配置
         $('#backup').on(ace.click_event, function () {
             var submitForm = document.createElement("FORM");
@@ -79,6 +95,15 @@
             setTimeout(function() {
                 submitForm.submit();
             }, 200);
+        });
+        // 恢复默认设置
+        $('#default').on(ace.click_event, function () {
+            page.confirm( { message: $.i18n('Are you sure you want to default the system configure') } ).then( function(result){
+                if ( result )
+                {
+                    he.reboot( { title: $.i18n('Restarting...'), hint:$.i18n('Make sure that the device is reconnected'), cmds:["arch@data.default"] } );
+                }
+            });
         });
         // 导入配置
         $('#restore').ace_file_input( { no_file: $.i18n('No File'), btn_choose: $.i18n('Choose'), btn_change: $.i18n('Change'), icon_remove: '' } );
@@ -119,6 +144,76 @@
                 }
             }
         });
+
+        // 保存默认配置
+        $('#save').click(function () {
+            page.confirm( { message: $.i18n('Are you sure you want to save current configure to default configure') } ).then( function(result){
+                if ( result )
+                {
+                    he.exec( [ "arch@data.current_default" ] ).then( function(v){
+                        var ret = v[0];
+                        if ( ret == true )
+                        {
+                            page.alert( { message: $.i18n('Save configure to default succeed'), callback: function( result ){location.reload();} } );
+                        }
+                        else
+                        {
+                            page.alert( { message: $.i18n('Save configure to default failed') } );
+                        }
+                    });
+                }
+            });
+        });
+        // 恢复出厂设置
+        $('#factory').on(ace.click_event, function () {
+            page.confirm( { message: $.i18n('Are you sure you want to default the system configure to factory state') } ).then( function(result){
+                if ( result )
+                {
+                    he.reboot( { title: $.i18n('Restarting...'), hint:$.i18n('Make sure that the device is reconnected'), cmds:["arch@data.factory"] } );
+                }
+            });
+        });
+        // 导入默认配置
+        $('#restore_default').ace_file_input( { no_file: $.i18n('No File'), btn_choose: $.i18n('Choose'), btn_change: $.i18n('Change'), icon_remove: '' } );
+        $('#restore_default').fileupload({
+            url: '/cgi/restore_default',
+            paramName: 'filename',
+            dataType: 'text',
+            add: function (e, data)
+            { // 选择文件之后，执行导入之前
+                page.confirm( { message: $.i18n('Need to restart, whether to continue'),
+                    callback: function (result) {
+                        if (result)
+                        {
+                            // 提示正在导入配置
+                            page.overlay($.i18n('Restore...'));
+                            // 执行导入
+                            data.submit();
+                        }
+                    }
+                })
+            },
+            done: function (e, data)
+            {
+                var result = JSON.parse(data.result);
+
+                // 隐藏遮罩
+                page.overlay2hide();
+
+                if ( result.status === 'success')
+                { // 导入成功重启
+                    he.reboot( { title: $.i18n('Restore the configuration is successful, now restarting...'), hint:$.i18n('Make sure that the device is reconnected') } );
+                    
+                }
+                else
+                {
+                    // 提示升级失败
+                    page.alert( { message: $.i18n('Restore Failure') } ).then( function(){ location.reload(); } );
+                }
+            }
+        });
+
+
 
         
     });

@@ -1,8 +1,13 @@
-
+route uri=/api/
+route uri=/assets/
+route uri=/lang/
 route uri=/pub/ handler=jst
+
+route uri=/ extensions=jst,asp,html handler=jst
 route uri=/action/ handler=action
 route uri=/cgi/ handler=cgi
 route uri=/upload handler=upload
-route uri=/ extensions=jst,asp,html handler=jst
-
+route uri=/content/
+route uri=/prj/
 route uri=/
+

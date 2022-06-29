@@ -1,0 +1,374 @@
+<!-- ajax layout which only needs content area -->
+<div class="row" id="page-modes">
+  <div class="col-xs-12 form-btn-wrapper">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="form-horizontal" >
+ 
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" data-i18n="Clients ACL"></label>
+                <div class="col-sm-9">
+                    <label><input id="status" class="ace ace-switch ace-switch-6" type="checkbox" /><span class="lbl"></span></label>
+                </div>
+            </div>
+            <div id="wifi_config"> 
+                <div class="form-group " id="acl_type_div">
+                    <label class="col-sm-3 control-label no-padding-right" data-i18n="ACL Type"></label>
+                    <div class="col-sm-9">
+                        <label><input name="acl_type" value="drop" type="radio" class="ace"><span class="lbl" data-i18n="Black List"></span></label>
+                        &nbsp;&nbsp;&nbsp;
+                        <label><input name="acl_type" value="accept" type="radio" class="ace"><span class="lbl" data-i18n="White List"></span></label>
+                        &nbsp;&nbsp;&nbsp;
+                    </div>
+                </div>
+
+                <table id="acl-grid-table"></table>
+                <div id="acl-grid-pager"></div>
+
+                <div id="modal-stalist" class="modal" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header"><button type="button" class="close" data-dismiss="modal">&times;</button><h4 data-i18n="Add"></h4></div>
+
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <table id="stalist-grid-table"></table>
+                                        <div id="stalist-grid-pager"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button class="btn btn-sm btn-second" data-dismiss="modal" data-i18n="Cancel"></button>
+                                <button id="add" class="btn btn-sm btn-main" data-i18n="Add"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- wifi_config -->
+
+
+
+        <div class="clearfix form-actions">
+            <div class="col-md-offset-3 col-md-9">
+                <button class="btn btn-second" type="button" id="refresh"><span data-i18n="Refresh"></span></button>
+                &nbsp; &nbsp; &nbsp;
+                <button class="btn btn-main" type="button" id="apply"><span data-i18n="Apply"></span></button>
+            </div>
+        </div>
+
+
+    </div>
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+
+
+
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+    /* get the object */
+    var ssid;
+    var ssidcopy;
+    var stalist;
+    var clientlist;
+    var object = "wifi@xssid";
+    var index = page.param( 'object', location.hash );
+    if ( index )
+    {
+        object = index;
+    }
+    var langjson = base64.decode( page.param( 'lang', location.hash ) );
+
+    /* load the configure on the input */
+    function wifiacl_load()
+    {
+      he.load( [ object, object+'.stalist', 'client@station.list' ] ).then( function(v){
+        ssid = v[0];
+        if ( ssid == null )
+        {
+            return;
+        }
+        ssidcopy = JSON.parse( JSON.stringify(ssid) );
+        stalist = v[1];
+        if ( !stalist )
+        {
+            stalist = {};
+        }
+        clientlist = v[2];
+        if ( !clientlist )
+        {
+            clientlist = {};
+        }
+
+        $('#status').prop( 'checked', able2boole( ssid.acl ) );
+        if ( ssid.acl =="accept" )
+        {
+            $("input[name='acl_type'][value=accept]").attr("checked",true); 
+        }
+        else
+        {
+            $("input[name='acl_type'][value=drop]").attr("checked",true);  
+        }
+
+        var list = ssid['acl_table'];
+        var rows = [];
+        for ( var index in list )
+        {
+            var name = list[index];
+            var x = stalist[index];
+            var info = clientlist[index];
+            if ( x )
+            {
+                if ( info )
+                {
+                    if ( !name )
+                    {
+                        name = info.name;
+                    }
+                    rows.push( { mac:index||'', name:name||'', ip:info.ip||'', livetime:(x.livetime?x.livetime:$.i18n('Leave')), rssi:x.rssi||'' } );
+                }
+                else
+                {
+                    rows.push( { mac:index||'', name:name||'', ip:'', livetime:(x.livetime?x.livetime:$.i18n('Leave')), rssi:x.rssi||'' } );
+                }
+            }
+            else
+            {
+                rows.push( { mac:index||'', name:name||'', ip:'', livetime:$.i18n('Leave'), rssi:'' } );
+            }
+        }
+        var scrollPos = jqtable.getScrollPos();
+        $('#acl-grid-table').jqGrid('clearGridData').jqGrid('setGridParam',{data: rows}).trigger('reloadGrid');
+        jqtable.setScrollPos(scrollPos);
+        
+        $('#status').unbind('change').change(function () {
+            if ($(this).prop('checked'))
+            {
+                $('#wifi_config').show();
+            }
+            else
+            {
+                $('#wifi_config').hide();
+            }
+        }).trigger('change'); 
+        
+      });
+    }
+
+    /* save the configure */
+    function wifiacl_save()
+    {
+        var cmd = [];
+
+        if ( ssid != null )
+        {
+            if ( $('#status').prop('checked') )
+            {
+                ssid.acl = $('input[name="acl_type"]:checked').val();
+                ssid.acl_table = {};
+                var rowNum =  $('#acl-grid-table').jqGrid('getGridParam', 'rowNum');                   //获取当前页条数
+                var total = $('#acl-grid-table').jqGrid('getGridParam', 'records');                    //获取总数 （包含未显示的数据）
+                $('#acl-grid-table').jqGrid('setGridParam', { rowNum: total }).trigger('reloadGrid');  //把grid重新加载成全部数据（前端不会变化）
+                var rows =  $('#acl-grid-table').jqGrid('getDataIDs');
+                for ( var i = 0; i < rows.length; i++ )
+                {
+                    var row = $('#acl-grid-table').jqGrid('getRowData', rows[i] );
+                    ssid.acl_table[row.mac] = row.name;
+                }
+                $('#acl-grid-table').jqGrid('setGridParam', { rowNum: rowNum }).trigger('reloadGrid');  //还原成原先状态        
+            }
+            else
+            {
+                ssid.acl = "disable";
+            }
+            if ( !ocompare( ssid, ssidcopy ) )
+            {
+                cmd.push( object+"="+JSON.stringify(ssid) );
+            }
+        }
+        if ( cmd.length == 0 )
+        {
+            page.alert( { message: $.i18n('Settings unchanged') } );
+            return;
+        }
+        page.confirm( { message: $.i18n('The wireless client will be disconneted because of the change of configuration') } ).then( function(result){
+            if ( result )
+            {
+                he.save( cmd ).then( function(){
+                    page.alert( {message:$.i18n('Make sure that the device is reconnected')} );
+                    wifiacl_load();
+                });
+            }
+        });       
+    }
+
+
+
+    /* init */
+    $.i18n().load( page.lang(langjson) ).then( function () {
+      /* init the langauage */
+      $.i18n().locale = lang; $('body').i18n();
+
+
+
+      //初始化表格
+      jqtable.create( '#acl-grid-table', '#acl-grid-pager',
+          {
+              caption: $.i18n('Station List'),
+              colNames: [  $.i18n('MAC'), $.i18n('Hostname'), $.i18n('IP Address'), $.i18n('Live Time'), $.i18n('RSSI'),$.i18n('Operation') ],
+              colModel:
+              [
+                  {
+                      name:'mac', width:120, editable: true, 
+                      editrules:
+                      {
+                          required: true
+                      }
+                  },
+                  {
+                      name:'name', width:150, editable: true
+                  },
+                  {
+                      name:'ip', width:120
+                  },
+                  {
+                      name:'livetime', width:120
+                  },
+                  {
+                      name:'rssi', width:70
+                  },
+                  {
+                      name:'mynav', width:70,
+                      fixed:true,
+                      sortable:false,
+                      resize:false,
+                      formatter:'actions'
+                  }
+              ]
+          }
+      ).jqGrid( 'navGrid', '#acl-grid-pager',
+          $.extend(true, {}, jqtable.navOptions, 
+              {
+                  add: true,addicon : 'ace-icon fa fa-plus-circle purple',
+                  del: true,delicon : 'ace-icon fa fa-trash-o red',
+                  edit: true,editicon : 'ace-icon fa fa-pencil blue',
+                  search: false, refresh: false, view: false
+              }
+          ),
+          jqtable.editOptions,
+          jqtable.addOptions,
+          jqtable.deleteOptions
+      ).navButtonAdd( '#acl-grid-pager',
+          {
+              caption: $.i18n('Scan'),
+              title: $.i18n('Scan'),
+              buttonicon: 'ace-icon fa fa-users',
+              onClickButton: function()
+              {
+                  he.load( [ object+'.stalist', 'client@station.list' ] ).then( function(v){
+                      var list = v[0];
+                      clientlist = v[1];
+                      if ( !clientlist )
+                      {
+                          clientlist = {};
+                      }
+                      var count = 0;
+                      var rows = [];
+                      for ( var index in list )
+                      {
+                          var x = list[index];
+                          var info = clientlist[index];
+                          if ( info )
+                          {
+                              rows.push( { mac:index||'', name:info.name||'', ip:info.ip||'', livetime:x.livetime, rssi:x.rssi||'' } );
+                          }
+                          else
+                          {
+                              rows.push( { mac:index||'', name:'', ip:'', livetime:x.livetime||'', rssi:x.rssi||'' } );
+                          }
+                          count++;
+                      }
+                      
+                      // 表头设置为在线客户端的数量
+                      $('#stalist-grid-table').jqGrid( "setCaption", $.i18n('Station List') + '(' + count + ')' );
+                      // 给表格赋值
+                      $('#stalist-grid-table').jqGrid('clearGridData').jqGrid('setGridParam', {
+                          data: rows
+                      }).trigger('reloadGrid');
+                      // 显示对话框
+                      $('#modal-stalist').modal('show');
+                  });
+              }
+          }
+      );
+      //初始化扫描客户端表格
+      jqtable.create( '#stalist-grid-table', '#stalist-grid-pager',
+          {
+              caption: $.i18n('Station List'),
+              colNames: [  $.i18n('MAC'), $.i18n('Hostname'), $.i18n('IP Address'), $.i18n('Live Time'), $.i18n('RSSI') ],
+              colModel:
+              [
+                  { name:'mac', width:120 },
+                  { name:'name', width:150 },
+                  { name:'ip', width:100 },
+                  { name:'livetime', width:100 },
+                  { name:'rssi', width:60 } 
+              ]
+          }
+      );
+      $('#add').on(ace.click_event, function () {
+          // 隐藏modal
+          $('#modal-stalist').modal('hide');
+          // 获取当前表内容
+          var existlist =  $('#acl-grid-table').jqGrid('getGridParam', 'data');
+          // acl表格的所有id
+          var ids= $('#acl-grid-table').jqGrid('getDataIDs');
+          // 新的id, acl表格最大的id加一
+          var newid = Math.max.apply(Math,ids) + 1;
+          // 选中的所有行的id
+          var selRows = $('#stalist-grid-table').jqGrid('getGridParam','selarrrow');
+          for (var key in selRows)
+          {
+              // 某个选中行的id
+              var id = selRows[key];
+              // 某个选中行的数据
+              var data = $('#stalist-grid-table').jqGrid('getRowData', id);
+              var had_exist = false;
+              for ( var index in existlist )
+              {
+                  var row = existlist[index];
+                  if( row.mac == data.mac )
+                  {
+                      had_exist = true;
+                  }
+              }
+              if( had_exist == false )
+              {
+                  // 将要添加到acl表的数据
+                  var newData = { mac: data.mac, name:data.name, ip:data.ip, livetime:data.livetime, rssi:data.rssi };
+                  // 添加到acl表
+                  $('#acl-grid-table').jqGrid('addRowData', newid++, newData, 'first');
+              }
+          }
+      });
+
+
+      /* load the configure */
+      wifiacl_load();
+      /* bind the refresh */
+      $('#refresh').on(ace.click_event, function () {
+        location.reload();
+      });
+      /* bind the apply */
+      $('#apply').on(ace.click_event, function () {
+        wifiacl_save();
+      });
+    });
+
+  })();
+</script>

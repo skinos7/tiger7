@@ -216,16 +216,16 @@
   (function () {
     /* get the object */
     var wan;
-    var obj = "ifname@lan";
-    var index = location.hash.indexOf("obj=");
-    if ( index > 0 )
+    var object = "ifname@lan";
+    var index = page.param( 'object', location.hash );
+    if ( index )
     {
-      obj = location.hash.substring( index+4 );
+        object = index;
     }
     /* load the configure on the input */
     function config_load()
     {
-      he.load( [ obj ] ).then( function(v){
+      he.load( [ object ] ).then( function(v){
         wan = v[0];
         /* ipv4 */
         if ( !wan )
@@ -478,7 +478,7 @@
       page.confirm( { message: $.i18n('The system will restart because of the change of configuration') } ).then( function(result){
           if ( result )
           {
-              he.save( [ obj+"="+JSON.stringify(wan)] ).then( function(){
+              he.save( [ object+"="+JSON.stringify(wan)] ).then( function(){
                   page.confirm( { message: $.i18n('Need to restart the system') } ).then( function(result){
                       if ( result )
                       {

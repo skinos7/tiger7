@@ -4,5 +4,124 @@
     "desc":"some wireless related configurations",
     "type":"root",
     "version":"7.0.0",
-    "author":"dimmalex@gmail.com"
+    "author":"dimmalex@gmail.com",
+    "lib":
+    {
+        "landwifi":"wifi library"
+    },
+    "com":
+    {
+        "radio":"wireless radio management",
+        "ap":"wireless ssid management",
+        "sta":"wireless sta management",
+        "abgn":"default abgn driver"
+    },
+    "obj":
+    {
+        "wifidrv@abgn":"abgn"
+    },
+
+    "wui":
+    {
+        "nradio":
+        {
+            "menu":"Wireless",
+            "cn":"2.4G热点",
+            "en":"2.4G SSID",
+            "page":"radio.html",
+            "object":"wifi@n",
+            "lang":
+            {
+                "cn":"cn.json",
+                "en":"en.json"
+            }
+        },
+        "nstation":
+        {
+            "menu":"Wireless",
+            "cn":"2.4G网卡",
+            "en":"2.4G ApClient",
+            "page":"sta.html",
+            "object":"wifi@nsta",
+            "mode":
+            {
+                "default":"enable",
+                "gateway":"enable",
+                "dgateway":"enable",
+                "misp":"enable",
+                "nmisp":"enable",
+                "dmisp":"enable"
+            },
+            "lang":
+            {
+                "cn":"cn.json",
+                "en":"en.json"
+            }
+        },
+        "nclient":
+        {
+            "menu":"Wireless",
+            "cn":"2.4G客户端",
+            "en":"2.4G Clients",
+            "page":"client.html",
+            "object":"wifi@n",
+            "lang":
+            {
+                "cn":"cn.json",
+                "en":"en.json"
+            }
+        },
+
+        "aradio":
+        {
+            "menu":"Wireless",
+            "cn":"5.8G热点",
+            "en":"5.8G SSID",
+            "page":"radio.html",
+            "object":"wifi@a",
+            "lang":
+            {
+                "cn":"cn.json",
+                "en":"en.json"
+            }
+        },
+        "astation":
+        {
+            "menu":"Wireless",
+            "cn":"5.8G网卡",
+            "en":"5.8G ApClient",
+            "page":"sta.html",
+            "object":"wifi@asta",
+            "mode":
+            {
+                "default":"enable",
+                "gateway":"enable",
+                "dgateway":"enable",
+                "misp":"enable",
+                "nmisp":"enable",
+                "dmisp":"enable"
+            },
+            "lang":
+            {
+                "cn":"cn.json",
+                "en":"en.json"
+            }
+        },
+        "aclient":
+        {
+            "menu":"Wireless",
+            "cn":"5.8G客户端",
+            "en":"5.8G Clients",
+            "page":"client.html",
+            "object":"wifi@a",
+            "lang":
+            {
+                "cn":"cn.json",
+                "en":"en.json"
+            }
+        }
+
+    }
+
+
 }

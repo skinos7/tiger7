@@ -1,15 +1,14 @@
+route uri=/api/
 route uri=/assets/
 route uri=/lang/
-route uri=/api/
 route uri=/pub/ handler=jst
-
 route uri=/login.html handler=jst
-route uri=/action/login methods=POST handler=action redirect=200@/ redirect=401@/login.html?warn=loginfailed
+route uri=/action/login methods=GET|POST handler=action redirect=200@/index.html redirect=401@/login.html?warn=loginfailed
 route uri=/action/logout methods=POST handler=action redirect=200@/login.html
 
 route uri=/ auth=form handler=continue redirect=401@/login.html
-route uri=/ extensions=jst,asp,html handler=jst
 
+route uri=/ extensions=jst,asp,html handler=jst
 route uri=/action/ handler=action
 route uri=/cgi/ handler=cgi
 route uri=/upload handler=upload

@@ -97,8 +97,10 @@
 	"Test Times":"检测次数",
 	"Test Interval(sec)":"检测间隔(秒)",
 	"Duration(sec)":"时间段(秒)",
-	"Request packets":"要求包数"
+	"Request packets":"要求包数",
 
 
+
+	"The LTE connecttion will be disconneted because of the change of configuration":"设备LTE配置将导致网络断开重连"
 
 }
