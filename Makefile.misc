@@ -19,7 +19,7 @@ pid:
 
 
 # SDK Download
-update:
+update adjust:
 	make -f Makefile.target $@
 # SDK clear
 bufclean sdkclean:
@@ -29,7 +29,7 @@ bufclean sdkclean:
 		make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@; \
 	fi
 
-.PHONY: ubuntu_preset pid update bufclean sdkclean
+.PHONY: ubuntu_preset pid update adjust bufclean sdkclean
 
 
 
