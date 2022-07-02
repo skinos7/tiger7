@@ -889,6 +889,7 @@ boole_t _online( obj_t this, param_t param )
 	/* get the metric */
 	metric = json_string( cfg, "metric" );
 	register_set( object, "metric", metric, strlen(metric)+1, 20 );
+	json_set_string( v, "metric", metric );
 
 	/* get mode */
 	mode = register_pointer( object, "mode" );

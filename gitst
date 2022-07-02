@@ -10,7 +10,9 @@ if [ -d ${TOPDIR}/core ]; then
     for tmp in $list
     do
         if [ -d ${TOPDIR}/core/${tmp} ]; then
-            echo "status the ${tmp}"
+            echo "################################################"
+            echo "############## status the ${tmp} ###############"
+            echo "################################################"
             cd ${TOPDIR}/core/${tmp};git status
         fi
     done
@@ -21,7 +23,9 @@ cd ${TOPDIR}
 for tmp in rice
 do
     if [ -d ${TOPDIR}/${tmp} ]; then
-        echo "status the ${tmp}"
+        echo "################################################"
+        echo "############## status the ${tmp} ###############"
+        echo "################################################"
         cd ${TOPDIR}/${tmp};git status
     fi
 done
@@ -30,7 +34,9 @@ done
 for tmp in config/smtk2/
 do
     if [ -d ${TOPDIR}/${tmp} ]; then
-        echo "status the ${tmp}"
+        echo "################################################"
+        echo "############## status the ${tmp} ###############"
+        echo "################################################"
         cd ${TOPDIR}/${tmp};git status
     fi
 done
@@ -39,7 +45,9 @@ done
 for tmp in config/srkw/
 do
     if [ -d ${TOPDIR}/${tmp} ]; then
-        echo "status the ${tmp}"
+        echo "################################################"
+        echo "############## status the ${tmp} ###############"
+        echo "################################################"
         cd ${TOPDIR}/${tmp};git status
     fi
 done

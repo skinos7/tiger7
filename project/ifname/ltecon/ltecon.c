@@ -1083,6 +1083,7 @@ boole_t _online( obj_t this, param_t param )
 	const char *custom_dns;
 	const char *dns;
 	const char *dns2;
+	const char *metric;
 	char path[PATH_MAX];
 
 	obj = obj_com( this );
@@ -1106,10 +1107,11 @@ boole_t _online( obj_t this, param_t param )
 	}
 	/* get the keeplive */
 	ptr = json_string( json_value( cfg, "keeplive"), "type" );
-	if ( ptr != NULL )
-	{
-		register_set( object, "keeplive", ptr, strlen(ptr)+1, 20 );
-	}
+	register_set( object, "keeplive", ptr, strlen(ptr)+1, 20 );
+	/* get the metric */
+	metric = json_string( cfg, "metric" );
+	register_set( object, "metric", metric, strlen(metric)+1, 20 );
+	json_set_string( v, "metric", metric );
 
 	/* get mode */
 	mode = register_pointer( object, "mode" );
