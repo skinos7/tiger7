@@ -1,6 +1,6 @@
 /*
  *    Description:  component template
- *         Author:  fpktools, zxx@ashyelf.com
+ *         Author:  devtools, zxx@ashyelf.com
  *        Company:  ashyelf
  */
 
@@ -20,7 +20,7 @@ COM_IDPATH            String, Full name of a component in the system, PROJECT_ID
 
 /* Available skin interfaces (specific headers are in the top /doc/ API directory) 
 link.h				implementation of general linker list
-syslog.h			   log call implementation
+syslog.h			log call implementation
 talk.h				implementation of common communication data types
 param.h 			implementation of parameter structure and related functions
 path.h				implementation of structure and related functions for object path and attribute path
@@ -45,6 +45,8 @@ skinapi.h			define all the general component api
  * This function can be called by the user at the he terminal, project@component.setup to call this function */
 boole_t _setup( obj_t this, param_t param )
 {
+	info( "the %s setup has be called", COM_IDPATH );
+	printf( "the %s setup has be called\n", COM_IDPATH );
     return ttrue;
 }
 
@@ -52,12 +54,15 @@ boole_t _setup( obj_t this, param_t param )
  * This function can be called by the user at the he terminal, project@component.shut to call this function */
 boole_t _shut( obj_t this, param_t param )
 {
+	info( "the %s shut has be called", COM_IDPATH );
+	printf( "the %s shut has be called\n", COM_IDPATH );
     return ttrue;
 }
 
 /* Usually it is started as a service process in other functions, so it will always run, and if it exits the system it will restart it */
 boole_t _service( obj_t this, param_t param )
 {
+	info( "the %s service has be ran", COM_IDPATH );
 	pause();
     return tfalse;
 }
@@ -97,6 +102,7 @@ talk_t _get( obj_t this, attr_t path )
     /* gets the configuration parameters for the component */
     cfg = config_get( this, path );
 
+	info( "returns the configuration of the %s", COM_IDPATH );
     return cfg;
 }
 /* When you set a component parameter, you will be triggered to call this function, usually filtered by this function and then stored in the actual configuration
@@ -110,6 +116,7 @@ boole _set( obj_t this, talk_t v, attr_t path )
     /* if the flash is successfully saved, the call is called by calling first _shut closing and then calling the _setup to restart the corresponding service */
     if ( ret == true )
     {
+		info( "save the configuration of the %s and reset it", COM_IDPATH );
         _shut( this, NULL );
         _setup( this, NULL );
     }

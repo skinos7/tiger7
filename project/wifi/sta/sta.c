@@ -1055,7 +1055,7 @@ boole_t _relayd( obj_t this, param_t param )
 
 	/* run the relayd */
 	ptr = json_string( bridge_status, "gw" );
-	if ( ptr != NULL && ptr != '\0' )
+	if ( ptr != NULL && *ptr != '\0' )
 	{
 		execlp( "relayd", "relayd", "-I", bridge_netdev, "-I", netdev, "-B", "-D", "-G", ptr, (char*)0 );
 	}

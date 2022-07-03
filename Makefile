@@ -176,6 +176,7 @@ tools_clean:
 	make -C ${gTOOLS_DIR} clean
 menu menuclean menuconfig:
 	make -f Makefile.target $@
+# make kernel obj=package/network/compile
 kernel_menuconfig kernel_dep kernel kernel_install kernel_clean kernel_distclean:
 	make -f Makefile.target $@
 app_menuconfig app_dep app app_install app_clean app_distclean:

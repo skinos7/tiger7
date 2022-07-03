@@ -14,6 +14,8 @@ gPLATFORM__XXXX       Such as MTK platform will have gPLATFORM MTK macro definit
 gHARDWARE__XXXX       Such as MT7628 chip hardware will have gHARDWARE__mt7628 macro definition
 gCUSTOM__XXXX         Such as D218 products will have ggCUSTOM D218 macro definition
 PROJECT_ID            String, is the project name
+EXE_ID                String, execute program name, Name of the directory where this execute program resides
+EXE_IDPATH            String, Full name of a execute program name in the system, PROJECT_ID@EXE_ID
 */
 
 /* Available skin interfaces (specific headers are in the top /doc/ API directory) 
@@ -42,6 +44,8 @@ skinapi.h		    define all the general component api
 /* main function */
 int main( int argc, const char **argv )
 {
+	info( "the %s of %s has be executed", EXE_ID, PROJECT_ID );
+	printf( "the %s of %s has be executed\n", EXE_ID, PROJECT_ID );
     return 0;
 }
 

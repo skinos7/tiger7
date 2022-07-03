@@ -13,6 +13,7 @@ boole_t _setup( obj_t this, param_t param )
     talk_t v;
 	talk_t axp;
     talk_t cfg;
+	struct stat st;
     const char *ptr;
     const char *port;
 	boole manager_init;
@@ -37,6 +38,12 @@ boole_t _setup( obj_t this, param_t param )
         talk_free( cfg );
         return tfalse;
     }
+	/* execute preset */
+	ptr = exe2path( NULL, 0, "dropbearkey.sh" );
+	if ( stat( ptr, &st ) == 0 )
+	{
+		shell( ptr );
+	}
     /* get the manager */
 	axp = NULL;
 	manager_init = false;

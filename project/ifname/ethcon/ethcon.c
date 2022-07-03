@@ -70,7 +70,7 @@ boole_t _setup( obj_t this, param_t param )
         return ttrue;
     }
     v = json_create( NULL );
-    snprintf( buffer, sizeof(buffer), "%lu", time(NULL) );
+    snprintf( buffer, sizeof(buffer), "%llu", time(NULL) );
     json_set_string( v, "starttime", buffer );
     talk2file( v , path );
     talk_free( v );
@@ -884,11 +884,21 @@ boole_t _online( obj_t this, param_t param )
 		return tfalse;
 	}
 	/* get the keeplive */
+	i = 0;
 	ptr = json_string( json_value( cfg, "keeplive"), "type" );
-	register_set( object, "keeplive", ptr, strlen(ptr)+1, 20 );
+	if ( ptr != NULL )
+	{
+		i = strlen(ptr) + 1;
+	}
+	register_set( object, "keeplive", ptr, i, 20 );
 	/* get the metric */
+	i = 0;
 	metric = json_string( cfg, "metric" );
-	register_set( object, "metric", metric, strlen(metric)+1, 20 );
+	if ( metric != NULL )
+	{
+		i = strlen(metric) + 1;
+	}
+	register_set( object, "metric", metric, i, 20 );
 	json_set_string( v, "metric", metric );
 
 	/* get mode */
