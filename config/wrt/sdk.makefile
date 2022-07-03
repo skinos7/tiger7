@@ -27,7 +27,7 @@ update:
 	fi
 	# 更新fpk
 	if [ -e ${gCUSTOM_DIR} ]; then \
-		cd ${gCUSTOM_DIR}; curl -k --connect-timeout 30 -m 3000 ${gpFTP_PUB_SDK}/${gPLATFORM}/${gHARDWARE}/${gCUSTOM}/*.fpk -O; \
+		cd ${gCUSTOM_DIR}; curl -k --connect-timeout 30 -m 3000 ${gpFTP_PUB_SDK}/${gHARDWARE}/${gCUSTOM}/*.fpk -O; \
 	fi
 	# 更新并安装所有的菜单项
 	if [ ! -d ${gSDK_DIR}/feeds ]; then \
