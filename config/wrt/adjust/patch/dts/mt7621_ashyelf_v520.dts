@@ -20,7 +20,7 @@
 		reg = <0>;
 		spi-max-frequency = <10000000>;
 
-		partitions {
+		partitions: partitions {
 			compatible = "fixed-partitions";
 			#address-cells = <1>;
 			#size-cells = <1>;
@@ -45,12 +45,12 @@
 			partition@50000 {
 				compatible = "denx,uimage";
 				label = "firmware";
-				reg = <0x50000 0xeb0000>;
+				reg = <0x50000 0x6b0000 0x50000 0xeb0000 0x50000 0x1eb0000 0x50000 0x3eb0000>;
 			};
 
-			partition@100000 {
+			partition@700000 {
 				label = "Fconfig";
-				reg = <0xf00000 0x100000>;
+				reg = <0x700000 0x100000 0xf00000 0x100000 0x1f00000 0x100000 0x3f00000 0x100000>;
 			};
 
 		};
