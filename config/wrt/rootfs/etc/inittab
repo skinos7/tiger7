@@ -1,0 +1,7 @@
+::sysinit:/etc/init.d/rcS S boot
+::shutdown:/etc/init.d/rcS K shutdown
+
+# modify by dimmalex for simple console
+#::askconsole:/usr/libexec/login.sh
+::askconsole:bin/ash --login
+

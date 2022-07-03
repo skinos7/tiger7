@@ -1,0 +1,21 @@
+
+               EEEEEEEEE   LL           FFFFFFFFF
+               EE          LL           FF
+               EE          LL           FF
+               EEEEEEEEE   LL           FFFFFFFFF
+               EE          LL           FF
+               EE          LL           FF
+        Ashy   EEEEEEEEE   LLLLLLLLLL   FF
+
+ -----------------------------------------------------------
+ Command Help
+ -----------------------------------------------------------
+ elf --------------------- Enter to SHELL terminal
+ @ ----------------------- List all the project
+ @? ---------------------- List all the static component
+ @@ ---------------------- List all the dynamic component
+ <com> ------------------- Show component configure
+ <com>. ------------------ List all component interface
+ <com>:<config> ---------- Get component configure attribute
+ <com>:<config>=<value> -- Set component configure attribute
+ -----------------------------------------------------------
