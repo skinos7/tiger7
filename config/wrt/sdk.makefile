@@ -27,7 +27,7 @@ update:
 	fi
 	# 更新fpk
 	if [ -e ${gCUSTOM_DIR} ]; then \
-		cd ${gCUSTOM_DIR}; rm ${gpFTP_PUB_SDK}/${gHARDWARE}/${gCUSTOM}/*.fpk; \
+		cd ${gCUSTOM_DIR}; rm -fr *.fpk*; \
 		cd ${gCUSTOM_DIR}; wget ${gpFTP_PUB_SDK}/${gHARDWARE}/${gCUSTOM}/*.fpk; \
 	fi
 	# 更新并安装所有的菜单项

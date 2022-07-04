@@ -35,7 +35,7 @@ fpk_distinct:
 	cd ${gPLATFORM_DIR}; \
 	list="arch pdriver"; \
 	for i in $${list}; do \
-		if [ -f ${gPLATFORM_DIR}/$$i/${gPROJECT_INF} ]; then \
+		if [ -f ${gPLATFORM_DIR}/$$i/Makefile ]; then \
 			rm -fr $(gBUILD_DIR)/$$i-*.fpk; \
 		fi \
 	done
