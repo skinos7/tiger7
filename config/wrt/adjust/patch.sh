@@ -17,6 +17,8 @@ cp ${gPLATFORM_DIR}/adjust/patch/makefile/image.mk  ${gSDK_DIR}/include/image.mk
 cp ${gPLATFORM_DIR}/adjust/patch/makefile/package-ipkg.mk  ${gSDK_DIR}/include/package-ipkg.mk
 # patch the Makefile system call the kernel/custom.sh to override the kernel source code before kernel compile
 cp ${gPLATFORM_DIR}/adjust/patch/makefile/kernel-defaults.mk  ${gSDK_DIR}/include/kernel-defaults.mk
+# patch the Makefile system supoort cmake give a subdir
+cp ${gPLATFORM_DIR}/adjust/patch/makefile/cmake.mk  ${gSDK_DIR}/include/cmake.mk
 # patch the Makefile system ignore the opkg dependencies failed
 cp ${gPLATFORM_DIR}/adjust/patch/makefile/rootfs.mk  ${gSDK_DIR}/include/rootfs.mk
 # patch the Makefile system exit when image to big
@@ -36,5 +38,8 @@ cp ${gPLATFORM_DIR}/adjust/patch/package/base-files-makefile  ${gSDK_DIR}/packag
 # patch the base-files to don't need warning no password
 cp ${gPLATFORM_DIR}/adjust/patch/package/base-files-profile  ${gSDK_DIR}/package/base-files/files/etc/profile
 
+
+# patch the busybox udhcp client support backupip and ifnameid down to script and renewip failed to exit
+cp ${gPLATFORM_DIR}/adjust/patch/busybox/900-udhcpc_renewexit_backupip_ifnameid.patch  ${gSDK_DIR}/package/utils/busybox/patches/
 
 

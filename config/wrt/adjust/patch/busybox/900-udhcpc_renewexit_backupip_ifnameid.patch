@@ -1,0 +1,89 @@
+--- a/networking/udhcp/dhcpc.c	2022-07-04 23:34:50.693007899 +0800
++++ b/networking/udhcp/dhcpc.c	2022-07-04 23:40:07.196104235 +0800
+@@ -474,6 +474,9 @@
+ 	return NULL;
+ }
+ 
++/* add by dimmalex for pass the ifnameid to script */
++char ifnameid[64];
++
+ /* put all the parameters into the environment */
+ static void fill_envp(struct dhcp_packet *packet)
+ {
+@@ -481,6 +484,13 @@
+ 	struct dhcp_scan_state scan_state;
+ 	char *new_opt;
+ 
++
++    /* add by dimmalex for pass the ifnameid to script */
++    if ( ifnameid[0] != '\0' )
++    {
++        putenvp(xasprintf("ifnameid=%s", ifnameid));
++    }
++
+ 	putenvp(xasprintf("interface=%s", client_data.interface));
+ 
+ 	if (!packet)
+@@ -1229,6 +1239,9 @@
+ 	IF_FEATURE_UDHCPC_ARPING(unsigned arpping_ms;)
+ 	int retval;
+ 
++    /* add by dimmalex */
++    int run_defconfig = 1;
++
+ 	setup_common_bufsiz();
+ 
+ 	/* Default options */
+@@ -1314,6 +1327,28 @@
+ 	}
+ 	while (list_x) {
+ 		char *optstr = xstrdup(llist_pop(&list_x));
++
++        /* add by dimmalex for option no defconfig script run( no clear the old ip ) */
++        if ( 0 == strncmp( optstr, "defconfig", strlen("defconfig") ) )
++        {
++            char *colon = strchr(optstr, ':');
++            if( colon != NULL && strstr( colon, "no" ) )
++            {
++                run_defconfig = 0;
++            }
++            continue;
++        }
++        /* add by dimmalex for ifnameid can pass to srcipt */
++        if ( 0 == strncmp( optstr, "ifnameid", strlen("ifnameid") ) )
++        {
++            char *colon = strchr(optstr, ':');
++            if( colon != NULL )
++            {
++                strncpy( ifnameid, colon+1, sizeof(ifnameid) );
++            }
++            continue;
++        }
++
+ 		udhcp_str2optset(optstr, &client_data.options,
+ 				dhcp_optflags, dhcp_option_strings,
+ 				/*dhcpv6:*/ 0
+@@ -1371,6 +1406,10 @@
+ 	srand(monotonic_us());
+ 
+ 	client_data.state = INIT_SELECTING;
++
++    /* add by dimmalex */
++    if ( run_defconfig )
++
+ 	d4_run_script_deconfig();
+ 	packet_num = 0;
+ 	timeout = 0;
+@@ -1798,7 +1837,11 @@
+ 					goto ret0;
+ 				}
+ 				/* future renew failures should not exit (JM) */
+-				opt &= ~OPT_n;
++
++                /* comment by dimmalex for need exit */
++				//opt &= ~OPT_n;
++
++
+ #if BB_MMU /* NOMMU case backgrounded earlier */
+ 				if (!(opt & OPT_f)) {
+ 					client_background();

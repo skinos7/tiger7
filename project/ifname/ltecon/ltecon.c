@@ -25,12 +25,12 @@ static void ppp_config_build( FILE *opfile, FILE *scfile, talk_t pppcfg, talk_t 
     {
         return;
     }
-    name = json_get_string( profile, "user" );
-    passwd = json_get_string( profile, "passwd" );
-    auth = json_get_string( profile, "auth" );
-    oper_pppopt = json_get_string( profile, "opt" );
-    mtu = json_get_string( pppcfg, "mtu" );
-    ppp_pppopt = json_get_string( pppcfg, "pppopt" );
+    name = json_string( profile, "user" );
+    passwd = json_string( profile, "passwd" );
+    auth = json_string( profile, "auth" );
+    oper_pppopt = json_string( profile, "opt" );
+    mtu = json_string( pppcfg, "mtu" );
+    ppp_pppopt = json_string( pppcfg, "pppopt" );
 
     /* username */
     if ( name != NULL && *name != '\0' )
@@ -64,12 +64,12 @@ static void ppp_config_build( FILE *opfile, FILE *scfile, talk_t pppcfg, talk_t 
     }
 
     /* lcp echo  */
-    ptr = json_get_string( pppcfg, "lcp_echo_interval" );
+    ptr = json_string( pppcfg, "lcp_echo_interval" );
     if ( ptr != NULL && *ptr != '\0' )
     {
         fprintf( opfile, "lcp-echo-interval %s\n", ptr );
     }
-    ptr = json_get_string( pppcfg, "lcp_echo_failure" );
+    ptr = json_string( pppcfg, "lcp_echo_failure" );
     if ( ptr != NULL && *ptr != '\0' )
     {
         fprintf( opfile, "lcp-echo-failure %s\n", ptr );
@@ -147,15 +147,15 @@ static void ppp_chat_build( const char *chatfile, talk_t pppcfg, talk_t profile 
     const char *cid;
     const char *iptype;
 
-    apn = json_get_string( profile, "apn" );
-    dial = json_get_string( profile, "dial" );
+    apn = json_string( profile, "apn" );
+    dial = json_string( profile, "dial" );
 	if ( dial == NULL || *dial == '\0' )
 	{
 		dial = "*99#";
 	}
     if ( apn != NULL && *apn != '\0' )
     {
-        type = json_get_string( profile, "type" );
+        type = json_string( profile, "type" );
         iptype = "IP";
         if ( type != NULL && 0 == strcasecmp( type, "ipv4v6" ) )
         {
@@ -169,7 +169,7 @@ static void ppp_chat_build( const char *chatfile, talk_t pppcfg, talk_t profile 
         {
             iptype = "IPV6";
         }
-        cid = json_get_string( profile, "cid" );
+        cid = json_string( profile, "cid" );
         if ( cid == NULL || *cid == '\0' )
         {
             cid = "1";
@@ -319,7 +319,11 @@ boole_t _setup( obj_t this, param_t param )
         return ttrue;
     }
     v = json_create( NULL );
-    snprintf( buffer, sizeof(buffer), "%llu", time(NULL) );
+#if defined gPLATFORM__smtk2 || defined gPLATFORM__mtk2
+	snprintf( buffer, sizeof(buffer), "%lu", time(NULL) );
+#else
+	snprintf( buffer, sizeof(buffer), "%llu", time(NULL) );
+#endif
     json_set_string( v, "starttime", buffer );
     talk2file( v , path );
     talk_free( v );
@@ -794,8 +798,16 @@ boole_t _service( obj_t this, param_t param )
     	return terror;
     }
 	mode = json_string( cfg, "mode" );
+	if ( mode == NULL || *mode == '\0' )
+	{
+		mode = "dhcpc";
+	}
 	string2register( object, "mode", reg_mode, mode, 20 );
 	method = json_string( cfg, "method" );
+	if ( method == NULL || *method == '\0' )
+	{
+		method = "disable";
+	}
 	string2register( object, "method", reg_method, method, 20 );
 	/* disable the method when ppp mode */
 	if ( mode != NULL && 0 == strcmp( mode, "ppp" ) )

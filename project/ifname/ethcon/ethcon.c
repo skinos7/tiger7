@@ -70,7 +70,11 @@ boole_t _setup( obj_t this, param_t param )
         return ttrue;
     }
     v = json_create( NULL );
-    snprintf( buffer, sizeof(buffer), "%llu", time(NULL) );
+#if defined gPLATFORM__smtk2 || defined gPLATFORM__mtk2
+    snprintf( buffer, sizeof(buffer), "%lu", time(NULL) );
+#else
+	snprintf( buffer, sizeof(buffer), "%llu", time(NULL) );
+#endif
     json_set_string( v, "starttime", buffer );
     talk2file( v , path );
     talk_free( v );
@@ -579,8 +583,16 @@ boole_t _service( obj_t this, param_t param )
     	return terror;
     }
 	mode = json_string( cfg, "mode" );
+	if ( mode == NULL || *mode == '\0' )
+	{
+		mode = "dhcpc";
+	}
 	string2register( object, "mode", reg_mode, mode, 20 );
 	method = json_string( cfg, "method" );
+	if ( method == NULL || *method == '\0' )
+	{
+		method = "disable";
+	}
 	string2register( object, "method", reg_method, method, 20 );
 
 	/* get the count */
