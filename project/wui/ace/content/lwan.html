@@ -80,7 +80,7 @@
                     </div>
                   </div>
                 </div>
-            </div> <!-- gatewaySets -->
+            </div> <!-- gateway_cfg -->
 
             <div id="dhcps_cfg"  style="display: none;">
                 <div class="hr hr32 hr-dotted"></div>
@@ -95,7 +95,7 @@
                   </div>
                 </div>
                 
-                <div id="dhcpsSets" style="display: none;">
+                <div id="pool_cfg" style="display: none;">
                   <!-- 起始IP -->
                   <div class="form-group">
                     <label class="col-sm-3 control-label no-padding-right" data-i18n="Start IP Address"></label>
@@ -157,9 +157,9 @@
                   </div>
                 </div>
                 
-            </div> <!-- dhcpsSets -->
+            </div> <!-- dhcps_cfg -->
             
-        </div> <!-- staticSets -->
+        </div> <!-- static_cfg -->
   
 
 
@@ -227,12 +227,16 @@
     {
       he.load( [ object ] ).then( function(v){
         wan = v[0];
-        /* ipv4 */
         if ( !wan )
         {
             return;
         }
+        /* ipv4 */
         $('#mode').val( wan.mode || 'dhcpc' );
+        if ( wan.dhcpc )
+        {
+            $('#static').prop('checked', able2boole(wan.dhcpc.static) );
+        }
         if ( wan.static )
         {
           $('#ip').val(wan.static.ip);
@@ -241,14 +245,17 @@
           $('#dns').val(wan.static.dns);
           $('#dns2').val(wan.static.dns2);
         }
-        if ( wan.dhcpc )
-        {
-            $('#static').prop('checked', able2boole(wan.dhcpc.static) );
-        }
         $('#mode').unbind('change').change(function (e) {
           var type = e.target.value;
           switch (type)
           {
+            case 'static':
+              $('#static_cfg').show();
+              $('#dhcpc_cfg').hide();
+              $('#dhcps_cfg').show();
+              $('#gateway_cfg').show();
+              $('#customdns_cfg').hide();
+              break;
             case 'dhcpc':
               $('#static_cfg').hide();
               $('#dhcpc_cfg').show();
@@ -278,13 +285,6 @@
               {
                 $('#customdns_config').hide();
               }
-              break;
-            case 'static':
-              $('#static_cfg').show();
-              $('#dhcpc_cfg').hide();
-              $('#dhcps_cfg').show();
-              $('#gateway_cfg').show();
-              $('#customdns_cfg').hide();
               break;
           }
         }).trigger('change');
@@ -322,11 +322,11 @@
             $('#dhcps').unbind('change').change(function (){
                 if ($(this).prop('checked'))
                 {
-                    $('#dhcps_cfg').show();
+                    $('#pool_cfg').show();
                 }
                 else
                 {
-                    $('#dhcps_cfg').hide();
+                    $('#pool_cfg').hide();
                 }
             }).trigger('change');
         }

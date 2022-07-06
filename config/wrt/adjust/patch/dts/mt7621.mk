@@ -104,7 +104,7 @@ endef
 # add by dimmalex for add the d228 serial model
 define Device/ashyelf_d228
   $(Device/dsa-migration)
-  IMAGE_SIZE := 15040k
+  IMAGE_SIZE := 31424k
   DEVICE_VENDOR := ASHYELF
   DEVICE_MODEL := d228
   DEVICE_PACKAGES := kmod-ata-ahci kmod-mt76x2 kmod-mt7603 kmod-usb3
@@ -114,7 +114,7 @@ TARGET_DEVICES += ashyelf_d228
 # add by dimmalex for add the v520 serial model
 define Device/ashyelf_v520
   $(Device/dsa-migration)
-  IMAGE_SIZE := 15040k
+  IMAGE_SIZE := 64192k
   DEVICE_VENDOR := ASHYELF
   DEVICE_MODEL := v520
   DEVICE_PACKAGES := kmod-ata-ahci kmod-mt76x2 kmod-mt7603 kmod-usb3

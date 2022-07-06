@@ -38,7 +38,7 @@
         </div>
       </div>
       
-      <div id="dhcps_cfg" style="display: none;">
+      <div id="pool_cfg" style="display: none;">
 
         <!-- 起始IP -->
         <div class="form-group">
@@ -262,7 +262,7 @@
             $('#ip').val(lan.static.ip || '');
             $('#mask').val(lan.static.mask || '');
         }
-        /* dhcps */
+        /* dhcpsv4 */
         if ( lan.dhcps )
         {
             var dhcps = lan.dhcps;
@@ -276,11 +276,11 @@
             $('#dhcps').unbind('change').change(function (){
                 if ($(this).prop('checked'))
                 {
-                    $('#dhcps_cfg').show();
+                    $('#pool_cfg').show();
                 }
                 else
                 {
-                    $('#dhcps_cfg').hide();
+                    $('#pool_cfg').hide();
                 }
             }).trigger('change');
         }
