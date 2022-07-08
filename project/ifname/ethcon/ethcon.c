@@ -282,10 +282,10 @@ talk_t _state( obj_t this, param_t param )
     }
     else
     {
-        char ip[16];
+        char ip[20];
 		char mac[20];
-        char dstip[16];
-        char mask[16];
+        char dstip[20];
+        char mask[20];
         unsigned long long rt_bytes, rt_packets, rt_errs, rt_drops, tt_bytes, tt_packets, tt_errs, tt_drops;
         ip[0] = dstip[0] = mask[0] = mac[0] = '\0';
         rt_bytes = rt_packets = rt_errs = rt_drops = tt_bytes = tt_packets = tt_errs = tt_drops = 0;

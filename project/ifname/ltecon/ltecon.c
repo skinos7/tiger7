@@ -189,6 +189,7 @@ static talk_t ppp_client_connect( const char *object, const char *ifdev, talk_t 
 	const char *mtty;
     FILE *pppoptions_fd;
     FILE *pppsecrets_fd;
+    char pppd[PATH_MAX];
     char pppchat[PATH_MAX];
     char pppoptions[PATH_MAX];
     char pppsecrets[PATH_MAX];
@@ -251,7 +252,8 @@ static talk_t ppp_client_connect( const char *object, const char *ifdev, talk_t 
 
     /* ppp dial */
 	debug( "pppd %s file %s", mtty, pppoptions );
-    execlp( "pppd", "pppd", mtty, "file", pppoptions, (char*)0 );
+	project_exe_path( pppd, sizeof(pppd), NETWORK_PROJECT, "pppd" );
+    execlp( pppd, "pppd", mtty, "file", pppoptions, (char*)0 );
     faulting( "exec the pppd error" );    
     return tfalse;
 }
