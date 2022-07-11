@@ -132,17 +132,7 @@
 
 
 
-	"Station Control":"终端",
-	"Station List":"终端列表",
-	"Station Address Bind":"终端地址绑定",
-	"Station Wake Up":"终端网络唤醒",
-	"Internet Control":"上网控制",
-	"Station Internet Control":"终端上网控制",
-	"Access Control":"访问控制",
-	"Station Access Control":"终端访问控制",
-	"Total Bandwidth":"出口带宽",
-	"Station Bandwidth Control":"终端流量控制",
-	"Default Bandwidth Control":"默认流量控制",
+	"Station":"终端",
 
 
 

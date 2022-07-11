@@ -12,6 +12,7 @@
 	"pin":"PIN码",
 	"puk":"PIN码错误",
 	"nosim":"无SIM卡",
+	"switch":"正在切换",
 	"noreg":"未注册",
 	"unreg":"未注册",
 	"dereg":"拒绝注册",
@@ -37,6 +38,23 @@
 	"PIN Code":"PIN码",
 	"GPS":"定位功能",
 
+
+	"Backup Simcard":"备用SIM卡",
+	"Backup Simcard Settings":"备用SIM卡设置",
+	"Main Simcard":"主SIM卡",
+	"Backup Simcard":"备用SIM卡",
+	"In Use":"正在使用",
+	"Disable":"禁用",
+	"Main Simcard ICCID":"主SIM卡ICCID",
+	"Backup Simcard ICCID":"备用SIM卡ICCID",
+	"Main Simcard IMSI":"主SIM卡IMSI",
+	"Backup Simcard IMSI":"备用SIM卡IMSI",
+	"Simcard select":"SIM卡选择",
+	"PLMN failed times":"PLMN失败次数",
+	"Signal failed times":"信号失败次数",
+	"Dial failed times":"拨号失败次数",
+	"Failover duration(sec)":"备用SIM卡使用时长(秒)",
+	
 
 
 	"APN Custom":"APN自定义",

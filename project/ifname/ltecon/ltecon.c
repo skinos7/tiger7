@@ -190,6 +190,7 @@ static talk_t ppp_client_connect( const char *object, const char *ifdev, talk_t 
     FILE *pppoptions_fd;
     FILE *pppsecrets_fd;
     char pppd[PATH_MAX];
+    char chat[PATH_MAX];
     char pppchat[PATH_MAX];
     char pppoptions[PATH_MAX];
     char pppsecrets[PATH_MAX];
@@ -246,7 +247,8 @@ static talk_t ppp_client_connect( const char *object, const char *ifdev, talk_t 
     fprintf( pppoptions_fd, "online-id %s\n", object );
     /* make the chat script */;
     ppp_chat_build( pppchat, pppcfg, profile );
-    fprintf( pppoptions_fd, "connect \"chat -v -f %s\"\n", pppchat );
+	project_exe_path( chat, sizeof(chat), NETWORK_PROJECT, "chat" );
+    fprintf( pppoptions_fd, "connect \"%s -v -f %s\"\n", chat, pppchat );
     fclose( pppoptions_fd );
     fclose( pppsecrets_fd );
 
@@ -835,30 +837,57 @@ boole_t _service( obj_t this, param_t param )
 	{
 		if ( connect_failed == 2 )
 		{
-			ret = ttrue;
+			ret = terror;
 		}
 		else if ( connect_failed == 7 )
 		{
-			ret = ttrue;
+			ret = terror;
 		}
 		else if ( connect_failed == 15 )
 		{
-			ret = ttrue;
+			ret = terror;
 		}
 		else if ( (connect_failed%24) == 0 )
 		{
-			ret = ttrue;
+			ret = terror;
 		}
+		/************** bsim process *********************/
+		{
+			int *dfailed = register_pointer( ifdev, "bsim_dial_failed" );
+			if ( dfailed != NULL && *dfailed > 0 && (connect_failed%(*dfailed))==0 )
+			{
+				int *bsim_setting;
+				bsim_setting = register_pointer( ifdev, "bsim_setting" );
+				if ( *bsim_setting == 1 )
+				{
+					*bsim_setting = 2;
+				}
+				else
+				{
+					*bsim_setting = 1;
+				}
+				ret = ttrue;
+			}
+		}
+		/************** bsim process *********************/
 		warn( "%s cannot connect %d times", object, connect_failed );
 	}
 	connect_failed++;
 	int2register( object, "connect_failed", reg_connect_failed, connect_failed );
-	if ( ret == ttrue )
+	if ( ret == terror )
 	{
 		talk_free( cfg );
 		if ( com_sexist( ifdev, "reset" ) == true )
 		{
 			return scall( ifdev, "reset", NULL );
+		}
+	}
+	else if ( ret == ttrue )
+	{
+		talk_free( cfg );
+		if ( com_sexist( ifdev, "rerun" ) == true )
+		{
+			return scall( ifdev, "rerun", NULL );
 		}
 	}
 
@@ -1004,7 +1033,7 @@ boole_t _service( obj_t this, param_t param )
 		/* ipv4 ppp setting */
 		if ( mode != NULL && 0 == strcmp( mode, "ppp" ) )
 		{
-			v = scalls( ifdev, "talk", "profile" );
+			v = scalls( ifdev, "profile", NULL );
 			ret = ppp_client_connect( object, ifdev, cfg, v );
 			talk_free( v );
 		}

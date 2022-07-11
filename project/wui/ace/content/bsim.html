@@ -1,0 +1,401 @@
+<!-- ajax layout which only needs content area -->
+<div class="row" id="page-modes">
+  <div class="col-xs-12 form-btn-wrapper">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="form-horizontal" role="form">
+
+
+
+
+        <!-- 连接状态 -->
+        <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th data-i18n="Main Simcard"></th><td><span id="msim_status"></span></td>
+                <th data-i18n="Backup Simcard"></th><td id="bsim_status"></td>
+            </tr>
+            <tr>
+                <th data-i18n="Main Simcard ICCID"></th><td><span id="msim_iccid"></span></td>
+                <th data-i18n="Backup Simcard ICCID"></th><td id="bsim_iccid"></td>
+            </tr>
+            <tr>
+                <th data-i18n="Main Simcard IMSI"></th><td><span id="msim_imsi"></span></td>
+                <th data-i18n="Backup Simcard IMSI"></th><td id="bsim_imsi"></td>
+            </tr>
+        </tbody>
+        </table>            
+
+
+
+
+
+
+
+        <div class="hr hr32 hr-dotted"></div>
+
+        <!-- 备卡模式 -->
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Simcard select"></label>
+            <div class="col-sm-9">
+              <select class="col-xs-10 col-sm-5" id="mode">
+                <option value="auto" data-i18n="Auto"></option>
+                <option value="msim" data-i18n="Main Simcard"></option>
+                <option value="bsim" data-i18n="Backup Simcard"></option>
+              </select>
+            </div>
+        </div>
+
+        <div id="bsim_cfg" style="display: none;">
+            <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="PLMN failed times"></label>
+              <div class="col-sm-9">
+                <input type="text" id="plmn_failed" class="col-xs-10 col-sm-5" maxlength="128" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Signal failed times"></label>
+              <div class="col-sm-9">
+                <input type="text" id="signal_failed" class="col-xs-10 col-sm-5" maxlength="128" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Dial failed times"></label>
+              <div class="col-sm-9">
+                <input type="text" id="dial_failed" class="col-xs-10 col-sm-5" maxlength="128" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Failover duration(sec)"></label>
+              <div class="col-sm-9">
+                <input type="text" id="failover" class="col-xs-10 col-sm-5" maxlength="128" />
+              </div>
+            </div>
+        </div><!-- bsim_cfg -->
+
+        
+        <!-- PIN码 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="PIN Code"></label>
+          <div class="col-sm-9">
+            <input type="text" id="lock_pin" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+
+        <!-- APN自定义 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="APN Custom"></label>
+          <div class="col-sm-9">
+            <label>
+              <input id="profile" class="ace ace-switch ace-switch-6" type="checkbox" />
+              <span class="lbl"></span>
+            </label>
+          </div>
+        </div>
+        <div id="profile_cfg" style="display: none;">
+          <!-- APN -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="APN"></label>
+            <div class="col-sm-9">
+              <input type="text" id="apn" class="col-xs-10 col-sm-5" maxlength="128" />
+            </div>
+          </div>
+          <!-- 用户名 -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Username"></label>
+            <div class="col-sm-9">
+              <input type="text" id="user" class="col-xs-10 col-sm-5" maxlength="128" />
+            </div>
+          </div>
+          <!-- 密码 -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Password"></label>
+            <div class="col-sm-9">
+              <span class="input-icon input-icon-right input-icon-form col-xs-10 col-sm-5">
+                <input type="password" id="passwd" maxlength="128" autocomplete="new-password" />
+                <i class="ace-icon fa fa-eye-slash" id="password-icon"></i>
+              </span>
+            </div>
+          </div>
+          <!-- IP方式 -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="IP Type"></label>
+            <div class="col-sm-9">
+              <select class="col-xs-10 col-sm-5" id="type">
+                <option value="ipv4" data-i18n="IP"></option>
+                <option value="ipv4v6" data-i18n="IPv4v6"></option>
+                <option value="ipv6" data-i18n="IPv6"></option>
+              </select>
+            </div>
+          </div>
+          <!-- 鉴权方式 -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Authentication"></label>
+            <div class="col-sm-9">
+              <select class="col-xs-10 col-sm-5" id="auth">
+                <option value="" data-i18n="Auto"></option>
+                <option value="disable" data-i18n="None"></option>
+                <option value="pap" data-i18n="PAP"></option>
+                <option value="chap" data-i18n="CHAP"></option>
+                <option value="papchap" data-i18n="PAP&CHAP"></option>
+              </select>
+            </div>
+          </div>
+          <!-- 拨号号码 -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Dial Number"></label>
+            <div class="col-sm-9">
+              <input type="text" id="dial" class="col-xs-10 col-sm-5" maxlength="128" />
+            </div>
+          </div>
+          <!-- 拨号CID -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Dial CID"></label>
+            <div class="col-sm-9">
+              <input type="text" id="cid" class="col-xs-10 col-sm-5" maxlength="128" />
+            </div>
+          </div>
+        </div>
+        <div class="hr hr32 hr-dotted"></div>
+
+
+
+      <div class="clearfix form-actions">
+        <div class="col-md-offset-3 col-md-9">
+          <button class="btn btn-second" type="button" id="refresh"><span data-i18n="Refresh"></span></button>
+          &nbsp; &nbsp; &nbsp;
+          <button class="btn btn-main" type="button" id="apply"><span data-i18n="Apply"></span></button>
+        </div>
+      </div>
+
+
+    </div>
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+    /* get the object */
+    var lte;
+    var ltes;
+    var object = "modem@lte";
+    var index = page.param( 'object', location.hash );
+    if ( index )
+    {
+        object = index;
+    }
+    /* load the status */
+    function status_load()
+    {
+      he.bkload( [ object+".siminfo" ] ).then( function(v){
+          ltes = v[0];
+          if ( !ltes )
+          {
+            return;
+          }
+          if ( ltes.bsim_state == "backup" )
+          {
+              $("#msim_status").text( $.i18n("Disable") );
+              $("#bsim_status").text( $.i18n("In Use") );
+          }
+          else
+          {
+              $("#msim_status").text( $.i18n("In Use") );
+              $("#bsim_status").text( $.i18n("Disable") );
+          }
+          if ( ltes.bsim_iccid )
+          {
+              $("#bsim_iccid").text( $.i18n(ltes.bsim_iccid) );
+          }
+          else
+          {
+              $("#bsim_iccid").text( "" );
+          }
+          $("#bsim_imsi").text( ltes.bsim_imsi||"" );
+          if ( ltes.msim_iccid )
+          {
+              $("#msim_iccid").text( $.i18n(ltes.msim_iccid) );
+          }
+          else
+          {
+              $("#msim_iccid").text( "" );
+          }
+          $("#msim_imsi").text( ltes.msim_imsi||"" );
+          
+      })
+    }
+
+    /* load the configure on the input */
+    function config_load()
+    {
+      he.load( [ object ] ).then( function(v){
+        lte = v[0];
+        if ( !lte.bsim_cfg )
+        {
+            lte.bsim_cfg = {};
+        }
+        lte.bsim = "enable";
+        var bsim_cfg = lte.bsim_cfg;
+
+        $('#mode').val(bsim_cfg.mode || 'auto');
+        $('#mode').unbind('change').change(function (e) {
+          var type = e.target.value;
+          switch (type)
+          {
+            case 'auto':
+                $('#bsim_cfg').show();
+                break;
+            default:
+                $('#bsim_cfg').hide();
+                break;
+          }
+        }).trigger('change');
+        $('#plmn_failed').val(bsim_cfg.plmn_failed || '');
+        $('#signal_failed').val(bsim_cfg.signal_failed || '');
+        $('#dial_failed').val(bsim_cfg.dial_failed || '');
+        $('#failover').val(bsim_cfg.failover || '');
+        /* lock pin */
+        $('#lock_pin').val(bsim_cfg.lock_pin || '');
+        /* profile */
+        if ( bsim_cfg.profile == "enable" )
+        {
+            $('#profile').prop('checked', true );
+        }
+        else
+        {
+            $('#profile').prop('checked', false );
+        }
+        if ( bsim_cfg.profile_cfg )
+        {
+          $('#dial').val(bsim_cfg.profile_cfg.dial);
+          $('#apn').val(bsim_cfg.profile_cfg.apn);
+          $('#user').val(bsim_cfg.profile_cfg.user);
+          $('#passwd').val(bsim_cfg.profile_cfg.passwd);
+          $('#type').val(bsim_cfg.profile_cfg.type);
+          $('#auth').val(bsim_cfg.profile_cfg.auth);
+          $('#cid').val(bsim_cfg.profile_cfg.cid);
+        }
+        else
+        {
+            if ( ltes && ltes.operator_advise )
+            {
+                $('#dial').val(ltes.operator_advise.dial);
+                $('#apn').val(ltes.operator_advise.apn);
+                $('#user').val(ltes.operator_advise.user);
+                $('#password').val(ltes.operator_advise.passwd);
+                $('#type').val(ltes.operator_advise.type);
+                $('#auth').val(ltes.operator_advise.auth);
+                $('#cid').val(ltes.operator_advise.cid);
+            }
+        }
+        $('#profile').unbind('change').change(function () {
+          if ($(this).prop('checked'))
+          {
+            $('#profile_cfg').show();
+          } 
+          else
+          {
+            $('#profile_cfg').hide();
+          }
+        }).trigger('change');        
+
+      })
+    }
+
+
+    /* save the configure */
+    function config_save()
+    {
+      if ( lte == null )
+      {
+        return;
+      }
+      var ltecopy = JSON.parse(JSON.stringify(lte));;
+      if ( !lte.bsim_cfg )
+      {
+          lte.bsim_cfg = {};
+      }
+      lte.bsim = "enable";
+      var bsim_cfg = lte.bsim_cfg;
+
+      bsim_cfg.mode = $('#mode').val();
+      bsim_cfg.plmn_failed = $('#plmn_failed').val();
+      bsim_cfg.signal_failed = $('#signal_failed').val();
+      bsim_cfg.dial_failed = $('#dial_failed').val();
+      bsim_cfg.failover = $('#failover').val();
+      /* lock pin */
+      bsim_cfg.lock_pin = $('#lock_pin').val();
+      /* profile */
+      bsim_cfg.profile = boole2able( $('#profile').prop('checked') );
+      if ( bsim_cfg.profile == "enable" )
+      {
+        if ( !bsim_cfg.profile_cfg )
+        {
+          bsim_cfg.profile_cfg = {};
+        }
+        bsim_cfg.profile_cfg.dial = $('#dial').val();
+        bsim_cfg.profile_cfg.apn = $('#apn').val();
+        bsim_cfg.profile_cfg.user = $('#user').val();
+        bsim_cfg.profile_cfg.passwd = $('#passwd').val();
+        bsim_cfg.profile_cfg.type = $('#type').val();
+        bsim_cfg.profile_cfg.auth = $('#auth').val();
+        bsim_cfg.profile_cfg.cid = $('#cid').val();
+        if ( bsim_cfg.profile_cfg.cid && check.number(bsim_cfg.profile_cfg.cid) == false )
+        {
+            page.alert( { message: $.i18n('Dial CID')+" "+$.i18n('must be a valid number') } );
+            return;
+        }
+      }
+
+      if ( ocompare( lte, ltecopy ) )
+      {
+          page.alert( { message: $.i18n('Settings unchanged') } );
+          return;
+      }
+      page.confirm( { message: $.i18n('The LTE connecttion will be disconneted because of the change of configuration') } ).then( function(result){
+        if ( result )
+        {
+          he.save( [ object+"="+JSON.stringify(lte)] ).then( function(){
+            page.hint2succeed( $.i18n('Modify successfully') );
+            config_load();
+          });
+        }
+      });
+    }
+
+
+
+    /* init */
+    page.password('passwd', 'password-icon' );
+    $.i18n().load( page.lang('lte') ).then( function () {
+      /* init the langauage */
+      $.i18n().locale = lang; $('body').i18n();
+      /* load the status */
+      status_load();
+      /* load the configure */
+      config_load();
+
+      // 设置定时器
+      page.timing({
+        refresh: function ()
+        {
+            status_load();
+        },
+        interval: 1000
+      });
+
+      /* bind the refresh */
+      $('#refresh').on(ace.click_event, function () {
+        location.reload();
+      });
+      /* bind the apply */
+      $('#apply').on(ace.click_event, function () {
+        config_save();
+      });
+    });
+
+  })();
+</script>

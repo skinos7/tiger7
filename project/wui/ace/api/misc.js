@@ -700,7 +700,8 @@ var jqtable =
         var defaults = 
         {
             datatype: 'local', editurl: 'clientArray', viewrecords : true, height: 'auto',
-            rowNum:10, rowList:[10,20,30],
+            rowNum:10000, rowList:[],
+            hideRowList: true, pgbuttons:false, pginput:false,
             pager: pager_selector,
             multiselect: true, multiboxonly: true, shrinkToFit:false, // 禁止列自适应
             loadComplete: function()

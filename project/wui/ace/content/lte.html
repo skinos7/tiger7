@@ -72,7 +72,32 @@
               <span class="lbl"></span>
             </label>
           </div>
-        </div>      
+        </div> 
+        <!-- BSIM -->
+
+        <div id="bsim_cfg" style="display: none;">
+            <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Backup Simcard"></label>
+              <div class="col-sm-9">
+                <label>
+                  <input id="bsim" class="ace ace-switch ace-switch-6" type="checkbox" />
+                  <span class="lbl"></span>
+                </label>
+              </div>
+            </div>      
+            <div id="bsim_set_cfg" style="display: none;">
+                <div class="form-group">
+                  <label class="col-sm-3 control-label no-padding-right"></label>
+                    <div class="col-sm-9">
+                      <div class="btn-group">
+                        <div class="btn-group">
+                          <a class="btn btn-second" data-i18n="Backup Simcard Settings" id="bsim_set" href="#"></a>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div><!-- bsim_set_cfg -->
+        </div><!-- bsim_cfg -->
 
         <div class="hr hr32 hr-dotted"></div>
 
@@ -629,7 +654,7 @@
     /* load the configure on the input */
     function config_load()
     {
-      he.load( [ object ] ).then( function(v){
+      he.load( [ object, object+".ifdev" ] ).then( function(v){
         lte = v[0];
 
         /* Modem */
@@ -642,6 +667,33 @@
         else
         {
             $('#gnss').prop('checked',  false );
+        }
+        if ( lte.bsim )
+        {
+            $('#bsim_set').attr( "href", "#bsim?object="+v[1] );
+            $('#bsim_cfg').show();
+            if ( lte.bsim == "enable" )
+            {
+                $('#bsim').prop('checked', true );
+            }
+            else
+            {
+                $('#bsim').prop('checked', false );
+            }
+            $('#bsim').unbind('change').change(function () {
+              if ($(this).prop('checked'))
+              {
+                $('#bsim_set_cfg').show();
+              } 
+              else
+              {
+                $('#bsim_set_cfg').hide();
+              }
+            }).trigger('change');
+        }
+        else
+        {
+            $('#bsim_cfg').hide();
         }
 
         /* profile */
@@ -713,11 +765,17 @@
                 $('#static_cfg').hide();
                 $('#ppp_cfg').hide();
                 $('#customdns_cfg').hide();
+                $('#keeplive').val( "recv" );
+                $('#icmp_cfg').hide();
+                $('#recv_cfg').show();
                 break;
             case 'static':
                 $('#static_cfg').show();
                 $('#ppp_cfg').hide();
                 $('#customdns_cfg').hide();
+                $('#keeplive').val( "recv" );
+                $('#icmp_cfg').hide();
+                $('#recv_cfg').show();
                 break;
             case 'dhcpc':
                 $('#static_cfg').hide();
@@ -737,6 +795,9 @@
                 {
                   $('#customdns_config').hide();
                 }
+                $('#keeplive').val( "recv" );
+                $('#icmp_cfg').hide();
+                $('#recv_cfg').show();
                 break;
             case 'ppp':
                 $('#static_cfg').hide();
@@ -756,6 +817,9 @@
                 {
                   $('#customdns_config').hide();
                 }
+                $('#keeplive').val( "disable" );
+                $('#icmp_cfg').hide();
+                $('#recv_cfg').hide();
                 break;
           }
         }).trigger('change');
