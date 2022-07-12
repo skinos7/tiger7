@@ -1,0 +1,459 @@
+<!-- ajax layout which only needs content area -->
+<div class="row">
+  <div class="col-xs-12 form-btn-wrapper">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="form-horizontal" role="form">
+
+
+      <!-- 状态 -->
+      <table class="table table-bordered table-striped" >
+      <tbody>
+          <tr id="wan" style="display: none;">
+              <th data-i18n="ifname@wan"></th><td id="wan_status"></td><td id="wan_state"></td>
+          </tr>
+          <tr id="wan2" style="display: none;">
+              <th data-i18n="ifname@wan2"></th><td id="wan2_status"></td><td id="wan2_state"></td>
+          </tr>
+          <tr id="wisp" style="display: none;">
+              <th data-i18n="ifname@wisp"></th><td id="wisp_status"></td><td id="wisp_state"></td>
+          </tr>
+          <tr id="wisp2" style="display: none;">
+              <th data-i18n="ifname@wisp2"></th><td id="wisp2_status"></td><td id="wisp2_state"></td>
+          </tr>
+          <tr id="lte" style="display: none;">
+              <th data-i18n="ifname@lte"></th><td id="lte_status"></td><td id="lte_state"></td>
+          </tr>
+          <tr id="lte2" style="display: none;">
+              <th data-i18n="ifname@lte2"></th><td id="lte2_status"></td><td id="lte2_state"></td>
+          </tr>
+      </tbody>
+      </table>            
+      <div class="hr hr32 hr-dotted"></div>
+
+
+
+      <!-- 类型 -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Type"></label>
+        <div class="col-sm-9">
+          <select class="col-xs-10 col-sm-5" id="type">
+            <option value="hot" data-i18n="Link Backup"></option>
+            <option value="dbdc" data-i18n="Load Balancing"></option>
+            <option value="bonding" data-i18n="Aggregation"></option>
+          </select>
+        </div>
+      </div>
+
+
+      <!-- 主连接 -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Main Connection"></label>
+        <div class="col-sm-9">
+          <select class="col-xs-10 col-sm-5" id="main"></select>
+        </div>
+      </div>
+
+
+      <!-- 备连接 -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Alternate Connection"></label>
+        <div class="col-sm-9">
+          <select class="col-xs-10 col-sm-5" id="back"></select>
+        </div>
+      </div>
+      
+      <!-- king -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="King Connection"></label>
+        <div class="col-sm-9">
+          <select class="col-xs-10 col-sm-5" id="king"></select>
+        </div>
+      </div>
+
+      
+      <!-- reserve -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Reserve Connection"></label>
+        <div class="col-sm-9">
+          <select class="col-xs-10 col-sm-5" id="reserve"></select>
+        </div>
+      </div>
+
+
+    <div id="dbdc-sets" style="display:none;">
+        <!-- -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Delay Statistics"></label>
+          <div class="col-sm-9">
+            <div class="clearfix">
+              <input type="text" id="delay_count" class="col-xs-10 col-sm-5" maxlength="32" />
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Delay Boundary(ms)"></label>
+          <div class="col-sm-9">
+            <div class="clearfix">
+              <input type="text" id="delay_divide" class="col-xs-10 col-sm-5" maxlength="32" />
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Delay Difference(ms)"></label>
+          <div class="col-sm-9">
+            <div class="clearfix">
+              <input type="text" id="delay_diff" class="col-xs-10 col-sm-5" maxlength="32" />
+            </div>
+          </div>
+        </div>
+        <div class="hr hr32 hr-dotted"></div>
+        <span class="grey" data-i18n="Statistics <Delay Statistics> times, in the link average delay are located in <Delay Boundary(ms)> different sides and the average delay between links is greater than <Delay Difference(ms)> disables the link with high average delay"></span>
+    </div>
+      
+
+    <div class="clearfix form-actions">
+      <div class="col-md-offset-3 col-md-9">
+        <button class="btn btn-second" type="button" id="refresh"><span data-i18n="Refresh"></span></button>
+        &nbsp; &nbsp; &nbsp;
+        <button class="btn btn-main" type="button" id="apply"><span data-i18n="Apply"></span></button>
+      </div>
+    </div>
+
+
+    </div>
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+    var interfaces;
+    var frame;
+    var framecopy;
+
+
+    function main_html()
+    {
+        var options = '<option value="">' + $.i18n( "NONE" ) + '</option>';
+        for ( var i in interfaces )
+        {
+            options += '<option value="' + i + '">' + $.i18n( i ) + '</option>'
+        }
+        $("#main").html( options );
+    }
+    function back_html()
+    {
+        var options = '<option value="">' + $.i18n( "NONE" ) + '</option>';
+        var skip = $('#main').val();
+        for ( var i in interfaces )
+        {
+            if ( skip && i == skip )
+            {
+                continue;
+            }
+            options += '<option value="' + i + '">' + $.i18n( i ) + '</option>'
+        }
+        $("#back").html( options );
+    }
+    function king_html()
+    {
+        var options = '<option value="">' + $.i18n( "NONE" ) + '</option>';
+        var skip = $('#main').val();
+        var skip2 = $('#back').val();
+        for ( var i in interfaces )
+        {
+            if ( skip && i == skip )
+            {
+                continue;
+            }
+            if ( skip2 && i == skip2 )
+            {
+                continue;
+            }
+            options += '<option value="' + i + '">' + $.i18n( i ) + '</option>'
+        }
+        $("#king").html( options );
+    }
+    function reserve_html()
+    {
+        var options = '<option value="">' + $.i18n( "NONE" ) + '</option>';
+        var skip = $('#main').val();
+        var skip2 = $('#back').val();
+        var skip3 = $('#king').val();
+        for ( var i in interfaces )
+        {
+            if ( skip && i == skip )
+            {
+                continue;
+            }
+            if ( skip2 && i == skip2 )
+            {
+                continue;
+            }
+            if ( skip3 && i == skip3 )
+            {
+                continue;
+            }
+            options += '<option value="' + i + '">' + $.i18n( i ) + '</option>'
+        }
+        $("#reserve").html( options );
+    }
+    /* load the status */
+    function status_load()
+    {
+      he.bkload( [ "network@frame.status" ] ).then( function(v){
+        var list = v[0];
+        if ( !list )
+        {
+            $('#wan').hide();
+            $('#wan2').hide();
+            $('#wisp').hide();
+            $('#wisp2').hide();
+            $('#lte').hide();
+            $('#lte2').hide();
+            return;
+        }
+        if ( list["ifname@wan"] )
+        {
+            if ( list["ifname@wan"].status )
+            {
+                $('#wan_status').html( $.i18n( list["ifname@wan"].status ) );
+            }
+            if ( list["ifname@wan"].inuse == "enable" )
+            {
+                $('#wan_state').html( $.i18n('In Use') );
+            }
+            else
+            {
+                $('#wan_state').html( $.i18n('Unused') );
+            }
+            $('#wan').show();
+        }
+        else
+        {
+            $('#wan').hide();
+        }
+        if ( list["ifname@wan2"] )
+        {
+            if ( list["ifname@wan2"].status )
+            {
+                $('#wan_status').html( $.i18n( list["ifname@wan2"].status ) );
+            }
+            if ( list["ifname@wan2"].inuse == "enable" )
+            {
+                $('#wan2_state').html( $.i18n('In Use') );
+            }
+            else
+            {
+                $('#wan2_state').html( $.i18n('Unused') );
+            }
+            $('#wan2').show();
+        }
+        else
+        {
+            $('#wan2').hide();
+        }
+
+        if ( list["ifname@wisp"] )
+        {
+            if ( list["ifname@wisp"].status )
+            {
+                $('#wisp_status').html( $.i18n(list["ifname@wisp"].status) );
+            }
+            if ( list["ifname@wisp"].inuse == "enable" )
+            {
+                $('#wisp_state').html( $.i18n('In Use') );
+            }
+            else
+            {
+                $('#wisp_state').html( $.i18n('Unused') );
+            }
+            $('#wisp').show();
+        }
+        else
+        {
+            $('#wisp').hide();
+        }
+        if ( list["ifname@wisp2"] )
+        {
+            if ( list["ifname@wisp2"].status )
+            {
+                $('#wisp2_status').html( $.i18n(list["ifname@wisp2"].status) );
+            }
+            if ( list["ifname@wisp2"].inuse == "enable" )
+            {
+                $('#wisp2_state').html( $.i18n('In Use') );
+            }
+            else
+            {
+                $('#wisp2_state').html( $.i18n('Unused') );
+            }
+            $('#wisp2').show();
+        }
+        else
+        {
+            $('#wisp2').hide();
+        }
+        
+        if ( list["ifname@lte"] )
+        {
+            if ( list["ifname@lte"].status )
+            {
+                $('#lte_status').html( $.i18n(list["ifname@lte"].status) );
+            }
+            if ( list["ifname@lte"].inuse == "enable" )
+            {
+                $('#lte_state').html( $.i18n('In Use') );
+            }
+            else
+            {
+                $('#lte_state').html( $.i18n('Unused') );
+            }
+            $('#lte').show();
+        }
+        else
+        {
+            $('#lte').hide();
+        }
+        if ( list["ifname@lte2"] )
+        {
+            if ( list["ifname@lte2"].status )
+            {
+                $('#lte2_status').html( $.i18n(list["ifname@lte2"].status) );
+            }
+            if ( list["ifname@lte2"].inuse == "enable" )
+            {
+                $('#lte2_state').html( $.i18n('In Use') );
+            }
+            else
+            {
+                $('#lte2_state').html( $.i18n('Unused') );
+            }
+            $('#lte2').show();
+        }
+        else
+        {
+            $('#lte2').hide();
+        }
+
+      });
+    }
+    /* load the configure fill the page */
+    function frame_load()
+    {
+        he.load( [ "network@frame", "network@frame.list[extern]" ] ).then( function(v){
+            frame = v[0];
+            if ( !frame )
+            {
+                return;
+            }
+            interfaces = v[1];
+            $('#type').val( frame.connect.type );
+            main_html();
+            $('#main').val( frame.connect.main );
+            back_html();
+            $('#back').val( frame.connect.back );
+            king_html();
+            $('#king').val( frame.connect.king );
+            reserve_html();
+            $('#reserve').val( frame.connect.reserve );
+            $('#delay_count').val( frame.connect.delay_count );
+            $('#delay_divide').val( frame.connect.delay_divide );
+            $('#delay_diff').val( frame.connect.delay_diff );
+            /* load the configure */
+            $('#type').unbind('change').change(function (e) {
+              var type = e.target.value;
+              if ( type == "dbdc" )
+              {
+                $('#dbdc-sets').show();
+              }
+              else
+              {
+                $('#dbdc-sets').hide();
+              }
+            }).trigger('change');
+        });
+    }
+    function frame_save()
+    {
+        if ( frame == null )
+        {
+            return;
+        }
+        framecopy = JSON.parse(JSON.stringify(frame));
+        frame.connect.type = $('#type').val();
+        frame.connect.main = $('#main').val();
+        frame.connect.back = $('#back').val();
+        frame.connect.king = $('#king').val();
+        frame.connect.reserve = $('#reserve').val();
+        if ( frame.connect.type == "dbdc" )
+        {
+            frame.connect.delay_count = $('#delay_count').val();
+            frame.connect.delay_divide = $('#delay_divide').val();
+            frame.connect.delay_diff = $('#delay_diff').val();
+        }
+        if ( ocompare( frame, framecopy ) )
+        {
+            page.alert( { message: $.i18n('Settings unchanged') } );
+            return;
+        }
+        page.confirm( { message: $.i18n('The system will restart because of the change of settings') } ).then( function(result){
+            if ( result )
+            {
+                he.save( [ "network@frame="+JSON.stringify(frame) ] ).then( function(){
+                    page.confirm( { message: $.i18n('Restart the system to apply') } ).then( function(result){
+                        if ( result )
+                        {
+                            he.reboot( { title: $.i18n('Restarting to apply...'), hint:$.i18n('Make sure that the device is reconnected') } );
+                        }
+                    });
+                });
+            }
+            else
+            {
+                frame_load();
+            }
+        });
+    }
+
+    /* init */
+    $.i18n().load( page.lang('mix') ).then( function () {
+      /* init the langauage */
+      $.i18n().locale = lang; $('body').i18n();
+
+      status_load();
+      frame_load();
+  
+      $('#main').unbind('change').change(function (e) {
+        back_html();
+        king_html();
+        reserve_html();
+      });
+      $('#back').unbind('change').change(function (e) {
+        king_html();
+        reserve_html();
+      });
+      $('#king').unbind('change').change(function (e) {
+        reserve_html();
+      });
+      // 设置定时器
+      page.timing({
+        refresh: function ()
+        {
+            status_load();
+        },
+        interval: 1000
+      });
+      /* bind the refresh */
+      $('#refresh').on(ace.click_event, function () {
+        location.reload();
+      });
+      /* bind the apply to save configure */
+      $('#apply').on(ace.click_event, function () {
+        frame_save();
+      });
+    });
+
+  })();
+</script>

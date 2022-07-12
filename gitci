@@ -18,7 +18,7 @@ fi
 cd ${TOPDIR}
 
 # Custom
-for tmp in rice
+for tmp in rice doc
 do
     if [ -d ${TOPDIR}/${tmp} ]; then
         echo "commit the ${tmp}"
@@ -28,6 +28,15 @@ done
 
 # MTK2 platform
 for tmp in config/smtk2/
+do
+    if [ -d ${TOPDIR}/${tmp} ]; then
+        echo "commit the ${tmp}"
+        cd ${TOPDIR}/${tmp};git add .;git commit -m NULL;git push origin master
+    fi
+done
+
+# WRT platform
+for tmp in config/swrt/
 do
     if [ -d ${TOPDIR}/${tmp} ]; then
         echo "commit the ${tmp}"

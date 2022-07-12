@@ -20,7 +20,7 @@ fi
 cd ${TOPDIR}
 
 # Custom
-for tmp in rice
+for tmp in rice doc
 do
     if [ -d ${TOPDIR}/${tmp} ]; then
         echo "################################################"
@@ -32,6 +32,17 @@ done
 
 # MTK2 platform
 for tmp in config/smtk2/
+do
+    if [ -d ${TOPDIR}/${tmp} ]; then
+        echo "################################################"
+        echo "############## status the ${tmp} ###############"
+        echo "################################################"
+        cd ${TOPDIR}/${tmp};git status
+    fi
+done
+
+# WRT platform
+for tmp in config/swrt/
 do
     if [ -d ${TOPDIR}/${tmp} ]; then
         echo "################################################"
