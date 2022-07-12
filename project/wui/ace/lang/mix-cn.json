@@ -2,6 +2,7 @@
 	"Type":"类型",
 	"Link Backup":"链路备份",
 	"Load Balancing":"负载均衡",
+	"Aggregation":"链接聚合",
 	"Main Connection":"主链接",
 	"Alternate Connection":"备用链接",
 	"Alternate Connection2":"备用链接2",
