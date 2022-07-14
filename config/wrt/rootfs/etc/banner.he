@@ -10,7 +10,6 @@
  -----------------------------------------------------------
  Command Help
  -----------------------------------------------------------
- elf --------------------- Enter to SHELL terminal
  @ ----------------------- List all the project
  @? ---------------------- List all the static component
  @@ ---------------------- List all the dynamic component
