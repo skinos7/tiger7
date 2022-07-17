@@ -14,26 +14,26 @@ update:
 	# 下载或更新底层SDK
 	if [ ! -d ${gSDK_DIR} ]; then \
 		if [ ! -e ${gPLATFORM_DIR}/openwrt.tar.xz ]; then \
-			cd ${gPLATFORM_DIR}; curl -k --connect-timeout 30 -m 2000 ${gpFTP_PUB_SDK}/${OPENWRT_SDK_NAME} -o openwrt.tar.xz; \
+			cd ${gPLATFORM_DIR}; curl -u ${gpFTP_PUB_PASSWD} -k --connect-timeout 30 -m 2000 ${gpFTP_PUB_SDK}/${OPENWRT_SDK_NAME} -o openwrt.tar.xz; \
 		fi; \
 		cd ${gTOP_DIR}; tar -Jxvf ${gPLATFORM_DIR}/openwrt.tar.xz; mv openwrt ${gPLATFORM};\
 	fi
 	# 更新dl目录, 避免每次一个一个下载
 	if [ ! -d ${gSDK_DIR}/dl ]; then \
 		if [ ! -e ${gPLATFORM_DIR}/dl.tar.xz ]; then \
-			cd ${gPLATFORM_DIR}; curl -k --connect-timeout 30 -m 3000 ${gpFTP_PUB_SDK}/${OPENWRT_DL_NAME} -o dl.tar.xz; \
+			cd ${gPLATFORM_DIR}; curl -u ${gpFTP_PUB_PASSWD} -k --connect-timeout 30 -m 3000 ${gpFTP_PUB_SDK}/${OPENWRT_DL_NAME} -o dl.tar.xz; \
 		fi; \
 		cd ${gSDK_DIR}; tar -Jxvf ${gPLATFORM_DIR}/dl.tar.xz; \
 	fi
 	# 更新fpk
 	if [ -e ${gCUSTOM_DIR} ]; then \
 		cd ${gCUSTOM_DIR}; rm -fr *.fpk*; \
-		cd ${gCUSTOM_DIR}; wget ${gpFTP_PUB_SDK}/${gHARDWARE}/${gCUSTOM}/*.fpk; \
+		cd ${gCUSTOM_DIR}; wget --ftp-user=dl --ftp-password=tiger7@ASHYELF ${gpFTP_PUB_SDK}/${gHARDWARE}/${gCUSTOM}/*.fpk; \
 	fi
 	# 更新并安装所有的菜单项
 	if [ ! -d ${gSDK_DIR}/feeds ]; then \
 		if [ ! -e ${gPLATFORM_DIR}/feeds.tar.xz ]; then \
-			cd ${gPLATFORM_DIR}; curl -k --connect-timeout 30 -m 2000 ${gpFTP_PUB_SDK}/${OPENWRT_FEED_NAME} -o feeds.tar.xz; \
+			cd ${gPLATFORM_DIR}; curl -u ${gpFTP_PUB_PASSWD} -k --connect-timeout 30 -m 2000 ${gpFTP_PUB_SDK}/${OPENWRT_FEED_NAME} -o feeds.tar.xz; \
 		fi; \
 		cd ${gSDK_DIR}; tar -Jxvf ${gPLATFORM_DIR}/feeds.tar.xz; \
 	fi
@@ -46,7 +46,7 @@ menu:
 	# 更新并安装所有的菜单项
 	if [ ! -d ${gSDK_DIR}/feeds ]; then \
 		if [ ! -e ${gPLATFORM_DIR}/feeds.tar.xz ]; then \
-			cd ${gPLATFORM_DIR}; curl -k --connect-timeout 30 -m 2000 ${gpFTP_PUB_SDK}/${OPENWRT_FEED_NAME} -o feeds.tar.xz; \
+			cd ${gPLATFORM_DIR}; curl -u ${gpFTP_PUB_PASSWD} -k --connect-timeout 30 -m 2000 ${gpFTP_PUB_SDK}/${OPENWRT_FEED_NAME} -o feeds.tar.xz; \
 		fi; \
 		cd ${gSDK_DIR}; tar -Jxvf ${gPLATFORM_DIR}/feeds.tar.xz; \
 	fi
