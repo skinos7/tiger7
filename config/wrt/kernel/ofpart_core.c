@@ -109,7 +109,7 @@ static int parse_fixed_partitions(struct mtd_info *master,
 		}
 		reg_offset -= 2;
 	}
-	//printk(KERN_ALERT "mtd ofparts get mtk size %u reg_offset %d\n", tmp, reg_offset);
+	printk(KERN_ALERT "ofparts mtd size %u reg_offset %d\n", tmp+1, reg_offset);
 
 	parts = kcalloc(nr_parts, sizeof(*parts), GFP_KERNEL);
 	if (!parts)
@@ -155,21 +155,24 @@ static int parse_fixed_partitions(struct mtd_info *master,
 			mtd_node);
 			goto ofpart_fail;
 		}
-		if (len / 8 < reg_offset) 
-			len = 0;
+		if (len / 4 < (reg_offset + 2)) 
+			tmp = 0;
 		else 
-			len = reg_offset;
-		
+			tmp = reg_offset;
+	
+		//modify by qingcheng	
+		//printk(KERN_ALERT "mtd ofparts get reg len %d  tmp%d\n",  len, tmp);
 		//parts[i].offset = of_read_number(reg, a_cells);
-		parts[i].offset = of_read_number(reg + len, a_cells);
+		parts[i].offset = of_read_number(reg + tmp, a_cells);
 		//parts[i].size = of_read_number(reg + a_cells, s_cells);
-		parts[i].size = of_read_number(reg + len + a_cells, s_cells);
+		parts[i].size = of_read_number(reg + tmp + a_cells, s_cells);
 		parts[i].of_node = pp;
 
 		partname = of_get_property(pp, "label", &len);
 		if (!partname)
 			partname = of_get_property(pp, "name", &len);
 		parts[i].name = partname;
+		//printk(KERN_ALERT "mtd ofparts part name  %s tmp %d\n", partname, tmp);
 
 		if (of_get_property(pp, "read-only", &len))
 			parts[i].mask_flags |= MTD_WRITEABLE;

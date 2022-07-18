@@ -27,6 +27,8 @@ src2kernel drivers_watchdog_makefile ${LINUX_DIR}/drivers/watchdog/Makefile
 
 # mtd parts parse
 src2kernel ofpart_core.c ${LINUX_DIR}/drivers/mtd/parsers/
+# winbond W25Q512JV
+src2kernel winbond.c ${LINUX_DIR}/drivers/mtd/spi-nor/
 
 #pcie dummy support
 
