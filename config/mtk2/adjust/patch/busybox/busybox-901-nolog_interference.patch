@@ -1,0 +1,30 @@
+diff -uNr busybox-1.23.2b/loginutils/chpasswd.c busybox-1.23.2/loginutils/chpasswd.c
+--- busybox-1.23.2b/loginutils/chpasswd.c	2022-05-01 17:41:46.799577214 +0800
++++ busybox-1.23.2/loginutils/chpasswd.c	2022-05-01 17:44:10.283819440 +0800
+@@ -85,8 +85,11 @@
+ 		logmode = LOGMODE_BOTH;
+ 		if (rc < 0)
+ 			bb_error_msg_and_die("an error occurred updating password for %s", name);
+-		if (rc)
+-			bb_info_msg("Password for '%s' changed", name);
++
++        // comment by dimmalex for no log interference
++		//if (rc)
++		//	bb_info_msg("Password for '%s' changed", name);
++
+ 		logmode = LOGMODE_STDIO;
+ 		free(name);
+ 		free(free_me);
+diff -uNr busybox-1.23.2b/sysklogd/syslogd.c busybox-1.23.2/sysklogd/syslogd.c
+--- busybox-1.23.2b/sysklogd/syslogd.c	2022-05-01 17:41:46.827577259 +0800
++++ busybox-1.23.2/sysklogd/syslogd.c	2022-05-01 17:42:47.651680135 +0800
+@@ -910,7 +910,8 @@
+ 	if (option_mask32 & OPT_kmsg)
+ 		kmsg_init();
+ 
+-	timestamp_and_log_internal("syslogd started: BusyBox v" BB_VER);
++    // comment by dimmalex for no log interference
++	//timestamp_and_log_internal("syslogd started: BusyBox v" BB_VER);
+ 
+ 	while (!bb_got_signal) {
+ 		ssize_t sz;

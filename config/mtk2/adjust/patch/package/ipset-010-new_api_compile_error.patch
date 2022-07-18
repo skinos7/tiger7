@@ -1,0 +1,29 @@
+diff -uNr old/kernel/include/linux/netfilter/ipset/ip_set_compat.h.in new/kernel/include/linux/netfilter/ipset/ip_set_compat.h.in
+--- old/kernel/include/linux/netfilter/ipset/ip_set_compat.h.in	2020-11-29 20:18:27.139956593 +0800
++++ new/kernel/include/linux/netfilter/ipset/ip_set_compat.h.in	2020-11-29 20:18:16.383837005 +0800
+@@ -48,6 +48,10 @@
+ #include <linux/version.h>
+ #include <linux/netlink.h>
+ 
++/* add by dimmalex for compile error */
++#include <linux/vmalloc.h>
++
++
+ #ifndef rcu_dereference_bh
+ #define rcu_dereference_bh(p)		rcu_dereference(p)
+ #endif
+diff -uNr old/kernel/net/netfilter/ipset/ip_set_list_set.c new/kernel/net/netfilter/ipset/ip_set_list_set.c
+--- old/kernel/net/netfilter/ipset/ip_set_list_set.c	2020-11-29 20:38:09.832345410 +0800
++++ new/kernel/net/netfilter/ipset/ip_set_list_set.c	2020-11-29 20:34:12.705082586 +0800
+@@ -280,7 +280,10 @@
+ 	if (d->before == 0) {
+ 		/* Append  */
+ 		n = list_empty(&map->members) ? NULL :
+-		    list_last_entry(&map->members, struct set_elem, list);
++            /* modify by dimmalex */
++		    plist_last_entry(&map->members, struct set_elem, list);
++		    //plist_last_entry(&map->members, struct set_elem, list);
++
+ 	} else if (d->before > 0) {
+ 		/* Insert after next element */
+ 		if (!list_is_last(&next->list, &map->members))

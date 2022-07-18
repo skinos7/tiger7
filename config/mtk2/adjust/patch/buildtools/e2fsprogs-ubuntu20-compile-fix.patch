@@ -1,0 +1,13 @@
+diff -uNr e2fsprogs-1.42.8/lib/blkid/devname.c e2fsprogs-1.42.8b/lib/blkid/devname.c
+--- e2fsprogs-1.42.8/lib/blkid/devname.c	2022-01-07 17:31:35.691981881 +0800
++++ e2fsprogs-1.42.8b/lib/blkid/devname.c	2022-01-07 17:32:44.384877915 +0800
+@@ -38,6 +38,9 @@
+ #endif
+ #include <time.h>
+ 
++/* add by dimmalex for complie error at ubuntu20 */
++#include <sys/sysmacros.h>
++
+ #include "blkidP.h"
+ 
+ /*

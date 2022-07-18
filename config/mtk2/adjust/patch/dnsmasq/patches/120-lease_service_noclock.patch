@@ -1,0 +1,107 @@
+diff -uNr dnsmasq-2.71/src/dnsmasq.c dnsmasq-2.71b/src/dnsmasq.c
+--- dnsmasq-2.71/src/dnsmasq.c	2015-07-29 12:19:28.422415700 +0000
++++ dnsmasq-2.71b/src/dnsmasq.c	2015-07-30 06:28:48.423132100 +0000
+@@ -120,11 +120,14 @@
+      open to /dev/null. Normally we'll be started with 0, 1 and 2 open, 
+      but it's not guaranteed. By opening /dev/null three times, we 
+      ensure that we're not using those fds for real stuff. */
+-  for (i = 0; i < max_fd; i++)
++
++  /* comment by dimmalex do not close the service fd lock */
++  /*for (i = 0; i < max_fd; i++)
+     if (i != STDOUT_FILENO && i != STDERR_FILENO && i != STDIN_FILENO)
+       close(i);
+     else
+-      open("/dev/null", O_RDWR); 
++      open("/dev/null", O_RDWR);
++  */
+ 
+ #ifndef HAVE_LINUX_NETWORK
+ #  if !(defined(IP_RECVDSTADDR) && defined(IP_RECVIF) && defined(IP_SENDSRCADDR))
+diff -uNr dnsmasq-2.71/src/dnsmasq.h dnsmasq-2.71b/src/dnsmasq.h
+--- dnsmasq-2.71/src/dnsmasq.h	2015-07-29 12:19:28.423415700 +0000
++++ dnsmasq-2.71b/src/dnsmasq.h	2015-07-30 06:26:42.353388700 +0000
+@@ -634,6 +634,10 @@
+ #ifdef HAVE_BROKEN_RTC
+   unsigned int length;
+ #endif
++
++  /* add by dimmalex */
++  time_t alloc_time;
++  
+   int hwaddr_len, hwaddr_type;
+   unsigned char hwaddr[DHCP_CHADDR_MAX]; 
+   struct in_addr addr, override, giaddr;
+diff -uNr dnsmasq-2.71/src/lease.c dnsmasq-2.71b/src/lease.c
+--- dnsmasq-2.71/src/lease.c	2014-05-16 19:21:55.000000000 +0000
++++ dnsmasq-2.71b/src/lease.c	2015-07-30 06:49:20.865107400 +0000
+@@ -24,6 +24,10 @@
+ void lease_init(time_t now)
+ {
+   unsigned long ei;
++
++  /* add by dimmalex */
++  unsigned long alloc_time;
++
+   struct all_addr addr;
+   struct dhcp_lease *lease;
+   int clid_len, hw_len, hw_type;
+@@ -80,9 +84,13 @@
+ #endif
+ 
+ 	ei = atol(daemon->dhcp_buff3);
+-	
+-	if (fscanf(leasestream, " %64s %255s %764s",
+-		   daemon->namebuff, daemon->dhcp_buff, daemon->packet) != 3)
++
++    /* modify by dimmalex */
++	if (fscanf(leasestream, " %lu %64s %255s %764s",
++		   &alloc_time, daemon->namebuff, daemon->dhcp_buff, daemon->packet) != 4)
++	//if (fscanf(leasestream, " %64s %255s %764s",
++	//	   daemon->namebuff, daemon->dhcp_buff, daemon->packet) != 3)
++
+ 	  break;
+ 	
+ 	clid_len = 0;
+@@ -144,6 +152,9 @@
+ 	   even when sizeof(time_t) == 8 */
+ 	lease->expires = (time_t)ei;
+ #endif
++
++      /* modify by dimmalex */
++    lease->alloc_time = (time_t)alloc_time;
+ 	
+ 	/* set these correctly: the "old" events are generated later from
+ 	   the startup synthesised SIGHUP. */
+@@ -225,6 +236,10 @@
+       for (lease = leases; lease; lease = lease->next)
+ 	{
+ 
++     /* add by dimmalex */
++	  ourprintf(&err, "%lu ", lease->alloc_time);
++
++
+ #ifdef HAVE_DHCP6
+ 	  if (lease->flags & (LEASE_TA | LEASE_NA))
+ 	    continue;
+@@ -705,6 +720,10 @@
+   memset(lease, 0, sizeof(struct dhcp_lease));
+   lease->flags = LEASE_NEW;
+   lease->expires = 1;
++
++  /* add by dimmalex */
++  lease->alloc_time = 1;
++
+ #ifdef HAVE_BROKEN_RTC
+   lease->length = 0xffffffff; /* illegal value */
+ #endif
+@@ -762,6 +781,9 @@
+ 	exp = 0;
+     }
+ 
++  /* add by dimmalex */
++  lease->alloc_time = now;
++
+   if (exp != lease->expires)
+     {
+       dns_dirty = 1;

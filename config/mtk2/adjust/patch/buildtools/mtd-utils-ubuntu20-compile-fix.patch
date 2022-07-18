@@ -1,0 +1,53 @@
+diff -uNr mtd-utils-1.5.1/mkfs.jffs2.c mtd-utils-1.5.1b/mkfs.jffs2.c
+--- mtd-utils-1.5.1/mkfs.jffs2.c	2022-01-07 17:34:00.505880381 +0800
++++ mtd-utils-1.5.1b/mkfs.jffs2.c	2022-01-07 17:36:39.808004991 +0800
+@@ -73,6 +73,9 @@
+ #include <crc32.h>
+ #include <inttypes.h>
+ 
++/* add by dimmalex for compile error at ubuntu20 */
++#include <sys/sysmacros.h>
++
+ #include "rbtree.h"
+ #include "common.h"
+ 
+diff -uNr mtd-utils-1.5.1/mkfs.ubifs/devtable.c mtd-utils-1.5.1b/mkfs.ubifs/devtable.c
+--- mtd-utils-1.5.1/mkfs.ubifs/devtable.c	2022-01-07 17:34:00.505880381 +0800
++++ mtd-utils-1.5.1b/mkfs.ubifs/devtable.c	2022-01-07 17:36:39.808004991 +0800
+@@ -44,6 +44,9 @@
+  * for more information about what the device table is.
+  */
+ 
++/* add by dimmalex for compile error at ubuntu20 */
++#include <sys/sysmacros.h>
++
+ #include "mkfs.ubifs.h"
+ #include "hashtable/hashtable.h"
+ #include "hashtable/hashtable_itr.h"
+diff -uNr mtd-utils-1.5.1/mkfs.ubifs/mkfs.ubifs.c mtd-utils-1.5.1b/mkfs.ubifs/mkfs.ubifs.c
+--- mtd-utils-1.5.1/mkfs.ubifs/mkfs.ubifs.c	2022-01-07 17:34:00.505880381 +0800
++++ mtd-utils-1.5.1b/mkfs.ubifs/mkfs.ubifs.c	2022-01-07 17:36:39.808004991 +0800
+@@ -26,6 +26,9 @@
+ #include <crc32.h>
+ #include "common.h"
+ 
++/* add by dimmalex for compile error at ubuntu20 */
++#include <sys/sysmacros.h>
++
+ /* Size (prime number) of hash table for link counting */
+ #define HASH_TABLE_SIZE 10099
+ 
+diff -uNr mtd-utils-1.5.1/ubi-utils/libubi.c mtd-utils-1.5.1b/ubi-utils/libubi.c
+--- mtd-utils-1.5.1/ubi-utils/libubi.c	2022-01-07 17:34:00.501880328 +0800
++++ mtd-utils-1.5.1b/ubi-utils/libubi.c	2022-01-07 17:36:39.804004937 +0800
+@@ -33,6 +33,10 @@
+ #include <sys/stat.h>
+ #include <sys/types.h>
+ #include <libubi.h>
++
++/* add by dimmalex for compile error at ubuntu20 */
++#include <sys/sysmacros.h>
++
+ #include "libubi_int.h"
+ #include "common.h"
+ 

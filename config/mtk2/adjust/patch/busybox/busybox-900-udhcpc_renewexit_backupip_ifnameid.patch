@@ -1,0 +1,89 @@
+--- a/networking/udhcp/dhcpc.c	2020-08-23 19:56:03.349310553 +0800
++++ b/networking/udhcp/dhcpc.c	2020-08-23 20:01:02.615338824 +0800
+@@ -403,6 +403,11 @@
+ 	return ret;
+ }
+ 
++
++/* add by dimmalex for pass the ifnameid to script */
++char ifnameid[64];
++
++
+ /* put all the parameters into the environment */
+ static char **fill_envp(struct dhcp_packet *packet)
+ {
+@@ -449,6 +454,13 @@
+ 	}
+ 	curr = envp = xzalloc(sizeof(envp[0]) * envc);
+ 
++    /* add by dimmalex for pass the ifnameid to script */
++    if ( ifnameid[0] != '\0' )
++    {
++        *curr = xasprintf("ifnameid=%s", ifnameid );
++        putenv(*curr++);
++    }
++
+ 	*curr = xasprintf("interface=%s", client_config.interface);
+ 	putenv(*curr++);
+ 
+@@ -1259,6 +1271,11 @@
+ 	int retval;
+ 	fd_set rfds;
+ 
++
++    /* add by dimmalex */
++    int run_defconfig = 1;
++
++
+ 	/* Default options */
+ 	IF_FEATURE_UDHCP_PORT(SERVER_PORT = 67;)
+ 	IF_FEATURE_UDHCP_PORT(CLIENT_PORT = 68;)
+@@ -1336,6 +1353,25 @@
+ 		char *colon = strchr(optstr, ':');
+ 		if (colon)
+ 			*colon = ' ';
++
++
++        /* add by dimmalex for option no defconfig script run( no clear the old ip ) */
++        if ( 0 == strncmp( optstr, "defconfig", strlen("defconfig") ) )
++        {
++            if( strstr( colon, "no" ) )
++            {
++                run_defconfig = 0;
++            }
++            continue;
++        }
++        /* add by dimmalex for ifnameid can pass to srcipt */
++        if ( 0 == strncmp( optstr, "ifnameid", strlen("ifnameid") ) )
++        {
++            strncpy( ifnameid, colon+1, sizeof(ifnameid) );
++            continue;
++        }
++
++
+ 		/* now it looks similar to udhcpd's config file line:
+ 		 * "optname optval", using the common routine: */
+ 		udhcp_str2optset(optstr, &client_config.options);
+@@ -1393,6 +1429,10 @@
+ 	srand(monotonic_us());
+ 
+ 	state = INIT_SELECTING;
++
++    /* add by dimmalex */
++    if ( run_defconfig )
++
+ 	udhcp_run_script(NULL, "deconfig");
+ 	change_listen_mode(LISTEN_RAW);
+ 	packet_num = 0;
+@@ -1775,7 +1815,10 @@
+ 					goto ret0;
+ 				}
+ 				/* future renew failures should not exit (JM) */
+-				opt &= ~OPT_n;
++
++                /* comment by dimmalex for need exit */
++				//opt &= ~OPT_n;
++
+ #if BB_MMU /* NOMMU case backgrounded earlier */
+ 				if (!(opt & OPT_f)) {
+ 					client_background();

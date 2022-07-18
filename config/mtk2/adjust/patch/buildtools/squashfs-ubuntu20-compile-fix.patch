@@ -1,0 +1,28 @@
+diff -uNr squashfs4.2/squashfs-tools/mksquashfs.c squashfs4.2b/squashfs-tools/mksquashfs.c
+--- squashfs4.2/squashfs-tools/mksquashfs.c	2022-01-07 18:22:20.575855476 +0800
++++ squashfs4.2b/squashfs-tools/mksquashfs.c	2022-01-07 18:23:43.056967604 +0800
+@@ -53,6 +53,10 @@
+ #include <fnmatch.h>
+ #include <sys/wait.h>
+ 
++/* add by dimmalex for compile error at ubuntu20 */
++#include <sys/sysmacros.h>
++
++
+ #ifndef linux
+ #ifndef __CYGWIN__
+ #define __BYTE_ORDER BYTE_ORDER
+diff -uNr squashfs4.2/squashfs-tools/unsquashfs.c squashfs4.2b/squashfs-tools/unsquashfs.c
+--- squashfs4.2/squashfs-tools/unsquashfs.c	2022-01-07 18:22:20.575855476 +0800
++++ squashfs4.2b/squashfs-tools/unsquashfs.c	2022-01-07 18:41:58.319464489 +0800
+@@ -31,6 +31,10 @@
+ 
+ #include <sys/types.h>
+ 
++/* add by dimmalex for compile error at ubuntu20 */
++#include <sys/sysmacros.h>
++
++
+ struct cache *fragment_cache, *data_cache;
+ struct queue *to_reader, *to_deflate, *to_writer, *from_writer;
+ pthread_t *thread, *deflator_thread;

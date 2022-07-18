@@ -1,0 +1,98 @@
+diff -uNr a/switch_753x.c b/switch_753x.c
+--- a/switch_753x.c	2019-04-30 18:16:58.000000000 +0800
++++ b/switch_753x.c	2020-08-23 20:46:36.935938485 +0800
+@@ -156,7 +156,29 @@
+ 				}
+ 				printf("\n");
+ 			}
+-		} else
++		} 
++
++
++        /* add by dimmalex for register and or or */
++        else if (argv[2][0] == 'a') {
++            if (argc != 5)
++                usage(argv[0]);
++            off = strtoul(argv[3], NULL, 16);
++            reg_read(off, &val);
++            val &= strtoul(argv[4], NULL, 16);
++            reg_write(off, val);
++        }
++        else if (argv[2][0] == 'o') {
++            if (argc != 5)
++                usage(argv[0]);
++            off = strtoul(argv[3], NULL, 16);
++            reg_read(off, &val);
++            val |= strtoul(argv[4], NULL, 16);
++            reg_write(off, val);
++        }
++
++
++        else
+ 			usage(argv[0]);
+ 	} else
+ 		usage(argv[0]);
+diff -uNr a/switch.c b/switch.c
+--- a/switch.c	2019-04-30 18:16:58.000000000 +0800
++++ b/switch.c	2020-08-23 20:41:46.001319410 +0800
+@@ -774,6 +774,25 @@
+ 			printf("switch reg write offset=%x, value=%x\n", off, val);
+ 			reg_write(off, val);
+ 		}
++
++        /* add by dimmalex for register and or or */
++        else if (argv[2][0] == 'a') {
++            if (argc != 5)
++                usage(argv[0]);
++            off = strtoul(argv[3], NULL, 16);
++            reg_read(off, &val);
++            val &= strtoul(argv[4], NULL, 16);
++            reg_write(off, val);
++        }
++        else if (argv[2][0] == 'o') {
++            if (argc != 5)
++                usage(argv[0]);
++            off = strtoul(argv[3], NULL, 16);
++            reg_read(off, &val);
++            val |= strtoul(argv[4], NULL, 16);
++            reg_write(off, val);
++        }
++
+ 		else
+ 			usage(argv[0]);
+ 	}
+diff -uNr a/switch_gsw.c b/switch_gsw.c
+--- a/switch_gsw.c	2019-04-30 18:16:58.000000000 +0800
++++ b/switch_gsw.c	2020-08-23 20:42:58.268613188 +0800
+@@ -2718,7 +2718,30 @@
+ 				}
+ 				printf("\n");
+ 			}
+-		} else
++		} 
++		
++
++        /* add by dimmalex for register and or or */
++		else if (argv[2][0] == 'a') {
++			if (argc != 5)
++				usage(argv[0]);
++			off = strtoul(argv[3], NULL, 16);
++			reg_read(off, &val);
++			val &= strtoul(argv[4], NULL, 16);
++			reg_write(off, val);
++		}
++		else if (argv[2][0] == 'o') {
++			if (argc != 5)
++				usage(argv[0]);
++			off = strtoul(argv[3], NULL, 16);
++			reg_read(off, &val);
++			val |= strtoul(argv[4], NULL, 16);
++			reg_write(off, val);
++		}
++
++		
++		
++		else
+ 			usage(argv[0]);
+ 	} else if (!strncmp(argv[1], "ingress-rate", 6)) {
+ 		int port = 0, bw = 0;

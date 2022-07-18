@@ -1,0 +1,1500 @@
+<!-- ajax layout which only needs content area -->
+<div class="row" id="page-modes">
+  <div class="col-xs-12 form-btn-wrapper">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- PAGE CONTENT BEGINS -->
+
+
+
+            <div class="row" id="ifname@lte" style="display: none;">
+                <div class="space-6"></div>
+                <div class="col-sm-5">
+                    <div class="widget-box">
+                        <div class="widget-header widget-header-flat widget-header-small"><i class="ace-icon fa fa-signal"></i> <h5 class="widget-title" data-i18n="ifname@lte"></h5></div>
+                        <div class="space-6"></div>
+                        <div class="row">
+                            <div class="col-sm-4" >
+                                <div class="space-6"></div>
+                                <div class="center">
+                                    <div class="easy-pie-chart percentage" data-percent="100" data-size="100" id="ifname@lte_downusage_pie" ><span class="percent" id="ifname@lte_downusage">100</span>%<i class="ace-icon fa fa-arrow-down fa-2x purple"></i></div>
+                                    <div class="space-6"></div><div class="space-6"></div>
+                                    <div class="easy-pie-chart percentage" data-percent="100" data-size="100" id="ifname@lte_upusage_pie" ><span class="percent" id="ifname@lte_upusage">100</span>%<i class="ace-icon fa fa-arrow-up fa-2x red"></i></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-8" >
+                                <div class="widget-body">
+                                    <div class="widget-main no-padding">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr><td data-i18n="Status"></td><td id="ifname@lte_status"></td></tr>
+                                                <tr><td data-i18n="ICCID"></td><td id="ifname@lte_iccid"></td></tr>
+                                                <tr><td data-i18n="IMEI"></td><td id="ifname@lte_imei"></td></tr>
+                                                <tr><td data-i18n="Network"></td>
+                                                    <td>
+                                                        <span id="ifname@lte_operator"></span>&nbsp;
+                                                        <span id="ifname@lte_nettype"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr><td data-i18n="Signal"></td>
+                                                    <td>
+                                                        <span><img src="/assets/css/images/signal_0.png" id="ifname@lte_rssiimg" class="line-signal"></img></span>
+                                                        <span id="ifname@lte_rssi"></span>
+                                                        <span id="ifname@lte_csq"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr><td data-i18n="IPv4 Address"></td>
+                                                    <td>
+                                                        <span id="ifname@lte_ip"></span>&nbsp;
+                                                        <span id="ifname@lte_delay"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr><td data-i18n="Online Time"></td><td id="ifname@lte_livetime"></td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div><!-- /.widget-main -->
+                                </div><!-- /.widget-body -->
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main">
+                                <div class="clearfix">
+                                    <!-- #section:custom/extra.grid -->
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-down fa-2x purple"></i><span data-i18n="Byte"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@lte_rx_bytes"></h4>
+                                    </div>
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-down fa-2x purple"></i><span data-i18n="Packet"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@lte_rx_packets"></h4>
+                                    </div>
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-up fa-2x red"></i><span data-i18n="Byte"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@lte_tx_bytes"></h4>
+                                    </div>
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-up fa-2x red"></i><span data-i18n="Packet"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@lte_tx_packets"></h4>
+                                    </div>
+                                    <!-- /section:custom/extra.grid -->
+                                </div>
+                            </div><!-- /.widget-main -->
+                        </div><!-- /.widget-body -->
+                    </div><!-- /.widget-box -->
+                </div><!-- /.col -->
+
+                <div class="col-sm-5">
+                    <div class="widget-box widget-color-green2">
+                        <div class="widget-header"><h5 class="widget-title bigger lighter" data-i18n="ifname@lte Speed"></h5></div>
+                        <div class="widget-body">
+                            <div class="widget-main"><div id="ifname@lte-charts" style="height:294px"></div></div>
+                        </div>
+                    </div>
+               </div>
+
+            </div><!-- /.row -->
+
+
+            <div class="row" id="ifname@lte2" style="display: none;">
+                <div class="space-6"></div>
+                <div class="col-sm-5">
+                    <div class="widget-box">
+                        <div class="widget-header widget-header-flat widget-header-small"><i class="ace-icon fa fa-signal"></i> <h5 class="widget-title" data-i18n="ifname@lte2"></h5></div>
+                        <div class="space-6"></div>
+                        <div class="row">
+                            <div class="col-sm-4" >
+                                <div class="space-6"></div>
+                                <div class="center">
+                                    <div class="easy-pie-chart percentage" data-percent="100" data-size="100" id="ifname@lte2_downusage_pie" ><span class="percent" id="ifname@lte2_downusage">100</span>%<i class="ace-icon fa fa-arrow-down fa-2x purple"></i></div>
+                                    <div class="space-6"></div><div class="space-6"></div>
+                                    <div class="easy-pie-chart percentage" data-percent="100" data-size="100" id="ifname@lte2_upusage_pie" ><span class="percent" id="ifname@lte2_upusage">100</span>%<i class="ace-icon fa fa-arrow-up fa-2x red"></i></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-8" >
+                                <div class="widget-body">
+                                    <div class="widget-main no-padding">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr><td data-i18n="Status"></td><td id="ifname@lte2_status"></td></tr>
+                                                <tr><td data-i18n="ICCID"></td><td id="ifname@lte2_iccid"></td></tr>
+                                                <tr><td data-i18n="IMEI"></td><td id="ifname@lte2_imei"></td></tr>
+                                                <tr><td data-i18n="Network"></td>
+                                                    <td>
+                                                        <span id="ifname@lte2_operator"></span>&nbsp;
+                                                        <span id="ifname@lte2_nettype"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr><td data-i18n="Signal"></td>
+                                                    <td>
+                                                        <span><img src="/assets/css/images/signal_0.png" id="ifname@lte2_rssiimg" class="line-signal"></img></span>
+                                                        <span id="ifname@lte2_rssi"></span>
+                                                        <span id="ifname@lte2_csq"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr><td data-i18n="IPv4 Address"></td>
+                                                    <td>
+                                                        <span id="ifname@lte2_ip"></span>&nbsp;
+                                                        <span id="ifname@lte2_delay"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr><td data-i18n="Online Time"></td><td id="ifname@lte2_livetime"></td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div><!-- /.widget-main -->
+                                </div><!-- /.widget-body -->
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main">
+                                <div class="clearfix">
+                                    <!-- #section:custom/extra.grid -->
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-down fa-2x purple"></i><span data-i18n="Byte"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@lte2_rx_bytes"></h4>
+                                    </div>
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-down fa-2x purple"></i><span data-i18n="Packet"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@lte2_rx_packets"></h4>
+                                    </div>
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-up fa-2x red"></i><span data-i18n="Byte"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@lte2_tx_bytes"></h4>
+                                    </div>
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-up fa-2x red"></i><span data-i18n="Packet"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@lte2_tx_packets"></h4>
+                                    </div>
+                                    <!-- /section:custom/extra.grid -->
+                                </div>
+                            </div><!-- /.widget-main -->
+                        </div><!-- /.widget-body -->
+                    </div><!-- /.widget-box -->
+                </div><!-- /.col -->
+            
+                <div class="col-sm-5">
+                    <div class="widget-box widget-color-green2">
+                        <div class="widget-header"><h5 class="widget-title bigger lighter" data-i18n="ifname@lte2 Speed"></h5></div>
+                        <div class="widget-body">
+                            <div class="widget-main"><div id="ifname@lte2-charts" style="height:294px"></div></div>
+                        </div>
+                    </div>
+               </div>
+            
+            </div><!-- /.row -->
+
+
+
+
+
+
+
+            <div class="row" id="ifname@wan" style="display: none;">
+                <div class="space-6"></div>
+                <div class="col-sm-5">
+                    <div class="widget-box">
+                        <div class="widget-header widget-header-flat widget-header-small"><i class="ace-icon fa fa-signal"></i> <h5 class="widget-title" data-i18n="ifname@wan"></h5></div>
+                        <div class="space-6"></div>
+                        <div class="row">
+                            <div class="col-sm-4" >
+                                <div class="space-6"></div>
+                                <div class="center">
+                                    <div class="easy-pie-chart percentage" data-percent="100" data-size="100" id="ifname@wan_downusage_pie" ><span class="percent" id="ifname@wan_downusage">100</span>%<i class="ace-icon fa fa-arrow-down fa-2x purple"></i></div>
+                                    <div class="space-6"></div><div class="space-6"></div>
+                                    <div class="easy-pie-chart percentage" data-percent="100" data-size="100" id="ifname@wan_upusage_pie" ><span class="percent" id="ifname@wan_upusage">100</span>%<i class="ace-icon fa fa-arrow-up fa-2x red"></i></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-8" >
+                                <div class="widget-body">
+                                    <div class="widget-main no-padding">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr><td data-i18n="Status"></td><td id="ifname@wan_status"></td></tr>
+                                                <tr><td data-i18n="IPv4 Address"></td>
+                                                    <td>
+                                                        <span id="ifname@wan_ip"></span>&nbsp;
+                                                        <span id="ifname@wan_delay"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr><td data-i18n="Subnet Mask"></td><td id="ifname@wan_mask"></td></tr>
+                                                <tr><td data-i18n="Gateway"></td><td id="ifname@wan_gw"></td></tr>
+                                                <tr><td data-i18n="IPv4 DNS"></td><td id="ifname@wan_dns"></td></tr>
+                                                <tr><td data-i18n="MAC Address"></td><td id="ifname@wan_mac"></td></tr>
+                                                <tr><td data-i18n="Online Time"></td><td id="ifname@wan_livetime"></td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div><!-- /.widget-main -->
+                                </div><!-- /.widget-body -->
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main">
+                                <div class="clearfix">
+                                    <!-- #section:custom/extra.grid -->
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-down fa-2x purple"></i><span data-i18n="Byte"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@wan_rx_bytes"></h4>
+                                    </div>
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-down fa-2x purple"></i><span data-i18n="Packet"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@wan_rx_packets"></h4>
+                                    </div>
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-up fa-2x red"></i><span data-i18n="Byte"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@wan_tx_bytes"></h4>
+                                    </div>
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-up fa-2x red"></i><span data-i18n="Packet"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@wan_tx_packets"></h4>
+                                    </div>
+                                    <!-- /section:custom/extra.grid -->
+                                </div>
+                            </div><!-- /.widget-main -->
+                        </div><!-- /.widget-body -->
+                    </div><!-- /.widget-box -->
+                </div><!-- /.col -->
+            
+                <div class="col-sm-5">
+                    <div class="widget-box widget-color-green2">
+                        <div class="widget-header"><h5 class="widget-title bigger lighter" data-i18n="ifname@wan Speed"></h5></div>
+                        <div class="widget-body">
+                            <div class="widget-main"><div id="ifname@wan-charts" style="height:294px"></div></div>
+                        </div>
+                    </div>
+               </div>
+            
+            </div><!-- /.row -->
+
+
+            <div class="row" id="ifname@wan2" style="display: none;">
+                <div class="space-6"></div>
+                <div class="col-sm-5">
+                    <div class="widget-box">
+                        <div class="widget-header widget-header-flat widget-header-small"><i class="ace-icon fa fa-signal"></i> <h5 class="widget-title" data-i18n="ifname@wan2"></h5></div>
+                        <div class="space-6"></div>
+                        <div class="row">
+                            <div class="col-sm-4" >
+                                <div class="space-6"></div>
+                                <div class="center">
+                                    <div class="easy-pie-chart percentage" data-percent="100" data-size="100" id="ifname@wan2_downusage_pie" ><span class="percent" id="ifname@wan2_downusage">100</span>%<i class="ace-icon fa fa-arrow-down fa-2x purple"></i></div>
+                                    <div class="space-6"></div><div class="space-6"></div>
+                                    <div class="easy-pie-chart percentage" data-percent="100" data-size="100" id="ifname@wan2_upusage_pie" ><span class="percent" id="ifname@wan2_upusage">100</span>%<i class="ace-icon fa fa-arrow-up fa-2x red"></i></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-8" >
+                                <div class="widget-body">
+                                    <div class="widget-main no-padding">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr><td data-i18n="Status"></td><td id="ifname@wan2_status"></td></tr>
+                                                <tr><td data-i18n="IPv4 Address"></td>
+                                                    <td>
+                                                        <span id="ifname@wan2_ip"></span>&nbsp;
+                                                        <span id="ifname@wan2_delay"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr><td data-i18n="Subnet Mask"></td><td id="ifname@wan2_mask"></td></tr>
+                                                <tr><td data-i18n="Gateway"></td><td id="ifname@wan2_gw"></td></tr>
+                                                <tr><td data-i18n="IPv4 DNS"></td><td id="ifname@wan2_dns"></td></tr>
+                                                <tr><td data-i18n="MAC Address"></td><td id="ifname@wan2_mac"></td></tr>
+                                                <tr><td data-i18n="Online Time"></td><td id="ifname@wan2_livetime"></td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div><!-- /.widget-main -->
+                                </div><!-- /.widget-body -->
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main">
+                                <div class="clearfix">
+                                    <!-- #section:custom/extra.grid -->
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-down fa-2x purple"></i><span data-i18n="Byte"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@wan2_rx_bytes"></h4>
+                                    </div>
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-down fa-2x purple"></i><span data-i18n="Packet"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@wan2_rx_packets"></h4>
+                                    </div>
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-up fa-2x red"></i><span data-i18n="Byte"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@wan2_tx_bytes"></h4>
+                                    </div>
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-up fa-2x red"></i><span data-i18n="Packet"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@wan2_tx_packets"></h4>
+                                    </div>
+                                    <!-- /section:custom/extra.grid -->
+                                </div>
+                            </div><!-- /.widget-main -->
+                        </div><!-- /.widget-body -->
+                    </div><!-- /.widget-box -->
+                </div><!-- /.col -->
+            
+                <div class="col-sm-5">
+                    <div class="widget-box widget-color-green2">
+                        <div class="widget-header"><h5 class="widget-title bigger lighter" data-i18n="ifname@wan2 Speed"></h5></div>
+                        <div class="widget-body">
+                            <div class="widget-main"><div id="ifname@wan2-charts" style="height:294px"></div></div>
+                        </div>
+                    </div>
+               </div>
+            
+            </div><!-- /.row -->
+
+
+
+
+
+
+
+
+            <div class="row" id="ifname@wisp" style="display: none;">
+                <div class="space-6"></div>
+                <div class="col-sm-5">
+                    <div class="widget-box">
+                        <div class="widget-header widget-header-flat widget-header-small"><i class="ace-icon fa fa-signal"></i> <h5 class="widget-title" data-i18n="ifname@wisp"></h5></div>
+                        <div class="space-6"></div>
+                        <div class="row">
+                            <div class="col-sm-4" >
+                                <div class="space-6"></div>
+                                <div class="center">
+                                    <div class="easy-pie-chart percentage" data-percent="100" data-size="100" id="ifname@wisp_downusage_pie" ><span class="percent" id="ifname@wisp_downusage">100</span>%<i class="ace-icon fa fa-arrow-down fa-2x purple"></i></div>
+                                    <div class="space-6"></div><div class="space-6"></div>
+                                    <div class="easy-pie-chart percentage" data-percent="100" data-size="100" id="ifname@wisp_upusage_pie" ><span class="percent" id="ifname@wisp_upusage">100</span>%<i class="ace-icon fa fa-arrow-up fa-2x red"></i></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-8" >
+                                <div class="widget-body">
+                                    <div class="widget-main no-padding">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr><td data-i18n="Status"></td><td id="ifname@wisp_status"></td></tr>
+                                                <tr><td data-i18n="IPv4 Address"></td>
+                                                    <td>
+                                                        <span id="ifname@wisp_ip"></span>&nbsp;
+                                                        <span id="ifname@wisp_delay"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr><td data-i18n="Subnet Mask"></td><td id="ifname@wisp_mask"></td></tr>
+                                                <tr><td data-i18n="Gateway"></td><td id="ifname@wisp_gw"></td></tr>
+                                                <tr><td data-i18n="IPv4 DNS"></td><td id="ifname@wisp_dns"></td></tr>
+                                                <tr><td data-i18n="MAC Address"></td><td id="ifname@wisp_mac"></td></tr>
+                                                <tr><td data-i18n="Peer SSID"></td><td id="ifname@wisp_peer"></td></tr>
+                                                <tr><td data-i18n="Peer BSSID"></td><td id="ifname@wisp_peermac"></td></tr>
+                                                <tr><td data-i18n="Channel"></td><td id="ifname@wisp_channel"></td></tr>
+                                                <tr><td data-i18n="Online Time"></td><td id="ifname@wisp_livetime"></td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div><!-- /.widget-main -->
+                                </div><!-- /.widget-body -->
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main">
+                                <div class="clearfix">
+                                    <!-- #section:custom/extra.grid -->
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-down fa-2x purple"></i><span data-i18n="Byte"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@wisp_rx_bytes"></h4>
+                                    </div>
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-down fa-2x purple"></i><span data-i18n="Packet"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@wisp_rx_packets"></h4>
+                                    </div>
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-up fa-2x red"></i><span data-i18n="Byte"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@wisp_tx_bytes"></h4>
+                                    </div>
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-up fa-2x red"></i><span data-i18n="Packet"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@wisp_tx_packets"></h4>
+                                    </div>
+                                    <!-- /section:custom/extra.grid -->
+                                </div>
+                            </div><!-- /.widget-main -->
+                        </div><!-- /.widget-body -->
+                    </div><!-- /.widget-box -->
+                </div><!-- /.col -->
+            
+                <div class="col-sm-5">
+                    <div class="widget-box widget-color-green2">
+                        <div class="widget-header"><h5 class="widget-title bigger lighter" data-i18n="ifname@wisp Speed"></h5></div>
+                        <div class="widget-body">
+                            <div class="widget-main"><div id="ifname@wisp-charts" style="height:400px"></div></div>
+                        </div>
+                    </div>
+               </div>
+            
+            </div><!-- /.row -->
+
+            <div class="row" id="ifname@wisp2" style="display: none;">
+                <div class="space-6"></div>
+                <div class="col-sm-5">
+                    <div class="widget-box">
+                        <div class="widget-header widget-header-flat widget-header-small"><i class="ace-icon fa fa-signal"></i> <h5 class="widget-title" data-i18n="ifname@wisp2"></h5></div>
+                        <div class="space-6"></div>
+                        <div class="row">
+                            <div class="col-sm-4" >
+                                <div class="space-6"></div>
+                                <div class="center">
+                                    <div class="easy-pie-chart percentage" data-percent="100" data-size="100" id="ifname@wisp2_downusage_pie" ><span class="percent" id="ifname@wisp2_downusage">100</span>%<i class="ace-icon fa fa-arrow-down fa-2x purple"></i></div>
+                                    <div class="space-6"></div><div class="space-6"></div>
+                                    <div class="easy-pie-chart percentage" data-percent="100" data-size="100" id="ifname@wisp2_upusage_pie" ><span class="percent" id="ifname@wisp2_upusage">100</span>%<i class="ace-icon fa fa-arrow-up fa-2x red"></i></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-8" >
+                                <div class="widget-body">
+                                    <div class="widget-main no-padding">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr><td data-i18n="Status"></td><td id="ifname@wisp2_status"></td></tr>
+                                                <tr><td data-i18n="IPv4 Address"></td>
+                                                    <td>
+                                                        <span id="ifname@wisp2_ip"></span>&nbsp;
+                                                        <span id="ifname@wisp2_delay"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr><td data-i18n="Subnet Mask"></td><td id="ifname@wisp2_mask"></td></tr>
+                                                <tr><td data-i18n="Gateway"></td><td id="ifname@wisp2_gw"></td></tr>
+                                                <tr><td data-i18n="IPv4 DNS"></td><td id="ifname@wisp2_dns"></td></tr>
+                                                <tr><td data-i18n="MAC Address"></td><td id="ifname@wisp2_mac"></td></tr>
+                                                <tr><td data-i18n="Peer SSID"></td><td id="ifname@wisp2_peer"></td></tr>
+                                                <tr><td data-i18n="Peer BSSID"></td><td id="ifname@wisp2_peermac"></td></tr>
+                                                <tr><td data-i18n="Channel"></td><td id="ifname@wisp2_channel"></td></tr>
+                                                <tr><td data-i18n="Online Time"></td><td id="ifname@wisp2_livetime"></td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div><!-- /.widget-main -->
+                                </div><!-- /.widget-body -->
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main">
+                                <div class="clearfix">
+                                    <!-- #section:custom/extra.grid -->
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-down fa-2x purple"></i><span data-i18n="Byte"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@wisp2_rx_bytes"></h4>
+                                    </div>
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-down fa-2x purple"></i><span data-i18n="Packet"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@wisp2_rx_packets"></h4>
+                                    </div>
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-up fa-2x red"></i><span data-i18n="Byte"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@wisp2_tx_bytes"></h4>
+                                    </div>
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-up fa-2x red"></i><span data-i18n="Packet"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@wisp2_tx_packets"></h4>
+                                    </div>
+                                    <!-- /section:custom/extra.grid -->
+                                </div>
+                            </div><!-- /.widget-main -->
+                        </div><!-- /.widget-body -->
+                    </div><!-- /.widget-box -->
+                </div><!-- /.col -->
+            
+                <div class="col-sm-5">
+                    <div class="widget-box widget-color-green2">
+                        <div class="widget-header"><h5 class="widget-title bigger lighter" data-i18n="ifname@wisp2 Speed"></h5></div>
+                        <div class="widget-body">
+                            <div class="widget-main"><div id="ifname@wisp2-charts" style="height:400px"></div></div>
+                        </div>
+                    </div>
+               </div>
+            
+            </div><!-- /.row -->
+
+
+
+
+
+
+
+
+            <div class="row" id="ifname@lan" style="display: none;">
+                <div class="space-6"></div>
+                <div class="col-sm-5">
+                    <div class="widget-box">
+                        <div class="widget-header widget-header-flat widget-header-small"><i class="ace-icon fa fa-laptop"></i> <h5 class="widget-title" data-i18n="ifname@lan"></h5></div>
+                        <div class="space-6"></div>
+                        <div class="row">
+                            <div class="col-sm-4" >
+                                <div class="center">
+                                    <div class="space-6"></div>
+                                    <div class="easy-pie-chart percentage" data-percent="100" data-size="125" id="ifname@lan_downusage_pie" ><span class="percent" id="ifname@lan_downusage">100</span>%<i class="ace-icon fa fa-arrow-down fa-2x purple"></i></div>
+                                    <div class="space-6"></div>
+                                    <div class="space-6"></div>
+                                    <div class="easy-pie-chart percentage" data-percent="100" data-size="125" id="ifname@lan_upusage_pie" ><span class="percent" id="ifname@lan_upusage">100</span>%<i class="ace-icon fa fa-arrow-up fa-2x red"></i></div>
+                                    <div class="space-6"></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-8" >
+                                <div class="widget-body">
+                                    <div class="widget-main no-padding">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr><td data-i18n="IPv4 Address"></td><td id="ifname@lan_ip"></td></tr>
+                                                <tr><td data-i18n="Subnet Mask"></td><td id="ifname@lan_mask"></td></tr>
+                                                <tr id="ifname@lan_gw_div"><td data-i18n="Gateway"></td><td id="ifname@lan_gw"></td></tr>
+                                                <tr id="ifname@lan_dns_div"><td data-i18n="IPv4 DNS"></td><td id="ifname@lan_dns"></td></tr>
+                                                <tr><td data-i18n="MAC Address"></td><td id="ifname@lan_mac"></td></tr>
+                                                <tr><td data-i18n="Online Time"></td><td id="ifname@lan_livetime"></td></tr>
+                                                <tr><td data-i18n="Client Number"></td><td id="ifname@lan_client"></td></tr>
+                                                <tr><td data-i18n="2.4G SSID"></td><td id="wifi@nssid_ssid"></td></tr>
+                                                <tr><td data-i18n="2.4G Channel"></td><td id="wifi@nssid_channel"></td></tr>
+                                                <tr><td data-i18n="2.4G BSSID"></td><td id="wifi@nssid_bssid"></td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div><!-- /.widget-main -->
+                                </div><!-- /.widget-body -->
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main">
+                                <div class="clearfix">
+                                    <!-- #section:custom/extra.grid -->
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-down fa-2x purple"></i><span data-i18n="Byte"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@lan_rx_bytes"></h4>
+                                    </div>
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-down fa-2x purple"></i><span data-i18n="Packet"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@lan_rx_packets"></h4>
+                                    </div>
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-up fa-2x red"></i><span data-i18n="Byte"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@lan_tx_bytes"></h4>
+                                    </div>
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-up fa-2x red"></i><span data-i18n="Packet"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@lan_tx_packets"></h4>
+                                    </div>
+                                    <!-- /section:custom/extra.grid -->
+                                </div>
+                            </div><!-- /.widget-main -->
+                        </div><!-- /.widget-body -->
+                    </div><!-- /.widget-box -->
+                </div><!-- /.col -->
+            
+                <div class="col-sm-5">
+                    <div class="widget-box widget-color-green2">
+                        <div class="widget-header"><h5 class="widget-title bigger lighter" data-i18n="ifname@lan Speed"></h5></div>
+                        <div class="widget-body">
+                            <div class="widget-main"><div id="ifname@lan-charts" style="height:100px"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="widget-box widget-color-green">
+                        <div class="widget-header"><h5 class="widget-title bigger lighter" data-i18n="wifi@nssid Speed"></h5></div>
+                        <div class="widget-body">
+                            <div class="widget-main"><div id="wifi@nssid-charts" style="height:100px"></div></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </div><!-- /.row -->
+
+
+
+
+
+
+
+
+
+
+
+            <div class="hr hr32 hr-dotted"></div>
+            <div class="row">
+                <div class="col-sm-9 infobox-container">
+
+
+                    <div class="infobox infobox-blue2" id="cpu" style="display: none;">
+                        <div class="infobox-progress"><div class="easy-pie-chart percentage" data-percent="100" data-size="46" id="cpu_usage_pie"><span class="percent" id="cpu_usage">100</span>%</div></div>
+                        <div class="infobox-data"><span class="infobox-data-number">CPU</span><div class="infobox-content"></div></div>
+                    </div>
+                    <div class="infobox infobox-blue2" id="cpu0" style="display: none;">
+                        <div class="infobox-progress"><div class="easy-pie-chart percentage" data-percent="100" data-size="46" id="cpu0_usage_pie"><span class="percent" id="cpu0_usage">100</span>%</div></div>
+                        <div class="infobox-data"><span class="infobox-data-number" data-i18n="Core0"></span><div class="infobox-content"></div></div>
+                    </div>
+                    <div class="infobox infobox-blue2" id="cpu1" style="display: none;">
+                        <div class="infobox-progress"><div class="easy-pie-chart percentage" data-percent="100" data-size="46" id="cpu1_usage_pie"><span class="percent" id="cpu1_usage">100</span>%</div></div>
+                        <div class="infobox-data"><span class="infobox-data-number" data-i18n="Core1"></span><div class="infobox-content"></div></div>
+                    </div>
+                    <div class="infobox infobox-blue2" id="cpu2" style="display: none;">
+                        <div class="infobox-progress"><div class="easy-pie-chart percentage" data-percent="100" data-size="46" id="cpu2_usage_pie"><span class="percent" id="cpu2_usage">100</span>%</div></div>
+                        <div class="infobox-data"><span class="infobox-data-number" data-i18n="Core2"></span><div class="infobox-content"></div></div>
+                    </div>
+                    <div class="infobox infobox-blue2" id="cpu3" style="display: none;">
+                        <div class="infobox-progress"><div class="easy-pie-chart percentage" data-percent="100" data-size="46" id="cpu3_usage_pie"><span class="percent" id="cpu3_usage">100</span>%</div></div>
+                        <div class="infobox-data"><span class="infobox-data-number" data-i18n="Core3"></span><div class="infobox-content"></div></div>
+                    </div>
+
+
+                    <div class="infobox infobox-blue2">
+                        <div class="infobox-icon"><div class="easy-pie-chart percentage" data-percent="100" data-size="50" id="mem_usage_pie"><span class="percent" id="mem_usage">100</span>%</div></div>
+                        <div class="infobox-data">
+                            <span class="infobox-data-number" data-i18n="Memory"></span>
+                            <div class="infobox-content" id="mem_free"></div>
+                        </div>
+                        <div class="badge badge-success" id="mem_total"></div>
+                    </div>
+
+
+
+
+                    <div class="infobox infobox-blue" id="sg1" style="display: none;">
+                        <div class="infobox-icon"><div class="easy-pie-chart percentage" data-percent="100" data-size="50" id="sg1_usage_pie"><span class="percent" id="sg1_usage">100</span>%</div></div>
+                        <div class="infobox-data">
+                            <span class="infobox-data-number" id="sg1_name"></span>
+                            <div class="infobox-content" id="sg1_free"></div>
+                        </div>
+                        <div class="badge badge-success" id="sg1_total"></div>
+                    </div>
+                    <div class="infobox infobox-blue" id="sg2" style="display: none;">
+                        <div class="infobox-icon"><div class="easy-pie-chart percentage" data-percent="100" data-size="50" id="sg2_usage_pie"><span class="percent" id="sg2_usage">100</span>%</div></div>
+                        <div class="infobox-data">
+                            <span class="infobox-data-number" id="sg2_name"></span>
+                            <div class="infobox-content" id="sg2_free"></div>
+                        </div>
+                        <div class="badge badge-success" id="sg2_total"></div>
+                    </div>
+                    <div class="infobox infobox-blue" id="sg3" style="display: none;">
+                        <div class="infobox-icon"><div class="easy-pie-chart percentage" data-percent="100" data-size="50" id="sg3_usage_pie"><span class="percent" id="sg3_usage">100</span>%</div></div>
+                        <div class="infobox-data">
+                            <span class="infobox-data-number" id="sg3_name"></span>
+                            <div class="infobox-content" id="sg3_free"></div>
+                        </div>
+                        <div class="badge badge-success" id="sg3_total"></div>
+                    </div>
+                    <div class="infobox infobox-blue" id="sg4" style="display: none;">
+                        <div class="infobox-icon"><div class="easy-pie-chart percentage" data-percent="100" data-size="50" id="sg4_usage_pie"><span class="percent" id="sg4_usage">100</span>%</div></div>
+                        <div class="infobox-data">
+                            <span class="infobox-data-number" id="sg4_name"></span>
+                            <div class="infobox-content" id="sg4_free"></div>
+                        </div>
+                        <div class="badge badge-success" id="sg4_total"></div>
+                    </div>
+
+
+                </div>
+
+            </div><!-- /.row -->
+
+
+            <div class="row">
+                    <div class="col-sm-9 infobox-container">
+                    <div class="infobox infobox-grey infobox-small infobox-dark">
+                        <div class="infobox-icon">
+                            <i class="ace-icon fa fa-download"></i>
+                        </div>
+                        <div class="infobox-data">
+                            <div class="infobox-content" data-i18n="FPKs"></div>
+                            <div class="infobox-content" id="fpks" ></div>
+                        </div>
+                    </div>
+                    <div class="infobox infobox-grey infobox-small infobox-dark">
+                        <div class="infobox-icon">
+                            <i class="ace-icon fa fa-download"></i>
+                        </div>
+                        <div class="infobox-data">
+                            <div class="infobox-content" data-i18n="Processes"></div>
+                            <div class="infobox-content" id="processes"></div>
+                        </div>
+                    </div>
+                    <div class="infobox infobox-grey infobox-small infobox-dark">
+                        <div class="infobox-icon">
+                            <i class="ace-icon fa fa-download"></i>
+                        </div>
+                        <div class="infobox-data">
+                            <div class="infobox-content" data-i18n="Services"></div>
+                            <div class="infobox-content" id="services"></div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.row -->
+
+
+
+
+
+            <div class="hr hr32 hr-dotted"></div>
+
+
+
+
+            <!-- PAGE CONTENT ENDS -->
+        </div><!-- /.col -->
+    </div><!-- /.row -->
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+
+
+
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () { 
+    /* flush interval */
+    var flush_interval = 2;
+    /* global buffer */
+    var buff = {};
+    /* init the ifname@lte info */
+    buff["ifname@lte_max"] = 15;
+    buff["ifname@lte_rx"] = 0;
+    buff["ifname@lte_tx"] = 0;
+    buff["ifname@lte_rxdata"] = [];
+    buff["ifname@lte_txdata"] = [];
+    /* init the ifname@lte2 info */
+    buff["ifname@lte2_max"] = 15;
+    buff["ifname@lte2_rx"] = 0;
+    buff["ifname@lte2_tx"] = 0;
+    buff["ifname@lte2_rxdata"] = [];
+    buff["ifname@lte2_txdata"] = [];
+    /* init the ifname@wan info */
+    buff["ifname@wan_max"] = 15;
+    buff["ifname@wan_rx"] = 0;
+    buff["ifname@wan_tx"] = 0;
+    buff["ifname@wan_rxdata"] = [];
+    buff["ifname@wan_txdata"] = [];
+    /* init the ifname@wan2 info */
+    buff["ifname@wan2_max"] = 15;
+    buff["ifname@wan2_rx"] = 0;
+    buff["ifname@wan2_tx"] = 0;
+    buff["ifname@wan2_rxdata"] = [];
+    buff["ifname@wan2_txdata"] = [];
+    /* init the ifname@wisp info */
+    buff["ifname@wisp_max"] = 15;
+    buff["ifname@wisp_rx"] = 0;
+    buff["ifname@wisp_tx"] = 0;
+    buff["ifname@wisp_rxdata"] = [];
+    buff["ifname@wisp_txdata"] = [];
+    /* init the ifname@wisp2 info */
+    buff["ifname@wisp2_max"] = 15;
+    buff["ifname@wisp2_rx"] = 0;
+    buff["ifname@wisp2_tx"] = 0;
+    buff["ifname@wisp2_rxdata"] = [];
+    buff["ifname@wisp2_txdata"] = [];
+    /* init the ifname@lan info */
+    buff["ifname@lan_max"] = 15;
+    buff["ifname@lan_rx"] = 0;
+    buff["ifname@lan_tx"] = 0;
+    buff["ifname@lan_rxdata"] = [];
+    buff["ifname@lan_txdata"] = [];
+    /* init the ifname@lan2 info */
+    buff["ifname@lan2_max"] = 15;
+    buff["ifname@lan2_rx"] = 0;
+    buff["ifname@lan2_tx"] = 0;
+    buff["ifname@lan2_rxdata"] = [];
+    buff["ifname@lan2_txdata"] = [];
+    /* init the wifi@nssid info */
+    buff["wifi@nssid_max"] = 15;
+    buff["wifi@nssid_rx"] = 0;
+    buff["wifi@nssid_tx"] = 0;
+    buff["wifi@nssid_rxdata"] = [];
+    buff["wifi@nssid_txdata"] = [];
+    /* init the wifi@assid info */
+    buff["wifi@assid_max"] = 15;
+    buff["wifi@assid_rx"] = 0;
+    buff["wifi@assid_tx"] = 0;
+    buff["wifi@assid_rxdata"] = [];
+    buff["wifi@assid_txdata"] = [];
+    function lte_show( ifname, value )
+    {
+        $("[id='"+ifname+"']").show();
+        $("[id='"+ifname+"_status']").html( $.i18n(value.status) );
+        $("[id='"+ifname+"_imei']").html(  $.i18n(value.imei) );
+        $("[id='"+ifname+"_iccid']").html( $.i18n(value.iccid) );
+        if ( value.operator )
+        {
+            $("[id='"+ifname+"_operator']").text( value.operator );
+        }
+        else if ( value.plmn )
+        {
+            $("[id='"+ifname+"_operator']").text( $.i18n(value.plmn) );
+        }
+        else
+        {
+            $("[id='"+ifname+"_operator']").text( "" );
+        }
+        $("[id='"+ifname+"_nettype']").html( value.nettype||' ' );
+
+        if ( value.signal )
+        {
+            $("[id='"+ifname+"_rssiimg']").attr( "src", "/assets/css/images/signal_"+value.signal+".png" );
+        }
+        else
+        {
+            $("[id='"+ifname+"_rssiimg']").attr( "src", "/assets/css/images/signal_0.png" );
+        }
+        if ( value.rsrp )
+        {
+            $("[id='"+ifname+"_rssi']").text( "RSSI:"+value.rsrp+"dBm" );
+        }
+        else if ( value.rssi )
+        {
+            $("[id='"+ifname+"_rssi']").text( "RSSI:"+value.rssi+"dBm" );            
+        }
+        else
+        {
+            $("[id='"+ifname+"_rssi']").text( "" );            
+        }
+        if ( value.csq )
+        {
+            $("[id='"+ifname+"_csq']").text( "CSQ:"+value.csq );
+        }
+        else
+        {
+            $("[id='"+ifname+"_csq']").text( "" );            
+        }
+        $("[id='"+ifname+"_ip']").html( value.ip||"" );
+        if ( value.delay )
+        {
+            if ( value.delay == "failed" )
+            {
+                $("[id='"+ifname+"_delay']").text( $.i18n("value.delay") );
+            }
+            else
+            {
+                $("[id='"+ifname+"_delay']").text( $.i18n("Delay")+":"+value.delay );
+            }
+        }
+        else
+        {
+            $("[id='"+ifname+"_delay']").text( "" );
+        }
+        if ( value.status != "up" )
+        {
+            return;
+        }
+        $("[id='"+ifname+"_livetime']").html( value.livetime||"" );
+        $("[id='"+ifname+"_rx_bytes']").html( byte2readable( value.rx_bytes||"0" ) );
+        $("[id='"+ifname+"_rx_packets']").html( value.rx_packets||"0" );
+        $("[id='"+ifname+"_tx_bytes']").html( byte2readable( value.tx_bytes||"0" ) );
+        $("[id='"+ifname+"_tx_packets']").html( value.tx_packets||"0" );
+        /* get the time */
+        var date = new Date();
+        var day = date.getHours();
+        date = date.setHours( 8+day );
+        var newdate = new Date( date );
+        var d_time = newdate.getTime();
+        /* get the byte */
+        var rx = 0;
+        var tx = 0;
+        var orx = buff[ ifname+"_rx" ];
+        var otx = buff[ ifname+"_tx" ];
+        buff[ ifname+"_rx" ] = parseInt( value.rx_bytes );
+        buff[ ifname+"_tx" ] = parseInt( value.tx_bytes );
+        if ( orx != 0 || otx != 0 )
+        {
+            rx = buff[ ifname+"_rx" ] - orx;
+            tx = buff[ ifname+"_tx" ] - otx;
+            if ( rx < 0 )
+            {
+                rx = 0;
+            }
+            if ( tx < 0 )
+            {
+                tx = 0;
+            }
+        }
+        if ( rx > 0 )
+        {
+            rx = Math.round( rx/1024 );
+        }
+        if ( tx > 0 )
+        {
+            tx = Math.round( tx/1024 );
+        }
+        if ( buff[ ifname+"_max" ] < rx )
+        {
+            buff[ ifname+"_max" ] = rx;
+        }
+        if ( buff[ ifname+"_max" ] < tx )
+        {
+            buff[ ifname+"_max" ] = tx;
+        }
+        buff[ifname+"_txdata"].push( [ d_time, tx ] );
+        buff[ifname+"_rxdata"].push( [ d_time, rx ] );
+        $("[id='"+ifname+"-charts']").css( {'width':'100%' , 'height':'294px'} );
+        var datas =
+        [
+            { label: $.i18n('TX byte'), color: "#0000ff", data: buff[ifname+"_txdata"] },
+            { label: $.i18n('RX byte'), color: "#00ff00", data: buff[ifname+"_rxdata"] },
+        ];
+        var opt =
+        {
+            points:{ clickable:true, hoverable:true },
+            lines:{ show:true, lineWidth: 1 },
+            selection: { mode: "x" },
+            yaxis: { max: buff[ifname+"_max"], tickFormatter:function(axis) { return axis.toFixed(0)+"K"; } },
+            xaxis: { mode: "time", timeformat: "%M:%S", minTickSize: [1, "second"] },
+            legend: { position: "ne", backgroundColor:"#fff" } 
+        };
+        $.plot( "[id='"+ifname+"-charts']", datas, opt );
+        /* get the usage */
+	    var usage;
+	    usage = (rx/(4*1024))*100;
+        if ( usage < 0 )
+        {
+            usage = 0;
+        }
+        $("[id='"+ifname+"_downusage']").text( usage.toFixed(0) );
+        $("[id='"+ifname+"_downusage_pie']").data('easyPieChart').update( usage.toFixed(0) );
+        usage = (tx/(3*1024))*100;
+        if ( usage < 0 )
+        {
+            usage = 0;
+        }
+        $("[id='"+ifname+"_upusage']").text( usage.toFixed(0) );
+        $("[id='"+ifname+"_upusage_pie']").data('easyPieChart').update( usage.toFixed(0) );
+    }
+
+
+    function wan_show( ifname, value )
+    {
+        $("[id='"+ifname+"']").show();
+        $("[id='"+ifname+"_status']").html( $.i18n(value.status) );
+        $("[id='"+ifname+"_ip']").html( value.ip||"" );
+        if ( value.delay )
+        {
+            if ( value.delay == "failed" )
+            {
+                $("[id='"+ifname+"_delay']").text( $.i18n("value.delay") );
+            }
+            else
+            {
+                $("[id='"+ifname+"_delay']").text( $.i18n("Delay")+":"+value.delay );
+            }
+        }
+        else
+        {
+            $("[id='"+ifname+"_delay']").text( "" );
+        }
+        $("[id='"+ifname+"_mask']").html( value.mask||"" );
+        $("[id='"+ifname+"_gw']").html( value.gw||"" );
+        $("[id='"+ifname+"_dns']").html( value.dns||"" );
+        $("[id='"+ifname+"_mac']").html( value.mac||"" );
+        if ( value.status != "up" )
+        {
+            return;
+        }
+        $("[id='"+ifname+"_livetime']").html( value.livetime||"" );
+        $("[id='"+ifname+"_rx_bytes']").html( byte2readable( value.rx_bytes||"0" ) );
+        $("[id='"+ifname+"_rx_packets']").html( value.rx_packets||"0" );
+        $("[id='"+ifname+"_tx_bytes']").html( byte2readable( value.tx_bytes||"0" ) );
+        $("[id='"+ifname+"_tx_packets']").html( value.tx_packets||"0" );
+        /* get the time */
+        var date = new Date();
+        var day = date.getHours();
+        date = date.setHours( 8+day );
+        var newdate = new Date( date );
+        var d_time = newdate.getTime();
+        /* get the byte */
+        var rx = 0;
+        var tx = 0;
+        var orx = buff[ ifname+"_rx" ];
+        var otx = buff[ ifname+"_tx" ];
+        buff[ ifname+"_rx" ] = parseInt( value.rx_bytes );
+        buff[ ifname+"_tx" ] = parseInt( value.tx_bytes );
+        if ( orx != 0 || otx != 0 )
+        {
+            rx = buff[ ifname+"_rx" ] - orx;
+            tx = buff[ ifname+"_tx" ] - otx;
+            if ( rx < 0 )
+            {
+                rx = 0;
+            }
+            if ( tx < 0 )
+            {
+                tx = 0;
+            }
+        }
+        if ( rx > 0 )
+        {
+            rx = Math.round( rx/1024 );
+        }
+        if ( tx > 0 )
+        {
+            tx = Math.round( tx/1024 );
+        }
+        if ( buff[ ifname+"_max" ] < rx )
+        {
+            buff[ ifname+"_max" ] = rx;
+        }
+        if ( buff[ ifname+"_max" ] < tx )
+        {
+            buff[ ifname+"_max" ] = tx;
+        }
+        buff[ifname+"_txdata"].push( [ d_time, tx ] );
+        buff[ifname+"_rxdata"].push( [ d_time, rx ] );
+        $("[id='"+ifname+"-charts']").css( {'width':'100%' , 'height':'294px'} );
+        var datas =
+        [
+            { label: $.i18n('TX byte'), color: "#0000ff", data: buff[ifname+"_txdata"] },
+            { label: $.i18n('RX byte'), color: "#00ff00", data: buff[ifname+"_rxdata"] },
+        ];
+        var opt =
+        {
+            points:{ clickable:true, hoverable:true },
+            lines:{ show:true, lineWidth: 1 },
+            selection: { mode: "x" },
+            yaxis: { max: buff[ifname+"_max"], tickFormatter:function(axis) { return axis.toFixed(0)+"K"; } },
+            xaxis: { mode: "time", timeformat: "%M:%S", minTickSize: [1, "second"] },
+            legend: { position: "ne", backgroundColor:"#fff" } 
+        };
+        $.plot( "[id='"+ifname+"-charts']", datas, opt );
+        /* get the usage */
+	    var usage;
+	    usage = (rx/(100*1024))*100;
+        if ( usage < 0 )
+        {
+            usage = 0;
+        }
+        $("[id='"+ifname+"_downusage']").text( usage.toFixed(0) );
+        $("[id='"+ifname+"_downusage_pie']").data('easyPieChart').update( usage.toFixed(0) );
+        usage = (tx/(100*1024))*100;
+        if ( usage < 0 )
+        {
+            usage = 0;
+        }
+        $("[id='"+ifname+"_upusage']").text( usage.toFixed(0) );
+        $("[id='"+ifname+"_upusage_pie']").data('easyPieChart').update( usage.toFixed(0) );
+    }
+
+    function wisp_show( ifname, value )
+    {
+        $("[id='"+ifname+"']").show();
+        $("[id='"+ifname+"_status']").html( $.i18n(value.status) );
+        $("[id='"+ifname+"_ip']").html( value.ip||"" );
+        if ( value.delay )
+        {
+            if ( value.delay == "failed" )
+            {
+                $("[id='"+ifname+"_delay']").text( $.i18n("value.delay") );
+            }
+            else
+            {
+                $("[id='"+ifname+"_delay']").text( $.i18n("Delay")+":"+value.delay );
+            }
+        }
+        else
+        {
+            $("[id='"+ifname+"_delay']").text( "" );
+        }
+        $("[id='"+ifname+"_mask']").html( value.mask||"" );
+        $("[id='"+ifname+"_gw']").html( value.gw||"" );
+        $("[id='"+ifname+"_dns']").html( value.dns||"" );
+        $("[id='"+ifname+"_mac']").html( value.mac||"" );
+        $("[id='"+ifname+"_peer']").html( value.peer||"" );
+        $("[id='"+ifname+"_peermac']").html( value.peermac||"" );
+        $("[id='"+ifname+"_channel']").html( value.channel||"" );
+        if ( value.status != "up" )
+        {
+            return;
+        }
+        $("[id='"+ifname+"_livetime']").html( value.livetime||"" );
+        $("[id='"+ifname+"_rx_bytes']").html( byte2readable( value.rx_bytes||"0" ) );
+        $("[id='"+ifname+"_rx_packets']").html( value.rx_packets||"0" );
+        $("[id='"+ifname+"_tx_bytes']").html( byte2readable( value.tx_bytes||"0" ) );
+        $("[id='"+ifname+"_tx_packets']").html( value.tx_packets||"0" );
+        /* get the time */
+        var date = new Date();
+        var day = date.getHours();
+        date = date.setHours( 8+day );
+        var newdate = new Date( date );
+        var d_time = newdate.getTime();
+        /* get the byte */
+        var rx = 0;
+        var tx = 0;
+        var orx = buff[ ifname+"_rx" ];
+        var otx = buff[ ifname+"_tx" ];
+        buff[ ifname+"_rx" ] = parseInt( value.rx_bytes );
+        buff[ ifname+"_tx" ] = parseInt( value.tx_bytes );
+        if ( orx != 0 || otx != 0 )
+        {
+            rx = buff[ ifname+"_rx" ] - orx;
+            tx = buff[ ifname+"_tx" ] - otx;
+            if ( rx < 0 )
+            {
+                rx = 0;
+            }
+            if ( tx < 0 )
+            {
+                tx = 0;
+            }
+        }
+        if ( rx > 0 )
+        {
+            rx = Math.round( rx/1024 );
+        }
+        if ( tx > 0 )
+        {
+            tx = Math.round( tx/1024 );
+        }
+        if ( buff[ ifname+"_max" ] < rx )
+        {
+            buff[ ifname+"_max" ] = rx;
+        }
+        if ( buff[ ifname+"_max" ] < tx )
+        {
+            buff[ ifname+"_max" ] = tx;
+        }
+        buff[ifname+"_txdata"].push( [ d_time, tx ] );
+        buff[ifname+"_rxdata"].push( [ d_time, rx ] );
+        $("[id='"+ifname+"-charts']").css( {'width':'100%' , 'height':'400px'} );
+        var datas =
+        [
+            { label: $.i18n('TX byte'), color: "#0000ff", data: buff[ifname+"_txdata"] },
+            { label: $.i18n('RX byte'), color: "#00ff00", data: buff[ifname+"_rxdata"] },
+        ];
+        var opt =
+        {
+            points:{ clickable:true, hoverable:true },
+            lines:{ show:true, lineWidth: 1 },
+            selection: { mode: "x" },
+            yaxis: { max: buff[ifname+"_max"], tickFormatter:function(axis) { return axis.toFixed(0)+"K"; } },
+            xaxis: { mode: "time", timeformat: "%M:%S", minTickSize: [1, "second"] },
+            legend: { position: "ne", backgroundColor:"#fff" } 
+        };
+        $.plot( "[id='"+ifname+"-charts']", datas, opt );
+        /* get the usage */
+	    var usage;
+	    usage = (rx/(100*1024))*100;
+        if ( usage < 0 )
+        {
+            usage = 0;
+        }
+        $("[id='"+ifname+"_downusage']").text( usage.toFixed(0) );
+        $("[id='"+ifname+"_downusage_pie']").data('easyPieChart').update( usage.toFixed(0) );
+        usage = (tx/(100*1024))*100;
+        if ( usage < 0 )
+        {
+            usage = 0;
+        }
+        $("[id='"+ifname+"_upusage']").text( usage.toFixed(0) );
+        $("[id='"+ifname+"_upusage_pie']").data('easyPieChart').update( usage.toFixed(0) );
+    }
+
+
+    function lan_show( ifname, value )
+    {
+        $("[id='"+ifname+"']").show();
+        $("[id='"+ifname+"_ip']").html( value.ip||"" );
+        $("[id='"+ifname+"_mask']").html( value.mask||"" );
+        $("[id='"+ifname+"_mac']").html( value.mac||"" );
+        if ( value.gw )
+        {
+            $("[id='"+ifname+"_gw']").html( value.gw );
+            $("[id='"+ifname+"_gw_div']").show();
+        }
+        else
+        {
+            $("[id='"+ifname+"_gw_div']").hide();
+        }
+        if ( value.dns )
+        {
+            $("[id='"+ifname+"_dns']").html( value.dns );
+            $("[id='"+ifname+"_dns_div']").show();
+        }
+        else
+        {
+            $("[id='"+ifname+"_dns_div']").hide();
+        }
+        if ( value.status != "up" )
+        {
+            return;
+        }
+        $("[id='"+ifname+"_livetime']").html( value.livetime||"" );
+        $("[id='"+ifname+"_rx_bytes']").html( byte2readable( value.rx_bytes||"0" ) );
+        $("[id='"+ifname+"_rx_packets']").html( value.rx_packets||"0" );
+        $("[id='"+ifname+"_tx_bytes']").html( byte2readable( value.tx_bytes||"0" ) );
+        $("[id='"+ifname+"_tx_packets']").html( value.tx_packets||"0" );
+        /* get the time */
+        var date = new Date();
+        var day = date.getHours();
+        date = date.setHours( 8+day );
+        var newdate = new Date( date );
+        var d_time = newdate.getTime();
+        /* get the byte */
+        var rx = 0;
+        var tx = 0;
+        var orx = buff[ ifname+"_rx" ];
+        var otx = buff[ ifname+"_tx" ];
+        buff[ ifname+"_rx" ] = parseInt( value.rx_bytes );
+        buff[ ifname+"_tx" ] = parseInt( value.tx_bytes );
+        if ( orx != 0 || otx != 0 )
+        {
+            rx = buff[ ifname+"_rx" ] - orx;
+            tx = buff[ ifname+"_tx" ] - otx;
+            if ( rx < 0 )
+            {
+                rx = 0;
+            }
+            if ( tx < 0 )
+            {
+                tx = 0;
+            }
+        }
+        if ( rx > 0 )
+        {
+            rx = Math.round( rx/1024 );
+        }
+        if ( tx > 0 )
+        {
+            tx = Math.round( tx/1024 );
+        }
+        if ( buff[ ifname+"_max" ] < rx )
+        {
+            buff[ ifname+"_max" ] = rx;
+        }
+        if ( buff[ ifname+"_max" ] < tx )
+        {
+            buff[ ifname+"_max" ] = tx;
+        }
+        buff[ifname+"_txdata"].push( [ d_time, tx ] );
+        buff[ifname+"_rxdata"].push( [ d_time, rx ] );
+        $("[id='"+ifname+"-charts']").css( {'width':'100%' , 'height':'150px'} );
+        var datas =
+        [
+            { label: $.i18n('TX byte'), color: "#0000ff", data: buff[ifname+"_txdata"] },
+            { label: $.i18n('RX byte'), color: "#00ff00", data: buff[ifname+"_rxdata"] },
+        ];
+        var opt =
+        {
+            points:{ clickable:true, hoverable:true },
+            lines:{ show:true, lineWidth: 1 },
+            selection: { mode: "x" },
+            yaxis: { max: buff[ifname+"_max"], tickFormatter:function(axis) { return axis.toFixed(0)+"K"; } },
+            xaxis: { mode: "time", timeformat: "%M:%S", minTickSize: [1, "second"] },
+            legend: { position: "ne", backgroundColor:"#fff" } 
+        };
+        $.plot( "[id='"+ifname+"-charts']", datas, opt );
+        /* get the usage */
+	    var usage;
+	    usage = (rx/(100*1024))*100;
+        if ( usage < 0 )
+        {
+            usage = 0;
+        }
+        $("[id='"+ifname+"_downusage']").text( usage.toFixed(0) );
+        $("[id='"+ifname+"_downusage_pie']").data('easyPieChart').update( usage.toFixed(0) );
+        usage = (tx/(100*1024))*100;
+        if ( usage < 0 )
+        {
+            usage = 0;
+        }
+        $("[id='"+ifname+"_upusage']").text( usage.toFixed(0) );
+        $("[id='"+ifname+"_upusage_pie']").data('easyPieChart').update( usage.toFixed(0) );
+    }
+    function ssid_show( ifname, value )
+    {
+        $("[id='"+ifname+"_ssid']").html( value.ssid||"" );
+        $("[id='"+ifname+"_bssid']").html( value.bssid||"" );
+        $("[id='"+ifname+"_channel']").html( value.channel||"" );
+        if ( value.state != "up" )
+        {
+            return;
+        }
+        /* get the time */
+        var date = new Date();
+        var day = date.getHours();
+        date = date.setHours( 8+day );
+        var newdate = new Date( date );
+        var d_time = newdate.getTime();
+        /* get the byte */
+        var rx = 0;
+        var tx = 0;
+        var orx = buff[ ifname+"_rx" ];
+        var otx = buff[ ifname+"_tx" ];
+        buff[ ifname+"_rx" ] = parseInt( value.rx_bytes );
+        buff[ ifname+"_tx" ] = parseInt( value.tx_bytes );
+        if ( orx != 0 || otx != 0 )
+        {
+            rx = buff[ ifname+"_rx" ] - orx;
+            tx = buff[ ifname+"_tx" ] - otx;
+            if ( rx < 0 )
+            {
+                rx = 0;
+            }
+            if ( tx < 0 )
+            {
+                tx = 0;
+            }
+        }
+        if ( rx > 0 )
+        {
+            rx = Math.round( rx/1024 );
+        }
+        if ( tx > 0 )
+        {
+            tx = Math.round( tx/1024 );
+        }
+        if ( buff[ ifname+"_max" ] < rx )
+        {
+            buff[ ifname+"_max" ] = rx;
+        }
+        if ( buff[ ifname+"_max" ] < tx )
+        {
+            buff[ ifname+"_max" ] = tx;
+        }
+        buff[ifname+"_txdata"].push( [ d_time, tx ] );
+        buff[ifname+"_rxdata"].push( [ d_time, rx ] );
+        $("[id='"+ifname+"-charts']").css( {'width':'100%' , 'height':'145px'} );
+        var datas =
+        [
+            { label: $.i18n('TX byte'), color: "#0000ff", data: buff[ifname+"_txdata"] },
+            { label: $.i18n('RX byte'), color: "#00ff00", data: buff[ifname+"_rxdata"] },
+        ];
+        var opt =
+        {
+            points:{ clickable:true, hoverable:true },
+            lines:{ show:true, lineWidth: 1 },
+            selection: { mode: "x" },
+            yaxis: { max: buff[ifname+"_max"], tickFormatter:function(axis) { return axis.toFixed(0)+"K"; } },
+            xaxis: { mode: "time", timeformat: "%M:%S", minTickSize: [1, "second"] },
+            legend: { position: "ne", backgroundColor:"#fff" } 
+        };
+        $.plot( "[id='"+ifname+"-charts']", datas, opt );
+    }
+
+    
+	function cpu_show( id, info )
+	{
+	    var user = parseInt(info.user)+parseInt(info.system)+parseInt(info.nice)+parseInt(info.iowait)+parseInt(info.irq)+parseInt(info.softirq);
+	    var total = user+parseInt(info.idle);
+	    var usage = ((user)/(total))*100;
+        $("#"+id).show();
+        $("#"+id+"_usage").text( usage.toFixed(0) );
+        $("#"+id+"_usage_pie").data('easyPieChart').update( usage.toFixed(0) );
+	}
+	function mem_show( info )
+	{
+	    var use = info.total-info.free;
+	    var usage = (use/info.total)*100;
+        $("#mem_usage").text( usage.toFixed(0) );
+        $("#mem_usage_pie").data('easyPieChart').update( usage.toFixed(0) );
+        $("#mem_total").text( info.total+"K" );
+        $("#mem_free").text( info.free+"K" );
+	}
+	function sg_show( id, name, info )
+	{
+        $(id).show();
+        $(id+"_name").text( $.i18n(name) );
+	    var usage = parseInt( info.use );
+        $(id+"_usage").text( usage );
+        $(id+"_usage_pie").data('easyPieChart').update( usage );        
+        $(id+"_total").text( info.size );
+        $(id+"_free").text( info.available );
+	}	
+    /* load the configure on the input */
+    function data_reload()
+    {
+        var i;
+        var id;
+        var value;
+        he.bkload( [ 'network@frame.extern', 'network@frame.local', 'land@machine.cpuinfo', 'land@machine.meminfo', 'land@machine.sginfo', 'land@fpk.number', 'land@service.number', 'land@machine.psnumber', 'network@frame.gateway', 'client@station.number', "wifi@nssid.status", "wifi@assid.status" ] ).then( function(v){
+
+            for ( id in v[0] )
+            {
+                value = v[0][id];
+                if ( id.indexOf( "lte" ) >= 0 )
+                {
+                    lte_show( id, value );
+                }
+                else if ( id.indexOf( "wan" ) >= 0 )
+                {
+                    wan_show( id, value );
+                }
+                else if ( id.indexOf( "wisp" ) >= 0 )
+                {
+                    wisp_show( id, value );
+                }
+            }
+
+            for ( id in v[1] )
+            {
+                value = v[1][id];
+                lan_show( id, value );
+                if ( v[9] )
+                {
+                    $("[id='"+id+"_client']").html( v[9] );
+                }
+            }
+
+            for ( id in v[2] )
+            {
+                value = v[2][id];
+                cpu_show( id, value );
+            }
+
+            mem_show( v[3] );
+
+            i = 1;
+            for ( id in v[4] )
+            {
+                value = v[4][id];
+                sg_show( "#sg"+i, id, value );
+                i++;
+            }
+            $("#fpks").text( v[5] );
+            $("#services").text( v[6] );
+            $("#processes").text( v[7] );
+
+            if ( v[10] )
+            {
+                ssid_show( "wifi@nssid", v[10] );
+            }
+            if ( v[11] )
+            {
+                ssid_show( "wifi@assid", v[11] );
+            }
+        })
+    }
+
+    /* init */
+    $.i18n().load( page.lang('dashboard') ).then( function () {
+
+        /* init the langauage */
+        $.i18n().locale = lang; $('body').i18n();
+
+        /* init the easy-pie-chart */
+        $('.easy-pie-chart.percentage').each( function(){
+            $(this).easyPieChart( {
+                barColor: function( percent )
+                {
+                    percent /= 100;
+                    return "rgb(" + Math.round(255 * percent) + ", " + Math.round(255 * (1-percent)) + ", 0)";
+                },
+                trackColor: '#EEEEEE',
+                scaleColor: false,
+                lineCap: 'butt',
+                lineWidth: 8,
+                animate: ace.vars['old_ie'] ? false : 1000,
+                size:75
+            }).css( 'color', $(this).data('color') );
+        });
+
+        /* load the configure */
+        data_reload();
+        /* set the timer flush */
+        page.timing({
+            refresh: function ()
+            {
+                data_reload();
+            },
+            interval: flush_interval*1000
+        });
+
+    });
+
+
+  })();
+
+</script>

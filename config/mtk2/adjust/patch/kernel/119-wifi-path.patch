@@ -1,0 +1,101 @@
+Index: linux-3.10.108/drivers/net/wireless/mtk/Kconfig
+===================================================================
+--- linux-3.10.108.orig/drivers/net/wireless/mtk/Kconfig	2022-03-06 22:31:21.118441188 +0800
++++ linux-3.10.108/drivers/net/wireless/mtk/Kconfig	2022-03-06 22:52:40.782091365 +0800
+@@ -2,28 +2,42 @@
+     bool "MT7603E WiFi"
+     default n
+ if WIFI_MT7603E
+-    source "drivers/net/wireless/mtk/mt7603e/mt7603_wifi/Kconfig"
++    source "drivers/net/wireless/mtk/mt7603/mt7603_wifi/Kconfig"
+ endif
+ 
+ menuconfig WIFI_MT7610E
+     bool "MT7610E WiFi"
+     default n
+ if WIFI_MT7610E
+-    source "drivers/net/wireless/mtk/mt7610e/mt7610_wifi/Kconfig"
++    source "drivers/net/wireless/mtk/mt7610/mt7610_wifi/Kconfig"
+ endif
+ 
+ menuconfig WIFI_MT7615E
+     bool "MT7615E WiFi"
+     default n
+ if WIFI_MT7615E
+-    source "drivers/net/wireless/mtk/mt7615e/mt_wifi/embedded/Kconfig"
++    source "drivers/net/wireless/mtk/mt7615/mt_wifi/embedded/Kconfig"
+ endif
+ 
+ menuconfig WIFI_MT7663E
+     bool "MT7663E WiFi"
+     default n
++    choice
++	prompt "MT7663E driver version"
++	depends on WIFI_MT7663E
++        config MT7663E_VER_602
++        bool "ver 6.0.2"
++        
++        config MT7663E_VER_603
++        bool "ver 6.0.3"
++    endchoice
+ if WIFI_MT7663E
+-    source "drivers/net/wireless/mtk/mt7663e/mt_wifi/embedded/Kconfig"
++if MT7663E_VER_602
++        source "drivers/net/wireless/mtk/mt7663/mt_wifi/embedded/Kconfig"
++endif
++if MT7663E_VER_603
++        source "drivers/net/wireless/mtk/mt7663_603/mt_wifi/embedded/Kconfig"
++endif
+ endif
+ 
+ menuconfig WIFI_MT7620
+@@ -44,6 +58,6 @@
+     bool "MT76X2E WiFi"
+     default n
+ if WIFI_MT76X2E
+-    source "drivers/net/wireless/mtk/mt76x2e/mt76x2_wifi/Kconfig"
++    source "drivers/net/wireless/mtk/mt76x2/rlt_wifi/Kconfig"
+ endif
+ 
+Index: linux-3.10.108/drivers/net/wireless/mtk/Makefile
+===================================================================
+--- linux-3.10.108.orig/drivers/net/wireless/mtk/Makefile	2022-03-06 22:31:25.798475895 +0800
++++ linux-3.10.108/drivers/net/wireless/mtk/Makefile	2022-03-06 22:56:31.625177964 +0800
+@@ -1,19 +1,24 @@
+ obj-y += dummy.o
+ 
+ ifneq ($(CONFIG_WIFI_MT7610E),)
+-obj-$(CONFIG_WIFI_MT7610E) += mt7610e/mt7610_wifi/
++obj-$(CONFIG_WIFI_MT7610E) += mt7610/mt7610_wifi/
+ endif
+ 
+ ifneq ($(CONFIG_WIFI_MT76X2E),)
+-obj-$(CONFIG_WIFI_MT76X2E) += mt76x2e/mt76x2_wifi_ap/
++obj-$(CONFIG_WIFI_MT76X2E) += mt76x2/rlt_wifi_ap/
+ endif
+ 
+ ifneq ($(CONFIG_WIFI_MT7615E),)
+-obj-$(CONFIG_WIFI_MT7615E) += mt7615e/mt_wifi_ap/
++obj-$(CONFIG_WIFI_MT7615E) += mt7615/mt_wifi_ap/
+ endif
+ 
+ ifneq ($(CONFIG_WIFI_MT7663E),)
+-obj-$(CONFIG_WIFI_MT7663E) += mt7663e/mt_wifi_ap/
++ifneq ($(CONFIG_WIFI_MT7663E),)
++obj-$(CONFIG_MT7663E_VER_602) += mt7663/mt_wifi_ap/
++endif
++ifneq ($(CONFIG_WIFI_MT7663E),)
++obj-$(CONFIG_MT7663E_VER_603) += mt7663_603/mt_wifi_ap/
++endif
+ endif
+ 
+ ifneq ($(CONFIG_WIFI_MT7620),)
+@@ -21,7 +26,7 @@
+ endif
+ 
+ ifneq ($(CONFIG_WIFI_MT7603E),)
+-obj-$(CONFIG_WIFI_MT7603E) += mt7603e/mt7603_wifi_ap/
++obj-$(CONFIG_WIFI_MT7603E) += mt7603/mt7603_wifi_ap/
+ endif
+ 
+ ifneq ($(CONFIG_WIFI_MT7628),)

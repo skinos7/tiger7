@@ -1,0 +1,13 @@
+--- a/backport-include/linux/cred.h	2020-08-20 23:56:55.824406769 +0800
++++ b/backport-include/linux/cred.h	2020-08-20 23:59:09.475950141 +0800
+@@ -3,8 +3,9 @@
+ #include_next <linux/cred.h>
+ #include <linux/version.h>
+ 
++#if LINUX_VERSION_CODE <= KERNEL_VERSION(3,10,14)
+ #ifndef current_user_ns
+ #define current_user_ns()	(current->nsproxy->user_ns)
+ #endif
+-
++#endif
+ #endif /* __BACKPORT_LINUX_CRED_H */

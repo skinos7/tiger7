@@ -1,0 +1,13 @@
+diff -uNr make-ext4fs-2015-05-01/contents.c make-ext4fs-2015-05-01b/contents.c
+--- make-ext4fs-2015-05-01/contents.c	2022-01-07 17:26:58.976482283 +0800
++++ make-ext4fs-2015-05-01b/contents.c	2022-01-07 17:28:43.373778501 +0800
+@@ -18,6 +18,9 @@
+ #include <string.h>
+ #include <stdio.h>
+ 
++/* add by dimmalex for major/minor */
++#include <sys/sysmacros.h>
++
+ #include <private/android_filesystem_capability.h>
+ 
+ #define XATTR_SELINUX_SUFFIX "selinux"

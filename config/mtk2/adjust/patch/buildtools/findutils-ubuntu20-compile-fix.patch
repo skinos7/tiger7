@@ -1,0 +1,24 @@
+diff -uNr findutils-4.4.2/gnulib/lib/freadahead.c findutils-4.4.2b/gnulib/lib/freadahead.c
+--- findutils-4.4.2/gnulib/lib/freadahead.c	2022-01-07 18:02:44.500416732 +0800
++++ findutils-4.4.2b/gnulib/lib/freadahead.c	2022-01-07 18:15:16.470169242 +0800
+@@ -22,6 +22,10 @@
+ size_t
+ freadahead (FILE *fp)
+ {
++
++/* add by dimmalex for compile error at ubuntu20 */
++#if 0
++
+ #if defined _IO_ferror_unlocked     /* GNU libc, BeOS */
+   if (fp->_IO_write_ptr > fp->_IO_write_base)
+     return 0;
+@@ -63,4 +67,9 @@
+ #else
+  #error "Please port gnulib freadahead.c to your platform! Look at the definition of fflush, fread on your system, then report this to bug-gnulib."
+ #endif
++
++/* add by dimmalex for compile error at ubuntu20 */
++#endif
++return 0;
++
+ }

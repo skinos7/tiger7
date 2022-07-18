@@ -1,0 +1,3236 @@
+Index: linux-3.10.108/drivers/net/wireless/mtk/mt7663/mt_wifi/embedded/include/l1profile.h
+===================================================================
+--- linux-3.10.108.orig/drivers/net/wireless/mtk/mt7663/mt_wifi/embedded/include/l1profile.h	2022-03-03 19:17:43.431257300 +0800
++++ linux-3.10.108/drivers/net/wireless/mtk/mt7663/mt_wifi/embedded/include/l1profile.h	2022-03-03 19:17:08.215286479 +0800
+@@ -66,7 +66,7 @@
+ INDEX4_single_sku_path=/etc_ro/Wireless/RT2860AP/SingleSKU.dat\n\
+ INDEX4_bf_sku_path=/etc_ro/Wireless/RT2860AP/SingleSKU_BF.dat\n\
+ INDEX5=MT7663\n\
+-INDEX5_profile_path=/etc/wireless/mt7663e/mt7663e.1.dat\n\
++INDEX5_profile_path=/etc/wireless/mt7663/mt7663.1.dat\n\
+ INDEX5_EEPROM_offset=0x0\n\
+ INDEX5_EEPROM_size = 0x10000\n\
+ INDEX5_EEPROM_name=e2p\n\
+@@ -79,7 +79,7 @@
+ INDEX5_single_sku_path=/etc_ro/Wireless/RT2860AP/SingleSKU.dat\n\
+ INDEX5_bf_sku_path=/etc_ro/Wireless/RT2860AP/SingleSKU_BF.dat\n\
+ INDEX6=MT7663\n\
+-INDEX6_profile_path=/etc/wireless/mt7663e/mt7663e.2.dat\n\
++INDEX6_profile_path=/etc/wireless/mt7663/mt7663.2.dat\n\
+ INDEX6_EEPROM_offset=0x8000\n\
+ INDEX6_EEPROM_size=0x4000\n\
+ INDEX6_EEPROM_name=e2p\n\
+Index: linux-3.10.108/drivers/net/wireless/mtk/mt7663/mt_wifi/embedded/Kconfig
+===================================================================
+--- linux-3.10.108.orig/drivers/net/wireless/mtk/mt7663/mt_wifi/embedded/Kconfig	2022-03-03 19:17:43.407257314 +0800
++++ linux-3.10.108/drivers/net/wireless/mtk/mt7663/mt_wifi/embedded/Kconfig	2022-03-03 19:17:08.219286475 +0800
+@@ -1,413 +1,414 @@
+-config MT_WIFI
++config MT7663_MT_WIFI
+ 	tristate "MT WIFI Driver"
+-	select WIFI_BASIC_FUNC if MT_WIFI
++	select MT7663_WIFI_BASIC_FUNC if MT7663_MT_WIFI
+ 
+-config MT_WIFI_PATH
++config MT7663_MT_WIFI_PATH
+ 		string
+-		depends on MT_WIFI
++		depends on MT7663_MT_WIFI
+ 		default "mt_wifi"
+ 
+-if MT_WIFI
++if MT7663_MT_WIFI
+ menu "WiFi Generic Feature Options"
+ choice
+ 		prompt "EEPROM Type of 1st Card"
+ 		depends on ! FIRST_IF_NONE
+ 
+-		config FIRST_IF_EEPROM_FLASH
++		config MT7663_FIRST_IF_EEPROM_FLASH
+ 		bool "FLASH"
+ 
+-		config FIRST_IF_EEPROM_EFUSE
++		config MT7663_FIRST_IF_EEPROM_EFUSE
+ 		bool "EFUSE"
+ endchoice
+ 
+-config RT_FIRST_CARD_EEPROM
++config MT7663_RT_FIRST_CARD_EEPROM
+ 		string
+ 		depends on ! FIRST_IF_NONE
+-		default "flash" if FIRST_IF_EEPROM_FLASH
++		default "flash" if MT7663_FIRST_IF_EEPROM_FLASH
+ 
+ choice
+ 		prompt "EEPROM Type of 2nd Card"
+ 		depends on ! SECOND_IF_NONE
+ 
+-		config SECOND_IF_EEPROM_FLASH
++		config MT7663_SECOND_IF_EEPROM_FLASH
+ 		bool "FLASH"
+ 
+-		config SECOND_IF_EEPROM_PROM
++		config MT7663_SECOND_IF_EEPROM_PROM
+ 		bool "EEPROM"
+ 
+-		config SECOND_IF_EEPROM_EFUSE
++		config MT7663_SECOND_IF_EEPROM_EFUSE
+ 		bool "EFUSE"
+ 
+ endchoice
+ 
+-config RT_SECOND_CARD_EEPROM
++config MT7663_RT_SECOND_CARD_EEPROM
+ 		string
+ 		depends on ! SECOND_IF_NONE
+-		default "prom" if SECOND_IF_EEPROM_PROM
+-		default "efuse" if SECOND_IF_EEPROM_EFUSE
+-		default "flash" if SECOND_IF_EEPROM_FLASH
++		default "prom" if MT7663_SECOND_IF_EEPROM_PROM
++		default "efuse" if MT7663_SECOND_IF_EEPROM_EFUSE
++		default "flash" if MT7663_SECOND_IF_EEPROM_FLASH
+ 
+ choice
+ 		prompt "EEPROM Type of 3th Card"
+ 		depends on ! THIRD_IF_NONE
+ 
+-		config THIRD_IF_EEPROM_FLASH
++		config MT7663_THIRD_IF_EEPROM_FLASH
+ 		bool "FLASH"
+ 
+-		config THIRD_IF_EEPROM_PROM
++		config MT7663_THIRD_IF_EEPROM_PROM
+ 		bool "EEPROM"
+ 
+-		config THIRD_IF_EEPROM_EFUSE
++		config MT7663_THIRD_IF_EEPROM_EFUSE
+ 		bool "EFUSE"
+ 
+ endchoice
+ 
+-config RT_THIRD_CARD_EEPROM
++config MT7663_RT_THIRD_CARD_EEPROM
+ 		string
+ 		depends on ! THIRD_IF_NONE
+-		default "prom" if THIRD_IF_EEPROM_PROM
+-		default "efuse" if THIRD_IF_EEPROM_EFUSE
+-		default "flash" if THIRD_IF_EEPROM_FLASH
++		default "prom" if MT7663_THIRD_IF_EEPROM_PROM
++		default "efuse" if MT7663_THIRD_IF_EEPROM_EFUSE
++		default "flash" if MT7663_THIRD_IF_EEPROM_FLASH
+ 	
+-config MULTI_INF_SUPPORT
++config MT7663_MULTI_INF_SUPPORT
+ 		bool
+ 		default y if !FIRST_IF_NONE && !SECOND_IF_NONE
+ 
+-config MT76XX_COMBO_DUAL_DRIVER_SUPPORT
++config MT7663_MT76XX_COMBO_DUAL_DRIVER_SUPPORT
+ 	bool "MT76XX Combo Dual Driver support"
+-	depends on CHIP_MT7615E && CHIP_MT7663E
++	depends on MT7663E_CHIP_MT7615E && MT7663E_CHIP_MT7663E
+ 	default n
+-config WIFI_BASIC_FUNC
++
++config MT7663_WIFI_BASIC_FUNC
+ 	bool "Basic Functions"
+-	select WIRELESS_EXT
+-	select WEXT_SPY
+-	select WEXT_PRIV
++	select MT7663_WIRELESS_EXT
++	select MT7663_WEXT_SPY
++	select MT7663_WEXT_PRIV
+ 
+-config DOT11_N_SUPPORT
++config MT7663_DOT11_N_SUPPORT
+ 	bool "802.11n support"
+ 	default y
+ 
+-config DOT11_VHT_AC
++config MT7663_DOT11_VHT_AC
+ 	bool "802.11AC support"
+ 	depends on WIFI_DRIVER
+-	depends on DOT11_N_SUPPORT
++	depends on MT7663_DOT11_N_SUPPORT
+ 	default y
+ 
+-config G_BAND_256QAM_SUPPORT
+-    bool "2.4G 256QAM support"
++config MT7663_G_BAND_256QAM_SUPPORT
++    	bool "2.4G 256QAM support"
+ 	depends on WIFI_DRIVER
+-    depends on DOT11_VHT_AC
++    	depends on MT7663_DOT11_VHT_AC
+ 	default y
+ 
+-config TPC_SUPPORT
++config MT7663_TPC_SUPPORT
+ 	bool "802.11h TPC Support"
+ 	depends on WIFI_DRIVER
+ 	default y
+ 
+-config THERMAL_PROTECT_SUPPORT
++config MT7663_THERMAL_PROTECT_SUPPORT
+ 	bool "Thermal Portect Support"
+ 	depends on WIFI_DRIVER
+ 	default n
+ 
+-config ICAP_SUPPORT
++config MT7663_ICAP_SUPPORT
+ 	bool "ICAP Support"
+ 	depends on WIFI_DRIVER
+-	depends on MT_AP_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT
+ 	default y
+ 
+-config SPECTRUM_SUPPORT
++config MT7663_SPECTRUM_SUPPORT
+ 	bool "Wifi Spectrum Support"
+ 	depends on WIFI_DRIVER
+-	depends on MT_AP_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT
+ 	default y
+ 
+-config BACKGROUND_SCAN_SUPPORT
++config MT7663_BACKGROUND_SCAN_SUPPORT
+ 	bool "Background Scan Support"
+ 	depends on WIFI_DRIVER
+ 	default y
+ 	
+-config SMART_CARRIER_SENSE_SUPPORT
++config MT7663_SMART_CARRIER_SENSE_SUPPORT
+ 	bool "Smart Carrier Sense Support"
+ 	depends on WIFI_DRIVER
+ 	default y
+ 
+-config SCS_FW_OFFLOAD
++config MT7663_SCS_FW_OFFLOAD
+         bool "Smart Carrier Sense Offload Support"
+         depends on WIFI_DRIVER && SMART_CARRIER_SENSE_SUPPORT
+         default n
+ 	
+-config MT_DFS_SUPPORT
++config MT7663_MT_DFS_SUPPORT
+         bool "Dynamic Frequency Selection Support"	
+         depends on WIFI_DRIVER
+         default y
+-config MTK_OFFCHANNEL_SCAN_FEATURE
++config MT7663_MTK_OFFCHANNEL_SCAN_FEATURE
+ 	bool "Channel Quality Monitor"
+ 	depends on MTK_WIFI_DRIVER
+ 	depends on MTK_MT_AP_SUPPORT
+ 	default n
+-#config WFA_VHT_R2_PF
++#config MT7663_WFA_VHT_R2_PF
+ #    bool "WFA VHT R2 Plugfest"
+ #    depends on DOT11_VHT_AC
+ #    default n
+ 
+-config HDR_TRANS_TX_SUPPORT
++config MT7663_HDR_TRANS_TX_SUPPORT
+     bool "Tx Header Translation"
+-    depends on (CHIP_MT7615E && !MT76XX_COMBO_DUAL_DRIVER_SUPPORT) || CHIP_MT7622 || CHIP_MT7663E || CHIP_MT7626
++    depends on (MT7663E_CHIP_MT7615E && !MT7663_MT76XX_COMBO_DUAL_DRIVER_SUPPORT) || MT7663E_CHIP_MT7622 || MT7663E_CHIP_MT7663E || MT7663E_CHIP_MT7626
+     default y
+ 
+-config HDR_TRANS_RX_SUPPORT
++config MT7663_HDR_TRANS_RX_SUPPORT
+     bool "Rx Header Translation"
+-    depends on (CHIP_MT7615E && !MT76XX_COMBO_DUAL_DRIVER_SUPPORT) || CHIP_MT7622 || CHIP_MT7663E || CHIP_MT7626
++    depends on (MT7663E_CHIP_MT7615E && !MT7663_MT76XX_COMBO_DUAL_DRIVER_SUPPORT) || MT7663E_CHIP_MT7622 || MT7663E_CHIP_MT7663E || MT7663E_CHIP_MT7626
+     default y
+ 
+-config DBDC_MODE
++config MT7663_DBDC_MODE
+ 	bool "dbdc mode support"
+-	depends on (CHIP_MT7615E && !MT76XX_COMBO_DUAL_DRIVER_SUPPORT) || CHIP_MT7626
+-	select MULTI_PROFILE_SUPPORT
+-	#select DEFAULT_5G_PROFILE
++	depends on (CHIP_MT7615E && !MT7663_MT76XX_COMBO_DUAL_DRIVER_SUPPORT) || CHIP_MT7626
++	select MT7663_MULTI_PROFILE_SUPPORT
++	#select MT7663_DEFAULT_5G_PROFILE
+ 	default y
+ 
+-config MULTI_PROFILE_SUPPORT
+-    bool "Multi Profile Support"
+-    depends on DBDC_MODE
++config MT7663_MULTI_PROFILE_SUPPORT
++    	bool "Multi Profile Support"
++    	depends on MT7663_DBDC_MODE
+ 	default y
+ 
+-config DEFAULT_5G_PROFILE
++config MT7663_DEFAULT_5G_PROFILE
+ 	bool "5G default profile for DBDC"
+-	depends on CHIP_MT7615E && !MT76XX_COMBO_DUAL_DRIVER_SUPPORT
+-	depends on DBDC_MODE
++	depends on CHIP_MT7615E && !MT7663_MT76XX_COMBO_DUAL_DRIVER_SUPPORT
++	depends on MT7663_DBDC_MODE
+ 	default y
+ 
+-config WSC_INCLUDED
++config MT7663_WSC_INCLUDED
+ 	bool "WSC (WiFi Simple Config)"
+ 	depends on WIFI_DRIVER
+-	depends on MT_AP_SUPPORT || MT_STA_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT || MT7663_MT_STA_SUPPORT
+ 	default y
+ 
+-config WSC_V2_SUPPORT
++config MT7663_WSC_V2_SUPPORT
+ 	bool "WSC V2(WiFi Simple Config Version 2.0)"
+ 	depends on WIFI_DRIVER
+-	depends on MT_AP_SUPPORT || MT_STA_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT || MT7663_MT_STA_SUPPORT
+ 	default y
+ 
+-config DOT11W_PMF_SUPPORT
++config MT7663_DOT11W_PMF_SUPPORT
+ 	bool "PMF"
+ 	depends on WIFI_DRIVER
+-	depends on MT_AP_SUPPORT || MT_STA_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT || MT7663_MT_STA_SUPPORT
+ 	default y
+ 
+-config TXBF_SUPPORT
++config MT7663_TXBF_SUPPORT
+         bool "Tx Bean Forming Support"
+         depends on WIFI_DRIVER
+         default y
+ 
+-config FAST_NAT_SUPPORT
++config MT7663_FAST_NAT_SUPPORT
+        bool "Fast-NAT support"
+        depends on RA_HW_NAT_WIFI
+        default n
+ 
+-config WHNAT_SUPPORT
++config MT7663_WHNAT_SUPPORT
+ 	tristate "Wifi Hardware NAT support"
+-	depends on CHIP_MT7615E && !MT76XX_COMBO_DUAL_DRIVER_SUPPORT
++	depends on CHIP_MT7615E && !MT7663_MT76XX_COMBO_DUAL_DRIVER_SUPPORT
+ 	depends on WLAN_HOOK
+ 	depends on FAST_NAT_SUPPORT
+ 	default n
+ 
+-#config LLTD_SUPPORT
++#config MT7663_LLTD_SUPPORT
+ #	bool "LLTD (Link Layer Topology Discovery Protocol)"
+ #	depends on WIFI_DRIVER
+-#	depends on MT_AP_SUPPORT
++#	depends on MT7663_MT_AP_SUPPORT
+ #	default n
+ 
+-#config QOS_DLS_SUPPORT
++#config MT7663_QOS_DLS_SUPPORT
+ #	bool "802.11e DLS ((Direct-Link Setup) Support"
+ #	depends on WIFI_DRIVER
+-#	depends on MT_AP_SUPPORT
++#	depends on MT7663_MT_AP_SUPPORT
+ #	default n
+ 
+-#config WAPI_SUPPORT
++#config MT7663_WAPI_SUPPORT
+ #	bool "WAPI Support"
+ #	depends on WIFI_DRIVER
+ #	default n
+ 
+-config FTM_SUPPORT
++config MT7663_FTM_SUPPORT
+ 	bool "FTM Support"
+ 	depends on WIFI_DRIVER
+-	select PASSPOINT_R2
++	select MT7663_PASSPOINT_R2
+ 	default n
+ 
+-config MBO_SUPPORT
++config MT7663_MBO_SUPPORT
+ 	bool "MBO Support"
+ 	depends on WIFI_DRIVER
+-	select INTERWORKING
+-	select WNM_SUPPORT
+-	select DOT11K_RRM_SUPPORT
+-	select DOT11R_FT_SUPPORT
+-	select DOT11W_PMF_SUPPORT
+-	select WAPP_SUPPORT
++	select MT7663_INTERWORKING
++	select MT7663_WNM_SUPPORT
++	select MT7663_DOT11K_RRM_SUPPORT
++	select MT7663_DOT11R_FT_SUPPORT
++	select MT7663_DOT11W_PMF_SUPPORT
++	select MT7663_WAPP_SUPPORT
+ 	default n
+ 
+-#config CARRIER_DETECTION_SUPPORT
++#config MT7663_CARRIER_DETECTION_SUPPORT
+ #	bool "Carrier Detect"
+ #	depends on WIFI_DRIVER
+ #	default n
+ 
+-config IGMP_SNOOP_SUPPORT
++config MT7663_IGMP_SNOOP_SUPPORT
+ 	bool "IGMP snooping"
+ 	depends on WIFI_DRIVER
+-	depends on MT_AP_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT
+ 	default y
+ 
+-config MEMORY_SHRINK
++config MT7663_MEMORY_SHRINK
+ 	bool "Memory Shrink"
+ 	depends on WIFI_DRIVER && CHIP_MT7626
+ 	default n
+ 
+-#config BLOCK_NET_IF
++#config MT7663_BLOCK_NET_IF
+ #	bool "NETIF Block"
+ #	depends on WIFI_DRIVER
+-#	depends on MT_AP_SUPPORT
++#	depends on MT7663_MT_AP_SUPPORT
+ #	default n
+ #	help
+ #	Support Net interface block while Tx-Sw queue full
+ 
+-#config RATE_ADAPTION
++#config MT7663_RATE_ADAPTION
+ #	bool "New Rate Adaptation support"
+ #	depends on WIFI_DRIVER
+ #	default y
+ 
+-#config NEW_RATE_ADAPT_SUPPORT
++#config MT7663_NEW_RATE_ADAPT_SUPPORT
+ #	bool "Intelligent Rate Adaption"
+-#	depends on WIFI_DRIVER && RATE_ADAPTION
++#	depends on WIFI_DRIVER && MT7663_RATE_ADAPTION
+ #	default y
+ 
+-#config AGS_SUPPORT
++#config MT7663_AGS_SUPPORT
+ #	bool "Adaptive Group Switching"
+ #	depends on WIFI_DRIVER && RATE_ADAPTION
+-#	depends on MT_AP_SUPPORT || MT_STA_SUPPORT
++#	depends on MT7663_MT_AP_SUPPORT || MT7663_MT_STA_SUPPORT
+ #	default n
+ 
+-#config RATE_ADAPT_AGBS_SUPPORT
++#config MT7663_RATE_ADAPT_AGBS_SUPPORT
+ #	bool "Adaptive AGBS Mode"
+ #	depends on WIFI_DRIVER && RATE_ADAPTION
+-#	depends on MT_AP_SUPPORT || MT_STA_SUPPORT
++#	depends on MT7663_MT_AP_SUPPORT || MT7663_MT_STA_SUPPORT
+ #	default y
+ 
+-#config IDS_SUPPORT
++#config MT7663_IDS_SUPPORT
+ #	bool "IDS (Intrusion Detection System) Support"
+ #	depends on WIFI_DRIVER
+-#	depends on MT_AP_SUPPORT
++#	depends on MT7663_MT_AP_SUPPORT
+ #	default n
+ 
+-#config WIFI_WORK_QUEUE
++#config MT7663_WIFI_WORK_QUEUE
+ #	bool "Work Queue"
+ #	depends on WIFI_DRIVER
+ #	default n
+ 
+-#config WIFI_SKB_RECYCLE
++#config MT7663_WIFI_SKB_RECYCLE
+ #	bool "SKB Recycle(Linux)"
+ #	depends on WIFI_DRIVER
+-#	depends on MT_AP_SUPPORT
++#	depends on MT7663_MT_AP_SUPPORT
+ #	default n
+ 
+-config RTMP_FLASH_SUPPORT
++config MT7663_RTMP_FLASH_SUPPORT
+ 	bool "Flash Support"
+ 	depends on WIFI_DRIVER
+ 	default y
+ 
+-config PRE_CAL_TRX_SET1_SUPPORT
++config MT7663_PRE_CAL_TRX_SET1_SUPPORT
+     bool "Calibration To Flash/BinFile Support"
+     depends on WIFI_DRIVER
+-    depends on CHIP_MT7615E && !MT76XX_COMBO_DUAL_DRIVER_SUPPORT
++    depends on CHIP_MT7615E && !MT7663_MT76XX_COMBO_DUAL_DRIVER_SUPPORT
+     default y
+ 
+-config RLM_CAL_CACHE_SUPPORT
++config MT7663_RLM_CAL_CACHE_SUPPORT
+ 	bool "RlmCalibrationCache Support"
+ 	depends on WIFI_DRIVER
+-	depends on CHIP_MT7615E && !MT76XX_COMBO_DUAL_DRIVER_SUPPORT
++	depends on CHIP_MT7615E && !MT7663_MT76XX_COMBO_DUAL_DRIVER_SUPPORT
+ 	default y
+ 
+-config PRE_CAL_TRX_SET2_SUPPORT
++config MT7663_PRE_CAL_TRX_SET2_SUPPORT
+     bool "Pre-calibration to Flash Support"
+     depends on WIFI_DRIVER
+-    depends on CHIP_MT7615E && !MT76XX_COMBO_DUAL_DRIVER_SUPPORT
++    depends on CHIP_MT7615E && !MT7663_MT76XX_COMBO_DUAL_DRIVER_SUPPORT
+     default y
+ 
+-config CAL_BIN_FILE_SUPPORT
++config MT7663_CAL_BIN_FILE_SUPPORT
+ 	bool "Calibration to BinFile Support"
+ 	depends on WIFI_DRIVER
+ 	default y
+ 
+-config RF_LOCKDOWN_SUPPORT
++config MT7663_RF_LOCKDOWN_SUPPORT
+ 	bool "RF Lockdown Support"
+ 	depends on WIFI_DRIVER
+-	depends on CHIP_MT7615E && !MT76XX_COMBO_DUAL_DRIVER_SUPPORT
++	depends on CHIP_MT7615E && !MT7663_MT76XX_COMBO_DUAL_DRIVER_SUPPORT
+ 	default n	
+ 
+-config LINK_TEST_SUPPORT
++config MT7663_LINK_TEST_SUPPORT
+ 	bool "Link Test Support"
+ 	depends on WIFI_DRIVER
+ 	default y
+ 
+-config WIFI_EAP_FEATURE
++config MT7663_WIFI_EAP_FEATURE
+ 	bool "EAP Feature Support"
+ 	depends on WIFI_DRIVER
+ 	default y
+ 
+-config WIFI_GPIO_CTRL
++config MT7663_WIFI_GPIO_CTRL
+ 	bool "GPIO Control Support"
+ 	depends on WIFI_DRIVER
+ 	default y
+ 
+-#config LED_CONTROL_SUPPORT
++#config MT7663_LED_CONTROL_SUPPORT
+ #	bool "LED Support"
+ #	depends on WIFI_DRIVER
+-#	depends on MT_AP_SUPPORT
++#	depends on MT7663_MT_AP_SUPPORT
+ #	default n
+ 
+-config ATE_SUPPORT
++config MT7663_ATE_SUPPORT
+ 	bool "ATE/QA Support"
+ 	depends on WIFI_DRIVER
+ 	default y	
+ 
+-config MEMORY_OPTIMIZATION
++config MT7663_MEMORY_OPTIMIZATION
+ 	bool "Memory Optimization"
+ 	depends on WIFI_DRIVER
+ 	default n
+ 
+-config PASSPOINT_R2
++config MT7663_PASSPOINT_R2
+ 	bool "Passpoint Release-2 Support"
+ 	depends on WIFI_DRIVER
+-	select DOT11W_PMF_SUPPORT
+-	select WAPP_SUPPORT
+-	depends on MT_AP_SUPPORT
++	select MT7663_DOT11W_PMF_SUPPORT
++	select MT7663_WAPP_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT
+ 	default n
+ 
+-#config TRACE_TCP_PKT
++#config MT7663_TRACE_TCP_PKT
+ #       bool "TCP DATA/ACK packets trace log"
+ #       depends on WIFI_DRIVER
+ #       default n
+ 
+-config UAPSD
++config MT7663_UAPSD
+ 	bool "UAPSD support"
+ 	depends on WIFI_DRIVER
+-	depends on MT_AP_SUPPORT || MT_STA_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT || MT7663_MT_STA_SUPPORT
+ 	default y
+ 
+-config TCP_RACK_SUPPORT
++config MT7663_TCP_RACK_SUPPORT
+ 	bool "TCP Reduced ACK  support"
+ 	depends on WIFI_DRIVER
+ 	default n
+ 
+ #### PA_LNA_Type choice
+ 
+-config RED_SUPPORT
++config MT7663_RED_SUPPORT
+         bool "RED(Random Early Drop) support"
+ 	depends on WIFI_DRIVER
+-	depends on MT_AP_SUPPORT || MT_STA_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT || MT7663_MT_STA_SUPPORT
+         default y
+ 
+-config FDB_SUPPORT
++config MT7663_FDB_SUPPORT
+        bool "FW Debug Port"
+        depends on WIFI_DRIVER
+        default n
+@@ -416,39 +417,39 @@
+         prompt "PA LNA Type of 1st Card"
+ 		depends on ! FIRST_IF_NONE
+ 		
+-		config FIRST_IF_EPAELNA
++		config MT7663_FIRST_IF_EPAELNA
+ 		bool "ePAeLNA"
+-		config FIRST_IF_IPAILNA
++		config MT7663_FIRST_IF_IPAILNA
+ 		bool "iPAiLNA"		
+-		config FIRST_IF_IPAELNA
++		config MT7663_FIRST_IF_IPAELNA
+ 		bool "iPAeLNA"
+-#		config FIRST_IF_EPAILNA
++#		config MT7663_FIRST_IF_EPAILNA
+ #		bool "ePAiLNA"
+ endchoice
+ choice
+         prompt "PA LNA Type of 2nd Card"
+ 		depends on ! SECOND_IF_NONE
+ 		
+-		config SECOND_IF_EPAELNA
++		config MT7663_SECOND_IF_EPAELNA
+ 		bool "ePAeLNA"
+-		config SECOND_IF_IPAILNA
++		config MT7663_SECOND_IF_IPAILNA
+ 		bool "iPAiLNA"		
+-		config SECOND_IF_IPAELNA
++		config MT7663_SECOND_IF_IPAELNA
+ 		bool "iPAeLNA"
+-#		config SECOND_IF_EPAILNA
++#		config MT7663_SECOND_IF_EPAILNA
+ #		bool "ePAiLNA"
+ endchoice
+ choice
+         prompt "PA LNA Type of 3rd Card"
+ 		depends on ! THIRD_IF_NONE
+ 		
+-		config THIRD_IF_EPAELNA
++		config MT7663_THIRD_IF_EPAELNA
+ 		bool "ePAeLNA"
+-		config THIRD_IF_IPAILNA
++		config MT7663_THIRD_IF_IPAILNA
+ 		bool "iPAiLNA"		
+-		config THIRD_IF_IPAELNA
++		config MT7663_THIRD_IF_IPAELNA
+ 		bool "iPAeLNA"
+-#		config THIRD_IF_EPAILNA
++#		config MT7663_THIRD_IF_EPAILNA
+ #		bool "ePAiLNA"
+ endchoice
+ #### PA_LNA_Type choice END 
+@@ -457,39 +458,39 @@
+ # Section for chip architectures
+ #
+ # "RLT MAC Support"
+-config RLT_MAC
++config MT7663_RLT_MAC
+ 	bool
+ 	depends on WIFI_DRIVER
+ 	default n
+ 
+-config RLT_BBP
++config MT7663_RLT_BBP
+ 	bool
+ 
+-config RLT_RF
++config MT7663_RLT_RF
+ 	bool
+ 
+ # "RTMP MAC Support"
+-config RTMP_MAC
++config MT7663_RTMP_MAC
+ 	bool
+ 	depends on WIFI_DRIVER
+ 	default n
+ 
+-config RTMP_BBP
++config MT7663_RTMP_BBP
+     	bool
+ 
+-config RTMP_RF
++config MT7663_RTMP_RF
+     	bool
+ 
+ #
+ # Section for interfaces
+ #
+-config RTMP_PCI_SUPPORT
++config MT7663_RTMP_PCI_SUPPORT
+     	bool
+ 
+-config RTMP_USB_SUPPORT
++config MT7663_RTMP_USB_SUPPORT
+ 		bool
+ 
+-config RTMP_RBUS_SUPPORT
++config MT7663_RTMP_RBUS_SUPPORT
+     	bool
+ 
+ endmenu
+@@ -499,80 +500,80 @@
+ 		prompt "Main Mode"
+ 		default WIFI_MODE_AP
+ 
+-		config WIFI_MODE_AP
++		config MT7663_WIFI_MODE_AP
+ 				tristate "AP"
+-				select MT_AP_SUPPORT
++				select MT7663_MT_AP_SUPPORT
+ 
+-		config WIFI_MODE_STA
++		config MT7663_WIFI_MODE_STA
+ 				tristate "STA"
+-				select MT_STA_SUPPORT
++				select MT7663_MT_STA_SUPPORT
+ 
+-		config WIFI_MODE_BOTH
++		config MT7663_WIFI_MODE_BOTH
+ 				tristate "APSTA"
+-				select MT_AP_SUPPORT
+-				select MT_STA_SUPPORT
++				select MT7663_MT_AP_SUPPORT
++				select MT7663_MT_STA_SUPPORT
+     endchoice
+ 
+-    if WIFI_MODE_AP || WIFI_MODE_BOTH
+-		source "drivers/net/wireless/mtk/mt7663e/mt_wifi_ap/Kconfig"
++    if MT7663_WIFI_MODE_AP || MT7663_WIFI_MODE_BOTH
++		source "drivers/net/wireless/mtk/mt7663/mt_wifi_ap/Kconfig"
+     endif
+ 
+-    if WIFI_MODE_STA || WIFI_MODE_BOTH
+-		source "drivers/net/wireless/mtk/mt7663e/mt_wifi_sta/Kconfig"
++    if MT7663_WIFI_MODE_STA || MT7663_WIFI_MODE_BOTH
++		source "drivers/net/wireless/mtk/mt7663/mt_wifi_sta/Kconfig"
+     endif
+ endmenu	
+ 
+ endif
+ 
+-if WIFI_RLT_MAC
+-	config RLT_MAC
++if MT7663_WIFI_RLT_MAC
++	config MT7663_RLT_MAC
+ 		bool
+ 		default y
+ endif
+ 
+-if WIFI_RTMP_MAC
+-	config RTMP_MAC
++if MT7663_WIFI_RTMP_MAC
++	config MT7663_RTMP_MAC
+ 		bool
+ 		default y
+ endif
+ 
+-if WIFI_MT_MAC
+-	config MT_MAC
++if MT7663E_WIFI_MT_MAC
++	config MT7663E_MT_MAC
+ 		bool
+ 		default y
+ 
+-	config CHIP_MT7603E
++	config MT7663E_CHIP_MT7603E
+ 		bool
+ 		default n
+ 
+-	config CHIP_MT7615E
++	config MT7663E_CHIP_MT7615E
+ 		bool
+ 		default n
+ 
+-	config CHIP_MT7622
++	config MT7663E_CHIP_MT7622
+ 		bool
+ 		default n
+ 
+-	config CHIP_MT7663E
++	config MT7663E_CHIP_MT7663E
+ 		bool
+ 		default n
+ 
+-	config CHIP_MT7626
++	config MT7663E_CHIP_MT7626
+ 		bool
+ 		default n
+ endif
+ 
+-if (! MT76XX_COMBO_DUAL_DRIVER_SUPPORT)
++if (! MT7663_MT76XX_COMBO_DUAL_DRIVER_SUPPORT)
+ if CHIP_MT7615E
+-	config MT_MAC
++	config MT7663E_MT_MAC
+ 		bool
+ 		default y
+-		select RATE_ADAPTION
+-		select RATE_ADAPT_AGBS_SUPPORT
+-		select DOT11_N_SUPPORT
+-		select DOT11_VHT_AC
+-		select HDR_TRANS_TX_SUPPORT
+-		select HDR_TRANS_RX_SUPPORT
++		select MT7663_RATE_ADAPTION
++		select MT7663_RATE_ADAPT_AGBS_SUPPORT
++		select MT7663_DOT11_N_SUPPORT
++		select MT7663_DOT11_VHT_AC
++		select MT7663_HDR_TRANS_TX_SUPPORT
++		select MT7663_HDR_TRANS_RX_SUPPORT
+ endif
+ endif
+ 
+Index: linux-3.10.108/drivers/net/wireless/mtk/mt7663/mt_wifi/os/linux/rt_profile.c
+===================================================================
+--- linux-3.10.108.orig/drivers/net/wireless/mtk/mt7663/mt_wifi/os/linux/rt_profile.c	2022-03-03 19:17:43.447257290 +0800
++++ linux-3.10.108/drivers/net/wireless/mtk/mt7663/mt_wifi/os/linux/rt_profile.c	2022-03-03 19:17:08.227286466 +0800
+@@ -101,20 +101,20 @@
+ #define def_to_str(s)    #s
+ 
+ #if defined(CONFIG_SUPPORT_OPENWRT) && defined(MT7663)
+-#define FIRST_EEPROM_FILE_PATH		"/etc/wireless/mt7663e/"
+-#define FIRST_AP_PROFILE_PATH		"/etc/wireless/mt7663e/mt7663e.1.dat"
++#define FIRST_EEPROM_FILE_PATH		"/etc/wireless/mt7663/"
++#define FIRST_AP_PROFILE_PATH		"/etc/wireless/mt7663/mt7663.1.dat"
+ #define FIRST_STA_PROFILE_PATH		"/etc/wireless/RT2860/RT2860.dat"
+ 
+ #define FIRST_CHIP_ID	xdef_to_str(CONFIG_RT_FIRST_CARD)
+ 
+-#define SECOND_EEPROM_FILE_PATH		"/etc/wireless/mt7663e/"
+-#define SECOND_AP_PROFILE_PATH		"/etc/wireless/mt7663e/mt7663e.2.dat"
++#define SECOND_EEPROM_FILE_PATH		"/etc/wireless/mt7663/"
++#define SECOND_AP_PROFILE_PATH		"/etc/wireless/mt7663/mt7663.2.dat"
+ #define SECOND_STA_PROFILE_PATH		"/etc/wireless/iNIC/iNIC_sta.dat"
+ 
+ #define SECOND_CHIP_ID	xdef_to_str(CONFIG_RT_SECOND_CARD)
+ 
+-#define THIRD_EEPROM_FILE_PATH		"/etc/wireless/mt7663e/"
+-#define THIRD_AP_PROFILE_PATH		"/etc/wireless/mt7663e/mt7663e.3.dat"
++#define THIRD_EEPROM_FILE_PATH		"/etc/wireless/mt7663/"
++#define THIRD_AP_PROFILE_PATH		"/etc/wireless/mt7663/mt7663.3.dat"
+ #define THIRD_STA_PROFILE_PATH		"/etc/wireless/WIFI3/RT2870AP.dat"
+ 
+ #define THIRD_CHIP_ID	xdef_to_str(CONFIG_RT_THIRD_CARD)
+@@ -1653,7 +1653,7 @@
+ 		if (RtPrivIoctlSetVal() == pConfig->CmdId_RTPRIV_IOCTL_SET) {
+ 			if (TRUE
+ #ifdef CONFIG_APSTA_MIXED_SUPPORT
+-				&& ((pConfig->cmd_data_len <= (strlen("OpMode") + 1))
++				&& ((pConfig->cmd_data_len == (strlen("OpMode") + 1))
+ 					&& (strstr(pConfig->pCmdData, "OpMode") == NULL))
+ #endif /* CONFIG_APSTA_MIXED_SUPPORT */
+ #ifdef SINGLE_SKU
+Index: linux-3.10.108/drivers/net/wireless/mtk/mt7663/mt_wifi_ap/Kconfig
+===================================================================
+--- linux-3.10.108.orig/drivers/net/wireless/mtk/mt7663/mt_wifi_ap/Kconfig	2022-03-03 19:17:43.459257283 +0800
++++ linux-3.10.108/drivers/net/wireless/mtk/mt7663/mt_wifi_ap/Kconfig	2022-03-03 19:17:08.231286462 +0800
+@@ -1,289 +1,291 @@
+-config MT_AP_SUPPORT
++config MT7663_MT_AP_SUPPORT
+ 	tristate "Ralink RT2860 802.11n AP support"
+ #	depends on NET_RADIO 
+-	select WIRELESS_EXT
+-	select WEXT_SPY
+-	select WEXT_PRIV
++	select MT7663_WIRELESS_EXT
++	select MT7663_WEXT_SPY
++	select MT7663_WEXT_PRIV
+ 
+-config WDS_SUPPORT
++config MT7663_WDS_SUPPORT
+ 	bool "WDS"
+-	depends on MT_AP_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT
+ 	default y
+ 
+-config WIFI_EAP_FEATURE
++config MT7663_WIFI_EAP_FEATURE
+ 	bool "EAP Feature"
+-    depends on WIFI_DRIVER
++    	depends on WIFI_DRIVER
+ 	default y
+ 
+-config WIFI_GPIO_CTRL
++config MT7663_WIFI_GPIO_CTRL
+ 	bool "GPIO Control"
+-    depends on WIFI_DRIVER
++    	depends on WIFI_DRIVER
+ 	default y
+ 
+-config MBSS_SUPPORT
++config MT7663_MBSS_SUPPORT
+ 	bool "MBSSID"
+-	depends on MT_AP_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT
+ 	default y
+ 
+-#config NEW_MBSSID_MODE
++#config MT7663_NEW_MBSSID_MODE
+ #	bool "New MBSSID MODE"
+-#	depends on MT_AP_SUPPORT && MBSS_SUPPORT
++#	depends on MT7663_MT_AP_SUPPORT && MT7663_MBSS_SUPPORT
+ #	depends on RALINK_RT3883 || RALINK_RT3352 || RALINK_RT5350 || RALINK_RT6352 || RALINK_MT7620
+ #	default y
+ 
+-#config ENHANCE_NEW_MBSSID_MODE
++#config MT7663_ENHANCE_NEW_MBSSID_MODE
+ #	bool "Enhanced MBSSID mode"
+ #	depends on NEW_MBSSID_MODE
+ #	default y
+ 
+-config APCLI_SUPPORT
++config MT7663_APCLI_SUPPORT
+ 	bool "AP-Client Support"
+-	depends on MT_AP_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT
+ 	default y
+ 
+-config APCLI_CERT_SUPPORT
++config MT7663_APCLI_CERT_SUPPORT
+ 	bool "AP-Client TGn Cert Support"
+-	depends on MT_AP_SUPPORT
+-	depends on APCLI_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT
++	depends on MT7663_APCLI_SUPPORT
+ 	default n
+ 
+-config MAC_REPEATER_SUPPORT
++config MT7663_MAC_REPEATER_SUPPORT
+ 	bool "MAC Repeater Support"
+-	depends on MT_AP_SUPPORT
+-	depends on APCLI_SUPPORT
+-	depends on RALINK_RT6352 || RALINK_MT7620 || RALINK_MT7603E || MT_AP_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT
++	depends on MT7663_APCLI_SUPPORT
++	depends on RALINK_RT6352 || RALINK_MT7620 || RALINK_MT7603E || MT7663_MT_AP_SUPPORT
+ 	default y
+ 
+-config MWDS
++config MT7663_MWDS
+     bool "Mixed WDS(MWDS)"
+-    depends on CHIP_MT7615E && !MT76XX_COMBO_DUAL_DRIVER_SUPPORT
+-    depends on MT_AP_SUPPORT
+-    select APCLI_SUPPORT
++    depends on MT7663E_CHIP_MT7615E && !MT76XX_COMBO_DUAL_DRIVER_SUPPORT
++    depends on MT7663_MT_AP_SUPPORT
++    select MT7663_APCLI_SUPPORT
+     default n
+ 
+-config MUMIMO_SUPPORT
++config MT7663_MUMIMO_SUPPORT
+ 	bool "MU-MIMO Support"
+ 	depends on WIFI_DRIVER
+-	select MU_RA_SUPPORT
++	select MT7663_MU_RA_SUPPORT
+ 	default y
+ 
+-config MU_RA_SUPPORT
++config MT7663_MU_RA_SUPPORT
+   	bool "MU-RGA Support"
+-  	depends on MUMIMO_SUPPORT
++  	depends on MT7663_MUMIMO_SUPPORT
+   	
+-config DOT11R_FT_SUPPORT
++config MT7663_DOT11R_FT_SUPPORT
+ 	bool "802.11r Fast BSS Transition"
+-	depends on MT_AP_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT
+ 	default n
+ 
+-config DOT11K_RRM_SUPPORT
++config MT7663_DOT11K_RRM_SUPPORT
+ 	bool "802.11k Radio Resource Management"
+-	depends on MT_AP_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT
+ 	default n
+ 
+-config KVRH_SUPPORT
++config MT7663_KVRH_SUPPORT
+ 	bool "Query STA 802.11k/v/r/h Capability"
+-	depends on MT_AP_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT
+ 	default n
+-config INTERWORKING
++
++config MT7663_INTERWORKING
+ 	bool "802.11u Interworking/Gas Support"
+-        depends on MT_AP_SUPPORT
++        depends on MT7663_MT_AP_SUPPORT
+         default n
+ 
+-config MAP_SUPPORT
++config MT7663_MAP_SUPPORT
+ 	bool "Multi-AP Support"
+-	depends on MT_AP_SUPPORT
+-	#select MBO_SUPPORT
+-	select WAPP_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT
++	#select MT7663_MBO_SUPPORT
++	select MT7663_WAPP_SUPPORT
+ 	default n
+-config OFFCHANNEL_SCAN_FEATURE
++
++config MT7663_OFFCHANNEL_SCAN_FEATURE
+         bool "Channel Quality Monitor"
+-        depends on MT_AP_SUPPORT
++        depends on MT7663_MT_AP_SUPPORT
+         default n
+ 
+-config WAPP_SUPPORT
++config MT7663_WAPP_SUPPORT
+ 	bool "WAPP Support"
+-	depends on MT_AP_SUPPORT
+-        select INTERWORKING
+-        select WNM_SUPPORT
+-        select DOT11K_RRM_SUPPORT
+-        select DOT11R_FT_SUPPORT
+-        select DOT11W_PMF_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT
++        select MT7663_INTERWORKING
++        select MT7663_WNM_SUPPORT
++        select MT7663_DOT11K_RRM_SUPPORT
++        select MT7663_DOT11R_FT_SUPPORT
++        select MT7663_DOT11W_PMF_SUPPORT
+ 	default n
+ 
+-config OCE_SUPPORT
++config MT7663_OCE_SUPPORT
+         bool "Optimized Connectivity Experience Support"
+-        depends on MT_AP_SUPPORT
+-	depends on CHIP_MT7663E
+-	select WAPP_SUPPORT
++        depends on MT7663_MT_AP_SUPPORT
++	depends on MT7663E_CHIP_MT7663E
++	select MT7663_WAPP_SUPPORT
+ 	default n
+ 
+-config WIFI_MSI_SUPPORT
++config MT7663_WIFI_MSI_SUPPORT
+         bool "MSI support"
+         depends on PCI_MSI
+-        depends on CHIP_MT7615E && !MT76XX_COMBO_DUAL_DRIVER_SUPPORT
++        depends on MT7663E_CHIP_MT7615E && !MT7663_MT76XX_COMBO_DUAL_DRIVER_SUPPORT
+         default n
+ 
+-config SNIFFER_SUPPORT
++config MT7663_SNIFFER_SUPPORT
+ 	bool "SNIFFER"
+-	depends on MT_AP_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT
+ 	default n
+ 
+-config CFG80211_SUPPORT
++config MT7663_CFG80211_SUPPORT
+ 	bool "CFG80211"
+-	depends on MT_AP_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT
+ 	default n
+ 
+-#config DSCP_PRI_SUPPORT
++#config MT7663_DSCP_PRI_SUPPORT
+ #	bool "Dscp Priority Mapping Support
+-#	depends on MT_AP_SUPPORT
++#	depends on MT7663_MT_AP_SUPPORT
+ #	default n
+ 
+-config DSCP_PRI_SUPPORT
++config MT7663_DSCP_PRI_SUPPORT
+ 	bool "Dscp Priority Mapping Support"
+-	depends on MT_AP_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT
+ 	default n
+ 
+-config CON_WPS_SUPPORT
++config MT7663_CON_WPS_SUPPORT
+ 	bool "Concurrent WPS Support"
+-	depends on MT_AP_SUPPORT
+-	depends on APCLI_SUPPORT
+-	depends on WSC_INCLUDED
+-	depends on WSC_V2_SUPPORT
+-#	depends on MULTI_INF_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT
++	depends on MT7663_APCLI_SUPPORT
++	depends on MT7663_WSC_INCLUDED
++	depends on MT7663_WSC_V2_SUPPORT
++#	depends on MT7663_MULTI_INF_SUPPORT
+ 	default n
+ 	
+-#config LLTD_SUPPORT
++#config MT7663_LLTD_SUPPORT
+ #	bool "LLTD (Link Layer Topology Discovery Protocol)"
+-#	depends on MT_AP_SUPPORT
++#	depends on MT7663_MT_AP_SUPPORT
+ 
+-#config COC_SUPPORT
++#config MT7663_COC_SUPPORT
+ #	bool "CoC Support"
+-#	depends on MT_AP_SUPPORT
++#	depends on MT7663_MT_AP_SUPPORT
+ #	default n
+ 
+-#config  RT2860V2_SNMP
++#config MT7663_ RT2860V2_SNMP
+ #	bool "Net-SNMP Support"
+-#	depends on MT_AP_SUPPORT
++#	depends on MT7663_MT_AP_SUPPORT
+ 
+-config MCAST_RATE_SPECIFIC
++config MT7663_MCAST_RATE_SPECIFIC
+ 	bool "User specific tx rate of mcast pkt"
+-	depends on MT_AP_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT
+ 	default y
+ 
+-#config EXT_BUILD_CHANNEL_LIST
++#config MT7663_EXT_BUILD_CHANNEL_LIST
+ #	bool "Extension Channel List"
+-#	depends on MT_AP_SUPPORT
++#	depends on MT7663_MT_AP_SUPPORT
+ 
+-#config AUTO_CH_SELECT_ENHANCE
++#config MT7663_AUTO_CH_SELECT_ENHANCE
+ #	bool "Auto Channel Selection Enhancement"
+-#	depends on MT_AP_SUPPORT
++#	depends on MT7663_MT_AP_SUPPORT
+ 
+-config VOW_SUPPORT
++config MT7663_VOW_SUPPORT
+ 	bool "MediaAir(VOW) support"
+-	depends on MT_AP_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT
+ 	default y
+ 
+-#config AIRPLAY_SUPPORT
++#config MT7663_AIRPLAY_SUPPORT
+ #	bool "AIRPLAY Support"
+-#	depends on MT_AP_SUPPORT
++#	depends on MT7663_MT_AP_SUPPORT
+ #	default n
+ 
+-config BAND_STEERING
++config MT7663_BAND_STEERING
+ 	bool "Band Steering"
+-	depends on MT_AP_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT
+ 	default y
+ 
+-config LED_CONTROL_SUPPORT
++config MT7663_LED_CONTROL_SUPPORT
+ 	bool "LED Control Support"
+ 	default n
+ 
+-config WLAN_HOOK
++config MT7663_WLAN_HOOK
+ 	bool "WLAN hook Support"
+ 	depends on WIFI_DRIVER
+ 	default n
+ 
+-config RADIUS_ACCOUNTING_SUPPORT
++config MT7663_RADIUS_ACCOUNTING_SUPPORT
+ 	bool "Radius Accounting Support"
+-	depends on MT_AP_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT
+ 	default n
+ 
+-config GREENAP_SUPPORT
++config MT7663_GREENAP_SUPPORT
+ 	bool "GreenAP Support"
+-	depends on MT_AP_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT
+ 	default y
+ 
+-config TXRX_STAT_SUPPORT
++config MT7663_TXRX_STAT_SUPPORT
+ 	bool "TxRx Stats Support"
+ 	depends on WIFI_DRIVER
+ 	default n
+ 
+-config PCIE_ASPM_DYM_CTRL_SUPPORT
++config MT7663_PCIE_ASPM_DYM_CTRL_SUPPORT
+ 	bool "Pcie Aspm Dynamic Control Support"
+-	depends on MT_AP_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT
+ 	default y
+ 
+-config COEX_SUPPORT
++config MT7663_COEX_SUPPORT
+ 	bool "Coex Support"
+-	depends on MT_AP_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT
+ 	default n
+ 
+-config EASY_SETUP_SUPPORT
++config MT7663_EASY_SETUP_SUPPORT
+ 	bool "Whole Home Coverage - Easy Setup"
+-	depends on MT_AP_SUPPORT
+-	depends on CHIP_MT7615E && !MT76XX_COMBO_DUAL_DRIVER_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT
++	depends on MT7663E_CHIP_MT7615E && !MT7663_MT76XX_COMBO_DUAL_DRIVER_SUPPORT
+ 	default n    
+ 
+-config EVENT_NOTIFIER_SUPPORT
++config MT7663_EVENT_NOTIFIER_SUPPORT
+ 	bool "Whole Home Coverage - Event Notifier"
+-	depends on MT_AP_SUPPORT
+-	depends on CHIP_MT7615E && !MT76XX_COMBO_DUAL_DRIVER_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT
++	depends on MT7663E_CHIP_MT7615E && !MT7663_MT76XX_COMBO_DUAL_DRIVER_SUPPORT
+ 	default n
+ 
+-config AIR_MONITOR
++config MT7663_AIR_MONITOR
+ 	bool "Air Monitor"
+-	depends on MT_AP_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT
+ 	default n
+ 
+-config WNM_SUPPORT
++config MT7663_WNM_SUPPORT
+ 	bool "802.11v WNM Support"
+-	depends on MT_AP_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT
+ 	default n
+ 
+-config CUSTOMER_VENDOR_IE_SUPPORT
++config MT7663_CUSTOMER_VENDOR_IE_SUPPORT
+ 	bool "Customer Vendor IE support"
+-	depends on MT_AP_SUPPORT
+-	depends on CHIP_MT7663E
++	depends on MT7663_MT_AP_SUPPORT
++	depends on MT7663E_CHIP_MT7663E
+ 	default n
+ 
+-#config ROAMING_ENHANCE_SUPPORT
++#config MT7663_ROAMING_ENHANCE_SUPPORT
+ #	bool "Roaming Enhance Support"
+-#	depends on MT_AP_SUPPORT
+-#	depends on APCLI_SUPPORT
++#	depends on MT7663_MT_AP_SUPPORT
++#	depends on MT7663_APCLI_SUPPORT
+ #	default n
+ 
+-#config WIFI_FWD_SUPPORT
++#config MT7663_WIFI_FWD_SUPPORT
+ #        bool "WiFi Forwarding Support"
+ #        default n
+ 
+-config WPA3_SUPPORT
++config MT7663_WPA3_SUPPORT
+ 	bool "WPA3 support"
+-	depends on MT_AP_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT
+ 	default y
+ 
+-config OWE_SUPPORT
++config MT7663_OWE_SUPPORT
+ 	bool "Enhance OPEN(OWE) support"
+-	depends on MT_AP_SUPPORT
+-	depends on WPA3_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT
++	depends on MT7663_WPA3_SUPPORT
+ 	default y
+ 
+-config VLAN_SUPPORT
++config MT7663_VLAN_SUPPORT
+ 	bool "VLAN support"
+-	depends on MT_AP_SUPPORT
++	depends on MT7663_MT_AP_SUPPORT
+ 	default n
+ 
+-config APCLI_CONNECTION_TRIAL
++config MT7663_APCLI_CONNECTION_TRIAL
+         bool "Trial Connection"
+-        depends on MT_AP_SUPPORT
+-        depends on APCLI_SUPPORT
++        depends on MT7663_MT_AP_SUPPORT
++        depends on MT7663_APCLI_SUPPORT
+         default n
+Index: linux-3.10.108/drivers/net/wireless/mtk/mt7663/mt_wifi_ap/Makefile
+===================================================================
+--- linux-3.10.108.orig/drivers/net/wireless/mtk/mt7663/mt_wifi_ap/Makefile	2022-03-03 19:17:43.459257283 +0800
++++ linux-3.10.108/drivers/net/wireless/mtk/mt7663/mt_wifi_ap/Makefile	2022-03-03 19:17:08.231286462 +0800
+@@ -4,7 +4,7 @@
+ ifeq ($(CONFIG_DEFAULTS_KERNEL_4_4),y)
+ WIFI_DRV_PATH = drivers/net/wireless/mediatek
+ else
+-WIFI_DRV_PATH = drivers/net/wireless/mtk/mt7663e
++WIFI_DRV_PATH = drivers/net/wireless/mtk/mt7663
+ endif
+ endif
+ 
+@@ -14,8 +14,8 @@
+ 				-I$(WIFI_DRV_PATH)/mt_wifi/include/mcu
+ 
+ ifeq ($(CONFIG_SUPPORT_OPENWRT),y)
+-ifeq ($(CONFIG_CHIP_MT7663E),y)
+-DRV_NAME = mt7663e
++ifeq ($(CONFIG_MT7663E_CHIP_MT7663E),y)
++DRV_NAME = mt7663
+ else
+ DRV_NAME = mt_wifi
+ endif
+@@ -27,58 +27,12 @@
+ SRC_EMBEDDED_DIR = ../mt_wifi/embedded
+ ifeq ($(CONFIG_SUPPORT_OPENWRT),y)
+ EXTRA_CFLAGS += -DCONFIG_SUPPORT_OPENWRT
+-
+-ifneq ($(CONFIG_RT_FIRST_CARD),)
+-EXTRA_CFLAGS += -DCONFIG_RT_FIRST_CARD=$(CONFIG_RT_FIRST_CARD)
+-EXTRA_CFLAGS += -DCONFIG_RT_FIRST_IF_RF_OFFSET=$(CONFIG_RT_FIRST_IF_RF_OFFSET)
+-endif
+-ifneq ($(CONFIG_RT_SECOND_CARD),)
+-EXTRA_CFLAGS += -DCONFIG_RT_SECOND_CARD=$(CONFIG_RT_SECOND_CARD)
+-EXTRA_CFLAGS += -DCONFIG_RT_SECOND_IF_RF_OFFSET=$(CONFIG_RT_SECOND_IF_RF_OFFSET)
+-endif
+-ifneq ($(CONFIG_RT_THIRD_CARD),)
+-EXTRA_CFLAGS += -DCONFIG_RT_THIRD_CARD=$(CONFIG_RT_THIRD_CARD)
+-EXTRA_CFLAGS += -DCONFIG_RT_THIRD_IF_RF_OFFSET=$(CONFIG_RT_THIRD_IF_RF_OFFSET)
+ endif
+ 
+-ifeq ($(CONFIG_FIRST_IF_EEPROM_PROM),y)
+-EXTRA_CFLAGS += -DCONFIG_RT_FIRST_CARD_EEPROM="\"prom\""
+-else
+-ifeq ($(CONFIG_FIRST_IF_EEPROM_EFUSE),y)
+-EXTRA_CFLAGS += -DCONFIG_RT_FIRST_CARD_EEPROM="\"efuse\""
+-else
+-ifeq ($(CONFIG_FIRST_IF_EEPROM_FLASH),y)
+-EXTRA_CFLAGS += -DCONFIG_RT_FIRST_CARD_EEPROM="\"flash\""
+-endif
+-endif
+-endif
+-ifeq ($(CONFIG_SECOND_IF_EEPROM_PROM),y)
+-EXTRA_CFLAGS += -DCONFIG_RT_SECOND_CARD_EEPROM="\"prom\""
+-else
+-ifeq ($(CONFIG_SECOND_IF_EEPROM_EFUSE),y)
+-EXTRA_CFLAGS += -DCONFIG_RT_SECOND_CARD_EEPROM="\"efuse\""
+-else
+-ifeq ($(CONFIG_SECOND_IF_EEPROM_FLASH),y)
+-EXTRA_CFLAGS += -DCONFIG_RT_SECOND_CARD_EEPROM="\"flash\""
+-endif
+-endif
+-endif
+-ifeq ($(CONFIG_THIRD_IF_EEPROM_PROM),y)
+-EXTRA_CFLAGS += -DCONFIG_RT_THIRD_CARD_EEPROM="\"prom\""
+-else
+-ifeq ($(CONFIG_THIRD_IF_EEPROM_EFUSE),y)
+-EXTRA_CFLAGS += -DCONFIG_RT_THIRD_CARD_EEPROM="\"efuse\""
+-else
+-ifeq ($(CONFIG_THIRD_IF_EEPROM_FLASH),y)
+-EXTRA_CFLAGS += -DCONFIG_RT_THIRD_CARD_EEPROM="\"flash\""
+-endif
+-endif
+-endif
+-endif
+ # support built-in/ko for Openwrt/Linux SDK
+-obj-$(CONFIG_MT_AP_SUPPORT) += $(DRV_NAME).o
++obj-$(CONFIG_MT7663_MT_AP_SUPPORT) += $(DRV_NAME).o
+ 
+-ifeq ($(CONFIG_MTK_EMI_7622),y)
++ifeq ($(CONFIG_MT7663_MTK_EMI_7622),y)
+ EXTRA_CFLAGS += -DCONFIG_ARCH_MT7622
+ endif
+ 
+@@ -178,14 +132,14 @@
+ EXTRA_CFLAGS += -DMULTI_PROFILE
+ cmm_objs += $(SRC_EMBEDDED_DIR)/common/multi_profile.o
+ 
+-ifeq ($(CONFIG_DEFAULT_5G_PROFILE),y)
++ifeq ($(CONFIG_MT7663_DEFAULT_5G_PROFILE),y)
+ EXTRA_CFLAGS += -DDEFAULT_5G_PROFILE
+ endif
+ 
+ ########################################################
+ # Coex related files
+ ########################################################
+-ifeq ($(CONFIG_COEX_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_COEX_SUPPORT),y)
+    EXTRA_CFLAGS += -DCOEX_SUPPORT
+ 
+     cmm_objs += $(SRC_EMBEDDED_DIR)/mcu/bt_coex.o
+@@ -198,13 +152,13 @@
+ 		$(SRC_DIR)/rate_ctrl/ra_wrapper_embedded.o\
+ 		$(SRC_DIR)/rate_ctrl/ra_cfg.o
+ 
+-#ifeq ($(CONFIG_NEW_RATE_ADAPT_SUPPORT),y)
++#ifeq ($(CONFIG_MT7663_NEW_RATE_ADAPT_SUPPORT),y)
+ #    EXTRA_CFLAGS += -DNEW_RATE_ADAPT_SUPPORT
+ #    rate_objs += $(SRC_DIR)/rate_ctrl/alg_grp_mt.o
+ #    rate_objs += $(SRC_DIR)/rate_ctrl/ra_table.o
+ #endif
+ 
+-ifeq ($(CONFIG_RATE_ADAPT_AGBS_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_RATE_ADAPT_AGBS_SUPPORT),y)
+ 	EXTRA_CFLAGS += -DRATE_ADAPT_AGBS_SUPPORT
+ endif
+ 
+@@ -218,35 +172,35 @@
+ ########################################################
+ spec_objs += $(SRC_EMBEDDED_DIR)/common/ps.o
+ 
+-ifeq ($(CONFIG_UAPSD),y)
++ifeq ($(CONFIG_MT7663_UAPSD),y)
+     EXTRA_CFLAGS += -DUAPSD_SUPPORT -DUAPSD_DEBUG
+     spec_objs += $(SRC_EMBEDDED_DIR)/common/uapsd.o
+ endif
+ 
+-ifeq ($(CONFIG_MT_MAC),y)
++ifeq ($(CONFIG_MT7663E_MT_MAC),y)
+ 	spec_objs += $(SRC_EMBEDDED_DIR)/common/mt_ps.o
+ 	spec_objs += $(SRC_EMBEDDED_DIR)/common/mt_io.o
+ 	spec_objs += $(SRC_EMBEDDED_DIR)/common/txs.o
+ endif
+ 
+ # WSC
+-ifeq ($(CONFIG_WSC_INCLUDED),y)
++ifeq ($(CONFIG_MT7663_WSC_INCLUDED),y)
+     EXTRA_CFLAGS += -DWSC_INCLUDED -DWSC_SINGLE_TRIGGER
+ 
+-    ifneq ($(CONFIG_USER_GOAHEAD_HTTPD),)
++    ifneq ($(CONFIG_MT7663_USER_GOAHEAD_HTTPD),)
+         EXTRA_CFLAGS += -DSDK_GOAHEAD_HTTPD
+     endif
+ 
+-    ifneq ($(CONFIG_USER_LIGHTY),)
++    ifneq ($(CONFIG_MT7663_USER_LIGHTY),)
+         EXTRA_CFLAGS += -DSDK_USER_LIGHTY
+     endif
+ 
+-    ifneq ($(CONFIG_MT_AP_SUPPORT),)
++    ifneq ($(CONFIG_MT7663_MT_AP_SUPPORT),)
+         EXTRA_CFLAGS += -DWSC_AP_SUPPORT
+ 		EXTRA_CFLAGS += -DWSC_STA_SUPPORT
+     endif
+ 
+-    ifneq ($(CONFIG_MT_STA_SUPPORT),)
++    ifneq ($(CONFIG_MT7663_MT_STA_SUPPORT),)
+         EXTRA_CFLAGS += -DWSC_STA_SUPPORT
+     endif
+ 
+@@ -256,24 +210,24 @@
+                     $(SRC_EMBEDDED_DIR)/security/crypt_biginteger.o\
+                     $(SRC_EMBEDDED_DIR)/common/wsc_ufd.o
+ 
+-    ifeq ($(CONFIG_WSC_V2_SUPPORT),y)
++    ifeq ($(CONFIG_MT7663_WSC_V2_SUPPORT),y)
+         EXTRA_CFLAGS += -DWSC_V2_SUPPORT
+         spec_objs += $(SRC_EMBEDDED_DIR)/common/wsc_v2.o
+     endif
+ endif
+ 
+ # VHT
+-ifeq ($(CONFIG_DOT11_VHT_AC),y)
++ifeq ($(CONFIG_MT7663_DOT11_VHT_AC),y)
+     EXTRA_CFLAGS += -DDOT11_VHT_AC
+     spec_objs += $(SRC_EMBEDDED_DIR)/mgmt/mgmt_vht.o
+ 	# WFA VHT R2 PF
+-	ifeq ($(CONFIG_WFA_VHT_R2_PF),y)
++	ifeq ($(CONFIG_MT7663_WFA_VHT_R2_PF),y)
+ 		EXTRA_CFLAGS += -DWFA_VHT_R2_PF
+ 	endif
+ endif
+ 
+ # HE
+-ifeq ($(CONFIG_DOT11_HE_AX),y)
++ifeq ($(CONFIG_MT7663_DOT11_HE_AX),y)
+     EXTRA_CFLAGS += -DDOT11_HE_AX
+     spec_objs += $(SRC_EMBEDDED_DIR)/mgmt/mgmt_he.o\
+ 	$(SRC_EMBEDDED_DIR)/mgmt/be_he.o\
+@@ -282,7 +236,7 @@
+ 
+ 
+ # WAPI
+-ifeq ($(CONFIG_WAPI_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_WAPI_SUPPORT),y)
+     EXTRA_CFLAGS += -DWAPI_SUPPORT
+     ifeq ($(CONFIG_RALINK_RT3052),y)
+         EXTRA_CFLAGS += -DSOFT_ENCRYPT
+@@ -294,7 +248,7 @@
+ endif
+ 
+ # WPA3
+-ifeq ($(CONFIG_WPA3_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_WPA3_SUPPORT),y)
+     EXTRA_CFLAGS += -DDOT11_SAE_SUPPORT -DDOT11_SUITEB_SUPPORT -DDOT11W_PMF_SUPPORT
+     EXTRA_CFLAGS += -DDOT11_SAE_OPENSSL_BN
+ 
+@@ -307,7 +261,7 @@
+ endif
+ 
+ # OWE
+-ifeq ($(CONFIG_OWE_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_OWE_SUPPORT),y)
+     EXTRA_CFLAGS += -DCONFIG_OWE_SUPPORT -DDOT11_SAE_OPENSSL_BN -DDOT11W_PMF_SUPPORT
+ 
+   spec_objs += $(SRC_EMBEDDED_DIR)/security/crypt_bignum.o
+@@ -319,7 +273,7 @@
+ endif
+ 
+ # ACM
+-ifeq ($(CONFIG_WMM_ACM_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_WMM_ACM_SUPPORT),y)
+     EXTRA_CFLAGS += -DWMM_ACM_SUPPORT
+ 
+     spec_objs += $(SRC_EMBEDDED_DIR)/common/acm_edca.o\
+@@ -328,8 +282,8 @@
+ endif
+ 
+ #PMF
+-ifeq ($(CONFIG_MT_MAC),y)
+-ifeq ($(CONFIG_DOT11W_PMF_SUPPORT),y)
++ifeq ($(CONFIG_MT7663E_MT_MAC),y)
++ifeq ($(CONFIG_MT7663_DOT11W_PMF_SUPPORT),y)
+     EXTRA_CFLAGS += -DDOT11W_PMF_SUPPORT
+ 
+     spec_objs += $(SRC_EMBEDDED_DIR)/security/pmf.o
+@@ -337,12 +291,12 @@
+ endif
+ 
+ # LLTD
+-ifeq ($(CONFIG_LLTD_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_LLTD_SUPPORT),y)
+     EXTRA_CFLAGS += -DLLTD_SUPPORT
+ endif
+ 
+ #RRM   #need to fix STA mode code
+-ifeq ($(CONFIG_DOT11K_RRM_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_DOT11K_RRM_SUPPORT),y)
+     EXTRA_CFLAGS += -DDOT11K_RRM_SUPPORT -DAP_SCAN_SUPPORT -DSCAN_SUPPORT -DAPPLE_11K_IOT
+     spec_objs += $(SRC_EMBEDDED_DIR)/common/rrm_tlv.o \
+ 				 $(SRC_EMBEDDED_DIR)/common/rrm.o \
+@@ -350,22 +304,22 @@
+ endif
+ 
+ # KVRH
+-ifeq ($(CONFIG_KVRH_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_KVRH_SUPPORT),y)
+     EXTRA_CFLAGS += -DQUERY_KVRH_SUPPORT
+ endif
+ 
+ # TPC
+-ifeq ($(CONFIG_TPC_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_TPC_SUPPORT),y)
+     EXTRA_CFLAGS += -DTPC_SUPPORT
+ endif
+ 
+ # THERMAL
+-ifeq ($(CONFIG_THERMAL_PROTECT_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_THERMAL_PROTECT_SUPPORT),y)
+     EXTRA_CFLAGS += -DTHERMAL_PROTECT_SUPPORT
+ endif
+ 
+ # FTM
+-ifeq ($(CONFIG_FTM_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_FTM_SUPPORT),y)
+     EXTRA_CFLAGS += -DFTM_SUPPORT -DFTM_INITIATOR
+     EXTRA_CFLAGS += -DTMR_SUPPORT
+     EXTRA_CFLAGS += -DDOT11K_RRM_SUPPORT
+@@ -377,7 +331,7 @@
+ 				 $(SRC_EMBEDDED_DIR)/common/rrm_sanity.o
+ endif
+ 
+-ifeq ($(CONFIG_PASSPOINT_R2),y)
++ifeq ($(CONFIG_MT7663_PASSPOINT_R2),y)
+ 	EXTRA_CFLAGS += -DCONFIG_DOT11U_INTERWORKING -DCONFIG_DOT11V_WNM -DCONFIG_HOTSPOT -DCONFIG_HOTSPOT_R2 -DWAPP_SUPPORT
+ 
+ 	spec_objs += $(SRC_EMBEDDED_DIR)/common/wnm.o\
+@@ -386,23 +340,23 @@
+        spec_objs +=  $(SRC_EMBEDDED_DIR)/wapp/wapp.o
+ endif
+ 
+-ifeq ($(CONFIG_WNM_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_WNM_SUPPORT),y)
+         EXTRA_CFLAGS += -DCONFIG_DOT11V_WNM
+ 
+         spec_objs += $(SRC_EMBEDDED_DIR)/common/wnm.o
+ endif
+ 
+-ifeq ($(CONFIG_DSCP_PRI_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_DSCP_PRI_SUPPORT),y)
+ 	EXTRA_CFLAGS += -DDSCP_PRI_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_INTERWORKING),y)
++ifeq ($(CONFIG_MT7663_INTERWORKING),y)
+         EXTRA_CFLAGS += -DCONFIG_DOT11U_INTERWORKING
+         spec_objs += $(SRC_EMBEDDED_DIR)/common/gas.o
+ endif
+ 
+ # MBO
+-ifeq ($(CONFIG_MBO_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_MBO_SUPPORT),y)
+     EXTRA_CFLAGS += -DMBO_SUPPORT -DWAPP_SUPPORT
+ 
+     spec_objs += $(SRC_EMBEDDED_DIR)/common/mbo.o
+@@ -410,13 +364,13 @@
+ endif
+ 
+ # OCE
+-#ifeq ($(CONFIG_OCE_SUPPORT),y)
++#ifeq ($(CONFIG_MT7663_OCE_SUPPORT),y)
+ #EXTRA_CFLAGS += -DOCE_SUPPORT -DOCE_FILS_SUPPORT
+ #func_objs += $(SRC_EMBEDDED_DIR)/common/oce_fils.o
+ #func_objs += $(SRC_EMBEDDED_DIR)/common/oce.o
+ #endif
+ 
+-ifeq ($(CONFIG_MAP_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_MAP_SUPPORT),y)
+     EXTRA_CFLAGS += -DA4_CONN -DROUTING_TAB_SUPPORT -DWAPP_SUPPORT -DCONFIG_MAP_SUPPORT
+     spec_objs += $(SRC_EMBEDDED_DIR)/common/map.o
+     spec_objs += $(SRC_EMBEDDED_DIR)/common/a4_conn.o
+@@ -424,42 +378,42 @@
+     spec_objs +=  $(SRC_EMBEDDED_DIR)/wapp/wapp.o
+ endif
+ 
+-#ifeq ($(CONFIG_WAPP),y)
++#ifeq ($(CONFIG_MT7663_WAPP),y)
+ #    EXTRA_CFLAGS += -DWAPP_SUPPORT
+ #    spec_objs +=  $(SRC_EMBEDDED_DIR)/wapp/wapp.o
+ #endif
+ 
+-ifeq ($(CONFIG_TRACE_TCP_PKT),y)
++ifeq ($(CONFIG_MT7663_TRACE_TCP_PKT),y)
+        EXTRA_CFLAGS += -DTRACELOG_TCP_PKT
+ endif
+ 
+-ifeq ($(CONFIG_BACKGROUND_SCAN_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_BACKGROUND_SCAN_SUPPORT),y)
+     EXTRA_CFLAGS += -DBACKGROUND_SCAN_SUPPORT
+ 
+     spec_objs += $(SRC_EMBEDDED_DIR)/common/bgnd_scan.o
+ endif
+ 
+-ifeq ($(CONFIG_MT_DFS_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_MT_DFS_SUPPORT),y)
+ 	EXTRA_CFLAGS += -DMT_DFS_SUPPORT
+ 
+ 	spec_objs += $(SRC_EMBEDDED_DIR)/common/cmm_rdm_mt.o
+ endif
+ 
+-ifeq ($(CONFIG_WIFI_EAP_FEATURE),y)
++ifeq ($(CONFIG_MT7663_WIFI_EAP_FEATURE),y)
+ 	EXTRA_CFLAGS += -DWIFI_EAP_FEATURE
+ endif
+ 
+-ifeq ($(CONFIG_VLAN_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_VLAN_SUPPORT),y)
+ 	EXTRA_CFLAGS += -DVLAN_SUPPORT
+ endif
+ 
+ 
+-ifeq ($(CONFIG_WIFI_GPIO_CTRL),y)
++ifeq ($(CONFIG_MT7663_WIFI_GPIO_CTRL),y)
+ 	EXTRA_CFLAGS += -DWIFI_GPIO_CTRL
+ endif
+ 
+ ## FT  #need to fix sta mode code
+-ifeq ($(CONFIG_DOT11R_FT_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_DOT11R_FT_SUPPORT),y)
+ EXTRA_CFLAGS += -DDOT11R_FT_SUPPORT
+ dot11_ft_objs += $(SRC_EMBEDDED_DIR)/common/ft.o\
+                     $(SRC_EMBEDDED_DIR)/common/ft_tlv.o\
+@@ -468,19 +422,19 @@
+                     $(SRC_EMBEDDED_DIR)/ap/ap_ftkd.o\
+ 		    #$(SRC_EMBEDDED_DIR)/sta/ft_action.o
+ ## Preserve R1KH during Radio ON/OFF
+-ifeq ($(CONFIG_MBO_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_MBO_SUPPORT),y)
+ EXTRA_CFLAGS += -DFT_R1KH_KEEP
+ endif
+ endif
+ 
+ # RR
+-ifeq ($(CONFIG_RT2860V2_80211K_RR),y)
++ifeq ($(CONFIG_MT7663_RT2860V2_80211K_RR),y)
+ dot11k_rr_objs += $(SRC_EMBEDDED_DIR)/common/rrm_tlv.o\
+                     $(SRC_EMBEDDED_DIR)/common/rrm_sanity.o\
+                     $(SRC_EMBEDDED_DIR)/common/rrm.o
+ endif
+ #SNIFFER
+-ifeq ($(CONFIG_SNIFFER_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_SNIFFER_SUPPORT),y)
+     EXTRA_CFLAGS += -DSNIFFER_SUPPORT
+ 
+     spec_objs += $(SRC_EMBEDDED_DIR)/common/sniffer_radiotap.o\
+@@ -488,12 +442,12 @@
+ endif
+ 
+ #EAP-TXRX Statsitics
+-ifeq ($(CONFIG_TXRX_STAT_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_TXRX_STAT_SUPPORT),y)
+ EXTRA_CFLAGS += -DTXRX_STAT_SUPPORT
+ endif
+ 
+ #CFG
+-ifeq ($(CONFIG_CFG80211_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_CFG80211_SUPPORT),y)
+     EXTRA_CFLAGS += -DRT_CFG80211_SUPPORT -DEXT_BUILD_CHANNEL_LIST
+ 
+     spec_objs += $(SRC_EMBEDDED_DIR)/../os/linux/cfg80211/cfg80211_scan.o\
+@@ -507,20 +461,20 @@
+ endif
+ 
+ #Automation
+-ifeq ($(CONFIG_AUTOMATION),y)
++ifeq ($(CONFIG_MT7663_AUTOMATION),y)
+ EXTRA_CFLAGS += -DAUTOMATION
+ chip_objs += $(SRC_EMBEDDED_DIR)/common/automation.o
+ endif
+ 
+-ifeq ($(CONFIG_RALINK_TIMER_WDG),y)
++ifeq ($(CONFIG_MT7663_RALINK_TIMER_WDG),y)
+     EXTRA_CFLAGS += -DSDK_TIMER_WDG
+ endif
+ 
+-ifeq ($(CONFIG_OFFCHANNEL_SCAN_FEATURE),y)
++ifeq ($(CONFIG_MT7663_OFFCHANNEL_SCAN_FEATURE),y)
+     EXTRA_CFLAGS += -DOFFCHANNEL_SCAN_FEATURE
+ endif
+-ifeq ($(CONFIG_MTK_WD_KICKER),y)
+-    ifeq ($(CONFIG_MTK_WD_KICKER_WCN),y)
++ifeq ($(CONFIG_MT7663_MTK_WD_KICKER),y)
++    ifeq ($(CONFIG_MT7663_MTK_WD_KICKER_WCN),y)
+         EXTRA_CFLAGS += -DSDK_TIMER_WDG
+     endif
+ endif
+@@ -531,35 +485,35 @@
+ #
+ func_objs :=
+ 
+-ifeq ($(CONFIG_IGMP_SNOOP_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_IGMP_SNOOP_SUPPORT),y)
+     EXTRA_CFLAGS += -DIGMP_SNOOP_SUPPORT
+ 
+     func_objs += $(SRC_EMBEDDED_DIR)/common/igmp_snoop.o
+ endif
+ 
+-ifeq ($(CONFIG_BLOCK_NET_IF),y)
++ifeq ($(CONFIG_MT7663_BLOCK_NET_IF),y)
+     EXTRA_CFLAGS += -DBLOCK_NET_IF
+ 
+     func_objs += $(SRC_EMBEDDED_DIR)/common/netif_block.o
+ endif
+ 
+-ifeq ($(CONFIG_SINGLE_SKU),y)
++ifeq ($(CONFIG_MT7663_SINGLE_SKU),y)
+     EXTRA_CFLAGS += -DSINGLE_SKU_V2
+ endif
+ 
+-ifeq ($(CONFIG_RT2860V2_AP_VIDEO_TURBINE),y)
++ifeq ($(CONFIG_MT7663_RT2860V2_AP_VIDEO_TURBINE),y)
+     EXTRA_CFLAGS += -DVIDEO_TURBINE_SUPPORT
+ 
+     func_objs += $(SRC_EMBEDDED_DIR)/common/cmm_video.o
+ endif
+ 
+-ifeq ($(CONFIG_SMART_CARRIER_SENSE_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_SMART_CARRIER_SENSE_SUPPORT),y)
+     EXTRA_CFLAGS += -DSMART_CARRIER_SENSE_SUPPORT
+ 
+         spec_objs += $(SRC_EMBEDDED_DIR)/common/scs.o
+ endif
+ 
+-ifeq ($(CONFIG_SCS_FW_OFFLOAD),y)
++ifeq ($(CONFIG_MT7663_SCS_FW_OFFLOAD),y)
+     EXTRA_CFLAGS += -DSCS_FW_OFFLOAD
+ endif
+ 
+@@ -583,12 +537,12 @@
+ 	    $(SRC_EMBEDDED_DIR)/fsm/ap_mgmt_auth.o\
+             $(SRC_EMBEDDED_DIR)/fsm/ap_mgmt_assoc.o
+ 
+-ifeq ($(CONFIG_MBSS_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_MBSS_SUPPORT),y)
+     EXTRA_CFLAGS += -DMBSS_SUPPORT
+ 
+-    ifeq ($(CONFIG_NEW_MBSSID_MODE),y)
++    ifeq ($(CONFIG_MT7663_NEW_MBSSID_MODE),y)
+         EXTRA_CFLAGS += -DNEW_MBSSID_MODE
+-        ifeq ($(CONFIG_ENHANCE_NEW_MBSSID_MODE),y)
++        ifeq ($(CONFIG_MT7663_ENHANCE_NEW_MBSSID_MODE),y)
+             EXTRA_CFLAGS += -DENHANCE_NEW_MBSSID_MODE
+         endif
+     endif
+@@ -598,7 +552,7 @@
+ endif
+ 
+ 
+-ifeq ($(CONFIG_WDS_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_WDS_SUPPORT),y)
+     EXTRA_CFLAGS += -DWDS_SUPPORT
+ 
+     ap_objs += $(SRC_EMBEDDED_DIR)/ap/ap_wds.o\
+@@ -606,11 +560,11 @@
+             $(SRC_EMBEDDED_DIR)/common/client_wds.o
+ endif
+ 
+-ifeq ($(CONFIG_APCLI_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_APCLI_SUPPORT),y)
+ # TO BE REMOVED (still needed for apcli/sta struct merge) =====================================================================
+     EXTRA_CFLAGS += -DAPCLI_SUPPORT -DMAT_SUPPORT -DMULTI_APCLI_SUPPORT -DAPCLI_AUTO_CONNECT_SUPPORT  -DAPCLI_AUTO_BW_TMP
+     #EXTRA_CFLAGS += -DAPCLI_CERT_SUPPORT #-DAPCLI_CONNECTION_TRIAL
+-ifeq ($(CONFIG_APCLI_CONNECTION_TRIAL),y)
++ifeq ($(CONFIG_MT7663_APCLI_CONNECTION_TRIAL),y)
+     EXTRA_CFLAGS += -DAPCLI_CONNECTION_TRIAL
+ endif
+ # TO BE REMOVED END ============================================================================================================
+@@ -635,7 +589,7 @@
+         $(SRC_EMBEDDED_DIR)/common/cmm_mat_ipv6.o\
+ 	$(SRC_EMBEDDED_DIR)/fsm/sta_mgmt_assoc.o
+ 
+-    ifeq ($(CONFIG_MAC_REPEATER_SUPPORT),y)
++    ifeq ($(CONFIG_MT7663_MAC_REPEATER_SUPPORT),y)
+         EXTRA_CFLAGS += -DMAC_REPEATER_SUPPORT
+ 
+         ap_objs += $(SRC_EMBEDDED_DIR)/ap/ap_repeater.o
+@@ -643,163 +597,163 @@
+ endif
+ 
+ 
+-ifeq ($(CONFIG_IDS_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_IDS_SUPPORT),y)
+     EXTRA_CFLAGS += -DIDS_SUPPORT
+ 
+     ap_objs += $(SRC_EMBEDDED_DIR)/ap/ap_ids.o
+ endif
+ 
+-ifeq ($(CONFIG_NINTENDO_AP),y)
++ifeq ($(CONFIG_MT7663_NINTENDO_AP),y)
+     EXTRA_CFLAGS += -DNINTENDO_AP
+ 
+     ap_objs += $(SRC_EMBEDDED_DIR)/ap/ap_nintendo.o
+ endif
+ 
+-#ifeq ($(CONFIG_COC_SUPPORT),y)
++#ifeq ($(CONFIG_MT7663_COC_SUPPORT),y)
+ #   EXTRA_CFLAGS += -DGREENAP_SUPPORT -DCOC_SUPPORT
+ #
+ #    ap_objs += $(SRC_DIR)/../hw_ctrl/greenap.o
+ #endif
+ 
+-ifeq ($(CONFIG_GREENAP_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_GREENAP_SUPPORT),y)
+    EXTRA_CFLAGS += -DGREENAP_SUPPORT
+ 
+     ap_objs += $(SRC_DIR)/hw_ctrl/greenap.o
+ endif
+ 
+-ifeq ($(CONFIG_PCIE_ASPM_DYM_CTRL_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_PCIE_ASPM_DYM_CTRL_SUPPORT),y)
+    EXTRA_CFLAGS += -DPCIE_ASPM_DYM_CTRL_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_ATE_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_ATE_SUPPORT),y)
+     EXTRA_CFLAGS += -DCONFIG_ATE -DCONFIG_QA -DCONFIG_RT2880_ATE_CMD_NEW -DCONFIG_HW_HAL_OFFLOAD  #-DCSD_VERIFICATION -DINTERNAL_CAPTURE_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_ICAP_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_ICAP_SUPPORT),y)
+ 		EXTRA_CFLAGS += -DINTERNAL_CAPTURE_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_SPECTRUM_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_SPECTRUM_SUPPORT),y)
+ 		EXTRA_CFLAGS += -DWIFI_SPECTRUM_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_RTMP_FLASH_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_RTMP_FLASH_SUPPORT),y)
+     EXTRA_CFLAGS += -DRTMP_FLASH_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_PRE_CAL_TRX_SET1_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_PRE_CAL_TRX_SET1_SUPPORT),y)
+     EXTRA_CFLAGS += -DPRE_CAL_TRX_SET1_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_RLM_CAL_CACHE_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_RLM_CAL_CACHE_SUPPORT),y)
+     EXTRA_CFLAGS += -DRLM_CAL_CACHE_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_PRE_CAL_TRX_SET2_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_PRE_CAL_TRX_SET2_SUPPORT),y)
+     EXTRA_CFLAGS += -DPRE_CAL_TRX_SET2_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_CAL_BIN_FILE_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_CAL_BIN_FILE_SUPPORT),y)
+     EXTRA_CFLAGS += -DCAL_BIN_FILE_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_RF_LOCKDOWN_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_RF_LOCKDOWN_SUPPORT),y)
+     EXTRA_CFLAGS += -DRF_LOCKDOWN
+ endif
+ 
+-ifeq ($(CONFIG_LINK_TEST_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_LINK_TEST_SUPPORT),y)
+     EXTRA_CFLAGS += -DLINK_TEST_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_RTMP_TEMPERATURE_TX_ALC),y)
++ifeq ($(CONFIG_MT7663_RTMP_TEMPERATURE_TX_ALC),y)
+     EXTRA_CFLAGS += -DRTMP_TEMPERATURE_TX_ALC
+ endif
+ 
+-ifeq ($(CONFIG_TXBF_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_TXBF_SUPPORT),y)
+     EXTRA_CFLAGS += -DMCS_LUT_SUPPORT -DTXBF_SUPPORT -DVHT_TXBF_SUPPORT
+     ap_objs += $(SRC_DIR)/txbf/cmm_txbf_mt.o\
+                     $(SRC_DIR)/txbf/cmm_txbf_cal_mt.o\
+                     $(SRC_DIR)/txbf/txbf_wrapper_embedded.o
+ endif
+ 
+-ifeq ($(CONFIG_MUMIMO_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_MUMIMO_SUPPORT),y)
+    EXTRA_CFLAGS += -DCFG_SUPPORT_MU_MIMO
+     ap_objs += $(SRC_EMBEDDED_DIR)/common/cmm_mumimo.o
+     ap_objs += $(SRC_EMBEDDED_DIR)/ap/ap_mumimo.o
+ endif
+ 
+-ifeq ($(CONFIG_MU_RA_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_MU_RA_SUPPORT),y)
+    EXTRA_CFLAGS += -DCFG_SUPPORT_MU_MIMO_RA
+    ap_objs += $(SRC_EMBEDDED_DIR)/ap/ap_mura.o
+ endif
+ 
+-ifeq ($(CONFIG_FALCON_MURU_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_FALCON_MURU_SUPPORT),y)
+    EXTRA_CFLAGS += -DCFG_SUPPORT_FALCON_MURU
+    #ap_objs += $(SRC_EMBEDDED_DIR)/ap/ap_mura.o
+ endif
+ 
+-ifeq ($(CONFIG_CON_WPS_SUPPORT), y)
++ifeq ($(CONFIG_MT7663_CON_WPS_SUPPORT), y)
+     EXTRA_CFLAGS += -DCON_WPS -DCON_WPS_AP_SAME_UUID
+-ifneq ($(CONFIG_MULTI_INF_SUPPORT), y)
++ifneq ($(CONFIG_MT7663_MULTI_INF_SUPPORT), y)
+     EXTRA_CFLAGS += -DMULTI_INF_SUPPORT
+     ap_objs += $(SRC_EMBEDDED_DIR)/../os/linux/multi_main_dev.o
+ endif
+ endif
+ 
+-ifeq ($(CONFIG_RT2860V2_AP_CARRIER),y)
++ifeq ($(CONFIG_MT7663_RT2860V2_AP_CARRIER),y)
+     EXTRA_CFLAGS += -DCARRIER_DETECTION_SUPPORT
+ 
+     ap_objs += $(SRC_EMBEDDED_DIR)/common/cmm_cs.o
+ endif
+ 
+-ifeq ($(CONFIG_MCAST_RATE_SPECIFIC),y)
++ifeq ($(CONFIG_MT7663_MCAST_RATE_SPECIFIC),y)
+     EXTRA_CFLAGS += -DMCAST_RATE_SPECIFIC
+ endif
+ 
+-ifeq ($(CONFIG_AIRPLAY_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_AIRPLAY_SUPPORT),y)
+     EXTRA_CFLAGS += -DAIRPLAY_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_BAND_STEERING),y)
++ifeq ($(CONFIG_MT7663_BAND_STEERING),y)
+     EXTRA_CFLAGS += -DBAND_STEERING
+     ap_objs +=  $(SRC_EMBEDDED_DIR)/ap/ap_band_steering.o
+ endif
+ 
+-ifeq ($(CONFIG_AIR_MONITOR),y)
++ifeq ($(CONFIG_MT7663_AIR_MONITOR),y)
+     EXTRA_CFLAGS += -DAIR_MONITOR
+ endif
+ 
+-ifeq ($(CONFIG_EASY_SETUP_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_EASY_SETUP_SUPPORT),y)
+ $(DRV_NAME)-objs += $(SRC_EMBEDDED_DIR)/easy_setup/ez_cmm.o
+ endif
+ 
+-ifeq ($(CONFIG_MWDS),y)
++ifeq ($(CONFIG_MT7663_MWDS),y)
+     ap_objs += $(SRC_EMBEDDED_DIR)/common/mwds.o
+     ap_objs += $(SRC_EMBEDDED_DIR)/common/a4_conn.o
+     ap_objs += $(SRC_EMBEDDED_DIR)/common/routing_tab.o
+ endif
+ 
+-ifeq ($(CONFIG_EVENT_NOTIFIER_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_EVENT_NOTIFIER_SUPPORT),y)
+     ap_objs += $(SRC_EMBEDDED_DIR)/common/event_notifier.o
+ endif
+ 
+-ifeq ($(CONFIG_VOW_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_VOW_SUPPORT),y)
+     EXTRA_CFLAGS += -DVOW_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_RED_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_RED_SUPPORT),y)
+     EXTRA_CFLAGS += -DRED_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_FQ_SCH_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_FQ_SCH_SUPPORT),y)
+     EXTRA_CFLAGS += -DFQ_SCH_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_CUSTOMER_VENDOR_IE_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_CUSTOMER_VENDOR_IE_SUPPORT),y)
+     EXTRA_CFLAGS += -DCUSTOMER_VENDOR_IE_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_MT76XX_COMBO_DUAL_DRIVER_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_MT76XX_COMBO_DUAL_DRIVER_SUPPORT),y)
+     EXTRA_CFLAGS += -DMT76XX_COMBO_DUAL_DRIVER_SUPPORT
+ endif
+ 
+@@ -814,21 +768,21 @@
+             $(SRC_DIR)/os/linux/rt_profile.o\
+             $(SRC_DIR)/os/linux/rt_main_dev.o
+ 
+-ifeq ($(CONFIG_WLAN_HOOK),y)
++ifeq ($(CONFIG_MT7663_WLAN_HOOK),y)
+ 	EXTRA_CFLAGS +=-DRTMP_WLAN_HOOK_SUPPORT
+ 	os_objs += $(SRC_DIR)/os/linux/rt_txrx_hook.o
+ endif
+ 
+-ifeq ($(CONFIG_MULTI_INF_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_MULTI_INF_SUPPORT),y)
+     EXTRA_CFLAGS += -DMULTI_INF_SUPPORT
+     os_objs += $(SRC_DIR)/os/linux/multi_main_dev.o
+ endif
+ 
+-ifeq ($(CONFIG_WIFI_WORK_QUEUE_BH),y)
++ifeq ($(CONFIG_MT7663_WIFI_WORK_QUEUE_BH),y)
+     EXTRA_CFLAGS += -DWORKQUEUE_BH
+ endif
+ 
+-ifeq ($(CONFIG_KTHREAD),y)
++ifeq ($(CONFIG_MT7663_KTHREAD),y)
+     EXTRA_CFLAGS += -DKTHREAD_SUPPORT
+ endif
+ 
+@@ -855,7 +809,7 @@
+ #EXTRA_CFLAGS += -DNEED_ROM_PATCH
+ #EXTRA_CFLAGS += -DTHERMAL_PROTECT_SUPPORT
+ 
+-ifeq ($(CONFIG_ATE_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_ATE_SUPPORT),y)
+ chip_objs += $(SRC_DIR)/ate/mt_mac/mt_testmode_smac.o
+ endif
+ 
+@@ -884,11 +838,11 @@
+                 $(SRC_DIR)/os/linux/pci_main_dev.o
+ endif
+ 
+-ifeq ($(CONFIG_DBDC_MODE),y)
++ifeq ($(CONFIG_MT7663_DBDC_MODE),y)
+ EXTRA_CFLAGS += -DDBDC_MODE
+ endif
+-ifeq ($(CONFIG_MT76XX_COMBO_DUAL_DRIVER_SUPPORT),)
+-ifeq ($(CONFIG_CHIP_MT7615E),y)
++ifeq ($(CONFIG_MT7663_MT76XX_COMBO_DUAL_DRIVER_SUPPORT),)
++ifeq ($(CONFIG_MT7615E_CHIP_MT7615E),y)
+ EXTRA_CFLAGS += -DMT7615 -DMT_BBP -DMT_RF -DRTMP_RF_RW_SUPPORT -DMT_MAC -DRTMP_MAC_PCI -DRTMP_PCI_SUPPORT
+ EXTRA_CFLAGS += -DMCS_LUT_SUPPORT -DA_BAND_SUPPORT
+ EXTRA_CFLAGS += -DRTMP_EFUSE_SUPPORT
+@@ -921,46 +875,46 @@
+ EXTRA_CFLAGS += -DPRE_CAL_TRX_SET1_SUPPORT
+ EXTRA_CFLAGS += -DRLM_CAL_CACHE_SUPPORT
+ EXTRA_CFLAGS += -DPRE_CAL_TRX_SET2_SUPPORT
+-ifeq ($(CONFIG_G_BAND_256QAM_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_G_BAND_256QAM_SUPPORT),y)
+ EXTRA_CFLAGS += -DG_BAND_256QAM
+-ifeq ($(CONFIG_BRCM_256QAM_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_BRCM_256QAM_SUPPORT),y)
+ EXTRA_CFLAGS += -DBRCM_256QAM
+ endif
+ endif
+ EXTRA_CFLAGS += -Wframe-larger-than=4096
+-ifeq ($(CONFIG_HDR_TRANS_TX_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_HDR_TRANS_TX_SUPPORT),y)
+ 	EXTRA_CFLAGS += -DHDR_TRANS_TX_SUPPORT -DCUT_THROUGH_FULL_OFFLOAD
+ endif
+-ifeq ($(CONFIG_HDR_TRANS_RX_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_HDR_TRANS_RX_SUPPORT),y)
+ 	EXTRA_CFLAGS += -DHDR_TRANS_RX_SUPPORT
+ endif
+ 
+-#ifeq ($(CONFIG_RATE_ADAPT_AGBS_SUPPORT),y)
++#ifeq ($(CONFIG_MT7663_RATE_ADAPT_AGBS_SUPPORT),y)
+ #	EXTRA_CFLAGS += -DRACTRL_FW_OFFLOAD_SUPPORT
+ #endif
+ 
+-ifeq ($(CONFIG_TCP_RACK_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_TCP_RACK_SUPPORT),y)
+ 	EXTRA_CFLAGS += -DREDUCE_TCP_ACK_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_LED_CONTROL_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_LED_CONTROL_SUPPORT),y)
+     EXTRA_CFLAGS += -DLED_CONTROL_SUPPORT
+-#    ifeq ($(CONFIG_WSC_INCLUDED),y)
++#    ifeq ($(CONFIG_MT7663_WSC_INCLUDED),y)
+ #        EXTRA_CFLAGS += -DWSC_LED_SUPPORT
+ #    endif
+ 
+     func_objs += $(SRC_EMBEDDED_DIR)/common/rt_led.o
+ endif
+ 
+-ifeq ($(CONFIG_RADIUS_ACCOUNTING_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_RADIUS_ACCOUNTING_SUPPORT),y)
+ 	EXTRA_CFLAGS += -DRADIUS_ACCOUNTING_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_ATE_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_ATE_SUPPORT),y)
+ chip_objs += $(SRC_DIR)/ate/mt_mac/mt_testmode_dmac.o
+ endif
+ 
+-ifeq ($(CONFIG_FDB_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_FDB_SUPPORT),y)
+     EXTRA_CFLAGS += -DMT_FDB
+     chip_objs += $(SRC_DIR)/mcu/mt_fdb.o
+ endif
+@@ -994,7 +948,7 @@
+ endif
+ endif
+ 
+-ifeq ($(CONFIG_CHIP_MT7663E),y)
++ifeq ($(CONFIG_MT7663E_CHIP_MT7663E),y)
+ EXTRA_CFLAGS += -DMT7663 -DMT_BBP -DMT_RF -DRTMP_PCI_SUPPORT -DRTMP_RF_RW_SUPPORT -DMT_MAC -DRTMP_MAC_PCI
+ EXTRA_CFLAGS += -DMT_DMAC
+ EXTRA_CFLAGS += -DMCS_LUT_SUPPORT -DA_BAND_SUPPORT
+@@ -1027,31 +981,31 @@
+ EXTRA_CFLAGS += -DRELEASE_EXCLUDE
+ #7663 E1 Workaround
+ EXTRA_CFLAGS += -DTESTMODE_TX_CONTROL
+-CONFIG_PROPRIETARY_DRIVER=y
++#CONFIG_PROPRIETARY_DRIVER=y
+ #CONFIG_PRE_CAL_SUPPORT
+-ifeq ($(CONFIG_AUTOMATION),y)
++ifeq ($(CONFIG_MT7663_AUTOMATION),y)
+ EXTRA_CFLAGS += -DCONFIG_FPGA_MODE
+ EXTRA_CFLAGS += -DCONFIG_CSO_SUPPORT
+ EXTRA_CFLAGS += -DCSO_TEST_SUPPORT
+ endif
+-ifeq ($(CONFIG_PROPRIETARY_DRIVER),y)
+-#ifneq ($(CONFIG_PRE_CAL_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_PROPRIETARY_DRIVER),y)
++#ifneq ($(CONFIG_MT7663_PRE_CAL_SUPPORT),y)
+ EXTRA_CFLAGS += -DCONFIG_PROPRIETARY_DRIVER
+ #endif
+ endif
+-ifeq ($(CONFIG_PRE_CAL_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_PRE_CAL_SUPPORT),y)
+ EXTRA_CFLAGS += -DPRE_CAL_MT7663_SUPPORT
+ endif
+-ifeq ($(CONFIG_G_BAND_256QAM_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_G_BAND_256QAM_SUPPORT),y)
+ EXTRA_CFLAGS += -DG_BAND_256QAM
+-ifeq ($(CONFIG_BRCM_256QAM_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_BRCM_256QAM_SUPPORT),y)
+ EXTRA_CFLAGS += -DBRCM_256QAM
+ endif
+ endif
+-CONFIG_TCP_RACK_SUPPORT=y
++CONFIG_MT7663_TCP_RACK_SUPPORT=y
+ #CONFIG_OCE_SUPPORT=y
+ # OCE
+-ifeq ($(CONFIG_OCE_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_OCE_SUPPORT),y)
+ EXTRA_CFLAGS += -DOCE_SUPPORT -DOCE_FILS_SUPPORT
+ func_objs += $(SRC_EMBEDDED_DIR)/common/oce_fils.o
+ func_objs += $(SRC_EMBEDDED_DIR)/common/oce.o
+@@ -1060,52 +1014,52 @@
+ #EXTRA_CFLAGS += -Wframe-larger-than=4096
+ #WFLAGS += -Werror
+ 
+-ifeq ($(CONFIG_HDR_TRANS_TX_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_HDR_TRANS_TX_SUPPORT),y)
+ 	EXTRA_CFLAGS += -DHDR_TRANS_TX_SUPPORT -DCUT_THROUGH_FULL_OFFLOAD
+ endif
+-ifeq ($(CONFIG_HDR_TRANS_RX_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_HDR_TRANS_RX_SUPPORT),y)
+ 	EXTRA_CFLAGS += -DHDR_TRANS_RX_SUPPORT
+ endif
+ 
+-#ifeq ($(CONFIG_RATE_ADAPT_AGBS_SUPPORT),y)
++#ifeq ($(CONFIG_MT7663_RATE_ADAPT_AGBS_SUPPORT),y)
+ 	EXTRA_CFLAGS += -DRATE_ADAPT_AGBS_SUPPORT
+ 	EXTRA_CFLAGS += -DRACTRL_FW_OFFLOAD_SUPPORT
+ #endif
+ 
+-ifeq ($(CONFIG_TCP_RACK_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_TCP_RACK_SUPPORT),y)
+ 	EXTRA_CFLAGS += -DREDUCE_TCP_ACK_SUPPORT
+ 	chip_objs += $(SRC_EMBEDDED_DIR)/common/cmm_tcprack.o
+ endif
+ 
+-ifeq ($(CONFIG_LED_CONTROL_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_LED_CONTROL_SUPPORT),y)
+     EXTRA_CFLAGS += -DLED_CONTROL_SUPPORT
+-#    ifeq ($(CONFIG_WSC_INCLUDED),y)
++#    ifeq ($(CONFIG_MT7663_WSC_INCLUDED),y)
+ #        EXTRA_CFLAGS += -DWSC_LED_SUPPORT
+ #    endif
+ 
+     func_objs += $(SRC_EMBEDDED_DIR)/common/rt_led.o
+ endif
+ 
+-ifeq ($(CONFIG_RADIUS_ACCOUNTING_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_RADIUS_ACCOUNTING_SUPPORT),y)
+ 	EXTRA_CFLAGS += -DRADIUS_ACCOUNTING_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_ATE_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_ATE_SUPPORT),y)
+ chip_objs += $(SRC_DIR)/ate/mt_mac/mt_testmode_dmac.o
+ endif
+ 
+-ifeq ($(CONFIG_FDB_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_FDB_SUPPORT),y)
+     EXTRA_CFLAGS += -DMT_FDB
+     chip_objs += $(SRC_DIR)/mcu/mt_fdb.o
+ endif
+ 
+-ifeq ($(CONFIG_MT7663_RFB_MANUAL_CAL),y)
++ifeq ($(CONFIG_MT7663_MT7663_RFB_MANUAL_CAL),y)
+     EXTRA_CFLAGS += -DMT7663_RFB_MANUAL_CAL
+     #EXTRA_CFLAGS += -DMT7663_RFB_19
+     chip_objs += $(SRC_DIR)/chips/mt7663_manual_cal.o
+ endif
+ 
+-ifeq ($(CONFIG_FTM_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_FTM_SUPPORT),y)
+     EXTRA_CFLAGS += -DTMR_GEN2
+ endif
+ 
+@@ -1154,11 +1108,11 @@
+ EXTRA_CFLAGS += -DWIFI_RAM_EMI_SUPPORT
+ endif
+ EXTRA_CFLAGS += -DTX_POWER_CONTROL_SUPPORT
+-ifeq ($(CONFIG_MEMORY_SHRINK),y)
++ifeq ($(CONFIG_MT7663_MEMORY_SHRINK),y)
+ EXTRA_CFLAGS += -DMEMORY_SHRINK
+ endif
+ 
+-ifeq ($(CONFIG_RPS_EFFICIENCY),y)
++ifeq ($(CONFIG_MT7663_RPS_EFFICIENCY),y)
+ EXTRA_CFLAGS += -DDYNAMIC_STEERING_LOADING
+ endif
+ 
+@@ -1198,26 +1152,26 @@
+ EXTRA_CFLAGS += -DHW_TX_AMSDU_SUPPORT
+ 
+ EXTRA_CFLAGS += -DTESTMODE_TX_CONTROL
+-ifeq ($(CONFIG_AUTOMATION),y)
++ifeq ($(CONFIG_MT7663_AUTOMATION),y)
+ EXTRA_CFLAGS += -DCONFIG_FPGA_MODE
+ EXTRA_CFLAGS += -DCONFIG_CSO_SUPPORT
+ EXTRA_CFLAGS += -DCSO_TEST_SUPPORT
+ endif
+ #WFLAGS += -DMSP_UTILITY
+ 
+-ifeq ($(CONFIG_PROPRIETARY_DRIVER),y)
++ifeq ($(CONFIG_MT7663_PROPRIETARY_DRIVER),y)
+ EXTRA_CFLAGS += -DCONFIG_PROPRIETARY_DRIVER
+ CONFIG_PLATFORM_DRV_SUPPORT=n
+ else
+ CONFIG_PLATFORM_DRV_SUPPORT=y
+ endif
+ CONFIG_PRE_CAL_SUPPORT=n
+-ifeq ($(CONFIG_PRE_CAL_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_PRE_CAL_SUPPORT),y)
+ EXTRA_CFLAGS += -DPRE_CAL_MT7626_SUPPORT
+ endif
+-ifeq ($(CONFIG_G_BAND_256QAM_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_G_BAND_256QAM_SUPPORT),y)
+ EXTRA_CFLAGS += -DG_BAND_256QAM
+-ifeq ($(CONFIG_BRCM_256QAM_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_BRCM_256QAM_SUPPORT),y)
+ EXTRA_CFLAGS += -DBRCM_256QAM
+ endif
+ endif
+@@ -1226,48 +1180,48 @@
+ EXTRA_CFLAGS += -Wframe-larger-than=4096
+ WFLAGS += -Werror
+ 
+-ifeq ($(CONFIG_HDR_TRANS_TX_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_HDR_TRANS_TX_SUPPORT),y)
+ 	EXTRA_CFLAGS += -DHDR_TRANS_TX_SUPPORT -DCUT_THROUGH_FULL_OFFLOAD
+ endif
+-ifeq ($(CONFIG_HDR_TRANS_RX_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_HDR_TRANS_RX_SUPPORT),y)
+ 	EXTRA_CFLAGS += -DHDR_TRANS_RX_SUPPORT
+ endif
+ 
+-#ifeq ($(CONFIG_RATE_ADAPT_AGBS_SUPPORT),y)
++#ifeq ($(CONFIG_MT7663_RATE_ADAPT_AGBS_SUPPORT),y)
+ 	EXTRA_CFLAGS += -DRATE_ADAPT_AGBS_SUPPORT
+ 	EXTRA_CFLAGS += -DRACTRL_FW_OFFLOAD_SUPPORT
+ #endif
+ 
+-ifeq ($(CONFIG_TCP_RACK_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_TCP_RACK_SUPPORT),y)
+ 	EXTRA_CFLAGS += -DREDUCE_TCP_ACK_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_LED_CONTROL_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_LED_CONTROL_SUPPORT),y)
+     EXTRA_CFLAGS += -DLED_CONTROL_SUPPORT
+-    ifeq ($(CONFIG_WSC_INCLUDED),y)
++    ifeq ($(CONFIG_MT7663_WSC_INCLUDED),y)
+         EXTRA_CFLAGS += -DWSC_LED_SUPPORT
+     endif
+ 
+     func_objs += $(SRC_EMBEDDED_DIR)/common/rt_led.o
+ endif
+ 
+-ifeq ($(CONFIG_RADIUS_ACCOUNTING_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_RADIUS_ACCOUNTING_SUPPORT),y)
+ 	EXTRA_CFLAGS += -DRADIUS_ACCOUNTING_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_ATE_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_ATE_SUPPORT),y)
+ chip_objs += $(SRC_DIR)/ate/mt_mac/mt_testmode_dmac.o
+ endif
+ 
+-ifeq ($(CONFIG_FDB_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_FDB_SUPPORT),y)
+     EXTRA_CFLAGS += -DMT_FDB
+     chip_objs += $(SRC_DIR)/mcu/mt_fdb.o
+ endif
+ 
+ #workaround for openwrt, depden on system flags
+-ifeq ($(CONFIG_SUPPORT_OPENWRT),y)
+-EXTRA_CFLAGS += -DCONFIG_WIFI_MTD
+-endif
++#ifeq ($(CONFIG_SUPPORT_OPENWRT),y)
++#EXTRA_CFLAGS += -DCONFIG_WIFI_MTD
++#endif
+ chip_objs += $(SRC_DIR)/chips/mt7626.o\
+ 		$(SRC_DIR)/chips/mt7626_dbg.o\
+ 		$(SRC_DIR)/hw_ctrl/cmm_asic_mt_dmac.o\
+@@ -1336,33 +1290,33 @@
+ EXTRA_CFLAGS += -DPRE_CAL_MT7622_SUPPORT
+ CONFIG_PROPRIETARY_DRIVER=y
+ 
+-ifeq ($(CONFIG_PROPRIETARY_DRIVER),y)
++ifeq ($(CONFIG_MT7663_PROPRIETARY_DRIVER),y)
+ EXTRA_CFLAGS += -DCONFIG_PROPRIETARY_DRIVER
+ CONFIG_PLATFORM_DRV_SUPPORT=n
+ else
+ CONFIG_PLATFORM_DRV_SUPPORT=y
+ endif
+ 
+-ifeq ($(CONFIG_PLATFORM_DRV_SUPPROT),y)
++ifeq ($(CONFIG_MT7663_PLATFORM_DRV_SUPPROT),y)
+ EXTRA_CFLAGS += -DPLATFORM_DRIVER_SUPPORT
+ endif
+ 
+ #EXTRA_CFLAGS += -Werror
+-ifeq ($(CONFIG_HDR_TRANS_TX_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_HDR_TRANS_TX_SUPPORT),y)
+         EXTRA_CFLAGS += -DHDR_TRANS_TX_SUPPORT -DCUT_THROUGH_FULL_OFFLOAD
+ endif
+-ifeq ($(CONFIG_HDR_TRANS_RX_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_HDR_TRANS_RX_SUPPORT),y)
+         EXTRA_CFLAGS += -DHDR_TRANS_RX_SUPPORT
+ endif
+-ifeq ($(CONFIG_VHT_TXBF_2G_EPIGRAM_IE_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_VHT_TXBF_2G_EPIGRAM_IE_SUPPORT),y)
+         EXTRA_CFLAGS += -DVHT_TXBF_2G_EPIGRAM_IE
+ endif
+ 
+-#ifeq ($(CONFIG_RATE_ADAPT_AGBS_SUPPORT),y)
++#ifeq ($(CONFIG_MT7663_RATE_ADAPT_AGBS_SUPPORT),y)
+ #        EXTRA_CFLAGS += -DRACTRL_FW_OFFLOAD_SUPPORT
+ #endif
+ 
+-ifeq ($(CONFIG_ATE_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_ATE_SUPPORT),y)
+ chip_objs += $(SRC_DIR)/ate/mt_mac/mt_testmode_dmac.o
+ endif
+ 
+@@ -1420,9 +1374,9 @@
+ #EXTRA_CFLAGS += -DHW_TX_AMSDU_SUPPORT
+ #WFLAGS += -DCONFIG_CSO_SUPPORT
+ #WFLAGS += -DMSP_UTILITY
+-ifeq ($(CONFIG_G_BAND_256QAM_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_G_BAND_256QAM_SUPPORT),y)
+ EXTRA_CFLAGS += -DG_BAND_256QAM
+-ifeq ($(CONFIG_BRCM_256QAM_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_BRCM_256QAM_SUPPORT),y)
+ EXTRA_CFLAGS += -DBRCM_256QAM
+ endif
+ endif
+@@ -1430,40 +1384,40 @@
+ #EXTRA_CFLAGS += -Wframe-larger-than=4096
+ #WFLAGS += -Werror
+ 
+-ifeq ($(CONFIG_HDR_TRANS_TX_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_HDR_TRANS_TX_SUPPORT),y)
+ 	EXTRA_CFLAGS += -DHDR_TRANS_TX_SUPPORT -DCUT_THROUGH_FULL_OFFLOAD
+ endif
+-ifeq ($(CONFIG_HDR_TRANS_RX_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_HDR_TRANS_RX_SUPPORT),y)
+ 	EXTRA_CFLAGS += -DHDR_TRANS_RX_SUPPORT
+ endif
+ 
+-#ifeq ($(CONFIG_RATE_ADAPT_AGBS_SUPPORT),y)
++#ifeq ($(CONFIG_MT7663_RATE_ADAPT_AGBS_SUPPORT),y)
+ 	EXTRA_CFLAGS += -DRATE_ADAPT_AGBS_SUPPORT
+ 	EXTRA_CFLAGS += -DRACTRL_FW_OFFLOAD_SUPPORT
+ #endif
+ 
+-ifeq ($(CONFIG_TCP_RACK_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_TCP_RACK_SUPPORT),y)
+ 	EXTRA_CFLAGS += -DREDUCE_TCP_ACK_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_LED_CONTROL_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_LED_CONTROL_SUPPORT),y)
+     EXTRA_CFLAGS += -DLED_CONTROL_SUPPORT
+-#    ifeq ($(CONFIG_WSC_INCLUDED),y)
++#    ifeq ($(CONFIG_MT7663_WSC_INCLUDED),y)
+ #        EXTRA_CFLAGS += -DWSC_LED_SUPPORT
+ #    endif
+ 
+     func_objs += $(SRC_EMBEDDED_DIR)/common/rt_led.o
+ endif
+ 
+-ifeq ($(CONFIG_RADIUS_ACCOUNTING_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_RADIUS_ACCOUNTING_SUPPORT),y)
+ 	EXTRA_CFLAGS += -DRADIUS_ACCOUNTING_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_ATE_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_ATE_SUPPORT),y)
+ chip_objs += $(SRC_DIR)/ate/mt_mac/mt_testmode_dmac.o
+ endif
+ 
+-ifeq ($(CONFIG_FDB_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_FDB_SUPPORT),y)
+     EXTRA_CFLAGS += -DMT_FDB
+     chip_objs += $(SRC_DIR)/mcu/mt_fdb.o
+ endif
+@@ -1496,31 +1450,31 @@
+ endif
+ 
+ 
+-ifeq ($(CONFIG_RTMP_FLASH_SUPPORT)$(CONFIG_MTD),yy)
+-ifeq ($(CONFIG_SUPPORT_OPENWRT),y)
+-ifeq ($(CONFIG_MTD_SPI_NOR),y)
+-EXTRA_CFLAGS += -DCONFIG_WIFI_MTD
+-else
+-ifeq ($(CONFIG_MTD_NAND),y)
+-EXTRA_CFLAGS += -DCONFIG_WIFI_MTD
+-endif
+-endif
+-else
+-ifeq ($(CONFIG_DEFAULTS_KERNEL_4_4),y)
+-ifeq ($(CONFIG_MTD_SPI_NOR),y)
+-EXTRA_CFLAGS += -DCONFIG_WIFI_MTD
+-else
+-ifeq ($(CONFIG_MTD_NAND),y)
+-EXTRA_CFLAGS += -DCONFIG_WIFI_MTD
+-endif
+-endif
+-endif
+-endif
+-endif
++#ifeq ($(CONFIG_MT7663_RTMP_FLASH_SUPPORT)$(CONFIG_MTD),yy)
++#ifeq ($(CONFIG_SUPPORT_OPENWRT),y)
++#ifeq ($(CONFIG_MTD_SPI_NOR),y)
++#EXTRA_CFLAGS += -DCONFIG_WIFI_MTD
++#else
++#ifeq ($(CONFIG_MTD_NAND),y)
++#EXTRA_CFLAGS += -DCONFIG_WIFI_MTD
++#endif
++#endif
++#else
++#ifeq ($(CONFIG_DEFAULTS_KERNEL_4_4),y)
++#ifeq ($(CONFIG_MTD_SPI_NOR),y)
++#EXTRA_CFLAGS += -DCONFIG_WIFI_MTD
++#else
++#ifeq ($(CONFIG_MTD_NAND),y)
++#EXTRA_CFLAGS += -DCONFIG_WIFI_MTD
++#endif
++#endif
++#endif
++#endif
++#endif
+ 
+-ifeq ($(CONFIG_DEFAULTS_MEDIATEK_MT7622),y)
+-EXTRA_CFLAGS += -DCONFIG_WIFI_MTD
+-endif
++#ifeq ($(CONFIG_DEFAULTS_MEDIATEK_MT7622),y)
++#EXTRA_CFLAGS += -DCONFIG_WIFI_MTD
++#endif
+ 
+ ifeq ($(CONFIG_PLATFORM_DRV_SUPPORT),y)
+ chip_objs += $(SRC_DIR)/os/linux/wbsys_main_dev.o
+@@ -1528,7 +1482,7 @@
+ chip_objs += $(SRC_DIR)/os/linux/rbus_prop_dev.o
+ endif
+ 
+-ifeq ($(CONFIG_FW_LOG_DUMP_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_FW_LOG_DUMP_SUPPORT),y)
+ EXTRA_CFLAGS += -DFW_LOG_DUMP
+ cmm_objs += $(SRC_EMBEDDED_DIR)/common/dbg_ctrl.o
+ endif
+@@ -1552,7 +1506,7 @@
+                     $(SRC_DIR)/os/linux/rt_rbus_pci_util.o\
+                     #$(SRC_DIR)/os/linux/rbus_main_dev.o
+ 
+-ifeq ($(CONFIG_ATE_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_ATE_SUPPORT),y)
+ $(DRV_NAME)-objs += $(SRC_DIR)/ate/ate_agent.o\
+                     $(SRC_DIR)/ate/testmode_ioctl.o\
+ 		    $(SRC_DIR)/ate/mt_mac/mt_testmode.o\
+@@ -1560,7 +1514,7 @@
+ endif
+ 
+ 
+-ifeq ($(CONFIG_TCP_RACK_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_TCP_RACK_SUPPORT),y)
+ $(DRV_NAME)-objs += $(SRC_EMBEDDED_DIR)/common/cmm_tcprack.o
+ endif
+ 
+@@ -1588,19 +1542,19 @@
+ EXTRA_CFLAGS += -DAUTO_CH_SELECT_ENHANCE
+ endif
+ 
+-ifeq ($(CONFIG_RT2860V2_SNMP),y)
++ifeq ($(CONFIG_MT7663_RT2860V2_SNMP),y)
+ EXTRA_CFLAGS += -DSNMP_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_RT2860V2_AP_32B_DESC),y)
++ifeq ($(CONFIG_MT7663_RT2860V2_AP_32B_DESC),y)
+ EXTRA_CFLAGS += -DDESC_32B_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_RT2860V2_HW_ANTENNA_DIVERSITY),y)
++ifeq ($(CONFIG_MT7663_RT2860V2_HW_ANTENNA_DIVERSITY),y)
+ EXTRA_CFLAGS += -DHW_ANTENNA_DIVERSITY_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_RT2860V2_EXT_CHANNEL_LIST),y)
++ifeq ($(CONFIG_MT7663_RT2860V2_EXT_CHANNEL_LIST),y)
+ EXTRA_CFLAGS += -DEXT_BUILD_CHANNEL_LIST
+ endif
+ 
+@@ -1611,7 +1565,7 @@
+ endif
+ EXTRA_CFLAGS += -DDBG
+ 
+-ifeq ($(CONFIG_RTMP_INTERNAL_TX_ALC),y)
++ifeq ($(CONFIG_MT7663_RTMP_INTERNAL_TX_ALC),y)
+ EXTRA_CFLAGS += -DRTMP_INTERNAL_TX_ALC
+ endif
+ 
+@@ -1620,20 +1574,20 @@
+ EXTRA_CFLAGS += -DCONFIG_TP_DBG
+ endif
+ 
+-ifeq ($(CONFIG_FAST_NAT_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_FAST_NAT_SUPPORT),y)
+ EXTRA_CFLAGS += -DCONFIG_FAST_NAT_SUPPORT
+-ifeq ($(CONFIG_WLAN_HOOK),y)
+-ifeq ($(CONFIG_WHNAT_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_WLAN_HOOK),y)
++ifeq ($(CONFIG_MT7663_WHNAT_SUPPORT),y)
+ EXTRA_CFLAGS += -DWHNAT_SUPPORT
+ else
+-ifeq ($(CONFIG_WHNAT_SUPPORT),m)
++ifeq ($(CONFIG_MT7663_WHNAT_SUPPORT),m)
+ EXTRA_CFLAGS += -DWHNAT_SUPPORT
+ endif
+ endif
+ endif
+ endif
+ 
+-ifeq ($(CONFIG_EASY_SETUP_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_EASY_SETUP_SUPPORT),y)
+ EXTRA_CFLAGS += -DWH_EZ_SETUP
+ EXTRA_CFLAGS += -DNEW_CONNECTION_ALGO
+ EXTRA_CFLAGS += -DEZ_NETWORK_MERGE_SUPPORT
+@@ -1644,23 +1598,23 @@
+ EXTRA_CFLAGS += -DEZ_PUSH_BW_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_MWDS),y)
++ifeq ($(CONFIG_MT7663_MWDS),y)
+ EXTRA_CFLAGS += -DMWDS -DA4_CONN -DROUTING_TAB_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_EVENT_NOTIFIER_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_EVENT_NOTIFIER_SUPPORT),y)
+ EXTRA_CFLAGS += -DWH_EVENT_NOTIFIER
+ endif
+ 
+-#ifeq ($(CONFIG_WIFI_FWD_SUPPORT),y)
++#ifeq ($(CONFIG_MT7663_WIFI_FWD_SUPPORT),y)
+ EXTRA_CFLAGS += -DCONFIG_WIFI_PKT_FWD
+ #endif
+ 
+-#ifeq ($(CONFIG_MTFWD_SUPPORT),y)
++#ifeq ($(CONFIG_MT7663_MTFWD_SUPPORT),y)
+ EXTRA_CFLAGS += -DMTFWD
+ #endif
+ 
+-ifeq ($(CONFIG_ROAMING_ENHANCE_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_ROAMING_ENHANCE_SUPPORT),y)
+ EXTRA_CFLAGS += -DROAMING_ENHANCE_SUPPORT
+ endif
+ 
+@@ -1670,15 +1624,15 @@
+ EXTRA_CFLAGS += -Inet/nat
+ #EXTRA_CFLAGS += -DDBG_STARVATION
+ ifeq ($(CONFIG_SUPPORT_OPENWRT),y)
+-	ifeq ($(CONFIG_CHIP_MT7663E),y)
+-		ifeq ($(CONFIG_MT_WIFI),m)
++	ifeq ($(CONFIG_MT7663E_CHIP_MT7663E),y)
++		ifeq ($(CONFIG_MT7663_MT_WIFI),m)
+ 			EXTRA_CFLAGS += -DMT_WIFI_MODULE
+ 		endif
+ 	else
+ 		EXTRA_CFLAGS += -DMT_WIFI_MODULE
+ 	endif
+ else
+-	ifeq ($(CONFIG_MT_WIFI),m)
++	ifeq ($(CONFIG_MT7663_MT_WIFI),m)
+ 		EXTRA_CFLAGS += -DMT_WIFI_MODULE
+ 	endif
+ endif
+Index: linux-3.10.108/drivers/net/wireless/mtk/mt7663/mt_wifi_sta/Kconfig
+===================================================================
+--- linux-3.10.108.orig/drivers/net/wireless/mtk/mt7663/mt_wifi_sta/Kconfig	2022-03-03 19:17:43.459257283 +0800
++++ linux-3.10.108/drivers/net/wireless/mtk/mt7663/mt_wifi_sta/Kconfig	2022-03-03 19:17:08.231286462 +0800
+@@ -1,75 +1,75 @@
+-config MT_STA_SUPPORT
++config MT7663_MT_STA_SUPPORT
+ 	tristate "Ralink RT2860 802.11n/ac STA support"
+ #	depends on NET_RADIO 
+-	select WIRELESS_EXT
+-	select WEXT_SPY
+-	select WEXT_PRIV
++	select MT7663_WIRELESS_EXT
++	select MT7663_WEXT_SPY
++	select MT7663_WEXT_PRIV
+ 
+-config  ETH_CONVERT_SUPPORT
++config MT7663_ETH_CONVERT_SUPPORT
+ 	bool "Ethernet Convert Mode Support"
+-	depends on MT_STA_SUPPORT
++	depends on MT7663_MT_STA_SUPPORT
+ 	default y
+ 
+-config COEX_SUPPORT
++config MT7663_COEX_SUPPORT
+ 	bool "Coex Support"
+-	depends on MT_STA_SUPPORT
++	depends on MT7663_MT_STA_SUPPORT
+ 	default n
+ 
+-#config MUMIMO_SUPPORT
++#config MT7663_MUMIMO_SUPPORT
+ #        bool "MU-MIMO Support"
+ #        depends on WIFI_DRIVER
+ #        default y
+ 
+-#config DOT11R_FT_SUPPORT
++#config MT7663_DOT11R_FT_SUPPORT
+ #	bool "802.11r Fast BSS Transition"
+-#	depends on MT_STA_SUPPORT
++#	depends on MT7663_MT_STA_SUPPORT
+ 
+-#config DOT11K_RRM_SUPPORT
++#config MT7663_DOT11K_RRM_SUPPORT
+ #	bool "802.11k Radio Resource Management"
+-#	depends on MT_STA_SUPPORT
++#	depends on MT7663_MT_STA_SUPPORT
+ 
+-#config SNIFFER_SUPPORT
++#config MT7663_SNIFFER_SUPPORT
+ #	bool "SNIFFER"
+-#	depends on MT_STA_SUPPORT
++#	depends on MT7663_MT_STA_SUPPORT
+ #	default n
+ 
+-config CFG80211_SUPPORT
++config MT7663_CFG80211_SUPPORT
+ 	bool "CFG80211"
+-	depends on MT_STA_SUPPORT
++	depends on MT7663_MT_STA_SUPPORT
+ 	depends on CFG80211
+ 	default n
+ 
+-#config CON_WPS_SUPPORT
++#config MT7663_CON_WPS_SUPPORT
+ #	bool "Concurrent WPS Support"
+-#	depends on MT_STA_SUPPORT
++#	depends on MT7663_MT_STA_SUPPORT
+ #	depends on APCLI_SUPPORT
+ #	depends on WSC_INCLUDED
+ #	depends on WSC_V2_SUPPORT
+ #	default n
+ 	
+-#config COC_SUPPORT
++#config MT7663_COC_SUPPORT
+ #	bool "CoC Support"
+-#	depends on MT_STA_SUPPORT
++#	depends on MT7663_MT_STA_SUPPORT
+ #	default n
+ 
+-#config  RT2860V2_SNMP
++#config MT7663_ RT2860V2_SNMP
+ #	bool "Net-SNMP Support"
+-#	depends on MT_STA_SUPPORT
++#	depends on MT7663_MT_STA_SUPPORT
+ 
+-#config MCAST_RATE_SPECIFIC
++#config MT7663_MCAST_RATE_SPECIFIC
+ #	bool "User specific tx rate of mcast pkt"
+-#	depends on MT_STA_SUPPORT
++#	depends on MT7663_MT_STA_SUPPORT
+ 
+-#config EXT_BUILD_CHANNEL_LIST
++#config MT7663_EXT_BUILD_CHANNEL_LIST
+ #	bool "Extension Channel List"
+-#	depends on MT_STA_SUPPORT
++#	depends on MT7663_MT_STA_SUPPORT
+ 
+-#config AUTO_CH_SELECT_ENHANCE
++#config MT7663_AUTO_CH_SELECT_ENHANCE
+ #	bool "Auto Channel Selection Enhancement"
+-#	depends on MT_STA_SUPPORT
++#	depends on MT7663_MT_STA_SUPPORT
+ 
+-#config AIRPLAY_SUPPORT
++#config MT7663_AIRPLAY_SUPPORT
+ #	bool "AIRPLAY Support"
+-#	depends on MT_STA_SUPPORT
++#	depends on MT7663_MT_STA_SUPPORT
+ #	default n
+ 
+Index: linux-3.10.108/drivers/net/wireless/mtk/mt7663/mt_wifi_sta/Makefile
+===================================================================
+--- linux-3.10.108.orig/drivers/net/wireless/mtk/mt7663/mt_wifi_sta/Makefile	2022-03-03 19:17:43.459257283 +0800
++++ linux-3.10.108/drivers/net/wireless/mtk/mt7663/mt_wifi_sta/Makefile	2022-03-03 19:17:08.231286462 +0800
+@@ -1,7 +1,7 @@
+ ifeq ($(CONFIG_DEFAULTS_KERNEL_4_4),y)
+ WIFI_DRV_PATH = drivers/net/wireless/mediatek
+ else
+-WIFI_DRV_PATH = drivers/net/wireless/mtk/mt7663e
++WIFI_DRV_PATH = drivers/net/wireless/mtk/mt7663
+ endif
+ 
+ EXTRA_CFLAGS = -I$(WIFI_DRV_PATH)/mt_wifi/include \
+@@ -22,10 +22,10 @@
+ DRV_NAME = mt_wifi
+ SRC_DIR = ../mt_wifi
+ SRC_EMBEDDED_DIR = ../mt_wifi/embedded
+-obj-$(CONFIG_MT_STA_SUPPORT) += $(DRV_NAME).o
++obj-$(CONFIG_MT7663_MT_STA_SUPPORT) += $(DRV_NAME).o
+ endif
+ 
+-ifeq ($(CONFIG_MTK_EMI_7622),y)
++ifeq ($(CONFIG_MT7663_MTK_EMI_7622),y)
+ EXTRA_CFLAGS += -DCONFIG_ARCH_MT7622
+ endif
+ 
+@@ -121,7 +121,7 @@
+ ########################################################
+ # SAE files
+ ########################################################
+-ifeq ($(CONFIG_WPA3_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_WPA3_SUPPORT),y)
+    EXTRA_CFLAGS += -DDOT11_SAE_SUPPORT -DDOT11_SUITEB_SUPPORT -DDOT11W_PMF_SUPPORT
+    EXTRA_CFLAGS += -DDOT11_SAE_OPENSSL_BN
+ 
+@@ -136,7 +136,7 @@
+ ########################################################
+ # OWE related files
+ ########################################################
+-ifeq ($(CONFIG_OWE_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_OWE_SUPPORT),y)
+    EXTRA_CFLAGS += -DCONFIG_OWE_SUPPORT -DDOT11_SAE_OPENSSL_BN -DDOT11W_PMF_SUPPORT
+ 
+     cmm_objs += $(SRC_EMBEDDED_DIR)/security/crypt_bignum.o\
+@@ -152,7 +152,7 @@
+ ########################################################
+ # Coex related files
+ ########################################################
+-ifeq ($(CONFIG_COEX_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_COEX_SUPPORT),y)
+    EXTRA_CFLAGS += -DCOEX_SUPPORT
+ 
+     cmm_objs += $(SRC_EMBEDDED_DIR)/mcu/bt_coex.o
+@@ -166,13 +166,13 @@
+ 		$(SRC_DIR)/rate_ctrl/ra_wrapper_embedded.o\
+ 		$(SRC_DIR)/rate_ctrl/ra_cfg.o
+ 
+-ifeq ($(CONFIG_NEW_RATE_ADAPT_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_NEW_RATE_ADAPT_SUPPORT),y)
+     EXTRA_CFLAGS += -DNEW_RATE_ADAPT_SUPPORT
+     rate_objs += $(SRC_DIR)/rate_ctrl/alg_grp_mt.o
+     rate_objs += $(SRC_DIR)/rate_ctrl/ra_table.o
+ endif
+ 
+-ifeq ($(CONFIG_RATE_ADAPT_AGBS_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_RATE_ADAPT_AGBS_SUPPORT),y)
+ 	EXTRA_CFLAGS += -DRATE_ADAPT_AGBS_SUPPORT
+ endif
+ 
+@@ -186,27 +186,27 @@
+ ########################################################
+ spec_objs += $(SRC_EMBEDDED_DIR)/common/ps.o
+ 
+-ifeq ($(CONFIG_UAPSD),y)
++ifeq ($(CONFIG_MT7663_UAPSD),y)
+     EXTRA_CFLAGS += -DUAPSD_SUPPORT -DUAPSD_DEBUG
+     spec_objs += $(SRC_EMBEDDED_DIR)/common/uapsd.o
+ endif
+ 
+-ifeq ($(CONFIG_MT_MAC),y)
++ifeq ($(CONFIG_MT7663_MT_MAC),y)
+ 	spec_objs += $(SRC_EMBEDDED_DIR)/common/mt_ps.o
+ 	spec_objs += $(SRC_EMBEDDED_DIR)/common/mt_io.o
+ 	spec_objs += $(SRC_EMBEDDED_DIR)/common/txs.o
+ endif
+ 
+ # WSC
+-ifeq ($(CONFIG_WSC_INCLUDED),y)
++ifeq ($(CONFIG_MT7663_WSC_INCLUDED),y)
+     EXTRA_CFLAGS += -DWSC_INCLUDED
+ #-DWSC_SINGLE_TRIGGER
+ 
+-    ifneq ($(CONFIG_MT_AP_SUPPORT),)
++    ifneq ($(CONFIG_MT7663_MT_AP_SUPPORT),)
+         EXTRA_CFLAGS += -DWSC_AP_SUPPORT
+     endif
+ 
+-    ifneq ($(CONFIG_MT_STA_SUPPORT),)
++    ifneq ($(CONFIG_MT7663_MT_STA_SUPPORT),)
+         EXTRA_CFLAGS += -DWSC_STA_SUPPORT
+     endif
+ 
+@@ -216,24 +216,24 @@
+                     $(SRC_EMBEDDED_DIR)/security/crypt_biginteger.o\
+ #                    $(SRC_EMBEDDED_DIR)/common/wsc_ufd.o
+ 
+-    ifeq ($(CONFIG_WSC_V2_SUPPORT),y)
++    ifeq ($(CONFIG_MT7663_WSC_V2_SUPPORT),y)
+         EXTRA_CFLAGS += -DWSC_V2_SUPPORT
+         spec_objs += $(SRC_EMBEDDED_DIR)/common/wsc_v2.o
+     endif
+ endif
+ 
+ # VHT
+-ifeq ($(CONFIG_DOT11_VHT_AC),y)
++ifeq ($(CONFIG_MT7663_DOT11_VHT_AC),y)
+     EXTRA_CFLAGS += -DDOT11_VHT_AC
+     spec_objs += $(SRC_EMBEDDED_DIR)/mgmt/mgmt_vht.o
+ 	# WFA VHT R2 PF
+-	ifeq ($(CONFIG_WFA_VHT_R2_PF),y)
++	ifeq ($(CONFIG_MT7663_WFA_VHT_R2_PF),y)
+ 		EXTRA_CFLAGS += -DWFA_VHT_R2_PF
+ 	endif
+ endif
+ 
+ # HE
+-ifeq ($(CONFIG_DOT11_HE_AX),y)
++ifeq ($(CONFIG_MT7663_DOT11_HE_AX),y)
+     EXTRA_CFLAGS += -DDOT11_HE_AX
+     spec_objs += $(SRC_EMBEDDED_DIR)/mgmt/mgmt_he.o\
+ 	$(SRC_EMBEDDED_DIR)/mgmt/be_he.o\
+@@ -241,9 +241,9 @@
+ endif
+ 
+ # WAPI
+-ifeq ($(CONFIG_WAPI_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_WAPI_SUPPORT),y)
+     EXTRA_CFLAGS += -DWAPI_SUPPORT
+-    ifeq ($(CONFIG_RALINK_RT3052),y)
++    ifeq ($(CONFIG_MT7663_RALINK_RT3052),y)
+         EXTRA_CFLAGS += -DSOFT_ENCRYPT
+     endif
+ 
+@@ -254,7 +254,7 @@
+ endif
+ 
+ # ACM
+-ifeq ($(CONFIG_WMM_ACM_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_WMM_ACM_SUPPORT),y)
+     EXTRA_CFLAGS += -DWMM_ACM_SUPPORT
+ 
+     spec_objs += $(SRC_EMBEDDED_DIR)/common/acm_edca.o\
+@@ -263,18 +263,18 @@
+ endif
+ 
+ #PMF
+-ifeq ($(CONFIG_DOT11W_PMF_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_DOT11W_PMF_SUPPORT),y)
+     EXTRA_CFLAGS += -DDOT11W_PMF_SUPPORT
+ 
+     spec_objs += $(SRC_EMBEDDED_DIR)/security/pmf.o
+ endif
+ 
+ # LLTD
+-ifeq ($(CONFIG_LLTD_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_LLTD_SUPPORT),y)
+     EXTRA_CFLAGS += -DLLTD_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_PASSPOINT_R2),y)
++ifeq ($(CONFIG_MT7663_PASSPOINT_R2),y)
+ 	EXTRA_CFLAGS += -DCONFIG_DOT11U_INTERWORKING -DCONFIG_DOT11V_WNM -DCONFIG_HOTSPOT -DCONFIG_HOTSPOT_R2
+ 
+ 	spec_objs += $(SRC_EMBEDDED_DIR)/common/wnm.o\
+@@ -283,7 +283,7 @@
+ endif
+ 
+ # FT
+-#ifeq ($(CONFIG_RT2860V2_80211R_FT),y)
++#ifeq ($(CONFIG_MT7663_RT2860V2_80211R_FT),y)
+ #dot11_ft_objs += $(SRC_EMBEDDED_DIR)/common/ft.o\
+ #                    $(SRC_EMBEDDED_DIR)/common/ft_tlv.o\
+ #                    $(SRC_EMBEDDED_DIR)/common/ft_ioctl.o\
+@@ -292,13 +292,13 @@
+ #endif
+ 
+ # RR
+-#ifeq ($(CONFIG_RT2860V2_80211K_RR),y)
++#ifeq ($(CONFIG_MT7663_RT2860V2_80211K_RR),y)
+ #dot11k_rr_objs += $(SRC_EMBEDDED_DIR)/common/rrm_tlv.o\
+ #                    $(SRC_EMBEDDED_DIR)/common/rrm_sanity.o\
+ #                    $(SRC_EMBEDDED_DIR)/common/rrm.o
+ #endif
+ #SNIFFER
+-ifeq ($(CONFIG_SNIFFER_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_SNIFFER_SUPPORT),y)
+     EXTRA_CFLAGS += -DSNIFFER_SUPPORT
+ 
+     spec_objs += $(MT_WIFI_DIR)/common/sniffer_radiotap.o\
+@@ -306,7 +306,7 @@
+ endif
+ 
+ #CFG
+-ifeq ($(CONFIG_CFG80211_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_CFG80211_SUPPORT),y)
+     EXTRA_CFLAGS += -DRT_CFG80211_SUPPORT -DEXT_BUILD_CHANNEL_LIST -DWPA_SUPPLICANT_SUPPORT
+ 
+     spec_objs += $(SRC_DIR)/os/linux/cfg80211/cfg80211_scan.o\
+@@ -324,35 +324,35 @@
+ #
+ func_objs :=
+ 
+-ifeq ($(CONFIG_IGMP_SNOOP_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_IGMP_SNOOP_SUPPORT),y)
+     EXTRA_CFLAGS += -DIGMP_SNOOP_SUPPORT
+ 
+     func_objs += $(SRC_EMBEDDED_DIR)/common/igmp_snoop.o
+ endif
+ 
+-ifeq ($(CONFIG_BLOCK_NET_IF),y)
++ifeq ($(CONFIG_MT7663_BLOCK_NET_IF),y)
+     EXTRA_CFLAGS += -DBLOCK_NET_IF
+ 
+     func_objs += $(SRC_EMBEDDED_DIR)/common/netif_block.o
+ endif
+ 
+-ifeq ($(CONFIG_SINGLE_SKU),y)
++ifeq ($(CONFIG_MT7663_SINGLE_SKU),y)
+     EXTRA_CFLAGS += -DSINGLE_SKU
+-    ifeq ($(CONFIG_RALINK_RT6352),y)
++    ifeq ($(CONFIG_MT7663_RALINK_RT6352),y)
+         EXTRA_CFLAGS += -DSINGLE_SKU_V2
+     endif
+ endif
+ 
+-ifeq ($(CONFIG_RT2860V2_AP_VIDEO_TURBINE),y)
++ifeq ($(CONFIG_MT7663_RT2860V2_AP_VIDEO_TURBINE),y)
+     EXTRA_CFLAGS += -DVIDEO_TURBINE_SUPPORT
+ 
+     func_objs += $(SRC_EMBEDDED_DIR)/common/cmm_video.o
+ endif
+ 
+ 
+-ifeq ($(CONFIG_LED_CONTROL_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_LED_CONTROL_SUPPORT),y)
+     EXTRA_CFLAGS += -DLED_CONTROL_SUPPORT
+-    ifeq ($(CONFIG_WSC_INCLUDED),y)
++    ifeq ($(CONFIG_MT7663_WSC_INCLUDED),y)
+         EXTRA_CFLAGS += -DWSC_LED_SUPPORT
+     endif
+ 
+@@ -378,59 +378,59 @@
+ 
+ 
+ # THERMAL
+-ifeq ($(CONFIG_THERMAL_PROTECT_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_THERMAL_PROTECT_SUPPORT),y)
+     EXTRA_CFLAGS += -DTHERMAL_PROTECT_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_ATE_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_ATE_SUPPORT),y)
+     EXTRA_CFLAGS += -DCONFIG_ATE -DCONFIG_QA -DCONFIG_RT2880_ATE_CMD_NEW -DCONFIG_HW_HAL_OFFLOAD  #-DCSD_VERIFICATION -DINTERNAL_CAPTURE_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_ICAP_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_ICAP_SUPPORT),y)
+ 		EXTRA_CFLAGS += -DINTERNAL_CAPTURE_SUPPORT
+ endif
+ 
+ 
+-ifeq ($(CONFIG_RTMP_FLASH_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_RTMP_FLASH_SUPPORT),y)
+     EXTRA_CFLAGS += -DRTMP_FLASH_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_RTMP_TEMPERATURE_TX_ALC),y)
++ifeq ($(CONFIG_MT7663_RTMP_TEMPERATURE_TX_ALC),y)
+     EXTRA_CFLAGS += -DRTMP_TEMPERATURE_TX_ALC
+ endif
+ 
+-ifeq ($(CONFIG_TXBF_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_TXBF_SUPPORT),y)
+     EXTRA_CFLAGS += -DMCS_LUT_SUPPORT -DTXBF_SUPPORT -DVHT_TXBF_SUPPORT
+     sta_objs += $(SRC_DIR)/txbf/cmm_txbf_mt.o\
+                     $(SRC_DIR)/txbf/cmm_txbf_cal_mt.o\
+                     $(SRC_DIR)/txbf/txbf_wrapper_embedded.o
+ endif
+ 
+-ifeq ($(CONFIG_CON_WPS_SUPPORT), y)
++ifeq ($(CONFIG_MT7663_CON_WPS_SUPPORT), y)
+     EXTRA_CFLAGS += -DCON_WPS -DCON_WPS_AP_SAME_UUID
+ endif
+ 
+-ifeq ($(CONFIG_DFS_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_DFS_SUPPORT),y)
+     EXTRA_CFLAGS += -DDFS_SUPPORT
+     EXTRA_CFLAGS += -DDFS_ATP_SUPPORT
+     ap_objs += $(SRC_EMBEDDED_DIR)/common/cmm_dfs.o
+ endif
+ 
+-ifeq ($(CONFIG_RT2860V2_AP_CARRIER),y)
++ifeq ($(CONFIG_MT7663_RT2860V2_AP_CARRIER),y)
+     EXTRA_CFLAGS += -DCARRIER_DETECTION_SUPPORT
+ 
+     ap_objs += $(SRC_EMBEDDED_DIR)/common/cmm_cs.o
+ endif
+ 
+-ifeq ($(CONFIG_RT2860V2_MCAST_RATE_SPECIFIC),y)
++ifeq ($(CONFIG_MT7663_RT2860V2_MCAST_RATE_SPECIFIC),y)
+     EXTRA_CFLAGS += -DMCAST_RATE_SPECIFIC
+ endif
+ 
+-ifeq ($(CONFIG_AIRPLAY_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_AIRPLAY_SUPPORT),y)
+     EXTRA_CFLAGS += -DAIRPLAY_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_ETH_CONVERT_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_ETH_CONVERT_SUPPORT),y)
+     EXTRA_CFLAGS += -DETH_CONVERT_SUPPORT -DMAT_SUPPORT
+     sta_objs += $(SRC_EMBEDDED_DIR)/common/cmm_mat.o\
+     		$(SRC_EMBEDDED_DIR)/common/cmm_mat_iparp.o\
+@@ -448,17 +448,17 @@
+             $(SRC_DIR)/os/linux/rt_main_dev.o\
+             $(SRC_DIR)/os/linux/sta_ioctl.o\
+ 
+-ifeq ($(CONFIG_MULTI_INF_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_MULTI_INF_SUPPORT),y)
+     EXTRA_CFLAGS += -DMULTI_INF_SUPPORT
+ 
+     os_objs += $(SRC_DIR)/os/linux/multi_main_dev.o
+ endif
+ 
+-ifeq ($(CONFIG_WIFI_WORK_QUEUE_BH),y)
++ifeq ($(CONFIG_MT7663_WIFI_WORK_QUEUE_BH),y)
+     EXTRA_CFLAGS += -DWORKQUEUE_BH
+ endif
+ 
+-ifeq ($(CONFIG_KTHREAD),y)
++ifeq ($(CONFIG_MT7663_KTHREAD),y)
+     EXTRA_CFLAGS += -DKTHREAD_SUPPORT
+ endif
+ 
+@@ -477,7 +477,7 @@
+ EXTRA_CFLAGS += -DMCS_LUT_SUPPORT
+ EXTRA_CFLAGS += -DUSE_BMC -DTHERMAL_PROTECT_SUPPORT -DCAL_FREE_IC_SUPPORT
+ 
+-ifeq ($(CONFIG_ATE_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_ATE_SUPPORT),y)
+ chip_objs += $(SRC_DIR)/ate/mt_mac/mt_testmode_smac.o
+ endif
+ 
+@@ -512,7 +512,7 @@
+ #EXTRA_CFLAGS += -DNEED_ROM_PATCH
+ EXTRA_CFLAGS += -DTHERMAL_PROTECT_SUPPORT
+ 
+-ifeq ($(CONFIG_ATE_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_ATE_SUPPORT),y)
+ chip_objs += $(SRC_DIR)/ate/mt_mac/mt_testmode_smac.o
+ endif
+ 
+@@ -547,9 +547,9 @@
+ EXTRA_CFLAGS += -DRTMP_EFUSE_SUPPORT
+ EXTRA_CFLAGS += -DBCN_OFFLOAD_SUPPORT
+ EXTRA_CFLAGS += -DRX_SCATTER
+-ifeq ($(CONFIG_G_BAND_256QAM_SUPPORT), y)
++ifeq ($(CONFIG_MT7663_G_BAND_256QAM_SUPPORT), y)
+ EXTRA_CFLAGS += -DG_BAND_256QAM
+-ifeq ($(CONFIG_BRCM_256QAM_SUPPORT), y)
++ifeq ($(CONFIG_MT7663_BRCM_256QAM_SUPPORT), y)
+ EXTRA_CFLAGS += -DBRCM_256QAM
+ endif
+ endif
+@@ -568,18 +568,18 @@
+ EXTRA_CFLAGS += -DRATE_ADAPTION
+ EXTRA_CFLAGS += -DRATE_ADAPT_AGBS_SUPPORT
+ EXTRA_CFLAGS += -DRACTRL_FW_OFFLOAD_SUPPORT
+-ifeq ($(CONFIG_HDR_TRANS_TX_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_HDR_TRANS_TX_SUPPORT),y)
+ 	EXTRA_CFLAGS += -DHDR_TRANS_TX_SUPPORT -DCUT_THROUGH_FULL_OFFLOAD
+ endif
+-ifeq ($(CONFIG_HDR_TRANS_RX_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_HDR_TRANS_RX_SUPPORT),y)
+ 	EXTRA_CFLAGS += -DHDR_TRANS_RX_SUPPORT
+ endif
+ 
+-#ifeq ($(CONFIG_RATE_ADAPT_AGBS_SUPPORT),y)
++#ifeq ($(CONFIG_MT7663_RATE_ADAPT_AGBS_SUPPORT),y)
+ #	EXTRA_CFLAGS += -DRACTRL_FW_OFFLOAD_SUPPORT
+ #endif
+ 
+-ifeq ($(CONFIG_ATE_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_ATE_SUPPORT),y)
+ chip_objs += $(SRC_DIR)/ate/mt_mac/mt_testmode_dmac.o
+ endif
+ 
+@@ -639,30 +639,30 @@
+ EXTRA_CFLAGS += -DRACTRL_FW_OFFLOAD_SUPPORT
+ CONFIG_PROPRIETART_DRIVER=n
+ 
+-ifeq ($(CONFIG_PLOPRIETART_DRIVER),y)
++ifeq ($(CONFIG_MT7663_PLOPRIETART_DRIVER),y)
+ EXTRA_CFLAGS += -DCONFIG_PROPRIETARY_DRIVER
+ CONFIG_PLATFORM_DRV_SUPPORT=n
+ else
+ CONFIG_PLATFORM_DRV_SUPPORT=y
+ endif
+ 
+-ifeq ($(CONFIG_PLATFORM_DRV_SUPPROT),y)
++ifeq ($(CONFIG_MT7663_PLATFORM_DRV_SUPPROT),y)
+ EXTRA_CFLAGS += -DPLATFORM_DRIVER_SUPPORT
+ endif
+ 
+ EXTRA_CFLAGS += -Werror
+-ifeq ($(CONFIG_HDR_TRANS_TX_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_HDR_TRANS_TX_SUPPORT),y)
+         EXTRA_CFLAGS += -DHDR_TRANS_TX_SUPPORT -DCUT_THROUGH_FULL_OFFLOAD
+ endif
+-ifeq ($(CONFIG_HDR_TRANS_RX_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_HDR_TRANS_RX_SUPPORT),y)
+         EXTRA_CFLAGS += -DHDR_TRANS_RX_SUPPORT
+ endif
+ 
+-#ifeq ($(CONFIG_RATE_ADAPT_AGBS_SUPPORT),y)
++#ifeq ($(CONFIG_MT7663_RATE_ADAPT_AGBS_SUPPORT),y)
+ #        EXTRA_CFLAGS += -DRACTRL_FW_OFFLOAD_SUPPORT
+ #endif
+ 
+-ifeq ($(CONFIG_ATE_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_ATE_SUPPORT),y)
+ chip_objs += $(SRC_DIR)/ate/mt_mac/mt_testmode_dmac.o
+ endif
+ 
+@@ -692,7 +692,7 @@
+                 $(SRC_DIR)/os/linux/rt_rbus_pci_drv.o
+ endif
+ 
+-ifeq ($(CONFIG_RTMP_FLASH_SUPPORT)$(CONFIG_MTD),yy)
++ifeq ($(CONFIG_MT7663_RTMP_FLASH_SUPPORT)$(CONFIG_MTD),yy)
+ ifeq ($(CONFIG_DEFAULTS_KERNEL_4_4),y)
+ ifeq ($(CONFIG_MTD_SPI_NOR),y)
+ EXTRA_CFLAGS += -DCONFIG_WIFI_MTD
+@@ -709,7 +709,7 @@
+ endif
+ 
+ 
+-ifeq ($(CONFIG_PLATFORM_DRV_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_PLATFORM_DRV_SUPPORT),y)
+ chip_objs += $(SRC_DIR)/os/linux/wbsys_main_dev.o
+ else
+ chip_objs += $(SRC_DIR)/os/linux/rbus_prop_dev.o
+@@ -733,7 +733,7 @@
+                     $(SRC_DIR)/os/linux/rt_rbus_pci_drv.o\
+                     $(SRC_DIR)/os/linux/rt_rbus_pci_util.o
+ 
+-ifeq ($(CONFIG_ATE_SUPPORT),y)
++ifeq ($(CONFIG_MT7663_ATE_SUPPORT),y)
+ $(DRV_NAME)-objs += $(SRC_DIR)/ate/ate_agent.o\
+                     $(SRC_DIR)/ate/testmode_ioctl.o\
+ 		    $(SRC_DIR)/ate/mt_mac/mt_testmode.o\
+@@ -755,7 +755,7 @@
+ EXTRA_CFLAGS += -DDOT11_N_SUPPORT -DDOT11N_DRAFT3 -DSTATS_COUNT_SUPPORT
+ # -DIAPP_SUPPORT -DDOT1X_SUPPORT
+ #EXTRA_CFLAGS += -DRALINK_ATE -DRALINK_QA -DCONFIG_RT2880_ATE_CMD_NEW
+-ifneq ($(CONFIG_RA_HW_NAT_WIFI_NEW_ARCH),y)
++ifneq ($(CONFIG_MT7663_RA_HW_NAT_WIFI_NEW_ARCH),y)
+ EXTRA_CFLAGS += -DCONFIG_RA_NAT_NONE
+ endif
+ 
+@@ -766,38 +766,38 @@
+ # use the function to avoid to locate in some noise environments
+ #EXTRA_CFLAGS += -DQLOAD_FUNC_BUSY_TIME_ALARM
+ 
+-ifeq ($(CONFIG_RT2860V2_AUTO_CH_SELECT_ENCANCE),y)
++ifeq ($(CONFIG_MT7663_RT2860V2_AUTO_CH_SELECT_ENCANCE),y)
+ EXTRA_CFLAGS += -DAUTO_CH_SELECT_ENHANCE
+ endif
+ 
+-ifeq ($(CONFIG_RT2860V2_SNMP),y)
++ifeq ($(CONFIG_MT7663_RT2860V2_SNMP),y)
+ EXTRA_CFLAGS += -DSNMP_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_RT2860V2_AP_32B_DESC),y)
++ifeq ($(CONFIG_MT7663_RT2860V2_AP_32B_DESC),y)
+ EXTRA_CFLAGS += -DDESC_32B_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_RT2860V2_HW_ANTENNA_DIVERSITY),y)
++ifeq ($(CONFIG_MT7663_RT2860V2_HW_ANTENNA_DIVERSITY),y)
+ EXTRA_CFLAGS += -DHW_ANTENNA_DIVERSITY_SUPPORT
+ endif
+ 
+-ifeq ($(CONFIG_RT2860V2_EXT_CHANNEL_LIST),y)
++ifeq ($(CONFIG_MT7663_RT2860V2_EXT_CHANNEL_LIST),y)
+ EXTRA_CFLAGS += -DEXT_BUILD_CHANNEL_LIST
+ endif
+ 
+-ifeq ($(CONFIG_MEMORY_OPTIMIZATION),y)
++ifeq ($(CONFIG_MT7663_MEMORY_OPTIMIZATION),y)
+ EXTRA_CFLAGS += -DMEMORY_OPTIMIZATION
+ else
+ #EXTRA_CFLAGS += -DDBG
+ endif
+ EXTRA_CFLAGS += -DDBG
+ 
+-ifeq ($(CONFIG_RTMP_INTERNAL_TX_ALC),y)
++ifeq ($(CONFIG_MT7663_RTMP_INTERNAL_TX_ALC),y)
+ EXTRA_CFLAGS += -DRTMP_INTERNAL_TX_ALC
+ endif
+ 
+-ifeq ($(CONFIG_SUPPORT_DYNAMIC_TXOP),y)
++ifeq ($(CONFIG_MT7663_SUPPORT_DYNAMIC_TXOP),y)
+ EXTRA_CFLAGS += -DTXOP_ARBITER
+ endif
+ 

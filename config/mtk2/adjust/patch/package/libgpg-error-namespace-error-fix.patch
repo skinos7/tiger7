@@ -1,0 +1,171 @@
+diff -uNr libgpg-error-1.12/lang/cl/mkerrcodes.awk libgpg-error-1.12b/lang/cl/mkerrcodes.awk
+--- libgpg-error-1.12/lang/cl/mkerrcodes.awk	2022-01-26 20:37:47.073894513 +0800
++++ libgpg-error-1.12b/lang/cl/mkerrcodes.awk	2022-01-26 20:57:45.994991613 +0800
+@@ -122,7 +122,11 @@
+ }
+ 
+ !header {
+-  sub (/\#.+/, "");
++
++  # modify by dimmalex for compile error
++  sub (/#.+/, "");
++  #sub (/\#.+/, "");
++
+   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
+ 
+   if (/^$/)
+diff -uNr libgpg-error-1.12/src/Makefile.am libgpg-error-1.12b/src/Makefile.am
+--- libgpg-error-1.12/src/Makefile.am	2022-01-26 20:37:47.073894513 +0800
++++ libgpg-error-1.12b/src/Makefile.am	2022-01-26 20:57:45.994991613 +0800
+@@ -183,9 +183,13 @@
+ 	./mkerrcodes | $(AWK) -f $(srcdir)/mkerrcodes2.awk >$@
+ 
+ errnos-sym.h: Makefile mkstrtable.awk errnos.in
++	# modify by dimmalex for compile error
+ 	$(AWK) -f $(srcdir)/mkstrtable.awk -v textidx=2 -v nogettext=1 \
+-		-v prefix=GPG_ERR_ -v namespace=errnos_ \
++		-v prefix=GPG_ERR_ -v pkg_namespace=errnos_ \
+ 		$(srcdir)/errnos.in >$@
++	#$(AWK) -f $(srcdir)/mkstrtable.awk -v textidx=2 -v nogettext=1 \
++	#	-v prefix=GPG_ERR_ -v namespace=errnos_ \
++	#	$(srcdir)/errnos.in >$@
+ 
+ # We depend on versioninfo.rc because that is build by config.status
+ # and thus has up-to-date version numbers.
+diff -uNr libgpg-error-1.12/src/Makefile.in libgpg-error-1.12b/src/Makefile.in
+--- libgpg-error-1.12/src/Makefile.in	2022-01-26 20:37:47.073894513 +0800
++++ libgpg-error-1.12b/src/Makefile.in	2022-01-26 21:08:43.570884782 +0800
+@@ -1017,9 +1017,13 @@
+ 	./mkerrcodes | $(AWK) -f $(srcdir)/mkerrcodes2.awk >$@
+ 
+ errnos-sym.h: Makefile mkstrtable.awk errnos.in
++	# modify by dimmalex
+ 	$(AWK) -f $(srcdir)/mkstrtable.awk -v textidx=2 -v nogettext=1 \
+-		-v prefix=GPG_ERR_ -v namespace=errnos_ \
++		-v prefix=GPG_ERR_ -v pkg_namespace=errnos_ \
+ 		$(srcdir)/errnos.in >$@
++	#$(AWK) -f $(srcdir)/mkstrtable.awk -v textidx=2 -v nogettext=1 \
++	#	-v prefix=GPG_ERR_ -v namespace=errnos_ \
++	#	$(srcdir)/errnos.in >$@
+ 
+ # We depend on versioninfo.rc because that is build by config.status
+ # and thus has up-to-date version numbers.
+diff -uNr libgpg-error-1.12/src/mkerrcodes1.awk libgpg-error-1.12b/src/mkerrcodes1.awk
+--- libgpg-error-1.12/src/mkerrcodes1.awk	2022-01-26 20:37:47.073894513 +0800
++++ libgpg-error-1.12b/src/mkerrcodes1.awk	2022-01-26 20:57:45.990991693 +0800
+@@ -81,7 +81,11 @@
+ }
+ 
+ !header {
+-  sub (/\#.+/, "");
++
++  # modify by dimmalex
++  sub (/#.+/, "");
++  #sub (/\#.+/, "");
++
+   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
+ 
+   if (/^$/)
+diff -uNr libgpg-error-1.12/src/mkerrcodes2.awk libgpg-error-1.12b/src/mkerrcodes2.awk
+--- libgpg-error-1.12/src/mkerrcodes2.awk	2022-01-26 20:37:47.073894513 +0800
++++ libgpg-error-1.12b/src/mkerrcodes2.awk	2022-01-26 20:57:45.990991693 +0800
+@@ -91,7 +91,11 @@
+ }
+ 
+ !header {
+-  sub (/\#.+/, "");
++
++  # modify by dimmalex
++  sub (/#.+/, "");
++  #sub (/\#.+/, "");
++
+   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
+ 
+   if (/^$/)
+diff -uNr libgpg-error-1.12/src/mkerrcodes.awk libgpg-error-1.12b/src/mkerrcodes.awk
+--- libgpg-error-1.12/src/mkerrcodes.awk	2022-01-26 20:37:47.073894513 +0800
++++ libgpg-error-1.12b/src/mkerrcodes.awk	2022-01-26 20:57:45.994991613 +0800
+@@ -85,7 +85,11 @@
+ }
+ 
+ !header {
+-  sub (/\#.+/, "");
++
++  # modify by dimmalex
++  sub (/#.+/, "");
++  #sub (/\#.+/, "");
++
+   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
+ 
+   if (/^$/)
+diff -uNr libgpg-error-1.12/src/mkerrnos.awk libgpg-error-1.12b/src/mkerrnos.awk
+--- libgpg-error-1.12/src/mkerrnos.awk	2022-01-26 20:37:47.073894513 +0800
++++ libgpg-error-1.12b/src/mkerrnos.awk	2022-01-26 20:57:45.990991693 +0800
+@@ -83,7 +83,11 @@
+ }
+ 
+ !header {
+-  sub (/\#.+/, "");
++
++  # modify by dimmalex
++  sub (/#.+/, "");
++  #sub (/\#.+/, "");
++
+   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
+ 
+   if (/^$/)
+diff -uNr libgpg-error-1.12/src/mkstrtable.awk libgpg-error-1.12b/src/mkstrtable.awk
+--- libgpg-error-1.12/src/mkstrtable.awk	2022-01-26 20:37:47.073894513 +0800
++++ libgpg-error-1.12b/src/mkstrtable.awk	2022-01-26 20:57:45.990991693 +0800
+@@ -102,7 +102,11 @@
+       print "/* The purpose of this complex string table is to produce";
+       print "   optimal code with a minimum of relocations.  */";
+       print "";
+-      print "static const char " namespace "msgstr[] = ";
++
++      # modify by dimmalex
++      print "static const char " pkg_namespace "msgstr[] = ";
++      #print "static const char " namespace "msgstr[] = ";
++
+       header = 0;
+     }
+   else
+@@ -110,7 +114,11 @@
+ }
+ 
+ !header {
+-  sub (/\#.+/, "");
++
++  # modify by dimmalex
++  sub (/#.+/, "");
++  #sub (/\#.+/, "");
++
+   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
+ 
+   if (/^$/)
+@@ -150,7 +158,11 @@
+   else
+     print "  gettext_noop (\"" last_msgstr "\");";
+   print "";
+-  print "static const int " namespace "msgidx[] =";
++
++  # modify by dimmalex
++  print "static const int " pkg_namespace "msgidx[] =";
++  #print "static const int " namespace "msgidx[] =";
++
+   print "  {";
+   for (i = 0; i < coded_msgs; i++)
+     print "    " pos[i] ",";
+@@ -158,7 +170,11 @@
+   print "  };";
+   print "";
+   print "static GPG_ERR_INLINE int";
+-  print namespace "msgidxof (int code)";
++
++  # modify by dimmalex
++  print pkg_namespace "msgidxof (int code)";
++  #print namespace "msgidxof (int code)";
++
+   print "{";
+   print "  return (0 ? 0";
+ 

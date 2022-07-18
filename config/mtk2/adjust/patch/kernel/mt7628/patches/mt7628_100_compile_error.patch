@@ -1,0 +1,25 @@
+--- linux-3.10.108.orig/drivers/net/wireless/mtk/mt7628/mt7628_wifi/embedded/mgmt/mgmt_ht.c	2021-12-21 22:24:39.567706183 +0800
++++ linux-3.10.108/drivers/net/wireless/mtk/mt7628/mt7628_wifi/embedded/mgmt/mgmt_ht.c	2021-12-21 22:27:57.162438123 +0800
+@@ -781,6 +781,10 @@
+ 
+ INT	SetCommonHT(RTMP_ADAPTER *pAd)
+ {
++
++    // add by dimmalex for forbids mixed declarations and code
++    UINT apidx;
++
+ 	OID_SET_HT_PHYMODE SetHT;
+ 
+ 	if (!WMODE_CAP_N(pAd->CommonCfg.PhyMode))
+@@ -789,7 +793,10 @@
+ 		RTMPDisableDesiredHtInfo(pAd);
+ 
+ #ifdef APCLI_AUTO_BW_SUPPORT
+-                UINT apidx = 0;
++
++                // comment by dimmalex for forbids mixed declarations and code
++                //UINT apidx = 0;
++
+                 for (apidx = 0; apidx < MAX_APCLI_NUM; apidx++)
+                 {
+                         /* Recover the sub-Device PhyMode when MainPhyInfo clear */

@@ -1,0 +1,39 @@
+diff -uNr miniupnpd-1.8.20130426/miniupnpd.c miniupnpd-1.8.20130426b/miniupnpd.c
+--- miniupnpd-1.8.20130426/miniupnpd.c	2016-08-16 17:45:02.749002700 +0800
++++ miniupnpd-1.8.20130426b/miniupnpd.c	2016-08-16 17:52:31.949002700 +0800
+@@ -1084,14 +1084,18 @@
+ 	}
+ 	else
+ 	{
+-#ifdef USE_DAEMON
+-		if(daemon(0, 0)<0) {
+-			perror("daemon()");
+-		}
++
++/* modify by dimmalex for no backgroud */
+ 		pid = getpid();
+-#else
+-		pid = daemonize();
+-#endif
++//#ifdef USE_DAEMON
++//		if(daemon(0, 0)<0) {
++//			perror("daemon()");
++//		}
++//		pid = getpid();
++//#else
++//		pid = daemonize();
++//#endif
++
+ 	}
+ 
+ 	openlog_option = LOG_PID|LOG_CONS;
+@@ -1108,6 +1112,9 @@
+ 		setlogmask(LOG_UPTO(LOG_NOTICE));
+ 	}
+ 
++/* add by dimmalex for no mess log */
++    setlogmask(LOG_UPTO(LOG_ERR));
++
+ 	if(checkforrunning(pidfilename) < 0)
+ 	{
+ 		syslog(LOG_ERR, "MiniUPnPd is already running. EXITING");

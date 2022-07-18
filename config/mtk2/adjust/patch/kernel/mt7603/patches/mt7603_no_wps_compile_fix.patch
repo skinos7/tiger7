@@ -1,0 +1,76 @@
+diff -uNr linux-3.10.108/drivers/net/wireless/mtk/mt7603/mt7603_wifi/ap/ap_band_steering.c linux-3.10.108b/drivers/net/wireless/mtk/mt7603/mt7603_wifi/ap/ap_band_steering.c
+--- linux-3.10.108/drivers/net/wireless/mtk/mt7603/mt7603_wifi/ap/ap_band_steering.c	2019-02-22 17:01:38.000000000 +0800
++++ linux-3.10.108b/drivers/net/wireless/mtk/mt7603/mt7603_wifi/ap/ap_band_steering.c	2022-01-19 20:28:00.390023605 +0800
+@@ -928,6 +928,9 @@
+ 		}
+ 	}
+ 
++// add by dimmalex for no wps
++#ifdef WSC_AP_SUPPORT
++
+ /* WPS_BandSteering Support */
+ 	{
+ 		PWSC_CTRL pWscControl;
+@@ -960,6 +963,10 @@
+ 		}
+ 	}
+ 
++// add by dimmalex for no wps
++#endif
++
++
+ 	if (table->BndStrgMode == POST_CONNECTION_STEERING)
+ 		return TRUE;
+ 
+@@ -1184,8 +1191,16 @@
+ 			cli_assoc->bVHTCapable = TRUE;
+ #endif
+ 		cli_assoc->Nss = Nss;
++
++// add by dimmalex for no wps
++#ifdef WSC_AP_SUPPORT
++
+ /* WPS_BandSteering Support */
+ 		cli_assoc->bWpsAssoc = ie_list->bWscCapable;
++
++// add by dimmalex for no wps
++#endif
++        
+ #ifdef CONFIG_DOT11V_WNM
+ 		cli_assoc->BTMSupport = pEntry->BssTransitionManmtSupport;
+ #endif
+diff -uNr linux-3.10.108/drivers/net/wireless/mtk/mt7603/mt7603_wifi/ap/apcli_sync.c linux-3.10.108b/drivers/net/wireless/mtk/mt7603/mt7603_wifi/ap/apcli_sync.c
+--- linux-3.10.108/drivers/net/wireless/mtk/mt7603/mt7603_wifi/ap/apcli_sync.c	2019-02-22 17:01:37.000000000 +0800
++++ linux-3.10.108b/drivers/net/wireless/mtk/mt7603/mt7603_wifi/ap/apcli_sync.c	2022-01-19 20:28:17.690290234 +0800
+@@ -1297,8 +1297,15 @@
+ 	UCHAR ssidLen;
+ 	CHAR ssid[MAX_LEN_OF_SSID];
+ 	APCLI_STRUCT *pApCliEntry = NULL;
++
++// add by dimmalex for no wps
++#ifdef WSC_AP_SUPPORT
++
+ 	BOOLEAN bHasWscIe = FALSE;
+ 
++// add by dimmalex for no wps
++#endif
++
+ 	DBGPRINT(RT_DEBUG_TRACE, ("force out a ProbeRequest ...\n"));
+ 
+ 	if (ifIndex >= MAX_APCLI_NUM)
+@@ -1441,8 +1448,15 @@
+ 	UCHAR ssidLen;
+ 	CHAR ssid[MAX_LEN_OF_SSID];
+ 	APCLI_STRUCT *pApCliEntry = NULL;
++
++// add by dimmalex for no wps    
++#ifdef WSC_AP_SUPPORT
++
+ 	BOOLEAN bHasWscIe = FALSE;
+ 
++// add by dimmalex for no wps    
++#endif
++
+ 	DBGPRINT(RT_DEBUG_TRACE, ("force out a ProbeRequest ...\n"));
+ 
+ 	if (ifIndex >= MAX_APCLI_NUM)

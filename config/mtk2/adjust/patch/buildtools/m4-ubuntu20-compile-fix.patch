@@ -1,0 +1,95 @@
+diff -uNr m4-1.4.17/lib/fflush.c m4-1.4.17b/lib/fflush.c
+--- m4-1.4.17/lib/fflush.c	2022-01-07 15:12:25.023233561 +0800
++++ m4-1.4.17b/lib/fflush.c	2022-01-07 15:13:50.380657245 +0800
+@@ -33,7 +33,7 @@
+ #undef fflush
+ 
+ 
+-#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
++#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
+ 
+ /* Clear the stream's ungetc buffer, preserving the value of ftello (fp).  */
+ static void
+@@ -71,7 +71,7 @@
+ 
+ #endif
+ 
+-#if ! (defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */)
++#if ! (defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */)
+ 
+ # if (defined __sferror || defined __DragonFly__) && defined __SNPT /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin */
+ 
+@@ -145,7 +145,7 @@
+   if (stream == NULL || ! freading (stream))
+     return fflush (stream);
+ 
+-#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
++#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
+ 
+   clear_ungetc_buffer_preserving_position (stream);
+ 
+diff -uNr m4-1.4.17/lib/fpurge.c m4-1.4.17b/lib/fpurge.c
+--- m4-1.4.17/lib/fpurge.c	2022-01-07 15:12:25.023233561 +0800
++++ m4-1.4.17b/lib/fpurge.c	2022-01-07 15:13:50.380657245 +0800
+@@ -61,7 +61,7 @@
+   /* Most systems provide FILE as a struct and the necessary bitmask in
+      <stdio.h>, because they need it for implementing getc() and putc() as
+      fast macros.  */
+-# if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
++# if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
+   fp->_IO_read_end = fp->_IO_read_ptr;
+   fp->_IO_write_ptr = fp->_IO_write_base;
+   /* Avoid memory leak when there is an active ungetc buffer.  */
+diff -uNr m4-1.4.17/lib/freadahead.c m4-1.4.17b/lib/freadahead.c
+--- m4-1.4.17/lib/freadahead.c	2022-01-07 15:12:25.023233561 +0800
++++ m4-1.4.17b/lib/freadahead.c	2022-01-07 15:13:50.380657245 +0800
+@@ -25,7 +25,7 @@
+ size_t
+ freadahead (FILE *fp)
+ {
+-#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
++#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
+   if (fp->_IO_write_ptr > fp->_IO_write_base)
+     return 0;
+   return (fp->_IO_read_end - fp->_IO_read_ptr)
+diff -uNr m4-1.4.17/lib/freading.c m4-1.4.17b/lib/freading.c
+--- m4-1.4.17/lib/freading.c	2022-01-07 15:12:25.023233561 +0800
++++ m4-1.4.17b/lib/freading.c	2022-01-07 15:13:50.380657245 +0800
+@@ -31,7 +31,7 @@
+   /* Most systems provide FILE as a struct and the necessary bitmask in
+      <stdio.h>, because they need it for implementing getc() and putc() as
+      fast macros.  */
+-# if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
++# if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
+   return ((fp->_flags & _IO_NO_WRITES) != 0
+           || ((fp->_flags & (_IO_NO_READS | _IO_CURRENTLY_PUTTING)) == 0
+               && fp->_IO_read_base != NULL));
+diff -uNr m4-1.4.17/lib/fseeko.c m4-1.4.17b/lib/fseeko.c
+--- m4-1.4.17/lib/fseeko.c	2022-01-07 15:12:25.023233561 +0800
++++ m4-1.4.17b/lib/fseeko.c	2022-01-07 15:13:50.380657245 +0800
+@@ -47,7 +47,7 @@
+ #endif
+ 
+   /* These tests are based on fpurge.c.  */
+-#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
++#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
+   if (fp->_IO_read_end == fp->_IO_read_ptr
+       && fp->_IO_write_ptr == fp->_IO_write_base
+       && fp->_IO_save_base == NULL)
+@@ -121,7 +121,7 @@
+           return -1;
+         }
+ 
+-#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
++#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
+       fp->_flags &= ~_IO_EOF_SEEN;
+       fp->_offset = pos;
+ #elif defined __sferror || defined __DragonFly__ /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin */
+diff -uNr m4-1.4.17/lib/stdio-impl.h m4-1.4.17b/lib/stdio-impl.h
+--- m4-1.4.17/lib/stdio-impl.h	2022-01-07 15:12:25.023233561 +0800
++++ m4-1.4.17b/lib/stdio-impl.h	2022-01-07 15:13:50.384657311 +0800
+@@ -110,3 +110,4 @@
+ # endif
+ 
+ #endif
++#define _IO_IN_BACKUP 0x100

@@ -1,0 +1,482 @@
+Index: b/drivers/net/wireless/ath/ath10k/core.c
+===================================================================
+--- a/drivers/net/wireless/ath/ath10k/core.c	2020-08-22 09:06:58.234042061 +0800
++++ b/drivers/net/wireless/ath/ath10k/core.c	2020-08-22 10:35:00.328655981 +0800
+@@ -29,6 +29,7 @@
+ #include "htt.h"
+ #include "testmode.h"
+ #include "wmi-ops.h"
++#include "leds.h"
+ 
+ unsigned int ath10k_debug_mask;
+ static unsigned int ath10k_cryptmode_param;
+@@ -53,6 +54,7 @@
+ 		.id = QCA988X_HW_2_0_VERSION,
+ 		.dev_id = QCA988X_2_0_DEVICE_ID,
+ 		.name = "qca988x hw2.0",
++		.led_pin = 1,
+ 		.patch_load_addr = QCA988X_HW_2_0_PATCH_LOAD_ADDR,
+ 		.uart_pin = 7,
+ 		.has_shifted_cc_wraparound = true,
+@@ -939,13 +941,13 @@
+ 		ath10k_err(ar, "failed to create board name: %d", ret);
+ 		return ret;
+ 	}
+-
++#if 0
+ 	ar->bd_api = 2;
+ 	ret = ath10k_core_fetch_board_data_api_n(ar, boardname,
+ 						 ATH10K_BOARD_API2_FILE);
+ 	if (!ret)
+ 		goto success;
+-
++#endif
+ 	ar->bd_api = 1;
+ 	ret = ath10k_core_fetch_board_data_api_1(ar);
+ 	if (ret) {
+@@ -1184,7 +1186,7 @@
+ 	int ret;
+ 
+ 	/* calibration file is optional, don't check for any errors */
+-	ath10k_fetch_cal_file(ar);
++	//modify by qingcheng ath10k_fetch_cal_file(ar);
+ 
+ 	ar->fw_api = 5;
+ 	ath10k_dbg(ar, ATH10K_DBG_BOOT, "trying fw api %d\n", ar->fw_api);
+@@ -1704,6 +1706,10 @@
+ 
+ 	INIT_LIST_HEAD(&ar->arvifs);
+ 
++	status = ath10k_leds_start(ar);
++	if (status) {
++		ath10k_err(ar, "ath10k leds start error\n");
++	}
+ 	return 0;
+ 
+ err_hif_stop:
+@@ -1891,7 +1897,13 @@
+ 		goto err_spectral_destroy;
+ 	}
+ 
++	status = ath10k_leds_register(ar);
++	if (status) {
++		ath10k_err(ar, "could not register leds\n");
++	}
++
+ 	set_bit(ATH10K_FLAG_CORE_REGISTERED, &ar->dev_flags);
++
+ 	return;
+ 
+ err_spectral_destroy:
+@@ -1935,6 +1947,8 @@
+ 	if (!test_bit(ATH10K_FLAG_CORE_REGISTERED, &ar->dev_flags))
+ 		return;
+ 
++	ath10k_leds_unregister(ar);
++
+ 	ath10k_thermal_unregister(ar);
+ 	/* Stop spectral before unregistering from mac80211 to remove the
+ 	 * relayfs debugfs file cleanly. Otherwise the parent debugfs tree
+Index: b/drivers/net/wireless/ath/ath10k/core.h
+===================================================================
+--- a/drivers/net/wireless/ath/ath10k/core.h	2020-08-22 09:06:58.234042061 +0800
++++ b/drivers/net/wireless/ath/ath10k/core.h	2020-08-22 09:24:27.719055212 +0800
+@@ -22,6 +22,7 @@
+ #include <linux/if_ether.h>
+ #include <linux/types.h>
+ #include <linux/pci.h>
++#include <linux/leds.h>
+ #include <linux/uuid.h>
+ #include <linux/time.h>
+ 
+@@ -641,6 +642,7 @@
+ 		const char *name;
+ 		u32 patch_load_addr;
+ 		int uart_pin;
++		int led_pin;
+ 		u32 otp_exe_param;
+ 
+ 		/* This is true if given HW chip has a quirky Cycle Counter
+@@ -793,6 +795,12 @@
+ 	struct work_struct wmi_mgmt_tx_work;
+ 	struct sk_buff_head wmi_mgmt_tx_queue;
+ 
++	struct {
++		struct gpio_led wifi_led;
++		struct led_classdev cdev;
++		char label[48];
++		u32 gpio_state_pin; 
++	} leds;
+ 	enum ath10k_state state;
+ 
+ 	struct work_struct register_work;
+@@ -814,6 +822,8 @@
+ 
+ 	struct dfs_pattern_detector *dfs_detector;
+ 
++	const char *led_default_trigger;
++
+ 	unsigned long tx_paused; /* see ATH10K_TX_PAUSE_ */
+ 
+ #ifdef CPTCFG_ATH10K_DEBUGFS
+Index: b/drivers/net/wireless/ath/ath10k/mac.c
+===================================================================
+--- a/drivers/net/wireless/ath/ath10k/mac.c	2020-08-22 09:06:58.234042061 +0800
++++ b/drivers/net/wireless/ath/ath10k/mac.c	2020-08-22 09:28:05.005743309 +0800
+@@ -7373,7 +7373,7 @@
+ 	ar->hw->wiphy->n_cipher_suites = ARRAY_SIZE(cipher_suites);
+ 
+ #if CPTCFG_MAC80211_LEDS
+-	ieee80211_create_tpt_led_trigger(ar->hw,
++	ar->led_default_trigger = ieee80211_create_tpt_led_trigger(ar->hw,
+ 		IEEE80211_TPT_LEDTRIG_FL_RADIO, ath10k_tpt_blink,
+ 		ARRAY_SIZE(ath10k_tpt_blink));
+ #endif
+Index: b/drivers/net/wireless/ath/ath10k/wmi.c
+===================================================================
+--- a/drivers/net/wireless/ath/ath10k/wmi.c	2020-08-22 09:06:58.238042154 +0800
++++ b/drivers/net/wireless/ath/ath10k/wmi.c	2020-08-22 10:01:22.583294173 +0800
+@@ -6235,6 +6235,53 @@
+ }
+ 
+ static struct sk_buff *
++ath10k_wmi_op_gen_gpio_config(struct ath10k *ar,
++						     u32 gpio_num, u32 input,
++						     u32 pull_type, u32 intr_mode)
++{
++	struct wmi_gpio_config_cmd *cmd;
++	struct sk_buff *skb;
++
++	skb = ath10k_wmi_alloc_skb(ar, sizeof(*cmd));
++	if (!skb)
++		return ERR_PTR(-ENOMEM);
++
++	cmd = (struct wmi_gpio_config_cmd *)skb->data;
++	cmd->pull_type = __cpu_to_le32(pull_type);
++	cmd->gpio_num = __cpu_to_le32(gpio_num);
++	cmd->input = __cpu_to_le32(input);
++	cmd->intr_mode = __cpu_to_le32(intr_mode);
++
++	ath10k_dbg(ar, ATH10K_DBG_WMI, "wmi gpio_config gpio_num 0x%08x input 0x%08x pull_type 0x%08x intr_mode 0x%08x\n",
++		   gpio_num, input, pull_type, intr_mode);
++
++	return skb;
++}
++
++static struct sk_buff 
++*ath10k_wmi_op_gen_gpio_output(struct ath10k *ar,
++						     u32 gpio_num, u32 set)
++{
++	struct wmi_gpio_output_cmd *cmd;
++	struct sk_buff *skb;
++
++	skb = ath10k_wmi_alloc_skb(ar, sizeof(*cmd));
++	if (!skb)
++		return ERR_PTR(-ENOMEM);
++
++	cmd = (struct wmi_gpio_output_cmd *)skb->data;
++	cmd->gpio_num = __cpu_to_le32(gpio_num);
++	cmd->set = __cpu_to_le32(set);
++
++	ath10k_dbg(ar, ATH10K_DBG_WMI, "wmi gpio_output gpio_num 0x%08x set 0x%08x\n",
++		   gpio_num, set);
++
++	return skb;
++}
++
++
++
++static struct sk_buff *
+ ath10k_wmi_op_gen_set_psmode(struct ath10k *ar, u32 vdev_id,
+ 			     enum wmi_sta_ps_mode psmode)
+ {
+@@ -7410,6 +7457,8 @@
+ 	.gen_addba_set_resp = ath10k_wmi_op_gen_addba_set_resp,
+ 	.gen_delba_send = ath10k_wmi_op_gen_delba_send,
+ 	.fw_stats_fill = ath10k_wmi_main_op_fw_stats_fill,
++	.gen_gpio_config = ath10k_wmi_op_gen_gpio_config,
++	.gen_gpio_output = ath10k_wmi_op_gen_gpio_output,
+ 	/* .gen_bcn_tmpl not implemented */
+ 	/* .gen_prb_tmpl not implemented */
+ 	/* .gen_p2p_go_bcn_ie not implemented */
+@@ -7477,6 +7526,8 @@
+ 	.gen_addba_set_resp = ath10k_wmi_op_gen_addba_set_resp,
+ 	.gen_delba_send = ath10k_wmi_op_gen_delba_send,
+ 	.fw_stats_fill = ath10k_wmi_10x_op_fw_stats_fill,
++	.gen_gpio_config = ath10k_wmi_op_gen_gpio_config,
++	.gen_gpio_output = ath10k_wmi_op_gen_gpio_output,
+ 	/* .gen_bcn_tmpl not implemented */
+ 	/* .gen_prb_tmpl not implemented */
+ 	/* .gen_p2p_go_bcn_ie not implemented */
+@@ -7545,6 +7596,8 @@
+ 	.gen_addba_set_resp = ath10k_wmi_op_gen_addba_set_resp,
+ 	.gen_delba_send = ath10k_wmi_op_gen_delba_send,
+ 	.fw_stats_fill = ath10k_wmi_10x_op_fw_stats_fill,
++	.gen_gpio_config = ath10k_wmi_op_gen_gpio_config,
++	.gen_gpio_output = ath10k_wmi_op_gen_gpio_output,
+ 	/* .gen_pdev_enable_adaptive_cca not implemented */
+ };
+ 
+@@ -7611,6 +7664,8 @@
+ 	.fw_stats_fill = ath10k_wmi_10x_op_fw_stats_fill,
+ 	.gen_pdev_enable_adaptive_cca =
+ 		ath10k_wmi_op_gen_pdev_enable_adaptive_cca,
++	.gen_gpio_config = ath10k_wmi_op_gen_gpio_config,
++	.gen_gpio_output = ath10k_wmi_op_gen_gpio_output,
+ 	/* .gen_bcn_tmpl not implemented */
+ 	/* .gen_prb_tmpl not implemented */
+ 	/* .gen_p2p_go_bcn_ie not implemented */
+@@ -7677,6 +7732,8 @@
+ 	/* shared with 10.2 */
+ 	.gen_request_stats = ath10k_wmi_op_gen_request_stats,
+ 	.gen_pdev_get_temperature = ath10k_wmi_10_2_op_gen_pdev_get_temperature,
++	.gen_gpio_config = ath10k_wmi_op_gen_gpio_config,
++	.gen_gpio_output = ath10k_wmi_op_gen_gpio_output,
+ };
+ 
+ int ath10k_wmi_attach(struct ath10k *ar)
+Index: b/drivers/net/wireless/ath/ath10k/wmi.h
+===================================================================
+--- a/drivers/net/wireless/ath/ath10k/wmi.h	2020-08-22 09:06:58.238042154 +0800
++++ b/drivers/net/wireless/ath/ath10k/wmi.h	2020-08-22 09:33:24.903146622 +0800
+@@ -6010,6 +6010,38 @@
+ 	__le32 config_valid;
+ } __packed;
+ 
++enum {
++	WMI_GPIO_PULL_NONE,
++	WMI_GPIO_PULL_UP,
++	WMI_GPIO_PULL_DOWN,
++};
++
++enum {
++	WMI_GPIO_INTTYPE_DISABLE,
++	WMI_GPIO_INTTYPE_RISING_EDGE,
++	WMI_GPIO_INTTYPE_FALLING_EDGE,
++	WMI_GPIO_INTTYPE_BOTH_EDGE,
++	WMI_GPIO_INTTYPE_LEVEL_LOW,
++	WMI_GPIO_INTTYPE_LEVEL_HIGH
++};
++
++/* WMI_GPIO_CONFIG_CMDID */
++struct wmi_gpio_config_cmd {   
++	__le32 gpio_num;             /* GPIO number to be setup */  
++	__le32 input;                /* 0 - Output/ 1 - Input */ 
++	__le32 pull_type;            /* Pull type defined above */  
++	__le32 intr_mode;            /* Interrupt mode defined above (Input) */  
++}  __packed;
++
++/* WMI_GPIO_OUTPUT_CMDID */       
++struct wmi_gpio_output_cmd {     
++    __le32 gpio_num;    /* GPIO number to be setup */
++    __le32 set;         /* Set the GPIO pin*/ 
++} __packed;
++
++
++
++
+ enum wmi_roam_reason {
+ 	WMI_ROAM_REASON_BETTER_AP = 1,
+ 	WMI_ROAM_REASON_BEACON_MISS = 2,
+Index: b/drivers/net/wireless/ath/ath10k/wmi-ops.h
+===================================================================
+--- a/drivers/net/wireless/ath/ath10k/wmi-ops.h	2020-08-22 09:06:58.238042154 +0800
++++ b/drivers/net/wireless/ath/ath10k/wmi-ops.h	2020-08-22 09:41:56.413610950 +0800
+@@ -186,6 +186,12 @@
+ 							u8 enable,
+ 							u32 detect_level,
+ 							u32 detect_margin);
++
++	struct sk_buff *(*gen_gpio_config)(struct ath10k *ar, u32 gpio_num,
++					   u32 input, u32 pull_type, u32 intr_mode);
++
++	struct sk_buff *(*gen_gpio_output)(struct ath10k *ar, u32 gpio_num, u32 set);
++
+ };
+ 
+ int ath10k_wmi_cmd_send(struct ath10k *ar, struct sk_buff *skb, u32 cmd_id);
+@@ -923,6 +929,35 @@
+ 	return ath10k_wmi_cmd_send(ar, skb, ar->wmi.cmd->force_fw_hang_cmdid);
+ }
+ 
++static inline int ath10k_wmi_gpio_config(struct ath10k *ar, u32 gpio_num,
++					 u32 input, u32 pull_type, u32 intr_mode)
++{
++	struct sk_buff *skb;
++
++	if (!ar->wmi.ops->gen_gpio_config)
++		return -EOPNOTSUPP;
++
++	skb = ar->wmi.ops->gen_gpio_config(ar, gpio_num, input, pull_type, intr_mode);
++	if (IS_ERR(skb))
++		return PTR_ERR(skb);
++
++	return ath10k_wmi_cmd_send(ar, skb, ar->wmi.cmd->gpio_config_cmdid);
++}
++
++static inline int ath10k_wmi_gpio_output(struct ath10k *ar, u32 gpio_num, u32 set)
++{
++	struct sk_buff *skb;
++
++	if (!ar->wmi.ops->gen_gpio_output)
++		return -EOPNOTSUPP;
++
++	skb = ar->wmi.ops->gen_gpio_output(ar, gpio_num, set);
++	if (IS_ERR(skb))
++		return PTR_ERR(skb);
++
++	return ath10k_wmi_cmd_send(ar, skb, ar->wmi.cmd->gpio_output_cmdid);
++}
++
+ static inline int
+ ath10k_wmi_dbglog_cfg(struct ath10k *ar, u32 module_enable, u32 log_level)
+ {
+Index: b/drivers/net/wireless/ath/ath10k/Makefile
+===================================================================
+--- a/drivers/net/wireless/ath/ath10k/Makefile	2020-08-22 09:06:58.234042061 +0800
++++ b/drivers/net/wireless/ath/ath10k/Makefile	2020-08-22 09:28:32.798577885 +0800
+@@ -12,7 +12,8 @@
+ 		 bmi.o \
+ 		 hw.o \
+ 		 p2p.o \
+-		 swap.o
++		 swap.o \
++		 leds.o
+ 
+ ath10k_core-$(CPTCFG_ATH10K_DEBUGFS) += spectral.o
+ ath10k_core-$(CPTCFG_NL80211_TESTMODE) += testmode.o
+Index: b/drivers/net/wireless/ath/ath10k/leds.c
+===================================================================
+--- a/drivers/net/wireless/ath/ath10k/leds.c	1970-01-01 08:00:00.000000000 +0800
++++ b/drivers/net/wireless/ath/ath10k/leds.c	2020-08-22 10:13:53.589150014 +0800
+@@ -0,0 +1,101 @@
++/*
++ * Copyright (c) 2005-2011 Atheros Communications Inc.
++ * Copyright (c) 2011-2017 Qualcomm Atheros, Inc.
++ * Copyright (c) 2018 Sebastian Gottschall <s.gottschall@dd-wrt.com>
++ * Copyright (c) 2018, The Linux Foundation. All rights reserved.
++ *
++ * Permission to use, copy, modify, and/or distribute this software for any
++ * purpose with or without fee is hereby granted, provided that the above
++ * copyright notice and this permission notice appear in all copies.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
++ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
++ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
++ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
++ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
++ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
++ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
++ */
++
++#include <linux/leds.h>
++
++#include "core.h"
++#include "wmi.h"
++#include "wmi-ops.h"
++
++#include "leds.h"
++
++static int ath10k_leds_set_brightness_blocking(struct led_classdev *led_cdev,
++					       enum led_brightness brightness)
++{
++	struct ath10k *ar = container_of(led_cdev, struct ath10k,
++					 leds.cdev);
++	struct gpio_led *led = &ar->leds.wifi_led;
++
++	mutex_lock(&ar->conf_mutex);
++
++	if (ar->state != ATH10K_STATE_ON)
++		goto out;
++
++	ar->leds.gpio_state_pin = (brightness != LED_OFF) ^ led->active_low;
++	ath10k_wmi_gpio_output(ar, led->gpio, ar->leds.gpio_state_pin);
++
++out:
++	mutex_unlock(&ar->conf_mutex);
++
++	return 0;
++}
++
++int ath10k_leds_start(struct ath10k *ar)
++{
++	if (ar->hw_params.led_pin == 0)
++		/* leds not supported */
++		return 0;
++
++	/* under some circumstances, the gpio pin gets reconfigured
++	 * to default state by the firmware, so we need to
++	 * reconfigure it this behaviour has only ben seen on
++	 * QCA9984 and QCA99XX devices so far
++	 */
++	ath10k_wmi_gpio_config(ar, ar->hw_params.led_pin, 0,
++			       WMI_GPIO_PULL_NONE, WMI_GPIO_INTTYPE_DISABLE);
++	ath10k_wmi_gpio_output(ar, ar->hw_params.led_pin, 1);
++
++	return 0;
++}
++
++int ath10k_leds_register(struct ath10k *ar)
++{
++	int ret;
++
++	if (ar->hw_params.led_pin == 0)
++		/* leds not supported */
++		return 0;
++
++	snprintf(ar->leds.label, sizeof(ar->leds.label), "ath10k-%s",
++		 wiphy_name(ar->hw->wiphy));
++	ar->leds.wifi_led.active_low = 1;
++	ar->leds.wifi_led.gpio = ar->hw_params.led_pin;
++	ar->leds.wifi_led.name = ar->leds.label;
++	ar->leds.wifi_led.default_state = LEDS_GPIO_DEFSTATE_KEEP;
++
++	ar->leds.cdev.name = ar->leds.label;
++	ar->leds.cdev.brightness_set = ath10k_leds_set_brightness_blocking;
++	ar->leds.cdev.default_trigger = ar->led_default_trigger;
++
++	ret = led_classdev_register(wiphy_dev(ar->hw->wiphy), &ar->leds.cdev);
++	if (ret)
++		return ret;
++
++	return 0;
++}
++
++void ath10k_leds_unregister(struct ath10k *ar)
++{
++	if (ar->hw_params.led_pin == 0)
++		/* leds not supported */
++		return;
++
++	led_classdev_unregister(&ar->leds.cdev);
++}
++
+Index: b/drivers/net/wireless/ath/ath10k/leds.h
+===================================================================
+--- a/drivers/net/wireless/ath/ath10k/leds.h	1970-01-01 08:00:00.000000000 +0800
++++ b/drivers/net/wireless/ath/ath10k/leds.h	2020-08-22 09:10:59.908660166 +0800
+@@ -0,0 +1,24 @@
++/*
++ * Copyright (c) 2018, The Linux Foundation. All rights reserved.
++ *
++ * Permission to use, copy, modify, and/or distribute this software for any
++ * purpose with or without fee is hereby granted, provided that the above
++ * copyright notice and this permission notice appear in all copies.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
++ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
++ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
++ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
++ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
++ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
++ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
++ */
++#ifndef _LEDS_H_
++#define _LEDS_H_
++
++#include "core.h"
++
++void ath10k_leds_unregister(struct ath10k *ar);
++int ath10k_leds_start(struct ath10k *ar);
++int ath10k_leds_register(struct ath10k *ar);
++#endif /* _LEDS_H_ */
