@@ -1,5 +1,6 @@
 route uri=/api/
 route uri=/assets/
+route uri=/cfg/
 route uri=/lang/
 route uri=/pub/ handler=jst
 route uri=/login.html handler=jst

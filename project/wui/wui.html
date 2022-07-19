@@ -17,6 +17,41 @@
 
       <div id="statusSets">
       
+        <!-- 开启HTTP -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Enable HTTP"></label>
+          <div class="col-sm-9">
+            <label>
+              <input id="port_status" class="ace ace-switch ace-switch-6" type="checkbox" />
+              <span class="lbl"></span>
+            </label>
+          </div>
+        </div>
+        <div class="form-group" id="portSets" >
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Port"></label>
+            <div class="col-sm-9">
+              <input type="text" id="port" class="col-xs-10 col-sm-5" maxlength="128" />
+            </div>
+        </div>
+
+        <!-- 开启HTTPS -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Enable HTTPS"></label>
+          <div class="col-sm-9">
+            <label>
+              <input id="sslport_status" class="ace ace-switch ace-switch-6" type="checkbox" />
+              <span class="lbl"></span>
+            </label>
+          </div>
+        </div>
+        <div class="form-group" id="sslportSets" >
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="SSL Port"></label>
+            <div class="col-sm-9">
+              <input type="text" id="sslport" class="col-xs-10 col-sm-5" maxlength="128" />
+            </div>
+        </div>
+
+
         <!-- 指定地址访问 -->
         <div class="form-group">
           <label class="col-sm-3 control-label no-padding-right" data-i18n="Designated Address Access"></label>
@@ -33,14 +68,12 @@
               <textarea type="text" id="manager" class="col-xs-10 col-sm-5" maxlength="1024" />
             </div>
         </div>
+        
 
-        <!-- 端口 -->
-        <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" data-i18n="Port"></label>
-          <div class="col-sm-9">
-            <input type="text" id="port" class="col-xs-10 col-sm-5" maxlength="128" />
-          </div>
-        </div>
+
+
+
+
       </div>
 
       <div class="clearfix form-actions">
@@ -71,17 +104,8 @@
     {
         he.load( [ object ] ).then( function(v){
             config = v[0];
+
             $('#status').prop('checked', able2boole(config.status));
-            $('#port').val(config.port || '');
-            $('#manager').val( config.manager||"" );
-            if ( config.manager )
-            {
-                $('#manager_status').prop('checked', true );
-            }
-            else
-            {
-                $('#manager_status').prop('checked', false );
-            }
             $('#status').unbind('change').change(function () {
                 if ($(this).prop('checked'))
                 {
@@ -92,6 +116,56 @@
                     $('#statusSets').hide();
                 }
             }).trigger('change');
+            
+            $('#port').val( config.port||"" );
+            if ( config.port )
+            {
+                $('#port_status').prop('checked', true );
+            }
+            else
+            {
+                $('#port_status').prop('checked', false );
+            }
+            $('#port_status').unbind('change').change(function () {
+                if ($(this).prop('checked'))
+                {
+                    $('#portSets').show();
+                }
+                else
+                {
+                    $('#portSets').hide();
+                }
+            }).trigger('change');
+
+            $('#sslport').val( config.sslport||"" );
+            if ( config.sslport )
+            {
+                $('#sslport_status').prop('checked', true );
+            }
+            else
+            {
+                $('#sslport_status').prop('checked', false );
+            }
+            $('#sslport_status').unbind('change').change(function () {
+                if ($(this).prop('checked'))
+                {
+                    $('#sslportSets').show();
+                }
+                else
+                {
+                    $('#sslportSets').hide();
+                }
+            }).trigger('change');
+
+            $('#manager').val( config.manager||"" );
+            if ( config.manager )
+            {
+                $('#manager_status').prop('checked', true );
+            }
+            else
+            {
+                $('#manager_status').prop('checked', false );
+            }
             $('#manager_status').unbind('change').change(function () {
                 if ($(this).prop('checked'))
                 {
@@ -102,6 +176,7 @@
                     $('#managerSets').hide();
                 }
             }).trigger('change');
+
         });
     }
     function save_config()
@@ -115,7 +190,22 @@
         config.status = boole2able( $('#status').prop('checked') );
         if ( config.status == "enable" )
         {
-            config.port = $('#port').val();
+            if ( $('#port_status').prop('checked') == true )
+            {
+                config.port = $('#port').val();
+            }
+            else
+            {
+                delete config.port;
+            }
+            if ( $('#sslport_status').prop('checked') == true )
+            {
+                config.sslport = $('#sslport').val();
+            }
+            else
+            {
+                delete config.sslport;
+            }
             if ( $('#manager_status').prop('checked') == true )
             {
                 config.manager = $('#manager').val();

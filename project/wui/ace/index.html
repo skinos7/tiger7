@@ -218,7 +218,7 @@
                 </td>
                 <td width="150px">
                     <table width="100%"  style="border:5px solid #ffffff;" >
-                        <tr><th data-i18n="Model"></th><td id="model"></td></tr>
+                        <tr><th data-i18n="Model"></th><td id="cmodel"></td></tr>
                         <tr><th data-i18n="Version"></th><td id="version"></td></tr>
                     </table>
                 </td>
@@ -381,16 +381,17 @@
 			ace.demo.functions.enableDemoAjax= function () {};
             if ( window.wui && window.wui.logo_file )
             {
-                var stamp = '<img src="/assets/css/' + window.wui.logo_file + '" width="' + (window.wui.logo_width || '180px') + '" height="' + (window.wui.logo_height || '100px') + '" /></div>';
+                var stamp = '<img src="' + window.wui.logo_file + '" width="' + (window.wui.logo_width || '180px') + '" height="' + (window.wui.logo_height || '100px') + '" /></div>';
                 $('#logo_img').append(stamp);
                 if ( window.wui.logo_title )
                 {
                     $('#logo_title').append( window.wui.logo_title );
                 }
-                $('#model').text( window.machine_status.model );
+                $('#cmodel').text( window.machine_status.cmodel );
                 $('#version').text( window.machine_status.version );
                 $('#logo').show();
                 $('#sidebar-shortcuts').hide();
+                $("#copywrong").hide();
             }
 			else
 			{

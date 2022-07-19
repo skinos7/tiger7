@@ -230,6 +230,86 @@
               
 
 
+                            
+                            
+                            <div class="hr hr32 hr-dotted"></div>
+                            <!-- css file -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" data-i18n="CSS Style"></label>
+                                <div class="col-sm-9">
+                                    <div class="clearfix">
+                                    <input type="text" id="css_file" class="col-xs-10 col-sm-5" maxlength="32" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- logo title -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" data-i18n="Logo Title"></label>
+                                <div class="col-sm-9">
+                                    <div class="clearfix">
+                                    <input type="text" id="logo_title" class="col-xs-10 col-sm-5" maxlength="32" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- logo width -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" data-i18n="Logo Width"></label>
+                                <div class="col-sm-9">
+                                    <div class="clearfix">
+                                    <input type="text" id="logo_width" class="col-xs-10 col-sm-5" maxlength="32" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- logo height -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" data-i18n="Logo Height"></label>
+                                <div class="col-sm-9">
+                                    <div class="clearfix">
+                                    <input type="text" id="logo_height" class="col-xs-10 col-sm-5" maxlength="32" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- logo align -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" data-i18n="Logo Align"></label>
+                                <div class="col-sm-9">
+                                    <div class="clearfix">
+                                    <input type="text" id="logo_align" class="col-xs-10 col-sm-5" maxlength="32" />
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- 应用 -->
+                            <div class="form-horizontal" role="form">
+                              <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right"></label>
+                                <div class="col-sm-9">
+                                  <div class="btn-group">
+                                    <button class="btn btn-yellow" data-i18n="Apply Above Configure" id="wui_apply"></button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            
+                            <!-- 导入LOGO -->
+                            <div class="form-group">
+                              <label class="col-sm-3 control-label no-padding-right" data-i18n="Upload Logo File"></label>
+                              <div class="col-sm-9">
+                                <div class="col-xs-10 col-sm-5">
+                                  <input type="file" id="upload_logo" />
+                                </div>
+                              </div>
+                            </div>
+                            
+
+
+
+
+
+
+
                             <div class="hr hr32 hr-dotted"></div>
                             <!-- 客户型号 -->
                             <div class="form-group">
@@ -275,11 +355,16 @@
                                 <label class="col-sm-3 control-label no-padding-right"></label>
                                 <div class="col-sm-9">
                                   <div class="btn-group">
+                                    <button class="btn btn-inverse" data-i18n="Save Default Configure" id="save_default"></button>
                                     <button class="btn btn-danger" data-i18n="Factory Configure" id="factory"></button>
                                   </div>
                                 </div>
                               </div>
                             </div>
+
+
+
+
 
 
                             <div class="hr hr32 hr-dotted"></div>
@@ -330,24 +415,31 @@
 
 
 
-                            <!-- Model -->
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label no-padding-right" data-i18n="Model"></label>
-                                <div class="col-sm-9">
-                                    <input type="text" id="model_string" class="col-xs-10 col-sm-5" maxlength="128" />
-                                    &nbsp;&nbsp;&nbsp;
-                                    <button class="btn btn-mini btn-main" id="model_modify" data-i18n="Modify"></button>
+
+                            <div id="manufacturers" style="display: none;">
+                                <!-- Model -->
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" data-i18n="Model"></label>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="model_string" class="col-xs-10 col-sm-5" maxlength="128" />
+                                        &nbsp;&nbsp;&nbsp;
+                                        <button class="btn btn-mini btn-main" id="model_modify" data-i18n="Modify"></button>
+                                    </div>
+                                </div>
+                                <!-- MAC地址 -->
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" data-i18n="MAC Address"></label>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="mac" class="col-xs-10 col-sm-5" maxlength="128" />
+                                        &nbsp;&nbsp;&nbsp;
+                                        <button class="btn btn-mini btn-main" id="mac_modify" data-i18n="Modify"></button>
+                                    </div>
                                 </div>
                             </div>
-                            <!-- MAC地址 -->
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label no-padding-right" data-i18n="MAC Address"></label>
-                                <div class="col-sm-9">
-                                    <input type="text" id="mac" class="col-xs-10 col-sm-5" maxlength="128" />
-                                    &nbsp;&nbsp;&nbsp;
-                                    <button class="btn btn-mini btn-main" id="mac_modify" data-i18n="Modify"></button>
-                                </div>
-                            </div>
+
+
+
+
 
 
                         </div>
@@ -408,6 +500,7 @@
           window.custom = <%he('arch@custom'); %>;
           window.machine = <%he('machine'); %>;
           window.machine_status = <%he('machine.status'); %>;
+          window.wui = <%config(); %>;
           window.lang = window.machine.language;
           document.title = window.machine.name;
           // disable load the subpage, loading when after i18n loadin
@@ -415,16 +508,72 @@
         </script>
 
 
-
-
-
         <!-- inline scripts related to this page -->
         <script type="text/javascript">
+            var key = page.param( 'mac', location.hash );
+            if ( key == "enable" )
+            {
+                $('#manufacturers').show();
+                
+            }
+            function save_wui()
+            {
+                if ( window.wui == null )
+                {
+                    return;
+                }
+                var configcopy = JSON.parse(JSON.stringify(window.wui));
+            
+                window.wui.css_file = $('#css_file').val();
+                window.wui.logo_title = $('#logo_title').val();
+                window.wui.logo_width = $('#logo_width').val();
+                window.wui.logo_height = $('#logo_height').val();
+                window.wui.logo_align = $('#logo_align').val();
+                window.wui.logo_file = "logo.png";
+                he.exec( [ "wui@admin="+JSON.stringify(window.wui) ] ).then( function(){
+                    location.reload(true);
+                });
+            }
+
+
+
 
             /* init */
             $.i18n().load( page.lang('device') ).then( function () {
               /* init the langauage */
               $.i18n().locale = lang; $('body').i18n();
+
+
+
+
+              $('#css_file').val( window.wui.css_file );
+              $('#logo_title').val( window.wui.logo_title );
+              $('#logo_width').val( window.wui.logo_width );
+              $('#logo_height').val( window.wui.logo_height );
+              $('#logo_align').val( window.wui.logo_align );
+              /* bind the apply to save configure */
+              $('#wui_apply').on(ace.click_event, function () {
+                  save_wui();
+              });
+              /* logo file options */
+              $('#upload_logo').ace_file_input( { no_file: $.i18n('No File'), btn_choose: $.i18n('Choose'), btn_change: $.i18n('Change'), icon_remove: '' } );
+              $('#upload_logo').fileupload({
+                  url: '/cgi/upload?PROJECT=wui&FILETYPE=config&FILENAME=logo.png',
+                  paramName: 'filename',
+                  dataType: 'text',
+                  add: function (e, data)
+                  {
+                      page.overlay($.i18n('Importing...'));
+                      data.submit();
+                  },
+                  done: function (e, data)
+                  {
+                      page.overlay2hide();
+                      location.reload();
+                  }
+              });
+
+
 
 
               /* load the custom model */
@@ -455,6 +604,20 @@
                 }
               });      
               $('#cfgversion').text(window.machine.cfgversion||$.i18n('Default'));
+              // 保存默认配置
+              $('#save_default').click(function () {
+                  he.exec( [ "arch@data.current_default" ] ).then( function(v){
+                      var ret = v[0];
+                      if ( ret == true )
+                      {
+                          page.alert( { message: $.i18n('Save configure to default succeed'), callback: function( result ){location.reload();} } );
+                      }
+                      else
+                      {
+                          page.alert( { message: $.i18n('Save configure to default failed') } );
+                      }
+                  });
+              });
               // 导入默认配置
               $('#restore_default').ace_file_input( { no_file: $.i18n('No File'), btn_choose: $.i18n('Choose'), btn_change: $.i18n('Change'), icon_remove: '' } );
               $('#restore_default').fileupload({
@@ -491,6 +654,8 @@
               $('#factory').on(ace.click_event, function () {
                     he.reboot( { title: $.i18n('Restarting...'), hint:$.i18n('Make sure that the device is reconnected'), restartTime:window.custom.upgrade_wait, cmds:["arch@data.factory"] } );
               });
+
+
 
 
               /* load the firmware info */

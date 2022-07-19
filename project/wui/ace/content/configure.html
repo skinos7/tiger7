@@ -7,62 +7,64 @@
 
 
 
-    <!-- 配置版本 -->
-    <div class="form-group">
-        <label class="col-sm-3 control-label no-padding-right" data-i18n="Configure Version"></label>
-        <div class="col-sm-9">
-          <div id="cfgversion" class="col-xs-10 col-sm-5 form-right-text"></div>
+        <!-- 配置版本 -->
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Configure Version"></label>
+            <div class="col-sm-9">
+              <div id="cfgversion" class="col-xs-10 col-sm-5 form-right-text"></div>
+            </div>
         </div>
-    </div>
 
-    <div class="hr hr32 hr-dotted"></div>
-    <div class="form-horizontal" role="form">
-      <div class="form-group">
-        <label class="col-sm-3 control-label no-padding-right"></label>
-        <div class="col-sm-9">
-          <div class="btn-group">
-            <button class="btn btn-second" data-i18n="Backup Configure" id="backup"></button>
-            <button class="btn btn-warning" data-i18n="Default Configure" id="default"></button>
+        <div class="hr hr32 hr-dotted"></div>
+        <div class="form-horizontal" role="form">
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right"></label>
+            <div class="col-sm-9">
+              <div class="btn-group">
+                <button class="btn btn-second" data-i18n="Backup Configure" id="backup"></button>
+                <button class="btn btn-warning" data-i18n="Default Configure" id="default"></button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
 
-    <!-- 导入配置 -->
-    <div class="form-group">
-      <label class="col-sm-3 control-label no-padding-right" data-i18n="Restore Configure"></label>
-      <div class="col-sm-9">
-        <div class="col-xs-10 col-sm-5">
-          <input type="file" id="restore" />
-        </div>
-      </div>
-    </div>
-
-    <div class="hr hr32 hr-dotted"></div>
-
-
-    <div class="form-horizontal" role="form">
-      <div class="form-group">
-        <label class="col-sm-3 control-label no-padding-right"></label>
-        <div class="col-sm-9">
-          <div class="btn-group">
-            <button class="btn btn-inverse" data-i18n="Save Default Configure" id="save"></button>
-            <button class="btn btn-danger" data-i18n="Factory Configure" id="factory"></button>
+        <!-- 导入配置 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Restore Configure"></label>
+          <div class="col-sm-9">
+            <div class="col-xs-10 col-sm-5">
+              <input type="file" id="restore" />
+            </div>
           </div>
         </div>
-      </div>
-    </div>
 
-    <!-- 导入配置 -->
-    <div class="form-group">
-      <label class="col-sm-3 control-label no-padding-right" data-i18n="Restore Default Configure"></label>
-      <div class="col-sm-9">
-        <div class="col-xs-10 col-sm-5">
-          <input type="file" id="restore_default" />
+        <div class="hr hr32 hr-dotted"></div>
+
+
+        <div style="display: none;">
+            <!-- 管理默认配置 -->
+            <div class="form-horizontal" role="form">
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"></label>
+                <div class="col-sm-9">
+                  <div class="btn-group">
+                    <button class="btn btn-inverse" data-i18n="Save Default Configure" id="save"></button>
+                    <button class="btn btn-danger" data-i18n="Factory Configure" id="factory"></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 导入默认配置 -->
+            <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Restore Default Configure"></label>
+              <div class="col-sm-9">
+                <div class="col-xs-10 col-sm-5">
+                  <input type="file" id="restore_default" />
+                </div>
+              </div>
+            </div>
         </div>
-      </div>
-    </div>
-
 
     </div>
     <!-- PAGE CONTENT ENDS -->

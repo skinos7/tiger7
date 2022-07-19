@@ -1,6 +1,12 @@
 {
-    "WEB Server":"WEB服务器",
+    "Web Server":"WEB服务器",
+
+    "Enable HTTP":"开启HTTP",
+    "Port":"端口",
+
+    "Enable HTTPS":"开启HTTPS",
+    "SSL Port":"SSL端口",
+    
     "Designated Address Access":"指定地址访问",
-    "Address(separated by semicolon)":"地址(多个以;号分隔)",
-    "Port":"端口"
+    "Address(separated by semicolon)":"地址(多个以;号分隔)"
 }

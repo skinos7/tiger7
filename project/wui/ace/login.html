@@ -133,7 +133,7 @@
             if ( window.wui && window.wui.logo_file )
             {
                 $('body').attr('class', 'login-layout light-login');
-                var stamp = '<img src="/assets/css/' + window.wui.logo_file + '" width="' + (window.wui.logo_width || '180px') + '" height="' + (window.wui.logo_height || '100px') + '" /></div>';
+                var stamp = '<img src="' + window.wui.logo_file + '" width="' + (window.wui.logo_width || '180px') + '" height="' + (window.wui.logo_height || '100px') + '" /></div>';
                 if ( window.wui.logo_align )
 				{
                     $('#logo').removeClass("center").addClass( window.wui.logo_align );

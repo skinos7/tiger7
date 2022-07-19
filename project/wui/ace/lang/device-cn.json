@@ -166,10 +166,6 @@
 	"Default Configure":"恢复默认设置",
 	"Restore Configure":"导入配置",
 
-	"Save Default Configure":"保存默认配置",
-	"Factory Configure":"恢复出厂设置",
-	"Restore Default Configure":"导入默认配置",
-
 	"Restore...":"导入配置...",
 	"Restore Failure":"导入配置失败",
 	"Are you sure you want to default the system configure":"确定恢复默认设置",
@@ -179,6 +175,21 @@
 	"Are you sure you want to default the system configure to factory state":"确定恢复出厂设置",
 	"Restore the configuration is successful, now restarting...":"导入配置成功, 重启中...",
 	
+
+
+
+
+	"CSS Style":"CSS风格",
+	"Logo Title":"Logo标题",
+	"Logo Width":"Logo宽度",
+	"Logo Height":"Logo高度",
+	"Logo Align":"Logo对齐",
+	"Upload Logo File":"上传Logo文件",
+	"Apply Above Configure":"应用以上配置",
+
+	"Save Default Configure":"保存默认配置",
+	"Factory Configure":"恢复出厂配置",
+	"Restore Default Configure":"导入默认配置",
 
 
 
