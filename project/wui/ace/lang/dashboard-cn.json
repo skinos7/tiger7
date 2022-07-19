@@ -81,22 +81,33 @@
 	"wifi@assid Speed":"5.8G热点速率",
 
 
+	"Utilization":"性能",
 	"CPU":"处理器",
-	"Core0":"核心0",
-	"Core1":"核心1",
-	"Core2":"核心2",
-	"Core3":"核心3",
 	"Memory":"内存",
+	"CPU User":"处理器应用",
+	"CPU system":"处理器系统",
+	"CPU IRQ":"处理器中断",
+	"CPU Softirq":"处理器软中断",
+	"Memory Total":"内存总量",
+	"Memory Free":"内存空闲",
+	"Memory Buffers":"内存Buffers",
+	"Memory Cached":"内存缓存",
+
+	"CPU Usage":"处理器利用率",
+	"CPU0":"核心0",
+	"CPU1":"核心1",
+	"CPU2":"核心2",
+	"CPU3":"核心3",
+	"Memory Usage":"内存利用率",
+
 	"config":"配置区",
 	"int":"FPK区",
+	
 	"mmcblk0p1":"TF卡1",
 	"mmcblk0p2":"TF卡2",
 	"mmcblk0p3":"TF卡3",
 	"mmcblk0p4":"TF卡4",
 
-	"FPKs":"FPK数",
-	"Services":"服务数",
-	"Processes":"进程数",
 
 
 	"Switch":"有线端口",

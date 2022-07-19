@@ -84,6 +84,9 @@
 	"Service Live":"活动服务数",
 
 	"Service Name":"服务名称",
+	"arch@pci":"PCI管理",
+	"arch@gpio":"GPIO管理",
+	"io@agent":"IO代理",
 	"wui@admin":"网页服务",
 	"tui@telnet":"TELNET服务",
 	"tui@ssh":"SSH服务",
