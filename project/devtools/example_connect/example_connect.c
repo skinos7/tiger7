@@ -758,7 +758,6 @@ int main( int argc, const char **argv )
     //    return -1;
     //}
 	// 常用工具命令
-	printf( "==argc=%d==1==\n", argc );
     if ( argc == 2 )
     {
         if ( strcmp( argv[1], "exit" ) == 0 )
@@ -781,7 +780,6 @@ int main( int argc, const char **argv )
     }
 
 
-	printf( "=====1=\n" );
 	/* 加载配置 */
 	reg2string( "network_mode", reg_network_mode, mode, NULL);
 	if ( mode == NULL || *mode == '0' )
@@ -789,7 +787,6 @@ int main( int argc, const char **argv )
 		exit( EXIT_EINVAL );
 		return -1;
 	}
-	printf( "=====2=\n" );
 	connect_cfg = config_sgets( NETWORK_COM, "%s/connect", mode );
 	/* 启动链接 */
 	m = json_string( connect_cfg, "main" );
