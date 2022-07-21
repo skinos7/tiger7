@@ -34,6 +34,11 @@
 	"Cannot open it":"未能正常打开, 请确认设备是否正常",
 	"Cannot close it":"未能正常关闭, 请重启设备",
 
+	"Serial Terminal":"串口终端",
+	"Serial2 Terminal":"串口2终端",
+	"Serial3 Terminal":"串口3终端",
+	"Will shutdown serial application when open the serial terminal, Are you sure you want to open it":"打开串口终端将导致所有此串口上的应用被强制关闭, 确认是否打开",
+
 	"Open AT Command":"AT终端",
 	"Will shutdown LTE/NR application when open the LTE/NR terminal, Are you sure you want to open it":"打开4G/5G模块终端将导致所有此模块上的应用被强制关闭, 确认是否打开",
 

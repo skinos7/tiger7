@@ -8,5 +8,27 @@
     "SSL Port":"SSL端口",
     
     "Designated Address Access":"指定地址访问",
-    "Address(separated by semicolon)":"地址(多个以;号分隔)"
+    "Address(separated by semicolon)":"地址(多个以;号分隔)",
+
+
+
+
+	"HE Terminal":"HE终端",
+	"Serial Terminal":"串口终端",
+	"Serial2 Terminal":"串口2终端",
+	"Serial3 Terminal":"串口3终端",
+	"LTE Terminal":"4G模块终端",
+	"LTE/NR Terminal":"4G/5G模块终端",
+	"Close before leave":"离开前必须点此关闭",
+	"I'm sorry that this feature does not support the current browser. It is recommended that you update and install Chrome, Firefox or IE11+.":"当前浏览器不支持终端模式, 请将使用IE11以上的浏览器或谷歌火狐最新的浏览器",
+	"Opening...":"正在打开...",
+	"Closing...":"正在关闭...",
+	"Will shutdown serial application when open the serial terminal, Are you sure you want to open it":"打开串口终端将导致所有此串口上的应用被强制关闭, 确认是否打开",
+	"Will shutdown LTE application when open the LTE terminal, Are you sure you want to open it":"打开4G模块终端将导致所有此模块上的应用被强制关闭, 确认是否打开",
+	"Will shutdown LTE/NR application when open the LTE/NR terminal, Are you sure you want to open it":"打开4G/5G模块终端将导致所有此模块上的应用被强制关闭, 确认是否打开",
+	"Cannot open it":"未能正常打开, 请确认设备是否正常",
+	"Cannot close it":"未能正常关闭, 请重启设备"
+
+
+    
 }

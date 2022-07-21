@@ -1,2 +1,20 @@
 {
+	"n":"11N",
+	"a":"11A",
+	"ac":"11AC",
+
+
+	"scanning":"Scanning",
+	"down":"Down",
+	"uping":"Connecting",
+	"up":"Online",
+
+
+	"disable":"Disable",
+	"wpapsk":"WPA",
+	"wpa2psk":"WPA2",
+	"wpapskwpa2psk":"WPA Mix",
+	"aes":"AES",
+	"tkip":"TKIP",
+	"tkipaes":"TKIP&AES"
 }

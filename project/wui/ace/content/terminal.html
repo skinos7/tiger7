@@ -8,6 +8,9 @@
       <div class="col-md-9">
         <span> <button class="btn btn-danger" type="button" id="close"><span data-i18n="Close before leave"></span></button>&nbsp; &nbsp; &nbsp;</span>
         <span> <button class="btn btn-success" type="button" id="hetui"><span data-i18n="Open HE Terminal"></span></button> &nbsp; &nbsp; &nbsp;</span>
+        <span id="serial_line" style="display: none;"> <button class="btn btn-warning" type="button" id="serial"><span data-i18n="Serial Terminal"></span></button>&nbsp; &nbsp; &nbsp;</span>
+        <span id="serial2_line" style="display: none;"> <button class="btn btn-warning" type="button" id="serial2"><span data-i18n="Serial2 Terminal"></span></button>&nbsp; &nbsp; &nbsp;</span>
+        <span id="serial3_line" style="display: none;"> <button class="btn btn-warning" type="button" id="serial3"><span data-i18n="Serial3 Terminal"></span></button>&nbsp; &nbsp; &nbsp;</span>
       </div>
     </div>
 
@@ -56,6 +59,23 @@
       /* init the langauage */
       $.i18n().locale = lang; $('body').i18n();
 
+      /* load the configure */
+      he.load( [ 'wui@admin.ttyd_he', "uart@serial", "uart@serial2", "uart@serial3" ] ).then( function(v){
+          if ( v[1] && v[1].ttydev )
+          {
+            $('#serial_line').show();
+          }
+          if ( v[2] && v[2].ttydev )
+          {
+            $('#serial2_line').show();
+          }
+          if ( v[3] && v[3].ttydev )
+          {
+            $('#serial3_line').show();
+          }
+          open_term();
+      });
+
       $('#hetui').on(ace.click_event, function () {
           $('#terminal').hide();
           he.exec( 'wui@admin.ttyd_he', $.i18n("Opening...") ).then( function(v){
@@ -69,6 +89,66 @@
                 page.alert( { message: $.i18n('Cannot open it') } );
                 return;
             }
+          });
+      });
+      $('#serial').on(ace.click_event, function () {
+          page.confirm( { message: $.i18n('Will shutdown serial application when open the serial terminal, Are you sure you want to open it') } ).then( function(result){
+              if ( result )
+              {
+                  $('#terminal').hide();
+                  he.exec( 'wui@admin.ttyd_serial[uart@serial]', $.i18n("Opening...") ).then( function(v){
+                    if ( v == true )
+                    {
+                        $('#terminal').attr('src', null );
+                        open_term();
+                    }
+                    else
+                    {
+                        page.alert( { message: $.i18n('Cannot open it') } );
+                        return;
+                    }
+                  });
+              }
+          });
+      });
+      $('#serial2').on(ace.click_event, function () {
+          page.confirm( { message: $.i18n('Will shutdown serial application when open the serial terminal, Are you sure you want to open it') } ).then( function(result){
+              if ( result )
+              {
+                  $('#terminal').hide();
+                  he.exec( 'wui@admin.ttyd_serial[uart@serial2]', $.i18n("Opening...") ).then( function(v){
+                    if ( v == true )
+                    {
+                        $('#terminal').attr('src', null );
+                        open_term();
+                    }
+                    else
+                    {
+                        page.alert( { message: $.i18n('Cannot open it') } );
+                        return;
+                    }
+                  });
+              }
+          });
+      });
+      $('#serial3').on(ace.click_event, function () {
+          page.confirm( { message: $.i18n('Will shutdown serial application when open the serial terminal, Are you sure you want to open it') } ).then( function(result){
+              if ( result )
+              {
+                  $('#terminal').hide();
+                  he.exec( 'wui@admin.ttyd_serial[uart@serial3]', $.i18n("Opening...") ).then( function(v){
+                    if ( v == true )
+                    {
+                        $('#terminal').attr('src', null );
+                        open_term();
+                    }
+                    else
+                    {
+                        page.alert( { message: $.i18n('Cannot open it') } );
+                        return;
+                    }
+                  });
+              }
           });
       });
       $('#close').on(ace.click_event, function () {

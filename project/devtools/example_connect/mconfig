@@ -1,0 +1,4 @@
+
+CFLAGS +=
+LDFLAGS += -levent -llandnet
+

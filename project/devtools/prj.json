@@ -14,7 +14,10 @@
         "exe":"sample executable program template",
 
         "test-talk":"test the talk function program",
-        "test-param":"test the param function program"
+        "test-param":"test the param function program",
+
+        "example_connect":"example development for extern ifname management"
+        
     },
     "com":
     {
@@ -22,5 +25,21 @@
         
         "test-lpcall":"call the child named test-callbk",
         "test-callbk":"call back to father named test-lpcall"
+    },
+
+    "wui":
+    {
+        "agent":
+        {
+            "cn":"XG Link",
+            "en":"XG Link",
+            "page":"xglink.html",
+            "lang":
+            {
+                "cn":"xglink-cn.json",
+                "en":"xglink-en.json"
+            }
+        }
     }
+
 }

@@ -1,9 +1,10 @@
 {
 
-	"down":"DOWN",
-	"uping":"UPPING",
+	"down":"Down",
+	"scanning":"Scanning",
+	"uping":"Connecting",
 	"connect":"Connecting",
-	"up":"UP",
+	"up":"Online",
 	"nodevice":"NO Device",
 	"noimei":"IMEI Wrong",
 	"noimsi":"IMSI Wrong",
@@ -21,6 +22,7 @@
 	"reset":"Reset Device",
 
 
+	"failed":"Failed",
 	"dhcpc":"DHCP",
 	"pppoec":"PPPOE",
 	"static":"Static",
@@ -28,9 +30,22 @@
 	"automatic":"DHCPv6",
 	"manual":"Manual",
 
+	"ifname@lte Speed":"LTE Speed",
+	"ifname@lte2 Speed":"LTE2 Speed",
+	"ifname@wan Speed":"WAN Speed",
+	"ifname@wan2 Speed":"WAN2 Speed",
+	"ifname@wisp Speed":"WISP Speed",
+	"ifname@wisp2 Speed":"WISP2 Speed",
+	"ifname@lan Speed":"LAN Speed",
+	"ifname@lan2 Speed":"LAN2 Speed",
+	"wifi@nssid Speed":"2.4G SSID Speed",
+	"wifi@assid Speed":"5.8G SSID Speed",
+
+
 
 	"config":"Config",
 	"int":"FPK",
+
 	"mmcblk0p1":"TF Card",
 	"mmcblk0p2":"TF Card2",
 	"mmcblk0p3":"TF Card3",
