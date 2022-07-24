@@ -12,6 +12,7 @@
 boole_t _setup( obj_t this, param_t param )
 {
 	int i;
+	int t;
     talk_t cfg;
     talk_t radio;
     const char *obj;
@@ -19,6 +20,7 @@ boole_t _setup( obj_t this, param_t param )
 	const char *rootdev;
 	hp_mac_struct macst;
 	char mac[NAME_MAX];
+	char nmac[NAME_MAX];
 	char netdev[NAME_MAX];
 	char compath[NAME_MAX];
 
@@ -70,11 +72,16 @@ boole_t _setup( obj_t this, param_t param )
 			register_set( compath, "rootdev", rootdev, strlen(rootdev)+1, 20 );
 			register_set( compath, "netdev", netdev, strlen(netdev)+1, 20 );
 			/* create the netdev */
-			mac2add( &macst, 1 );
-			mac2string( &macst, mac );
 			xshell( "iw dev %s interface add %s type managed", rootdev, netdev );
-			xshell( "ifconfig %s hw ether %s", netdev, mac );
-			xshell( "ifconfig %s up", netdev );
+			t = netdev_info( netdev, NULL, 0, NULL, 0, NULL, 0, nmac, sizeof(nmac) );
+			if ( t != 0 || 0 == strcmp( nmac, mac ) )
+			{
+				/* modify the mac */
+				mac2add( &macst, 1 );
+				mac2string( &macst, mac );
+				xshell( "ifconfig %s hw ether %s", netdev, mac );
+				xshell( "ifconfig %s up", netdev );
+			}
 			/* tell the network layer */
 			info( "%s(%s) add to network frame", compath, netdev );
 			scalls( NETWORK_COM, "add", "%s,%s", compath, netdev );
@@ -485,10 +492,14 @@ boole_t _hostapd( obj_t this, param_t param )
 		country = "cn";
 	}
     /* get the radio channel */
-    channel = json_string( radio, "channel" );
+	channel = register_pointer( object, "channel" );
 	if ( channel == NULL || *channel == '\0' )
 	{
-		channel = "1";
+	    channel = json_string( radio, "channel" );
+		if ( channel == NULL || *channel == '\0' )
+		{
+			channel = "1";
+		}
 	}
     extcha = json_string( radio, "extcha" );
     bandwidth = json_string( radio, "bandwidth" );

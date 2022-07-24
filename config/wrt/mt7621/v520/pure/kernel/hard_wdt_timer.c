@@ -53,7 +53,7 @@ static int gpio_dir_reg = 0x0;
 static int gpio_set_reg = 0x30;
 static int gpio_reset_reg = 0x40;
 static int wdt_mode = 0; //0: intv feed  1: fast feed
-static int wdt_early_count = TIME_TO_COUNT(600); //600seconds
+static int wdt_early_count = TIME_TO_COUNT(20000000); // forever
 static struct timer_list wdt_timer;
 
 static void get_wdt_gpio(void)

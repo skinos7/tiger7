@@ -6,6 +6,7 @@
 
 #include "land/skin.h"
 #include "landwifi/landwifi.h"
+#define DISABLE_HOSTAPD_TO_MODIFY_CHANNEL 1
 
 
 
@@ -83,8 +84,9 @@ static talk_t station_dev_aplist( const char *netdev, const char *ssid, const ch
                 }
                 continue;
             }
+			s = strstr( readbuf, "Mode:" );
             ptr = strstr( readbuf, "Channel:" );
-            if ( ptr != NULL )
+            if ( s != NULL && ptr != NULL )
             {
                 if ( sscanf( ptr, "%*[^:]: %d", &i ) == 1 )
                 {
@@ -387,7 +389,7 @@ boole_t _up( obj_t this, param_t param )
 	if ( stat( path, &st ) == 0 )
 	{
 		info( "%s(%s) already up", object, netdev );
-		return tfalse;
+		return ttrue;
 	}
 	/* up the deivce */
 	info( "%s(%s) up", object, netdev );
@@ -467,10 +469,9 @@ boole_t _up( obj_t this, param_t param )
 		snprintf( name, sizeof(name), "%s-keeplive", netdev );
 		service_start( name, object, "keeplive", NULL );
 		ret = ttrue;
+		/* mark the up state */
+		string2file( path, uptime_desc( NULL, 0 ) );
 	}
-
-	/* mark the up state */
-	string2file( path, uptime_desc( NULL, 0 ) );
 
 	talk_free( cfg );
 	return ret;
@@ -527,7 +528,33 @@ boole_t _connect( obj_t this, param_t param )
 }
 boole_t _connected( obj_t this, param_t param )
 {
-	return ttrue;
+	talk_t ret;
+	const char *prj;
+	const char *object;
+	const char *netdev;
+
+	prj = obj_prj( this );
+	if ( 0 != strcmp( prj, WIFI_PROJECT ) )
+	{
+		return tfalse;
+	}
+	object = obj_combine( this );
+
+	/* get the netdev */
+	netdev = register_pointer( object, "netdev" );
+	if ( netdev == NULL || *netdev == '\0' )
+	{
+		return tfalse;
+	}
+
+	/* test the connected */
+	ret = tfalse;
+	if ( station_dev_connected( object, netdev ) == 0 )
+	{
+		ret = ttrue;
+	}
+
+	return ret;
 }
 talk_t _status( obj_t this, param_t param )
 {
@@ -718,6 +745,21 @@ talk_t _status( obj_t this, param_t param )
 	talk_free( cfg );
 	return ret;
 }
+talk_t _state( obj_t this, param_t param )
+{
+	talk_t ret;
+
+	ret = _status( this, param );
+	json_delete_axp( ret, "rx_bytes" );
+	json_delete_axp( ret, "rx_packets" );
+	json_delete_axp( ret, "rx_errs" );
+	json_delete_axp( ret, "rx_drops" );
+	json_delete_axp( ret, "tx_bytes" );
+	json_delete_axp( ret, "tx_packets" );
+	json_delete_axp( ret, "tx_errs" );
+	json_delete_axp( ret, "tx_drops" );
+	return ret;
+}
 boole_t _online( obj_t this, param_t param )
 {
 	return ttrue;
@@ -731,8 +773,10 @@ boole_t _offline( obj_t this, param_t param )
 
 talk_t _aplist( obj_t this, param_t param )
 {
+	talk_t ret;
 	boole good;
 	const char *obj;
+    const char *radio;
 	const char *object;
 	const char *netdev;
 	const char *peer;
@@ -740,6 +784,7 @@ talk_t _aplist( obj_t this, param_t param )
 	const char *peer3;
 	const char *peermac;
 	const char *strong;
+    char name[NAME_MAX];
 
 	obj = obj_com( this );
 	if ( 0 == strcmp( obj, COM_ID ) )
@@ -747,6 +792,11 @@ talk_t _aplist( obj_t this, param_t param )
 		return tfalse;
 	}
 	object = obj_combine( this );
+	radio = register_pointer( object, "radio" );
+	if ( radio == NULL || *radio == '\0' )
+	{
+		return NULL;
+	}
 
 	/* get the netdev */
 	netdev = register_pointer( object, "netdev" );
@@ -767,8 +817,22 @@ talk_t _aplist( obj_t this, param_t param )
 		good = true;
 	}
 
+#ifdef DISABLE_HOSTAPD_TO_MODIFY_CHANNEL
+	/* stop the hostapd to update the channel */
+	snprintf( name, sizeof(name), "%s-hostapd", radio );
+	service_stop( name );
+#endif
+
 	/* scanning */
-	return station_dev_aplist( netdev, peer, peermac, peer2, peer3, good );
+	ret = station_dev_aplist( netdev, peer, peermac, peer2, peer3, good );
+
+#ifdef DISABLE_HOSTAPD_TO_MODIFY_CHANNEL
+	/* start the hostapd */
+	snprintf( name, sizeof(name), "%s-hostapd", radio );
+	service_start( name, radio, "hostapd", NULL );
+#endif
+
+	return ret;
 }
 #define WPA_SUPPLICANT_DIR "/var/run/wpa_supplicant"
 boole_t _wpa( obj_t this, param_t param )
@@ -791,6 +855,7 @@ boole_t _wpa( obj_t this, param_t param )
 	const char *secure;
 	//const char *wpa_encrypt;
 	const char *wpa_key;
+    char name[NAME_MAX];
 	char path[PATH_MAX];
 	char pidfile[PATH_MAX];
 
@@ -987,6 +1052,14 @@ boole_t _wpa( obj_t this, param_t param )
 	
     fclose( fp );
 
+
+#ifdef DISABLE_HOSTAPD_TO_MODIFY_CHANNEL
+	/* stop the hostapd to update the channel */
+	snprintf( name, sizeof(name), "%s-hostapd", radio );
+	service_stop( name );
+	ssidctl = NULL;
+#endif
+
     /* exec the wpa_supplicant */
 #if defined gPLATFORM__smtk || defined gPLATFORM__mtk || defined gPLATFORM__smtk2 || defined gPLATFORM__mtk2
 	if ( ssidctl == NULL )
@@ -1071,9 +1144,12 @@ boole_t _relayd( obj_t this, param_t param )
 boole_t _keeplive( obj_t this, param_t param )
 {
 	int i;
+	talk_t v;
     const char *obj;
+	const char *radio;
     const char *object;
 	const char *netdev;
+	const char *channel;
 	char name[NAME_MAX];
 
 	obj = obj_com( this );
@@ -1083,6 +1159,12 @@ boole_t _keeplive( obj_t this, param_t param )
 	}
 	object = obj_combine( this );
 
+	/* get the radio */
+	radio = register_pointer( object, "radio" );
+	if ( radio == NULL || *radio == '\0' )
+	{
+		return tfalse;
+	}
 	/* get the netdev */
 	netdev = register_pointer( object, "netdev" );
 	if ( netdev == NULL || *netdev == '\0' )
@@ -1111,6 +1193,19 @@ start:
 	/* run the relayd */
 	snprintf( name, sizeof(name), "%s-relayd", netdev );
 	service_start( name, object, "relayd", NULL );
+
+#ifdef DISABLE_HOSTAPD_TO_MODIFY_CHANNEL
+	/* start the hostapd */
+	v = _status( this, param );
+	channel = json_string( v, "channel" );
+	if ( channel != NULL )
+	{
+		register_set( radio, "channel", channel, strlen(channel)+1, 20 );
+	}
+	talk_free( v );
+	snprintf( name, sizeof(name), "%s-hostapd", radio );
+	service_start( name, radio, "hostapd", NULL );
+#endif
 
 	/* check and check forever */
 	i = 0;

@@ -26,7 +26,7 @@ update:
 		cd ${gSDK_DIR}; tar -Jxvf ${gPLATFORM_DIR}/dl.tar.xz; \
 	fi
 	# 更新fpk
-	if [ -e ${gCUSTOM_DIR} ]; then \
+	-if [ -e ${gCUSTOM_DIR} ]; then \
 		cd ${gCUSTOM_DIR}; rm -fr *.fpk*; \
 		cd ${gCUSTOM_DIR}; wget --ftp-user=dl --ftp-password=tiger7@ASHYELF ${gpFTP_PUB_SDK}/${gHARDWARE}/${gCUSTOM}/*.fpk; \
 	fi
