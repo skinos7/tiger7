@@ -62,6 +62,13 @@ ftp repo:
 	else \
 		make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@; \
 	fi
+# make the flash image
+flash:
+	if [ "X${gFLASH_MAKEFILE}" != "X" ]; then \
+		if [ -f ${gFLASH_MAKEFILE} ]; then \
+			make -f ${gFLASH_MAKEFILE}; \
+		fi; \
+	fi
 # debug
 pdebug:
 	env	

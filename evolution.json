@@ -4,3 +4,4 @@
 3. 多WAN时WAN口支持接口检测实现同网段的切换
 4. 7621支持可选加速, 多WAN时如果开加速会导致原来的连接无法切换
 5. 改进boole_t/talk_t, 实现boole_t与talk_t相互不兼容来实现编辑检查, 并增加一个类型可兼容这两个类型
+6. 对client下的station的service使用libevent来实现

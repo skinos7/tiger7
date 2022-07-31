@@ -15,7 +15,7 @@ do
         DIR_LIST=`ls ${DIR_ROOT}`
         for dir in $DIR_LIST
         do
-            for prj in $PRJ_LIST arch
+            for prj in $PRJ_LIST arch pdriver
             do
                 if [ -d ${DIR_ROOT}/${dir}/${prj} ]; then
                     echo "delete the ${DIR_ROOT}/${dir}/${prj}"

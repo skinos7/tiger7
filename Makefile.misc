@@ -44,6 +44,7 @@ local run:
 sz:
 	make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@
 tar: boot
+	make -f Makefile.target flash
 	make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@
 .PHONY: local run sz tar
 
