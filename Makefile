@@ -17,6 +17,8 @@ ifeq (gBOARDID, $(wildcard gBOARDID))
 sinclude gBOARDID 
 endif
 gBOARDID ?= host-x86-ubuntu
+gFIRMWARE_SETUP ?= default.sh
+gFIRMWARE_DEFAULT ?= default.dtar
 
 #####################################
 ######### Do not modify #############
@@ -74,7 +76,8 @@ gCOMFACE_DIR := ${gTOP_DIR}/doc/com
 # Tools directory for compile
 gTOOLS_DIR := ${gTOP_DIR}/tools
 # firmware upgrade setup shell, you can execute some commend at the firmware upgrade
-gFIRMWARE_SETUP_SH := ${gTOP_DIR}/shell/setup.shell
+gFIRMWARE_SETUP_SH := ${gTOP_DIR}/custom/${gFIRMWARE_SETUP}
+gFIRMWARE_DEFAULT_TAR := ${gTOP_DIR}/custom/${gFIRMWARE_DEFAULT}
 # Project source code directory
 gPROJECT_DIR := ${gTOP_DIR}/project
 # Commercial customer project source code directory
@@ -113,6 +116,7 @@ gFLASH_MAKEFILE := ${gPLATFORM_DIR}/flash.makefile
 export gTOP_DIR gBUILD_DIR gINSTALL_DIR
 export gosROOT_DIR gosPRJ_NAME gosPRJ_DIR
 export gPLATFORM_DIR gHARDWARE_DIR gSTORE_DIR gCUSTOM_DIR gSCOPE_DIR gCOMFACE_DIR gTOOLS_DIR gPROJECT_DIR gRICE_DIR
+export gFIRMWARE_SETUP gFIRMWARE_SETUP_SH gFIRMWARE_DEFAULT gFIRMWARE_DEFAULT_TAR
 export gPROJECT_INF gMAKEFILE_CFGFILE
 export gSDK_DIR
 export gSDK_MAKEFILE gLAY_MAKEFILE gDIR_MAKEFILE gFPK_MAKEFILE gCOM_MAKEFILE gLIB_MAKEFILE gEXE_MAKEFILE gFLASH_MAKEFILE
@@ -132,6 +136,9 @@ all:
 	else \
 		if [ -e ${gFIRMWARE_SETUP_SH} ]; then \
 			cp ${gFIRMWARE_SETUP_SH}  ${gBUILD_DIR}; \
+		fi; \
+		if [ -e ${gFIRMWARE_DEFAULT_TAR} ]; then \
+			cp ${gFIRMWARE_DEFAULT_TAR}  ${gBUILD_DIR}; \
 		fi; \
 		make kernel||exit -1; \
 		make app||exit -1; \

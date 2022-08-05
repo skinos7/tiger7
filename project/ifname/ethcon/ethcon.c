@@ -132,6 +132,7 @@ boole_t _shut( obj_t this, param_t param )
     if ( ifdev != NULL && *ifdev != '\0' )
     {
     	scall( ifdev, "down", NULL );
+		scalls( GPIO_COM, "action", "network/offline,%s", ifdev );
 	}
 
     return ttrue;
@@ -575,6 +576,7 @@ boole_t _service( obj_t this, param_t param )
 	{
         return tfalse;
 	}
+	scalls( GPIO_COM, "action", "network/onlineing,%s", ifdev );
 
     /* get the configure */
     cfg = config_get( this, NULL ); 
@@ -992,6 +994,7 @@ boole_t _online( obj_t this, param_t param )
 	if ( ifdev != NULL )
 	{
 		scalls( ifdev, "online", object );
+		scalls( GPIO_COM, "action", "network/online,%s", ifdev );
 	}
 
 	talk_free( cfg );
