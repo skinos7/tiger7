@@ -129,6 +129,10 @@
             $('#port_status').unbind('change').change(function () {
                 if ($(this).prop('checked'))
                 {
+                    if ( !$('#port').val() )
+                    {
+                        $('#port').val( "80" );
+                    }
                     $('#portSets').show();
                 }
                 else
@@ -149,6 +153,10 @@
             $('#sslport_status').unbind('change').change(function () {
                 if ($(this).prop('checked'))
                 {
+                    if ( !$('#sslport').val() )
+                    {
+                        $('#sslport').val( "443" );
+                    }
                     $('#sslportSets').show();
                 }
                 else

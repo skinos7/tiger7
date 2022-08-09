@@ -43,66 +43,7 @@
 
 
 
-
-
-
         <div class="hr hr32 hr-dotted"></div>
-
-        <!-- 网络模式 -->
-        <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" data-i18n="Attach Mode"></label>
-          <div class="col-sm-9">
-            <select class="col-xs-10 col-sm-5" id="lock_nettype">
-            </select>
-          </div>
-        </div>
-        <!-- PIN码 -->
-        <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" data-i18n="PIN Code"></label>
-          <div class="col-sm-9">
-            <input type="text" id="lock_pin" class="col-xs-10 col-sm-5" maxlength="128" />
-          </div>
-        </div>
-        <!-- GPS -->
-        <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" data-i18n="GPS"></label>
-          <div class="col-sm-9">
-            <label>
-              <input id="gnss" class="ace ace-switch ace-switch-6" type="checkbox" />
-              <span class="lbl"></span>
-            </label>
-          </div>
-        </div> 
-        <!-- BSIM -->
-
-        <div id="bsim_cfg" style="display: none;">
-            <div class="form-group">
-              <label class="col-sm-3 control-label no-padding-right" data-i18n="Backup Simcard"></label>
-              <div class="col-sm-9">
-                <label>
-                  <input id="bsim" class="ace ace-switch ace-switch-6" type="checkbox" />
-                  <span class="lbl"></span>
-                </label>
-              </div>
-            </div>      
-            <div id="bsim_set_cfg" style="display: none;">
-                <div class="form-group">
-                  <label class="col-sm-3 control-label no-padding-right"></label>
-                    <div class="col-sm-9">
-                      <div class="btn-group">
-                        <div class="btn-group">
-                          <a class="btn btn-second" data-i18n="Backup Simcard Settings" id="bsim_set" href="#"></a>
-                        </div>
-                      </div>
-                    </div>
-                </div>
-            </div><!-- bsim_set_cfg -->
-        </div><!-- bsim_cfg -->
-
-        <div class="hr hr32 hr-dotted"></div>
-
-
-
 
 
 
@@ -180,11 +121,74 @@
             </div>
           </div>
         </div>
+
+        <!-- BSIM -->
+        <div id="bsim_cfg" style="display: none;">
+            <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Backup Simcard"></label>
+              <div class="col-sm-9">
+                <label>
+                  <input id="bsim" class="ace ace-switch ace-switch-6" type="checkbox" />
+                  <span class="lbl"></span>
+                </label>
+              </div>
+            </div>      
+            <div id="bsim_set_cfg" style="display: none;">
+                <div class="form-group">
+                  <label class="col-sm-3 control-label no-padding-right"></label>
+                    <div class="col-sm-9">
+                      <div class="btn-group">
+                        <div class="btn-group">
+                          <a class="btn btn-second" data-i18n="Backup Simcard Settings" id="bsim_set" href="#"></a>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div><!-- bsim_set_cfg -->
+        </div><!-- bsim_cfg -->
+        
+                    
+
+
+        
         <div class="hr hr32 hr-dotted"></div>
+        
+        <!-- 网络模式 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Attach Mode"></label>
+          <div class="col-sm-9">
+            <select class="col-xs-10 col-sm-5" id="lock_nettype">
+            </select>
+          </div>
+        </div>
+        <!-- GPS -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="GPS"></label>
+          <div class="col-sm-9">
+            <label>
+              <input id="gnss" class="ace ace-switch ace-switch-6" type="checkbox" />
+              <span class="lbl"></span>
+            </label>
+          </div>
+        </div> 
+
+        <!-- 高级设置 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right"></label>
+            <div class="col-sm-9">
+              <div class="btn-group">
+                <div class="btn-group">
+                  <a class="btn btn-main" data-i18n="Advanced Settings" id="adv_set" href="#"></a>
+                </div>
+              </div>
+            </div>
+        </div>
+        
+        
 
 
 
-
+        <div class="hr hr32 hr-dotted"></div>
 
 
         <!-- IPV4拨号模式 -->
@@ -526,10 +530,6 @@
 
 
 
-
-
-
-
       <div class="clearfix form-actions">
         <div class="col-md-offset-3 col-md-9">
           <button class="btn btn-second" type="button" id="refresh"><span data-i18n="Refresh"></span></button>
@@ -634,8 +634,22 @@
               $(id+"_csq").text( $.i18n("nosignal") );
           }
           /* device info */
-          $(id+"_imei").text( ltes.imei||' ' );
-          $(id+"_imsi").text( ltes.imsi||' ' );
+          if ( ltes.imei == "noimei" )
+          {
+              $(id+"_imei").text( $.i18n("noimei") );
+          }
+          else
+          {
+            $(id+"_imei").text( ltes.imei||' ' );
+          }
+          if ( ltes.imei == "noimsi" )
+          {
+              $(id+"_imei").text( $.i18n("noimsi") );
+          }
+          else
+          {
+              $(id+"_imsi").text( ltes.imsi||' ' );
+          }
           if ( ltes.iccid )
           {
               $(id+"_iccid").text( $.i18n(ltes.iccid) );
@@ -659,7 +673,6 @@
 
         /* Modem */
         $('#lock_nettype').val(lte.lock_nettype || 'auto');
-        $('#lock_pin').val(lte.lock_pin || '');
         if ( lte.gnss && lte.gnss == "enable" )
         {
             $('#gnss').prop('checked',  true );
@@ -956,6 +969,7 @@
           }
         }).trigger('change');
         
+        $('#adv_set').attr( "href", "#lteadv?object="+v[1] );
 
       })
     }
@@ -972,7 +986,6 @@
 
       /* modem */
       lte.lock_nettype = $('#lock_nettype').val();
-      lte.lock_pin = $('#lock_pin').val();
       if ( $('#gnss').prop('checked') == true )
       {
         lte.gnss = "enable";

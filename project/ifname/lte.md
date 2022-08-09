@@ -41,7 +41,8 @@ Usually ifname@lte is the first LTE/NR network and module. If there are multiple
         "pppopt":"PPP options",                          // [ string ], Multiple options are separated by colons
         "custom_dns":"Custom DNS",                       // [ disable, enable ]
         "dns":"Custom DNS1",                             // [ IP address ], This is valid when custom_dns is [ enable ]
-        "dns2":"Custom DNS2"                             // [ IP address ], This is valid when custom_dns is [ enable ]
+        "dns2":"Custom DNS2",                            // [ IP address ], This is valid when custom_dns is [ enable ]
+        "txqueuelen":"tx queue len"
     },
     "masq":"out stream share the interface IPv4 address to access the Internet",  // [ disable, enable ]
 

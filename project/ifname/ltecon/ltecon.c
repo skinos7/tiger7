@@ -265,15 +265,12 @@ static talk_t ppp_client_connect( const char *object, const char *ifdev, talk_t 
 boole_t _setup( obj_t this, param_t param )
 {
 	int tid;
-    talk_t v;
     talk_t cfg;
     talk_t ret;
     const char *ptr;
     const char *obj;
     const char *object;
 	const char *ifdev;
-    char path[PATH_MAX];
-    char buffer[NAME_MAX];
 
     /* get the name */
     obj = obj_com( this );
@@ -312,28 +309,8 @@ boole_t _setup( obj_t this, param_t param )
         talk_free( cfg );
         return tfalse;
 	}
-    /* setup record file, avoid duplicate setup */
-    project_var_path( path, sizeof(path), PROJECT_ID, "%s.st", obj );
-    v = file2talk( path );
-    if ( v != NULL )
-    {
-        warn( "%s already startup", object );
-        talk_free( v );
-        talk_free( cfg );
-        return ttrue;
-    }
-    v = json_create( NULL );
-#if defined gPLATFORM__smtk2 || defined gPLATFORM__mtk2
-	snprintf( buffer, sizeof(buffer), "%lu", time(NULL) );
-#else
-	snprintf( buffer, sizeof(buffer), "%llu", time(NULL) );
-#endif
-    json_set_string( v, "starttime", buffer );
-    talk2file( v , path );
-    talk_free( v );
 
     /* run the app connection */
-    ret = tfalse;
     info( "%s startup", object );
 	ret = service_start( object, object, "service", NULL );
     talk_free( cfg );
@@ -341,7 +318,6 @@ boole_t _setup( obj_t this, param_t param )
 }
 boole_t _shut( obj_t this, param_t param )
 {
-    talk_t v;
     const char *obj;
     const char *object;
 	const char *ifdev;
@@ -355,15 +331,6 @@ boole_t _shut( obj_t this, param_t param )
         return tfalse;
     }
     object = obj_combine( this );
-    /* delete setup record file */
-    project_var_path( path, sizeof(path), PROJECT_ID, "%s.st", obj );
-    v = file2talk( path );
-    if ( v == NULL )
-    {
-        return tfalse;
-    }
-    talk_free( v );
-    unlink( path );
     info( "%s shut", object );
 
     /* stop the keeplive service */
@@ -898,52 +865,49 @@ boole_t _service( obj_t this, param_t param )
     	mode = "ppp";
 		method = "disable";
     }
-	else
+	/* ifdev connect */
+	info( "%s connect", ifdev );
+	if ( scallt( ifdev, "connect", cfg ) != ttrue )
 	{
-		/* ifdev connect */
-		info( "%s connect", ifdev );
-		if ( scall( ifdev, "connect", NULL ) != ttrue )
-		{
-			fault( "%s connect failed", ifdev );
-			talk_free( cfg );
-			sleep( 5 );
-			return tfalse;
-		}
+		fault( "%s connect failed", ifdev );
+		talk_free( cfg );
+		sleep( 5 );
+		return tfalse;
+	}
 
-	    /* set the mac */
-	    ptr = json_string( cfg, "mac" );
-	    if ( ptr != NULL && *ptr != '\0' )
-	    {
-	        scalls( ifdev, "setmac", ptr );
-	    }
+	/* set the mac */
+	ptr = json_string( cfg, "mac" );
+	if ( ptr != NULL && *ptr != '\0' )
+	{
+		scalls( ifdev, "setmac", ptr );
+	}
 
-		/* check connected */
-		ready = 0;
-		check = 0;
-		while( check < 30 )
+	/* check connected */
+	ready = 0;
+	check = 0;
+	while( check < 30 )
+	{
+		if ( scallt( ifdev, "connected", cfg ) == ttrue )
 		{
-			if ( scallt( ifdev, "connected", cfg ) == ttrue )
+			ready++;
+			if ( ready >= 3 )
 			{
-				ready++;
-				if ( ready >= 3 )
-				{
-					info( "%s connected ready", ifdev );
-					break;
-				}
-				usleep( 300000 );
-				continue;
+				info( "%s connected ready", ifdev );
+				break;
 			}
-			ready = 0;
-			check++;
-			sleep( 1 );
+			usleep( 300000 );
+			continue;
 		}
-		if ( check >= 30 )
-		{
-			warn( "%s connect timeout", ifdev );
-			scall( ifdev, "down", NULL );
-			talk_free( cfg );
-			return tfalse;
-		}
+		ready = 0;
+		check++;
+		sleep( 1 );
+	}
+	if ( check >= 30 )
+	{
+		warn( "%s connect timeout", ifdev );
+		scall( ifdev, "down", NULL );
+		talk_free( cfg );
+		return tfalse;
 	}
 
 	/* static ip setting */
@@ -1225,17 +1189,18 @@ boole_t _online( obj_t this, param_t param )
 	/* ppp tcp mss */
 	if ( 0 == strncmp( netdev, "ppp", 3 ) )
 	{
+		v = json_value( cfg, "ppp" );
 		ptr = json_string( v, "txqueuelen" );
 		if ( ptr == NULL || *ptr == '\0' )
 		{
 			ptr = "500";
 		}
-		execute( 0, 1, "ifconfig %s txqueuelen %s", netdev, ptr );
+		shell( "ifconfig %s txqueuelen %s", netdev, ptr );
 	}
 	if ( gateway != NULL && *gateway != '\0' )
 	{
 		iptables( "-t mangle -D POSTROUTING -o %s -p tcp -m tcp --tcp-flags SYN,RST SYN -m tcpmss --mss 1400:1536 -j TCPMSS --clamp-mss-to-pmtu", netdev );
-		iptables( "-t mangle -A POSTROUTING -o %s -p tcp -m tcp --tcp-flags SYN,RST SYN -m tcpmss --mss 1400:1536 -j TCPMSS --clamp-mss-to-pmtu", netdev );
+		iptables( "iptables -t mangle -A POSTROUTING -o %s -p tcp -m tcp --tcp-flags SYN,RST SYN -m tcpmss --mss 1400:1536 -j TCPMSS --clamp-mss-to-pmtu", netdev );
 	}
 
 	/* tell the ifdev */
@@ -1310,6 +1275,9 @@ boole _set( obj_t this, talk_t v, attr_t path )
 
 					|| 0 == strcmp( ptr, "ssim" )
 					|| 0 == strcmp( ptr, "ssim_cfg" )
+
+					|| 0 == strcmp( ptr, "sms" )
+					|| 0 == strcmp( ptr, "sms_cfg" )
 					)
 				{
 					json_set_value( mcfg, ptr, talk_dup(info) );
@@ -1361,6 +1329,9 @@ boole _set( obj_t this, talk_t v, attr_t path )
 		
 			|| 0 == strcmp( ptr, "ssim" )
 			|| 0 == strcmp( ptr, "ssim_cfg" )
+
+			|| 0 == strcmp( ptr, "sms" )
+			|| 0 == strcmp( ptr, "sms_cfg" )
 			)
 		{
 			dret = config_sset( ifdev, v, path );

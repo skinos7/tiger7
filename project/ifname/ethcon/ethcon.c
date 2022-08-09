@@ -13,15 +13,12 @@
 boole_t _setup( obj_t this, param_t param )
 {
 	int tid;
-    talk_t v;
     talk_t cfg;
     talk_t ret;
     const char *ptr;
     const char *obj;
     const char *object;
 	const char *ifdev;
-    char path[PATH_MAX];
-    char buffer[NAME_MAX];
 
     /* get the name */
     obj = obj_com( this );
@@ -59,28 +56,8 @@ boole_t _setup( obj_t this, param_t param )
         talk_free( cfg );
         return tfalse;
 	}
-    /* setup record file, avoid duplicate setup */
-    project_var_path( path, sizeof(path), PROJECT_ID, "%s.st", obj );
-    v = file2talk( path );
-    if ( v != NULL )
-    {
-        warn( "%s already startup", object );
-        talk_free( v );
-        talk_free( cfg );
-        return ttrue;
-    }
-    v = json_create( NULL );
-#if defined gPLATFORM__smtk2 || defined gPLATFORM__mtk2
-    snprintf( buffer, sizeof(buffer), "%lu", time(NULL) );
-#else
-	snprintf( buffer, sizeof(buffer), "%llu", time(NULL) );
-#endif
-    json_set_string( v, "starttime", buffer );
-    talk2file( v , path );
-    talk_free( v );
 
     /* run the app connection */
-    ret = tfalse;
     info( "%s startup", object );
 	ret = service_start( object, object, "service", NULL );
     talk_free( cfg );
@@ -88,7 +65,6 @@ boole_t _setup( obj_t this, param_t param )
 }
 boole_t _shut( obj_t this, param_t param )
 {
-    talk_t v;
     const char *obj;
     const char *object;
 	const char *ifdev;
@@ -102,15 +78,6 @@ boole_t _shut( obj_t this, param_t param )
         return tfalse;
     }
     object = obj_combine( this );
-    /* delete setup record file */
-    project_var_path( path, sizeof(path), PROJECT_ID, "%s.st", obj );
-    v = file2talk( path );
-    if ( v == NULL )
-    {
-        return tfalse;
-    }
-    talk_free( v );
-    unlink( path );
     info( "%s shut", object );
 
     /* stop the keeplive service */

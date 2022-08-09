@@ -35,7 +35,6 @@
 	"5G SA":"5G独立组网",
 	"3G":"3G",
 	"2G":"2G",
-	"PIN Code":"PIN码",
 	"GPS":"定位功能",
 
 
@@ -116,6 +115,18 @@
 	"Test Interval(sec)":"检测间隔(秒)",
 	"Duration(sec)":"时间段(秒)",
 	"Request packets":"要求包数",
+
+
+	"Advanced Settings":"高级设置",
+
+	"Lock IMEI":"锁定IMEI",
+	"Lock IMSI":"锁定IMSI",
+	"Lock PIN":"SIM卡PIN码",
+	"Lock Band":"锁定频段",
+	"Need SIM Card":"检查SIM卡",
+	"Need PLMN":"检查网络",
+	"Need Signal":"检查信号",
+	"Watch Interval":"查询间隔",
 
 
 

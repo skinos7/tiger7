@@ -1,0 +1,198 @@
+<!-- ajax layout which only needs content area -->
+<div class="row" id="page-modes">
+  <div class="col-xs-12 form-btn-wrapper">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="form-horizontal" role="form">
+
+
+
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Lock IMEI"></label>
+          <div class="col-sm-9">
+            <input type="text" id="lock_imei" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Lock IMSI"></label>
+          <div class="col-sm-9">
+            <input type="text" id="lock_imsi" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Lock PIN"></label>
+          <div class="col-sm-9">
+            <input type="text" id="lock_pin" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Lock Band"></label>
+          <div class="col-sm-9">
+            <input type="text" id="lock_band" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+
+
+        <div class="hr hr32 hr-dotted"></div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Need SIM Card"></label>
+          <div class="col-sm-9">
+            <label>
+              <input id="need_simcard" class="ace ace-switch ace-switch-6" type="checkbox" />
+              <span class="lbl"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Need PLMN"></label>
+          <div class="col-sm-9">
+            <label>
+              <input id="need_plmn" class="ace ace-switch ace-switch-6" type="checkbox" />
+              <span class="lbl"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Need Signal"></label>
+          <div class="col-sm-9">
+            <label>
+              <input id="need_signal" class="ace ace-switch ace-switch-6" type="checkbox" />
+              <span class="lbl"></span>
+            </label>
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Watch Interval"></label>
+          <div class="col-sm-9">
+            <input type="text" id="watch_interval" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+
+
+
+      <div class="clearfix form-actions">
+        <div class="col-md-offset-3 col-md-9">
+          <button class="btn btn-second" type="button" id="refresh"><span data-i18n="Refresh"></span></button>
+          &nbsp; &nbsp; &nbsp;
+          <button class="btn btn-main" type="button" id="apply"><span data-i18n="Apply"></span></button>
+        </div>
+      </div>
+
+
+
+    </div>
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+    /* get the object */
+    var lte;
+    var ltes;
+    var object = "modem@lte";
+    var index = page.param( 'object', location.hash );
+    if ( index )
+    {
+        object = index;
+    }
+
+    /* load the configure on the input */
+    function config_load()
+    {
+      he.load( [ object ] ).then( function(v){
+        lte = v[0];
+
+        $('#lock_imei').val( lte.lock_imei||'' );
+        $('#lock_imsi').val( lte.lock_imsi||'' );
+        $('#lock_pin').val( lte.lock_pin||'' );
+        $('#lock_band').val( lte.lock_band||'' );
+
+        $('#need_simcard').prop('checked', true );
+        if ( lte.need_simcard == "disable" )
+        {
+            $('#need_simcard').prop('checked', false );
+        }
+        $('#need_plmn').prop('checked', true );
+        if ( lte.need_plmn == "disable" )
+        {
+            $('#need_plmn').prop('checked', false );
+        }
+        $('#need_signal').prop('checked', true );
+        if ( lte.need_signal == "disable" )
+        {
+            $('#need_signal').prop('checked', false );
+        }
+        $('#watch_interval').val( lte.watch_interval||'' );
+
+      })
+    }
+
+    /* save the configure */
+    function config_save()
+    {
+      if ( lte == null )
+      {
+        return;
+      }
+      var ltecopy = JSON.parse(JSON.stringify(lte));;
+
+      lte.lock_imei = $('#lock_imei').val();
+      lte.lock_imsi = $('#lock_imsi').val();
+      lte.lock_pin = $('#lock_pin').val();
+      lte.lock_band = $('#lock_band').val();
+      lte.need_simcard = boole2able( $('#need_simcard').prop('checked') );
+      lte.need_plmn = boole2able( $('#need_plmn').prop('checked') );
+      lte.need_signal = boole2able( $('#need_signal').prop('checked') );
+      lte.watch_interval = $('#watch_interval').val();
+
+      if ( ocompare( lte, ltecopy ) )
+      {
+          page.alert( { message: $.i18n('Settings unchanged') } );
+          return;
+      }
+      page.confirm( { message: $.i18n('The LTE connecttion will be disconneted because of the change of configuration') } ).then( function(result){
+        if ( result )
+        {
+          he.save( [ object+"="+JSON.stringify(lte)] ).then( function(){
+            page.hint2succeed( $.i18n('Modify successfully') );
+            config_load();
+          });
+        }
+      });
+    }
+
+
+
+    /* init */
+    page.password('passwd', 'password-icon' );
+    $.i18n().load( page.lang('lte') ).then( function () {
+      /* init the langauage */
+      $.i18n().locale = lang; $('body').i18n();
+
+      /* load the configure */
+      config_load();
+
+      /* bind the refresh */
+      $('#refresh').on(ace.click_event, function () {
+        location.reload();
+      });
+      /* bind the apply */
+      $('#apply').on(ace.click_event, function () {
+        config_save();
+      });
+    });
+
+  })();
+</script>

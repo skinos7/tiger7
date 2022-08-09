@@ -16,9 +16,8 @@
 ifeq (gBOARDID, $(wildcard gBOARDID))
 sinclude gBOARDID 
 endif
+gZZID ?= default
 gBOARDID ?= host-x86-ubuntu
-gFIRMWARE_SETUP ?= default.sh
-gFIRMWARE_DEFAULT ?= default.dtar
 
 #####################################
 ######### Do not modify #############
@@ -44,7 +43,7 @@ gPUBLISH ?= 20220218
 gVERSION ?= tiger7-$(gPUBLISH)
 # Name for compiler
 gMAKER ?= dimmalex@gmail.com
-export gNPROC gPLATFORM gHARDWARE gCUSTOM gSCOPE gVERSION gPUBLISH gMAKER
+export gNPROC gZZID gPLATFORM gHARDWARE gCUSTOM gSCOPE gVERSION gPUBLISH gMAKER
 
 #####################################
 ######### Do not modify #############
@@ -71,13 +70,16 @@ gSTORE_DIR := ${gBUILD_DIR}/store
 gCUSTOM_DIR := ${gHARDWARE_DIR}/${gCUSTOM}
 # Custom configure directory
 gSCOPE_DIR := ${gCUSTOM_DIR}/${gSCOPE}
+gZZID_DIR := ${gCUSTOM_DIR}/${gZZID}
+gZZID_SH := ${gZZID}.sh
+gZZID_SH_FILE := ${gZZID_DIR}/${gZZID}.sh
+gZZID_CONFIG := ${gZZID}.dtar
+gZZID_CONFIG_DIR := ${gZZID_DIR}/rootfs/prj/
 # Markdown directory for project component
 gCOMFACE_DIR := ${gTOP_DIR}/doc/com
 # Tools directory for compile
 gTOOLS_DIR := ${gTOP_DIR}/tools
 # firmware upgrade setup shell, you can execute some commend at the firmware upgrade
-gFIRMWARE_SETUP_SH := ${gTOP_DIR}/custom/${gFIRMWARE_SETUP}
-gFIRMWARE_DEFAULT_TAR := ${gTOP_DIR}/custom/${gFIRMWARE_DEFAULT}
 # Project source code directory
 gPROJECT_DIR := ${gTOP_DIR}/project
 # Commercial customer project source code directory
@@ -116,7 +118,7 @@ gFLASH_MAKEFILE := ${gPLATFORM_DIR}/flash.makefile
 export gTOP_DIR gBUILD_DIR gINSTALL_DIR
 export gosROOT_DIR gosPRJ_NAME gosPRJ_DIR
 export gPLATFORM_DIR gHARDWARE_DIR gSTORE_DIR gCUSTOM_DIR gSCOPE_DIR gCOMFACE_DIR gTOOLS_DIR gPROJECT_DIR gRICE_DIR
-export gFIRMWARE_SETUP gFIRMWARE_SETUP_SH gFIRMWARE_DEFAULT gFIRMWARE_DEFAULT_TAR
+export gZZID_DIR gZZID_SH gZZID_SH_FILE gZZID_CONFIG gZZID_CONFIG_DIR
 export gPROJECT_INF gMAKEFILE_CFGFILE
 export gSDK_DIR
 export gSDK_MAKEFILE gLAY_MAKEFILE gDIR_MAKEFILE gFPK_MAKEFILE gCOM_MAKEFILE gLIB_MAKEFILE gEXE_MAKEFILE gFLASH_MAKEFILE
@@ -134,12 +136,6 @@ all:
 		make -f Makefile.target kernel COMPILE_PROJECT=package/${obj}/compile; \
 		make -f Makefile.target app COMPILE_PROJECT=package/${obj}/compile; \
 	else \
-		if [ -e ${gFIRMWARE_SETUP_SH} ]; then \
-			cp ${gFIRMWARE_SETUP_SH}  ${gBUILD_DIR}; \
-		fi; \
-		if [ -e ${gFIRMWARE_DEFAULT_TAR} ]; then \
-			cp ${gFIRMWARE_DEFAULT_TAR}  ${gBUILD_DIR}; \
-		fi; \
 		make kernel||exit -1; \
 		make app||exit -1; \
 		make kernel_install||exit-1; \
@@ -162,6 +158,13 @@ lay_install:
 	if [ -d ${gHARDWARE_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gHARDWARE_DIR} rootfs_install; fi
 	if [ -d ${gCUSTOM_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gCUSTOM_DIR} rootfs_install; fi
 	if [ -d ${gSCOPE_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gSCOPE_DIR} rootfs_install; fi
+	if [ -e ${gZZID_SH_FILE} ]; then \
+		cp ${gZZID_SH_FILE} ${gBUILD_DIR}; \
+	fi
+	if [ -e ${gZZID_CONFIG_DIR} ]; then \
+		cd ${gZZID_CONFIG_DIR}; \
+		tar -c * -f ${gBUILD_DIR}/${gZZID_CONFIG}; \
+	fi
 clean:
 	if [ "X${obj}" != "X" ]; then \
 		make -f Makefile.target kernel COMPILE_PROJECT=package/${obj}/clean; \
