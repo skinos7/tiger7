@@ -25,21 +25,6 @@
         
         "test-lpcall":"call the child named test-callbk",
         "test-callbk":"call back to father named test-lpcall"
-    },
-
-    "wui":
-    {
-        "agent":
-        {
-            "cn":"XG Link",
-            "en":"XG Link",
-            "page":"xglink.html",
-            "lang":
-            {
-                "cn":"xglink-cn.json",
-                "en":"xglink-en.json"
-            }
-        }
     }
 
 }
