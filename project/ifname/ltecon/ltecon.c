@@ -1190,8 +1190,8 @@ boole_t _online( obj_t this, param_t param )
 	/* ppp tcp mss */
 	if ( 0 == strncmp( netdev, "ppp", 3 ) )
 	{
-		v = json_value( cfg, "ppp" );
-		ptr = json_string( v, "txqueuelen" );
+		value = json_value( cfg, "ppp" );
+		ptr = json_string( value, "txqueuelen" );
 		if ( ptr == NULL || *ptr == '\0' )
 		{
 			ptr = "500";
@@ -1208,34 +1208,7 @@ boole_t _online( obj_t this, param_t param )
 	tid = register_pointer( object, "tid" );
 	if ( tid != NULL && tid != 0 )
 	{
-		char ip[NAME_MAX];
-		char mask[NAME_MAX];
-		const char *local_netdev;
-		unsigned int local_ipst;
-		unsigned int local_maskst;
-		unsigned int local_netst;
-		/* clear the ifname route table */
-		shell( "ip route flush table %d", *tid );
-		/* get the local netdev */
-		local_netdev = register_pointer( LAND_PROJECT, "local_netdev" );
-		if ( local_netdev != NULL && *local_netdev != '\0' )
-		{
-			if ( netdev_info( local_netdev, ip, sizeof(ip), NULL, 0, mask, sizeof(mask), NULL, 0 ) == 0 )
-			{
-				inet_pton( AF_INET, ip, &local_ipst );
-				inet_pton( AF_INET, mask, &local_maskst );
-				local_netst = local_ipst&local_maskst;
-				inet_ntop( AF_INET, &local_netst, path, sizeof(path) );
-				shell( "ip route add table %d %s/%s dev %s", *tid, path, mask, local_netdev );
-			}
-		}
-		/* mark the tid to ifname route table */
-		shell( "ip rule del pref %d from all fwmark %d >/dev/null 2>&1", 5, *tid );
-		shell( "ip rule add pref %d fwmark %d table %d", 5, *tid, *tid );
-		shell( "ip route flush cache" );
-		/* set the default route to ifname route table */
-		snprintf( path, sizeof(path), "%d", *tid );
-		route_switch( path, "0.0.0.0", NULL, NULL, v, true );
+		route_table_create( *tid, v );
 	}
 
 	/* tell the ifdev */
