@@ -1077,6 +1077,7 @@ boole_t _automatic( obj_t this, param_t param )
 boole_t _online( obj_t this, param_t param )
 {
 	int i;
+	int *tid;
 	talk_t v;
 	talk_t cfg;
 	talk_t value;
@@ -1201,6 +1202,40 @@ boole_t _online( obj_t this, param_t param )
 	{
 		iptables( "-t mangle -D POSTROUTING -o %s -p tcp -m tcp --tcp-flags SYN,RST SYN -m tcpmss --mss 1400:1536 -j TCPMSS --clamp-mss-to-pmtu", netdev );
 		iptables( "iptables -t mangle -A POSTROUTING -o %s -p tcp -m tcp --tcp-flags SYN,RST SYN -m tcpmss --mss 1400:1536 -j TCPMSS --clamp-mss-to-pmtu", netdev );
+	}
+
+	/* tid route table init */
+	tid = register_pointer( object, "tid" );
+	if ( tid != NULL && *tid != '\0' )
+	{
+		char ip[NAME_MAX];
+		char mask[NAME_MAX];
+		const char *local_netdev;
+		unsigned int local_ipst;
+		unsigned int local_maskst;
+		unsigned int local_netst;
+		/* clear the ifname route table */
+		shell( "ip route flush table %d", *tid );
+		/* get the local netdev */
+		local_netdev = register_pointer( LAND_PROJECT, "local_netdev" );
+		if ( local_netdev != NULL && *local_netdev != '\0' )
+		{
+			if ( netdev_info( local_netdev, ip, sizeof(ip), NULL, 0, mask, sizeof(mask), NULL, NULL ) == 0 )
+			{
+				inet_pton( AF_INET, ip, &local_ipst );
+				inet_pton( AF_INET, mask, &local_maskst );
+				local_netst = local_ipst&local_maskst;
+				inet_ntop( AF_INET, &local_netst, path, sizeof(path) );
+				shell( "ip route add table %s %s/%s dev %s", *tid, path, mask, local_netdev );
+			}
+		}
+		/* mark the tid to ifname route table */
+		shell( "ip rule del pref %d from all fwmark %d >/dev/null 2>&1", 5, *tid );
+		shell( "ip rule add pref %d fwmark %d table %d", 5, *tid, *tid );
+		shell( "ip route flush cache" );
+		/* set the default route to ifname route table */
+		snprintf( path, sizeof(path), "%d", *tid );
+		route_switch( path, "0.0.0.0", NULL, NULL, v, true );
 	}
 
 	/* tell the ifdev */
