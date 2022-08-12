@@ -40,7 +40,7 @@ endif
 # Get the date
 #gPUBLISH ?= $(shell date +%m%d%y)
 gPUBLISH ?= 20220218
-gVERSION ?= tiger7-$(gPUBLISH)
+gVERSION ?= $(gPUBLISH)
 # Name for compiler
 gMAKER ?= dimmalex@gmail.com
 export gNPROC gZZID gPLATFORM gHARDWARE gCUSTOM gSCOPE gVERSION gPUBLISH gMAKER

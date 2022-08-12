@@ -1206,7 +1206,7 @@ boole_t _online( obj_t this, param_t param )
 
 	/* tid route table init */
 	tid = register_pointer( object, "tid" );
-	if ( tid != NULL && *tid != '\0' )
+	if ( tid != NULL && tid != 0 )
 	{
 		char ip[NAME_MAX];
 		char mask[NAME_MAX];
@@ -1220,13 +1220,13 @@ boole_t _online( obj_t this, param_t param )
 		local_netdev = register_pointer( LAND_PROJECT, "local_netdev" );
 		if ( local_netdev != NULL && *local_netdev != '\0' )
 		{
-			if ( netdev_info( local_netdev, ip, sizeof(ip), NULL, 0, mask, sizeof(mask), NULL, NULL ) == 0 )
+			if ( netdev_info( local_netdev, ip, sizeof(ip), NULL, 0, mask, sizeof(mask), NULL, 0 ) == 0 )
 			{
 				inet_pton( AF_INET, ip, &local_ipst );
 				inet_pton( AF_INET, mask, &local_maskst );
 				local_netst = local_ipst&local_maskst;
 				inet_ntop( AF_INET, &local_netst, path, sizeof(path) );
-				shell( "ip route add table %s %s/%s dev %s", *tid, path, mask, local_netdev );
+				shell( "ip route add table %d %s/%s dev %s", *tid, path, mask, local_netdev );
 			}
 		}
 		/* mark the tid to ifname route table */
