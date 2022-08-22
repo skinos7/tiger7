@@ -754,10 +754,14 @@ boole_t _service( obj_t this, param_t param )
 	ifdev = register_pointer( object, "ifdev" );
     if ( ifdev == NULL || *ifdev == '\0' )
     {
+		fault( "cannot found %s ifdev", object );
+		sleep( 3 );
         return tfalse;
     }
 	if ( com_sexist( ifdev, NULL ) == false )
 	{
+		fault( "ifdev %s inexistence", ifdev );
+		sleep( 3 );
         return tfalse;
 	}
 	scalls( GPIO_COM, "action", "network/onlineing,%s", ifdev );
@@ -766,6 +770,7 @@ boole_t _service( obj_t this, param_t param )
     cfg = config_get( this, NULL ); 
     if ( cfg == NULL )
     {
+		fault( "cannot found %s configure", object );
     	return terror;
     }
 	mode = json_string( cfg, "mode" );

@@ -1,5 +1,6 @@
 {
 	"Status":"状态",
+	"disable":"未启用",
 	"down":"未连接",
 	"scanning":"正在扫描",
 	"uping":"正在连接",
