@@ -364,7 +364,7 @@
             /* load the configure */
             $('#type').unbind('change').change(function (e) {
               var type = e.target.value;
-              if ( type == "dbdc" )
+              if ( type == "dbdc" || type == "bonding" )
               {
                 $('#dbdc-sets').show();
               }
@@ -387,7 +387,7 @@
         frame.connect.back = $('#back').val();
         frame.connect.king = $('#king').val();
         frame.connect.reserve = $('#reserve').val();
-        if ( frame.connect.type == "dbdc" )
+        if ( frame.connect.type == "dbdc" || frame.connect.type == "bonding" )
         {
             frame.connect.delay_count = $('#delay_count').val();
             frame.connect.delay_divide = $('#delay_divide').val();

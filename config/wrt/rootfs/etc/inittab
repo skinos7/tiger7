@@ -3,5 +3,5 @@
 
 # modify by dimmalex for simple console
 #::askconsole:/usr/libexec/login.sh
-::askconsole:bin/ash --login
+#::askconsole:bin/ash --login
 
