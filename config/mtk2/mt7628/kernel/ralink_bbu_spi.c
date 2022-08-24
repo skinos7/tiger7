@@ -464,7 +464,8 @@ static struct chip_info chips_data [] = {
 	{ "W25Q64BV",           0xef, 0x40170000, 64 * 1024, 128, 0 }, //S25FL064K //W25Q64FV
 	{ "W25Q128BV",          0xef, 0x40180000, 64 * 1024, 256, 0 },//W25Q128FV
 	{ "W25Q256FV",          0xef, 0x40190000, 64 * 1024, 512, 1 },
-	{ "W25Q512JV",          0xef, 0x71190000, 64 * 1024, 1024, 1 },
+	{ "W25Q512JV",          0xef, 0x40200000, 64 * 1024, 1024, 1 },
+	{ "W25M512JV",          0xef, 0x71190000, 64 * 1024, 1024, 1 },
 	{ "N25Q032A13ESE40F",   0x20, 0xba161000, 64 * 1024, 64,  0 },
 	{ "N25Q064A13ESE40F",   0x20, 0xba171000, 64 * 1024, 128, 0 },
 	{ "N25Q128A13ESE40F",   0x20, 0xba181000, 64 * 1024, 256, 0 },
@@ -817,6 +818,25 @@ int bbu_spic_trans(const u8 code, const u32 addr, u8 *buf, const size_t n_tx, co
 #endif
 }
 	return 0;
+}
+
+static int raspi_4byte_mode(int enable);
+//add by qingcheng
+int bbu_safe_spic_trans(const u8 code, const u32 addr, u8 *buf, const size_t n_tx, const size_t n_rx, int flag, int mb)
+{
+	int ret;
+
+	down(&flash->lock);
+	if (flash->chip->addr4b)
+		raspi_4byte_mode(1);
+	if (mb)
+		ret = bbu_mb_spic_trans(code, addr, buf, n_tx, n_rx, flag, FLASH_USE);
+	else
+		ret = bbu_spic_trans(code, addr, buf, n_tx, n_rx, flag, FLASH_USE);
+	if (flash->chip->addr4b)
+		raspi_4byte_mode(0);
+	up(&flash->lock);
+	return ret;
 }
 #endif // BBU_MODE //
 
@@ -2098,7 +2118,7 @@ module_exit(raspi_exit);
 
 EXPORT_SYMBOL(bbu_mb_spic_trans);
 EXPORT_SYMBOL(bbu_spic_trans);
+EXPORT_SYMBOL(bbu_safe_spic_trans);
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Steven Liu");
 MODULE_DESCRIPTION("MTD SPI driver for Ralink flash chips");
-EXPORT_SYMBOL(FLASH_LOCK_GET);

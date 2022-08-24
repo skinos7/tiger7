@@ -1,0 +1,18 @@
+--- linux-3.10.108.orig/drivers/net/wireless/mtk/mt7628/mt7628_wifi/embedded/ap/apcli_sync.c	2022-08-03 22:23:30.795777454 +0800
++++ linux-3.10.108/drivers/net/wireless/mtk/mt7628/mt7628_wifi/embedded/ap/apcli_sync.c	2022-08-03 22:24:34.915900051 +0800
+@@ -712,8 +712,15 @@
+ 	UCHAR ssidLen;
+ 	CHAR ssid[MAX_LEN_OF_SSID];
+ 	APCLI_STRUCT *pApCliEntry = NULL;
++
++/* add by dimmalex for compile error */
++#ifdef WSC_AP_SUPPORT
++    
+ 	BOOLEAN bHasWscIe = FALSE;
+ 
++/* add by dimmalex for compile error */
++#endif
++
+ 	MTWF_LOG(DBG_CAT_ALL, DBG_SUBCAT_ALL, DBG_LVL_TRACE, ("force out a ProbeRequest ...\n"));
+ 
+ 	if (ifIndex >= MAX_APCLI_NUM)

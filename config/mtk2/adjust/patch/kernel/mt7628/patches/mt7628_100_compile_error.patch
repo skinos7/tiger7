@@ -1,17 +1,19 @@
---- linux-3.10.108.orig/drivers/net/wireless/mtk/mt7628/mt7628_wifi/embedded/mgmt/mgmt_ht.c	2021-12-21 22:24:39.567706183 +0800
-+++ linux-3.10.108/drivers/net/wireless/mtk/mt7628/mt7628_wifi/embedded/mgmt/mgmt_ht.c	2021-12-21 22:27:57.162438123 +0800
-@@ -781,6 +781,10 @@
+--- linux-3.10.108.orig/drivers/net/wireless/mtk/mt7628/mt7628_wifi/embedded/mgmt/mgmt_ht.c	2022-08-03 22:50:25.298214954 +0800
++++ linux-3.10.108/drivers/net/wireless/mtk/mt7628/mt7628_wifi/embedded/mgmt/mgmt_ht.c	2022-08-03 22:29:10.300366284 +0800
+@@ -781,6 +781,12 @@
  
  INT	SetCommonHT(RTMP_ADAPTER *pAd)
  {
 +
 +    // add by dimmalex for forbids mixed declarations and code
++    #ifdef APCLI_AUTO_BW_SUPPORT
 +    UINT apidx;
++    #endif /* APCLI_AUTO_BW_SUPPORT */
 +
  	OID_SET_HT_PHYMODE SetHT;
  
  	if (!WMODE_CAP_N(pAd->CommonCfg.PhyMode))
-@@ -789,7 +793,10 @@
+@@ -789,7 +795,10 @@
  		RTMPDisableDesiredHtInfo(pAd);
  
  #ifdef APCLI_AUTO_BW_SUPPORT

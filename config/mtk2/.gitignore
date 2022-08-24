@@ -17,5 +17,5 @@
 **/*.fpk
 **/*.store
 
-/Uboot/
+/boot/
 

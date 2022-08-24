@@ -93,8 +93,11 @@ cp -r ${gPLATFORM_DIR}/adjust/patch/kernel/mt7663/patches/001-driver-path.patch 
 # patch to mt7663 ver6.0.3  chip new drivers to platform
 rm -fr ${gSDK_DIR}/package/mtk/drivers/mt7663_603/
 cp -r ${gPLATFORM_DIR}/adjust/patch/kernel/mt7663_603   ${gSDK_DIR}/package/mtk/drivers/mt7663_603
+# patch to mt7628 for .dat file
+cp ${gPLATFORM_DIR}/adjust/patch/kernel/mt7628/files/mt7628.dat   ${gSDK_DIR}/package/mtk/drivers/mt7628/files/
 # patch to mt7628 to compile apcli no error
-cp ${gPLATFORM_DIR}/adjust/patch/kernel/mt7628/patches/mt7628_100_compile_error.patch   ${gSDK_DIR}/package/mtk/drivers/mt7628/patches/
+cp ${gPLATFORM_DIR}/adjust/patch/kernel/mt7628/patches/mt7628_100_compile_error.patch   ${gSDK_DIR}/package/mtk/drivers/mt7628/patches/100_compile_error.patch
+cp ${gPLATFORM_DIR}/adjust/patch/kernel/mt7628/patches/mt7628_101_nowsc_fix.patch   ${gSDK_DIR}/package/mtk/drivers/mt7628/patches/101_nowsc_fix.patch
 
 
 # patch to busybox for udhcpc support ifnameid and exit when renewip failed
