@@ -336,11 +336,11 @@ boole_t _shut( obj_t this, param_t param )
     /* stop the keeplive service */
 	snprintf( name, sizeof(name), "%s-keeplive", object );
     service_delete( name );
-    /* stop the service */
-    service_delete( object );
     /* stop the automatic service */
 	snprintf( name, sizeof(name), "%s-automatic", object );
     service_delete( name );
+    /* stop the service */
+    service_delete( object );
     /* delete online file */
     project_var_path( path, sizeof(path), NETWORK_PROJECT, "%s.ol", object );
     unlink( path );
@@ -1231,6 +1231,7 @@ boole_t _online( obj_t this, param_t param )
 
 boole _set( obj_t this, talk_t v, attr_t path )
 {
+	int i;
     boole ret;
     boole dret;
     talk_t axp;
@@ -1359,11 +1360,15 @@ boole _set( obj_t this, talk_t v, attr_t path )
     if ( dret == true )
     {
         scall( ifdev, "shut", NULL );
+		i = 0;
+		register_set( object, "connect_failed", &i, sizeof(i), 0 );
         scall( ifdev, "setup", NULL );
     }
     else if ( ret == true )
     {
         _shut( this, NULL );
+		i = 0;
+		register_set( object, "connect_failed", &i, sizeof(i), 0 );
         _setup( this, NULL );
     }
     return ret;

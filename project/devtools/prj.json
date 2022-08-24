@@ -14,10 +14,7 @@
         "exe":"sample executable program template",
 
         "test-talk":"test the talk function program",
-        "test-param":"test the param function program",
-
-        "example_connect":"example development for extern ifname management"
-        
+        "test-param":"test the param function program"
     },
     "com":
     {
