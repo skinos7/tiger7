@@ -959,14 +959,14 @@
         $.plot( "[id='"+ifname+"-charts']", datas, opt );
         /* get the usage */
 	    var usage;
-	    usage = (rx/(4*1024))*100;
+	    usage = (rx/(10*1024))*100;
         if ( usage < 0 )
         {
             usage = 0;
         }
         $("[id='"+ifname+"_downusage']").text( usage.toFixed(0) );
         $("[id='"+ifname+"_downusage_pie']").data('easyPieChart').update( usage.toFixed(0) );
-        usage = (tx/(3*1024))*100;
+        usage = (tx/(10*1024))*100;
         if ( usage < 0 )
         {
             usage = 0;
@@ -1071,14 +1071,14 @@
         $.plot( "[id='"+ifname+"-charts']", datas, opt );
         /* get the usage */
 	    var usage;
-	    usage = (rx/(100*1024))*100;
+	    usage = (rx/(10*1024))*100;
         if ( usage < 0 )
         {
             usage = 0;
         }
         $("[id='"+ifname+"_downusage']").text( usage.toFixed(0) );
         $("[id='"+ifname+"_downusage_pie']").data('easyPieChart').update( usage.toFixed(0) );
-        usage = (tx/(100*1024))*100;
+        usage = (tx/(10*1024))*100;
         if ( usage < 0 )
         {
             usage = 0;
@@ -1185,14 +1185,14 @@
         $.plot( "[id='"+ifname+"-charts']", datas, opt );
         /* get the usage */
 	    var usage;
-	    usage = (rx/(100*1024))*100;
+	    usage = (rx/(10*1024))*100;
         if ( usage < 0 )
         {
             usage = 0;
         }
         $("[id='"+ifname+"_downusage']").text( usage.toFixed(0) );
         $("[id='"+ifname+"_downusage_pie']").data('easyPieChart').update( usage.toFixed(0) );
-        usage = (tx/(100*1024))*100;
+        usage = (tx/(10*1024))*100;
         if ( usage < 0 )
         {
             usage = 0;

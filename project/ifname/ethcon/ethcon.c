@@ -620,7 +620,7 @@ boole_t _service( obj_t this, param_t param )
     }
     /* ifdev connect */
     info( "%s connect", ifdev );
-    if ( scall( ifdev, "connect", NULL ) != ttrue )
+    if ( scallt( ifdev, "connect", cfg ) != ttrue )
     {
         fault( "%s connect failed", ifdev );
         talk_free( cfg );
