@@ -1360,13 +1360,18 @@ boole _set( obj_t this, talk_t v, attr_t path )
     if ( dret == true )
     {
         scall( ifdev, "shut", NULL );
+		/* clear the failed count */
 		i = 0;
 		register_set( object, "connect_failed", &i, sizeof(i), 0 );
+		/* mark the config not sync */
+		i = 0;
+		register_set( ifdev, "setting_sync", &i, sizeof(i), 0 );
         scall( ifdev, "setup", NULL );
     }
     else if ( ret == true )
     {
         _shut( this, NULL );
+		/* clear the failed count */
 		i = 0;
 		register_set( object, "connect_failed", &i, sizeof(i), 0 );
         _setup( this, NULL );
