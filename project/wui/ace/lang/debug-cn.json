@@ -50,14 +50,16 @@
 	"Development Option":"开发者选项",
 
 	"a. How to download SDK and compile upgrade package":"一. 如何下载SDK及编译升级包",
-	"1. The compilation environment of this SDK is similar to Openwrt. It is recommended to download this SDK after setting up the compilation environment in Ubuntu":"1. 此SDK的编译环境与Openwrt类似， 建议在Ubuntu下搭建好编译环境后下载此SDK",
+	"1. It is recommended to download this SDK after setting up the compilation environment in Ubuntu":"1. 建议在Ubuntu下搭建好编译环境后下载此SDK",
 	"2. Enter the following command line to download from the Ubuntu terminal command line":"2. 在Ubuntu的终端命令行输入以下命令行下载",
-	"3. After waiting for the download, enter the mytry6 directory and input the following instructions to update the SDK to the latest state":"3. 等待下载完成后进入mytry6目录, 输入以下指令更新SDK到最新状态",
+	"git clone https://github.com/skinos7/tiger7.git":"git clone https://gitee.com/tiger7/tiger7.git",
+	"3. After waiting for the download, enter the tiger7 directory and input the following instructions to update the SDK to the latest state":"3. 等待下载完成后进入tiger7目录, 输入以下指令更新SDK到最新状态",
 	"4. After waiting for the update, you can input the following instructions to compile the corresponding products":"4. 等待更新完成后即可输入以后指令编译对应的产品",
 	"5. After waiting for the compilation, an upgrade package file ending with.zz will be generated in the./build directory, which can be upgraded through the upgrade interface of the router":"5. 等待编译完成后会在./build目录下生成一个.zz结尾的升级包文件， 通过路由器的升级界面将其升级即可",
+
 	"b. How to develop their own router program":"二. 如何开发自已的路由器程序",
 	"1. Readme.md in SDK directory is a basic introduction to the whole SDK and its development":"1. SDK目录下readme.md是对整个SDK的及开发的基本介绍",
-	"2. In the doc/dev directory of SDK directory, there are detailed step-by-step documents to guide the development of router components (under preparation).":"2. SDK目录下doc/dev目录下有详细的一步一步指导开发路由器组件的文档(编写中)",
+	"2. https://github.com/skinos7/doc.git, there are detailed step-by-step documents to guide the development of router components (under preparation).":"2. https://gitee.com/tiger7/doc.git有详细的一步一步指导开发路由器组件的文档(编写中)",
 	"3. These documents will be updated from time to time, please execute make update in the SDK directory to update":"3. 这些文档会不定期的更新，请在SDK目录下执行make update来更新",
 	"4. Visit www.ashyelf.com for more development help (under construction)":"4. 访问www.ashyelf.com可获取更多的开发帮助(建设中)",
 	
