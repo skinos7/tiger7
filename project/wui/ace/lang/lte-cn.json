@@ -54,7 +54,20 @@
 	"Signal failed times":"信号失败次数",
 	"Dial failed times":"拨号失败次数",
 	"Failover duration(sec)":"备用SIM卡使用时长(秒)",
+
 	
+
+	"SMS Settings":"短信设置",
+	"SMS Function":"短信功能",
+	"HE Agent":"HE指令支持",
+	"Command Contact":"指令联系人",
+	"Command Prefix":"指令前缀",
+	"SMS List":"短信列表",
+	"Contact":"联系人",
+	"Date":"时间",
+	"Content":"内容",
+	"Operation":"操作",
+
 
 
 	"APN Custom":"APN自定义",

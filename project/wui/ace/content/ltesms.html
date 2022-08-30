@@ -1,0 +1,306 @@
+<!-- ajax layout which only needs content area -->
+<div class="row" id="page-modes">
+  <div class="col-xs-12 form-btn-wrapper">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="form-horizontal" role="form">
+
+
+
+        <!-- 短信功能 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="SMS Function"></label>
+          <div class="col-sm-9">
+            <label>
+              <input id="sms" class="ace ace-switch ace-switch-6" type="checkbox" />
+              <span class="lbl"></span>
+            </label>
+          </div>
+        </div>
+        <div id="sms_cfg" style="display: none;">
+
+          <!-- HE -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="HE Agent"></label>
+            <div class="col-sm-9">
+              <label>
+                <input id="he" class="ace ace-switch ace-switch-6" type="checkbox" />
+                <span class="lbl"></span>
+              </label>
+            </div>
+          </div>
+          
+          <div id="he_cfg" style="display: none;">
+              <!-- Number -->
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" data-i18n="Command Contact"></label>
+                <div class="col-sm-9">
+                  <input type="text" id="he_contact" class="col-xs-10 col-sm-5" maxlength="128" />
+                </div>
+              </div>
+              <!-- 指定前缀 -->
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" data-i18n="Command Prefix"></label>
+                <div class="col-sm-9">
+                  <input type="text" id="he_prefix" class="col-xs-10 col-sm-5" maxlength="128" />
+                </div>
+              </div>
+          </div>
+
+
+          <div class="hr hr32 hr-dotted"></div>
+          <table id="smslist-grid-table"></table>
+          <div id="smslist-grid-pager"></div>
+
+
+        </div>
+
+
+
+      <div class="clearfix form-actions">
+        <div class="col-md-offset-3 col-md-9">
+          <button class="btn btn-second" type="button" id="refresh"><span data-i18n="Refresh"></span></button>
+          &nbsp; &nbsp; &nbsp;
+          <button class="btn btn-main" type="button" id="apply"><span data-i18n="Apply"></span></button>
+        </div>
+      </div>
+
+
+
+    </div>
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+    /* get the object */
+    var lte;
+    var ltes;
+    var object = "modem@lte";
+    var index = page.param( 'object', location.hash );
+    if ( index )
+    {
+        object = index;
+    }
+    var smslist_table = '#smslist-grid-table';
+    var smslist_pager = '#smslist-grid-pager';
+
+    /* load the configure on the input */
+    function config_load()
+    {
+      he.load( [ object ] ).then( function(v){
+        lte = v[0];
+
+        if ( lte.sms == "enable" )
+        {
+            $('#sms').prop('checked', true );
+        }
+        else
+        {
+            $('#sms').prop('checked', false );
+        }
+        $('#sms').unbind('change').change(function () {
+          if ($(this).prop('checked'))
+          {
+            $('#sms_cfg').show();
+          } 
+          else
+          {
+            $('#sms_cfg').hide();
+          }
+        }).trigger('change');
+
+        if ( lte.sms_cfg )
+        {
+            $('#he_contact').val( lte.sms_cfg.he_contact||'' );
+            $('#he_prefix').val( lte.sms_cfg.he_prefix||'' );
+            if ( lte.sms_cfg.he == "enable" )
+            {
+                $('#he').prop('checked', true );
+            }
+            else
+            {
+                $('#he').prop('checked', false );
+            }
+        }
+        $('#he').unbind('change').change(function () {
+          if ($(this).prop('checked'))
+          {
+            $('#he_cfg').show();
+          } 
+          else
+          {
+            $('#he_cfg').hide();
+          }
+        }).trigger('change');
+
+      })
+    }
+
+    function smslist_load()
+    {
+      he.bkload( [ object+".smslist" ] ).then( function(v){
+        var list = v[0];
+        if ( !list )
+        {
+            return;
+        }
+        var rows = [];
+        for ( var id in list )
+        {
+            var row = { sid: id, contact: list[id].contact, date: list[id].date, content: list[id].content };
+            rows.push(row);
+        }
+        // 记住滚动条的位置
+        var scrollPos = jqtable.getScrollPos();
+        // 给表格设置数据
+        $(smslist_table).jqGrid('clearGridData').jqGrid('setGridParam', { data: rows }).trigger('reloadGrid');
+        // 恢复滚动条的位置
+        jqtable.setScrollPos(scrollPos);
+      })
+    }
+    // 删除多个短信
+    function delete_smss( indexStr )
+    {
+        var key;
+        // 选中的行
+        var indexs = indexStr.split(',');
+        // 删除路由的he命令
+        var cmds = [];
+        for ( var index  = 0; index < indexs.length; index++ )
+        {
+            // 选中行的数据
+            var row = $(smslist_table).jqGrid('getRowData', indexs[index]);
+            key = row.sid;
+            // 通过sid删除
+            cmds.push( object+'.smsdel[' + row.sid + ']' );
+        }
+        // 执行删除
+        he.exec( cmds ).then(function (){
+            // 重新加载数据
+            return route_load();
+        }).then(function (){
+            // 提示成功
+            page.hint2succeed( $.i18n('Delete successfully') );
+        });
+    }
+
+
+    /* save the configure */
+    function config_save()
+    {
+      if ( lte == null )
+      {
+        return;
+      }
+      var ltecopy = JSON.parse(JSON.stringify(lte));;
+
+      lte.sms = boole2able( $('#sms').prop('checked') );
+      if ( lte.sms == "enable" )
+      {
+          if ( !lte.sms_cfg )
+          {
+            lte.sms_cfg = {};
+          }
+          lte.sms_cfg.he = boole2able( $('#he').prop('checked') );
+          if ( lte.sms_cfg.he == "enable" )
+          {
+            lte.sms_cfg.he_contact = $('#he_contact').val();
+            lte.sms_cfg.he_prefix = $('#he_prefix').val();
+            if ( lte.sms_cfg.he_prefix == "" )
+            {
+                page.alert( { message: $.i18n("Command Prefix")+" "+$.i18n('Can not be empty') } );
+                return;
+            }
+          }
+      }
+      if ( ocompare( lte, ltecopy ) )
+      {
+          page.alert( { message: $.i18n('Settings unchanged') } );
+          return;
+      }
+      page.confirm( { message: $.i18n('The LTE connecttion will be disconneted because of the change of configuration') } ).then( function(result){
+        if ( result )
+        {
+          he.save( [ object+"="+JSON.stringify(lte)] ).then( function(){
+            page.hint2succeed( $.i18n('Modify successfully') );
+            config_load();
+          });
+        }
+      });
+    }
+
+
+
+    /* init */
+    page.password('passwd', 'password-icon' );
+    $.i18n().load( page.lang('lte') ).then( function () {
+      /* init the langauage */
+      $.i18n().locale = lang; $('body').i18n();
+
+      //初始化表格
+      jqtable.create( smslist_table, smslist_pager,
+          {
+              caption: $.i18n('SMS List'),
+              colNames: [ $.i18n('Contact'), $.i18n('SMS ID'), $.i18n('Date'), $.i18n('Content'), $.i18n('Operation') ],
+              colModel:
+              [
+                  {
+                      name:'contact', width:200, editable: false
+                  },
+                  {
+                      name:'sid', width:200, editable: false,  hidden: true
+                  },
+                  {
+                      name:'date', width:150, editable: false
+                  },
+                  {
+                      name: 'content', width: 500, editable: false
+                  },
+                  $.extend( true, {}, jqtable.actionOptions,
+                      { formatoptions:{ delOptions:{ onclickSubmit:function(params, data) { delete_smss(data); } }, editformbutton:false, editbutton:false } } )
+              ]
+          }
+      ).jqGrid( 'navGrid', smslist_pager,
+          $.extend(true, {}, jqtable.navOptions, 
+              {
+                  add: false,
+                  del: true,delicon : 'ace-icon fa fa-trash-o red',
+                  edit: false,
+                  search: false, refresh: false, view: false
+              }
+          ),
+          null,
+          null,
+          $.extend(true, {}, jqtable.deleteOptions, { onclickSubmit: function(params, data) { delete_smss(data); } })
+      );
+
+
+      /* load the configure */
+      config_load();
+
+      // 设置定时器
+      smslist_load();
+      page.timing({
+        refresh: function ()
+        {
+            smslist_load();
+        },
+        interval: 1000
+      });
+
+      /* bind the refresh */
+      $('#refresh').on(ace.click_event, function () {
+        location.reload();
+      });
+      /* bind the apply */
+      $('#apply').on(ace.click_event, function () {
+        config_save();
+      });
+    });
+
+  })();
+</script>

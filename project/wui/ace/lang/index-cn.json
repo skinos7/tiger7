@@ -93,7 +93,11 @@
 	"LTE Modem":"4G基带",
 	"LTE/NR Modem":"4G/5G基带",
 	"LTE":"4G网络",
+	"LTE SMS":"4G短信",
+	"LTE Backup SIM":"4G备用SIM卡",
 	"LTE/NR":"4G/5G网络",
+	"LTE/NR SMS":"4G/5G短信",
+	"LTE/NR Backup SIM":"4G/5G备用SIM卡",
 	"WAN":"有线宽带",
 	"WAN2":"有线宽带2",
 	"WISP(2.4G)":"无线连网(2.4G)",
@@ -183,7 +187,7 @@
 
 
 
-	"can not be empty":"不能为空",
+	"Can not be empty":"不能为空",
 	"must be a valid MAC address":"必须为合法的MAC地址",
 	"must be a valid IP address":"必须为合法的IP地址",
 	"must be a valid number":"必须为数值",

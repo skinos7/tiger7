@@ -121,32 +121,6 @@
             </div>
           </div>
         </div>
-
-        <!-- BSIM -->
-        <div id="bsim_cfg" style="display: none;">
-            <div class="form-group">
-              <label class="col-sm-3 control-label no-padding-right" data-i18n="Backup Simcard"></label>
-              <div class="col-sm-9">
-                <label>
-                  <input id="bsim" class="ace ace-switch ace-switch-6" type="checkbox" />
-                  <span class="lbl"></span>
-                </label>
-              </div>
-            </div>      
-            <div id="bsim_set_cfg" style="display: none;">
-                <div class="form-group">
-                  <label class="col-sm-3 control-label no-padding-right"></label>
-                    <div class="col-sm-9">
-                      <div class="btn-group">
-                        <div class="btn-group">
-                          <a class="btn btn-second" data-i18n="Backup Simcard Settings" id="bsim_set" href="#"></a>
-                        </div>
-                      </div>
-                    </div>
-                </div>
-            </div><!-- bsim_set_cfg -->
-        </div><!-- bsim_cfg -->
-        
                     
 
 
@@ -171,18 +145,6 @@
             </label>
           </div>
         </div> 
-
-        <!-- 高级设置 -->
-        <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right"></label>
-            <div class="col-sm-9">
-              <div class="btn-group">
-                <div class="btn-group">
-                  <a class="btn btn-main" data-i18n="Advanced Settings" id="adv_set" href="#"></a>
-                </div>
-              </div>
-            </div>
-        </div>
         
         
 
@@ -528,6 +490,19 @@
 
 
 
+        <div class="hr hr32 hr-dotted"></div>
+        <!-- 高级设置 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right"></label>
+            <div class="col-sm-9">
+              <div class="btn-group">
+                <div class="btn-group">
+                  <a class="btn btn-warning" data-i18n="Advanced Settings" id="adv_set" href="#"></a>
+                </div>
+              </div>
+            </div>
+        </div>
+
 
 
       <div class="clearfix form-actions">
@@ -680,33 +655,6 @@
         else
         {
             $('#gnss').prop('checked',  false );
-        }
-        if ( lte.bsim )
-        {
-            $('#bsim_set').attr( "href", "#bsim?object="+v[1] );
-            $('#bsim_cfg').show();
-            if ( lte.bsim == "enable" )
-            {
-                $('#bsim').prop('checked', true );
-            }
-            else
-            {
-                $('#bsim').prop('checked', false );
-            }
-            $('#bsim').unbind('change').change(function () {
-              if ($(this).prop('checked'))
-              {
-                $('#bsim_set_cfg').show();
-              } 
-              else
-              {
-                $('#bsim_set_cfg').hide();
-              }
-            }).trigger('change');
-        }
-        else
-        {
-            $('#bsim_cfg').hide();
         }
 
         /* profile */
@@ -970,6 +918,7 @@
         }).trigger('change');
         
         $('#adv_set').attr( "href", "#lteadv?object="+v[1] );
+        $('#sms_set').attr( "href", "#ltesms?object="+v[1] );
 
       })
     }
@@ -1232,7 +1181,7 @@
         lte.keeplive.icmp.dest.test = $('#icmp_test').val();
         if ( !lte.keeplive.icmp.dest.test )
         {
-            page.alert( { message: $.i18n('Test Address')+" "+$.i18n('can not be empty') } );
+            page.alert( { message: $.i18n('Test Address')+" "+$.i18n('Can not be empty') } );
             return;
         }
         lte.keeplive.icmp.dest.test2 = $('#icmp_test2').val();

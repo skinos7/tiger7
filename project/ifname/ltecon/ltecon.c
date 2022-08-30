@@ -733,6 +733,7 @@ boole_t _service( obj_t this, param_t param )
 	talk_t ret;
     talk_t cfg;
     talk_t value;
+	int *bsim_mode;
     const char *ptr;
     const char *obj;
 	const char *mode;
@@ -807,23 +808,9 @@ boole_t _service( obj_t this, param_t param )
 	register2int( object, "connect_failed", reg_connect_failed, connect_failed, 0 );
 	if ( connect_failed > 0 )
 	{
-		if ( connect_failed == 2 )
-		{
-			ret = terror;
-		}
-		else if ( connect_failed == 7 )
-		{
-			ret = terror;
-		}
-		else if ( connect_failed == 15 )
-		{
-			ret = terror;
-		}
-		else if ( (connect_failed%24) == 0 )
-		{
-			ret = terror;
-		}
 		/************** bsim process *********************/
+		bsim_mode = register_pointer( ifdev, "bsim_mode" );
+		if ( bsim_mode != NULL && *bsim_mode == 3 )
 		{
 			int *dfailed = register_pointer( ifdev, "bsim_dial_failed" );
 			if ( dfailed != NULL && *dfailed > 0 && (connect_failed%(*dfailed))==0 )
@@ -832,16 +819,37 @@ boole_t _service( obj_t this, param_t param )
 				bsim_setting = register_pointer( ifdev, "bsim_setting" );
 				if ( *bsim_setting == 1 )
 				{
+					info( "%s need switch to backup simcard", ifdev );
 					*bsim_setting = 2;
 				}
 				else
 				{
+					info( "%s need switch to main simcard", ifdev );
 					*bsim_setting = 1;
 				}
-				ret = ttrue;
+				ret = terror;
 			}
 		}
 		/************** bsim process *********************/
+		else
+		{
+			if ( connect_failed == 2 )
+			{
+				ret = terror;
+			}
+			else if ( connect_failed == 7 )
+			{
+				ret = terror;
+			}
+			else if ( connect_failed == 15 )
+			{
+				ret = terror;
+			}
+			else if ( (connect_failed%24) == 0 )
+			{
+				ret = terror;
+			}
+		}
 		warn( "%s cannot connect %d times", object, connect_failed );
 	}
 	connect_failed++;

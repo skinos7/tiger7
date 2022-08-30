@@ -802,6 +802,12 @@
                         if ( !wuimenu || wuimenu.lte != "disable" )
                         {
     					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE' ), 'lte?object=ifname@lte' );
+    					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE SMS' ), 'ltesms?object=modem@lte' );
+    					    var bsim = <%he('modem@lte:bsim'); %>;
+    					    if ( bsim )
+    					    {
+    					        menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE Backup SIM' ), 'bsim?object=modem@lte' );
+    					    }
                         }
     				}
     				if ( <%he('.ifname@lte2.status'); %> )
@@ -809,6 +815,12 @@
                         if ( !wuimenu || wuimenu.lte2 != "disable" )
                         {
     					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE/NR' ), 'lte?object=ifname@lte2' );
+    					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE/NR SMS' ), 'ltesms?object=modem@lte2' );
+    					    var bsim = <%he('modem@lte2:bsim'); %>;
+    					    if ( bsim )
+    					    {
+    					        menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE/NR Backup SIM' ), 'bsim?object=modem@lte2' );
+    					    }
                         }
     				}
     				if ( <%he('.ifname@wan.status'); %> )
