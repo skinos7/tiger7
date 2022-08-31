@@ -4,11 +4,5 @@ git remote rm origin
 git remote add origin git@gitee.com:tiger7/tiger7.git
 git branch --set-upstream-to=origin/master master
 
-cd doc
-git remote rm origin 
-git remote add origin git@gitee.com:tiger7/doc.git
-git branch --set-upstream-to=origin/master master
-
-
 
 
