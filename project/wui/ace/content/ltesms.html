@@ -93,7 +93,10 @@
     {
       he.load( [ object ] ).then( function(v){
         lte = v[0];
-
+        if ( !lte )
+        {
+            lte = {};
+        }
         if ( lte.sms == "enable" )
         {
             $('#sms').prop('checked', true );

@@ -113,6 +113,10 @@
     {
       he.load( [ object ] ).then( function(v){
         lte = v[0];
+        if ( !lte )
+        {
+            lte = {};
+        }
 
         $('#lock_imei').val( lte.lock_imei||'' );
         $('#lock_imsi').val( lte.lock_imsi||'' );
