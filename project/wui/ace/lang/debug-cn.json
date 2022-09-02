@@ -34,6 +34,11 @@
 	"Cannot open it":"未能正常打开, 请确认设备是否正常",
 	"Cannot close it":"未能正常关闭, 请重启设备",
 
+	"Address":"目的地址",
+	"Ping":"PING",
+	"Traceroute":"路由跟踪",
+	"Expression":"表达式",
+	"Capture":"抓包",
 	"Serial Terminal":"串口终端",
 	"Serial2 Terminal":"串口2终端",
 	"Serial3 Terminal":"串口3终端",

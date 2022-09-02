@@ -19,7 +19,6 @@ do
     fi
 done
 
-
 # delete the needless etc/*
 rm -fr ./etc/banner.failsafe
 rm -fr ./etc/device_info
@@ -62,7 +61,6 @@ rm -fr ./usr/lib/dnsmasq
 rm -fr ./usr/sbin/ntpd-hotplug
 rm -fr ./usr/share/acl.d
 rm -fr ./usr/share/dnsmasq
-
 
 # delete self
 rm -fr ./needless.sh

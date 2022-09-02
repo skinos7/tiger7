@@ -1,0 +1,152 @@
+<!-- ajax layout which only needs content area -->
+<div class="row">
+  <div class="col-xs-12">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="form-horizontal" role="form">
+
+        <!-- ping -->
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Address"></label>
+            <div class="col-sm-9">
+              <input type="text" id="ping_address" class="col-xs-7 col-sm-5" maxlength="128" />&nbsp; &nbsp; &nbsp;
+              <button class="btn btn-main btn-mini" id="ping" data-i18n="Ping"></button>
+            </div>
+        </div>
+
+        <!-- traceroute -->
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Address"></label>
+            <div class="col-sm-9">
+              <input type="text" id="traceroute_address" class="col-xs-7 col-sm-5" maxlength="128" />&nbsp; &nbsp; &nbsp;
+              <button class="btn btn-main btn-mini" id="traceroute" data-i18n="Traceroute"></button>
+            </div>
+        </div>
+
+        <!-- Tcpdump -->
+        <div class="form-group" id="tcpdump" style="display: none;">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Expression"></label>
+            <div class="col-sm-9">
+              <input type="text" id="expression" class="col-xs-7 col-sm-5" maxlength="128" />&nbsp; &nbsp; &nbsp;
+              <button class="btn btn-main btn-mini" id="capture" data-i18n="Capture"></button>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="clearfix form-actions">
+      <div class="col-md-offset-3 col-md-9">
+        <span> <button class="btn btn-danger" type="button" id="close"><span data-i18n="Close before leave"></span></button>&nbsp; &nbsp; &nbsp;</span>
+      </div>
+    </div>
+
+
+
+
+    <div id="tips" class="alert alert-warning">
+      <button type="button" class="close" data-dismiss="alert">
+        <i class="ace-icon fa fa-times"></i>
+      </button>
+      <span data-i18n="I'm sorry that this feature does not support the current browser. It is recommended that you update and install Chrome, Firefox or IE11+."></span>
+    </div>
+    <iframe id="terminal" frameborder="0" width="100%" height="500px" style="display: none;"></iframe>
+
+
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+
+    if ( window.ie && window.ie < 11)
+    {
+      $('#terminal').hide();
+      $('#tips').show();
+    } 
+    if ( window.tcpdump )
+    {
+      $('#tcpdump').show();
+    }
+    function open_term()
+    {
+      var wh = $(window).height();
+      $('#terminal').attr('height', wh - 130 + 'px');
+      $('#terminal').attr('src', window.location.protocol+"//"+window.location.hostname + ':' + (window.wui.termport || '81'));
+      $('#terminal').show();
+      $('#tips').hide();
+    }
+
+    $.i18n().load( page.lang('debug') ).then( function () {        
+      /* init the langauage */
+      $.i18n().locale = lang; $('body').i18n();
+
+      $('#ping').on(ace.click_event, function () {
+          var ip = $('#ping_address').val();
+          $('#terminal').hide();
+          he.exec( 'wui@admin.ttyd_ping['+ip+']', $.i18n("Opening...") ).then( function(v){
+            if ( v == true )
+            {
+                $('#terminal').attr('src', null );
+                open_term();
+            }
+            else
+            {
+                page.alert( { message: $.i18n('Cannot open it') } );
+                return;
+            }
+          });
+      });
+      $('#traceroute').on(ace.click_event, function () {
+          var ip = $('#traceroute_address').val();
+          $('#terminal').hide();
+          he.exec( 'wui@admin.ttyd_traceroute['+ip+']', $.i18n("Opening...") ).then( function(v){
+            if ( v == true )
+            {
+                $('#terminal').attr('src', null );
+                open_term();
+            }
+            else
+            {
+                page.alert( { message: $.i18n('Cannot open it') } );
+                return;
+            }
+          });
+      });
+      $('#capture').on(ace.click_event, function () {
+          var expression = $('#expression').val();
+          $('#terminal').hide();
+          he.exec( 'wui@admin.ttyd_tcpdump['+expression+']', $.i18n("Opening...") ).then( function(v){
+            if ( v == true )
+            {
+                $('#terminal').attr('src', null );
+                open_term();
+            }
+            else
+            {
+                page.alert( { message: $.i18n('Cannot open it') } );
+                return;
+            }
+          });
+      });
+      $('#close').on(ace.click_event, function () {
+          he.exec( 'wui@admin.ttyd_kill', $.i18n("closing...") ).then( function(v){
+            if ( v == true )
+            {
+                $('#terminal').hide();
+            }
+            else
+            {
+                page.alert( { message: $.i18n('Cannot close it') } );
+                return;
+            }
+          });
+      });
+
+
+    });
+
+
+  })();
+</script>
