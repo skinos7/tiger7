@@ -877,6 +877,7 @@ boole_t _service( obj_t this, param_t param )
     {
     	mode = "ppp";
 		method = "disable";
+		json_set_string( cfg, "mode", "ppp" );
     }
 	/* ifdev connect */
 	info( "%s connect", ifdev );

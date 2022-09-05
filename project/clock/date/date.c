@@ -72,7 +72,7 @@ static boole ntpclient_sync( const char* server, const char* zone )
 
 
 
-talk_t _setup( obj_t this, param_t param )
+talk_t _boot( obj_t this, param_t param )
 {
     talk_t cfg;
     const char *ptr;
@@ -125,6 +125,17 @@ talk_t _setup( obj_t this, param_t param )
 	/* read from the RTC when have RTC */
 	/* XXXXXXXXXXXXXXX */
 
+    talk_free( cfg );
+    return ttrue;
+}
+talk_t _setup( obj_t this, param_t param )
+{
+    talk_t cfg;
+    const char *ptr;
+
+	_boot( this, param );
+	/* get the configure */
+    cfg = config_sget( COM_IDPATH, NULL );
     /* run the service of ntpclient depend configure */
     ptr = json_string( cfg, "ntpclient" );
     if ( ptr != NULL && 0 == strcmp( ptr, "enable" ) )
