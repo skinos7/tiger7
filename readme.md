@@ -7,13 +7,13 @@ The research and development of Internet edge computing based on Linux operating
 
 # hardware product
 The routing module is embedded in the customer's device or product to help it access the Internet and complete the calculation of business data related conversion and forwarding, triggering, timing task and so on  
-- **LTE routing module**, **<[D218 Specifications](./doc/product/d218/spec.md)>**
+- **LTE routing module**, **<[D218 Specifications](https://github.com/skinos7/doc/blob/master/product/d218/spec.md)>**
 Provide LTE(4G) access, 2.4g WIFI(300M dual antenna) access or coverage, Ethernet (100M) access or out of the multi-functional and highly extensible routing module, and with double serial port (RS485/RS232/TTL three modes), multi-channel IO port and the corresponding data conversion and forwarding computing capabilities,  And provide a complete SDK and development interface, SDK has integrated a variety of control protocols can help developers to achieve local and remote control of this module  
 
-- **NR(5G) routing module**, **<[D228 Specifications](./doc/product/d228/spec.md)>**
+- **NR(5G) routing module**, **<[D228 Specifications](https://github.com/skinos7/doc/blob/master/product/d228/spec.md)>**
 Provide NR(5G) and LTE(4G) access, 5.8G WIFI(800M dual antenna) access or coverage, Ethernet (1000M) access or out of the multi-functional and highly extensible routing module,  And with three serial ports (RS485/RS232/TTL), multi-channel IO port and the corresponding data conversion and forwarding and other computing capabilities, and provides a complete SDK and development interface, SDK has integrated a variety of control protocols can help developers to achieve local and remote control of the module  
 
-- **NR(5G)&WIFI6 gateway module**, **<[D618 Specifications](./doc/product/d618/spec.md)>(*Data has not been uploaded yet*)**
+- **NR(5G)&WIFI6 gateway module**, **<[D618 Specifications](https://github.com/skinos7/doc/blob/master/product/d618/spec.md)>(*Data has not been uploaded yet*)**
 Provide NR(5G) and LTE(4G) access, 5.8G WIFI6(1200M dual antenna) access or coverage, Ethernet (1000M) access or lead to the multi-functional and highly scalable routing module, with Bluetooth 5.0, CAN interface, HDMI2.0 audio and video output,  Audio input and output, MIPI-CSI camera head interface, USB2.0 interface (TYPE C), three serial ports (RS485/RS232/TTL), multi-channel IO interface and corresponding data conversion and forwarding and other computing capabilities, and provide a complete SDK and development interface,  SDK has integrated a variety of control protocols to help developers to achieve local and remote control of this module  
 
 
