@@ -96,9 +96,8 @@ If you need to upgrade and restore the factory settings at the same time, you ca
 
 
 # Component API
-Component interfaces can be invoked either from the command line or through the development interface
-***Being refined, priority is given to commonly used components***
-
+Component interfaces can be invoked either from the command line or through the development interface   
+***Being refined, priority is given to commonly used components***  
 - [Machine](https://github.com/skinos7/doc/com/land/machine.md)
 - [Date](https://github.com/skinos7doc/com/clock/date.md)
 - [LTE Modem](https://github.com/skinos7/doc/com/modem/lte.md)
