@@ -92,7 +92,7 @@ If you need to upgrade and restore the factory settings at the same time, you ca
 
 
 # System Frame
-![avatar](https://github.com/skinos7/doc/blob/master/frame.png)
+![avatar](https://github.com/skinos7/doc/blob/master/frame.jpg)
 
 
 # Component API
