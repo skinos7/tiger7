@@ -81,12 +81,19 @@ talk_t _service( obj_t this, param_t param )
         time_t now;
         struct tm *ptime;
         const char *date_src;
+        unsigned int start;
         unsigned int age;
 
         date_src = NULL;
-		age = 208800;        // two day
+		start = 86400;       // 1 day
+		age = 208800;        // 2.5 day(54 hour)
         hour = 3;            // 03
 		minute = 30;         // 30
+        ptr = json_string( cfg, "point_start" );
+        if ( ptr != NULL )
+        {
+            start = atoi( ptr );
+        }
         ptr = json_string( cfg, "point_hour" );
         if ( ptr != NULL )
         {
@@ -102,7 +109,11 @@ talk_t _service( obj_t this, param_t param )
         {
             age = atoi( ptr );
         }
-		info( "restart at the %d:%d or max runtime %d", hour, minute, age );
+		info( "restart at the %d:%d delay %d before and max runtime %d", hour, minute, start, age );
+		if ( start > 0 )
+		{
+			sleep( start );
+		}
         do
         {
             if ( date_src == NULL )
@@ -144,7 +155,7 @@ talk_t _service( obj_t this, param_t param )
         {
             start = atoi( ptr );
         }
-        ptr = json_string( cfg, "idle_wireless_time" );
+        ptr = json_string( cfg, "idle_time" );
         if ( ptr != NULL )
         {
             idle = atoi( ptr );
@@ -188,11 +199,11 @@ talk_t _service( obj_t this, param_t param )
             }while(1);
             if ( i>=idle_count )
             {
-                info( "restart the system by %s for %s mode wireless idle(%u)", COM_IDPATH, mode, idle );
+                info( "restart the system by %s for %s mode station idle(%u)", COM_IDPATH, mode, idle );
             }
             else
             {
-                info( "restart the system by %s for %s mode wireless age(%s)", COM_IDPATH, mode, ptr );
+                info( "restart the system by %s for %s mode station age(%s)", COM_IDPATH, mode, ptr );
             }
             scall( MACHINE_COM, "restart", NULL );
             return ttrue;

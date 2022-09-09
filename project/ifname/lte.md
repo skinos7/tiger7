@@ -81,12 +81,8 @@ Usually ifname@lte is the first LTE/NR network and module. If there are multiple
             },
             "timeout":"Maximum time to wait for the return of a PING echo packet",     // [ number ], The unit is in seconds
             "failed":"Number of detection failures",                                   // [ number ], If the number of detection failures exceeds this threshold, the link is deactivated
-            "interval":"Interval of each Successful detection",                        // [ number ], The unit is in seconds
+            "interval":"Interval of each Successful detection"                         // [ number ], The unit is in seconds
 
-            // Line shake calculation  
-            "ill_range":"Total number of counts",                                      // [ number], Total number of counts
-            "ill_delay":"Delay threshold",                                             // [ number], The unit is in millisecond
-            "ill_time":"Maximum time to warnning",                                     // [ number]
         },
         "recv":                                                                                          // detial configure for type is [ recv ]
         {
@@ -100,7 +96,10 @@ Usually ifname@lte is the first LTE/NR network and module. If there are multiple
     // ##### For details, see configuration of modem@lte  #####
 
 }
-// Examples
+```
+Example, show LTE1 all configure
+```shell
+ifname@lte
 {
     "tid":"2",                                       // exclusive route table ID is 2
                                                      // mode default is dhcpc
@@ -124,7 +123,33 @@ Usually ifname@lte is the first LTE/NR network and module. If there are multiple
     }
 }
 ```
-
+Example, modify the keeplive to icmp for LTE1
+```shell
+ifname@lte:keeplive/type=icmp
+true
+```
+Example, modify the keeplive to icmp for LTE2
+```shell
+ifname@lte2:keeplive/type=icmp
+true
+```
+Example, modify the icmp keeplive destination address for LTE2
+```shell
+ifname@lte2:keeplive/icmp/dest/test=8.8.8.8            # modify the icmp keeplive first destination address to 8.8.8.8
+true
+ifname@lte2:keeplive/icmp/dest/test2=8.8.4.4           # modify the icmp keeplive second destination address to 8.8.4.4 
+true
+ifname@lte2:keeplive/icmp/dest/test3=114.114.114.114   # modify the icmp keeplive third destination address to 114.114.114.114
+true
+# You can also use one command to complete the operation of the above three command
+ifname@lte2:keeplive/icmp/dest|{"test":"8.8.8.8", "test2":"8.8.4.4", "test3":"114.114.114.114"}
+true
+```
+Example, disable the LTE2 network
+```shell
+ifname@lte2:status=disable
+true
+```
 
 #### **Methods**
 **ifname@lte** is first LTE network
@@ -208,17 +233,24 @@ Usually ifname@lte is the first LTE/NR network and module. If there are multiple
     usb0
     ```
 
++ `ifdev[]` **get the ifdev**, *succeed return ifdev, failed return NULL, error return terror*
+    ```shell
+    # examples, get the first LTE network ifdev
+    ifname@lte.ifdev
+    modem@lte
+    ```
+
 + `shut[]` **shutdown the modem network**, *succeed return ttrue, failed return tfalse, error return terror*
     ```shell
     # examples, shutdown the frist LTE network
     ifname@lte.shut
-    ttrue
+    true
     ```
 
 + `setup[]` **setup the modem network**, *succeed return ttrue, failed return tfalse, error return terror*
     ```shell
     # examples, setup the second LTE network
     ifname@lte2.setup
-    ttrue
+    true
     ```
 

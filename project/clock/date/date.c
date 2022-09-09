@@ -72,7 +72,7 @@ static boole ntpclient_sync( const char* server, const char* zone )
 
 
 
-talk_t _boot( obj_t this, param_t param )
+talk_t _setup( obj_t this, param_t param )
 {
     talk_t cfg;
     const char *ptr;
@@ -121,21 +121,9 @@ talk_t _boot( obj_t this, param_t param )
     /* set time zone with new style(libc) */
 	unlink( "/etc/localtime" );
 	shell( "ln -s /usr/share/zoneinfo/%s /etc/localtime", nzone );
-
 	/* read from the RTC when have RTC */
 	/* XXXXXXXXXXXXXXX */
 
-    talk_free( cfg );
-    return ttrue;
-}
-talk_t _setup( obj_t this, param_t param )
-{
-    talk_t cfg;
-    const char *ptr;
-
-	_boot( this, param );
-	/* get the configure */
-    cfg = config_sget( COM_IDPATH, NULL );
     /* run the service of ntpclient depend configure */
     ptr = json_string( cfg, "ntpclient" );
     if ( ptr != NULL && 0 == strcmp( ptr, "enable" ) )
@@ -151,7 +139,7 @@ talk_t _shut( obj_t this, param_t param )
 	/* stop the service */
     service_stop( COM_IDPATH );
 	/* kill the ntpclient to prevent the ntpclient pause */
-	execute( 0, true, "killall ntpclient" );
+	shell( "killall ntpclient" );
     return ttrue;
 }
 talk_t _ntploop( obj_t this, param_t param )

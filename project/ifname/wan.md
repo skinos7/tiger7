@@ -1,5 +1,5 @@
 ***
-## Local network management components
+## WAN network management components
 Manage WAN network. This component must depend on WAN network interface and network Management Framework project  
 Usually ifname@wan is the first WAN network. If there are multiple WAN network in the system, ifname@wan2 will be the second WAN network, and increase by degress
 
@@ -99,7 +99,10 @@ Usually ifname@wan is the first WAN network. If there are multiple WAN network i
         }
     }
 }
-// Examples
+```
+Examples, show the WAN all configure
+```shell
+ifname@wan
 {
     "tid":"3",                                       // exclusive route table ID is 2
 
@@ -128,7 +131,21 @@ Usually ifname@wan is the first WAN network. If there are multiple WAN network i
     }
 }
 ```
-
+Example, modify the WAN dial mode to DHCP
+```shell
+ifname@wan:mode=dhcpc
+true
+```
+Example, modify the WAN2 pppoe username
+```shell
+ifname@wan2:pppoe/username=dimmalex@ashyelf.com
+true
+```
+Example, disable the WAN
+```shell
+ifname@wan:status=disable
+true
+```
 
 #### **Methods**
 **ifname@wan** is first WAN network
@@ -191,7 +208,12 @@ Usually ifname@wan is the first WAN network. If there are multiple WAN network i
     ifname@wan.netdev
     wan
     ```
-
++ `ifdev[]` **get the ifdev**, *succeed return ifdev, failed return NULL, error return terror*
+    ```shell
+    # examples, get the first WAN network ifdev
+    ifname@wan.ifdev
+    vlan@wan
+    ```
 + `shut[]` **shutdown the WAN network**, *succeed return ttrue, failed return tfalse, error return terror*
     ```shell
     # examples, shutdown the frist WAN network

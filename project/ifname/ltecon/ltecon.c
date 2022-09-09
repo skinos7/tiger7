@@ -332,6 +332,8 @@ boole_t _shut( obj_t this, param_t param )
     }
     object = obj_combine( this );
     info( "%s shut", object );
+    /* call the offline */
+    scalls( NETWORK_COM, "offline", object );
 
     /* stop the keeplive service */
 	snprintf( name, sizeof(name), "%s-keeplive", object );
@@ -751,6 +753,11 @@ boole_t _service( obj_t this, param_t param )
         return terror;
     }
     object = obj_combine( this );
+    /* offline to clear first */
+    if ( scalls( NETWORK_COM, "extern", object ) == ttrue )
+    {
+        scalls( NETWORK_COM, "offline", object );
+    }
 	/* get the ifdev */
 	ifdev = register_pointer( object, "ifdev" );
     if ( ifdev == NULL || *ifdev == '\0' )
@@ -1174,13 +1181,13 @@ boole_t _online( obj_t this, param_t param )
 	{
 		register_set( object, "dns", dns, strlen(dns)+1, 20 );
 		string3file( path, "nameserver %s\n", dns );
-		route_switch( NULL, dns, NULL, NULL, v, true );
+		route_switch( dns, NULL, NULL, v, true );
 	}
 	if ( dns2 != NULL && *dns2 != '\0' )
 	{
 		register_set( object, "dns2", dns2, strlen(dns2)+1, 20 );
 		string3file( path, "nameserver %s\n", dns2 );
-		route_switch( NULL, dns2, NULL, NULL, v, true );
+		route_switch( dns2, NULL, NULL, v, true );
 	}
 
 	gateway = json_string( v, "gw" );
@@ -1222,7 +1229,7 @@ boole_t _online( obj_t this, param_t param )
 	tid = register_pointer( object, "tid" );
 	if ( tid != NULL && tid != 0 )
 	{
-		route_table_create( *tid, v );
+		routes_create_ifname( *tid, v );
 	}
 
 	/* tell the ifdev */
@@ -1233,6 +1240,49 @@ boole_t _online( obj_t this, param_t param )
 	}
 
 	talk_free( cfg );
+	return ttrue;
+}
+talk_t _offline( obj_t this, param_t param )
+{
+	const char *obj;
+	const char *object;
+	const char *ifdev;
+	const char *netdev;
+	char path[PATH_MAX];
+
+	obj = obj_com( this );
+	if ( 0 == strcmp( obj, COM_ID ) )
+	{
+		return tfalse;
+	}
+	object = obj_combine( this );
+
+	/* dns file */
+	snprintf( path, sizeof(path), "%s/%s", RESOLV_DIR, object );
+	unlink( path );
+	/* get the netdev */
+	netdev = register_pointer( object, "netdev" );
+	if ( netdev != NULL && *netdev != '\0' )
+	{
+		iptables( "-t nat -D %s -o %s -j MASQUERADE", MASQ_CHAIN, netdev );
+		if ( 0 == strncmp( netdev, "ppp", 3 ) )
+		{
+			/* ppp tcp mss */
+			iptables( "-t mangle -D POSTROUTING -o %s -p tcp -m tcp --tcp-flags SYN,RST SYN -m tcpmss --mss 1400:1536 -j TCPMSS --clamp-mss-to-pmtu", netdev );
+		}
+		info( "%s(%s) offline", object, netdev );
+	}
+	else
+	{
+		info( "%s offline", object );
+	}
+	/* tell the ifdev */
+	ifdev = register_pointer( object, "ifdev" );
+	if ( ifdev != NULL && *ifdev != '\0' )
+	{
+		scalls( ifdev, "offline", object );
+	}
+
 	return ttrue;
 }
 

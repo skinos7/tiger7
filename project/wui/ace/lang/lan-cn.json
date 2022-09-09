@@ -4,6 +4,8 @@
 	"DHCP":"自动获取",
 
 	"Alternate IP Address":"备用IP地址",
+	"Address 2":"地址2",
+	"Address 3":"地址3",
 	"IPv4 Address":"IPv4地址",
 	"Subnet Mask":"子网掩码",
 	"Gateway":"网关",

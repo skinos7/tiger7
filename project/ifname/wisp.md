@@ -1,5 +1,5 @@
 ***
-## Local network management components
+## WISP network management components
 Manage WISP network. This component must depend on wireless station interface and network Management Framework project  
 Usually ifname@wisp is the first WISP(2.4G) network. If there are multiple WISP network in the system, ifname@wisp2 will be the second WISP(5.8G) network, and increase by degress
 
@@ -113,7 +113,9 @@ Usually ifname@wisp is the first WISP(2.4G) network. If there are multiple WISP 
         }
     }
 }
-// Examples
+```
+Example, show all the WISP configure
+```shell
 {
     "tid":"3",                                       // exclusive route table ID is 2
 
@@ -147,6 +149,28 @@ Usually ifname@wisp is the first WISP(2.4G) network. If there are multiple WISP 
         }
     }
 }
+```
+Example, modify the SSID for WISP connect
+```shell
+ifname@wisp:peer=Myhotpot
+true
+ifname@wisp:secure=wpapsk
+true
+ifname@wisp:wpa_key=88888888
+true
+# You can also use one command to complete the operation of the above three command
+ifname@wisp|{"peer":"Myhotpot", "secure":"wpapsk", "wpa_key":"88888888"}
+true
+```
+Example, disable the WISP keeplive function
+```shell
+ifname@wisp:keeplive=disable
+true
+```
+Example, disable the WISP
+```shell
+ifname@wisp:status=disable
+true
 ```
 
 
@@ -227,7 +251,12 @@ Usually ifname@wisp is the first WISP(2.4G) network. If there are multiple WISP 
     ifname@wisp.netdev
     ath11
     ```
-
++ `ifdev[]` **get the ifdev**, *succeed return ifdev, failed return NULL, error return terror*
+    ```shell
+    # examples, get the first WISP network ifdev
+    ifname@wan.ifdev
+    wifi@nsta
+    ```
 + `shut[]` **shutdown the WISP network**, *succeed return ttrue, failed return tfalse, error return terror*
     ```shell
     # examples, shutdown the frist WISP network

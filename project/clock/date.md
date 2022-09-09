@@ -14,9 +14,12 @@ Manage system date
     "ntpserver":"NTP Server",                           // [ string ]
     "ntpserver2":"NTP Server 2",                        // [ string ]
     "ntpserver3":"NTP Server 3",                        // [ string ]
-    "ntpinterval":"NTP Synchronization interval"        // interval (in seconds) for time synchronization with the NTP server
+    "ntpinterval":"NTP Synchronization interval"        // [ number ], interval (in seconds) for time synchronization with the NTP server
 }
-// Examples
+```
+Examples, show all the configure
+```shell
+clock@date
 {
     "timezone":"8",                   // time zone is East 8, china
     "ntpclient":"enable",             // enable the NTP client to synchronization with NTP server
@@ -26,6 +29,11 @@ Manage system date
     "ntpinterval":"86400"             // synchronization every 86400 seconds
 }
 ```  
+Examples, modify the time zone to West 5
+```shell
+clock@date:timezone=-5
+true
+```  
 
 #### **Methods**
 
@@ -33,7 +41,6 @@ Manage system date
     ```json
     // Attributes introduction of talk by the method return
     {
-        "timezone":"time zone",                           // [ -12 to 12 ], West 12 to East 12
         "current":"current date",                         // hour:minuti:second:month:day:year
         "livetime":"system live time",                    // hour:minute:second:day
         "uptime":"system uptime in second",               // [ number ]
@@ -60,17 +67,17 @@ Manage system date
     ```shell
     # examples, set 11:12:23, On July 8th, in 2019
     clock@date.current[ 11:12:23:07:08:2019 ]
-    ttrue
+    true
     ```
 
 + `ntpsync[ [NTP Server] ]` **sync the time with NTP server**, *succeed return ttrue, failed return tfalse, error return terror*
     ```shell
     # examples, sync the time with time.window.com
     clock@date.ntpsync[ time.window.com ]
-    ttrue
+    true
     # examples, sync the time with NTP server in the configure
     clock@date.ntpsync
-    ttrue
+    true
     ```
 
 
@@ -90,7 +97,10 @@ Manage system date
     "ntpserver3":"NTP服务器3",        // [ string ]
     "ntpinterval":"同步间隔"          // [ number ], 即与NTP服务器同步时间的间隔(秒为单位)
 }
-// 示例
+```
+示例查询所有配置
+```shell
+clock@date
 {
     "timezone":"8",                   // 时区为东八区
     "ntpclient":"enable",             // 开启NTP对时
@@ -100,6 +110,11 @@ Manage system date
     "ntpinterval":"86400"             // 每间隔86400秒同步一次NTP时间
 }
 ```  
+示例修改时区为西5区
+```shell
+clock@date:timezone=-5
+true
+```  
 
 #### **接口** 
 
@@ -107,7 +122,7 @@ Manage system date
     ```json
     // 接口返回信息属性介绍
     {
-        "timezone":"时区",              // 从-12至12, 即西12到东12区
+        "timezone":"时区",              // [ -12至12], 从-12至12, 即西12到东12区
         "current":"当前时间",           // 时:分:秒:月:日:年
         "livetime":"运行时长",          // 时:分:秒:天
         "uptime":"运行时长",            // 从启动后累计秒数
@@ -136,11 +151,13 @@ Manage system date
     ```shell
     # 示例,  把设备时间设置为2019年7月8日的11点12分23秒
     clock@date.current[ 11:12:23:07:08:2019 ]
+    true
     ```
 
 + `ntpsync[ [NTP服务器] ]` **与指定的NTP服务器同步时间**, 参数中不给出NTP服务器将从组件配置的ntpserver属性获取NTP服务器来同步时间, *成功返回ttrue, 失败返回tfalse, 出错返回terror*
     ```shell
     # 示例, 与times.windows.com使用NTP协议同步时间
     clock@date.ntpsync[ times.windows.com ]
+    true
     ```
 

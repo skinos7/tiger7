@@ -18,6 +18,13 @@ Usually ifname@lan is the first local network. If there are multiple local netwo
     {
         "ip":"IPv4 address",                        // < IPv4 address >
         "mask":"IPv4 netmask",                      // < IPv4 netmask >
+
+        "ip2":"IPv4 address 2",                     // < IPv4 address >
+        "mask2":"IPv4 netmask 2",                   // < IPv4 netmask >
+
+        "ip3":"IPv4 address 3",                     // < IPv4 address >
+        "mask3":"IPv4 netmask 3",                   // < IPv4 netmask >
+        
         "gw":"IPv4 gateway",                        // [ IPv4 address ]
         "dns":"IPv4 DNS",                           // [ IPv4 address ]
         "dns2":"IPv4 DNS"                           // [ IPv4 address ]
@@ -103,7 +110,10 @@ Usually ifname@lan is the first local network. If there are multiple local netwo
         }
     }
 }
-// Examples
+```
+Example, show all local network configure
+```shell
+ifname@lan
 {
     "mode":"static",                                 // mode is static
     "static":
@@ -125,7 +135,16 @@ Usually ifname@lan is the first local network. If there are multiple local netwo
     }    
 }
 ```
-
+Example, modify the local network ip address
+```shell
+ifname@lan:static/ip=192.168.2.1
+true
+```
+Example, disable the local network dhcp server
+```shell
+ifname@lan:dhcps/status=disable
+true
+```
 
 #### **Methods**
 **ifname@lan** is first local network
@@ -198,4 +217,5 @@ Usually ifname@lan is the first local network. If there are multiple local netwo
     ifname@lan.setup
     ttrue
     ```
+
 

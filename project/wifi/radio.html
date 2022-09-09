@@ -470,12 +470,20 @@
         }
         if ( radioopt && radioopt.txpower )
         {
+            $("#txpower").append("<option value=''>" + $.i18n("Default") + "</option>");
             for( t in radioopt.txpower )
             {
                 $("#txpower").append("<option value='"+t+"'>" + $.i18n(t) + "</option>");
             }
             $("#txpower_set").show();
-            $('#txpower').val( radio.txpower );
+            if ( radio.txpower )
+            {
+                $('#txpower').val( radio.txpower );
+            }
+            else
+            {
+                $('#txpower').val( "" );
+            }
         }
         else
         {

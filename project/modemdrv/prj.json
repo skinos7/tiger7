@@ -1,0 +1,10 @@
+{
+    "name":"modemdrv",
+    "version":"6.0.0",
+    "author":"fpk.preset",
+    "intro":"additional lte modem driver",
+    "com":
+    {
+        "em350":"huawei em350 lte modem management"
+    }
+}
