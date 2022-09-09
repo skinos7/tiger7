@@ -1,21 +1,35 @@
 #!/bin/bash
 
+echo "git remote rm origin"
 git remote rm origin 
+echo "git remote add origin git@github.com:skinos7/tiger7.git"
 git remote add origin git@github.com:skinos7/tiger7.git
+echo "git push origin master"
 git push origin master
+echo "git remote rm origin"
 git remote rm origin 
+echo "git remote add origin git@gitee.com:tiger7/tiger7.git"
 git remote add origin git@gitee.com:tiger7/tiger7.git
+echo "git pull"
 git pull
+echo "git branch --set-upstream-to=origin/master master"
 git branch --set-upstream-to=origin/master master
 
+echo "cd doc"
 cd doc
-git remote rm origin 
+echo "git remote rm origin"
+git remote rm origin
+echo "git remote add origin git@github.com:skinos7/doc.git"
 git remote add origin git@github.com:skinos7/doc.git
+echo "git push origin master"
 git push origin master
-git remote rm origin 
+echo "git remote rm origin"
+git remote rm origin
+echo "git remote add origin git@gitee.com:tiger7/doc.git"
 git remote add origin git@gitee.com:tiger7/doc.git
+echo "git pull"
 git pull
+echo "git branch --set-upstream-to=origin/master master"
 git branch --set-upstream-to=origin/master master
-
 
 
