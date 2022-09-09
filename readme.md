@@ -98,13 +98,13 @@ If you need to upgrade and restore the factory settings at the same time, you ca
 # Component API
 Component interfaces can be invoked either from the command line or through the development interface   
 ***Being refined, priority is given to commonly used components***  
-- [Machine](https://github.com/skinos7/doc/com/land/machine.md)
-- [Date](https://github.com/skinos7doc/com/clock/date.md)
-- [LTE Modem](https://github.com/skinos7/doc/com/modem/lte.md)
-- [LTE Network](https://github.com/skinos7/doc/com/ifname/lte.md)
-- [LAN Network](https://github.com/skinos7/doc/com/ifname/lan.md)
-- [WAN Network](https://github.com/skinos7/doc/com/ifname/wan.md)
-- [WISP Network](https://github.com/skinos7/doc/com/ifname/wisp.md)
+- [Machine](https://github.com/skinos7/doc/blob/master/com/land/machine.md)
+- [Date](https://github.com/skinos7/doc/blob/master/com/clock/date.md)
+- [LTE Modem](https://github.com/skinos7/doc/blob/master/com/modem/lte.md)
+- [LTE Network](https://github.com/skinos7/doc/blob/master/com/ifname/lte.md)
+- [LAN Network](https://github.com/skinos7/doc/blob/master/com/ifname/lan.md)
+- [WAN Network](https://github.com/skinos7/doc/blob/master/com/ifname/wan.md)
+- [WISP Network](https://github.com/skinos7/doc/blob/master/com/ifname/wisp.md)
 
 
 
