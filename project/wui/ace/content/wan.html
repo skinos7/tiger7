@@ -30,165 +30,252 @@
 
 
         <div class="hr hr32 hr-dotted"></div>
-
-        <!-- IPV4拨号模式 -->
+        <!-- 网络功能 -->
         <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv4 Mode"></label>
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Status"></label>
           <div class="col-sm-9">
-            <select class="col-xs-10 col-sm-5" id="mode">
-              <option value="pppoec" data-i18n="PPPOE"></option>
-              <option value="dhcpc" data-i18n="DHCP"></option>
-              <option value="static" data-i18n="Static IP"></option>
-            </select>
+            <label>
+              <input id="status" class="ace ace-switch ace-switch-6" type="checkbox" />
+              <span class="lbl"></span>
+            </label>
           </div>
         </div>
+        <div id="status_config" style="display: none;" >
 
-        <!-- dhcpc设置-->
-        <div id="dhcpc_cfg" style="display: none;" >
-            <!-- 开启route选项支持 -->
+            <!-- IPV4拨号模式 -->
             <div class="form-group">
-              <label class="col-sm-3 control-label no-padding-right" data-i18n="Route Options"></label>
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv4 Mode"></label>
               <div class="col-sm-9">
-                <label>
-                  <input id="routeopt" class="ace ace-switch ace-switch-6" type="checkbox" />
-                  <span class="lbl"></span>
-                </label>
+                <select class="col-xs-10 col-sm-5" id="mode">
+                  <option value="pppoec" data-i18n="PPPOE"></option>
+                  <option value="dhcpc" data-i18n="DHCP"></option>
+                  <option value="static" data-i18n="Static IP"></option>
+                </select>
               </div>
             </div>
-        </div>
 
-        <!-- Static设置-->
-        <div id="static_cfg" style="display: none;" >
-            <!-- IP地址 -->
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv4 Address"></label>
-                <div class="col-sm-9">
-                  <div class="clearfix">
-                    <input type="text" id="ip" class="col-xs-10 col-sm-5" maxlength="128" />
+            <!-- dhcpc设置-->
+            <div id="dhcpc_cfg" style="display: none;" >
+                <!-- 开启route选项支持 -->
+                <div class="form-group">
+                  <label class="col-sm-3 control-label no-padding-right" data-i18n="Route Options"></label>
+                  <div class="col-sm-9">
+                    <label>
+                      <input id="routeopt" class="ace ace-switch ace-switch-6" type="checkbox" />
+                      <span class="lbl"></span>
+                    </label>
                   </div>
                 </div>
             </div>
-            <!-- 掩码 -->
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" data-i18n="Subnet Mask"></label>
-                <div class="col-sm-9">
-                  <div class="clearfix">
-                    <input type="text" id="mask" class="col-xs-10 col-sm-5" maxlength="128" />
+
+            <!-- Static设置-->
+            <div id="static_cfg" style="display: none;" >
+                <!-- IP地址 -->
+                <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv4 Address"></label>
+                    <div class="col-sm-9">
+                      <div class="clearfix">
+                        <input type="text" id="ip" class="col-xs-10 col-sm-5" maxlength="128" />
+                      </div>
+                    </div>
+                </div>
+                <!-- 掩码 -->
+                <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right" data-i18n="Subnet Mask"></label>
+                    <div class="col-sm-9">
+                      <div class="clearfix">
+                        <input type="text" id="mask" class="col-xs-10 col-sm-5" maxlength="128" />
+                      </div>
+                    </div>
+                </div>
+                <!-- 网关 -->
+                <div class="form-group">
+                  <label class="col-sm-3 control-label no-padding-right" data-i18n="Gateway"></label>
+                  <div class="col-sm-9">
+                    <div class="clearfix">
+                      <input type="text" id="gw" class="col-xs-10 col-sm-5" maxlength="128" />
+                    </div>
                   </div>
                 </div>
-            </div>
-            <!-- 网关 -->
-            <div class="form-group">
-              <label class="col-sm-3 control-label no-padding-right" data-i18n="Gateway"></label>
-              <div class="col-sm-9">
-                <div class="clearfix">
-                  <input type="text" id="gw" class="col-xs-10 col-sm-5" maxlength="128" />
+                <!-- DNS -->
+                <div class="form-group">
+                  <label class="col-sm-3 control-label no-padding-right" data-i18n="DNS"></label>
+                  <div class="col-sm-9">
+                    <div class="clearfix">
+                      <input type="text" id="dns" class="col-xs-10 col-sm-5" maxlength="128" />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <!-- DNS -->
-            <div class="form-group">
-              <label class="col-sm-3 control-label no-padding-right" data-i18n="DNS"></label>
-              <div class="col-sm-9">
-                <div class="clearfix">
-                  <input type="text" id="dns" class="col-xs-10 col-sm-5" maxlength="128" />
+                <!-- DNS2 -->
+                <div class="form-group">
+                  <label class="col-sm-3 control-label no-padding-right" data-i18n="DNS2"></label>
+                  <div class="col-sm-9">
+                    <div class="clearfix">
+                      <input type="text" id="dns2" class="col-xs-10 col-sm-5" maxlength="128" />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <!-- DNS2 -->
-            <div class="form-group">
-              <label class="col-sm-3 control-label no-padding-right" data-i18n="DNS2"></label>
-              <div class="col-sm-9">
-                <div class="clearfix">
-                  <input type="text" id="dns2" class="col-xs-10 col-sm-5" maxlength="128" />
-                </div>
-              </div>
-            </div>
-        </div> <!-- static_cfg -->
+            </div> <!-- static_cfg -->
 
-        <!-- PPPOE设置-->
-        <div id="pppoe_cfg" style="display: none;" >
+            <!-- PPPOE设置-->
+            <div id="pppoe_cfg" style="display: none;" >
 
-            <!-- 拨号用户名 -->
-            <div class="form-group">
-              <label class="col-sm-3 control-label no-padding-right" data-i18n="Username"></label>
-              <div class="col-sm-9">
-                <input type="text" id="username" class="col-xs-10 col-sm-5" maxlength="128" />
-              </div>
-            </div>
-            <!-- 拨号密码 -->
-            <div class="form-group">
-              <label class="col-sm-3 control-label no-padding-right" data-i18n="Password"></label>
-              <div class="col-sm-9">
-                <span class="input-icon input-icon-right input-icon-form col-xs-10 col-sm-5">
-                  <input type="password" id="password" maxlength="128" autocomplete="new-password" />
-                  <i class="ace-icon fa fa-eye-slash" id="password-icon"></i>
-                </span>
-              </div>
-            </div>
-        
-            <!-- mtu -->
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" data-i18n="MTU"></label>
-                <div class="col-sm-9">
-                  <input type="text" id="mtu" class="col-xs-10 col-sm-5" maxlength="128" />
+                <!-- 拨号用户名 -->
+                <div class="form-group">
+                  <label class="col-sm-3 control-label no-padding-right" data-i18n="Username"></label>
+                  <div class="col-sm-9">
+                    <input type="text" id="username" class="col-xs-10 col-sm-5" maxlength="128" />
+                  </div>
                 </div>
-            </div>
-            <!-- lcp 间隔 -->
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" data-i18n="LCP Echo Interval"></label>
-                <div class="col-sm-9">
-                  <input type="text" id="lcp_echo_interval" class="col-xs-10 col-sm-5" maxlength="128" />
+                <!-- 拨号密码 -->
+                <div class="form-group">
+                  <label class="col-sm-3 control-label no-padding-right" data-i18n="Password"></label>
+                  <div class="col-sm-9">
+                    <span class="input-icon input-icon-right input-icon-form col-xs-10 col-sm-5">
+                      <input type="password" id="password" maxlength="128" autocomplete="new-password" />
+                      <i class="ace-icon fa fa-eye-slash" id="password-icon"></i>
+                    </span>
+                  </div>
                 </div>
-            </div>
-            <!-- lcp 失败次数 -->
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" data-i18n="LCP Echo Times"></label>
-                <div class="col-sm-9">
-                  <input type="text" id="lcp_echo_failure" class="col-xs-10 col-sm-5" maxlength="128" />
+            
+                <!-- mtu -->
+                <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right" data-i18n="MTU"></label>
+                    <div class="col-sm-9">
+                      <input type="text" id="mtu" class="col-xs-10 col-sm-5" maxlength="128" />
+                    </div>
                 </div>
-            </div>
-        </div> <!-- pppoe_cfg -->
+                <!-- lcp 间隔 -->
+                <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right" data-i18n="LCP Echo Interval"></label>
+                    <div class="col-sm-9">
+                      <input type="text" id="lcp_echo_interval" class="col-xs-10 col-sm-5" maxlength="128" />
+                    </div>
+                </div>
+                <!-- lcp 失败次数 -->
+                <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right" data-i18n="LCP Echo Times"></label>
+                    <div class="col-sm-9">
+                      <input type="text" id="lcp_echo_failure" class="col-xs-10 col-sm-5" maxlength="128" />
+                    </div>
+                </div>
+            </div> <!-- pppoe_cfg -->
 
-        <!-- 自定义DNS -->
-        <div id="customdns_cfg" style="display: none;">
+            <!-- 自定义DNS -->
+            <div id="customdns_cfg" style="display: none;">
+                <div class="form-group">
+                  <label class="col-sm-3 control-label no-padding-right" data-i18n="Custom DNS"></label>
+                  <div class="col-sm-9">
+                    <label>
+                      <input id="custom_dns" class="ace ace-switch ace-switch-6" type="checkbox" />
+                      <span class="lbl"></span>
+                    </label>
+                  </div>
+                </div>
+                <div id="customdns_config" style="display: none;">
+                  <!-- DNS -->
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right" data-i18n="DNS"></label>
+                    <div class="col-sm-9">
+                      <input type="text" id="cdns" class="col-xs-10 col-sm-5" maxlength="128" />
+                    </div>
+                  </div>
+                  <!-- DNS2 -->
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right" data-i18n="DNS2"></label>
+                    <div class="col-sm-9">
+                      <input type="text" id="cdns2" class="col-xs-10 col-sm-5" maxlength="128" />
+                    </div>
+                  </div>
+                </div>
+            </div><!-- customdns_cfg -->
+              
+            <!-- IP伪装 -->
             <div class="form-group">
-              <label class="col-sm-3 control-label no-padding-right" data-i18n="Custom DNS"></label>
-              <div class="col-sm-9">
-                <label>
-                  <input id="custom_dns" class="ace ace-switch ace-switch-6" type="checkbox" />
-                  <span class="lbl"></span>
-                </label>
-              </div>
+                <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv4 Masquerade(NAT)"></label>
+                <div class="col-sm-9">
+                    <label>
+                        <input id="masq" class="ace ace-switch ace-switch-6" type="checkbox" />
+                        <span class="lbl"></span>
+                    </label>
+                </div>
             </div>
-            <div id="customdns_config" style="display: none;">
-              <!-- DNS -->
+
+
+
+
+
+
+
+
+          <div id="ipv6_cfg" style="display: none;" >
+      
+              <div class="hr hr32 hr-dotted"></div>
+              <!-- IPV6拨号模式 -->
               <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" data-i18n="DNS"></label>
+                <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv6 Mode"></label>
                 <div class="col-sm-9">
-                  <input type="text" id="cdns" class="col-xs-10 col-sm-5" maxlength="128" />
+                  <select class="col-xs-10 col-sm-5" id="method">
+                    <option value="disable" data-i18n="Disable"></option>
+                    <option value="slaac" data-i18n="SLAAC"></option>
+                    <!-- <option value="automatic" data-i18n="Automatic"></option>
+                    <option value="manual" data-i18n="Manual"></option> -->
+                  </select>
                 </div>
               </div>
-              <!-- DNS2 -->
-              <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" data-i18n="DNS2"></label>
-                <div class="col-sm-9">
-                  <input type="text" id="cdns2" class="col-xs-10 col-sm-5" maxlength="128" />
-                </div>
-              </div>
-            </div>
-        </div><!-- customdns_cfg -->
-          
-        <!-- IP伪装 -->
-        <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv4 Masquerade(NAT)"></label>
-            <div class="col-sm-9">
-                <label>
-                    <input id="masq" class="ace ace-switch ace-switch-6" type="checkbox" />
-                    <span class="lbl"></span>
-                </label>
-            </div>
-        </div>
+      
+              <!-- Manual设置-->
+              <div id="manual_cfg" style="display: none;" >
+                  <!-- IPV6地址 -->
+                  <div class="form-group">
+                      <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv6 Address"></label>
+                      <div class="col-sm-9">
+                        <div class="clearfix">
+                          <input type="text" id="addr" class="col-xs-10 col-sm-5" maxlength="128" />
+                        </div>
+                      </div>
+                  </div>
+            
+                  <!-- 掩码 -->
+                  <div class="form-group">
+                      <label class="col-sm-3 control-label no-padding-right" data-i18n="Subnet Prefix"></label>
+                      <div class="col-sm-9">
+                        <div class="clearfix">
+                          <input type="text" id="prefix" class="col-xs-10 col-sm-5" maxlength="128" />
+                        </div>
+                      </div>
+                  </div>
+                  <!-- 网关 -->
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right" data-i18n="Next Hop"></label>
+                    <div class="col-sm-9">
+                      <div class="clearfix">
+                        <input type="text" id="hop" class="col-xs-10 col-sm-5" maxlength="128" />
+                      </div>
+                    </div>
+                  </div>
+            
+                  <!-- DNS -->
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right" data-i18n="DNS"></label>
+                    <div class="col-sm-9">
+                      <div class="clearfix">
+                        <input type="text" id="resolve" class="col-xs-10 col-sm-5" maxlength="128" />
+                      </div>
+                    </div>
+                  </div>
+            
+                  <!-- DNS2 -->
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right" data-i18n="DNS2"></label>
+                    <div class="col-sm-9">
+                      <div class="clearfix">
+                        <input type="text" id="resolve2" class="col-xs-10 col-sm-5" maxlength="128" />
+                      </div>
+                    </div>
+                  </div>
+              </div> <!-- manual_cfg -->
+          </div> <!-- ipv6_cfg -->
 
 
 
@@ -196,159 +283,86 @@
 
 
 
-
-      <div id="ipv6_cfg" style="display: none;" >
-  
           <div class="hr hr32 hr-dotted"></div>
-          <!-- IPV6拨号模式 -->
+          <!-- 保活模式 -->
           <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv6 Mode"></label>
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Availability Check"></label>
             <div class="col-sm-9">
-              <select class="col-xs-10 col-sm-5" id="method">
-                <option value="disable" data-i18n="Disable"></option>
-                <option value="slaac" data-i18n="SLAAC"></option>
-                <!-- <option value="automatic" data-i18n="Automatic"></option>
-                <option value="manual" data-i18n="Manual"></option> -->
+              <select class="col-xs-10 col-sm-5" id="keeplive">
+                <option value="disable" data-i18n="Disalbe"></option>
+                <option value="icmp" data-i18n="ICMP"></option>
+                <option value="recv" data-i18n="Receive Count"></option>
               </select>
             </div>
           </div>
-  
-          <!-- Manual设置-->
-          <div id="manual_cfg" style="display: none;" >
-              <!-- IPV6地址 -->
-              <div class="form-group">
-                  <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv6 Address"></label>
-                  <div class="col-sm-9">
-                    <div class="clearfix">
-                      <input type="text" id="addr" class="col-xs-10 col-sm-5" maxlength="128" />
-                    </div>
-                  </div>
-              </div>
-        
-              <!-- 掩码 -->
-              <div class="form-group">
-                  <label class="col-sm-3 control-label no-padding-right" data-i18n="Subnet Prefix"></label>
-                  <div class="col-sm-9">
-                    <div class="clearfix">
-                      <input type="text" id="prefix" class="col-xs-10 col-sm-5" maxlength="128" />
-                    </div>
-                  </div>
-              </div>
-              <!-- 网关 -->
-              <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" data-i18n="Next Hop"></label>
-                <div class="col-sm-9">
-                  <div class="clearfix">
-                    <input type="text" id="hop" class="col-xs-10 col-sm-5" maxlength="128" />
-                  </div>
+          <!-- icmp配置 -->
+          <div id="icmp_cfg" style="display: none;">
+            <!-- 地址 -->
+            <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Test Address"></label>
+              <div class="col-sm-9">
+                <div class="clearfix">
+                  <input type="text" id="icmp_test" class="col-xs-10 col-sm-5" maxlength="128" />
                 </div>
               </div>
-        
-              <!-- DNS -->
-              <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" data-i18n="DNS"></label>
-                <div class="col-sm-9">
-                  <div class="clearfix">
-                    <input type="text" id="resolve" class="col-xs-10 col-sm-5" maxlength="128" />
-                  </div>
-                </div>
-              </div>
-        
-              <!-- DNS2 -->
-              <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" data-i18n="DNS2"></label>
-                <div class="col-sm-9">
-                  <div class="clearfix">
-                    <input type="text" id="resolve2" class="col-xs-10 col-sm-5" maxlength="128" />
-                  </div>
-                </div>
-              </div>
-          </div> <!-- manual_cfg -->
-      </div> <!-- ipv6_cfg -->
-
-
-
-
-
-
-
-      <div class="hr hr32 hr-dotted"></div>
-      <!-- 保活模式 -->
-      <div class="form-group">
-        <label class="col-sm-3 control-label no-padding-right" data-i18n="Availability Check"></label>
-        <div class="col-sm-9">
-          <select class="col-xs-10 col-sm-5" id="keeplive">
-            <option value="disable" data-i18n="Disalbe"></option>
-            <option value="icmp" data-i18n="ICMP"></option>
-            <option value="recv" data-i18n="Receive Count"></option>
-          </select>
-        </div>
-      </div>
-      <!-- icmp配置 -->
-      <div id="icmp_cfg" style="display: none;">
-        <!-- 地址 -->
-        <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" data-i18n="Test Address"></label>
-          <div class="col-sm-9">
-            <div class="clearfix">
-              <input type="text" id="icmp_test" class="col-xs-10 col-sm-5" maxlength="128" />
             </div>
-          </div>
-        </div>
-        <!-- 地址2 -->
-        <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" data-i18n="Test Address 2"></label>
-          <div class="col-sm-9">
-            <input type="text" id="icmp_test2" class="col-xs-10 col-sm-5" maxlength="128" />
-          </div>
-        </div>
-        <!-- 地址3 -->
-        <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" data-i18n="Test Address 3"></label>
-          <div class="col-sm-9">
-            <input type="text" id="icmp_test3" class="col-xs-10 col-sm-5" maxlength="128" />
-          </div>
-        </div>
-        <!-- 超时 -->
-        <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" data-i18n="Each Query Timeout(sec)"></label>
-          <div class="col-sm-9">
-            <input type="text" id="icmp_timeout" class="col-xs-10 col-sm-5" maxlength="128" />
-          </div>
-        </div>
-        <!-- 次数 -->
-        <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" data-i18n="Test Times"></label>
-          <div class="col-sm-9">
-            <input type="text" id="icmp_failed" class="col-xs-10 col-sm-5" maxlength="128" />
-          </div>
-        </div>
-        <!-- 间隔 -->
-        <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" data-i18n="Test Interval(sec)"></label>
-          <div class="col-sm-9">
-            <input type="text" id="icmp_interval" class="col-xs-10 col-sm-5" maxlength="128" />
-          </div>
-        </div>
-      </div><!-- icmp_cfg -->
-      <!-- Receive配置 -->
-      <div id="recv_cfg" style="display: none;">
-        <!-- 超时 -->
-        <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" data-i18n="Duration(sec)"></label>
-          <div class="col-sm-9">
-            <input type="text" id="recv_timeout" class="col-xs-10 col-sm-5" maxlength="128" />
-          </div>
-        </div>
-        <!-- 次数 -->
-        <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" data-i18n="Request packets"></label>
-          <div class="col-sm-9">
-            <input type="text" id="recv_packets" class="col-xs-10 col-sm-5" maxlength="128" />
-          </div>
-        </div>
-      </div><!-- recv_cfg -->
+            <!-- 地址2 -->
+            <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Test Address 2"></label>
+              <div class="col-sm-9">
+                <input type="text" id="icmp_test2" class="col-xs-10 col-sm-5" maxlength="128" />
+              </div>
+            </div>
+            <!-- 地址3 -->
+            <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Test Address 3"></label>
+              <div class="col-sm-9">
+                <input type="text" id="icmp_test3" class="col-xs-10 col-sm-5" maxlength="128" />
+              </div>
+            </div>
+            <!-- 超时 -->
+            <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Each Query Timeout(sec)"></label>
+              <div class="col-sm-9">
+                <input type="text" id="icmp_timeout" class="col-xs-10 col-sm-5" maxlength="128" />
+              </div>
+            </div>
+            <!-- 次数 -->
+            <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Test Times"></label>
+              <div class="col-sm-9">
+                <input type="text" id="icmp_failed" class="col-xs-10 col-sm-5" maxlength="128" />
+              </div>
+            </div>
+            <!-- 间隔 -->
+            <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Test Interval(sec)"></label>
+              <div class="col-sm-9">
+                <input type="text" id="icmp_interval" class="col-xs-10 col-sm-5" maxlength="128" />
+              </div>
+            </div>
+          </div><!-- icmp_cfg -->
+          <!-- Receive配置 -->
+          <div id="recv_cfg" style="display: none;">
+            <!-- 超时 -->
+            <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Duration(sec)"></label>
+              <div class="col-sm-9">
+                <input type="text" id="recv_timeout" class="col-xs-10 col-sm-5" maxlength="128" />
+              </div>
+            </div>
+            <!-- 次数 -->
+            <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Request packets"></label>
+              <div class="col-sm-9">
+                <input type="text" id="recv_packets" class="col-xs-10 col-sm-5" maxlength="128" />
+              </div>
+            </div>
+          </div><!-- recv_cfg -->
 
+
+
+      </div>
 
 
 
@@ -433,6 +447,25 @@
     {
       he.load( [ object ] ).then( function(v){
         wan = v[0];
+        /* status */
+        if ( wan.status && wan.status == "disable" )
+        {
+            $('#status').prop('checked', false );
+        }
+        else
+        {
+            $('#status').prop('checked', true );
+        }
+        $('#status').unbind('change').change(function () {
+          if ($(this).prop('checked'))
+          {
+            $('#status_config').show();
+          }
+          else
+          {
+            $('#status_config').hide();
+          }
+        }).trigger('change');
         /* IPV4 */
         $('#mode').val( wan.mode || 'dhcpc' );
         if ( wan.pppoec )
@@ -608,216 +641,228 @@
       }
       var wancopy = JSON.parse(JSON.stringify(wan));;
 
-      /* IPV4 */
-      wan.mode = $('#mode').val();
-      if ( wan.mode == "pppoec" )
+      /* status */
+      if ( $('#status').prop('checked') == false )
       {
-        if ( !wan.pppoec )
-        {
-          wan.pppoec = {};
-        }
-        wan.pppoec.custom_dns = boole2able( $('#custom_dns').prop('checked') );
-        if ( wan.pppoec.custom_dns == "enable" )
-        {
-          wan.pppoec.dns = $('#cdns').val();
-          if ( check.ip(wan.pppoec.dns) == false )
-          {
-              page.alert( { message: $.i18n('DNS')+" "+$.i18n('must be a valid IP address') } );
-              return;
-          }
-          wan.pppoec.dns2 = $('#cdns2').val();
-          if ( wan.pppoec.dns2 && check.ip(wan.pppoec.dns2) == false )
-          {
-              page.alert( { message: $.i18n('DNS2')+" "+$.i18n('must be a valid IP address') } );
-              return;
-          }
-        }
-        wan.pppoec.username = $('#username').val();
-        wan.pppoec.password = $('#password').val();
-        wan.pppoec.mtu = $('#mtu').val();
-        if ( wan.pppoec.mtu && check.number(wan.pppoec.mtu) == false )
-        {
-            page.alert( { message: $.i18n('MTU')+" "+$.i18n('must be a valid number') } );
-            return;
-        }
-        wan.pppoec.lcp_echo_interval = $('#lcp_echo_interval').val();
-        if ( wan.pppoec.lcp_echo_interval && check.number(wan.pppoec.lcp_echo_interval) == false )
-        {
-            page.alert( { message: $.i18n('LCP Echo Interval')+" "+$.i18n('must be a valid number') } );
-            return;
-        }
-        wan.pppoec.lcp_echo_failure = $('#lcp_echo_failure').val();
-        if ( wan.pppoec.lcp_echo_failure && check.number(wan.pppoec.lcp_echo_failure) == false )
-        {
-            page.alert( { message: $.i18n('LCP Echo Times')+" "+$.i18n('must be a valid number') } );
-            return;
-        }
+          wan.status = "disable";
       }
-      else if ( wan.mode == "dhcpc" )
+      else
       {
-        if ( !wan.dhcpc )
-        {
-          wan.dhcpc = {};
-        }
-        wan.dhcpc.routeopt = boole2able( $('#routeopt').prop('checked') );
-        wan.dhcpc.custom_dns = boole2able( $('#custom_dns').prop('checked') );
-        if ( wan.dhcpc.custom_dns == "enable" )
-        {
-          wan.dhcpc.dns = $('#cdns').val();
-          if ( check.ip(wan.dhcpc.dns) == false )
+          if ( wan.status && wan.status != "enable" )
           {
-              page.alert( { message: $.i18n('DNS')+" "+$.i18n('must be a valid IP address') } );
-              return;
+            wan.status = "enable";
           }
-          wan.dhcpc.dns2 = $('#cdns2').val();
-          if ( wan.dhcpc.dns2 && check.ip(wan.dhcpc.dns2) == false )
+          /* IPV4 */
+          wan.mode = $('#mode').val();
+          if ( wan.mode == "pppoec" )
           {
-              page.alert( { message: $.i18n('DNS2')+" "+$.i18n('must be a valid IP address') } );
-              return;
-          }
-        }
-      }
-      else if ( wan.mode == "static" )
-      {
-        if ( !wan.static )
-        {
-            wan.static = {};
-        }
-        wan.static.ip = $('#ip').val();
-        if ( check.ip(wan.static.ip) == false )
-        {
-            page.alert( { message: $.i18n('IPv4 Address')+" "+$.i18n('must be a valid IP address') } );
-            return;
-        }
-        wan.static.mask = $('#mask').val();
-        if ( check.ip(wan.static.mask) == false )
-        {
-            page.alert( { message: $.i18n('Subnet Mask')+" "+$.i18n('must be a valid IP address') } );
-            return;
-        }
-        wan.static.gw = $('#gw').val();
-        if ( wan.static.gw && check.ip(wan.static.gw) == false )
-        {
-            page.alert( { message: $.i18n('Gateway')+" "+$.i18n('must be a valid IP address') } );
-            return;
-        }
-        wan.static.dns = $('#dns').val();
-        if ( wan.static.dns && check.ip(wan.static.dns) == false )
-        {
-            page.alert( { message: $.i18n('DNS')+" "+$.i18n('must be a valid IP address') } );
-            return;
-        }
-        wan.static.dns2 = $('#dns2').val();
-        if ( wan.static.dns2 && check.ip(wan.static.dns2) == false )
-        {
-            page.alert( { message: $.i18n('DNS2')+" "+$.i18n('must be a valid IP address') } );
-            return;
-        }
-      }
-      wan.masq = boole2able( $('#masq').prop('checked') );
-      /* IPV6 */
-      if ( wan.method )
-      {
-          wan.method = $('#method').val();
-          if ( wan.method == "manual" )
-          {
-            if ( !wan.manual )
+            if ( !wan.pppoec )
             {
-                wan.manual = {};
+              wan.pppoec = {};
             }
-            wan.manual.addr = $('#addr').val();
-            if ( check.ipv6(wan.manual.addr) == false )
+            wan.pppoec.custom_dns = boole2able( $('#custom_dns').prop('checked') );
+            if ( wan.pppoec.custom_dns == "enable" )
             {
-                page.alert( { message: $.i18n('IPv6 Address')+" "+$.i18n('must be a valid IPv6 address') } );
+              wan.pppoec.dns = $('#cdns').val();
+              if ( check.ip(wan.pppoec.dns) == false )
+              {
+                  page.alert( { message: $.i18n('DNS')+" "+$.i18n('must be a valid IP address') } );
+                  return;
+              }
+              wan.pppoec.dns2 = $('#cdns2').val();
+              if ( wan.pppoec.dns2 && check.ip(wan.pppoec.dns2) == false )
+              {
+                  page.alert( { message: $.i18n('DNS2')+" "+$.i18n('must be a valid IP address') } );
+                  return;
+              }
+            }
+            wan.pppoec.username = $('#username').val();
+            wan.pppoec.password = $('#password').val();
+            wan.pppoec.mtu = $('#mtu').val();
+            if ( wan.pppoec.mtu && check.number(wan.pppoec.mtu) == false )
+            {
+                page.alert( { message: $.i18n('MTU')+" "+$.i18n('must be a valid number') } );
                 return;
             }
-            wan.manual.prefix = $('#prefix').val();
-            if ( wan.manual.prefix && ( wan.manual.prefix < 0 || wan.manual.prefix > 128 ) )
+            wan.pppoec.lcp_echo_interval = $('#lcp_echo_interval').val();
+            if ( wan.pppoec.lcp_echo_interval && check.number(wan.pppoec.lcp_echo_interval) == false )
             {
-                page.alert( { message: $.i18n('Subnet Prefix')+" "+$.i18n('must be a number(0-128)') } );
+                page.alert( { message: $.i18n('LCP Echo Interval')+" "+$.i18n('must be a valid number') } );
                 return;
             }
-            wan.manual.hop = $('#hop').val();
-            if ( wan.manual.hop && check.ipv6(wan.manual.hop) == false )
+            wan.pppoec.lcp_echo_failure = $('#lcp_echo_failure').val();
+            if ( wan.pppoec.lcp_echo_failure && check.number(wan.pppoec.lcp_echo_failure) == false )
             {
-                page.alert( { message: $.i18n('Next Hop')+" "+$.i18n('must be a valid IPv6 address') } );
-                return;
-            }
-            wan.manual.resolve = $('#resolve').val();
-            if ( wan.manual.resolve && check.ipv6(wan.manual.resolve) == false )
-            {
-                page.alert( { message: $.i18n('DNS')+" "+$.i18n('must be a valid IPv6 address') } );
-                return;
-            }
-            wan.manual.resolve2 = $('#resolve2').val();
-            if ( wan.manual.resolve2 && check.ipv6(wan.manual.resolve2) == false )
-            {
-                page.alert( { message: $.i18n('DNS2')+" "+$.i18n('must be a valid IPv6 address') } );
+                page.alert( { message: $.i18n('LCP Echo Times')+" "+$.i18n('must be a valid number') } );
                 return;
             }
           }
-      }
-      /* Keeplive */
-      if ( !wan.keeplive )
-      {
-        wan.keeplive = {};
-      }
-      wan.keeplive.type = $('#keeplive').val();
-      if ( wan.keeplive.type == "icmp" )
-      {
-        if ( !wan.keeplive.icmp )
-        {
-          wan.keeplive.icmp = {};
-        }
-        if ( !wan.keeplive.icmp.dest )
-        {
-          wan.keeplive.icmp.dest = {};
-        }
-        wan.keeplive.icmp.dest.test = $('#icmp_test').val();
-        if ( !wan.keeplive.icmp.dest.test )
-        {
-            page.alert( { message: $.i18n('Test Address')+" "+$.i18n('Can not be empty') } );
-            return;
-        }
-        wan.keeplive.icmp.dest.test2 = $('#icmp_test2').val();
-        wan.keeplive.icmp.dest.test3 = $('#icmp_test3').val();
-        wan.keeplive.icmp.timeout = $('#icmp_timeout').val();
-        if ( check.number(wan.keeplive.icmp.timeout) == false )
-        {
-            page.alert( { message: $.i18n('Each Query Timeout(sec)')+" "+$.i18n('must be a valid number') } );
-            return;
-        }
-        wan.keeplive.icmp.failed = $('#icmp_failed').val();
-        if ( check.number(wan.keeplive.icmp.failed) == false )
-        {
-            page.alert( { message: $.i18n('Test Times')+" "+$.i18n('must be a valid number') } );
-            return;
-        }
-        wan.keeplive.icmp.interval = $('#icmp_interval').val();
-        if ( check.number(wan.keeplive.icmp.interval) == false )
-        {
-            page.alert( { message: $.i18n('Test Interval(sec)')+" "+$.i18n('must be a valid number') } );
-            return;
-        }
-      }
-      else if ( wan.keeplive.type == "recv" )
-      {
-        if ( !wan.keeplive.recv )
-        {
-          wan.keeplive.recv = {};
-        }
-        wan.keeplive.recv.timeout = $('#recv_timeout').val();
-        if ( check.number(wan.keeplive.recv.timeout) == false )
-        {
-            page.alert( { message: $.i18n('Duration(sec)')+" "+$.i18n('must be a valid number') } );
-            return;
-        }
-        wan.keeplive.recv.packets = $('#recv_packets').val();
-        if ( check.number(wan.keeplive.recv.packets) == false )
-        {
-            page.alert( { message: $.i18n('Request packets')+" "+$.i18n('must be a valid number') } );
-            return;
-        }
+          else if ( wan.mode == "dhcpc" )
+          {
+            if ( !wan.dhcpc )
+            {
+              wan.dhcpc = {};
+            }
+            wan.dhcpc.routeopt = boole2able( $('#routeopt').prop('checked') );
+            wan.dhcpc.custom_dns = boole2able( $('#custom_dns').prop('checked') );
+            if ( wan.dhcpc.custom_dns == "enable" )
+            {
+              wan.dhcpc.dns = $('#cdns').val();
+              if ( check.ip(wan.dhcpc.dns) == false )
+              {
+                  page.alert( { message: $.i18n('DNS')+" "+$.i18n('must be a valid IP address') } );
+                  return;
+              }
+              wan.dhcpc.dns2 = $('#cdns2').val();
+              if ( wan.dhcpc.dns2 && check.ip(wan.dhcpc.dns2) == false )
+              {
+                  page.alert( { message: $.i18n('DNS2')+" "+$.i18n('must be a valid IP address') } );
+                  return;
+              }
+            }
+          }
+          else if ( wan.mode == "static" )
+          {
+            if ( !wan.static )
+            {
+                wan.static = {};
+            }
+            wan.static.ip = $('#ip').val();
+            if ( check.ip(wan.static.ip) == false )
+            {
+                page.alert( { message: $.i18n('IPv4 Address')+" "+$.i18n('must be a valid IP address') } );
+                return;
+            }
+            wan.static.mask = $('#mask').val();
+            if ( check.ip(wan.static.mask) == false )
+            {
+                page.alert( { message: $.i18n('Subnet Mask')+" "+$.i18n('must be a valid IP address') } );
+                return;
+            }
+            wan.static.gw = $('#gw').val();
+            if ( wan.static.gw && check.ip(wan.static.gw) == false )
+            {
+                page.alert( { message: $.i18n('Gateway')+" "+$.i18n('must be a valid IP address') } );
+                return;
+            }
+            wan.static.dns = $('#dns').val();
+            if ( wan.static.dns && check.ip(wan.static.dns) == false )
+            {
+                page.alert( { message: $.i18n('DNS')+" "+$.i18n('must be a valid IP address') } );
+                return;
+            }
+            wan.static.dns2 = $('#dns2').val();
+            if ( wan.static.dns2 && check.ip(wan.static.dns2) == false )
+            {
+                page.alert( { message: $.i18n('DNS2')+" "+$.i18n('must be a valid IP address') } );
+                return;
+            }
+          }
+          wan.masq = boole2able( $('#masq').prop('checked') );
+          /* IPV6 */
+          if ( wan.method )
+          {
+              wan.method = $('#method').val();
+              if ( wan.method == "manual" )
+              {
+                if ( !wan.manual )
+                {
+                    wan.manual = {};
+                }
+                wan.manual.addr = $('#addr').val();
+                if ( check.ipv6(wan.manual.addr) == false )
+                {
+                    page.alert( { message: $.i18n('IPv6 Address')+" "+$.i18n('must be a valid IPv6 address') } );
+                    return;
+                }
+                wan.manual.prefix = $('#prefix').val();
+                if ( wan.manual.prefix && ( wan.manual.prefix < 0 || wan.manual.prefix > 128 ) )
+                {
+                    page.alert( { message: $.i18n('Subnet Prefix')+" "+$.i18n('must be a number(0-128)') } );
+                    return;
+                }
+                wan.manual.hop = $('#hop').val();
+                if ( wan.manual.hop && check.ipv6(wan.manual.hop) == false )
+                {
+                    page.alert( { message: $.i18n('Next Hop')+" "+$.i18n('must be a valid IPv6 address') } );
+                    return;
+                }
+                wan.manual.resolve = $('#resolve').val();
+                if ( wan.manual.resolve && check.ipv6(wan.manual.resolve) == false )
+                {
+                    page.alert( { message: $.i18n('DNS')+" "+$.i18n('must be a valid IPv6 address') } );
+                    return;
+                }
+                wan.manual.resolve2 = $('#resolve2').val();
+                if ( wan.manual.resolve2 && check.ipv6(wan.manual.resolve2) == false )
+                {
+                    page.alert( { message: $.i18n('DNS2')+" "+$.i18n('must be a valid IPv6 address') } );
+                    return;
+                }
+              }
+          }
+          /* Keeplive */
+          if ( !wan.keeplive )
+          {
+            wan.keeplive = {};
+          }
+          wan.keeplive.type = $('#keeplive').val();
+          if ( wan.keeplive.type == "icmp" )
+          {
+            if ( !wan.keeplive.icmp )
+            {
+              wan.keeplive.icmp = {};
+            }
+            if ( !wan.keeplive.icmp.dest )
+            {
+              wan.keeplive.icmp.dest = {};
+            }
+            wan.keeplive.icmp.dest.test = $('#icmp_test').val();
+            if ( !wan.keeplive.icmp.dest.test )
+            {
+                page.alert( { message: $.i18n('Test Address')+" "+$.i18n('Can not be empty') } );
+                return;
+            }
+            wan.keeplive.icmp.dest.test2 = $('#icmp_test2').val();
+            wan.keeplive.icmp.dest.test3 = $('#icmp_test3').val();
+            wan.keeplive.icmp.timeout = $('#icmp_timeout').val();
+            if ( check.number(wan.keeplive.icmp.timeout) == false )
+            {
+                page.alert( { message: $.i18n('Each Query Timeout(sec)')+" "+$.i18n('must be a valid number') } );
+                return;
+            }
+            wan.keeplive.icmp.failed = $('#icmp_failed').val();
+            if ( check.number(wan.keeplive.icmp.failed) == false )
+            {
+                page.alert( { message: $.i18n('Test Times')+" "+$.i18n('must be a valid number') } );
+                return;
+            }
+            wan.keeplive.icmp.interval = $('#icmp_interval').val();
+            if ( check.number(wan.keeplive.icmp.interval) == false )
+            {
+                page.alert( { message: $.i18n('Test Interval(sec)')+" "+$.i18n('must be a valid number') } );
+                return;
+            }
+          }
+          else if ( wan.keeplive.type == "recv" )
+          {
+            if ( !wan.keeplive.recv )
+            {
+              wan.keeplive.recv = {};
+            }
+            wan.keeplive.recv.timeout = $('#recv_timeout').val();
+            if ( check.number(wan.keeplive.recv.timeout) == false )
+            {
+                page.alert( { message: $.i18n('Duration(sec)')+" "+$.i18n('must be a valid number') } );
+                return;
+            }
+            wan.keeplive.recv.packets = $('#recv_packets').val();
+            if ( check.number(wan.keeplive.recv.packets) == false )
+            {
+                page.alert( { message: $.i18n('Request packets')+" "+$.i18n('must be a valid number') } );
+                return;
+            }
+          }
       }
 
       if ( ocompare( wan, wancopy ) )

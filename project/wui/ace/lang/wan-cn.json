@@ -12,6 +12,7 @@
 	"Rate":"速率",
 
 
+	"Status":"状态",
 	"IPv4 Mode":"IPv4模式",
 	"Static IP":"手动设置",
 	"PPPOE":"PPPOE宽带拨号",

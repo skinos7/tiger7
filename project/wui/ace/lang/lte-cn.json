@@ -37,6 +37,7 @@
 	"3G":"3G",
 	"2G":"2G",
 	"GPS":"定位功能",
+	"Modem Settings":"模块设置",
 
 
 	"Backup Simcard":"备用SIM卡",
@@ -80,6 +81,7 @@
 
 
 
+	"Network Status":"网络功能",
 	"IPv4 Mode":"IPv4模式",
 	"Advise":"基带建议",
 	"DHCP":"动态获取",

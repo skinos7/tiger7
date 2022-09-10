@@ -1100,7 +1100,7 @@
         {
             $(id+"_vidpid").text( ' ' );        
         }
-        $(id+"_imei").text( info.imei|"" );
+        $(id+"_imei").text( info.imei||"" );
         $(id+"_imsi").text( info.imsi||"" );
         if ( info.iccid )
         {
