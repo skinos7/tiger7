@@ -70,7 +70,7 @@ void pat_wdt_feed( void )
 EXPORT_SYMBOL_GPL( pat_wdt_feed );
 
 /* second stage: early feed */
-static int wdg_early_count = 600; //10 min
+static int wdg_early_count = 300; //5 min
 static struct timer_list wdg_timer;
 
 void pat_wdt_early_disable( void )

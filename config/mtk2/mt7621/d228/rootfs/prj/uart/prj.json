@@ -1,0 +1,81 @@
+{
+    "name":"uart",
+    "intro":"uart forwarding project",
+    "desc":"uart management and custom",
+    "type":"root",
+    "version":"7.0.0",
+    "author":"dimmalex@gmail.com",
+    "lib":
+    {
+        "landuart":"uart library"
+    },
+    "osc":
+    {
+        "mbusd":"modbusRTU to modbusTCP gateway,https://github.com/3cky/mbusd.git"
+    },
+    "exe":
+    {
+        "tip":"tools for serial command"
+    },
+    "com":
+    {
+        "frame":"uart frame",
+        "hetui":"UART application components for he command",
+        "modbus":"UART application components for modbus",
+        "dtu":"UART application components for DTU",
+        "nmea":"UART application components for GNSS"
+    },
+    "init":
+    {
+        "core2":
+        {
+            "uart@frame.setup":""
+        }
+    },
+    "uninit":
+    {
+        "core2":
+        {
+            "uart@frame.shut":""
+        }
+    },
+    "wui":
+    {
+        "serial":
+        {
+            "cn":"串口(RS232)",
+            "en":"Serial#RS232",
+            "page":"serial.html",
+            "object":"uart@serial",
+            "lang":
+            {
+                "cn":"cn.json",
+                "en":"en.json"
+            }
+        },
+        "serial2":
+        {
+            "cn":"串口(TTL)",
+            "en":"Serial#TTL",
+            "page":"serial.html",
+            "object":"uart@serial2",
+            "lang":
+            {
+                "cn":"cn.json",
+                "en":"en.json"
+            }
+        },
+        "serial3":
+        {
+            "cn":"串口(RS485)",
+            "en":"Serial#RS485",
+            "page":"serial.html",
+            "object":"uart@serial3",
+            "lang":
+            {
+                "cn":"cn.json",
+                "en":"en.json"
+            }
+        }
+    }
+}

@@ -786,8 +786,9 @@ static const struct usb_device_id option_ids[] = {
 
 
 
-    /* add by dimmalex TD Tech Em250 */
+    /* add by dimmalex TD Tech Em250/EM350 */
     { USB_DEVICE(HUAWEI_VENDOR_ID, 0x1506) },
+    { USB_DEVICE(HUAWEI_VENDOR_ID, 0x1C05) },
 
 
 
@@ -815,6 +816,9 @@ static const struct usb_device_id option_ids[] = {
 #endif
 #if 1 // add by dimmalex for Quectel EC200
 	{ USB_DEVICE(0x2C7C, 0x6002) }, /* Quectel EC200/UC200 */
+#endif
+#if 1 // add by dimmalex for Quectel EC200A
+	{ USB_DEVICE(0x2C7C, 0x6005) }, /* Quectel EC200A */
 #endif
 #if 1 // add by dimmalex for Quectel RM500U/RG200U
     { USB_DEVICE_AND_INTERFACE_INFO(0x2C7C, 0x0900, 0xff, 0x00, 0x00) }, /* Quectel RM500U/RG200U/RX500U */
