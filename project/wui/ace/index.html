@@ -212,15 +212,17 @@
                 <td width="200px"><span id="logo_img"></span></td>
                 <td align="left" >
                     <table width="90%" frame=void rules=none>
-                        <tr><td style="font-size:60px">&nbsp;</td></tr>
-                        <tr><td style="font-size:30px" align="left" id="logo_title"></td></tr>
+                        <tr><td style="font-size:30px">&nbsp;</td></tr>
+                        <tr><td style="font-size:20px" align="left" id="logo_title"></td></tr>
+                        <tr><td style="font-size:10px">&nbsp;</td></tr>
                     </table>            
                 </td>
                 <td width="150px">
-                    <table width="100%"  style="border:5px solid #ffffff;" >
+                    <table width="100%" id="logo_model" style="border:0px solid #ffffff;" >
                         <tr><th data-i18n="Model"></th><td id="cmodel"></td></tr>
                         <tr><th data-i18n="Version"></th><td id="version"></td></tr>
                     </table>
+                    <div id="logo_logout" style="display: none" class="navbar-header pull-right"><a href="#" id="logout" class="navbar-brand"><i class="ace-icon fa fa-sign-out"></i></a></div>
                 </td>
             </tr>
         </table>
@@ -368,8 +370,8 @@
 			window.local_list = <%he('network@frame.list[local]'); %>;
 			window.extern_list = <%he('network@frame.list[extern]'); %>;
 			window.outer_list = <%he('network@frame.list[outer]'); %>;
-			window.nradio = <%he('wifi@nradio'); %>;
-			window.aradio = <%he('wifi@aradio'); %>;
+			window.nradio = <%he('.wifi@n'); %>;
+			window.aradio = <%he('.wifi@a'); %>;
 			window.wui = <%config(); %>;
 			window.fpk_menu = <%he('land@fpk.wui_menu'); %>;
 			window.wuiterm = "<%shell( 'which ttyd | tr -d "\n"' ); %>";
@@ -380,28 +382,65 @@
 			var wuimenu = wui.menu;
 			// disable load the subpage, loading when after i18n loadin
 			ace.demo.functions.enableDemoAjax= function () {};
-            if ( window.wui && window.wui.logo_file )
+            if ( window.wui )
             {
-                var stamp = '<img src="' + window.wui.logo_file + '" width="' + (window.wui.logo_width || '180px') + '" height="' + (window.wui.logo_height || '100px') + '" /></div>';
-                $('#logo_img').append(stamp);
+                var logoshow = false;
+                if ( window.wui.logo_color )
+                {
+                    logoshow = true;
+                    $("#logo").css("background-color", window.wui.logo_color );
+                }
+                if (  window.wui.logo_file )
+                {
+                    logoshow = true;
+                    var stamp = '<img src="' + window.wui.logo_file + '" width="' + (window.wui.logo_width || '180px') + '" height="' + (window.wui.logo_height || '100px') + '" /></div>';
+                    $('#logo_img').append(stamp);
+                }
                 if ( window.wui.logo_title )
                 {
-                    $('#logo_title').append( window.wui.logo_title );
+                    logoshow = true;
+                    if ( window.wui.logo_title == "#NAME" )
+                    {
+                        $('#logo_title').append( document.title );
+                    }
+                    else
+                    {
+                        $('#logo_title').append( window.wui.logo_title );
+                    }
                 }
-                $('#cmodel').text( window.machine_status.cmodel );
-                $('#version').text( window.machine_status.version );
-                $('#logo').show();
-                $('#sidebar-shortcuts').hide();
-            }
-			else
-			{
-                $('#sidebar-shortcuts').show();
-                $("#copyright").hide();
-                if ( window.machine.copyright && window.machine.copyright == "enable" )
+                if ( window.wui.model_bar == "disable" )
                 {
-                    $("#copyright").show();
+                    $('#navbar').hide();
                 }
-			}
+                if ( window.wui.logo_model == "disable" )
+                {
+                    $('#logo_model').hide();
+                    $('#logo_logout').show();
+                }
+                if ( window.machine_status.cmodel )
+                {
+                    $('#cmodel').text( window.machine_status.cmodel );
+                }
+                else
+                {
+                    $('#cmodel').text( window.machine_status.model );
+                }
+                $('#version').text( window.machine_status.version );
+                if ( logoshow == true )
+                {
+                    $('#logo').show();
+                    $("#copyright").hide();
+                    $('#sidebar-shortcuts').hide();
+                }
+                else
+                {
+                    $('#sidebar-shortcuts').show();
+                    if ( window.machine.copyright && window.machine.copyright == "enable" )
+                    {
+                        $("#copyright").show();
+                    }
+                }
+            }
             var win = window;
             var doc = win.document;
             var input = doc.createElement("input");
@@ -831,14 +870,14 @@
     					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'WAN2' ), 'wan?object=ifname@wan2' );
                         }
     				}
-    				if ( <%he('.ifname@wisp.status'); %> )
+    				if ( window.nradio == true && <%he('.ifname@wisp.status'); %> )
     				{
                         if ( !wuimenu || wuimenu.wisp != "disable" )
                         {
     					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'WISP(2.4G)' ), 'wisp?object=ifname@wisp' );
                         }
     				}
-    				if ( <%he('.ifname@wisp2.status'); %> )
+    				if ( window.aradio == true && <%he('.ifname@wisp2.status'); %> )
     				{
                         if ( !wuimenu || wuimenu.wisp2 != "disable" )
                         {
