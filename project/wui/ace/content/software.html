@@ -58,23 +58,23 @@
             </div>
         </div>
 
-
-        <div class="hr hr32 hr-dotted"></div>
-        <h3 data-i18n="Current FPK List"></h3>
-        <table id="project-grid-table"></table>
-        <br>
-        <div class="form-horizontal" role="form">
-          <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right"></label>
-            <div class="col-sm-9">
-              <div class="btn-group">
-                <a class="btn btn-main" data-i18n="Enter FPK Repositories" id="repo" href="#repo"></a>
-                <button class="btn btn-warning" data-i18n="Default FPK&Configure" id="factory"></button>
+        <div id="repo_online" style="display: none;">
+            <div class="hr hr32 hr-dotted"></div>
+            <h3 data-i18n="Current FPK List"></h3>
+            <table id="project-grid-table"></table>
+            <br>
+            <div class="form-horizontal" role="form">
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"></label>
+                <div class="col-sm-9">
+                  <div class="btn-group">
+                    <a class="btn btn-main" data-i18n="Enter FPK Repositories" id="repo" href="#repo"></a>
+                    <button class="btn btn-warning" data-i18n="Default FPK&Configure" id="factory"></button>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
         </div>
-    
 
 
 
@@ -269,6 +269,10 @@
       if ( !window.wui.upgrade_online || window.wui.upgrade_online != "disable" )
       {
           $("#upgrade_online").show();
+      }
+      if ( !window.wui.repo_online || window.wui.repo_online != "disable" )
+      {
+          $("#repo_online").show();
       }
       // check new version online
       $('#check').unbind(ace.click_event).on(ace.click_event, function () {

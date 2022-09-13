@@ -34,6 +34,7 @@ Administration of equipment Management web page
     // custom the webpage show
     "firmware_id":"show or not",                  // [ enable, disable ]
     "upgrade_online":"show or not",               // [ enable, disable ]
+    "repo_online":"show or not",                  // [ enable, disable ]
 
     // custom the web menu
     "menu":
