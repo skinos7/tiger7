@@ -37,6 +37,14 @@
             </div>
           </div>
         </div>
+        <!-- 时间点 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Point Reboot Time"></label>
+          <div class="col-sm-9">
+            <select id="idle_hour"></select>
+            <select id="idle_minute"></select>
+          </div>
+        </div>
         <!-- 最大运行时长 -->
         <div class="form-group">
           <label class="col-sm-3 control-label no-padding-right" data-i18n="Maximum running time(sec)"></label>
@@ -109,6 +117,8 @@
             $('#idle_start').val(cfg.idle_start);
             $('#idle_time').val(cfg.idle_time);
             $('#idle_age').val(cfg.idle_age);
+            $('#idle_hour').val(cfg.idle_hour);
+            $('#idle_minute').val(cfg.idle_minute);
            
             $('#age').val(cfg.age);
            
@@ -162,6 +172,8 @@
                 cfg.idle_start = $('#idle_start').val();
                 cfg.idle_time = $('#idle_time').val();
                 cfg.idle_age = $('#idle_age').val();
+                cfg.idle_hour = $('#idle_hour').val();
+                cfg.idle_minute = $('#idle_minute').val();
                 break;
             case 'age':
                 cfg.age = $('#age').val();
@@ -195,11 +207,13 @@
           str += '<option value="' + i + '">' + i + '</option>'
         }
         $('#point_hour').html(str);
+        $('#idle_hour').html(str);
         str = '';
         for (var i = 0; i < 60; i ++) {
           str += '<option value="' + i + '">' + i + '</option>'
         }
         $('#point_minute').html(str);
+        $('#idle_minute').html(str);
         /* load the configure */
         load_cfg();
         /* bind the refresh */

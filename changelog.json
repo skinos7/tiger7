@@ -1,4 +1,11 @@
 {
+    "v7.2.0915":
+    {
+        "20220819":"add open serial timeout function",
+        "20220818":"modify evloop call return when the unix don't exsit",
+        "20220817":"fix the webs cannot access at WAN",
+        "20220816":"fix icmp failed when 0 return"
+    },
     "20220814":
     {
         "2022081300":"the core function is work well"

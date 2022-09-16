@@ -20,9 +20,11 @@ The management system restarts automatically, and it restarts the system at a sp
     "point_hour":"Specifies when hour to restart",             // [ number ], valid for "mode" is point
     "point_minute":"Specifies when minute of hour to restart", // [ number ], valid for "mode" is point
 
-    "idle_start":"Start runtime",                           // [ number ], valid for "mode" is idle
-    "idle_wireless_time":"Idle time",                       // [ number ], valid for "mode" is idle
-    "idle_age":"The maximum runtime",                       // [ number ], valid for "mode" is idle
+    "idle_start":"Start runtime",                             // [ number ], valid for "mode" is idle
+    "idle_wireless_time":"Idle time",                         // [ number ], valid for "mode" is idle
+    "idle_hour":"Specifies when hour to restart",             // [ number ], valid for "mode" is idle
+    "idle_minute":"Specifies when minute of hour to restart", // [ number ], valid for "mode" is idle
+    "idle_age":"The maximum runtime",                         // [ number ], valid for "mode" is idle
 }
 ```
 example show the configure that is age mode, the will restart auto at system run 2880 second

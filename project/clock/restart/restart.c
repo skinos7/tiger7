@@ -143,13 +143,21 @@ talk_t _service( obj_t this, param_t param )
     else if ( mode != NULL && 0 == strcmp( mode, "idle" ) )
     {
         talk_t v;
+        int hour;
+        int minute;
         unsigned int t;
+        time_t now;
+        struct tm *ptime;
+        const char *date_src;
         unsigned int idle_count, sleep_count;
         unsigned int start, idle, age;
         
+        hour = 3;            // 03
+		minute = 30;         // 30
         start = 172800;  // two day
-        idle = 300;       // five minute
-        age = 604800; // one week
+        idle = 300;      // five minute
+        age = 604800;    // one week
+        date_src = NULL;
         ptr = json_string( cfg, "idle_start" );
         if ( ptr != NULL )
         {
@@ -165,6 +173,16 @@ talk_t _service( obj_t this, param_t param )
         {
             age = atoi( ptr );
         }
+        ptr = json_string( cfg, "idle_hour" );
+        if ( ptr != NULL )
+        {
+            hour = atoi( ptr );
+        }
+        ptr = json_string( cfg, "idle_minute" );
+        if ( ptr != NULL )
+        {
+            minute = atoi( ptr );
+        }
         if ( start >= 300 && idle > 0 && start < age )
         {
             start -= pass;
@@ -176,10 +194,11 @@ talk_t _service( obj_t this, param_t param )
             age -= start;
             i = 0;
             t = 0;
-            sleep_count = age/30;
-            idle_count = idle/30;
+            sleep_count = age/50;
+            idle_count = idle/50;
             do
             {
+            	/* idle */
                 v  = scall( STATION_COM, "list", NULL );
                 if ( json_each( v, NULL ) != NULL )
                 {
@@ -195,7 +214,23 @@ talk_t _service( obj_t this, param_t param )
                 {
                     break;
                 }
-                sleep( 30 );
+				/* point */
+				if ( date_src == NULL )
+				{
+					date_src = register_pointer( LAND_PROJECT, "date_src" );
+				}
+				if ( date_src != NULL && *date_src != '\0' )
+				{
+					time( &now );
+					ptime = localtime( &now );
+					if ( hour == ptime->tm_hour && minute == ptime->tm_min )
+					{
+						info( "restart the system by %s for %s mode(%u:%u)", COM_IDPATH, mode, hour, minute );
+						scall( MACHINE_COM, "restart", NULL );
+						return ttrue;
+					}
+				}
+                sleep( 50 );
             }while(1);
             if ( i>=idle_count )
             {
