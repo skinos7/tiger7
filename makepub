@@ -1,0 +1,94 @@
+#!/bin/bash
+
+for tmp in shost-x86-ubuntu shost-aarch64-ubuntu
+do
+    make gBOARDID=${tmp} pid
+    make test
+    make clean
+    make distclean
+    make dep
+    make
+    make repo
+done
+
+for tmp in smtk2-mt7628-d218-h728  smtk2-mt7628-d218-8m
+do
+    make gBOARDID=${tmp} pid
+    make pidinfo
+    make clean
+    make distclean
+    make dep
+    make
+    make sz
+    make ftp
+done
+for tmp in smtk2-mt7628-d218
+do
+    make gBOARDID=${tmp} pid
+    make test
+    make clean
+    make distclean
+    make dep
+    make
+    make sz
+    make ftp
+    make repo
+done
+
+
+
+for tmp in smtk2-mt7621-d228
+do
+    make gBOARDID=${tmp} pid
+    make test
+    make clean
+    make distclean
+    make dep
+    make
+    make sz
+    make ftp
+    make repo
+done
+
+
+
+for tmp in smtk2-mt7621-v520-greatwall
+do
+    make gBOARDID=${tmp} pid
+    make test
+    make clean
+    make distclean
+    make dep
+    make
+    make sz
+    make ftp
+done
+for tmp in smtk2-mt7621-v520
+do
+    make gBOARDID=${tmp} pid
+    make test
+    make clean
+    make distclean
+    make dep
+    make
+    make sz
+    make ftp
+    make repo
+done
+
+
+
+for tmp in smtk2-mt7621-h721
+do
+    make gBOARDID=${tmp} pid
+    make test
+    make clean
+    make distclean
+    make dep
+    make
+    make sz
+    make ftp
+    make repo
+done
+
+

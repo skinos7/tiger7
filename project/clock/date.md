@@ -7,14 +7,14 @@ Manage system date
 #### Configuration( clock@date )
 
 ```json
-// Attributes introduction 
+/* Attributes introduction */
 {
-    "timezone":"time zone",                             // [ -12 to 12 ], West 12 to East 12
-    "ntpclient":"whether to start the NTP client",      // [ disable, enable ]
-    "ntpserver":"NTP Server",                           // [ string ]
-    "ntpserver2":"NTP Server 2",                        // [ string ]
-    "ntpserver3":"NTP Server 3",                        // [ string ]
-    "ntpinterval":"NTP Synchronization interval"        // [ number ], interval (in seconds) for time synchronization with the NTP server
+    "timezone":"time zone",                             /* [ -12 to 12 ], West 12 to East 12 */
+    "ntpclient":"whether to start the NTP client",      /* [ disable, enable ] */
+    "ntpserver":"NTP Server",                           /* [ string ] */
+    "ntpserver2":"NTP Server 2",                        /* [ string ] */
+    "ntpserver3":"NTP Server 3",                        /* [ string ] */
+    "ntpinterval":"NTP Synchronization interval"        /* [ number ], interval (in seconds) for time synchronization with the NTP server */
 }
 ```
 Examples, show all the configure
