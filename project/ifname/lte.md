@@ -97,24 +97,24 @@ Usually ifname@lte is the first LTE/NR network and module. If there are multiple
 
 }
 ```
-Example, show LTE1 all configure
+Example, show LTE all configure
 ```shell
 ifname@lte
 {
-    "tid":"2",                                       // exclusive route table ID is 2
-                                                     // mode default is dhcpc
+    "tid":"2",                                       # exclusive route table ID is 2
+                                                     # mode default is dhcpc
 
-    "ppp":                                           // ppp configure will be used when "mode" is ppp
+    "ppp":                                           # ppp configure will be used when "mode" is ppp
     {
-        "lcp_echo_interval":"10",                         // LCP echo interval is 10 second
-        "lcp_echo_failure":"12"                           // LCP echo failure times is 12
+        "lcp_echo_interval":"10",                         # LCP echo interval is 10 second
+        "lcp_echo_failure":"12"                           # LCP echo failure times is 12
     },
-    "method":"slaac",                                // IPv6 address mode is slaac
-    "masq":"enable",                                 // out stream share the interface IPv4 address to access the Internet
-    "keeplive":                                      // keeplive mechanism configure save here
+    "method":"slaac",                                # IPv6 address mode is slaac
+    "masq":"enable",                                 # out stream share the interface IPv4 address to access the Internet
+    "keeplive":                                      # keeplive mechanism configure save here
     {
-        "type":"recv",                               // use count receive packet to keeplive
-        "recv":                                      // If no 1 packet is received within 20X30 second(10 minutes), the link is considered unavailable
+        "type":"recv",                               # use count receive packet to keeplive
+        "recv":                                      # If no 1 packet is received within 20X30 second(10 minutes), the link is considered unavailable
         {
             "timeout":"20",
             "failed":"30",

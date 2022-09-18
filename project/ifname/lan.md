@@ -115,23 +115,23 @@ Example, show all local network configure
 ```shell
 ifname@lan
 {
-    "mode":"static",                                 // mode is static
+    "mode":"static",                                 # mode is static
     "static":
     {
-        "ip":"192.168.1.1",                          // IPv4 address is 192.168.1.1
-        "mask":"255.255.255.0"                       // IPv4 netmask is 255.255.255.0
+        "ip":"192.168.1.1",                          # IPv4 address is 192.168.1.1
+        "mask":"255.255.255.0"                       # IPv4 netmask is 255.255.255.0
     },
-    "method":"relay",                                // IPv6 address mode is relay
+    "method":"relay",                                # IPv6 address mode is relay
 
     "dhcps":
     {
-        "status":"enable",           // enable the DHCP server
-        "startip":"192.168.1.2",     // IPv4 pool start with 192.168.1.2
-        "endip":"192.168.1.100",     // IPv4 pool end with 192.168.1.100
-        "mask":"255.255.255.0",      // netmask is 255.255.255.0
-        "lease":"86400",             // lease is 86400
-        "gw":"",                     // not configure the gateway, default assigns 192.168.1.1
-        "dns":""                     // not configure the dns, default assigns 192.168.1.1
+        "status":"enable",           # enable the DHCP server
+        "startip":"192.168.1.2",     # IPv4 pool start with 192.168.1.2
+        "endip":"192.168.1.100",     # IPv4 pool end with 192.168.1.100
+        "mask":"255.255.255.0",      # netmask is 255.255.255.0
+        "lease":"86400",             # lease is 86400
+        "gw":"",                     # not configure the gateway, default assigns 192.168.1.1
+        "dns":""                     # not configure the dns, default assigns 192.168.1.1
     }    
 }
 ```

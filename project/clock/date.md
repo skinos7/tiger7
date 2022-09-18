@@ -7,26 +7,26 @@ Manage system date
 #### Configuration( clock@date )
 
 ```json
-/* Attributes introduction */
+// Attributes introduction
 {
-    "timezone":"time zone",                             /* [ -12 to 12 ], West 12 to East 12 */
-    "ntpclient":"whether to start the NTP client",      /* [ disable, enable ] */
-    "ntpserver":"NTP Server",                           /* [ string ] */
-    "ntpserver2":"NTP Server 2",                        /* [ string ] */
-    "ntpserver3":"NTP Server 3",                        /* [ string ] */
-    "ntpinterval":"NTP Synchronization interval"        /* [ number ], interval (in seconds) for time synchronization with the NTP server */
+    "timezone":"time zone",                             // [ -12 to 12 ], West 12 to East 12
+    "ntpclient":"whether to start the NTP client",      // [ disable, enable ]
+    "ntpserver":"NTP Server",                           // [ string ]
+    "ntpserver2":"NTP Server 2",                        // [ string ]
+    "ntpserver3":"NTP Server 3",                        // [ string ]
+    "ntpinterval":"NTP Synchronization interval"        // [ number ], interval (in seconds) for time synchronization with the NTP server
 }
 ```
 Examples, show all the configure
 ```shell
 clock@date
 {
-    "timezone":"8",                   // time zone is East 8, china
-    "ntpclient":"enable",             // enable the NTP client to synchronization with NTP server
-    "ntpserver":"ntp1.aliyun.com",    // ntp1.aliyun.com, ntp2.aliyun.com, ntp3.aliyun.com, Try in turn until you succeed
+    "timezone":"8",                   # time zone is East 8, china
+    "ntpclient":"enable",             # enable the NTP client to synchronization with NTP server
+    "ntpserver":"ntp1.aliyun.com",    # ntp1.aliyun.com, ntp2.aliyun.com, ntp3.aliyun.com, Try in turn until you succeed
     "ntpserver2":"ntp2.aliyun.com",
     "ntpserver3":"ntp3.aliyun.com",
-    "ntpinterval":"86400"             // synchronization every 86400 seconds
+    "ntpinterval":"86400"             # synchronization every 86400 seconds
 }
 ```  
 Examples, modify the time zone to West 5
@@ -57,9 +57,9 @@ true
     # examples, get the current date
     clock@date.status
     {
-        "current":"12:29:41:05:10:2022",         // current is 12:29:41, On May 10, in 2022
-        "livetime":"00:01:58:0",                 // system run 1 minute and 58 second
-        "uptime":"118"                           // system run 118 second
+        "current":"12:29:41:05:10:2022",         # current is 12:29:41, On May 10, in 2022
+        "livetime":"00:01:58:0",                 # system run 1 minute and 58 second
+        "uptime":"118"                           # system run 118 second
     }  
     ```
 
@@ -102,12 +102,12 @@ true
 ```shell
 clock@date
 {
-    "timezone":"8",                   // 时区为东八区
-    "ntpclient":"enable",             // 开启NTP对时
-    "ntpserver":"ntp1.aliyun.com",    // ntp1.aliyun.com, ntp2.aliyun.com, ntp3.aliyun.com依次尝试直到成功
+    "timezone":"8",                   # 时区为东八区
+    "ntpclient":"enable",             # 开启NTP对时
+    "ntpserver":"ntp1.aliyun.com",    # ntp1.aliyun.com, ntp2.aliyun.com, ntp3.aliyun.com依次尝试直到成功
     "ntpserver2":"ntp2.aliyun.com",
     "ntpserver3":"ntp3.aliyun.com",
-    "ntpinterval":"86400"             // 每间隔86400秒同步一次NTP时间
+    "ntpinterval":"86400"             # 每间隔86400秒同步一次NTP时间
 }
 ```  
 示例修改时区为西5区

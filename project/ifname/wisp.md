@@ -117,33 +117,33 @@ Usually ifname@wisp is the first WISP(2.4G) network. If there are multiple WISP 
 Example, show all the WISP configure
 ```shell
 {
-    "tid":"3",                                       // exclusive route table ID is 2
+    "tid":"3",                                       # exclusive route table ID is 2
 
-    // WIFI peer
-    "peer":"V520-D21D20",    // connect V520-D21D20
-    "secure":"wpapsk",       // security is WPAPSK
-    "wpa_encrypt":"aes",     // encrypt use AES
-    "wpa_key":"87654321",    // password 87654321
+    # WIFI peer
+    "peer":"V520-D21D20",    # connect V520-D21D20
+    "secure":"wpapsk",       # security is WPAPSK
+    "wpa_encrypt":"aes",     # encrypt use AES
+    "wpa_key":"87654321",    # password 87654321
 
-    "mode":"pppoe",                                  // mode is PPPOE
+    "mode":"pppoe",                                  # mode is PPPOE
     "pppoe":
     {
-        "username":"1923221@gd.com",                // IPv4 address is 192.168.1.1
-        "password":"FDAED13E"                       // IPv4 netmask is 255.255.255.0
+        "username":"1923221@gd.com",                # IPv4 address is 192.168.1.1
+        "password":"FDAED13E"                       # IPv4 netmask is 255.255.255.0
     },
-    "method":"slaac",                                // IPv6 address mode is slaac
-    "masq":"enable",                                 // out stream share the interface IPv4 address to access the Internet
-    "keeplive":                                      // keeplive mechanism configure save here
+    "method":"slaac",                                # IPv6 address mode is slaac
+    "masq":"enable",                                 # out stream share the interface IPv4 address to access the Internet
+    "keeplive":                                      # keeplive mechanism configure save here
     {
-        "type":"icmp",                               // use ICMP to keeplive
+        "type":"icmp",                               # use ICMP to keeplive
         "icmp":                                      
         {
-            "dest":                                             // ping the 8.8.8.8 and 114.114.114.114
+            "dest":                                             # ping the 8.8.8.8 and 114.114.114.114
             {
                 "test":"8.8.8.8",
                 "test2":"114.114.114.114"
             },
-            "timeout":"10",                                     // The timeout exceeded 10 seconds for 5 consecutive times, the link is considered unavailable
+            "timeout":"10",                                     # The timeout exceeded 10 seconds for 5 consecutive times, the link is considered unavailable
             "failed":"5",
             "interval":"5"
         }
