@@ -1,0 +1,184 @@
+<!-- ajax layout which only needs content area -->
+<div class="row">
+    <div class="col-xs-12 form-btn-wrapper">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="form-horizontal" role="form">
+
+
+        <div id="container" style="width: 100%; height: 500px;"></div>
+
+
+    </div> <!-- role=form -->
+
+
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+
+
+
+    /* get the object */
+    var status;
+    var object = "gnss@nmea";
+    var index = page.param( 'object', location.hash );
+    if ( index )
+    {
+        object = index;
+    }
+
+    // 检测 IE 版本
+    var win = window;
+    var doc = win.document;
+    var input = doc.createElement("input");
+    var ie = ( function () {
+        /* "!win.ActiveXObject" is evaluated to true in IE11 */
+        if ( win.ActiveXObject === undefined ) return null;
+        if ( !win.XMLHttpRequest ) return 6;
+        if ( !doc.querySelector ) return 7;
+        if ( !doc.addEventListener ) return 8;
+        if ( !win.atob ) return 9;
+        /* "!doc.body.dataset" is faster but the body is null when the DOM is not
+          ready. Anyway, an input tag needs to be created to check if IE is being
+          emulated */
+        if ( !input.dataset ) return 10;
+        return 11;
+    })();           
+    // 地图
+    var map;
+    // 设备的位置
+    var marker;
+    // 是否已经定位
+    var located = false;
+    // 校验器
+    var gpsValidator;
+    // 更新位置
+    function updateGDmap()
+    {
+        if ( ie === 8 || !window.AMap || !map )
+        {
+            return;
+        }
+        // 定位到之前的marker
+        if ( !status || !status.lon || !status.lat )
+        {
+            map.setZoomAndCenter(12, marker.getPosition());
+            return;
+        }
+        // 将标准的经纬度转换为高德的经纬度
+        AMap.convertFrom( [ nmea2lonlat(status.lon), nmea2lonlat(status.lat) ], 'gps', function (status, result) {
+            if (!result || !result.locations)
+            {
+                return;
+            }
+            // 最终的经纬度
+            var position = [ result.locations[0].lng, result.locations[0].lat ]
+            // 更新marker位置
+            marker.setPosition(new AMap.LngLat( position[0], position[1]) )
+            // 设置缩放的地图中心点
+            map.setZoomAndCenter( 12, position );
+            // 设置已定位标志位
+            located = true;
+        })
+    }
+    // 将nema值转换为经纬度
+    function nmea2lonlat( pos )
+    {
+        var ret;
+        var posDot = pos.indexOf('.')
+        var posD = Number(pos.substring(0, posDot - 2))
+        var posM = Number(pos.substring(posDot - 2))
+        if (posD < 0)
+        {
+            ret = (posD * -1 + posM / 60) * -1
+        }
+        else
+        {
+            ret = posD + posM / 60
+        }
+        return ret.toFixed(6)
+    }
+
+
+    /* flash the status */
+    function flash_status( )
+    {
+        he.bkload( [ object+".info" ] ).then( function(v){
+            var status;
+
+            status = v[0];
+            /* located */
+            if ( status )
+            {
+                updateGDmap();
+            }
+        });
+    }
+
+    $.i18n().load( page.lang('lte') ).then( function () {
+        /* init the langauage */
+        $.i18n().locale = lang; $('body').i18n();
+        flash_status()
+    }).then( function () {
+        /* 初始化地图 */
+        if ( ie === 8 )
+        {
+            return;
+        }
+        $('.page-content-area').ace_ajax('loadScripts', ['https://webapi.amap.com/maps?v=1.4.15&key=395cfde02c7f4d611f7eb1a0b3971038'], function () {
+            if ( typeof(AMap) == "undefined" )
+            {
+                return
+            }
+            // 翻译整个页面
+            $('.page-content-area').i18n();
+            // 初始化地图
+            map = new AMap.Map( 'container', {
+                // 语言
+                lang: window.machine.language === 'en' ? 'en' : 'cn',
+                // 地图的中心点
+                center: [116.39722824, 39.90960456]
+            });
+            // 定位插件
+            map.plugin( 'AMap.Geolocation', function() {
+                var geolocation = new AMap.Geolocation({
+                    timeout: 0,
+                    showMarker: false,
+                    panToLocation: false
+                });
+                map.addControl(geolocation);
+                geolocation.getCurrentPosition();
+                AMap.event.addListener(geolocation, 'complete', onComplete); //返回定位信息
+                AMap.event.addListener(geolocation, 'error', onError);       //返回定位出错信息
+                function onComplete (data)
+                {
+                    // data是具体的定位信息
+                    flash_status();
+                }
+                function onError (data)
+                {
+                    // 定位出错
+                    flash_status();
+                }
+            });
+            // 默认的位置
+            marker = new AMap.Marker({
+                position: [116.39722824, 39.90960456]
+            });
+            marker.setMap(map);
+        });
+        /* 设置定时器 */
+        page.timing({
+          refresh: function (){ flash_status() },
+          interval: 2000
+        });
+    
+    });
+
+  })();
+</script>

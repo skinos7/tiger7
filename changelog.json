@@ -3,7 +3,8 @@
     {
         "202209161":"disable the led action when test mode",
         "202209162":"fix FM650 SA no signal bug",
-        "202209163":"upgrade to led the state"
+        "202209163":"upgrade to led the state",
+        "202209164":"modify the map to single page"
     },
     "v7.2.0915":
     {
