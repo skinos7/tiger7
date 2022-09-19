@@ -72,7 +72,7 @@ static boole ntpclient_sync( const char* server, const char* zone )
 
 
 
-talk_t _setup( obj_t this, param_t param )
+boole_t _setup( obj_t this, param_t param )
 {
     talk_t cfg;
     const char *ptr;
@@ -134,7 +134,7 @@ talk_t _setup( obj_t this, param_t param )
     talk_free( cfg );
     return ttrue;
 }
-talk_t _shut( obj_t this, param_t param )
+boole_t _shut( obj_t this, param_t param )
 {
 	/* stop the service */
     service_stop( COM_IDPATH );
@@ -142,7 +142,7 @@ talk_t _shut( obj_t this, param_t param )
 	shell( "killall ntpclient" );
     return ttrue;
 }
-talk_t _ntploop( obj_t this, param_t param )
+boole_t _ntploop( obj_t this, param_t param )
 {
     int t;
     boole ret;
@@ -244,7 +244,7 @@ talk_t _status( obj_t this, param_t param )
 	json_set_number( ret, "uptime", uptime_int() );
 	return ret;
 }
-talk_t _ntpsync( obj_t this, param_t param )
+boole_t _ntpsync( obj_t this, param_t param )
 {
     int t;
     boole ret;
@@ -292,7 +292,7 @@ talk_t _ntpsync( obj_t this, param_t param )
     }
     return tfalse;
 }
-talk_t _current( obj_t this, param_t param )
+boole_t _current( obj_t this, param_t param )
 {
     const char *ptr;
 

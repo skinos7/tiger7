@@ -8,7 +8,7 @@
 
 
 
-talk_t _setup( obj_t this, param_t param )
+boole_t _setup( obj_t this, param_t param )
 {
     const char *ptr;
 
@@ -23,12 +23,12 @@ talk_t _setup( obj_t this, param_t param )
 
     return ttrue;
 }
-talk_t _shut( obj_t this, param_t param )
+boole_t _shut( obj_t this, param_t param )
 {
     service_stop( COM_IDPATH );
     return ttrue;
 }
-talk_t _service( obj_t this, param_t param )
+boole_t _service( obj_t this, param_t param )
 {
     char *end;
     talk_t cfg;
@@ -45,7 +45,7 @@ talk_t _service( obj_t this, param_t param )
     end = strstr( string, "." );
     if ( end == NULL )
     {
-        return NULL;
+        return terror;
     }
     *end = '\0';
     pass = atoll( string );

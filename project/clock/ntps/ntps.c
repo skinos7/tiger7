@@ -9,7 +9,7 @@
 
 
 
-talk_t _setup( obj_t this, param_t param )
+boole_t _setup( obj_t this, param_t param )
 {
     talk_t cfg;
     const char *ptr;
@@ -24,12 +24,12 @@ talk_t _setup( obj_t this, param_t param )
     talk_free( cfg );
     return ttrue;
 }
-talk_t _shut( obj_t this, param_t param )
+boole_t _shut( obj_t this, param_t param )
 {
     service_stop( COM_IDPATH );
     return ttrue;
 }
-talk_t _service( obj_t this, param_t param )
+boole_t _service( obj_t this, param_t param )
 {
 	talk_t cfg;
 	struct stat st;
