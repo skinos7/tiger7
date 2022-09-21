@@ -5,6 +5,7 @@
     "intro":"additional lte modem driver",
     "com":
     {
-        "em350":"huawei em350 lte modem management"
+        "em350":"huawei em350 lte modem management",
+        "ec200x":"Quectel ec200x lte modem management"
     }
 }

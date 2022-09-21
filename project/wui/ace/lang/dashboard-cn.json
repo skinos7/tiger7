@@ -32,6 +32,7 @@
 	"5G Network":"5G网络类型",
 	"5G RSSI":"5G信号强度",
 	"5G Band":"5G频段",
+	"Modem":"基带",
 
 	"Delay":"延迟",
 	"failed":"访问失败",

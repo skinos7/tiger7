@@ -71,7 +71,7 @@
                 </tr>
 
         		<tr>
-        			<td data-i18n="VID/PID"></td><td id="ltedev_vidpid"></td>
+        			<td data-i18n="Modem"></td><td id="ltedev_vidpid"></td>
         		</tr>
         		<tr>
         			<td data-i18n="IMEI"></td><td id="ltedev_imei"></td>
@@ -209,7 +209,7 @@
         			<td data-i18n="Online Time"></td><td id="lte_livetime"></td>
         		</tr>
         		<tr>
-        			<td data-i18n="VID/PID"></td><td id="lte_vidpid"></td>
+        			<td data-i18n="Modem"></td><td id="lte_vidpid"></td>
         		</tr>
         		<tr>
         			<td data-i18n="IMEI"></td><td id="lte_imei"></td>
@@ -302,7 +302,7 @@
                 </tr>
 
                 <tr>
-                    <td data-i18n="VID/PID"></td><td id="lte2dev_vidpid"></td>
+                    <td data-i18n="Modem"></td><td id="lte2dev_vidpid"></td>
                 </tr>
                 <tr>
                     <td data-i18n="IMEI"></td><td id="lte2dev_imei"></td>
@@ -440,7 +440,7 @@
         			<td data-i18n="Online Time"></td><td id="lte2_livetime"></td>
         		</tr>
         		<tr>
-        			<td data-i18n="VID/PID"></td><td id="lte2_vidpid"></td>
+        			<td data-i18n="Modem"></td><td id="lte2_vidpid"></td>
         		</tr>
         		<tr>
         			<td data-i18n="IMEI"></td><td id="lte2_imei"></td>
@@ -1092,7 +1092,11 @@
             $(id+"_band5_head").hide();
 		}
 		/* Device */
-        if ( info.pid )
+        if ( info.name )
+		{
+            $(id+"_vidpid").text( info.name );
+        }
+        else if ( info.pid )
         {
             $(id+"_vidpid").text( (info.vid||' ') +"/"+ (info.pid||' ') );
         }
@@ -1303,7 +1307,11 @@
             $(id+"_band5_head").hide();
 		}
 		/* Device */
-        if ( info.pid )
+		if ( info.name )
+		{
+            $(id+"_vidpid").text( info.name );
+        }
+        else if ( info.pid )
         {
             $(id+"_vidpid").text( (info.vid||' ') +"/"+ (info.pid||' ') );
         }
