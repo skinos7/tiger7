@@ -8,16 +8,17 @@
 
 update:
 	# 更新fpk
-	if [ ! -e ${gCUSTOM_DIR}/${gHARDWARE}_${gCUSTOM}_std.store ]; then \
-		cd ${gCUSTOM_DIR}; wget -nH -nd -m ftp://ftp.wmdevice.com/sdk/${gPLATFORM}/${gHARDWARE}/${gCUSTOM}/*; \
+	-if [ -e ${gCUSTOM_DIR} ]; then \
+		cd ${gCUSTOM_DIR}; rm -fr *.fpk*; \
+		cd ${gCUSTOM_DIR}; wget --ftp-user=dl --ftp-password=tiger7@ASHYELF ${gpFTP_PUB_SDK}/${gHARDWARE}/${gCUSTOM}/*.fpk; \
 	fi
 adjust:
 menu:
-menuconfig:
+menuconfig: kernel_dep
 menuclean:
 bufclean:
-sdkclean:
-		cd ${gCUSTOM_DIR}; rm -fr *.fpk *.store
+sdkclean: bufclean
+	cd ${gCUSTOM_DIR}; rm -fr *.fpk *.store
 .PHONY: update adjust menu menuconfig menuclean bufclean sdkclean
 
 
@@ -39,24 +40,35 @@ local:
 sz:
 tar:
 ftp:
-.PHONY: sz tar ftp local run
+repo:
+	# 未定义了FTP库不工作
+	if [ "X${gpFTP_PUB_REPO}" = "X" ]; then\
+		sleep 10000;\
+	fi
+	# 上传到FTP库
+	if [ -d ${gSTORE_DIR} ]; then\
+		for i in `ls ${gSTORE_DIR}`; do \
+			curl -u ${gpFTP_PUB_PASSWORD} -T ${gSTORE_DIR}/$${i} ${gpFTP_PUB_REPO}/; \
+		done \
+	fi
+.PHONY: local sz tar ftp repo
 
 
 
 boot_menuconfig:
 boot_dep:
-boot:
+boot: boot_dep
 boot_install:
 boot_clean:
-boot_distclean:
+boot_distclean: boot_clean
 .PHONY: boot_menuconfig boot_dep boot boot_install boot_clean boot_distclean
 
-kernel_menuconfig:
+kernel_menuconfig: kernel_dep
 kernel_dep:
-kernel:
+kernel: kernel_dep
 kernel_install:
 kernel_clean:
-kernel_distclean:
+kernel_distclean: kernel_clean
 .PHONY: kernel_menuconfig kernel_dep kernel kernel_install kernel_clean kernel_distclean
 
 app_menuconfig:

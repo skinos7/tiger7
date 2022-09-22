@@ -56,29 +56,35 @@ Administration of equipment Management web page
     }
     
 }
-// Examples
+```
+***The modification takes effect only after a restart***
+
+Examples, show all the configure
+```shell
+wui@admin
 {
-    "status":"enable",             // start this service at system startup
-    "login":"disable",             // you can access to webpage with no login
-    "port":"80",                   // service port 80
-    "sslport":"443",               // https port 443
-    "manager":                     // only the 192.168.8.111 and 00:03:7F:12:AA:B0 can access
+    "status":"enable",             # start this service at system startup
+    "login":"disable",             # you can access to webpage with no login
+    "port":"80",                   # service port 80
+    "sslport":"443",               # https port 443
+    "manager":                     # only the 192.168.8.111 and 00:03:7F:12:AA:B0 can access
     {
         "pc1":"192.168.8.111",
         "pc2":"00:03:7F:12:AA:B0"
     }
 }
 ```  
-***The modification takes effect only after a restart***
+Examples, modify the port of web page server
+```shell
+wui@admin:port=2222
+true
+```  
+Examples, disable the web page server
+```shell
+wui@admin:status=disable
+true
+```  
 
-#### **Methods**
-
-+ `reset[]` **restart the component service**, *succeed return ttrue, failed return tfalse*
-    ```shell
-    # examples, reset the wui@admin component and service
-    wui@admin.reset
-    ttrue
-    ```
 
 
 
@@ -107,29 +113,35 @@ Administration of equipment Management web page
     "logo_height":"LOGO高度",
     "logo_align":"center"                             // center表示居中, right表示靠左
 }
+```  
+***修改此组件配置需要重启后生效***
 
-// 示例
+示例, 显示所有的配置
+```shell
+wui@admin
 {
-    "status":"enable",             // 启用管理网页服务器
-    "login":"disable",             // 不需要认证即可访问
-    "port":"80",                   // 端口为80
-    "manager":                     // 只允许IP地址为192.168.8.111或MAC地址为00:03:7F:12:AA:B0的主机访问
+    "status":"enable",             # 启用管理网页服务器
+    "login":"disable",             # 不需要认证即可访问
+    "port":"80",                   # 端口为80
+    "manager":                     # 只允许IP地址为192.168.8.111或MAC地址为00:03:7F:12:AA:B0的主机访问
     {
         "pc1":"192.168.8.111",
         "pc2":"00:03:7F:12:AA:B0"
     }
 }
 ```  
-***修改此组件配置需要重启后生效或执行wui@admin.reset生效***
+示例, 修改管理网页服务器的端口为8080
+```shell
+wui@admin:port=8080
+true
+```  
+示例, 禁用管理网页服务器
+```shell
+wui@admin:status=disable
+true
+```  
 
 
-#### **接口**
 
-+ `reset[]` **重启组件**, *成功返回ttrue, 失败返回tfalse*
-    ```shell
-    # 示例, 重启wui@admin
-    wui@admin.reset
-    ttrue
-    ```
 
 

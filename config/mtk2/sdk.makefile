@@ -90,7 +90,32 @@ tar:
 	cd ${gBUILD_DIR} && tar jcvf ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.tar.bz2 ${gHARDWARE}_${gCUSTOM}_${gSCOPE}*
 	# 通过xmodem发送到本地
 	cd ${gBUILD_DIR} && sz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.tar.bz2
-.PHONY: local sz tar
+ftp:
+	# 未定义了FTP目录不工作
+	if [ "X${gpFTP_PUB_DIR}" = "X" ]; then\
+		sleep 10000;\
+	fi
+	# 上传到FTP目录
+	if [ -e ${gZZID_DIR} ]; then \
+		curl -u ${gpFTP_PUB_PASSWORD} -T ${gBUILD_DIR}/${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}_${gZZID}.zz ${gpFTP_PUB_DIR}; \
+	else \
+		curl -u ${gpFTP_PUB_PASSWORD} -T ${gBUILD_DIR}/${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.zz ${gpFTP_PUB_DIR}; \
+		if [ -f ${gBUILD_DIR}/${gHARDWARE}_${gCUSTOM}_${gSCOPE}.txt ]; then\
+			curl -u ${gpFTP_PUB_PASSWORD} -T ${gBUILD_DIR}/${gHARDWARE}_${gCUSTOM}_${gSCOPE}.txt ${gpFTP_PUB_DIR}; \
+		fi \
+	fi
+repo:
+	# 未定义了FTP库不工作
+	if [ "X${gpFTP_PUB_REPO}" = "X" ]; then\
+		sleep 10000;\
+	fi
+	# 上传到FTP库
+	if [ -d ${gSTORE_DIR} ]; then\
+		for i in `ls ${gSTORE_DIR}`; do \
+			curl -u ${gpFTP_PUB_PASSWORD} -T ${gSTORE_DIR}/$${i} ${gpFTP_PUB_REPO}/; \
+		done \
+	fi
+.PHONY: local sz tar ftp repo
 
 
 
@@ -186,7 +211,7 @@ kernel_distclean: kernel_clean
 
 app_menuconfig:
 app_dep:
-app:
+app: app_dep
 app_install:
 app_clean:
 app_distclean: app_clean
