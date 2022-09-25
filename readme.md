@@ -107,6 +107,10 @@ Component interfaces can be invoked either from the command line or through the 
 - [WISP Network](https://github.com/skinos7/doc/blob/master/com/ifname/wisp.md)
 
 
+# Development guidance
+
+- [Porject and Component Development](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)
+
 
 
 
@@ -209,4 +213,22 @@ make
 ***注意: 固件升级后可能导致不启动，如果不启动而系统灯慢闪请手动通过长按复位按键5-8秒复位设备即可***
 
 
+# 系统框架
+![avatar](https://gitee.com/tiger7/doc/blob/master/frame.jpg)
 
+
+# 组件API
+组件接口可以从命令行调用，也可以通过开发接口调用   
+***正在编写中,  优先给出溃用的组件接口***  
+- [Machine](https://gitee.com/tiger7/doc/blob/master/com/land/machine.md)
+- [Date](https://gitee.com/tiger7/doc/blob/master/com/clock/date.md)
+- [LTE Modem](https://gitee.com/tiger7/doc/blob/master/com/modem/lte.md)
+- [LTE Network](https://gitee.com/tiger7/doc/blob/master/com/ifname/lte.md)
+- [LAN Network](https://gitee.com/tiger7/doc/blob/master/com/ifname/lan.md)
+- [WAN Network](https://gitee.com/tiger7/doc/blob/master/com/ifname/wan.md)
+- [WISP Network](https://gitee.com/tiger7/doc/blob/master/com/ifname/wisp.md)
+
+
+# 开发指导
+
+- [项目及组件开发](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)

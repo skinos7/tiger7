@@ -30,6 +30,7 @@ config.h			implementation function to get/set/list the config
 project.h			provide unified project information operation interface for the system
 com.h				implementation communication to other component function use talk structure or parameter structure
 he2com.h			invokes the function implementation
+reactor.h           libevent reactor assist functions
 skinapi.h			define all the general component api
 */
 

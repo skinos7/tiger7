@@ -58,7 +58,9 @@
 
 
     // 组件配置名称
-    var comname = "templat@com";
+	var comname = "verify@telecom4g"
+	// 存放组件状态的变量
+	var comstatus;
     // 存放组件配置的变量
     var comcfg;
     // 语言文件路径, 自动跟据系统语言类型变化路径(在prj.json中指名)
@@ -97,6 +99,13 @@
         });
     }
 
+	function flash_status( )
+	{
+		/* 以静默的方式在后台获取组件的status接口的返回 */
+		he.bkload( [ comname+'.status' ] ).then( function(v){
+			comstatus = v[0];
+		});
+	}
 
     // 从界面得到修改的配置后保存并应用到组件配置中
     function save_comcfg()
