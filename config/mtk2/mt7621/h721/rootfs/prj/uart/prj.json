@@ -55,22 +55,10 @@
         },
         "serial2":
         {
-            "cn":"串口(TTL)",
-            "en":"Serial#TTL",
-            "page":"serial.html",
-            "object":"uart@serial2",
-            "lang":
-            {
-                "cn":"cn.json",
-                "en":"en.json"
-            }
-        },
-        "serial3":
-        {
             "cn":"串口(RS485)",
             "en":"Serial#RS485",
             "page":"serial.html",
-            "object":"uart@serial3",
+            "object":"uart@serial2",
             "lang":
             {
                 "cn":"cn.json",
