@@ -214,7 +214,7 @@ make
 
 
 # 系统框架
-![avatar](https://gitee.com/tiger7/doc/blob/master/frame.jpg)
+![avatar](https://gitee.com/tiger7/doc/blob/master/frame.png)
 
 
 # 组件API
