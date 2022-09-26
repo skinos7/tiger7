@@ -7,7 +7,9 @@
         "202209164":"modify the map to single page",
         "202209165":"fix the recv keeplive ip lost bug at the simcom modem",
         "202209166":"fix backup simcard mode bsim_failover alse work bug",
-        "202209167":"start a service to do reset the modem"
+        "202209167":"start a service to do reset the modem",
+        "202209168":"fix nat map cannot set the vpn interface",
+        "202209169":"fix sms for simcom modem and nl668"
     },
     "v7.2.0915":
     {

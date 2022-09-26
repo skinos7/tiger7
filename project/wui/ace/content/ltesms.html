@@ -146,6 +146,7 @@
     function smslist_load()
     {
       he.bkload( [ object+".smslist" ] ).then( function(v){
+        var count = 0;
         var list = v[0];
         if ( !list )
         {
@@ -156,7 +157,10 @@
         {
             var row = { sid: id, contact: list[id].contact, date: list[id].date, content: list[id].content };
             rows.push(row);
+            count++;
         }
+        // 表头设置为在线客户端的数量
+        $(smslist_table).jqGrid( "setCaption", $.i18n('SMS List') + '(' + count + ')' );
         // 记住滚动条的位置
         var scrollPos = jqtable.getScrollPos();
         // 给表格设置数据
@@ -247,7 +251,7 @@
       //初始化表格
       jqtable.create( smslist_table, smslist_pager,
           {
-              caption: $.i18n('SMS List'),
+              caption: ' ', // 必需设置值, 防止表格不能折叠
               colNames: [ $.i18n('Contact'), $.i18n('SMS ID'), $.i18n('Date'), $.i18n('Content'), $.i18n('Operation') ],
               colModel:
               [
@@ -287,13 +291,13 @@
 
       // 设置定时器
       smslist_load();
-      page.timing({
-        refresh: function ()
-        {
-            smslist_load();
-        },
-        interval: 1000
-      });
+      //page.timing({
+      //  refresh: function ()
+      //  {
+      //      smslist_load();
+      //  },
+      //  interval: 10000
+      //});
 
       /* bind the refresh */
       $('#refresh').on(ace.click_event, function () {
