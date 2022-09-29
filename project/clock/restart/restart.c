@@ -25,7 +25,7 @@ boole_t _setup( obj_t this, param_t param )
 }
 boole_t _shut( obj_t this, param_t param )
 {
-    sstop( COM_IDPATH );
+    sdelete( COM_IDPATH );
     return ttrue;
 }
 boole_t _service( obj_t this, param_t param )
