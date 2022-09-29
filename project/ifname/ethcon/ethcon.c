@@ -14,18 +14,10 @@ boole_t _setup( obj_t this, param_t param )
 {
 	int tid;
     talk_t cfg;
-    talk_t ret;
     const char *ptr;
-    const char *obj;
     const char *object;
 	const char *ifdev;
 
-    /* get the name */
-    obj = obj_com( this );
-    if ( 0 == strcmp( obj, COM_ID ) )
-    {
-        return tfalse;
-    }
     object = obj_combine( this );
     /* get the ifname configure */
     cfg = config_get( this, NULL ); 
@@ -59,37 +51,27 @@ boole_t _setup( obj_t this, param_t param )
 
     /* run the app connection */
     info( "%s startup", object );
-	ret = service_start( object, object, "service", NULL );
+	sstart( object, "service", NULL, object );
     talk_free( cfg );
-    return ret;
+    return ttrue;
 }
 boole_t _shut( obj_t this, param_t param )
 {
-    const char *obj;
     const char *object;
 	const char *ifdev;
-    char name[NAME_MAX];
     char path[PATH_MAX];
 
-    /* get the name */
-    obj = obj_com( this );
-    if ( 0 == strcmp( obj, COM_ID ) )
-    {
-        return tfalse;
-    }
     object = obj_combine( this );
     info( "%s shut", object );
     /* call the offline */
     scalls( NETWORK_COM, "offline", object );
 
     /* stop the keeplive service */
-	snprintf( name, sizeof(name), "%s-keeplive", object );
-    service_delete( name );
+    sdelete( "%s-keeplive", object );
     /* stop the service */
-    service_delete( object );
+    sdelete( object );
     /* stop the automatic service */
-	snprintf( name, sizeof(name), "%s-automatic", object );
-    service_delete( name );
+    sdelete( "%s-automatic", object );
     /* delete online file */
     project_var_path( path, sizeof(path), NETWORK_PROJECT, "%s.ol", object );
     unlink( path );
@@ -108,17 +90,10 @@ boole_t _shut( obj_t this, param_t param )
 }
 talk_t _ifdev( obj_t this, param_t param )
 {
-    const char *obj;
     const char *object;
 	const char *ifdev;
 
-    obj = obj_com( this );
-    if ( 0 == strcmp( obj, COM_ID ) )
-    {
-        return NULL;
-    }
     object = obj_combine( this );
-
     /* get the ifdev */
 	ifdev = register_pointer( object, "ifdev" );
     if ( ifdev == NULL || *ifdev == '\0' )
@@ -130,18 +105,11 @@ talk_t _ifdev( obj_t this, param_t param )
 }
 talk_t _netdev( obj_t this, param_t param )
 {
-    const char *obj;
     const char *object;
 	const char *ifdev;
 	const char *netdev;
 
-    obj = obj_com( this );
-    if ( 0 == strcmp( obj, COM_ID ) )
-    {
-        return NULL;
-    }
     object = obj_combine( this );
-
     /* get the netdev */
 	netdev = register_pointer( object, "netdev" );
     if ( netdev != NULL && *netdev != '\0' )
@@ -172,7 +140,6 @@ talk_t _state( obj_t this, param_t param )
     struct stat st;
     boole keeplive;
     const char *ptr;
-    const char *obj;
     const char *object;
     const char *ifdev;
     const char *netdev;
@@ -188,14 +155,8 @@ talk_t _state( obj_t this, param_t param )
     char path[PATH_MAX];
 	int *reg_delay = NULL;
 
-    obj = obj_com( this );
-    if ( 0 == strcmp( obj, COM_ID ) )
-    {
-        return NULL;
-    }
     object = obj_combine( this );
 	netdev = device = NULL;
-
 	/* get the ifdev */
 	ifdev = register_pointer( object, "ifdev" );
     /* get the keeplive */
@@ -241,7 +202,7 @@ talk_t _state( obj_t this, param_t param )
 				}
 			}
 		}
-        if ( service_pid( object ) != NULL )
+        if ( spid( object ) >= 0 )
         {
             json_set_string( ret, "status", "uping" );
         }
@@ -271,7 +232,7 @@ talk_t _state( obj_t this, param_t param )
 		}
         if ( netdev_flags( device, IFF_UP ) <= 0 || *ip == '\0' )
         {
-            if ( service_pid( object ) != NULL )
+            if ( spid( object ) >= 0 )
             {
                 json_set_string( ret, "status", "uping" );
             }
@@ -462,15 +423,9 @@ talk_t _status( obj_t this, param_t param )
 talk_t _aplist( obj_t this, param_t param )
 {
 	talk_t ret;
-	const char *obj;
 	const char *ifdev;
 	const char *object;
 
-	obj = obj_com( this );
-	if ( 0 == strcmp( obj, COM_ID) )
-	{
-		return NULL;
-	}
 	object = obj_combine( this );
 	ret = NULL;
 	/* get the ifdev */
@@ -485,15 +440,9 @@ talk_t _aplist( obj_t this, param_t param )
 talk_t _chlist( obj_t this, param_t param )
 {
 	talk_t ret;
-	const char *obj;
 	const char *ifdev;
 	const char *object;
 
-	obj = obj_com( this );
-	if ( 0 == strcmp( obj, COM_ID) )
-	{
-		return NULL;
-	}
 	object = obj_combine( this );
 	ret = NULL;
 	/* get the ifdev */
@@ -519,21 +468,13 @@ boole_t _service( obj_t this, param_t param )
     talk_t cfg;
     talk_t value;
     const char *ptr;
-    const char *obj;
 	const char *mode;
     const char *object;
 	const char *ifdev;
 	const char *netdev;
 	const char *method;
 	int connect_failed;
-	char name[NAME_MAX];
 
-    /* get the component identify */
-    obj = obj_com( this );
-    if ( 0 == strcmp( obj, COM_ID ) )
-    {
-        return terror;
-    }
     object = obj_combine( this );
     /* offline to clear first */
     if ( scalls( NETWORK_COM, "extern", object ) == ttrue )
@@ -751,8 +692,7 @@ boole_t _service( obj_t this, param_t param )
 		/* ipv6 automatic setting */
 		else if ( method != NULL && 0 == strcmp( method, "automatic" ) )
 		{
-			snprintf( name, sizeof(name), "%s-automatic", object );
-			service_start( name, object, "automatic", NULL );
+			sstart( object, "automatic", NULL, "%s-automatic", object );
 		}
 		/* ipv4 dhcp client setting */
 		if ( mode != NULL && 0 == strcmp( mode, "dhcpc" ) )
@@ -776,18 +716,11 @@ boole_t _automatic( obj_t this, param_t param )
 {
 	talk_t ret;
     talk_t cfg;
-    const char *obj;
     const char *object;
 	const char *method;
 	const char *ifdev;
 	const char *netdev;
 
-    /* get the name */
-    obj = obj_com( this );
-    if ( 0 == strcmp( obj, COM_ID ) )
-    {
-        return tfalse;
-    }
     object = obj_combine( this );
     /* get the ifname configure */
     cfg = config_get( this, NULL ); 
@@ -841,7 +774,6 @@ boole_t _online( obj_t this, param_t param )
 	talk_t cfg;
 	talk_t value;
 	const char *ptr;
-	const char *obj;
 	const char *object;
 	const char *ifdev;
 	const char *netdev;
@@ -853,13 +785,7 @@ boole_t _online( obj_t this, param_t param )
 	const char *metric;
 	char path[PATH_MAX];
 
-	obj = obj_com( this );
-	if ( 0 == strcmp( obj, COM_ID ) )
-	{
-		return tfalse;
-	}
 	object = obj_combine( this );
-
 	v = param_talk( param, 1 );
 	/* get ifdev */
 	ifdev = json_string( v, "ifdev" );
@@ -985,19 +911,12 @@ boole_t _online( obj_t this, param_t param )
 }
 talk_t _offline( obj_t this, param_t param )
 {
-    const char *obj;
     const char *object;
     const char *ifdev;
 	const char *netdev;
     char path[PATH_MAX];
 
-	obj = obj_com( this );
-	if ( 0 == strcmp( obj, COM_ID ) )
-	{
-		return tfalse;
-	}
 	object = obj_combine( this );
-
     /* dns file */
     snprintf( path, sizeof(path), "%s/%s", RESOLV_DIR, object );
     unlink( path );
