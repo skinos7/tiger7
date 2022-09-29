@@ -308,28 +308,19 @@ boole_t _current( obj_t this, param_t param )
 
 boole _set( obj_t this, talk_t v, attr_t path )
 {
-	obj_t o;
 	boole ret;
 
-	o = obj_create( COM_IDPATH );
-    ret = config_set( o, v, path );
+    ret = config_sset( COM_IDPATH, v, path );
 	if ( ret == true )
 	{
 		_shut( this, NULL );
 		_setup( this, NULL );
 	}
-	obj_free( o );
 	return ret;
 }
 talk_t _get( obj_t this, attr_t path )
 {
-	obj_t o;
-	talk_t ret;
-
-	o = obj_create( COM_IDPATH );
-	ret = config_get( o, path );
-	obj_free( o );
-	return ret;
+	return config_sget( COM_IDPATH, path );
 }
 
 

@@ -173,7 +173,7 @@ boole _set( obj_t this, talk_t v, attr_t path )
 talk_t _get( obj_t this, attr_t path )
 {
     return config_sget( COM_IDPATH, path );
-s}
+}
 
 
 
