@@ -795,8 +795,6 @@ boole_t _at_watch( obj_t this, param_t param )
 
 
 	json_delete_axp( dev, "band" );
-	json_delete_axp( dev, "rsrp" );
-	json_delete_axp( dev, "rssi" );
 	json_delete_axp( dev, "nettype" );
 	// AT+QNWINFO
 	i = ec200x_qnwinfo( fd, dev );
@@ -857,6 +855,7 @@ boole_t _at_watch( obj_t this, param_t param )
 	// 2 to 31
 	// 100 to 191
 	json_delete_axp( dev, "csq" );
+	json_delete_axp( dev, "rssi" );
 	csq = 0;
 	i = usbtty_csq( fd, &csq );
 	if ( i < ATCMD_ret_succeed )
