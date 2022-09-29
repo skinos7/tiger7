@@ -128,7 +128,7 @@ boole_t _setup( obj_t this, param_t param )
     ptr = json_string( cfg, "ntpclient" );
     if ( ptr != NULL && 0 == strcmp( ptr, "enable" ) )
     {
-        service_start( COM_IDPATH, COM_IDPATH, "ntploop", NULL );
+        sstart( COM_IDPATH, "ntploop", NULL, COM_IDPATH );
     }
 
     talk_free( cfg );
@@ -137,7 +137,7 @@ boole_t _setup( obj_t this, param_t param )
 boole_t _shut( obj_t this, param_t param )
 {
 	/* stop the service */
-    service_stop( COM_IDPATH );
+    sdelete( COM_IDPATH );
 	/* kill the ntpclient to prevent the ntpclient pause */
 	shell( "killall ntpclient" );
     return ttrue;

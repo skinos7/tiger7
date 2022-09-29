@@ -18,7 +18,7 @@ boole_t _setup( obj_t this, param_t param )
     ptr = json_string( cfg, "status" );
     if ( ptr != NULL && 0 == strcmp( ptr, "enable" ) )
     {
-        service_start( COM_IDPATH, COM_IDPATH, "service", NULL );
+        sstart( COM_IDPATH, "service", NULL, COM_IDPATH );
     }
 
     talk_free( cfg );
@@ -26,7 +26,7 @@ boole_t _setup( obj_t this, param_t param )
 }
 boole_t _shut( obj_t this, param_t param )
 {
-    service_stop( COM_IDPATH );
+    sstop( COM_IDPATH );
     return ttrue;
 }
 boole_t _service( obj_t this, param_t param )
@@ -95,28 +95,19 @@ boole_t _service( obj_t this, param_t param )
 
 boole _set( obj_t this, talk_t v, attr_t path )
 {
-	obj_t o;
 	boole ret;
 
-	o = obj_create( COM_IDPATH );
-    ret = config_set( o, v, path );
+    ret = config_sset( COM_IDPATH, v, path );
 	if ( ret == true )
 	{
 		_shut( this, NULL );
 		_setup( this, NULL );
 	}
-	obj_free( o );
 	return ret;
 }
 talk_t _get( obj_t this, attr_t path )
 {
-	obj_t o;
-	talk_t ret;
-
-	o = obj_create( COM_IDPATH );
-	ret = config_get( o, path );
-	obj_free( o );
-	return ret;
+	return config_get( COM_IDPATH, path );
 }
 
 
