@@ -89,7 +89,6 @@ boole_t _up( obj_t this, param_t param )
 	const char *radio;
 	const char *object;
 	const char *netdev;
-    char name[NAME_MAX];
     char path[PATH_MAX];
 
 	obj = obj_com( this );
@@ -129,8 +128,7 @@ boole_t _up( obj_t this, param_t param )
 	info( "%s(%s) up", object, netdev );
 
     /* stop the hostapd */
-	snprintf( name, sizeof(name), "%s-hostapd", radio );
-    service_stop( name );
+    sdelete( "%s-hostapd", radio );
     /* status[enable/disable]  */
     ptr = json_string( cfg, "status" );
     if (  ptr == NULL || 0 != strcmp( ptr, "enable" ) )
@@ -150,7 +148,7 @@ boole_t _up( obj_t this, param_t param )
 	}
 
 	/* start the hostapd */
-	service_start( name, radio, "hostapd", NULL );
+	sstart( radio, "hostapd", NULL, "%s-hostapd", radio );
 	/* mark the up state */
 	string2file( path, uptime_desc( NULL, 0 ) );
 	

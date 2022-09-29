@@ -362,7 +362,6 @@ boole_t _up( obj_t this, param_t param )
 	const char *secure;
 	const char *wpa_encrypt;
 	const char *wpa_key;
-	char name[NAME_MAX];
 	char path[PATH_MAX];
 
 	obj = obj_com( this );
@@ -415,14 +414,11 @@ boole_t _up( obj_t this, param_t param )
 		value = cfg = config_get( this, NULL );
 	}
 	/* keeplive stop */
-	snprintf( name, sizeof(name), "%s-keeplive", netdev );
-	service_stop( name );
+	sstop( "%s-keeplive", netdev );
 	/* relayd stop */
-	snprintf( name, sizeof(name), "%s-relayd", netdev );
-	service_stop( name );
+	sstop( "%s-relayd", netdev );
 	/* wpa_supplicant stop */
-	snprintf( name, sizeof(name), "%s-wpa", netdev );
-	service_stop( name );
+	sstop( "%s-wpa", netdev );
 	/* status[enable/disable]  */
 	status = json_string( value, "status" );
 	peer = json_string( value, "peer" );
@@ -464,10 +460,8 @@ boole_t _up( obj_t this, param_t param )
 		register_set( object, "wpa_encrypt", wpa_encrypt, stringlen(wpa_encrypt)+1, 20 );
 		register_set( object, "wpa_key", wpa_key, stringlen(wpa_key)+1, 200 );
 		/* up the device */
-		snprintf( name, sizeof(name), "%s-wpa", netdev );
-		service_start( name, object, "wpa", NULL );
-		snprintf( name, sizeof(name), "%s-keeplive", netdev );
-		service_start( name, object, "keeplive", NULL );
+		sstart( object, "wpa", NULL, "%s-wpa", netdev );
+		sstart( object, "keeplive", NULL, "%s-keeplive", netdev );
 		ret = ttrue;
 		/* mark the up state */
 		string2file( path, uptime_desc( NULL, 0 ) );
@@ -481,7 +475,6 @@ boole_t _down( obj_t this, param_t param )
     const char *obj;
 	const char *object;
 	const char *netdev;
-	char name[NAME_MAX];
     char path[PATH_MAX];
 
 	obj = obj_com( this );
@@ -505,14 +498,11 @@ boole_t _down( obj_t this, param_t param )
 		snprintf( path, sizeof(path), PROJECT_TMP_DIR"/.%s_up_%s", COM_ID, netdev );
 		unlink( path );
 		/* keeplive stop */
-		snprintf( name, sizeof(name), "%s-keeplive", netdev );
-		service_stop( name );
+		sstop( "%s-keeplive", netdev );
 		/* relayd stop */
-		snprintf( name, sizeof(name), "%s-relayd", netdev );
-		service_stop( name );
+		sstop( "%s-relayd", netdev );
 		/* wpa_supplicant stop */
-		snprintf( name, sizeof(name), "%s-wpa", netdev );
-		service_stop( name );
+		sstop( "%s-wpa", netdev );
 		/* down the netdev */
 		if ( netdev_flags( netdev, IFF_UP ) > 0 )
 		{
@@ -593,7 +583,7 @@ talk_t _status( obj_t this, param_t param )
 	if ( netdev_flags( netdev, IFF_UP ) > 0 )
 	{
 		snprintf( path, sizeof(path), "%s-wpa", netdev );
-		if ( service_pid( path ) != NULL )
+		if ( spid( path ) >= 0 )
 		{
 			json_set_string( ret, "state", "uping" );
 		}
@@ -784,7 +774,6 @@ talk_t _aplist( obj_t this, param_t param )
 	const char *peer3;
 	const char *peermac;
 	const char *strong;
-    char name[NAME_MAX];
 
 	obj = obj_com( this );
 	if ( 0 == strcmp( obj, COM_ID ) )
@@ -819,8 +808,7 @@ talk_t _aplist( obj_t this, param_t param )
 
 #ifdef DISABLE_HOSTAPD_TO_MODIFY_CHANNEL
 	/* stop the hostapd to update the channel */
-	snprintf( name, sizeof(name), "%s-hostapd", radio );
-	service_stop( name );
+	sstop( "%s-hostapd", radio );
 #endif
 
 	/* scanning */
@@ -828,8 +816,7 @@ talk_t _aplist( obj_t this, param_t param )
 
 #ifdef DISABLE_HOSTAPD_TO_MODIFY_CHANNEL
 	/* start the hostapd */
-	snprintf( name, sizeof(name), "%s-hostapd", radio );
-	service_start( name, radio, "hostapd", NULL );
+	sstart( radio, "hostapd", NULL, "%s-hostapd", radio );
 #endif
 
 	return ret;
@@ -855,7 +842,6 @@ boole_t _wpa( obj_t this, param_t param )
 	const char *secure;
 	//const char *wpa_encrypt;
 	const char *wpa_key;
-    char name[NAME_MAX];
 	char path[PATH_MAX];
 	char pidfile[PATH_MAX];
 
@@ -1055,8 +1041,7 @@ boole_t _wpa( obj_t this, param_t param )
 
 #ifdef DISABLE_HOSTAPD_TO_MODIFY_CHANNEL
 	/* stop the hostapd to update the channel */
-	snprintf( name, sizeof(name), "%s-hostapd", radio );
-	service_stop( name );
+	sstop( "%s-hostapd", radio );
 	ssidctl = NULL;
 #endif
 
@@ -1149,8 +1134,8 @@ boole_t _keeplive( obj_t this, param_t param )
 	const char *radio;
     const char *object;
 	const char *netdev;
+	const char *ifname;
 	const char *channel;
-	char name[NAME_MAX];
 
 	obj = obj_com( this );
 	if ( 0 == strcmp( obj, COM_ID ) )
@@ -1171,6 +1156,8 @@ boole_t _keeplive( obj_t this, param_t param )
 	{
 		return tfalse;
 	}
+	/* get the ifname */
+	ifname = register_pointer( object, "ifname" );
 
 start:
     /* first check */
@@ -1191,8 +1178,7 @@ start:
 	}
     info( "%s(%s) connect succeed", object, netdev );
 	/* run the relayd */
-	snprintf( name, sizeof(name), "%s-relayd", netdev );
-	service_start( name, object, "relayd", NULL );
+	sstart( object, "relayd", NULL, "%s-relayd", netdev );
 
 #ifdef DISABLE_HOSTAPD_TO_MODIFY_CHANNEL
 	/* start the hostapd */
@@ -1203,8 +1189,7 @@ start:
 		register_set( radio, "channel", channel, strlen(channel)+1, 20 );
 	}
 	talk_free( v );
-	snprintf( name, sizeof(name), "%s-hostapd", radio );
-	service_start( name, radio, "hostapd", NULL );
+	sstart( radio, "hostapd", NULL, "%s-hostapd", radio );
 #endif
 
 	/* check and check forever */
@@ -1239,16 +1224,21 @@ start:
 reset:
 	info( "%s(%s) reconnect", object, netdev );
 	/* stop the relayd */
-	snprintf( name, sizeof(name), "%s-relayd", netdev );
-	service_stop( name );
+	sstop( "%s-relayd", netdev );
 	/* down the netdev */
 	if ( netdev_flags( netdev, IFF_UP ) > 0 )
 	{
 		xexecute( 0, 1, "ifconfig %s down", netdev );
 	}
+	/* reset the wisp ifname */
+	if ( ifname != NULL && strstr( ifname, WISP_COM ) != NULL )
+	{
+		sstop( "%s-wpa", netdev );
+		sreset( NULL, NULL, NULL, ifname );
+		return ttrue;
+	}
 	/* reset the wpa to connect */
-	snprintf( name, sizeof(name), "%s-wpa", netdev );
-	service_reset( name, object, "wpa", NULL );
+	sreset( object, "wpa", NULL, "%s-wpa", netdev );
 	goto start;
 
 	return tfalse;

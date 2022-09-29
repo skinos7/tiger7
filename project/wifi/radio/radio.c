@@ -122,7 +122,6 @@ boole_t _shut( obj_t this, param_t param )
 	const char *obj;
 	const char *object;
 	const char *rootdev;
-	char name[NAME_MAX];
 	char netdev[NAME_MAX];
 	char compath[NAME_MAX];
 
@@ -139,9 +138,7 @@ boole_t _shut( obj_t this, param_t param )
 	}
 
     /* stop the hostapd */
-	snprintf( name, sizeof(name), "%s-hostapd", object );
-    service_stop( name );
-
+    sdelete( "%s-hostapd", object );
 	/* add the ssid/sta and tell the network layer */
 	for ( i = 0; i < 4; i++ )
 	{
