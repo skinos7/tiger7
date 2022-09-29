@@ -143,7 +143,7 @@ boole_t _setup( obj_t this, param_t param )
 	if ( ptr != NULL && 0 == strcmp( ptr, "enable") )
 	{
 		/* 将本组件的_service函数以服务的形式运行. 服务名即为当前的组件全称verify@telecom4g */
-		service_start( object, object, "service", NULL );
+		sstart( object, "service", NULL, object );
 	}
 
 	/* 释放组件配置 */
@@ -161,7 +161,7 @@ boole_t _shut( obj_t this, param_t param )
 	/* 获取组件名全称 */
 	object = obj_combine(this);
 	/* 停止服务 */
-	service_stop( object );
+	sdelete( object );
 	/* 退出, 记住一定要运行后立即退出, 如果不退出可能导致整个系统启动卡死在这里 */
 	return ttrue;
 
@@ -311,7 +311,7 @@ talk_t _take( obj_t this, param_t param )
 	/* 如果事件名称为network/online(即外网连接上线)则立即重启组件的服务 */
 	if ( event != NULL && 0 == strcmp( event, "network/online" ) )
 	{
-		return service_reset( object, object, "service", NULL );
+		return sreset( object, object, "service", NULL );
 	}
     return tfalse;
 }
