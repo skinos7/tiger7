@@ -20,10 +20,10 @@
 
         <!-- 自定义一个属性 -->
         <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right" data-i18n="Custom Property"></label>
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Custom Server"></label>
             <div class="col-sm-9">
                 <!-- 属性输入框 -->
-                <div class="clearfix"><input type="text" id="property" class="col-xs-10 col-sm-5" maxlength="128" /></div>
+                <div class="clearfix"><input type="text" id="remote" class="col-xs-10 col-sm-5" maxlength="128" /></div>
             </div>
         </div>
 
@@ -80,7 +80,7 @@
             // 将组件配置状态填入状态选项
             $('#status').prop( 'checked', able2boole(comcfg.status) );
             // 将组件配置属性值填入属性输入框中
-            $('#property').val( comcfg.property );
+            $('#remote').val( comcfg.remote );
             // 为状态选项绑定函数处理, 实现点选时界面隐藏或显示属性输入框
             $('#status').unbind('change').change(function () {
                 // 如果选中
@@ -121,7 +121,7 @@
         if ( comcfg.status == "enable" )
         {
             // 从属性输入框中得到组件属性值
-            comcfg.property = $('#property').val();
+            comcfg.remote = $('#remote').val();
         }
         // 比较拷贝确定组件配置是否有被修改
         if ( ocompare( comcfg, comcfgcopy ) )

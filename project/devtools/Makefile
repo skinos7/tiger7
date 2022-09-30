@@ -28,7 +28,8 @@ endef
 # 安装到系统运行目录中( 注意必须要有这个函数才会执行Build/Compile )
 define Package/$(PKG_NAME)/install
 	$(call Build/Install/Collect,$(1))
-	$(call Build/Install/Fpk,$(1))
+	# More installation instructions can be added here
+	$(call Build/Install/Fpk,$(1),$(gSTORE_DIR))
 endef
 
 # 调用编译安装

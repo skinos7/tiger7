@@ -311,7 +311,8 @@ talk_t _take( obj_t this, param_t param )
 	/* 如果事件名称为network/online(即外网连接上线)则立即重启组件的服务 */
 	if ( event != NULL && 0 == strcmp( event, "network/online" ) )
 	{
-		return sreset( object, object, "service", NULL );
+		sreset( object, "service", NULL, object );
+		return ttrue;
 	}
     return tfalse;
 }
