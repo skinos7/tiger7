@@ -19,6 +19,10 @@ do
     fi
 done
 
+# link the mnt to /tmp
+rm -fr ./mnt
+ln -s /tmp/mnt/ ./mnt
+
 # delete the needless etc/*
 rm -fr ./etc/banner.failsafe
 rm -fr ./etc/banner.mtk
