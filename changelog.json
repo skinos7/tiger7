@@ -9,7 +9,10 @@
         "202209166":"fix backup simcard mode bsim_failover alse work bug",
         "202209167":"start a service to do reset the modem",
         "202209168":"fix nat map cannot set the vpn interface",
-        "202209169":"fix sms for simcom modem and nl668"
+        "202209169":"fix sms for simcom modem and nl668",
+        "20220916a":"use the sstart for service_xxx",
+        "20220916b":"use the delete flag to default instead add the default flag",
+        "20220916c":"fix the fpk install no web bug"
     },
     "v7.2.0915":
     {
