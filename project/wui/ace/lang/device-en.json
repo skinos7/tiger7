@@ -5,6 +5,7 @@
 	"set":"Manual",
 	"sourcenull":"Invalid",
 
+	"default":"AP",
 	"gateway":"Gateway",
 	"dgateway":"Dual WAN Gateway",
 	"wisp":"2.4G WISP",
