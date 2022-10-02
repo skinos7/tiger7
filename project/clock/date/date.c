@@ -159,6 +159,10 @@ boole_t _ntploop( obj_t this, param_t param )
         {
             break;
         }
+        if ( routes_info( DEFAULT_TABLE_NAME, "0.0.0.0", NULL, NULL, NULL ) > 0 )
+        {
+            break;
+        }
         sleep( 3 );
     }while(1);
 

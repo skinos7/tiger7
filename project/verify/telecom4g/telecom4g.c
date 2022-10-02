@@ -186,12 +186,19 @@ boole_t _service( obj_t this, param_t param )
 	/* 获取组件名全称 */
 	object = obj_combine( this );
 	/* 查看是否存在默认路由来确定数据业务是否可用 */
-	if ( route_info( "0.0.0.0", NULL, NULL, NULL ) == false )
-	{
-		/* 如数据业务不可用, 休眠10秒后退出, 退出后系统会重新运行此函数 */
-		sleep( 10 );
-		return tfalse;
-	}
+    do
+    {
+        if ( route_info( "0.0.0.0", NULL, NULL, NULL ) == true )
+        {
+            break;
+        }
+        if ( routes_info( DEFAULT_TABLE_NAME, "0.0.0.0", NULL, NULL, NULL ) > 0 )
+        {
+            break;
+        }
+		/* 如数据业务不可用, 休眠15秒后再试 */
+        sleep( 5 );
+    }while(1);
 	/* 获取组件所有配置 */
 	cfg = config_get( this, NULL );
 	save_iccid = json_string( cfg, "iccid" );
