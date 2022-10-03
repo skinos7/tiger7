@@ -141,6 +141,7 @@ all:
 		make kernel_install||exit-1; \
 		make app_install||exit-1; \
 	fi
+	cp -r ${gINSTALL_DIR}/include  ${gTOP_DIR}/doc/dev
 dep: lay
 	make boot_dep kernel_dep
 
