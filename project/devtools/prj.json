@@ -5,21 +5,13 @@
     "type":"root",
     "version":"7.0.0",
     "author":"dimmalex@gmail.com",
-    "lib":
-    {
-        "lib":"sample library template"
-    },
     "exe":
     {
-        "exe":"sample executable program template",
-
         "test-talk":"test the talk function program",
         "test-param":"test the param function program"
     },
     "com":
     {
-        "com":"sample executable program template",
-        
         "test-lpcall":"call the child named test-callbk",
         "test-callbk":"call back to father named test-lpcall"
     }
