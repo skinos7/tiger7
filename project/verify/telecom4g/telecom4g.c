@@ -188,11 +188,7 @@ boole_t _service( obj_t this, param_t param )
 	/* 查看是否存在默认路由来确定数据业务是否可用 */
     do
     {
-        if ( route_info( "0.0.0.0", NULL, NULL, NULL ) == true )
-        {
-            break;
-        }
-        if ( routes_info( DEFAULT_TABLE_NAME, "0.0.0.0", NULL, NULL, NULL ) > 0 )
+        if ( gateway_info( NULL, NULL ) == true )
         {
             break;
         }
