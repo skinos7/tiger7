@@ -14,7 +14,8 @@
         "20220916b":"use the delete flag to default instead add the default flag",
         "20220916c":"fix the fpk install no web bug",
         "20220916d":"backup config will set the cfgverion to current date",
-        "20220916e":"delete the devport from gather project, specify that gather manages skinos only on the local network"
+        "20220916e":"delete the devport from gather project, specify that gather manages skinos only on the local network",
+        "20220916f":"fix route table lost when clear the ipv6 table cache after route setting"
     },
     "v7.2.0915":
     {

@@ -894,7 +894,7 @@ boole_t _online( obj_t this, param_t param )
 
 	/* tid route table init */
 	tid = register_pointer( object, "tid" );
-	if ( tid != NULL && tid != 0 )
+	if ( tid != NULL && *tid != 0 )
 	{
 		routes_create_ifname( *tid, v );
 	}

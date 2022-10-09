@@ -1,15 +1,15 @@
 #!/bin/bash
 
-for tmp in shost-x86-ubuntu shost-aarch64-ubuntu
-do
-    make gBOARDID=${tmp} pid
-    make test
-    make clean
-    make distclean
-    make dep
-    make
-    make repo
-done
+#for tmp in shost-x86-ubuntu shost-aarch64-ubuntu
+#do
+#    make gBOARDID=${tmp} pid
+#    make test
+#    make clean
+#    make distclean
+#    make dep
+#    make
+#    make repo
+#done
 
 for tmp in smtk2-mt7628-d218-h728  smtk2-mt7628-d218-8m
 do

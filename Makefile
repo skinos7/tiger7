@@ -131,17 +131,17 @@ export PATH
 #####################################
 # Compile default action
 all:
-	make lay
 	if [ "X${obj}" != "X" ]; then \
 		make -f Makefile.target kernel COMPILE_PROJECT=package/${obj}/compile; \
 		make -f Makefile.target app COMPILE_PROJECT=package/${obj}/compile; \
 	else \
+		make lay; \
 		make kernel||exit -1; \
 		make app||exit -1; \
 		make kernel_install||exit-1; \
 		make app_install||exit-1; \
+		cp -r ${gINSTALL_DIR}/include  ${gTOP_DIR}/doc/dev; \
 	fi
-	cp -r ${gINSTALL_DIR}/include  ${gTOP_DIR}/doc/dev
 dep: lay
 	make boot_dep kernel_dep
 
