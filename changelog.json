@@ -1,4 +1,9 @@
 {
+    "v7.2.1010":
+    {
+        "20221010":"add the restart to light led state for usb/modem failed",
+        "20221010a":"disable found modem crack to restart system immediately"
+    },
     "v7.2.0916":
     {
         "202209161":"disable the led action when test mode",
