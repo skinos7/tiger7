@@ -112,7 +112,7 @@ boole _set( obj_t this, talk_t v, attr_t path )
 {
     boole ret;
 
-    /* irectly save the set parameters into the flash */
+    /* directly save the set parameters into the flash */
     ret = config_set( this, v, path );
     /* if the flash is successfully saved, the call is called by calling first _shut closing and then calling the _setup to restart the corresponding service */
     if ( ret == true )
