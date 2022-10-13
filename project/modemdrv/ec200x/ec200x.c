@@ -376,14 +376,13 @@ boole_t _usb_match( obj_t this, param_t param )
 		info( "Quectel EC200X modem found(%s:%s)", vid , pid );
 		/* insmod the usb driver */
 		shell( "modprobe option" );
-		usleep( 2000000 );
 		syspath = json_string( dev, "syspath" );
 
 		/* find the tty list */
 		i = usbttylist_device_find( syspath, ttylist );
 		if ( i < 3 )
 		{
-			usleep( 2000000 );
+			usleep( 1000000 );
 			i = usbttylist_device_find( syspath, ttylist );
 			if ( i < 3	)
 			{
