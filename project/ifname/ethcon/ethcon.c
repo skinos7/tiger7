@@ -517,13 +517,9 @@ boole_t _service( obj_t this, param_t param )
 	register2int( object, "connect_failed", reg_connect_failed, connect_failed, 0 );
 	if ( connect_failed > 0 )
 	{
-		if ( connect_failed == 2 )
+		if ( connect_failed == 3 )
 		{
-			ret = ttrue;
-		}
-		else if ( connect_failed == 7 )
-		{
-			ret = ttrue;
+			ret = terror;
 		}
 		else if ( connect_failed == 15 )
 		{

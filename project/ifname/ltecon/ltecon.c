@@ -810,11 +810,7 @@ boole_t _service( obj_t this, param_t param )
 		/************** bsim process *********************/
 		else
 		{
-			if ( connect_failed == 2 )
-			{
-				ret = terror;
-			}
-			else if ( connect_failed == 7 )
+			if ( connect_failed == 3 )
 			{
 				ret = terror;
 			}
