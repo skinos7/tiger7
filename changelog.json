@@ -1,4 +1,14 @@
 {
+    "v7.2.1012":
+    {
+        "20221012":"modfiy the mt7628 init by busybox",
+        "20221012a":"disable the tty print",
+        "20221012b":"fix webpage custom logo lost when modify the wui configure",
+        "20221012c":"quectel-CM and udhcpc add the up state to communication",
+        "20221012d":"lte dial failed reset the modem at 5 times",
+        "20221012e":"use init to boot, disable the procd",
+        "20221012f":"simcom-cm and udhcpc add the up state to communication"
+    },
     "v7.2.1010":
     {
         "20221010":"add the restart to light led state for usb/modem failed",
