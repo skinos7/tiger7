@@ -7,7 +7,12 @@
         "20221012c":"quectel-CM and udhcpc add the up state to communication",
         "20221012d":"lte dial failed reset the modem at 5 times",
         "20221012e":"use init to boot, disable the procd",
-        "20221012f":"simcom-cm and udhcpc add the up state to communication"
+        "20221012f":"simcom-cm and udhcpc add the up state to communication",
+        "20221012g":"add the cdm-wdmx device for simcom modem",
+        "20221012h":"modem info save to buffer when register step, that make webpage response no block",
+        "20221012i":"add the restart flash all led state and usb error delay 40 second to restart system",
+        "20221012j":"fix nosimcard the led show connect state",
+        "20221012k":"keeplive add the route for dest, then the ifname can pass the dest at the wan and wisp"
     },
     "v7.2.1010":
     {

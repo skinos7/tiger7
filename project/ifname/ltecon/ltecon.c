@@ -897,6 +897,7 @@ boole_t _service( obj_t this, param_t param )
 		return tfalse;
 	}
 
+	scalls( GPIO_COM, "action", "network/onlineing,%s", ifdev );
 	/* static ip setting */
 	if ( mode != NULL && 0 == strcmp( mode, "static" ) )
 	{
