@@ -1576,7 +1576,14 @@
         $(id+"_rxtx").text( byte2readable( (info.rx_bytes||"0") ) + " / " + byte2readable( (info.tx_bytes||"0") ) );
         if ( info.delay )
         {
-            $(id+"_ack").text( info.delay );
+            if ( info.delay == "failed" )
+            {
+                $(id+"_ack").text( $.i18n(info.delay) );
+            }
+            else
+            {
+                $(id+"_ack").text( info.delay+"ms" );
+            }
             $(id+"_ack_head").show();
         }
         else
@@ -1800,7 +1807,14 @@
         $(id+"_rxtx").text( byte2readable( (info.rx_bytes||"0") ) + " / " + byte2readable( (info.tx_bytes||"0") ) );
         if ( info.delay )
         {
-            $(id+"_ack").text( info.delay );
+            if ( info.delay == "failed" )
+            {
+                $(id+"_ack").text( $.i18n(info.delay) );
+            }
+            else
+            {
+                $(id+"_ack").text( info.delay+"ms" );
+            }
             $(id+"_ack_head").show();
         }
         else
