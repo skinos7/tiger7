@@ -12,7 +12,8 @@
         "20221012h":"modem info save to buffer when register step, that make webpage response no block",
         "20221012i":"add the restart flash all led state and usb error delay 40 second to restart system",
         "20221012j":"fix nosimcard the led show connect state",
-        "20221012k":"keeplive add the route for dest, then the ifname can pass the dest at the wan and wisp"
+        "20221012k":"keeplive add the route for dest, then the ifname can pass the dest at the wan and wisp",
+        "20221012l":"wisp and wan page delay add the ms"
     },
     "v7.2.1010":
     {
