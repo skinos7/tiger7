@@ -27,14 +27,14 @@
     },
     "init":
     {
-        "core2":
+        "manage":
         {
             "uart@frame.setup":""
         }
     },
     "uninit":
     {
-        "core2":
+        "manage":
         {
             "uart@frame.shut":""
         }

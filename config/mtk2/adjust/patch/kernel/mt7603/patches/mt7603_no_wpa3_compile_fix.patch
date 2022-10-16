@@ -1,0 +1,42 @@
+diff -uNr linux-3.10.108/drivers/net/wireless/mtk/mt7603/mt7603_wifi/common/cmm_wpa.c linux-3.10.108b/drivers/net/wireless/mtk/mt7603/mt7603_wifi/common/cmm_wpa.c/cmm_wpa.c
+--- linux-3.10.108/drivers/net/wireless/mtk/mt7603/mt7603_wifi/common/cmm_wpa.c	2022-10-16 00:36:06.860275440 +0800
++++ linux-3.10.108b/drivers/net/wireless/mtk/mt7603/mt7603_wifi/common/cmm_wpa.c	2022-10-16 00:37:46.109096755 +0800
+@@ -1579,7 +1579,17 @@
+ 			|| (pEntry->AuthMode == Ndis802_11AuthModeOWE) || (pEntry->AuthMode == Ndis802_11AuthModeWPA3PSK)
+ #endif
+ 			)
++
++// add by dimmalex
++#if defined(DOT11_SAE_SUPPORT) || defined(CONFIG_OWE_SUPPORT)
++
+ 			pmk_ptr = pEntry->PMK;
++
++// add by dimmalex
++#else
++            ;
++#endif
++
+ 		else
+ 			pmk_ptr = pAd->ApCfg.MBSSID[apidx].PMK;
+ 		gtk_ptr = pAd->ApCfg.MBSSID[apidx].GTK;
+diff -uNr linux-3.10.108/drivers/net/wireless/mtk/mt7603/mt7603_wifi/include/rtmp_type.h linux-3.10.108b/drivers/net/wireless/mtk/mt7603/mt7603_wifi/include/rtmp_type.h
+--- linux-3.10.108/drivers/net/wireless/mtk/mt7603/mt7603_wifi/include/rtmp_type.h	2022-10-16 00:30:25.549198411 +0800
++++ linux-3.10.108b/drivers/net/wireless/mtk/mt7603/mt7603_wifi/include/rtmp_type.h	2022-10-16 00:31:05.641586023 +0800
+@@ -40,9 +40,15 @@
+ #ifdef LINUX
+ /* Put platform dependent declaration here */
+ /* For example, linux type definition */
+-#if defined(DOT11_SAE_SUPPORT) || defined(CONFIG_OWE_SUPPORT)
++
++// comment by dimmalex
++//#if defined(DOT11_SAE_SUPPORT) || defined(CONFIG_OWE_SUPPORT)
++
+ typedef char INT8;
+-#endif
++
++// comment by dimmalex
++//#endif
++
+ typedef unsigned char UINT8;
+ typedef unsigned short UINT16;
+ typedef unsigned int UINT32;

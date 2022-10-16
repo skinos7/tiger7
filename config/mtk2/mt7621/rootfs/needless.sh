@@ -85,18 +85,6 @@ rm -fr ./usr/sbin/ntpd-hotplug
 rm -fr ./usr/share/acl.d
 rm -fr ./usr/share/dnsmasq
 
-rm -fr ./media
-rm -fr ./prj/pdriver/regdir.ko
-rm -fr ./prj/pdriver/yuga_gobinet.ko
-rm -fr ./usr/sbin/hwnat-disable.sh
-rm -fr ./usr/sbin/hwnat-enable.sh
-rm -fr ./usr/sbin/mac
-rm -fr ./usr/sbin/setsmp.sh
-rm -fr ./prj/pdriver/fibocom-log
-rm -fr ./prj/pdriver/longsung_gobinet.ko
-rm -fr ./prj/pdriver/quectel-log
-rm -fr ./prj/pdriver/*.config
-
 # delete self
 rm -fr ./needless.sh
 

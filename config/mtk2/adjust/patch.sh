@@ -80,7 +80,8 @@ cp ${gPLATFORM_DIR}/adjust/patch/kernel/119-wifi-path.patch ${gSDK_DIR}/target/l
 cp ${gPLATFORM_DIR}/adjust/patch/kernel/mt7603/files/mt7603.dat   ${gSDK_DIR}/package/mtk/drivers/mt7603/files/
 # patch to mt7603 for makefile or otheres
 cp ${gPLATFORM_DIR}/adjust/patch/kernel/mt7603/patches/001-driver-path.patch   ${gSDK_DIR}/package/mtk/drivers/mt7603/patches/001-driver-path.patch
-cp ${gPLATFORM_DIR}/adjust/patch/kernel/mt7603/patches/mt7603_no_wps_compile_fix.patch   ${gSDK_DIR}/package/mtk/drivers/mt7603/patches/
+cp ${gPLATFORM_DIR}/adjust/patch/kernel/mt7603/patches/mt7603_no_wps_compile_fix.patch   ${gSDK_DIR}/package/mtk/drivers/mt7603/patches/020-wps_compile_fix.patch
+cp ${gPLATFORM_DIR}/adjust/patch/kernel/mt7603/patches/mt7603_no_wpa3_compile_fix.patch   ${gSDK_DIR}/package/mtk/drivers/mt7603/patches/021-wpa3_compile_fix.patch
 # patch to mt76x2 chip to platform
 rm -fr ${gSDK_DIR}/package/mtk/drivers/mt76x2/
 cp -r ${gPLATFORM_DIR}/adjust/patch/kernel/mt76x2   ${gSDK_DIR}/package/mtk/drivers/mt76x2

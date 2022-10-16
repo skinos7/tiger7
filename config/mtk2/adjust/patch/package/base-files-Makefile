@@ -31,7 +31,7 @@ endif
 define Package/base-files
   SECTION:=base
   CATEGORY:=Base system
-  DEPENDS:=+libc +procd +jsonfilter +SIGNED_PACKAGES:usign
+  DEPENDS:=+libc +jsonfilter +SIGNED_PACKAGES:usign
   TITLE:=Base filesystem for OpenWrt
   URL:=http://openwrt.org/
   VERSION:=$(PKG_RELEASE)-$(REVISION)
@@ -158,6 +158,8 @@ define Package/base-files/install
 	$(LN) /proc/mounts $(1)/etc/mtab
 	rm -f $(1)/var
 	$(LN) /tmp $(1)/var
+	rm -rf $(1)/mnt
+	$(LN) /tmp/mnt $(1)/mnt
 	mkdir -p $(1)/etc
 	$(LN) /tmp/resolv.conf /tmp/fstab /tmp/TZ $(1)/etc/
 

@@ -52,7 +52,7 @@ done
 
 
 
-for tmp in smtk2-mt7621-v520-greatwall
+for tmp in smtk2-mt7621-v520-greatwall smtk2-mt7621-v520-zebra
 do
     make gBOARDID=${tmp} pid
     make test

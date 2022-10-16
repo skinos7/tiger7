@@ -2,7 +2,7 @@
 
 # delete the needless init
 lookdir="./etc/init.d"
-exception="sysfixtime boot system sysctl done hwnat umount set-irq-affinity land"
+exception="sysfixtime boot system sysctl done hwnat umount set-irq-affinity preland land"
 for file in `ls ${lookdir}`
 do 
     save=0
@@ -18,10 +18,6 @@ do
         rm -f ${lookdir}/${file}
     fi
 done
-
-# link the mnt to /tmp
-rm -fr ./mnt
-ln -s /tmp/mnt/ ./mnt
 
 # delete the needless etc/*
 rm -fr ./etc/banner.failsafe

@@ -1,13 +1,13 @@
 # for procd
-::sysinit:/etc/init.d/rcS S boot
-::shutdown:/etc/init.d/rcS K shutdown
+#::sysinit:/etc/init.d/rcS S boot
+#::shutdown:/etc/init.d/rcS K shutdown
 #::askconsole:/bin/ash --login
 #::askconsole:/bin/hetui
 #::respawn:/sbin/getty 57600 ttyS1
 
 # for busybox init
-#::sysinit:/etc/initland
-#::shutdown:/etc/shutland
+::sysinit:/etc/initland
+::shutdown:/etc/shutland
 #ttyS1::askfirst:-/bin/ash
 #ttyS1::askfirst:/bin/hetui
 #::respawn:/sbin/getty 57600 ttyS1
