@@ -694,7 +694,7 @@ boole_t _at_watch( obj_t this, param_t param )
 	terror for error, need reset the modem */
 boole_t _at_connect( obj_t this, param_t param )
 {
-	int i, t;
+	int i;
 	talk_t dev;
 	talk_t cfg;
 	atcmd_t fd;
@@ -789,63 +789,16 @@ boole_t _at_connect( obj_t this, param_t param )
     }
 
 	/* dial */
-    for ( i=0; i<3; i++ )
-    {
-        i = atcmd_tx( fd, 15, NULL, ATCMD_DEF, "AT^NDISDUP=%s,1,\"%s\",\"%s\",\"%s\",%s", cid, apn?:"", user?:"", pass?:"", auth );
-		if ( i < ATCMD_ret_succeed )
-		{
-			return terror;
-		}
-		else if ( i == ATCMD_ret_term )
-		{
-			return tfalse;
-		}
-        else if ( i != ATCMD_ret_succeed )
-        {
-            for ( t=0; t<5; t++ )
-            {
-				i = em350_ndisstatqry( fd );
-				if ( i < ATCMD_ret_succeed )
-				{
-					return terror;
-				}
-				else if ( i == ATCMD_ret_term )
-				{
-					return tfalse;
-				}
-				else if ( i == ATCMD_ret_succeed )
-				{
-					goto succeed;
-				}
-                sleep( 1 );
-            }
-        }
-        else
-        {
-            for ( t=0; t<60; t++ )
-            {
-				i = em350_ndisstatqry( fd );
-				if ( i < ATCMD_ret_succeed )
-				{
-					return terror;
-				}
-				else if ( i == ATCMD_ret_term )
-				{
-					return tfalse;
-				}
-				else if ( i == ATCMD_ret_succeed )
-				{
-					goto succeed;
-				}
-                sleep( 1 );
-            }
-        }
-    }
-	fault( "pdp dail failed" );
+	i = atcmd_tx( fd, 15, NULL, ATCMD_DEF, "AT^NDISDUP=%s,1,\"%s\",\"%s\",\"%s\",%s", cid, apn?:"", user?:"", pass?:"", auth );
+	if ( i < ATCMD_ret_succeed )
+	{
+		return terror;
+	}
+	else if ( i == ATCMD_ret_term )
+	{
+		return tfalse;
+	}
 
-	/* failed exit to redail */
-	return ttrue;
-succeed:
 	/* succeed exit to dhcp */
 	return ttrue;
 }

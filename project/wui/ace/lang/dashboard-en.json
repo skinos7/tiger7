@@ -5,6 +5,8 @@
 	"scanning":"Scanning",
 	"uping":"Connecting",
 	"connect":"Connecting",
+	"connecting":"Connecting",
+	"connected":"Connecting",
 	"up":"Online",
 	"nodevice":"NO Device",
 	"noimei":"IMEI Wrong",

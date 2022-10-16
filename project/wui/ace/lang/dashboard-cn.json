@@ -5,6 +5,8 @@
 	"scanning":"正在扫描",
 	"uping":"正在连接",
 	"connect":"正在连接",
+	"connecting":"正在连接",
+	"connected":"正在连接",
 	"up":"连接成功",	
 	"nodevice":"无基带",
 	"noimei":"IMEI错误",

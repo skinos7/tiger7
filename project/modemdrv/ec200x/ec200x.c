@@ -912,7 +912,7 @@ boole_t _at_watch( obj_t this, param_t param )
 	terror for error, need reset the modem */
 boole_t _at_connect( obj_t this, param_t param )
 {
-	int i, t, n;
+	int i, t;
 	talk_t dev;
 	talk_t cfg;
 	atcmd_t fd;
@@ -965,65 +965,42 @@ boole_t _at_connect( obj_t this, param_t param )
 	}
 
 	/* dial */
-    for ( n=0; n<3; n++ )
-    {
-        i = atcmd_tx( fd, 15, NULL, ATCMD_DEF, "AT+QIACT=%s", cid );
-		if ( i < ATCMD_ret_succeed )
+	i = atcmd_tx( fd, 120, NULL, ATCMD_DEF, "AT+QIACT=%s", cid );
+	if ( i < ATCMD_ret_succeed )
+	{
+		return terror;
+	}
+	else if ( i == ATCMD_ret_term )
+	{
+		return tfalse;
+	}
+	else if ( i != ATCMD_ret_succeed )
+	{
+		for ( t=0; t<3; t++ )
 		{
-			return terror;
+			i = atcmd_tx( fd, 2, NULL, ATCMD_DEF, "AT+QIACT?" );
+			if ( i < ATCMD_ret_succeed )
+			{
+				return terror;
+			}
+			else if ( i == ATCMD_ret_term )
+			{
+				return tfalse;
+			}
+			i = atcmd_rx( fd, recvbuf, sizeof(recvbuf) );
+			if ( i > 0 && strstr( recvbuf, "." ) != NULL )
+			{
+				break;
+			}
+			sleep( 1 );
 		}
-		else if ( i == ATCMD_ret_term )
+		if ( t >= 3 )
 		{
+			fault( "pdp dail failed" );
 			return tfalse;
 		}
-        else if ( i != ATCMD_ret_succeed )
-        {
-            for ( t=0; t<5; t++ )
-            {
-				i = atcmd_tx( fd, 3, NULL, ATCMD_DEF, "AT+QIACT?" );
-				if ( i < ATCMD_ret_succeed )
-				{
-					return terror;
-				}
-				else if ( i == ATCMD_ret_term )
-				{
-					return tfalse;
-				}
-				i = atcmd_rx( fd, recvbuf, sizeof(recvbuf) );
-				if ( i > 0 && strstr( recvbuf, "." ) != NULL )
-                {
-                    goto succeed;
-                }
-                sleep( 1 );
-            }
-        }
-        else
-        {
-            for ( t=0; t<60; t++ )
-            {
-				i = atcmd_tx( fd, 3, NULL, ATCMD_DEF, "AT+QIACT?" );
-				if ( i < ATCMD_ret_succeed )
-				{
-					return terror;
-				}
-				else if ( i == ATCMD_ret_term )
-				{
-					return tfalse;
-				}
-				i = atcmd_rx( fd, recvbuf, sizeof(recvbuf) );
-				if ( i > 0 && strstr( recvbuf, "." ) != NULL )
-                {
-                    goto succeed;
-                }
-                sleep( 1 );
-            }
-        }
-    }
-	fault( "pdp dail failed" );
+	}
 
-	/* failed exit to redail */
-	return ttrue;
-succeed:
 	i = atcmd_tx( fd, 10, NULL, ATCMD_DEF, "AT+QNETDEVCTL=1,%s,1", cid );
 	if ( i < ATCMD_ret_succeed )
 	{

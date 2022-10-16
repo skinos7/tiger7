@@ -1,0 +1,20 @@
+{
+    "name":"netcard",
+    "intro":"netcard device management",
+    "type":"root",
+    "version":"7.0.0",
+    "author":"dimmalex@gmail.com",
+    "lib":
+    {
+        "landnetcard":"netcard library"
+    },
+    "com":
+    {
+        "device":"netcard device management",
+        "rndis":"rndis netcard driver"
+    },
+    "obj":
+    {
+        "netcarddrv@rndis":"rndis"
+    }
+}

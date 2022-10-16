@@ -3,6 +3,8 @@
 	"down":"Down",
 	"uping":"Connecting",
 	"connect":"Connecting",
+	"connecting":"Connecting",
+	"connected":"Connecting",
 	"up":"Online",
 	"nodevice":"NO Device",
 	"noimei":"IMEI Wrong",

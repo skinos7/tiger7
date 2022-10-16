@@ -13,7 +13,10 @@
         "20221012i":"add the restart flash all led state and usb error delay 40 second to restart system",
         "20221012j":"fix nosimcard the led show connect state",
         "20221012k":"keeplive add the route for dest, then the ifname can pass the dest at the wan and wisp",
-        "20221012l":"wisp and wan page delay add the ms"
+        "20221012l":"wisp and wan page delay add the ms",
+        "20221012i":"usb add the netcard match",
+        "20221012j":"modem dial one time, and connected to test dial succeed",
+        "20221012k":"modem connect state split connecting and connected state"
     },
     "v7.2.1010":
     {

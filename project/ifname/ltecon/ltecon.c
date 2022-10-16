@@ -7,6 +7,7 @@
 #include "land/skin.h"
 #include "landnet/landnet.h"
 #include <ifaddrs.h>
+#define LTE_STATE_RESET 6
 
 
 
@@ -665,7 +666,7 @@ talk_t _status( obj_t this, param_t param )
 		{
 			talk_patch( v, ret );
 			ptr = json_string( v, "state" );
-			if ( ptr != NULL && 0 != strcmp( ptr, "connect" ) )
+			if ( ptr != NULL && 0 != strcmp( ptr, "connected" ) )
 			{
 				json_set_string( ret, "status", ptr );
 			}
@@ -677,7 +678,7 @@ talk_t _status( obj_t this, param_t param )
 			stepp = register_pointer( ifdev, "state" );
 			if ( stepp != NULL )
 			{
-				if ( *stepp == 5 )	 // LTE_STATE_RESET
+				if ( *stepp == LTE_STATE_RESET )	 // LTE_STATE_RESET
 				{
 					json_set_string( ret, "status", "reset" );
 				}
@@ -690,7 +691,7 @@ talk_t _status( obj_t this, param_t param )
 		stepp = register_pointer( ifdev, "state" );
 		if ( stepp != NULL )
 		{
-			if ( *stepp == 5 )   // LTE_STATE_RESET
+			if ( *stepp == LTE_STATE_RESET )   // LTE_STATE_RESET
 			{
 				json_set_string( ret, "status", "reset" );
 			}
@@ -872,7 +873,7 @@ boole_t _service( obj_t this, param_t param )
 	/* check connected */
 	ready = 0;
 	check = 0;
-	while( check < 30 )
+	while( check < 60 )
 	{
 		if ( scallt( ifdev, "connected", cfg ) == ttrue )
 		{
@@ -889,7 +890,7 @@ boole_t _service( obj_t this, param_t param )
 		check++;
 		sleep( 1 );
 	}
-	if ( check >= 30 )
+	if ( check >= 60 )
 	{
 		warn( "%s connect timeout", ifdev );
 		scall( ifdev, "down", NULL );
