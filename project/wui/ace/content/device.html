@@ -423,6 +423,14 @@
             }
         }
       }
+      else if ( window.mode_list )
+      {
+        var m;
+        for( m in window.mode_list )
+        {
+            $("#mode").append("<option value='"+m+"'>" + $.i18n(m) + "</option>");
+        }
+      }
       else
       {
         $("#mode").append("<option value='default'>"+$.i18n('default')+"</option>");
