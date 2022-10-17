@@ -16,7 +16,8 @@
         "20221012l":"wisp and wan page delay add the ms",
         "20221012i":"usb add the netcard match",
         "20221012j":"modem dial one time, and connected to test dial succeed",
-        "20221012k":"modem connect state split connecting and connected state"
+        "20221012k":"modem connect state split connecting and connected state",
+        "20221012l":"network mode list depend on network@frame configure"
     },
     "v7.2.1010":
     {

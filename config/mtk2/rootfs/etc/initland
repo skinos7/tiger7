@@ -175,6 +175,7 @@ syslogd -L -O /var/bootup.syslog
 
 # mdev
 mdev -s
+echo "/sbin/hotplug-call" > /proc/sys/kernel/hotplug
 
 # run the land
 . /etc/init.d/land;start
