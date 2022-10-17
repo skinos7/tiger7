@@ -873,7 +873,7 @@ boole_t _service( obj_t this, param_t param )
 	/* check connected */
 	ready = 0;
 	check = 0;
-	while( check < 60 )
+	while( check < 90 )
 	{
 		if ( scallt( ifdev, "connected", cfg ) == ttrue )
 		{
@@ -890,7 +890,7 @@ boole_t _service( obj_t this, param_t param )
 		check++;
 		sleep( 1 );
 	}
-	if ( check >= 60 )
+	if ( check >= 90 )
 	{
 		warn( "%s connect timeout", ifdev );
 		scall( ifdev, "down", NULL );
