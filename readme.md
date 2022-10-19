@@ -218,7 +218,7 @@ make
 
 # 组件API
 组件接口可以从命令行调用，也可以通过开发接口调用   
-***正在编写中,  优先给出溃用的组件接口***  
+***正在编写中,  优先给出常用的组件接口***  
 - [Machine](https://gitee.com/tiger7/doc/blob/master/com/land/machine.md)
 - [Date](https://gitee.com/tiger7/doc/blob/master/com/clock/date.md)
 - [LTE Modem](https://gitee.com/tiger7/doc/blob/master/com/modem/lte.md)
