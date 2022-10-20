@@ -1,4 +1,10 @@
 {
+    "v7.2.1020":
+    {
+        "20221020":"move the storege media to arch@hotplug",
+        "20221020b":"modify the init step",
+        "20221020b":"modify the register interface to support readonly for land project"
+    },
     "v7.2.1012":
     {
         "20221012":"modfiy the mt7628 init by busybox",

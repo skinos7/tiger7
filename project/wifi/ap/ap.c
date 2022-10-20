@@ -152,7 +152,11 @@ boole_t _up( obj_t this, param_t param )
             xexecute( 0, 1, "ifconfig %s up", netdev );
         }
 		/* mark the up state */
-		dprintf( fd, "%s",	uptime_desc( NULL, 0 ) );
+		ptr = uptime_desc( NULL, 0 );
+		if ( ptr != NULL )
+		{
+			write( fd, ptr,	strlen(ptr) );
+		}
 		lock_close( fd );
 	}
 

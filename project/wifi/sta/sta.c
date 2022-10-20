@@ -345,6 +345,7 @@ boole_t _up( obj_t this, param_t param )
 	talk_t opt;
 	talk_t ret;
 	talk_t value;
+	const char *ptr;
 	const char *obj;
 	const char *radio;
 	const char *object;
@@ -466,7 +467,11 @@ boole_t _up( obj_t this, param_t param )
 		sstart( object, "keeplive", NULL, "%s-keeplive", netdev );
 		ret = ttrue;
 		/* mark the up state */
-		dprintf( fd, "%s",	uptime_desc( NULL, 0 ) );
+		ptr = uptime_desc( NULL, 0 );
+		if ( ptr != NULL )
+		{
+			write( fd, ptr,	strlen(ptr) );
+		}
 		lock_close( fd );
 	}
 
