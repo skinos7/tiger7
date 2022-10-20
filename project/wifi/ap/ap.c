@@ -119,7 +119,7 @@ boole_t _up( obj_t this, param_t param )
 	}
 
     /* ignore it if up already */
-	project_var_path( path, sizeof(path), "%s-%s.up", COM_ID, netdev );
+	var2path( path, sizeof(path), "%s-%s.up", COM_ID, netdev );
 	fd = lock_open( path, O_RDWR|O_CREAT|O_EXCL, 0666, -1 );
     if ( fd < 0 )
     {
