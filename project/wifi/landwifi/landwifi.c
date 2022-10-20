@@ -313,9 +313,10 @@ const char *wifi_object_get( const char *radio, const char *syspath, talk_t cfg,
 	talk_t axp;
 	talk_t caxp;
 	talk_t list;
-	char *value;
+	const char *value;
 	const char *ptr;
 	const char *object;
+	register_file_t h;
 	char identify[NAME_MAX];
 	static char buffer[NAME_MAX];
 
@@ -346,7 +347,7 @@ const char *wifi_object_get( const char *radio, const char *syspath, talk_t cfg,
 		{
 			snprintf( identify, sizeof(identify), "%s%d", radio, i+1 );
 		}
-		value = register_pointer( WIFI_PROJECT, identify );
+		value = register_value( WIFI_PROJECT, identify );
 		if ( value != NULL && 0 == strcmp( syspath, value ) )
 		{
 			object = identify;
@@ -399,7 +400,7 @@ const char *wifi_object_get( const char *radio, const char *syspath, talk_t cfg,
 		{
 			continue;
 		}
-		value = register_pointer( WIFI_PROJECT, identify );
+		value = register_value( WIFI_PROJECT, identify );
 		if ( value == NULL || *value == '\0' )
 		{
 			object = identify;
@@ -410,7 +411,9 @@ const char *wifi_object_get( const char *radio, const char *syspath, talk_t cfg,
 
 	return NULL;
 binding:
-	register_set( WIFI_PROJECT, object, syspath, strlen(syspath)+1, 50 );
+	h = register_open( WIFI_PROJECT, O_RDWR, 0644, 0, 0 );
+	register_value_set( h, object, syspath, strlen(syspath)+1, REGISTER_VAR_SIZE );
+	register_close( h );
 found:
 	strncpy( buf, object, buflen );
 	return buf;
@@ -418,7 +421,11 @@ found:
 /* wifi object free */
 void wifi_object_free( const char *object )
 {
-	register_set( WIFI_PROJECT, object, NULL, 1, 50 );
+	register_file_t h;
+
+	h = register_open( WIFI_PROJECT, O_RDWR, 0644, 0, 0 );
+	register_value_set( h, object, NULL, 0, REGISTER_VAR_SIZE );
+	register_close( h );
 }
 
 

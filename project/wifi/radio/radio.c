@@ -33,7 +33,7 @@ boole_t _setup( obj_t this, param_t param )
 
     /* get the radio configure */
     radio = config_get( this, NULL );
-	rootdev = register_pointer( object, "netdev" );
+	rootdev = register_value( object, "netdev" );
 	if ( rootdev == NULL || *rootdev == '\0' )
 	{
 		return tfalse;
@@ -131,7 +131,7 @@ boole_t _shut( obj_t this, param_t param )
 		return tfalse;
 	}
 	object = obj_combine( this );
-	rootdev = register_pointer( object, "netdev" );
+	rootdev = register_value( object, "netdev" );
 	if ( rootdev == NULL || *rootdev == '\0' )
 	{
 		return tfalse;
@@ -330,7 +330,7 @@ talk_t _options( obj_t this, param_t param )
 		return NULL;
 	}
 	object = obj_combine( this );
-	drvcom = register_pointer( object, "drvcom" );
+	drvcom = register_value( object, "drvcom" );
 	if ( drvcom == NULL || *drvcom == '\0' )
 	{
 		return NULL;
@@ -424,12 +424,12 @@ boole_t _hostapd( obj_t this, param_t param )
 		return terror;
 	}
 	object = obj_combine( this );
-	rootdev = register_pointer( object, "netdev" );
+	rootdev = register_value( object, "netdev" );
 	if ( rootdev == NULL || *rootdev == '\0' )
 	{
 		return terror;
 	}
-	drvcom = register_pointer( object, "drvcom" );
+	drvcom = register_value( object, "drvcom" );
 	if ( drvcom == NULL || *drvcom == '\0' )
 	{
 		return terror;
@@ -489,7 +489,7 @@ boole_t _hostapd( obj_t this, param_t param )
 		country = "cn";
 	}
     /* get the radio channel */
-	channel = register_pointer( object, "channel" );
+	channel = register_value( object, "channel" );
 	if ( channel == NULL || *channel == '\0' )
 	{
 	    channel = json_string( radio, "channel" );
@@ -703,7 +703,7 @@ boole_t _hostapd( obj_t this, param_t param )
 			snprintf( compath, sizeof(compath), "%s%s%d", object, "ssid", i+1 );
 			snprintf( ssidctl, sizeof(ssidctl), "%s/%s%s%d", HOSTAPD_DIR, obj, "ssid", i+1 );
 		}
-		netdev = register_pointer( compath, "netdev" );
+		netdev = register_value( compath, "netdev" );
 		if ( netdev == NULL || *netdev == '\0' )
 		{
             continue;

@@ -89,6 +89,7 @@ const char *nic_object_get( const char *radio, const char *syspath, talk_t cfg, 
 	char *value;
 	const char *ptr;
 	const char *object;
+	register_file_t h;
 	char identify[NAME_MAX];
 	static char buffer[NAME_MAX];
 
@@ -114,7 +115,7 @@ const char *nic_object_get( const char *radio, const char *syspath, talk_t cfg, 
 		{
 			snprintf( identify, sizeof(identify), "%s%d", radio, i+1 );
 		}
-		value = register_pointer( NETCARD_PROJECT, identify );
+		value = register_value( NETCARD_PROJECT, identify );
 		if ( value != NULL && 0 == strcmp( syspath, value ) )
 		{
 			object = identify;
@@ -167,7 +168,7 @@ const char *nic_object_get( const char *radio, const char *syspath, talk_t cfg, 
 		{
 			continue;
 		}
-		value = register_pointer( NETCARD_PROJECT, identify );
+		value = register_value( NETCARD_PROJECT, identify );
 		if ( value == NULL || *value == '\0' )
 		{
 			object = identify;
@@ -178,7 +179,9 @@ const char *nic_object_get( const char *radio, const char *syspath, talk_t cfg, 
 
 	return NULL;
 binding:
-	register_set( NETCARD_PROJECT, object, syspath, strlen(syspath)+1, 50 );
+	h = register_open( NETCARD_PROJECT, O_RDWR, 0644, 0, 0 );
+	register_value_set( h, object, syspath, strlen(syspath)+1, REGISTER_VAR_SIZE );
+	register_close( h );
 found:
 	strncpy( buf, object, buflen );
 	return buf;
@@ -186,7 +189,11 @@ found:
 /* lte object free */
 void nic_object_free( const char *object )
 {
-	register_set( NETCARD_PROJECT, object, NULL, 1, 50 );
+	register_file_t h;
+
+	h = register_open( NETCARD_PROJECT, O_RDWR, 0644, 0, 0 );
+	register_value_set( h, object, NULL, 0, REGISTER_VAR_SIZE );
+	register_close( h );
 }
 
 

@@ -43,7 +43,7 @@ boole_t _service( obj_t this, param_t param )
 	{
 		if ( date_src == NULL )
 		{
-			date_src = register_pointer( LAND_PROJECT, "date_src" );
+			date_src = register_value( LAND_PROJECT, "date_src" );
 		}
 		if ( date_src != NULL && *date_src != '\0' )
 		{
@@ -57,13 +57,13 @@ boole_t _service( obj_t this, param_t param )
     ptr = json_string( cfg, "local" );
     if ( ptr == NULL || *ptr == '\0' )
     {
-    	netdev = register_pointer( LAND_PROJECT, "local_netdev" );
+    	netdev = register_value( LAND_PROJECT, "local_netdev" );
 	}
 	else
 	{
 		netdev = scall_string( local_interface, sizeof(local_interface), ptr, "netdev", NULL );
 	}
-    if ( netdev == NULL )
+    if ( netdev == NULL || *netdev == '\0' )
     {
         fault( "no local interface" );
         talk_free( cfg );

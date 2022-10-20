@@ -5,7 +5,6 @@
  */
 
 #include "land/skin.h"
-char *reg_date_src;
 
 
 
@@ -13,6 +12,7 @@ char *reg_date_src;
 static boole time_setting( const char *tt, const char *zone )
 {
     int i;
+	register_file_t h;
     struct tm tm_current;
 
     memset( &tm_current, 0, sizeof( tm_current ) );
@@ -33,7 +33,9 @@ static boole time_setting( const char *tt, const char *zone )
 		/* tell the hardware clock */
         shell( "hwclock -w >/dev/null 2>&1" );
         /* tell the system that time is ok */
-		string2reg( "date_src", reg_date_src, "set", 20 );
+		h = register_open( LAND_PROJECT, O_RDWR, 0644, 0, 0 );
+		register_value_set( h, "date_src", "set", sizeof("set"), 20 );
+		register_close( h );
         joint_calls( "date/modify", "set" );
     }
     return true;
@@ -43,6 +45,7 @@ static boole ntpclient_sync( const char* server, const char* zone )
 {
     boole ret;
     char path[PATH_MAX];
+	register_file_t h;
 
     if ( server == NULL || *server == '\0' )
     {
@@ -57,7 +60,9 @@ static boole ntpclient_sync( const char* server, const char* zone )
         info( "sync the system time from %s succeed", server );
         execute( 0, true, "hwclock -w" );
         /* tell the system that time is ok */
-		string2reg( "date_src", reg_date_src, "ntp", 20 );
+		h = register_open( LAND_PROJECT, O_RDWR, 0644, 0, 0 );
+		register_value_set( h, "date_src", "ntp", sizeof("ntp"), 20 );
+		register_close( h );
         joint_calls( "date/modify", "ntp" );
         /*
         if ( NULL != zone && strlen(zone) )
@@ -230,7 +235,7 @@ talk_t _status( obj_t this, param_t param )
 	char buffer[NAME_MAX];
 
 	ret = json_create( NULL );
-	ptr = register_pointer( LAND_PROJECT, "date_src" );
+	ptr = register_value( LAND_PROJECT, "date_src" );
 	if ( ptr != NULL && *ptr != '\0' )
 	{
 		json_set_string( ret, "source", ptr );

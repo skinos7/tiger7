@@ -118,7 +118,7 @@ boole_t _service( obj_t this, param_t param )
         {
             if ( date_src == NULL )
             {
-                date_src = register_pointer( LAND_PROJECT, "date_src" );
+                date_src = register_value( LAND_PROJECT, "date_src" );
             }
             if ( date_src != NULL && *date_src != '\0' )
             {
@@ -217,7 +217,7 @@ boole_t _service( obj_t this, param_t param )
 				/* point */
 				if ( date_src == NULL )
 				{
-					date_src = register_pointer( LAND_PROJECT, "date_src" );
+					date_src = register_value( LAND_PROJECT, "date_src" );
 				}
 				if ( date_src != NULL && *date_src != '\0' )
 				{

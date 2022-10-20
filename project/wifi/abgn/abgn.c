@@ -48,9 +48,9 @@ boole_t _pci_match( obj_t this, param_t param )
 		/* get the object */
 		object = wifi_object_get( ARADIO_COM, syspath, cfg, NULL, 0 );
 		/* set the netdev for object */
-		register_set( object, "vid", vid, strlen(vid), 10 );
-		register_set( object, "pid", pid, strlen(pid), 10 );
-		register_set( object, "netdev", netdev, strlen(netdev), 40 );
+		register_set( object, "vid", vid, strlen(vid)+1, 10 );
+		register_set( object, "pid", pid, strlen(pid)+1, 10 );
+		register_set( object, "netdev", netdev, strlen(netdev)+1, 40 );
 		/* set the other infomation */
 		json_set_string( dev, "name", "ath11ac-003c" );
 		json_set_string( dev, "object", object );
@@ -73,9 +73,9 @@ boole_t _pci_match( obj_t this, param_t param )
 		/* get the object */
 		object = wifi_object_get( NRADIO_COM, syspath, cfg, NULL, 0 );
 		/* set the netdev for object */
-		register_set( object, "vid", vid, strlen(vid), 10 );
-		register_set( object, "pid", pid, strlen(pid), 10 );
-		register_set( object, "netdev", netdev, strlen(netdev), 40 );
+		register_set( object, "vid", vid, strlen(vid)+1, 10 );
+		register_set( object, "pid", pid, strlen(pid)+1, 10 );
+		register_set( object, "netdev", netdev, strlen(netdev)+1, 40 );
 		/* set the other infomation */
 		json_set_string( dev, "name", "ath11bgna-0030" );
 		json_set_string( dev, "object", object );
@@ -124,9 +124,9 @@ boole_t _sdio_match( obj_t this, param_t param )
 		/* get the object */
 		object = wifi_object_get( ARADIO_COM, syspath, cfg, NULL, 0 );
 		/* set the netdev for object */
-		register_set( object, "vid", vid, strlen(vid), 10 );
-		register_set( object, "pid", pid, strlen(pid), 10 );
-		register_set( object, "netdev", netdev, strlen(netdev), 40 );
+		register_set( object, "vid", vid, strlen(vid)+1, 10 );
+		register_set( object, "pid", pid, strlen(pid)+1, 10 );
+		register_set( object, "netdev", netdev, strlen(netdev)+1, 40 );
 		/* set the other infomation */
 		json_set_string( dev, "name", "AP6275" );
 		json_set_string( dev, "object", object );
@@ -144,8 +144,8 @@ talk_t _options( obj_t this, param_t param )
 	const char *object;
 
 	object = param_string( param, 1 );
-	vid = register_pointer( object, "vid" );
-	pid = register_pointer( object, "pid" );
+	vid = register_value( object, "vid" );
+	pid = register_value( object, "pid" );
 	if ( vid == NULL || *vid == '\0' || pid == NULL || *pid == '\0' )
 	{
 		return NULL;
@@ -159,8 +159,8 @@ talk_t _hostapd_config( obj_t this, param_t param )
 	const char *object;
 
 	object = param_string( param, 1 );
-	vid = register_pointer( object, "vid" );
-	pid = register_pointer( object, "pid" );
+	vid = register_value( object, "vid" );
+	pid = register_value( object, "pid" );
 	if ( vid == NULL || *vid == '\0' || pid == NULL || *pid == '\0' )
 	{
 		return NULL;

@@ -24,7 +24,7 @@ boole_t _setup( obj_t this, param_t param )
 	object = obj_combine( this );
 
 	ret = tfalse;
-	netdev = register_pointer( object, "netdev" );
+	netdev = register_value( object, "netdev" );
 	if ( netdev != NULL && *netdev != '\0' )
 	{
 		info( "%s(%s) add to network frame", object, netdev );
@@ -47,7 +47,7 @@ boole_t _shut( obj_t this, param_t param )
 	}
 	object = obj_combine( this );
 
-	netdev = register_pointer( object, "netdev" );
+	netdev = register_value( object, "netdev" );
 	if ( netdev != NULL && *netdev != '\0' )
 	{
 		/* tell the network layer */
@@ -73,7 +73,7 @@ talk_t _netdev( obj_t this, param_t param )
 	}
 	object = obj_combine( this );
 
-	netdev = register_pointer( object, "netdev" );
+	netdev = register_value( object, "netdev" );
 	if ( netdev == NULL || *netdev == '\0' )
 	{
 		return NULL;
@@ -82,8 +82,9 @@ talk_t _netdev( obj_t this, param_t param )
 }
 boole_t _up( obj_t this, param_t param )
 {
+	int fd;
+	talk_t ret;
 	talk_t cfg;
-    struct stat st;
     const char *obj;
 	const char *ptr;
 	const char *radio;
@@ -99,13 +100,13 @@ boole_t _up( obj_t this, param_t param )
 	object = obj_combine( this );
 
 	/* get the radio */
-	radio = register_pointer( object, "radio" );
+	radio = register_value( object, "radio" );
 	if ( radio == NULL || *radio == '\0' )
 	{
 		return tfalse;
 	}
 	/* get the netdev */
-	netdev = register_pointer( object, "netdev" );
+	netdev = register_value( object, "netdev" );
 	if ( netdev == NULL || *netdev == '\0' )
 	{
 		return tfalse;
@@ -118,15 +119,18 @@ boole_t _up( obj_t this, param_t param )
 	}
 
     /* ignore it if up already */
-    snprintf( path, sizeof(path), PROJECT_TMP_DIR"/.%s_up_%s", COM_ID, netdev );
-    if ( stat( path, &st ) == 0 )
+	project_var_path( path, sizeof(path), "%s-%s.up", COM_ID, netdev );
+	fd = lock_open( path, O_RDWR|O_CREAT|O_EXCL, 0666, -1 );
+    if ( fd < 0 )
     {
 		info( "%s(%s) already up", object, netdev );
-		return tfalse;
+		talk_free( cfg );
+		return ttrue;
     }
     /* up the deivce */
 	info( "%s(%s) up", object, netdev );
 
+	ret = tfalse;
     /* stop the hostapd */
     sdelete( "%s-hostapd", radio );
     /* status[enable/disable]  */
@@ -137,7 +141,9 @@ boole_t _up( obj_t this, param_t param )
         {
             xexecute( 0, 1, "ifconfig %s down", netdev );
         }
-		return ttrue;
+		ret = ttrue;
+		lock_close( fd );
+		unlink( path );
     }
 	else
 	{
@@ -145,14 +151,16 @@ boole_t _up( obj_t this, param_t param )
         {
             xexecute( 0, 1, "ifconfig %s up", netdev );
         }
+		/* mark the up state */
+		dprintf( fd, "%s",	uptime_desc( NULL, 0 ) );
+		lock_close( fd );
 	}
 
 	/* start the hostapd */
 	sstart( radio, "hostapd", NULL, "%s-hostapd", radio );
-	/* mark the up state */
-	string2file( path, uptime_desc( NULL, 0 ) );
 	
-    return ttrue;
+	talk_free( cfg );
+    return ret;
 }
 boole_t _down( obj_t this, param_t param )
 {
@@ -169,18 +177,19 @@ boole_t _down( obj_t this, param_t param )
 	object = obj_combine( this );
 
 	/* get the netdev */
-	netdev = register_pointer( object, "netdev" );
+	netdev = register_value( object, "netdev" );
 	if ( netdev == NULL || *netdev == '\0' )
 	{
 		return tfalse;
 	}
+	/* delete the mark file */
+	project_var_path( path, sizeof(path), "%s-%s.up", COM_ID, netdev );
+	unlink( path );
+
     /* down the deivce */
 	if ( netdev != NULL && netdev_flags( netdev, IFF_BROADCAST ) > 0 )
 	{
 		info( "%s(%s) down", object, netdev );
-		/* delete the mark file */
-		snprintf( path, sizeof(path), PROJECT_TMP_DIR"/.%s_up_%s", COM_ID, netdev );
-		unlink( path );
 		/* down the netdev */
 		if ( netdev_flags( netdev, IFF_UP ) > 0 )
 		{
@@ -218,7 +227,7 @@ talk_t _status( obj_t this, param_t param )
 	object = obj_combine( this );
 
 	/* get the netdev */
-	netdev = register_pointer( object, "netdev" );
+	netdev = register_value( object, "netdev" );
 	if ( netdev == NULL || *netdev == '\0' )
 	{
 		return NULL;
@@ -267,7 +276,7 @@ talk_t _status( obj_t this, param_t param )
 		json_set_string( ret, "mac", mac );
 	}
     /* get uptime and livetime_string */
-    snprintf( path, sizeof(path), PROJECT_TMP_DIR"/.%s_up_%s", COM_ID, netdev );
+	project_var_path( path, sizeof(path), "%s-%s.up", COM_ID, netdev );
     if ( file2string( path, buffer, sizeof(buffer) ) > 0 )
     {
         json_set_string( ret, "ontime", buffer );
@@ -358,7 +367,7 @@ talk_t _stalist( obj_t this, param_t param )
 		return NULL;
 	}
 	object = obj_combine( this );
-	netdev = register_pointer( object, "netdev" );
+	netdev = register_value( object, "netdev" );
 	if ( netdev == NULL || *netdev == '\0' )
 	{
 		return NULL;

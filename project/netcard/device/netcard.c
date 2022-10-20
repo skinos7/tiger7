@@ -17,7 +17,7 @@ boole_t _setup( obj_t this, param_t param )
 
 	object = obj_combine( this );
 	/* 获取模块硬件信息 */
-	archdev = register_pointer( object, "archdev" );
+	archdev = register_value( object, "archdev" );
 	if ( archdev == NULL || *archdev == '\0' )
 	{
         fault( "%s cannot find archdev", object );
@@ -60,8 +60,8 @@ talk_t _netdev( obj_t this, param_t param )
 	const char *netdev;
 
     object = obj_combine( this );
-	netdev = register_pointer( object, "netdev" );
-	if ( netdev == NULL )
+	netdev = register_value( object, "netdev" );
+	if ( netdev == NULL || *netdev == '\0' )
 	{
 		return NULL;
 	}
@@ -105,7 +105,7 @@ boole_t _up( obj_t this, param_t param )
 
 	object = obj_combine( this );
 	/* get the netdev */
-	netdev = register_pointer( object, "netdev" );
+	netdev = register_value( object, "netdev" );
 	if ( netdev == NULL || *netdev == '\0' )
 	{
 		return tfalse;
@@ -129,7 +129,7 @@ boole_t _down( obj_t this, param_t param )
 
 	object = obj_combine( this );
 	/* get the netdev */
-	netdev = register_pointer( object, "netdev" );
+	netdev = register_value( object, "netdev" );
 	if ( netdev == NULL || *netdev == '\0' )
 	{
 		return tfalse;
@@ -180,7 +180,7 @@ boole_t _connected( obj_t this, param_t param )
 	if ( ifname != NULL && strstr( ifname, WAN_COM ) != NULL )
 	{
 		/* get the netdev */
-		netdev = register_pointer( object, "netdev" );
+		netdev = register_value( object, "netdev" );
 		if ( netdev == NULL || *netdev == '\0' )
 		{
 			return tfalse;

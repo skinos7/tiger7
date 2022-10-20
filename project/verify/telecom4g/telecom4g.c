@@ -172,10 +172,10 @@ boole_t _service( obj_t this, param_t param )
 {
 	int i;
 	boole r;
-	int *iptr;
 	talk_t ret;
 	talk_t cfg;
 	talk_t ifnamest;
+	const int *iptr;
 	const char *object;
 	const char *ifname;
 	const char *remote;
@@ -269,9 +269,9 @@ boole_t _service( obj_t this, param_t param )
 /* Typically used for show the status */
 talk_t _status( obj_t this, param_t param )
 {
-	int *iptr;
 	talk_t ret;
 	talk_t cfg;
+	const int *iptr;
 	const char *ptr;
 	const char *object;
 
@@ -292,8 +292,11 @@ talk_t _status( obj_t this, param_t param )
 	{
 		json_set_string( ret, "status", "unregistered" );
 		/* 获到注册失败次数 */
-		iptr = register_pointer( object, "regfailed" );
-		json_set_number( ret, "failed", *iptr );
+		iptr = register_value( object, "regfailed" );
+		if ( iptr != NULL )
+		{
+			json_set_number( ret, "failed", *iptr );
+		}
 	}
 
 	/* 释放空间并退回 */
