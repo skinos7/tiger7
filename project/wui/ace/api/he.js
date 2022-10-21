@@ -314,6 +314,57 @@ var he =
         // 设置正在重启的标志位
         window.rebooting = true;
         he.cmd(cmds, null, function () {});
+    },
+ 
+    /*
+     * 升级后重启路由器，屏显示进度条
+     * @param {any} args 
+     * args.title
+     * args.restartTime
+     * args.href
+     */
+    upgrade_reboot: function( args )
+    {
+        var timeout;
+        var arg = args || {};
+
+        if ( arg.restartTime )
+        {
+            timeout = arg.restartTime;
+        }
+        else if ( window.custom && window.custom.upgrade_wait > 0 )
+        {
+            timeout = window.custom.upgrade_wait;
+        }
+        else
+        {
+            timeout = 120;
+        }
+        // 显示进度条
+        page.progress({
+            title: arg.title || $.i18n('Restarting...'),
+            sec: timeout,
+            callback: function ()
+            {
+                page.alert( {message:arg.hint||$.i18n('Make sure that the device is reconnected')} ).then(function () {
+                    if ( arg.href )
+                    {
+                        window.location.href = arg.href;
+                    }
+                    else
+                    {
+                        // 进度条读完之后, 刷新页面
+                        window.location.reload(true);
+                    }
+                })
+            }
+        });
+        // 执行cmds中的命令
+        var cmds = arg.cmds || [];
+        cmds.push('machine.restart');
+        // 设置正在重启的标志位
+        window.rebooting = true;
+        he.cmd(cmds, null, function () {});
     }
   
 

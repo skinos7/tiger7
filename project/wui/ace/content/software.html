@@ -248,7 +248,7 @@
                     {
                       if ( result )
                       {
-                        he.reboot( { title: $.i18n('Update successfully, now restarting...'), hint:$.i18n('Make sure that the device is reconnected'), restartTime:wait } );
+                        he.upgrade_reboot( { title: $.i18n('Update successfully, now restarting...'), hint:$.i18n('Make sure that the device is reconnected'), restartTime:wait } );
                       }
                       else
                       {
@@ -353,7 +353,7 @@
                           {
                             if ( result )
                             {
-                              he.reboot( { title: $.i18n('Upgrade online successfully, now restarting...'), hint:$.i18n('Make sure that the device is reconnected'), restartTime:window.custom.upgrade_wait } );
+                              he.upgrade_reboot( { title: $.i18n('Upgrade online successfully, now restarting...'), hint:$.i18n('Make sure that the device is reconnected') } );
                             }
                             else
                             {
@@ -407,7 +407,7 @@
           page.confirm( { message: $.i18n('Are you sure you want to clear all install FPK and default the system configure') } ).then( function(result){
               if ( result )
               {
-                  he.reboot( { title: $.i18n('Restarting...'), hint:$.i18n('Make sure that the device is reconnected'), restartTime:window.custom.upgrade_wait, cmds:["arch@data.factory"] } );
+                  he.upgrade_reboot( { cmds:["arch@data.factory"] } );
               }
           });
       });

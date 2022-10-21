@@ -652,7 +652,7 @@
               });
               // 恢复出厂配置
               $('#factory').on(ace.click_event, function () {
-                    he.reboot( { title: $.i18n('Restarting...'), hint:$.i18n('Make sure that the device is reconnected'), restartTime:window.custom.upgrade_wait, cmds:["arch@data.factory"] } );
+                    he.upgrade_reboot( { cmds:["arch@data.factory"] } );
               });
 
 
