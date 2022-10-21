@@ -189,8 +189,8 @@ kernel_dep:
 		fi \
 	fi
 kernel: kernel_dep
-	if [ "X${obj}" != "X" ]; then \
-		cd ${gSDK_DIR};make package/${obj}/compile V=s; \
+	if [ "X${COMPILE_PROJECT}" != "X" ]; then \
+		cd ${gSDK_DIR};make V=s ${COMPILE_PROJECT}; \
 	else \
 		cd ${gSDK_DIR};make V=s; \
 	fi

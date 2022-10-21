@@ -49,7 +49,8 @@ mv /tmp/etcbk/* /etc
 rm -fr /tmp/etcbk
 # make /lib/firmware can write at the no overlay system, some driver need write here(MT7603/MT7663)
 if [ -d /lib/firmware ]; then
-    if [ `ls -A /lib/firmware` != "" ]; then
+    tmp=`ls -A /lib/firmware`
+    if [ "X$tmp" != "X" ]; then
         mkdir /tmp/firmwarebk
         cp -R /lib/firmware/* /tmp/firmwarebk
         mount -n -t tmpfs tmpfs /lib/firmware
@@ -173,11 +174,6 @@ route add -net 127.0.0.0 netmask 255.255.255.0 dev lo
 ln -s /dev/log /var/syslogd
 syslogd -L -O /var/bootup.syslog
 
-# mdev
-mdev -s
-echo "/sbin/hotplug-call" > /proc/sys/kernel/hotplug
-
 # run the land
 . /etc/init.d/land;start
-
 

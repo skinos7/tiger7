@@ -1,0 +1,89 @@
+diff -uNr linux-3.10.108/drivers/net/wireless/mtk/mt7663_603/mt_wifi/embedded/common/cmm_cmd.c linux-3.10.108b/drivers/net/wireless/mtk/mt7663_603/mt_wifi/embedded/common/cmm_cmd.c
+--- linux-3.10.108/drivers/net/wireless/mtk/mt7663_603/mt_wifi/embedded/common/cmm_cmd.c	2022-10-17 11:24:54.709706045 +0800
++++ linux-3.10.108b/drivers/net/wireless/mtk/mt7663_603/mt_wifi/embedded/common/cmm_cmd.c	2022-10-17 11:25:34.629865875 +0800
+@@ -295,8 +295,16 @@
+ 	}
+ 	pApCliTab->ApcliInfStat.Enable = apcliEn;
+ 	/* Change WPS State */
++
++/* add by dimmalex */
++#ifdef WSC_AP_SUPPORT
++
+ 	pApCliTab->wdev.WscControl.WscState = WSC_STATE_START;
+ 	pApCliTab->wdev.WscControl.WscStatus = STATUS_WSC_START_ASSOC;
++
++/* add by dimmalex */
++#endif
++
+ 	return NDIS_STATUS_SUCCESS;
+ }
+ 
+diff -uNr linux-3.10.108/drivers/net/wireless/mtk/mt7663_603/mt_wifi/embedded/fsm/sta_mgmt_assoc.c linux-3.10.108b/drivers/net/wireless/mtk/mt7663_603/mt_wifi/embedded/fsm/sta_mgmt_assoc.c
+--- linux-3.10.108/drivers/net/wireless/mtk/mt7663_603/mt_wifi/embedded/fsm/sta_mgmt_assoc.c	2022-10-17 11:21:15.717012498 +0800
++++ linux-3.10.108b/drivers/net/wireless/mtk/mt7663_603/mt_wifi/embedded/fsm/sta_mgmt_assoc.c	2022-10-17 11:23:55.697460955 +0800
+@@ -2051,6 +2051,9 @@
+ 	if (!pStaCfg)
+ 		return;
+ 
++/* add by dimmalex */
++#ifdef WSC_AP_SUPPORT
++
+ 	{
+ 		struct wifi_dev *wdev = &pStaCfg->wdev;
+ 		WSC_CTRL *wsc_ctrl = &wdev->WscControl;
+@@ -2061,6 +2064,9 @@
+ 		}
+ 	}
+ 
++/* add by dimmalex */
++#endif
++
+ 	if (CliIdx == NON_REPT_ENTRY)
+ 		STA_STATUS_SET_FLAG(pStaCfg, fSTA_STATUS_APCLI_MAIN_LINK_DOWN_IN_PROGRESS);
+ 
+diff -uNr linux-3.10.108/drivers/net/wireless/mtk/mt7663_603/mt_wifi/embedded/fsm/sta_mgmt_auth.c linux-3.10.108b/drivers/net/wireless/mtk/mt7663_603/mt_wifi/embedded/fsm/sta_mgmt_auth.c
+--- linux-3.10.108/drivers/net/wireless/mtk/mt7663_603/mt_wifi/embedded/fsm/sta_mgmt_auth.c	2022-10-17 11:10:07.791511370 +0800
++++ linux-3.10.108b/drivers/net/wireless/mtk/mt7663_603/mt_wifi/embedded/fsm/sta_mgmt_auth.c	2022-10-17 11:23:40.065394144 +0800
+@@ -345,6 +345,9 @@
+ 	if (!pStaCfg)
+ 		return;
+ 
++/* add by dimmalex */
++#ifdef WSC_AP_SUPPORT
++
+ 	{
+ 		struct wifi_dev *wdev = &pStaCfg->wdev;
+ 		WSC_CTRL *wsc_ctrl = &wdev->WscControl;
+@@ -355,6 +358,9 @@
+ 		}
+ 	}
+ 
++/* add by dimmalex */
++#endif
++
+ 	if (CliIdx == NON_REPT_ENTRY)
+ 		STA_STATUS_SET_FLAG(pStaCfg, fSTA_STATUS_APCLI_MAIN_LINK_DOWN_IN_PROGRESS);
+ 
+diff -uNr linux-3.10.108/drivers/net/wireless/mtk/mt7663_603/mt_wifi/embedded/fsm/sta_mgmt_sync.c linux-3.10.108b/drivers/net/wireless/mtk/mt7663_603/mt_wifi/embedded/fsm/sta_mgmt_sync.c
+--- linux-3.10.108/drivers/net/wireless/mtk/mt7663_603/mt_wifi/embedded/fsm/sta_mgmt_sync.c	2022-10-17 11:14:17.148071468 +0800
++++ linux-3.10.108b/drivers/net/wireless/mtk/mt7663_603/mt_wifi/embedded/fsm/sta_mgmt_sync.c	2022-10-17 11:23:48.425429977 +0800
+@@ -880,9 +880,16 @@
+ 		return FALSE;
+ 	}
+ 
+-	if ((ScanTab != NULL) &&
+-			((wdev->WscControl.WscConfMode == WSC_DISABLE) ||
+-			 (wdev->WscControl.bWscTrigger == FALSE))) {
++    /* modify by dimmalex */
++	if ((ScanTab != NULL)
++#ifdef WSC_AP_SUPPORT
++			&& ((wdev->WscControl.WscConfMode == WSC_DISABLE) || (wdev->WscControl.bWscTrigger == FALSE))
++#endif
++    ) {
++	//if ((ScanTab != NULL) &&
++	//		((wdev->WscControl.WscConfMode == WSC_DISABLE) ||
++	//		 (wdev->WscControl.bWscTrigger == FALSE))) {
++
+ 		Bssidx = BssTableSearch(ScanTab, ie_list->Bssid, ie_list->Channel);
+ 		if (Bssidx != BSS_NOT_FOUND) {
+ 			pInBss = &ScanTab->BssEntry[Bssidx];
