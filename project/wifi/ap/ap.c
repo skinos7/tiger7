@@ -187,7 +187,7 @@ boole_t _down( obj_t this, param_t param )
 		return tfalse;
 	}
 	/* delete the mark file */
-	project_var_path( path, sizeof(path), "%s-%s.up", COM_ID, netdev );
+	var2path( path, sizeof(path), "%s-%s.up", COM_ID, netdev );
 	unlink( path );
 
     /* down the deivce */
@@ -280,7 +280,7 @@ talk_t _status( obj_t this, param_t param )
 		json_set_string( ret, "mac", mac );
 	}
     /* get uptime and livetime_string */
-	project_var_path( path, sizeof(path), "%s-%s.up", COM_ID, netdev );
+	var2path( path, sizeof(path), "%s-%s.up", COM_ID, netdev );
     if ( file2string( path, buffer, sizeof(buffer) ) > 0 )
     {
         json_set_string( ret, "ontime", buffer );

@@ -565,7 +565,7 @@
         {
           he.save( cmd ).then( function(){
             page.alert( {message:$.i18n('Make sure that the device is reconnected')} );
-            cfg_load();
+            location.reload();
           });
         }
       });

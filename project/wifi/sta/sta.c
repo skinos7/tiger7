@@ -432,7 +432,7 @@ boole_t _up( obj_t this, param_t param )
 	{
 		if ( netdev_flags( netdev, IFF_UP ) > 0 )
 		{
-			xexecute( 0, 1, "ifconfig %s down", netdev );
+			//xexecute( 0, 1, "ifconfig %s down", netdev ); the sta interface is radio interface, the ssid cannot work when down it
 		}
 		ret = ttrue;
 		lock_close( fd );
@@ -499,7 +499,7 @@ boole_t _down( obj_t this, param_t param )
 		return tfalse;
 	}
 	/* delete the mark file */
-	project_var_path( path, sizeof(path), "%s-%s.up", COM_ID, netdev );
+	var2path( path, sizeof(path), "%s-%s.up", COM_ID, netdev );
 	unlink( path );
 	
     /* down the deivce */
@@ -632,7 +632,7 @@ talk_t _status( obj_t this, param_t param )
 		json_set_string( ret, "mac", mac );
 	}
     /* get uptime and livetime_string */
-	project_var_path( path, sizeof(path), "%s-%s.up", COM_ID, netdev );
+	var2path( path, sizeof(path), "%s-%s.up", COM_ID, netdev );
     if ( file2string( path, buffer, sizeof(buffer) ) > 0 )
     {
         json_set_string( ret, "ontime", buffer );
