@@ -18,6 +18,7 @@ boole_t _setup( obj_t this, param_t param )
     const char *obj;
     const char *object;
 	const char *rootdev;
+	const char *txpower;
 	hp_mac_struct macst;
 	char mac[NAME_MAX];
 	char nmac[NAME_MAX];
@@ -42,6 +43,8 @@ boole_t _setup( obj_t this, param_t param )
 	{
 		xshell( "ifconfig %s up", rootdev );
 	}
+	/* get the txpower */
+	txpower = json_string( radio, "txpower" );
 
 	/* get the mac offset */
 	if ( netdev_info( rootdev, NULL, 0, NULL, 0, NULL, 0, mac, sizeof(mac) ) != 0 )
@@ -49,6 +52,14 @@ boole_t _setup( obj_t this, param_t param )
 		sgets_string( mac, sizeof(mac), MACHINE_COM, "mac" );
 	}
 	string2mac( mac, &macst );
+	if ( txpower != NULL && strstr( txpower, "dBm" ) != NULL )
+	{
+		int p = atoi( txpower );
+		if ( p >= 0 && p <= 100 )
+		{
+			shell( "iwconfig %s txpower %d", rootdev, p );
+		}
+	}
 
     /* add the ssid and tell the network layer */
 	for ( i = 0; i < 4; i++ )
@@ -82,8 +93,16 @@ boole_t _setup( obj_t this, param_t param )
 				xshell( "ifconfig %s hw ether %s", netdev, mac );
 				xshell( "ifconfig %s up", netdev );
 			}
-			/* tell the network layer */
 			info( "%s(%s) add to network frame", compath, netdev );
+			if ( txpower != NULL && strstr( txpower, "dBm" ) != NULL )
+			{
+				int p = atoi( txpower );
+				if ( p >= 0 && p <= 100 )
+				{
+					shell( "iwconfig %s txpower %d", netdev, p );
+				}
+			}
+			/* tell the network layer */
 			scalls( NETWORK_COM, "add", "%s,%s", compath, netdev );
 			talk_free( cfg );
 		}
@@ -394,6 +413,7 @@ boole_t _hostapd( obj_t this, param_t param )
 	const char *netdev;
 	const char *rootdev;
 	const char *drvcom;
+	const char *txpower;
 	struct stat st;
     char mac[NAME_MAX];
 	char path[PATH_MAX];
@@ -675,6 +695,8 @@ boole_t _hostapd( obj_t this, param_t param )
     {
         fprintf( fp, "dtim_period=%s\n", ptr );
     }
+	/* get the txpower */
+	txpower = json_string( radio, "txpower" );
 	/* channel */
     if ( channel != NULL && *channel != '\0' && atoi(channel) != 0 )
     {
@@ -712,6 +734,14 @@ boole_t _hostapd( obj_t this, param_t param )
         {
             continue;
         }
+		if ( txpower != NULL && strstr( txpower, "dBm" ) != NULL )
+		{
+			int p = atoi( txpower );
+			if ( p >= 0 && p <= 100 )
+			{
+				shell( "iwconfig %s txpower %d", netdev, p );
+			}
+		}
 		/* get the configure */
 		cfg = config_sget( compath, NULL );
 		if ( cfg == NULL )

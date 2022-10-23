@@ -311,7 +311,15 @@
                    </label>
                </div>
            </div>
-
+           <!-- TTL -->
+           <div class="form-group">
+             <label class="col-sm-3 control-label no-padding-right" data-i18n="TTL"></label>
+             <div class="col-sm-9">
+               <div class="clearfix">
+                 <input type="text" id="ttl" class="col-xs-10 col-sm-5" maxlength="128" />
+               </div>
+             </div>
+           </div>
 
 
 
@@ -628,6 +636,7 @@
           $('#dns2').val(wan.static.dns2);
         }
         $('#masq').prop('checked', able2boole(wan.masq));
+        $('#ttl').val( wan.ttl||'' );
         $('#mode').unbind('change').change(function (e) {
           var type = e.target.value;
           switch (type)
@@ -958,6 +967,8 @@
             }
           }
           wan.masq = boole2able( $('#masq').prop('checked') );
+          wan.ttl = $('#ttl').val();
+
           /* IPV6 */
           if ( wan.method )
           {

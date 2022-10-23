@@ -307,6 +307,15 @@
                     </label>
                 </div>
             </div>
+            <!-- TTL -->
+            <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="TTL"></label>
+              <div class="col-sm-9">
+                <div class="clearfix">
+                  <input type="text" id="ttl" class="col-xs-10 col-sm-5" maxlength="128" />
+                </div>
+              </div>
+            </div>
       
 
 
@@ -749,6 +758,7 @@
           $('#dns2').val(lte.static.dns2);
         }
         $('#masq').prop('checked', able2boole(lte.masq));
+        $('#ttl').val( lte.ttl||'' );
         $('#mode').unbind('change').change(function (e) {
           var type = e.target.value;
           switch (type)
@@ -1114,6 +1124,7 @@
             }
           }
           lte.masq = boole2able( $('#masq').prop('checked') );
+          lte.ttl = $('#ttl').val();
 
           /* IPV6 */
           if ( lte.method )

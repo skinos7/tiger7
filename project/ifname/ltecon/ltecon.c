@@ -1065,6 +1065,7 @@ boole_t _online( obj_t this, param_t param )
 	talk_t cfg;
 	talk_t value;
 	const int *tid;
+	const char *ttl;
 	const char *ptr;
 	const char *object;
 	const char *ifdev;
@@ -1163,10 +1164,13 @@ boole_t _online( obj_t this, param_t param )
 		{
 			ptr = "500";
 		}
-		shell( "ifconfig %s txqueuelen %s", netdev, ptr );
+		txqueue_set_ifname( object, netdev, ptr );
 	}
-	iptables( "-t mangle -D POSTROUTING -o %s -p tcp -m tcp --tcp-flags SYN,RST SYN -m tcpmss --mss 1400:1536 -j TCPMSS --clamp-mss-to-pmtu", netdev );
-	iptables( "-t mangle -A POSTROUTING -o %s -p tcp -m tcp --tcp-flags SYN,RST SYN -m tcpmss --mss 1400:1536 -j TCPMSS --clamp-mss-to-pmtu", netdev );
+	pmtu_adjust_ifname( object, netdev );
+
+	/* ttl */
+	ttl = json_string( cfg, "ttl" );
+	ttl_set_ifname( object, netdev, ttl );
 
 	/* tid route table init */
 	tid = register_pointer( object, "tid" );
