@@ -5,7 +5,11 @@
         "20221020b":"modify the init step",
         "20221020c":"modify the register interface to support readonly for land project",
         "20221020d":"webpage can init the io",
-        "20221020e":"fix the upgrade online cannot restart that is a webpage error"
+        "20221020e":"fix the upgrade online cannot restart that is a webpage error",
+        "20221020f":"move ttl setting to ifname page",
+        "20221020j":"fix the factory upgrade and test",
+        "20221020h":"add the gather upgrade function",
+        "20221020i":"io agent support timer low/high"
     },
     "v7.2.1012":
     {

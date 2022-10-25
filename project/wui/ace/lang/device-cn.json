@@ -4,6 +4,7 @@
 	"Input new device name":"输入新的设备名称",
 	"Custom Model":"客户型号",
 	"Model":"硬件型号",
+	"Date Code":"生产日期",
 	"MAC Address":"MAC地址",
 	"Current Time":"当前时间",
 	"Time Source":"时间来源",

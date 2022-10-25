@@ -39,7 +39,8 @@ gSCOPE := std
 endif 
 # Get the date
 #gPUBLISH ?= $(shell date +%m%d%y)
-gPUBLISH ?= v7.2.1023
+gPUBLISH ?= v7.2.1022
+#gPUBLISH ?= v7.2.1020
 gVERSION ?= $(gPUBLISH)
 # Name for compiler
 gMAKER ?= dimmalex@gmail.com

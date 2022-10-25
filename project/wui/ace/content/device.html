@@ -22,6 +22,13 @@
           <div id="model_string" class="col-xs-10 col-sm-5 form-right-text"></div>
         </div>
     </div>
+    <!-- 生产批号 -->
+    <div class="form-group" style="display: none;">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Date Code"></label>
+        <div class="col-sm-9">
+          <div id="datecode" class="col-xs-10 col-sm-5 form-right-text"></div>
+        </div>
+    </div>
     <!-- MAC地址 -->
     <div class="form-group">
         <label class="col-sm-3 control-label no-padding-right" data-i18n="MAC Address"></label>
@@ -381,6 +388,11 @@
       if ( !wuimenu || wuimenu.model != "disable" )
       {
           $("#model_string").closest('.form-group').show();
+      }
+      if ( window.machine_status.datecode )
+      {
+          $('#datecode').text(window.machine_status.datecode);
+          $("#datecode").closest('.form-group').show();
       }
       $('#mac').text(window.machine.mac);
 
