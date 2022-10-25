@@ -1,5 +1,5 @@
 {
-    "v7.2.1020":
+    "v7.2.1022":
     {
         "20221020":"move the storege media to arch@hotplug",
         "20221020b":"modify the init step",
@@ -9,7 +9,8 @@
         "20221020f":"move ttl setting to ifname page",
         "20221020j":"fix the factory upgrade and test",
         "20221020h":"add the gather upgrade function",
-        "20221020i":"io agent support timer low/high"
+        "20221020i":"io agent support timer low/high",
+        "20221020j":"fix factory test and upgrade function"
     },
     "v7.2.1012":
     {
