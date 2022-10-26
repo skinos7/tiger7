@@ -52,7 +52,7 @@ done
 
 
 
-for tmp in smtk2-mt7621-v520-greatwall smtk2-mt7621-v520-zebra
+for tmp in smtk2-mt7621-v520-greatwall smtk2-mt7621-v520-zebra  smtk2-mt7621-v520-factory
 do
     make gBOARDID=${tmp} pid
     make test
@@ -78,6 +78,17 @@ done
 
 
 
+for tmp in smtk2-mt7621-h721-factory
+do
+    make gBOARDID=${tmp} pid
+    make test
+    make clean
+    make distclean
+    make dep
+    make
+    make sz
+    make ftp
+done
 for tmp in smtk2-mt7621-h721
 do
     make gBOARDID=${tmp} pid
