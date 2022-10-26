@@ -51,13 +51,13 @@ Execute the following command in the top-level directory of the development envi
 make pid gBOARDID=<product complete model identify>
 
 # For D218 products, enter the following command to specify the product model:
-# make pid gBOARDID=mtk-mt7628-d218
+# make pid gBOARDID=mtk2-mt7628-d218
 
 # For products such as D228, enter the following command to specify the product model:
-# make pid gBOARDID=mtk-mt7621-d228
+# make pid gBOARDID=mtk2-mt7621-d228
 
 # For example, for V520 products, enter the following command to specify the product model:
-# make pid gBOARDID=mtk-mt7621-v520
+# make pid gBOARDID=mtk2-mt7621-v520
 ````
 Then execute the following instructions to update the compilation environment and embedded application software corresponding to the product model
 ```shell
@@ -172,13 +172,13 @@ make ubuntu_preset
 make pid gBOARDID=产品完整型号
 
 # 如D218的产品输入以下指令指定产品型号:
-# make pid gBOARDID=mtk-mt7628-d218
+# make pid gBOARDID=mtk2-mt7628-d218
 
 # 如D228的产品输入以下指令指定产品型号:
-# make pid gBOARDID=mtk-mt7621-d228
+# make pid gBOARDID=mtk2-mt7621-d228
 
 # 如V520的产品输入以下指令指定产品型号：
-# make pid gBOARDID=mtk-mt7621-v520
+# make pid gBOARDID=mtk2-mt7621-v520
 ```
 之后再执行以下指令来更新产品型号对应的编译环境及嵌入式应用软件
 ```shell
