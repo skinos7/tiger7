@@ -146,7 +146,6 @@ boot: boot_dep
 	fi
 boot_install:
 	if [ -d ${gpBOOT_DIR} ]; then \
-		make -C ${gpBOOT_DIR} install; \
 		cd ${gBUILD_DIR} && firmware-encode ${gHARDWARE}_${gCUSTOM}_${gSCOPE}.bb ${gHARDWARE}_${gCUSTOM}_${gSCOPE}.uboot; \
 		cd ${gBUILD_DIR} && sz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.bb; \
 	fi
