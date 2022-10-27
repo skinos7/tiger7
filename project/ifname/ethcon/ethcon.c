@@ -487,10 +487,12 @@ boole_t _service( obj_t this, param_t param )
 	ifdev = register_pointer( object, "ifdev" );
     if ( ifdev == NULL || *ifdev == '\0' )
     {
+		fault( "cannot found %s ifdev", object );
         return tfalse;
     }
 	if ( com_sexist( ifdev, NULL ) == false )
 	{
+		fault( "ifdev %s inexistence", ifdev );
         return tfalse;
 	}
 
@@ -498,6 +500,7 @@ boole_t _service( obj_t this, param_t param )
     cfg = config_get( this, NULL ); 
     if ( cfg == NULL )
     {
+		fault( "cannot found %s configure", object );
     	return terror;
     }
 	mode = json_string( cfg, "mode" );
@@ -511,10 +514,15 @@ boole_t _service( obj_t this, param_t param )
 	{
 		method = "disable";
 	}
+	/* disable the method when ppp mode */
+	if ( mode != NULL && 0 == strcmp( mode, "ppp" ) )
+	{
+		method = "disable";
+	}
 	register_set( object, "method", method, strlen(method)+1, 20 );
 
 	/* get the count */
-	ret = tfalse;
+	ret = ttrue;
 	connect_failed = 0;
 	reg_connect_failed = register_pointer( object, "connect_failed" );
 	if ( reg_connect_failed != NULL )
@@ -529,23 +537,25 @@ boole_t _service( obj_t this, param_t param )
 		}
 		else if ( connect_failed == 15 )
 		{
-			ret = ttrue;
+			ret = terror;
 		}
 		else if ( (connect_failed%24) == 0 )
 		{
-			ret = ttrue;
+			ret = terror;
 		}
 		warn( "%s cannot connect %d times", object, connect_failed );
 	}
 	connect_failed++;
 	int2register( object, "connect_failed", reg_connect_failed, connect_failed );
-	if ( ret == ttrue )
+	if ( ret == terror )
 	{
 		if ( com_sexist( ifdev, "reset" ) == true )
 		{
-			talk_free( cfg );
-			return scall( ifdev, "reset", NULL );
+			ret = scall( ifdev, "reset", NULL );
 		}
+		talk_free( cfg );
+		sleep( 5 );
+		return ret;
 	}
 
     /* ifdev up take this cfg */
@@ -555,9 +565,11 @@ boole_t _service( obj_t this, param_t param )
     {
         warn( "%s up failed", ifdev );
         talk_free( cfg );
-        sleep( 3 );
+        sleep( 5 );
         return tfalse;
     }
+
+
 
     /* get the netdev */
 	netdev = register_value( ifdev, "netdev" );
@@ -588,7 +600,7 @@ boole_t _service( obj_t this, param_t param )
 	/* check connected */
 	ready = 0;
 	check = 0;
-	while( check < 30 )
+	while( check < 60 )
 	{
 		if ( scallt( ifdev, "connected", cfg ) == ttrue )
 		{
@@ -605,7 +617,7 @@ boole_t _service( obj_t this, param_t param )
 		check++;
 		sleep( 1 );
 	}
-	if ( check >= 30 )
+	if ( check >= 60 )
 	{
 		warn( "%s connect timeout", ifdev );
 		scall( ifdev, "down", NULL );

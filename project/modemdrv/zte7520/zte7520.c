@@ -10,217 +10,294 @@
 
 
 
-/* set the network type:
-	0 for setings is succeed
-	>0 for failed or not need settings
+/* get iccid
+	0 for succeed
+	>0 for failed
 	<0 for error */
-static int ec200x_lock_nettype( atcmd_t fd, talk_t status, const char *netmode )
+static int zte7520_ccid( atcmd_t fd, talk_t status )
 {
     int ret;
-    int type;
 	const char *ptr;
-    char cmd[LINE_MAX];
+	char iccidbuf[NAME_MAX];
 
-    ret = atcmd_send( fd, "AT+QCFG=\"nwscanmode\"", 3, NULL, ATCMD_DEF );
+	ret = atcmd_send( fd, "AT+ZICCID?", 5, NULL, ATCMD_DEF );
+	if ( ret < ATCMD_ret_succeed || ret == ATCMD_ret_term )
+	{
+		return ret;
+	}
+	if ( ret != ATCMD_ret_succeed )
+	{
+		ret = atcmd_send( fd, "AT+ZICCID", 5, NULL, ATCMD_DEF );
+		if ( ret != ATCMD_ret_succeed )
+		{
+			return ret;
+		}
+	}
+	ret = ATCMD_ret_failed;
+	memset( iccidbuf, 0, sizeof(iccidbuf) );
+	ptr = atcmd_lastack( fd );
+	if ( sscanf( ptr, "%*[^:]:%s", iccidbuf ) == 1 )
+	{
+		json_set_string( status, "iccid", iccidbuf );
+		ret = ATCMD_ret_succeed;
+	}
+	return ret;
+}
+/* get network mode
+	0 for succeed
+	>0 for failed
+	<0 for error */
+static int zte7520_sysinfo( atcmd_t fd, talk_t status )
+{
+    int ret;
+	int type;
+	const char *ptr;
+
+    ret = atcmd_send( fd, "AT^SYSINFO", 3, NULL, ATCMD_DEF );
     if ( ret != ATCMD_ret_succeed )
     {
         return ret;
     }
-    type = -1;
-	ptr = atcmd_lastack( fd );
-	if ( sscanf( ptr, "%*[^,],%d", &type ) != 1 )
+    type = 0;
+    ptr = atcmd_lastack( fd );
+    sscanf( ptr, "%*[^,],%*[^,],%*[^,],%d", &type );
+    switch( type )
+    {
+        case 0:
+            json_set_string( status, "nettype", "No Service" );
+            ret = ATCMD_ret_failed;
+            break;
+        case 3:
+            json_set_string( status, "nettype", "GSM" );
+            break;
+        case 5:
+            json_set_string( status, "nettype", "WCDMA" );
+            break;
+        case 15:
+            json_set_string( status, "nettype", "TDSCDMA" );
+            break;
+        case 17:
+            json_set_string( status, "nettype", "LTE" );
+            break;
+    }
+    return ret;
+}
+/* get current network connect state
+	0 for succeed
+	>0 for failed
+	<0 for error */
+static int zte7520_zgact( atcmd_t fd )
+{
+    int ret;
+	const char *ptr;
+
+    ret = atcmd_send( fd, "AT+ZGACT?", 3, NULL, ATCMD_DEF );
+    if ( ret != ATCMD_ret_succeed )
+    {
+        return ret;
+    }
+    ptr = atcmd_lastack( fd );
+    ret = ATCMD_ret_failed;
+    if ( strstr( ptr, "1,1" ) != NULL )
+    {
+        ret = ATCMD_ret_succeed;
+    }
+    return ret;
+}
+/* set the network type:
+	0 for setings is succeed
+	>0 for failed or not need settings
+	<0 for error */
+static int zte7520_sysconfig( atcmd_t fd, talk_t status, const char *netmode )
+{
+    int ret;
+	const char *ptr;
+    char cmd[LINE_MAX];
+    char recvbuf[ATCMD_ATBUFFSIZE];
+    int type, acqorder, roam, srvdomain;
+
+    type = acqorder = roam = srvdomain = 0;
+	/* 发送 AT^SYSCONFIG? 指令 */
+    ret = atcmd_send( fd, "AT^SYSCONFIG?", 3, NULL, ATCMD_DEF );
+    if ( ret != ATCMD_ret_succeed )
+    {
+        return ret;
+    }
+	/* 获取 AT^SYSCONFIG? 指令的返回 */
+	atcmd_rx( fd, recvbuf, sizeof(recvbuf) );
+	ptr = strstr( recvbuf, "SYSCONFIG:" );
+	if ( ptr == NULL )
 	{
 		return ATCMD_ret_failed;
 	}
+	/* 分析出当前模式模式的代码 */
+    if ( sscanf( ptr, "%*[^:]:%d,%d,%d,%d", &type, &acqorder, &roam, &srvdomain ) != 4 )
+	{
+		return ATCMD_ret_failed;
+	}
+	/* 如果未指定网络模式则不操作 */
 	if ( netmode == NULL || *netmode == '\0' )
 	{
 		netmode = "auto";
 	}
+
+	/* 清空要发送的指令 */
 	ret = ATCMD_ret_failed;
 	cmd[0] = '\0';
+	/* 判断要求的网络模式 */
     switch( netmode[0] )
     {
 		case '2':
 		case 'g':
-			/* GSM */
-			if ( type != 1 )
-			{
-				snprintf( cmd, sizeof(cmd), "AT+QCFG=\"nwscanmode\",1,1" );
-			}
-			break;
-		case 'c':
-			/* CDMA */
-			if ( type != 6 )
-			{
-				snprintf( cmd, sizeof(cmd), "AT+QCFG=\"nwscanmode\",6,1" );
-			}
-			break;
-		case 't':
-			/* TDSCDMA */
-			if ( type != 4 )
-			{
-				snprintf( cmd, sizeof(cmd), "AT+QCFG=\"nwscanmode\",4,1" );
-			}
-			break;
-		case 'e':
-            /* EVDO */
-			if ( type != 7 )
-			{
-				snprintf( cmd, sizeof(cmd), "AT+QCFG=\"nwscanmode\",7,1" );
-			}
-			break;
-		case '3':
-        case 'w':
-            /* WCDMA */
-            if ( type != 2 )
+            if ( type != 13 )
             {
-                snprintf( cmd, sizeof(cmd), "AT+QCFG=\"nwscanmode\",2,1" );
+                snprintf( cmd, sizeof(cmd), "AT^SYSCONFIG=13,0,1,2" );
             }
             break;
-		case '4':
-        case 'l':
-			/* LTE */
-            if ( type != 3 )
+		case 'c':
+			/* 判断当前是否为CDMA, 如果不是则生成设置为CDMA模式的AT指令 */
+		case 't':
+			/* 判断当前是否为TDSCDMA, 如果不是则生成设置为TDSCDMA模式的AT指令 */
+            if ( type != 15 )
             {
-                snprintf( cmd, sizeof(cmd), "AT+QCFG=\"nwscanmode\",3,1" );
+                snprintf( cmd, sizeof(cmd), "AT^SYSCONFIG=15,0,1,2" );
+            }
+            break;
+		case 'e':
+			/* 判断当前是否为EVDO, 如果不是则生成设置为EVDO模式的AT指令 */
+		case '3':
+		case 'w':
+			/* 判断当前是否为WCDMA, 如果不是则生成设置为WCDMA模式的AT指令 */
+            if ( type != 14 )
+            {
+                snprintf( cmd, sizeof(cmd), "AT^SYSCONFIG=14,0,1,2" );
+            }
+            break;
+        case '4':
+		case 'l':
+			/* 判断当前是否为LTE, 如果不是则生成设置为LTE模式的AT指令 */
+            if ( type != 17 )
+            {
+                snprintf( cmd, sizeof(cmd), "AT^SYSCONFIG=17,0,1,2" );
             }
             break;
 		default:
-			/* Auto */
-			if ( type != 0 )
+			/* 判断当前是否为自动模式, 如果不是则生成设置为自动模式的AT指令 */
+			if ( type != 2 )
 			{
-				snprintf( cmd, sizeof(cmd), "AT+QCFG=\"nwscanmode\",0,1" );
+				snprintf( cmd, sizeof(cmd), "AT^SYSCONFIG=2,0,1,2" );
 			}
     }
+
+	/* 如果设置网络模式的指令已生成则发送此指令 */
     if ( cmd[0] != '\0' )
     {
         ret = atcmd_send( fd, cmd, 8, NULL, ATCMD_DEF );
     }
     return ret;
 }
-/* lock the network band
-	0 for setings is succeed
-	>0 for failed or not need settings
-	<0 for error */
-static int ec200x_lock_band( atcmd_t fd, const char *band )
+/* 设置频段, 0 for oK, >0 for failed, <0 for error */
+static int zte7520_band( atcmd_t fd, const char *bandsets )
 {
-	if ( band != NULL && *band != '\0' )
-	{
-	    return atcmd_tx( fd, 3, NULL, ATCMD_DEF, "AT+QCFG=\"band\",%s", band );
-	}
-	/* Cannot verify that it has been set, so only failure will be returned */
-    return ATCMD_ret_failed;
-}
-/* get current register network mode
-	0 for succeed
-	>0 for failed
-	<0 for error */
-static int ec200x_qnwinfo( atcmd_t fd, talk_t device )
-{
-	int i;
-    int ret;
-	char *ptr;
-	char *tok;
-	char *tokkey;
-	char sysmode[NAME_MAX], plmn[NAME_MAX];
-	char band[NAME_MAX], channel[NAME_MAX];
+    int i;
+    boole set;
+    char *tok;
+    char *tokkey;
+	const char *ptr;
+    unsigned char band[8];
+    char buffer[LINE_MAX];
+    char cmd[LINE_MAX];
 
-	// AT+QNWINFO返回如下可能的网络
-	// NONE / CDMA1X / CDMA1X AND HDR / CDMA1X AND EHRPD / HDR / HDR-EHRPD 
-	// GSM / GPRS / EDGE 
-	// WCDMA / HSDPA / HSUPA / HSPA+
-	// TDSCDMA / TDD LTE / FDD LTE
-    // NR5G-NSA / NR5G-SA
-    ret = atcmd_send( fd, "AT+QNWINFO", 3, NULL, ATCMD_DEF );
-    if ( ret != ATCMD_ret_succeed )
-    {
-        return ret;
-    }
-	ret = ATCMD_ret_failed;
-    ptr = atcmd_lastack( fd );
-    /* mutli-line opt  */
-    tokkey = tok = ptr;
+	/* 如果未指定频段则不操作 */
+	if ( bandsets == NULL || *bandsets == '\0' )
+	{
+		return ATCMD_ret_failed;
+	}
+	/* 转换频段设置为AT参数 */
+    set = false;
+    memset( band, 0, sizeof(band) );
+    strncpy( buffer, bandsets, sizeof(buffer)-1 );
+    tokkey = tok = buffer;
     while( tokkey != NULL && *tok != '\0' )
     {
-        tokkey = strstr( tok, "\n" );
+        tokkey = strstr( tok, "," );
         if ( tokkey != NULL )
         {
             *tokkey = '\0';
         }
-
-		i = sscanf( tok, "%*[^:]:%[^,]", sysmode );
-		if ( i == 1 )
-		{
-			if ( strstr( sysmode, "LTE" ) || strstr( sysmode, "FDD" ) || strstr( sysmode, "TDD" )
-                    || strstr( sysmode, "GSM" ) || strstr( sysmode, "GPRS" ) || strstr( sysmode, "EDGE" )
-                    || strstr( sysmode, "WCDMA" ) || strstr( sysmode, "HSDPA" ) || strstr( sysmode, "HSUPA" ) || strstr( sysmode, "HSPA" )
-                    || strstr( sysmode, "TDSCDMA" ) )
-			{
-				// AT+QNWINFO
-				// +QNWINFO: "WCDMA","46001","WCDMA 2100",10763
-				// AT+QNWINFO
-				// +QNWINFO: "FDD LTE","46001","LTE BAND 8",3740
-				ret = ATCMD_ret_succeed;
-				i = sscanf( tok, "%*[^:]:%[^,],%[^,],%[^,],%s", sysmode, plmn, band, channel );
-				if ( i == 4 )
-				{
-					ptr = band+1;
-					i = strlen( ptr )-1;
-					*(ptr+i) = '\0';
-					json_set_string( device, "band", ptr );
-				}
-                ptr = sysmode+2;
-                i = strlen( ptr )-1;
-                *(ptr+i) = '\0';
-                json_set_string( device, "nettype", ptr );
-            }
-		}
-
+        i = atoi( tok );
+        if ( i >= 57 )
+        {
+            i-=56;
+            band[7] |= ( 1 << (i-1) );
+            set = true;
+        }
+        else if ( i >= 49 )
+        {
+            i-=48;
+            band[6] |= ( 1 << (i-1) );
+            set = true;
+        }
+        else if ( i >= 41 )
+        {
+            i-=40;
+            band[5] |= ( 1 << (i-1) );
+            set = true;
+        }
+        else if ( i >= 33 )
+        {
+            i-=32;
+            band[4] |= ( 1 << (i-1) );
+            set = true;
+        }
+        else if ( i >= 25 )
+        {
+            i-=24;
+            band[3] |= ( 1 << (i-1) );
+            set = true;
+        }
+        else if ( i >= 17 )
+        {
+            i-=16;
+            band[2] |= ( 1 << (i-1) );
+            set = true;
+        }
+        else if ( i >= 9 )
+        {
+            i-=8;
+            band[1] |= ( 1 << (i-1) );
+            set = true;
+        }
+        else if ( i >= 1 )
+        {
+            band[0] |= ( 1 << (i-1) );
+            set = true;
+        }
         tok = tokkey+1;
     }
-    return ret;
+	i = ATCMD_ret_failed;
+    if ( set == true )
+    {
+        snprintf( buffer, sizeof(buffer), "%d,%d,%d,%d,%d,%d,%d,%d", band[0], band[1], band[2], band[3], band[4], band[5], band[6], band[7] );
+        i = atcmd_send( fd, "AT+ZLTEBAND?", 3, NULL, ATCMD_DEF );
+		if ( i == ATCMD_ret_succeed )
+        {
+	        ptr = atcmd_lastack( fd );
+	        if ( strstr( ptr, buffer ) == NULL )
+	        {
+	            snprintf( cmd, sizeof(cmd), "AT+ZLTEBAND=%s", buffer );
+	            i = atcmd_send( fd, cmd, 8, NULL, ATCMD_DEF );
+	        }
+		}
+    }
+	return i;
 }
 
-/* set the apn and username/password
-	0 for setings is succeed
-	>0 for failed or not need settings
-	<0 for error */
-static int ec200x_qicsgp( atcmd_t fd, const char *cid, const char *iptype, const char *apn, const char *auth, const char *username, const char *password, boole query )
-{
-	int ret;
-	const char *ptr;
-	char cmd[NAME_MAX];
-	
-	if ( query == true )
-	{
-		ret = atcmd_tx( fd, 3, NULL, ATCMD_DEF, "AT+QICSGP=%s", cid );
-		if ( ret != ATCMD_ret_succeed )
-		{
-			return ret;
-		}
-		ptr = atcmd_lastack( fd );
-		//AT+QICSGP=1
-		//+QICSGP: 1,"CRU.MP.UK","ANPR247","t4wRo-Rep#thac",1
-		//
-		//OK
-		snprintf( cmd, sizeof(cmd), "%s,\"%s\",\"%s\",\"%s\",%s", cid, apn?:"", username?:"", password?:"", auth );
-		if ( strstr( ptr, cmd ) != NULL )
-		{
-			return ATCMD_ret_failed;
-		}
-	}
-	ret = atcmd_tx( fd, 3, NULL, ATCMD_DEF, "AT+QCTPWDCFG=\"%s\",\"%s\"", username?:"", password?:"" );
-	if ( ret < ATCMD_ret_succeed || ret == ATCMD_ret_term )
-	{
-		return ret;
-	}
-	return atcmd_tx( fd, 3, NULL, ATCMD_DEF, "AT+QICSGP=%s,%s,\"%s\",\"%s\",\"%s\",%s", cid, iptype, apn?:"", username?:"", password?:"", auth?:"3" );
-}
 /* set the APN profile
 	0 for setings is succeed
 	>0 for failed or not need settings
 	<0 for error */
-static int ec200x_set_profileset( atcmd_t fd, talk_t profile )
+static int zte7520_set_profileset( atcmd_t fd, talk_t profile )
 {
 	int i;
 	int ret;
@@ -235,16 +312,18 @@ static int ec200x_set_profileset( atcmd_t fd, talk_t profile )
 	const char *iptype;
 
 	ret = ATCMD_ret_failed;
-	/* get the configure */
+    /* get the configure */
+	iptype = json_get_string( profile, "type" );
 	apn = json_get_string( profile, "apn" );
+	cid = json_get_string( profile, "cid" );
 	user = json_get_string( profile, "user" );
 	pass = json_get_string( profile, "passwd" );
-	cid = json_get_string( profile, "cid" );
 	if ( cid == NULL || *cid == '\0' )
 	{
 		cid = "1";
 	}
-	/* transition the username/password */
+
+	/* 转换auth属性成AT指令能识别的选项 */
 	auth = "1";
 	ptr = json_get_string( profile, "auth" );
 	if ( ptr == NULL || *ptr == '\0' )
@@ -279,28 +358,14 @@ static int ec200x_set_profileset( atcmd_t fd, talk_t profile )
 			pass = NULL;
 		}
 	}
-	/* transition the ip type */
-	iptype	= "1";
-	ptr = json_get_string( profile, "type" );
-	if ( ptr != NULL && ( 0 == strcasecmp( ptr, "ipv4v6" ) || 0 == strcasecmp( ptr, "ipv6" ) ) )
-	{
-		iptype = "2";
-	}
-	else
-	{
-		iptype = "1";
-	}
-	/* private network settings the apn, username, passward */
-	i = ec200x_qicsgp( fd, cid, iptype, apn, auth, user, pass, true );
+	/* 设置APN, 认证方式, 用户名及密码*/
+	i = atcmd_tx( fd, 3, NULL, ATCMD_DEF, "AT+ZGPCOAUTH=%s,\"%s\",\"%s\",%s", cid, user?:"", pass?:"", auth );
 	if ( i < ATCMD_ret_succeed || i == ATCMD_ret_term )
 	{
 		return i;
 	}
-	else if ( i == ATCMD_ret_succeed )
-	{
-		ret = ATCMD_ret_succeed;
-	}
-	/* set the common apn */
+	
+    /* set the common apn */
 	if ( apn != NULL && *apn != '\0' )
 	{
 		i = usbtty_cgdcont( fd, cid, iptype, apn, true );
@@ -313,7 +378,7 @@ static int ec200x_set_profileset( atcmd_t fd, talk_t profile )
 			ret = ATCMD_ret_succeed;
 		}
 	}
-	/* set the cids */
+    /* set the cids */
 	ptr = json_get_string( profile, "cids" );
 	if ( ptr != NULL && 0 == strcmp( ptr, "enable" ) )
 	{
@@ -371,18 +436,20 @@ boole_t _usb_match( obj_t this, param_t param )
 		return tfalse;
 	}
 	/* compare the vid and vid is in support list */
-	if ( 0 == strcasecmp( vid, "2c7c" ) && ( 0 == strcasecmp( pid, "6026" ) || 0 == strcasecmp( pid, "6002" ) || 0 == strcasecmp( pid, "6005" ) ) )
+	if ( 0 == strcasecmp( vid, "19d2" ) && 0 == strcasecmp( pid, "0579" ) )
 	{
-		info( "Quectel EC200X modem found(%s:%s)", vid , pid );
-		/* insmod the usb driver */
-		shell( "modprobe option" );
+		info( "ZTE 7520 modem found(%s:%s)", vid , pid );
+		/* 加载option驱动 */
+		insert_module( "cdc_ether" );
+		insert_module( "option" );
+		usleep( 2000000 );
 		syspath = json_string( dev, "syspath" );
 
 		/* find the tty list */
 		i = usbttylist_device_find( syspath, ttylist );
 		if ( i < 3 )
 		{
-			usleep( 1000000 );
+			usleep( 2000000 );
 			i = usbttylist_device_find( syspath, ttylist );
 			if ( i < 3	)
 			{
@@ -390,13 +457,13 @@ boole_t _usb_match( obj_t this, param_t param )
 				i = usbttylist_device_find( syspath, ttylist );
 				if ( i < 3	)
 				{
-					fault( "Quectel EC200X modem cannot find the specified serial port(%d), system maybe cracked", i );
+					fault( "ZTE 7520 modem cannot find the specified serial port(%d), system maybe cracked", i );
 					return terror;
 				}
 			}
 		}
 		/* set the name */
-		json_set_string( dev, "name", "Quectel-EC200X" );
+		json_set_string( dev, "name", "ZTE-7520" );
 		/* get the object */
 		object = lte_object_get( LTE_COM, syspath, cfg, NULL, 0 );
 		json_set_string( dev, "object", object );
@@ -407,7 +474,7 @@ boole_t _usb_match( obj_t this, param_t param )
 			json_set_string( dev, "netdev", netdev );
 		}
 		json_set_string( dev, "stty", ttylist[1] );
-		json_set_string( dev, "mtty", ttylist[2] );
+		json_set_string( dev, "mtty", ttylist[0] );
 		json_set_string( dev, "devcom", MODEM_COM );
 		json_set_string( dev, "drvcom", COM_IDPATH );
 		return ttrue;
@@ -422,12 +489,9 @@ boole_t _usb_match( obj_t this, param_t param )
 boole_t _at_setup( obj_t this, param_t param )
 {
 	int i;
-	int t;
-	int mode;
 	atcmd_t fd;
     talk_t dev;
 	talk_t cfg;
-	const char *tok;
 	const char *ptr;
 
 	/* get the information */
@@ -457,6 +521,16 @@ boole_t _at_setup( obj_t this, param_t param )
 	{
 		return tfalse;
 	}
+	/* 设置为ECM模式 */
+    i = atcmd_send( fd, "AT+ZNETCARDTYPE=1", 3, NULL, ATCMD_DEF );
+	if ( i < ATCMD_ret_succeed )
+	{
+		return terror;
+	}
+	else if ( i == ATCMD_ret_term )
+	{
+		return tfalse;
+	}
     /* cfun the modem */
     i = usbtty_cfun1( fd, false );
 	if ( i < ATCMD_ret_succeed )
@@ -468,10 +542,50 @@ boole_t _at_setup( obj_t this, param_t param )
 		return tfalse;
 	}
 
-	/* switch the mode skip the power up misc URC */
-	for( t=0; t<10; t++ )
+	/* 因很多模块型号使用此相同的VID及PID, 因此需要通过CGMM的返回来区别 */
+    i = atcmd_send( fd, "AT+CGMM", 3, NULL, ATCMD_DEF );
+	if ( i < ATCMD_ret_succeed )
 	{
-		i = atcmd_send( fd, "AT+QCFG=\"nat\"", 3, "\"nat\",", ATCMD_DEF );
+		return terror;
+	}
+	else if ( i == ATCMD_ret_term )
+	{
+		return tfalse;
+	}
+    ptr = atcmd_lastack( fd );
+    /* 判断返回中是否有7810, 如果有表示模块为THINKWILL-ML781 */
+    if ( strstr( ptr, "7810" ) != NULL )
+    {
+		json_set_string( dev, "name", "THINKWILL-ML7810" );
+		/* 获取模块USB模式 */
+        i = atcmd_send( fd, "AT+ZNCARD?", 3, NULL, ATCMD_DEF );
+		if ( i < ATCMD_ret_succeed )
+		{
+			return terror;
+		}
+		else if ( i == ATCMD_ret_term )
+		{
+			return tfalse;
+		}
+		else if ( i == ATCMD_ret_succeed )
+		{
+	        ptr = atcmd_lastack( fd );
+	        if ( sscanf( ptr, "%*[^:]:%d", &i ) == 1 )
+	        {
+	            if ( i != 1 )
+	            {
+					/* 切换模块的USB模式 */
+	                atcmd_send( fd, "AT+ZNCARD=1", 8, NULL, ATCMD_DEF );
+	                return terror;
+	            }
+	        }
+		}
+	}
+	/* 否则为ZTE-7520    */
+	else
+	{
+		/* 获取模块USB模式 */
+		i = atcmd_send( fd, "AT+ZLANENABLE?", 3, NULL, ATCMD_DEF );
 		if ( i < ATCMD_ret_succeed )
 		{
 			return terror;
@@ -483,28 +597,16 @@ boole_t _at_setup( obj_t this, param_t param )
 		else if ( i == ATCMD_ret_succeed )
 		{
 			ptr = atcmd_lastack( fd );
-			tok = strstr( ptr, "\"nat\"," );
-			if ( tok != NULL )
+			if ( sscanf( ptr, "%*[^:]:%d", &i ) == 1 )
 			{
-				if ( sscanf( tok, "%*[^,],%d", &mode ) == 1 )
+				if ( i != 0 )
 				{
-					if ( mode != 1 )
-					{
-						i = atcmd_send( fd, "AT+QCFG=\"nat\",1", 8, NULL, ATCMD_DEF );
-						if ( i < ATCMD_ret_succeed )
-						{
-							return terror;
-						}
-						else if ( i == ATCMD_ret_term )
-						{
-							return tfalse;
-						}
-					}
-					break;
+					/* 切换模块的USB模式 */
+					atcmd_send( fd, "AT+ZLANENABLE=0", 8, NULL, ATCMD_DEF );
+	                return terror;
 				}
 			}
 		}
-		sleep( 1 );
 	}
 
     /* sms setting */
@@ -572,34 +674,7 @@ boole_t _at_off( obj_t this, param_t param )
 	terror for error, need reset the modem */
 boole_t _at_shut( obj_t this, param_t param )
 {
-	int i;
-	atcmd_t fd;
-    talk_t dev;
-
-	/* get the information */
-	dev = param_talk( param, 1 );
-	if ( dev == NULL )
-	{
-        return terror;
-	}
-	fd = json_pointer( dev, "fd" );
-	if ( fd == NULL )
-	{
-        return terror;
-	}
-
-    /* shutdown the modem */
-    i = atcmd_send( fd, "AT+QPOWD", 60, "POWERED DOWN", ATCMD_DEF );
-	if ( i < ATCMD_ret_succeed )
-	{
-		return terror;
-	}
-	else if ( i == ATCMD_ret_term )
-	{
-		return tfalse;
-	}
-
-	return ttrue;
+	return _at_off( this, param );
 }
 /* set the modem
 	NULL for setings some things( need restart modem )
@@ -633,10 +708,32 @@ boole_t _at_setting( obj_t this, param_t param )
         return terror;
 	}
 
+	sleep( 2 );
+	/* 确保网络已断开 */
+	i = atcmd_send( fd, "AT+ZGACT=0,1", 5, NULL, ATCMD_DEF );
+	if ( i < ATCMD_ret_succeed )
+	{
+		return terror;
+	}
+	else if ( i == ATCMD_ret_term )
+	{
+		return tfalse;
+	}
+	i = atcmd_send( fd, "AT+CGACT=0,1", 5, NULL, ATCMD_DEF );
+	if ( i < ATCMD_ret_succeed )
+	{
+		return terror;
+	}
+	else if ( i == ATCMD_ret_term )
+	{
+		return tfalse;
+	}
+	sleep( 2 );
+
 	ret = ttrue;
 	/* network type setting */
     ptr = json_get_string( cfg, "lock_nettype" );
-    i = ec200x_lock_nettype( fd, dev, ptr );
+    i = zte7520_sysconfig( fd, dev, ptr );
 	if ( i < ATCMD_ret_succeed )
 	{
 		return terror;
@@ -651,7 +748,7 @@ boole_t _at_setting( obj_t this, param_t param )
 	}
 	/* band setting */
 	ptr = json_get_string( cfg, "lock_band" );
-	i =ec200x_lock_band( fd, ptr );
+	i = zte7520_band( fd, ptr );
 	if ( i < ATCMD_ret_succeed )
 	{
 		return terror;
@@ -660,12 +757,13 @@ boole_t _at_setting( obj_t this, param_t param )
 	{
 		return tfalse;
 	}
+
 	/* custom prefile setting */
 	profile = json_value( cfg, "profile_cfg" );
 	if ( profile != NULL )
 	{
 		/* set the custom apn */
-		i = ec200x_set_profileset( fd, profile );
+		i = zte7520_set_profileset( fd, profile );
 		if ( i < ATCMD_ret_succeed )
 		{
 			return terror;
@@ -711,7 +809,7 @@ boole_t _at_setting( obj_t this, param_t param )
 boole_t _at_watch( obj_t this, param_t param )
 {
 	int i, t;
-	talk_t dev;
+    talk_t dev;
 	talk_t cfg;
 	atcmd_t fd;
 	int csq, signal;
@@ -720,19 +818,15 @@ boole_t _at_watch( obj_t this, param_t param )
 	dev = param_talk( param, 1 );
 	if ( dev == NULL )
 	{
-		return terror;
+        return terror;
 	}
 	fd = json_pointer( dev, "fd" );
 	if ( fd == NULL )
 	{
-		return terror;
-	}
-	cfg = param_talk( param, 2 );
-	if ( cfg == NULL )
-	{
-		return terror;
+        return terror;
 	}
 
+	cfg = param_talk( param, 2 );
 	json_delete_axp( dev, "plmn" );
 	json_delete_axp( dev, "signal" );
 
@@ -773,9 +867,9 @@ boole_t _at_watch( obj_t this, param_t param )
 		{
 			return tfalse;
 		}
-		//AT+CCID
-		//+CCID: 89860121801097564807\nOK
-		t = usbtty_ccid( fd , dev );
+		//AT+ZICCID?
+		//^ICCID: 89860121802374570731
+		t = zte7520_ccid( fd , dev );
 		if ( i < ATCMD_ret_succeed )
 		{
 			return terror;
@@ -793,10 +887,9 @@ boole_t _at_watch( obj_t this, param_t param )
 
 
 
-	json_delete_axp( dev, "band" );
 	json_delete_axp( dev, "nettype" );
 	// AT+QNWINFO
-	i = ec200x_qnwinfo( fd, dev );
+	i = zte7520_sysinfo( fd, dev );
 	if ( i < ATCMD_ret_succeed )
 	{
 		return terror;
@@ -805,9 +898,6 @@ boole_t _at_watch( obj_t this, param_t param )
 	{
 		return tfalse;
 	}
-
-
-
 
 	// AT+COPS?
 	// +COPS: 0,0,"46000",7\nOK
@@ -821,9 +911,7 @@ boole_t _at_watch( obj_t this, param_t param )
 		return tfalse;
 	}
 
-
-
-	// +CREG: 0,1\nOK
+    // +CREG: 0,1\nOK
 	i = usbtty_creg( fd, dev );
 	if ( i < ATCMD_ret_succeed )
 	{
@@ -849,14 +937,8 @@ boole_t _at_watch( obj_t this, param_t param )
 		}
 	}
 
-
-
-	// 2 to 31
-	// 100 to 191
-	json_delete_axp( dev, "csq" );
-	json_delete_axp( dev, "rssi" );
-	csq = 0;
-	i = usbtty_csq( fd, &csq );
+    /* 使用中兴微专用的网络小区查询指令获到当前注册上的小区信息 */
+    i = atcmd_send( fd, "at+ZEMSCIQ=1", 3, NULL, ATCMD_DEF );
 	if ( i < ATCMD_ret_succeed )
 	{
 		return terror;
@@ -865,11 +947,50 @@ boole_t _at_watch( obj_t this, param_t param )
 	{
 		return tfalse;
 	}
-	if ( (csq >0 && csq <= 31) || (csq > 100 && csq <= 191) )
+	else if ( i == ATCMD_ret_succeed )
+    {
+    	const char *ptr;
+        char buff[NAME_MAX];
+		char plmn[NAME_MAX];
+        int stat, act, cellid, rac, lac, pci, arfcn, band;
+        ptr = atcmd_lastack( fd );
+        if ( sscanf( ptr, "%*[^:]:%d,%d,%d,%d,%d,%[^,],%d,%d,%d", &stat, &act, &cellid, &rac, &lac, plmn, &pci, &arfcn, &band ) == 9 )
+        {
+            //snprintf( buff, sizeof(buff), "%d", cellid );  // cell is the ci(Hex)
+            //json_set_string( status, "cell", buff );
+            snprintf( buff, sizeof(buff), "%d", band );
+            json_set_string( dev, "band", buff );
+            snprintf( buff, sizeof(buff), "%d", arfcn );
+            json_set_string( dev, "arfcn", buff );
+			if ( json_get_number( dev, "plmn") == 0 )
+			{
+				if ( sscanf( plmn, "\"%d\"", &i ) == 1 )
+				{
+					json_set_number( dev, "plmn", i );
+				}
+			}
+        }
+    }
+
+	// 2 to 31
+	// 100 to 197
+	json_delete_axp( dev, "csq" );
+	json_delete_axp( dev, "rssi" );
+	csq = 0;
+    i = usbtty_csq( fd, &csq );
+	if ( i < ATCMD_ret_succeed )
+	{
+		return terror;
+	}
+	else if ( i == ATCMD_ret_term )
+	{
+		return tfalse;
+	}
+	if ( (csq >0 && csq <= 31) || (csq > 100 && csq <= 197) )
 	{
 		signal = 0;
 		json_set_number( dev, "csq", csq );
-		// 2 to 31, -113dBm to -53dBm  GSM/LTE
+		// 2 to 31, -113dBm to -53dBm  GSM
 		if ( csq > 0 && csq <= 31 )
 		{
 			i = ( csq*2-113 );
@@ -884,7 +1005,7 @@ boole_t _at_watch( obj_t this, param_t param )
 			json_set_number( dev, "signal", signal );
 		}
 		// 100 to 191, -116dBm to -25dBm  TDSCDMA
-		else if ( csq > 100 && csq <= 191  )
+		else if ( csq > 100 && csq <= 197  )
 		{
 			i = csq -215;
 			if ( i >= -75 ) { signal = 4; }
@@ -899,9 +1020,7 @@ boole_t _at_watch( obj_t this, param_t param )
 		}
 	}
 
-
-
-	return ttrue;
+    return ttrue;
 }
 
 
@@ -912,14 +1031,13 @@ boole_t _at_watch( obj_t this, param_t param )
 	terror for error, need reset the modem */
 boole_t _at_connect( obj_t this, param_t param )
 {
-	int i, t;
+	int i;
 	talk_t dev;
 	talk_t cfg;
 	atcmd_t fd;
 	talk_t profile;
     const char *cid;
     const char *netdev;
-	char recvbuf[LINE_MAX];
 
 	/* get the information */
 	dev = param_talk( param, 1 );
@@ -949,7 +1067,7 @@ boole_t _at_connect( obj_t this, param_t param )
 	/* prefile setting get */
 	profile = json_value( cfg, "profile_cfg" );
 	/* set the apn */
-	i = ec200x_set_profileset( fd, profile );
+	i = zte7520_set_profileset( fd, profile );
 	if ( i < ATCMD_ret_succeed )
 	{
 		return terror;
@@ -965,47 +1083,25 @@ boole_t _at_connect( obj_t this, param_t param )
 	}
 
 	/* dial */
-	i = atcmd_tx( fd, 120, NULL, ATCMD_DEF, "AT+QIACT=%s", cid );
+	i = atcmd_tx( fd, 5, NULL, ATCMD_DEF, "AT+CGACT=%s,1", cid );
 	if ( i < ATCMD_ret_succeed )
 	{
 		return terror;
-	}
-	else if ( i == ATCMD_ret_term )
-	{
-		return tfalse;
 	}
 	else if ( i != ATCMD_ret_succeed )
 	{
-		for ( t=0; t<3; t++ )
-		{
-			i = atcmd_tx( fd, 3, NULL, ATCMD_DEF, "AT+QIACT?" );
-			if ( i < ATCMD_ret_succeed )
-			{
-				return terror;
-			}
-			else if ( i == ATCMD_ret_term )
-			{
-				return tfalse;
-			}
-			i = atcmd_rx( fd, recvbuf, sizeof(recvbuf) );
-			if ( i > 0 && strstr( recvbuf, "." ) != NULL )
-			{
-				break;
-			}
-			sleep( 1 );
-		}
-		if ( t >= 3 )
-		{
-			fault( "pdp dail failed" );
-			return tfalse;
-		}
+		return tfalse;
 	}
-
-	i = atcmd_tx( fd, 10, NULL, ATCMD_DEF, "AT+QNETDEVCTL=1,%s,1", cid );
+	i = atcmd_tx( fd, 5, NULL, ATCMD_DEF, "AT+ZGACT=%s,1", cid );
 	if ( i < ATCMD_ret_succeed )
 	{
 		return terror;
 	}
+	else if ( i != ATCMD_ret_succeed )
+	{
+		return tfalse;
+	}
+
 	/* succeed exit to dhcp */
 	return ttrue;
 }
@@ -1018,7 +1114,6 @@ boole_t _at_connected( obj_t this, param_t param )
 	int i;
 	talk_t dev;
 	atcmd_t fd;
-	char recvbuf[LINE_MAX];
 
 	/* get the information */
 	dev = param_talk( param, 1 );
@@ -1032,22 +1127,17 @@ boole_t _at_connected( obj_t this, param_t param )
 		return terror;
 	}
 
-	i = atcmd_tx( fd, 3, NULL, ATCMD_DEF, "AT+QIACT?" );
+	i = zte7520_zgact( fd );
 	if ( i < ATCMD_ret_succeed )
 	{
 		return terror;
 	}
-	else if ( i == ATCMD_ret_term )
+	else if ( i != ATCMD_ret_succeed )
 	{
 		return tfalse;
 	}
-	i = atcmd_rx( fd, recvbuf, sizeof(recvbuf) );
-	if ( i > 0 && strstr( recvbuf, "." ) != NULL )
-	{
-		return ttrue;
-	}
 
-	return tfalse;
+	return ttrue;
 }
 /* disconnect the network
 	ttrue for succeed
@@ -1072,7 +1162,16 @@ boole_t _at_disconnect( obj_t this, param_t param )
 	}
 
 	/* disconnection */
-	i = atcmd_send( fd, "AT+QIDEACT=1", 3, NULL, ATCMD_DEF );
+	i = atcmd_send( fd, "AT+ZGACT=0,1", 5, NULL, ATCMD_DEF );
+	if ( i < ATCMD_ret_succeed )
+	{
+		return terror;
+	}
+	else if ( i == ATCMD_ret_term )
+	{
+		return tfalse;
+	}
+	i = atcmd_send( fd, "AT+CGACT=0,1", 5, NULL, ATCMD_DEF );
 	if ( i < ATCMD_ret_succeed )
 	{
 		return terror;
@@ -1085,5 +1184,15 @@ boole_t _at_disconnect( obj_t this, param_t param )
 	return ttrue;
 }
 
+
+
+/* dial the network
+	ttrue for succeed
+	tfalse for failed
+	terror for error, need reset the modem */
+boole_t _at_dial( obj_t this, param_t param )
+{
+	return _at_disconnect( this, param );
+}
 
 

@@ -780,7 +780,7 @@ boole_t _service( obj_t this, param_t param )
     }
 
 	/* get the count */
-	ret = tfalse;
+	ret = ttrue;
 	connect_failed = 0;
 	reg_connect_failed = register_pointer( object, "connect_failed" );
 	if ( reg_connect_failed != NULL )
@@ -833,20 +833,16 @@ boole_t _service( obj_t this, param_t param )
 	int2register( object, "connect_failed", reg_connect_failed, connect_failed );
 	if ( ret == terror )
 	{
-		talk_free( cfg );
 		if ( com_sexist( ifdev, "reset" ) == true )
 		{
-			return scall( ifdev, "reset", NULL );
+			scall( ifdev, "reset", NULL );
 		}
-	}
-	else if ( ret == ttrue )
-	{
 		talk_free( cfg );
-		if ( com_sexist( ifdev, "rerun" ) == true )
-		{
-			return scall( ifdev, "rerun", NULL );
-		}
+		sleep( 5 );
+		return tfalse;
 	}
+
+
 
     /* get the netdev */
 	netdev = register_pointer( ifdev, "netdev" );

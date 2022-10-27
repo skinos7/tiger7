@@ -789,7 +789,7 @@ boole_t _at_connect( obj_t this, param_t param )
     }
 
 	/* dial */
-	i = atcmd_tx( fd, 15, NULL, ATCMD_DEF, "AT^NDISDUP=%s,1,\"%s\",\"%s\",\"%s\",%s", cid, apn?:"", user?:"", pass?:"", auth );
+	i = atcmd_tx( fd, 20, NULL, ATCMD_DEF, "AT^NDISDUP=%s,1,\"%s\",\"%s\",\"%s\",%s", cid, apn?:"", user?:"", pass?:"", auth );
 	if ( i < ATCMD_ret_succeed )
 	{
 		return terror;
