@@ -1,5 +1,5 @@
 {
-    "v7.2.1022":
+    "v7.2.1028":
     {
         "20221020":"move the storege media to arch@hotplug",
         "20221020b":"modify the init step",
@@ -10,7 +10,9 @@
         "20221020j":"fix the factory upgrade and test",
         "20221020h":"add the gather upgrade function",
         "20221020i":"io agent support timer low/high",
-        "20221020j":"fix factory test and upgrade function"
+        "20221020j":"fix factory test and upgrade function",
+        "20221028a":"fix reset modem maybe stop",
+        "20221028b":"add ztem7520 and simcom asr modem"
     },
     "v7.2.1012":
     {
