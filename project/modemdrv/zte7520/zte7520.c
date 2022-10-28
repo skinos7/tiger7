@@ -856,6 +856,7 @@ boole_t _at_watch( obj_t this, param_t param )
 	}
 	else if ( i == ATCMD_ret_succeed )
 	{
+		json_set_string( dev, "iccid", "sim" );
 		//at+CIMI
 		//460015356123463\nOK
 		i = usbtty_cimi( fd , dev );
@@ -877,11 +878,6 @@ boole_t _at_watch( obj_t this, param_t param )
 		else if ( i == ATCMD_ret_term )
 		{
 			return tfalse;
-		}
-		if ( i != ATCMD_ret_succeed && t != ATCMD_ret_succeed )
-		{
-			json_delete_axp( dev, "imsi" );
-			json_delete_axp( dev, "iccid" );
 		}
 	}
 
