@@ -172,10 +172,10 @@ boole_t _service( obj_t this, param_t param )
 {
 	int i;
 	boole r;
+	int *iptr;
 	talk_t ret;
 	talk_t cfg;
 	talk_t ifnamest;
-	const int *iptr;
 	const char *object;
 	const char *ifname;
 	const char *remote;
