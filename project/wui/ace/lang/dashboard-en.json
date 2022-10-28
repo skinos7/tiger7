@@ -13,6 +13,7 @@
 	"noimsi":"IMSI Wrong",
 	"pin":"Need PIN",
 	"puk":"PIN Error",
+	"sim":"Found SIM",
 	"nosim":"NO SIM",
 	"noreg":"NO Register",
 	"unreg":"UN Register",

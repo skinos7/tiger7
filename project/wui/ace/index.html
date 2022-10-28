@@ -1008,9 +1008,14 @@
 				    {
 				        app_menu = 'Application';
 				    }
-				    if ( app_menu == "quick" )
+				    if ( app_menu == "Quick" )
 				    {
                         menu.insert( menus, $.i18n( 'Quick' ), app_hash, 'menu-icon fa fa-bolt' );
+                        homepage = app_hash;
+				    }
+				    else if ( app_menu == "Wizard" )
+				    {
+                        menu.insert( menus, $.i18n( 'Wizard' ), app_hash, 'menu-icon fa fa-bolt' );
                         homepage = app_hash;
 				    }
 				    else

@@ -14,6 +14,7 @@
 	"pin":"PIN码",
 	"puk":"PIN码错误",
 	"nosim":"无SIM卡",
+	"sim":"发现SIM卡",
 	"noreg":"未注册",
 	"unreg":"未注册",
 	"dereg":"拒绝注册",
