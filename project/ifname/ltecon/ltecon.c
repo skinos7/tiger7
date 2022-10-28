@@ -741,7 +741,6 @@ boole_t _service( obj_t this, param_t param )
 		sleep( 3 );
         return tfalse;
 	}
-	scalls( GPIO_COM, "action", "network/onlineing,%s", ifdev );
 
     /* get the configure */
     cfg = config_get( this, NULL ); 
@@ -778,6 +777,7 @@ boole_t _service( obj_t this, param_t param )
         sleep( 5 );
         return tfalse;
     }
+	scalls( GPIO_COM, "action", "network/onlineing,%s", ifdev );
 
 	/* get the count */
 	ret = ttrue;
