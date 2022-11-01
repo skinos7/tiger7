@@ -13,7 +13,9 @@
         "20221020j":"fix factory test and upgrade function",
         "20221028a":"fix reset modem maybe stop",
         "20221028b":"add ztem7520 and simcom asr modem",
-        "20221028c":"fix no iccid stop to dial"
+        "20221028c":"fix no iccid stop to dial",
+        "20221028d":"fix cpu usage bug and add the jtt808/zeroone gps client",
+        "20221028e":"read the buffer state of modem at all step"
     },
     "v7.2.1012":
     {

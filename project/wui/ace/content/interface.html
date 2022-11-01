@@ -1892,6 +1892,47 @@
 		wisp_show( wisp, "#wisp" );
 		wisp_show( wisp2, "#wisp2" );
 		switch_show( sw );
+        setTimeout( status_load,(2*1000));
+      })
+    }
+    /* flash */
+    function flash_only()
+    {
+      he.bkload( [ 'ifname@lte.status', 'ifname@lte2.status', 'modem@lte.status', 'modem@lte2.status', 'ifname@wan.status', 'ifname@wan2.status', 'ifname@lan.status', 'ifname@lan2.status', 'ifname@wisp.status', 'ifname@wisp2.status', 'arch@ethernet.status' ] ).then( function(v){
+        lte = v[0];
+        lte2 = v[1];
+        ltedev = v[2];
+        lte2dev = v[3];
+        wan = v[4];
+        wan2 = v[5];
+        lan = v[6];
+        lan2 = v[7];
+        wisp = v[8];
+        wisp2 = v[9];
+        sw = v[10];
+        if ( lte )
+        {
+    		lte_show( lte, "#lte" );
+		}
+		else
+		{
+            ltedev_show( ltedev, "#ltedev" );
+		}
+        if ( lte2 )
+        {
+    		lte_show( lte2, "#lte2" );
+		}
+		else
+		{
+            ltedev_show( lte2dev, "#lte2dev" );
+		}
+		wan_show( wan, "#wan" );
+		wan_show( wan2, "#wan2" );
+		lan_show( lan, "#lan" );
+		lan_show( lan2, "#lan2" );
+		wisp_show( wisp, "#wisp" );
+		wisp_show( wisp2, "#wisp2" );
+		switch_show( sw );
       })
     }
 
@@ -1901,61 +1942,61 @@
         $('#lte_btn').on(ace.click_event, function () {
             if ( lte.status != "up" && lte.status != "uping" && lte.status != "connect" )
             {
-                he.exec(['wui@admin.ttyd_kill','ifname@lte.setup']).then( function(result){status_load();} );
+                he.exec(['wui@admin.ttyd_kill','ifname@lte.setup']).then( function(result){flash_only();} );
             }
             else
             {
-                he.exec('ifname@lte.shut').then( function(result){status_load();} );
+                he.exec('ifname@lte.shut').then( function(result){flash_only();} );
             }
         });
         $('#lte2_btn').on(ace.click_event, function () {
             if ( lte2.status != "up" && lte2.status != "uping" && lte2.status != "connect" )
             {
-                he.exec(['wui@admin.ttyd_kill','ifname@lte2.setup']).then( function(result){status_load();} );
+                he.exec(['wui@admin.ttyd_kill','ifname@lte2.setup']).then( function(result){flash_only();} );
             }
             else
             {
-                he.exec('ifname@lte2.shut').then( function(result){status_load();} );
+                he.exec('ifname@lte2.shut').then( function(result){flash_only();} );
             }
         });
         $('#wan_btn').on(ace.click_event, function () {
             if ( wan.status == "down" )
             {
-                he.exec('ifname@wan.setup').then( function(result){status_load();} );
+                he.exec('ifname@wan.setup').then( function(result){flash_only();} );
             }
             else
             {
-                he.exec('ifname@wan.shut').then( function(result){status_load();} );
+                he.exec('ifname@wan.shut').then( function(result){flash_only();} );
             }
         });
         $('#wan2_btn').on(ace.click_event, function () {
             if ( wan2.status == "down" )
             {
-                he.exec('ifname@wan2.setup').then( function(result){status_load();} );
+                he.exec('ifname@wan2.setup').then( function(result){flash_only();} );
             }
             else
             {
-                he.exec('ifname@wan2.shut').then( function(result){status_load();} );
+                he.exec('ifname@wan2.shut').then( function(result){flash_only();} );
             }
         });
         $('#wisp_btn').on(ace.click_event, function () {
             if ( wisp.status == "down" )
             {
-                he.exec('ifname@wisp.setup').then( function(result){status_load();} );
+                he.exec('ifname@wisp.setup').then( function(result){flash_only();} );
             }
             else
             {
-                he.exec('ifname@wisp.shut').then( function(result){status_load();} );
+                he.exec('ifname@wisp.shut').then( function(result){flash_only();} );
             }
         });
         $('#wisp2_btn').on(ace.click_event, function () {
             if ( wisp2.status == "down" )
             {
-                he.exec('ifname@wisp2.setup').then( function(result){status_load();} );
+                he.exec('ifname@wisp2.setup').then( function(result){flash_only();} );
             }
             else
             {
-                he.exec('ifname@wisp2.shut').then( function(result){status_load();} );
+                he.exec('ifname@wisp2.shut').then( function(result){flash_only();} );
             }
         });
     }
@@ -1968,14 +2009,14 @@
       /* load the configure */
       status_load();
       button_bind();
-      // set timer
+      /* set timer
       page.timing({
         refresh: function ()
         {
             status_load();
         },
         interval: 5000
-      });
+      }); */
     });
 
   })();
