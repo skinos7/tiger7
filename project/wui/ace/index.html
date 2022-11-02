@@ -255,7 +255,7 @@
 						</li>
 
 						<!-- Logout -->
-						<div class="navbar-header pull-right"><a href="#" id="logout" class="navbar-brand"><i class="ace-icon fa fa-sign-out"></i></a></div>
+						<div class="navbar-header pull-right"><a href="#" id="logout2" class="navbar-brand"><i class="ace-icon fa fa-sign-out"></i></a></div>
 
 					</ul>
 				</div>
@@ -504,6 +504,37 @@
     					}
     				})
     			});
+                // Logout2 event
+                $('#logout2').on( ace.click_event, function() {
+                    bootbox.confirm({
+                        message: $.i18n('Are you sure you want to logout?'),
+                        buttons:
+                        {
+                            confirm:
+                            {
+                                label: '<i class="fa fa-check"></i>'+$.i18n('Logout'), className: 'btn btn-main'
+                            },
+                            cancel:
+                            {
+                                label: '<i class="fa fa-times"></i>'+$.i18n('Cancel'), className: 'btn btn-second'
+                            }
+                        },
+                        callback: function (result)
+                        {
+                            if (!result)
+                            {
+                                return;
+                            }
+                            $.ajax({
+                                url: '/action/logout', type: 'POST',
+                                success: function (data, textStatus, request)
+                                {
+                                    location.reload(true)
+                                }
+                            });
+                        }
+                    })
+                });
 
                 /* jqgrid setup */
                 $.jgrid = $.jgrid || {};
