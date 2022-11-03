@@ -167,6 +167,7 @@ boole _set( obj_t this, talk_t v, attr_t path )
     {
         _shut( this, NULL );
         _setup( this, NULL );
+		scalls( FIREWALL_COM, "setup", NULL );
     }
     return ret;
 }
