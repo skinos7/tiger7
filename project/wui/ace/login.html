@@ -31,7 +31,7 @@
 		<script src="/assets/js/respond.min.js"></script>
 		<![endif]-->
 
-
+        <script src="/assets/js/ace-extra.min.js"></script>
 
 		<!-- custom styles related to this page -->
         <%csspath(); %>;
@@ -129,6 +129,7 @@
 			window.wui = <%config(); %>;
 			window.lang = window.machine.language;
 			document.title = window.machine.name;
+			//document.cookie = "";
 			$('#prompt').html( document.title );
             if ( window.wui && window.wui.logo_file )
             {
