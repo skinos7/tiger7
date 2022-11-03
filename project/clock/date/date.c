@@ -54,7 +54,7 @@ static boole ntpclient_sync( const char* server, const char* zone )
     ret = false;
     project_exe_path( path, sizeof(path), PROJECT_ID, "ntpclient" );
     /* sync the time */
-    if ( 0 == execute( 120, true, "%s -h %s -s" , path, server ) )
+    if ( 0 == execute( 20, true, "%s -h %s -s" , path, server ) )
     {
         ret = true;
         info( "sync the system time from %s succeed", server );
