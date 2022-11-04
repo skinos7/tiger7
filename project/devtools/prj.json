@@ -13,7 +13,8 @@
     "com":
     {
         "test-lpcall":"call the child named test-callbk",
-        "test-callbk":"call back to father named test-lpcall"
+        "test-callbk":"call back to father named test-lpcall",
+        "test-keeplive":"test the network connect robustness"
     }
 
 }
