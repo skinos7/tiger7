@@ -129,7 +129,6 @@
 			window.wui = <%config(); %>;
 			window.lang = window.machine.language;
 			document.title = window.machine.name;
-			//document.cookie = "";
 			$('#prompt').html( document.title );
             if ( window.wui && window.wui.logo_file )
             {
@@ -153,6 +152,15 @@
                 }
             }
 
+            /* clearAllCookie() for access other device at same address */
+            var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+            if(keys)
+            {
+                for(var i=keys.length-1; i>=0; i-- )
+                {
+                    document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
+                }
+            }
 
             $('#username').val( window.obj );
 			page.password('password', 'password-icon' );

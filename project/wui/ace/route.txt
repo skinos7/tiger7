@@ -1,3 +1,4 @@
+route uri=/favicon.ico
 route uri=/api/
 route uri=/assets/
 route uri=/cfg/
