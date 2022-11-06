@@ -1,5 +1,5 @@
 {
-    "v7.2.1028":
+    "v7.2.1104":
     {
         "20221020":"move the storege media to arch@hotplug",
         "20221020b":"modify the init step",
@@ -15,7 +15,14 @@
         "20221028b":"add ztem7520 and simcom asr modem",
         "20221028c":"fix no iccid stop to dial",
         "20221028d":"fix cpu usage bug and add the jtt808/zeroone gps client",
-        "20221028e":"read the buffer state of modem at all step"
+        "20221028e":"read the buffer state of modem at all step",
+        "20221028f":"backup all configure",
+        "20221028j":"fix cannot logout at webpage",
+        "20221104a":"combine the custom of data to setup of data, fix all default configure hostname bug",
+        "20221104b":"fix previous cookie break login page",
+        "20221104c":"only cmd to install to bin",
+        "20221104d":"fix register com cannot modify the register value",
+        "20221104e":"add the parasite mode for work at ubuntu"
     },
     "v7.2.1012":
     {

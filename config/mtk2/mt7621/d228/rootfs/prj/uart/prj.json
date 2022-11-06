@@ -13,7 +13,7 @@
     {
         "mbusd":"modbusRTU to modbusTCP gateway,https://github.com/3cky/mbusd.git"
     },
-    "exe":
+    "cmd":
     {
         "tip":"tools for serial command"
     },

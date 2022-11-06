@@ -11,19 +11,27 @@ he land@uninit.call[manage2]
 he land@uninit.call[manage]
 # internet
 he land@uninit.call[extern]
-# modem
-he land@uninit.call[modem]
+
 # wifi
-he land@uninit.call[aradio]
-he land@uninit.call[nradio]
+#he land@uninit.call[aradio]
+#he land@uninit.call[nradio]
+#he land@uninit.call[wifi]
 # ethernet
 he land@uninit.call[ethernet]
+# modem
+#he land@uninit.call[modem]
+
 # network frame
+he land@uninit.call[bridge]
+he land@uninit.call[vlan]
 he land@uninit.call[network]
+he network@frame.shut
+
 # core
 he land@uninit.call[core]
 he land@uninit.call[core2]
 
+#he arch@gpio.shut
 he land@syslog.shut
 he arch@data.shut
 daemon exit

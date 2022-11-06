@@ -5,16 +5,16 @@
 
 setup()
 {
-    dev=`he land@register.string[ network,local_netdev ]`
-    he land@com.register[ ethernet@lan, arch@ethernet ]
-    he network@frame.add[ ethernet@lan, $dev ]
+    dev=`he land@register.string[ land,local_netdev ]`
+    he land@com.register[ ethernet@lan,arch@ethernet ]
+    he network@frame.add[ ethernet@lan,$dev ]
     # default the configure if order
     creturn ttrue
 }
 
 netdev()
 {
-    dev=`he land@register.string[network,local_netdev]`
+    dev=`he land@register.string[land,local_netdev]`
     creturn $dev
 }
 up()

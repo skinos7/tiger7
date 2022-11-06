@@ -750,7 +750,7 @@
 <script type="text/javascript">
   (function () { 
     /* flush interval */
-    var flush_interval = 2;
+    var flush_interval = 1;
     /* global buffer */
     var buff = {};
     /* cpu id */
@@ -758,8 +758,8 @@
     /* init the cpu info */
     for ( var id in cpuid )
     {
+        buff[ cpuid[id]+"_idle"] = 0;
         buff[ cpuid[id]+"_total"] = 0;
-        buff[ cpuid[id]+"_usage"] = 0;
         buff[ cpuid[id]+"_data"] = [];
     }
     /* init the mem info */
@@ -1388,9 +1388,11 @@
     {
         /* CPU PIE */
         var cpu = cpuinfo["cpu"];
-        var user = parseInt(cpu.user)+parseInt(cpu.system)+parseInt(cpu.nice)+parseInt(cpu.iowait)+parseInt(cpu.irq)+parseInt(cpu.softirq);
-        var total = user+parseInt(cpu.idle);
-        var usage = ((user)/(total))*100;
+        var oi = buff["cpu_idle"];
+        var ot = buff["cpu_total"];
+        var idle = parseInt(cpu.idle);
+        var total = parseInt(cpu.user)+parseInt(cpu.system)+parseInt(cpu.nice)+parseInt(cpu.iowait)+parseInt(cpu.irq)+parseInt(cpu.softirq)+parseInt(cpu.idle);
+        var usage = ((total-ot-(idle-oi))/(total-ot))*100;
         $("#cpu_usage").text( usage.toFixed(0) );
         $("#cpu_usage_pie").data('easyPieChart').update( usage.toFixed(0) );
         $("#cpu_user").text( cpu.user );
@@ -1430,12 +1432,12 @@
                 var datas = {};
                 datas['label'] = $.i18n(id.toUpperCase());
                 var info = cpuinfo[id];
-                var ousage = buff[id+"_usage"];
+                var oidle = buff[id+"_idle"];
                 var ototal = buff[id+"_total"];
-                var nusage = parseInt(info.user)+parseInt(info.system)+parseInt(info.nice)+parseInt(info.iowait)+parseInt(info.irq)+parseInt(info.softirq);
-                var ntotal = nusage+parseInt(info.idle);
-                var usage = ((nusage-ousage)/(ntotal-ototal))*100;
-                buff[id+"_usage"] = nusage;
+                var nidle = parseInt(info.idle);
+                var ntotal = parseInt(info.user)+parseInt(info.system)+parseInt(info.nice)+parseInt(info.iowait)+parseInt(info.irq)+parseInt(info.softirq)+parseInt(info.idle);
+                var usage = ((ntotal-ototal-(nidle-oidle))/(ntotal-ototal))*100;
+                buff[id+"_idle"] = nidle;
                 buff[id+"_total"] = ntotal;
                 buff[id+"_data"].push( [d_time,usage] );  
                 if( id == "cpu0" )
@@ -1556,6 +1558,7 @@
             {
                 ssid_show( "wifi@assid", v[8] );
             }
+            setTimeout( data_reload,(flush_interval*1000));
         })
     }
 
@@ -1584,14 +1587,14 @@
 
         /* load the configure */
         data_reload();
-        /* set the timer flush */
+        /* set the timer flush
         page.timing({
             refresh: function ()
             {
                 data_reload();
             },
             interval: flush_interval*1000
-        });
+        }); */
 
     });
 

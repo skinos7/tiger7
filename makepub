@@ -11,7 +11,7 @@
 #    make repo
 #done
 
-for tmp in smtk2-mt7628-d218-h728 smtk2-mt7628-d218-8m smtk2-mt7628-d218-inrico smtk2-mt7628-d218-zwzx
+for tmp in smtk2-mt7628-d218-h728 smtk2-mt7628-d218-8m smtk2-mt7628-d218-inrico smtk2-mt7628-d218-zwzx smtk2-mt7628-d218-sx
 do
     make gBOARDID=${tmp} pid
     make pidinfo

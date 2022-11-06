@@ -34,9 +34,9 @@ local:
 	sudo cp -ar ${gosROOT_DIR}/lib/* /usr/local/lib
 	sudo cp -ar ${gosROOT_DIR}/prj /
 	sudo ldconfig
-	if [ -f /prj/setup.sh ]; then \
-		/prj/setup.sh; \
-	fi
+	#if [ -f /prj/setup.sh ]; then \
+	#	/prj/setup.sh; \
+	#fi
 sz:
 tar:
 ftp:
@@ -55,7 +55,7 @@ repo:
 
 
 
-boot_menuconfig:
+boot_menuconfig: boot_dep
 boot_dep:
 boot: boot_dep
 boot_install:

@@ -90,7 +90,7 @@ boole_t _setup( obj_t this, param_t param )
     cfg = config_sget( COM_IDPATH, NULL );
     /* set time zone with old style(ulibc) */
     ptr = json_string( cfg, "timezone" );
-    if ( ptr != NULL )
+    if ( ptr != NULL && *ptr != '\0' )
     {
         if ( 0 == strcasecmp( ptr, "-12" ) ){ozone = "GMT12";nzone = "GMT-12";}
         else if ( 0 == strcasecmp( ptr, "-11" ) ){ozone = "GMT11";nzone = "GMT+11";}
@@ -121,11 +121,11 @@ boole_t _setup( obj_t this, param_t param )
         else if ( 0 == strcasecmp( ptr, "10" ) ){ozone = "AET-10";nzone = "GMT-10";}
         else if ( 0 == strcasecmp( ptr, "11" ) ){ozone = "SST-11";nzone = "GMT-11";}
         else if ( 0 == strcasecmp( ptr, "12" ) ){ozone = "NST-12";nzone = "GMT-12";}
+		string2file( "/etc/TZ", "%s\n", ozone ); /* because the TZ file in the /tmp/TZ, so you can write anytime */
+		/* set time zone with new style(libc) */
+		unlink( "/etc/localtime" );
+		shell( "ln -s /usr/share/zoneinfo/%s /etc/localtime", nzone );
     }
-    string2file( "/etc/TZ", "%s\n", ozone ); /* because the TZ file in the /tmp/TZ, so you can write anytime */
-    /* set time zone with new style(libc) */
-	unlink( "/etc/localtime" );
-	shell( "ln -s /usr/share/zoneinfo/%s /etc/localtime", nzone );
 	/* read from the RTC when have RTC */
 	/* XXXXXXXXXXXXXXX */
 
