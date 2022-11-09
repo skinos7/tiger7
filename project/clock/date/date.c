@@ -160,11 +160,7 @@ boole_t _ntploop( obj_t this, param_t param )
     /* wait the online */
     do
     {
-        if ( route_info( "0.0.0.0", NULL, NULL, NULL ) == true )
-        {
-            break;
-        }
-        if ( routes_info( DEFAULT_TABLE_NAME, "0.0.0.0", NULL, NULL, NULL ) > 0 )
+		if ( gateway_info( NULL, NULL ) == true )
         {
             break;
         }

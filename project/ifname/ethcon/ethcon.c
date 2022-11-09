@@ -580,6 +580,24 @@ boole_t _service( obj_t this, param_t param )
         sleep( 3 );
         return tfalse;
     }
+	/* get the local_netdev2 when have */
+	if ( 0 == strcmp( object, LAN2_COM ) )
+	{
+		/* set the shunt balancing for lan2 when have */
+		ptr = register_value( LAND_PROJECT, "local_netdev2" );
+		if ( ptr == NULL || *ptr == '\0' )
+		{
+			register_file_t h;
+			/* globe value setttings */
+			h = register_open( LAND_PROJECT, O_RDWR, 0644, 100, 25600 );
+			if ( h != NULL )
+			{
+				register_value_set( h, "local_netdev2", netdev, strlen(netdev)+1, 20 );
+				register_close( h );
+			}
+		}
+	}
+
     /* ifdev connect */
     info( "%s connect", ifdev );
     if ( scallt( ifdev, "connect", cfg ) != ttrue )

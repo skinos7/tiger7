@@ -608,6 +608,79 @@
                 </div>
             
             </div><!-- /.row -->
+            
+            <div class="row" id="ifname@lan2" style="display: none;">
+                <div class="space-6"></div>
+                <div class="col-sm-5">
+                    <div class="widget-box">
+                        <div class="widget-header widget-header-flat widget-header-small"><i class="ace-icon fa fa-laptop"></i> <h5 class="widget-title" data-i18n="ifname@lan2"></h5></div>
+                        <div class="space-6"></div>
+                        <div class="row">
+                            <div class="col-sm-4" >
+                                <div class="center">
+                                    <div class="space-6"></div>
+                                    <div class="easy-pie-chart percentage" data-percent="100" data-size="80" id="ifname@lan2_downusage_pie" ><span class="percent" id="ifname@lan2_downusage">100</span>%<i class="ace-icon fa fa-arrow-down fa-2x purple"></i></div>
+                                    <div class="space-6"></div>
+                                    <div class="space-6"></div>
+                                    <div class="easy-pie-chart percentage" data-percent="100" data-size="80" id="ifname@lan2_upusage_pie" ><span class="percent" id="ifname@lan2_upusage">100</span>%<i class="ace-icon fa fa-arrow-up fa-2x red"></i></div>
+                                    <div class="space-6"></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-8" >
+                                <div class="widget-body">
+                                    <div class="widget-main no-padding">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr><td data-i18n="IPv4 Address"></td><td id="ifname@lan2_ip"></td></tr>
+                                                <tr><td data-i18n="Subnet Mask"></td><td id="ifname@lan2_mask"></td></tr>
+                                                <tr id="ifname@lan2_gw_div"><td data-i18n="Gateway"></td><td id="ifname@lan2_gw"></td></tr>
+                                                <tr id="ifname@lan2_dns_div"><td data-i18n="IPv4 DNS"></td><td id="ifname@lan2_dns"></td></tr>
+                                                <tr><td data-i18n="MAC Address"></td><td id="ifname@lan2_mac"></td></tr>
+                                                <tr><td data-i18n="Online Time"></td><td id="ifname@lan2_livetime"></td></tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div><!-- /.widget-main -->
+                                </div><!-- /.widget-body -->
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main">
+                                <div class="clearfix">
+                                    <!-- #section:custom/extra.grid -->
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-down fa-2x purple"></i><span data-i18n="Byte"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@lan2_rx_bytes"></h4>
+                                    </div>
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-down fa-2x purple"></i><span data-i18n="Packet"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@lan2_rx_packets"></h4>
+                                    </div>
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-up fa-2x red"></i><span data-i18n="Byte"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@lan2_tx_bytes"></h4>
+                                    </div>
+                                    <div class="grid4">
+                                        <span class="grey"><i class="ace-icon fa fa-arrow-up fa-2x red"></i><span data-i18n="Packet"></span></span>
+                                        <h4 class="bigger pull-right" id="ifname@lan2_tx_packets"></h4>
+                                    </div>
+                                    <!-- /section:custom/extra.grid -->
+                                </div>
+                            </div><!-- /.widget-main -->
+                        </div><!-- /.widget-body -->
+                    </div><!-- /.widget-box -->
+                </div><!-- /.col -->
+            
+                <div class="col-sm-5">
+                    <div class="widget-box widget-color-green2">
+                        <div class="widget-header"><h5 class="widget-title bigger lighter" data-i18n="ifname@lan2 Speed"></h5></div>
+                        <div class="widget-body">
+                            <div class="widget-main"><div id="ifname@lan2-charts" style="height:200px"></div></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </div><!-- /.row -->
 
 
 
@@ -1540,7 +1613,6 @@
                     wisp_show( id, value );
                 }
             }
-
             for ( id in v[1] )
             {
                 value = v[1][id];

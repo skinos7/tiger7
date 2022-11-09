@@ -167,8 +167,10 @@ rm -fr ${gSDK_DIR}/package/mtk/applications/igmpproxy
 if [ ! -d ${gSDK_DIR}/feeds/packages/libs/libgpg-error/patches ]; then
     mkdir ${gSDK_DIR}/feeds/packages/libs/libgpg-error/patches
 fi
-cp -r ${gPLATFORM_DIR}/adjust/patch/package/libgpg-error-namespace-error-fix.patch   ${gSDK_DIR}/feeds/packages/libs/libgpg-error/patches
+cp -r ${gPLATFORM_DIR}/adjust/patch/package/libgpg-error-namespace-error-fix.patch ${gSDK_DIR}/feeds/packages/libs/libgpg-error/patches
 
+# ddns-script to support skinos
+cp -r ${gPLATFORM_DIR}/adjust/patch/ddns/dynamic_dns_functions.sh ${gSDK_DIR}/feeds/packages/net/ddns-scripts/files
 
 
 

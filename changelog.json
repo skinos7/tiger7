@@ -1,5 +1,5 @@
 {
-    "v7.2.1108":
+    "v7.2.1110":
     {
         "20221020":"move the storege media to arch@hotplug",
         "20221020b":"modify the init step",
@@ -22,7 +22,12 @@
         "20221104b":"fix previous cookie break login page",
         "20221104c":"only cmd to install to bin",
         "20221104d":"fix register com cannot modify the register value",
-        "20221104e":"add the parasite mode for work at ubuntu"
+        "20221104e":"add the parasite mode for work at ubuntu",
+        "20221110a":"route_info/route_switch/routes_info/routes_switch support metric parameter",
+        "20221110b":"modify the vpn to metric 5 and extern ifname to metric 10",
+        "20221110c":"all vpn ifname support extern parameter",
+        "20221110d":"reset the modem exit immediately",
+        "20221110e":"Don't call contrack randomly, beacuse the well interference mutli-wan shunts"
     },
     "v7.2.1012":
     {

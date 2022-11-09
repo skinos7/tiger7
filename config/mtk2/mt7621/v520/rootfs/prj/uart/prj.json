@@ -43,8 +43,8 @@
     {
         "serial":
         {
-            "cn":"串口(232)",
-            "en":"Serial#232",
+            "cn":"串口(RS232)",
+            "en":"Serial#RS232",
             "page":"serial.html",
             "object":"uart@serial",
             "lang":
@@ -55,8 +55,8 @@
         },
         "serial2":
         {
-            "cn":"串口(485)",
-            "en":"Serial#485",
+            "cn":"串口(RS485)",
+            "en":"Serial#RS485",
             "page":"serial.html",
             "object":"uart@serial2",
             "lang":
