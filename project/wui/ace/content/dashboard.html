@@ -1590,7 +1590,7 @@
         $(id+"_free").text( info.available );
 	}	
     /* load the configure on the input */
-    function data_reload()
+    function dashboard_reload()
     {
         var i;
         var id;
@@ -1641,7 +1641,6 @@
             {
                 ssid_show( "wifi@assid", v[8] );
             }
-            setTimeout( data_reload,(flush_interval*1000));
         })
     }
 
@@ -1669,15 +1668,15 @@
         });
 
         /* load the configure */
-        data_reload();
-        /* set the timer flush
+        dashboard_reload();
+        /* set the timer flush  */
         page.timing({
             refresh: function ()
             {
-                data_reload();
+                dashboard_reload();
             },
             interval: flush_interval*1000
-        }); */
+        });
 
     });
 

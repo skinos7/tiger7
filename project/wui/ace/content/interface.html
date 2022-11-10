@@ -948,6 +948,8 @@
     var wisp;
     var wisp2;
     var sw;
+    /* flush interval */
+    var flush_interval = 2;
 
 	function ltedev_show( info, id )
 	{
@@ -1866,169 +1868,141 @@
 	        i++;
 	    }
 	}
+
     /* load the configure on the input */
-    function status_load()
+    function interface_load()
     {
       he.bkload( [ 'ifname@lte.status', 'ifname@lte2.status', 'modem@lte.status', 'modem@lte2.status', 'ifname@wan.status', 'ifname@wan2.status', 'ifname@lan.status', 'ifname@lan2.status', 'ifname@wisp.status', 'ifname@wisp2.status', 'arch@ethernet.status' ] ).then( function(v){
-        lte = v[0];
-        lte2 = v[1];
-        ltedev = v[2];
-        lte2dev = v[3];
-        wan = v[4];
-        wan2 = v[5];
-        lan = v[6];
-        lan2 = v[7];
-        wisp = v[8];
-        wisp2 = v[9];
-        sw = v[10];
-        if ( lte )
+        if ( v[0] )
         {
-    		lte_show( lte, "#lte" );
+    		lte_show( v[0], "#lte" );
 		}
 		else
 		{
-            ltedev_show( ltedev, "#ltedev" );
+            ltedev_show( v[2], "#ltedev" );
 		}
-        if ( lte2 )
+        if ( v[1] )
         {
-    		lte_show( lte2, "#lte2" );
+    		lte_show( v[1], "#lte2" );
 		}
 		else
 		{
-            ltedev_show( lte2dev, "#lte2dev" );
+            ltedev_show( v[3], "#lte2dev" );
 		}
-		wan_show( wan, "#wan" );
-		wan_show( wan2, "#wan2" );
-		lan_show( lan, "#lan" );
-		lan_show( lan2, "#lan2" );
-		wisp_show( wisp, "#wisp" );
-		wisp_show( wisp2, "#wisp2" );
-		switch_show( sw );
-        setTimeout( status_load,(2*1000));
+		wan_show( v[4], "#wan" );
+		wan_show( v[5], "#wan2" );
+		lan_show( v[6], "#lan" );
+		lan_show( v[7], "#lan2" );
+		wisp_show( v[8], "#wisp" );
+		wisp_show( v[9], "#wisp2" );
+		switch_show( v[10] );
       })
-    }
-    /* flash */
-    function flash_only()
-    {
-      he.bkload( [ 'ifname@lte.status', 'ifname@lte2.status', 'modem@lte.status', 'modem@lte2.status', 'ifname@wan.status', 'ifname@wan2.status', 'ifname@lan.status', 'ifname@lan2.status', 'ifname@wisp.status', 'ifname@wisp2.status', 'arch@ethernet.status' ] ).then( function(v){
-        lte = v[0];
-        lte2 = v[1];
-        ltedev = v[2];
-        lte2dev = v[3];
-        wan = v[4];
-        wan2 = v[5];
-        lan = v[6];
-        lan2 = v[7];
-        wisp = v[8];
-        wisp2 = v[9];
-        sw = v[10];
-        if ( lte )
-        {
-    		lte_show( lte, "#lte" );
-		}
-		else
-		{
-            ltedev_show( ltedev, "#ltedev" );
-		}
-        if ( lte2 )
-        {
-    		lte_show( lte2, "#lte2" );
-		}
-		else
-		{
-            ltedev_show( lte2dev, "#lte2dev" );
-		}
-		wan_show( wan, "#wan" );
-		wan_show( wan2, "#wan2" );
-		lan_show( lan, "#lan" );
-		lan_show( lan2, "#lan2" );
-		wisp_show( wisp, "#wisp" );
-		wisp_show( wisp2, "#wisp2" );
-		switch_show( sw );
-      })
-    }
-
-
-    function button_bind()
-    {
-        $('#lte_btn').on(ace.click_event, function () {
-            if ( lte.status != "up" && lte.status != "uping" && lte.status != "connect" )
-            {
-                he.exec(['wui@admin.ttyd_kill','ifname@lte.setup']).then( function(result){flash_only();} );
-            }
-            else
-            {
-                he.exec('ifname@lte.shut').then( function(result){flash_only();} );
-            }
-        });
-        $('#lte2_btn').on(ace.click_event, function () {
-            if ( lte2.status != "up" && lte2.status != "uping" && lte2.status != "connect" )
-            {
-                he.exec(['wui@admin.ttyd_kill','ifname@lte2.setup']).then( function(result){flash_only();} );
-            }
-            else
-            {
-                he.exec('ifname@lte2.shut').then( function(result){flash_only();} );
-            }
-        });
-        $('#wan_btn').on(ace.click_event, function () {
-            if ( wan.status == "down" )
-            {
-                he.exec('ifname@wan.setup').then( function(result){flash_only();} );
-            }
-            else
-            {
-                he.exec('ifname@wan.shut').then( function(result){flash_only();} );
-            }
-        });
-        $('#wan2_btn').on(ace.click_event, function () {
-            if ( wan2.status == "down" )
-            {
-                he.exec('ifname@wan2.setup').then( function(result){flash_only();} );
-            }
-            else
-            {
-                he.exec('ifname@wan2.shut').then( function(result){flash_only();} );
-            }
-        });
-        $('#wisp_btn').on(ace.click_event, function () {
-            if ( wisp.status == "down" )
-            {
-                he.exec('ifname@wisp.setup').then( function(result){flash_only();} );
-            }
-            else
-            {
-                he.exec('ifname@wisp.shut').then( function(result){flash_only();} );
-            }
-        });
-        $('#wisp2_btn').on(ace.click_event, function () {
-            if ( wisp2.status == "down" )
-            {
-                he.exec('ifname@wisp2.setup').then( function(result){flash_only();} );
-            }
-            else
-            {
-                he.exec('ifname@wisp2.shut').then( function(result){flash_only();} );
-            }
-        });
     }
     
 
     /* init */
     $.i18n().load( page.lang('dashboard') ).then( function () {
+
       /* init the langauage */
       $.i18n().locale = lang; $('body').i18n();
+
+      /* button bind */
+      $('#lte_btn').on(ace.click_event, function () {
+          if ( lte.status != "up" && lte.status != "uping" && lte.status != "connect" )
+          {
+              he.exec(['wui@admin.ttyd_kill','ifname@lte.setup']).then( function(result){
+                  location.reload();
+              } );
+          }
+          else
+          {
+              he.exec('ifname@lte.shut').then( function(result){
+                  location.reload();
+              } );
+          }
+      });
+      $('#lte2_btn').on(ace.click_event, function () {
+          if ( lte2.status != "up" && lte2.status != "uping" && lte2.status != "connect" )
+          {
+              he.exec(['wui@admin.ttyd_kill','ifname@lte2.setup']).then( function(result){
+                  location.reload();
+              } );
+          }
+          else
+          {
+              he.exec('ifname@lte2.shut').then( function(result){
+                  location.reload();
+              } );
+          }
+      });
+      $('#wan_btn').on(ace.click_event, function () {
+          if ( wan.status == "down" )
+          {
+              he.exec('ifname@wan.setup').then( function(result){
+                  location.reload();
+              } );
+          }
+          else
+          {
+              he.exec('ifname@wan.shut').then( function(result){
+                  location.reload();
+              } );
+          }
+      });
+      $('#wan2_btn').on(ace.click_event, function () {
+          if ( wan2.status == "down" )
+          {
+              he.exec('ifname@wan2.setup').then( function(result){
+                  location.reload();
+              } );
+          }
+          else
+          {
+              he.exec('ifname@wan2.shut').then( function(result){
+                  location.reload();
+              } );
+          }
+      });
+      $('#wisp_btn').on(ace.click_event, function () {
+          if ( wisp.status == "down" )
+          {
+              he.exec('ifname@wisp.setup').then( function(result){
+                  location.reload();
+              } );
+          }
+          else
+          {
+              he.exec('ifname@wisp.shut').then( function(result){
+                  location.reload();
+              } );
+          }
+      });
+      $('#wisp2_btn').on(ace.click_event, function () {
+          if ( wisp2.status == "down" )
+          {
+              he.exec('ifname@wisp2.setup').then( function(result){
+                  location.reload();
+              } );
+          }
+          else
+          {
+              he.exec('ifname@wisp2.shut').then( function(result){
+                  location.reload();
+              ;} );
+          }
+      });
+
       /* load the configure */
-      status_load();
-      button_bind();
-      /* set timer
+      interface_load();
+      /* set the timer flush  */
       page.timing({
         refresh: function ()
         {
-            status_load();
+            interface_load();
         },
-        interval: 5000
-      }); */
+        interval: flush_interval*1000
+      });
+
     });
 
   })();
