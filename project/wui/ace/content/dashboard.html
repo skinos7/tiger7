@@ -688,137 +688,6 @@
 
 
 
-
-
-
-
-            <div class="hr hr32 hr-dotted"></div>
-            
-            
-            <div class="row">
-                <div class="space-6"></div>
-                <div class="col-sm-5">
-                    <div class="widget-box">
-                        <div class="widget-header widget-header-flat widget-header-small"><i class="ace-icon fa fa-bar-chart-o"></i> <h5 class="widget-title" data-i18n="Utilization"></h5></div>
-                        <div class="space-6"></div>
-                        <div class="row">
-                            <div class="col-sm-4" >
-                                <div class="center">
-                                    <div class="space-6"></div>
-                                    <div class="easy-pie-chart percentage" data-percent="100" data-size="125" id="cpu_usage_pie" ><span class="percent" id="cpu_usage">100</span>% <span data-i18n="CPU"></span></div>
-                                    <div class="space-6"></div>
-                                    <div class="space-6"></div>
-                                    <div class="easy-pie-chart percentage" data-percent="100" data-size="125" id="mem_usage_pie" ><span class="percent" id="mem_usage">100</span>% <span data-i18n="Memory"></span></div>
-                                    <div class="space-6"></div>
-                                </div>
-                            </div>
-                            <div class="col-sm-8" >
-                                <div class="widget-body">
-                                    <div class="widget-main no-padding">
-                                        <table class="table">
-                                            <tbody>
-                                                <tr><td data-i18n="CPU User"></td><td id="cpu_user"></td></tr>
-                                                <tr><td data-i18n="CPU system"></td><td id="cpu_system"></td></tr>
-                                                <tr><td data-i18n="CPU IRQ"></td><td id="cpu_irq"></td></tr>
-                                                <tr><td data-i18n="CPU Softirq"></td><td id="cpu_softirq"></td></tr>
-                                                <tr><td data-i18n="Memory Total"></td><td id="memory_total"></td></tr>
-                                                <tr><td data-i18n="Memory Free"></td><td id="memory_free"></td></tr>
-                                                <tr><td data-i18n="Memory Buffers"></td><td id="memory_buffer"></td></tr>
-                                                <tr><td data-i18n="Memory Cached"></td><td id="memory_cached"></td></tr>
-                                            </tbody>
-                                        </table>
-                                    </div><!-- /.widget-main -->
-                                </div><!-- /.widget-body -->
-                            </div>
-                        </div>
-                        <div class="widget-body">
-                            <div class="widget-main">
-                                <div class="clearfix">
-                                    <!-- #section:custom/extra.grid -->
-                                    <div class="grid2">
-                                        <div class="infobox infobox-blue" id="sg1" style="display: none;">
-                                            <div class="infobox-icon"><div class="easy-pie-chart percentage" data-percent="100" data-size="50" id="sg1_usage_pie"><span class="percent" id="sg1_usage">100</span>%</div></div>
-                                            <div class="infobox-data">
-                                                <span class="infobox-data-number" id="sg1_name"></span>
-                                                <div class="infobox-content" id="sg1_free"></div>
-                                            </div>
-                                            <div class="badge badge-success" id="sg1_total"></div>
-                                        </div>
-                                    </div>
-                                    <div class="grid2">
-                                        <div class="infobox infobox-blue" id="sg2" style="display: none;">
-                                            <div class="infobox-icon"><div class="easy-pie-chart percentage" data-percent="100" data-size="50" id="sg2_usage_pie"><span class="percent" id="sg2_usage">100</span>%</div></div>
-                                            <div class="infobox-data">
-                                                <span class="infobox-data-number" id="sg2_name"></span>
-                                                <div class="infobox-content" id="sg2_free"></div>
-                                            </div>
-                                            <div class="badge badge-success" id="sg2_total"></div>
-                                        </div>
-                                    </div>
-                                    <!-- /section:custom/extra.grid -->
-                                </div>
-                                <div class="clearfix">
-                                    <!-- #section:custom/extra.grid -->
-                                    <div class="grid2">
-                                        <div class="infobox infobox-blue" id="sg3" style="display: none;">
-                                            <div class="infobox-icon"><div class="easy-pie-chart percentage" data-percent="100" data-size="50" id="sg3_usage_pie"><span class="percent" id="sg3_usage">100</span>%</div></div>
-                                            <div class="infobox-data">
-                                                <span class="infobox-data-number" id="sg3_name"></span>
-                                                <div class="infobox-content" id="sg3_free"></div>
-                                            </div>
-                                            <div class="badge badge-success" id="sg3_total"></div>
-                                        </div>
-                                    </div>
-                                    <div class="grid2">
-                                        <div class="infobox infobox-blue" id="sg4" style="display: none;">
-                                            <div class="infobox-icon"><div class="easy-pie-chart percentage" data-percent="100" data-size="50" id="sg4_usage_pie"><span class="percent" id="sg4_usage">100</span>%</div></div>
-                                            <div class="infobox-data">
-                                                <span class="infobox-data-number" id="sg4_name"></span>
-                                                <div class="infobox-content" id="sg4_free"></div>
-                                            </div>
-                                            <div class="badge badge-success" id="sg4_total"></div>
-                                        </div>
-                                    </div>
-                                    <!-- /section:custom/extra.grid -->
-                                </div>
-                            </div><!-- /.widget-main -->
-                        </div><!-- /.widget-body -->
-                    </div><!-- /.widget-box -->
-                </div><!-- /.col -->
-            
-                <div class="col-sm-5">
-                    <div class="widget-box widget-color-green2">
-                        <div class="widget-header"><h5 class="widget-title bigger lighter" data-i18n="CPU Usage"></h5></div>
-                        <div class="widget-body">
-                            <div class="widget-main"><div id="cpu-charts" style="height:100px"></div></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-5">
-                    <div class="widget-box widget-color-green">
-                        <div class="widget-header"><h5 class="widget-title bigger lighter" data-i18n="Memory Usage"></h5></div>
-                        <div class="widget-body">
-                            <div class="widget-main"><div id="mem-charts" style="height:100px"></div></div>
-                        </div>
-                    </div>
-                </div>
-            
-            </div><!-- /.row -->
-            
-            
-            
-
-
-
-
-            
-
-
-            <div class="hr hr32 hr-dotted"></div>
-
-
-
-
             <!-- PAGE CONTENT ENDS -->
         </div><!-- /.col -->
     </div><!-- /.row -->
@@ -837,15 +706,7 @@
     var flush_interval = 1;
     /* global buffer */
     var buff = {};
-    /* cpu id */
-    var cpuid = [ "cpu", "cpu0", "cpu1", "cpu2", "cpu3" ];
-    /* init the cpu info */
-    for ( var id in cpuid )
-    {
-        buff[ cpuid[id]+"_idle"] = 0;
-        buff[ cpuid[id]+"_total"] = 0;
-        buff[ cpuid[id]+"_data"] = [];
-    }
+
     /* init the mem info */
     buff["mem_data"] = [];
     /* init the ifname@lte info */
@@ -1468,134 +1329,13 @@
     }
 
 
-    function cpumem_show( cpuinfo, meminfo )
-    {
-        /* CPU PIE */
-        var cpu = cpuinfo["cpu"];
-        var oi = buff["cpu_idle"];
-        var ot = buff["cpu_total"];
-        var idle = parseInt(cpu.idle);
-        var total = parseInt(cpu.user)+parseInt(cpu.system)+parseInt(cpu.nice)+parseInt(cpu.iowait)+parseInt(cpu.irq)+parseInt(cpu.softirq)+parseInt(cpu.idle);
-        var usage = ((total-ot-(idle-oi))/(total-ot))*100;
-        $("#cpu_usage").text( usage.toFixed(0) );
-        $("#cpu_usage_pie").data('easyPieChart').update( usage.toFixed(0) );
-        $("#cpu_user").text( cpu.user );
-        $("#cpu_system").text( cpu.system );
-        $("#cpu_irq").text( cpu.irq );
-        $("#cpu_softirq").text( cpu.softirq );
-        
-
-        /* Memeory PIE */
-	    var use = meminfo.total-meminfo.free;
-	    var usage = (use/meminfo.total)*100;
-        $("#mem_usage").text( usage.toFixed(0) );
-        $("#mem_usage_pie").data('easyPieChart').update( usage.toFixed(0) );
-        $("#mem_total").text( meminfo.total+"K" );
-        $("#mem_free").text( meminfo.free+"K" );
-        $("#memory_total").text( meminfo.total );
-        $("#memory_free").text( meminfo.free );
-        $("#memory_buffer").text( meminfo.buffers );
-        $("#memory_cached").text( meminfo.cached );
-
-        /* get the time */
-        var date = new Date();
-        var day = date.getHours();
-        date = date.setHours( 8+day );
-        var newdate = new Date( date );
-        var d_time = newdate.getTime();
-
-
-        /* cpu line */
-        var cpu_datas =[];
-        for( var i in cpuid )
-        {
-            var id = cpuid[i];
-            var info = cpuinfo[id];
-            if ( info )
-            {
-                var datas = {};
-                datas['label'] = $.i18n(id.toUpperCase());
-                var info = cpuinfo[id];
-                var oidle = buff[id+"_idle"];
-                var ototal = buff[id+"_total"];
-                var nidle = parseInt(info.idle);
-                var ntotal = parseInt(info.user)+parseInt(info.system)+parseInt(info.nice)+parseInt(info.iowait)+parseInt(info.irq)+parseInt(info.softirq)+parseInt(info.idle);
-                var usage = ((ntotal-ototal-(nidle-oidle))/(ntotal-ototal))*100;
-                buff[id+"_idle"] = nidle;
-                buff[id+"_total"] = ntotal;
-                buff[id+"_data"].push( [d_time,usage] );  
-                if( id == "cpu0" )
-                {
-                    datas['color']= "#ff0000";
-                }
-                else if( id == "cpu1" )
-                {
-                    datas['color']= "#00ff00";
-                }
-                else if( id == "cpu2" )
-                {
-                    datas['color']= "#0000ff";
-                }
-                else if( id == "cpu3" )
-                {
-                    datas['color']= "#ffff00";
-                }
-                datas['data'] = buff[id+"_data"];
-                cpu_datas.push(datas);
-            }
-        }
-        $("#cpu-charts").css( {'width':'100%' , 'height':'180px'} );
-        var opt =
-        {
-            points: { clickable:true, hoverable:true },
-            lines: { show:true, lineWidth: 1 },
-            selection: { mode: "x" },
-            yaxis: { max: 100, tickFormatter:function(axis) { return axis.toString()+"%"; } },
-            xaxis: { mode:"time", timeformat: "%H:%M:%S", minTickSize: [3, "second"] },
-            legend: { position: "ne", backgroundColor:"#fff" } 
-        };
-        $.plot( "#cpu-charts", cpu_datas, opt );
-
-        /* memory line */
-        var mem_datas =[];
-        var mem_usage = ( ( meminfo.total-meminfo.free)/meminfo.total ) * 100;
-        buff["mem_data"].push( [ d_time, mem_usage ] );  
-        var datas = {}; 
-        datas['label'] = $.i18n('Memory');
-        datas['color'] = "#00ffff";
-        datas['data'] = buff["mem_data"];
-        mem_datas.push( datas );
-        $("#mem-charts").css( {'width':'100%' , 'height':'180px'} );
-        var opt =
-        {
-            points: { clickable:true, hoverable:true },
-            lines: { show:true, lineWidth: 1 },
-            selection: { mode: "x" },
-            yaxis: { max: 100, tickFormatter:function(axis) { return axis.toString()+"%"; } },
-            xaxis: { mode:"time", timeformat: "%H:%M:%S", minTickSize: [3, "second"] },
-            legend: { position: "ne", backgroundColor:"#fff" } 
-        };
-        $.plot( "#mem-charts", mem_datas, opt );
-    }
-
-    
-	function sg_show( id, name, info )
-	{
-        $(id).show();
-        $(id+"_name").text( $.i18n(name) );
-	    var usage = parseInt( info.use );
-        $(id+"_usage").text( usage );
-        $(id+"_usage_pie").data('easyPieChart').update( usage );        
-        $(id+"_total").text( info.size );
-        $(id+"_free").text( info.available );
-	}	
     /* load the configure on the input */
     function dashboard_reload()
     {
         var i;
         var id;
         var value;
-        he.bkload( [ 'network@frame.extern', 'network@frame.local', 'land@machine.cpuinfo', 'land@machine.meminfo', 'land@machine.sginfo', 'network@frame.gateway', 'client@station.number', "wifi@nssid.status", "wifi@assid.status" ] ).then( function(v){
+        he.bkload( [ 'network@frame.extern', 'network@frame.local', 'network@frame.gateway', 'client@station.number', "wifi@nssid.status", "wifi@assid.status" ] ).then( function(v){
 
             for ( id in v[0] )
             {
@@ -1617,29 +1357,19 @@
             {
                 value = v[1][id];
                 lan_show( id, value );
-                if ( v[6] )
+                if ( v[3] )
                 {
-                    $("[id='"+id+"_client']").html( v[6] );
+                    $("[id='"+id+"_client']").html( v[3] );
                 }
             }
 
-            cpumem_show( v[2], v[3] );
-
-            i = 1;
-            for ( id in v[4] )
+            if ( v[4] )
             {
-                value = v[4][id];
-                sg_show( "#sg"+i, id, value );
-                i++;
+                ssid_show( "wifi@nssid", v[4] );
             }
-
-            if ( v[7] )
+            if ( v[5] )
             {
-                ssid_show( "wifi@nssid", v[7] );
-            }
-            if ( v[8] )
-            {
-                ssid_show( "wifi@assid", v[8] );
+                ssid_show( "wifi@assid", v[5] );
             }
         })
     }
