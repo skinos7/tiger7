@@ -153,24 +153,24 @@ Example, show all the WISP configure
 Example, modify the SSID for WISP connect
 ```shell
 ifname@wisp:peer=Myhotpot
-true
+ttrue
 ifname@wisp:secure=wpapsk
-true
+ttrue
 ifname@wisp:wpa_key=88888888
-true
+ttrue
 # You can also use one command to complete the operation of the above three command
 ifname@wisp|{"peer":"Myhotpot", "secure":"wpapsk", "wpa_key":"88888888"}
-true
+ttrue
 ```
 Example, disable the WISP keeplive function
 ```shell
 ifname@wisp:keeplive=disable
-true
+ttrue
 ```
 Example, disable the WISP
 ```shell
 ifname@wisp:status=disable
-true
+ttrue
 ```
 
 

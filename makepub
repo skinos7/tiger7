@@ -11,7 +11,7 @@
 #    make repo
 #done
 
-for tmp in smtk2-mt7628-d218-h728 smtk2-mt7628-d218-8m smtk2-mt7628-d218-inrico smtk2-mt7628-d218-zwzx smtk2-mt7628-d218-sx smtk2-mt7628-d218-ok
+for tmp in smtk2-mt7628-d218-h728 smtk2-mt7628-d218-8m smtk2-mt7628-d218-zwzx smtk2-mt7628-d218-sx smtk2-mt7628-d218-ok
 do
     make gBOARDID=${tmp} pid
     make pidinfo
@@ -52,7 +52,7 @@ done
 
 
 
-for tmp in smtk2-mt7621-v520-greatwall smtk2-mt7621-v520-zebra smtk2-mt7621-v520-factory
+for tmp in smtk2-mt7621-v520-greatwall smtk2-mt7621-v520-zebra smtk2-mt7621-v520-ddonkey smtk2-mt7621-v520-factory
 do
     make gBOARDID=${tmp} pid
     make test
@@ -64,6 +64,32 @@ do
     make ftp
 done
 for tmp in smtk2-mt7621-v520
+do
+    make gBOARDID=${tmp} pid
+    make test
+    make clean
+    make distclean
+    make dep
+    make
+    make sz
+    make ftp
+    make repo
+done
+
+
+
+for tmp in smtk2-mt7621-v520b-ddonkey
+do
+    make gBOARDID=${tmp} pid
+    make test
+    make clean
+    make distclean
+    make dep
+    make
+    make sz
+    make ftp
+done
+for tmp in smtk2-mt7621-v520b
 do
     make gBOARDID=${tmp} pid
     make test

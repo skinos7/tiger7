@@ -34,12 +34,12 @@ tui@telnet
 Examples, modify the port of telnet server
 ```shell
 tui@telnet:port=2323
-true
+ttrue
 ```  
 Examples, disable the telnet server
 ```shell
 tui@telnet:status=disable
-true
+ttrue
 ```  
 
 
@@ -77,10 +77,10 @@ tui@telent
 示例, 修改telnet服务器的端口为2323
 ```shell
 tui@telnet:port=2323
-true
+ttrue
 ```  
 示例, 禁用telnet服务器
 ```shell
 tui@telnet:status=disable
-true
+ttrue
 ```  

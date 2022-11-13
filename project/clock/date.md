@@ -32,7 +32,7 @@ clock@date
 Examples, modify the time zone to West 5
 ```shell
 clock@date:timezone=-5
-true
+ttrue
 ```  
 
 #### **Methods**
@@ -67,17 +67,17 @@ true
     ```shell
     # examples, set 11:12:23, On July 8th, in 2019
     clock@date.current[ 11:12:23:07:08:2019 ]
-    true
+    ttrue
     ```
 
 + `ntpsync[ [NTP Server] ]` **sync the time with NTP server**, *succeed return ttrue, failed return tfalse, error return terror*
     ```shell
     # examples, sync the time with time.window.com
     clock@date.ntpsync[ time.window.com ]
-    true
+    ttrue
     # examples, sync the time with NTP server in the configure
     clock@date.ntpsync
-    true
+    ttrue
     ```
 
 
@@ -113,7 +113,7 @@ clock@date
 示例修改时区为西5区
 ```shell
 clock@date:timezone=-5
-true
+ttrue
 ```  
 
 #### **接口** 
@@ -151,13 +151,13 @@ true
     ```shell
     # 示例,  把设备时间设置为2019年7月8日的11点12分23秒
     clock@date.current[ 11:12:23:07:08:2019 ]
-    true
+    ttrue
     ```
 
 + `ntpsync[ [NTP服务器] ]` **与指定的NTP服务器同步时间**, 参数中不给出NTP服务器将从组件配置的ntpserver属性获取NTP服务器来同步时间, *成功返回ttrue, 失败返回tfalse, 出错返回terror*
     ```shell
     # 示例, 与times.windows.com使用NTP协议同步时间
     clock@date.ntpsync[ times.windows.com ]
-    true
+    ttrue
     ```
 

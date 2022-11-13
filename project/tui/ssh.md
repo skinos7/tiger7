@@ -34,12 +34,12 @@ tui@ssh
 Examples, modify the port of telnet server
 ```shell
 tui@ssh:port=2222
-true
+ttrue
 ```  
 Examples, disable the telnet server
 ```shell
 tui@ssh:status=disable
-true
+ttrue
 ```  
 
 
@@ -77,10 +77,10 @@ tui@ssh
 示例, 修改ssh服务器的端口为2222
 ```shell
 tui@ssh:port=2222
-true
+ttrue
 ```  
 示例, 禁用ssh服务器
 ```shell
 tui@ssh:status=disable
-true
+ttrue
 ```  

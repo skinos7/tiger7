@@ -138,12 +138,12 @@ ifname@lan
 Example, modify the local network ip address
 ```shell
 ifname@lan:static/ip=192.168.2.1
-true
+ttrue
 ```
 Example, disable the local network dhcp server
 ```shell
 ifname@lan:dhcps/status=disable
-true
+ttrue
 ```
 
 #### **Methods**

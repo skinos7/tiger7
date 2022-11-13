@@ -129,29 +129,29 @@ ifname@lte
 Example, modify the keeplive to icmp for LTE1
 ```shell
 ifname@lte:keeplive/type=icmp
-true
+ttrue
 ```
 Example, modify the keeplive to icmp for LTE2
 ```shell
 ifname@lte2:keeplive/type=icmp
-true
+ttrue
 ```
 Example, modify the icmp keeplive destination address for LTE2
 ```shell
 ifname@lte2:keeplive/icmp/dest/test=8.8.8.8            # modify the icmp keeplive first destination address to 8.8.8.8
-true
+ttrue
 ifname@lte2:keeplive/icmp/dest/test2=8.8.4.4           # modify the icmp keeplive second destination address to 8.8.4.4 
-true
+ttrue
 ifname@lte2:keeplive/icmp/dest/test3=114.114.114.114   # modify the icmp keeplive third destination address to 114.114.114.114
-true
+ttrue
 # You can also use one command to complete the operation of the above three command
 ifname@lte2:keeplive/icmp/dest|{"test":"8.8.8.8", "test2":"8.8.4.4", "test3":"114.114.114.114"}
-true
+ttrue
 ```
 Example, disable the LTE2 network
 ```shell
 ifname@lte2:status=disable
-true
+ttrue
 ```
 
 #### **Methods**
@@ -247,13 +247,13 @@ true
     ```shell
     # examples, shutdown the frist LTE network
     ifname@lte.shut
-    true
+    ttrue
     ```
 
-+ `setup[]` **setup the modem network**, *succeed return ttrue, failed return tfalse, error return terror*
++ `setup[]` **setup the modem network**, *succeed return tttrue, failed return tfalse, error return terror*
     ```shell
     # examples, setup the second LTE network
     ifname@lte2.setup
-    true
+    ttrue
     ```
 

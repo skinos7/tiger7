@@ -87,6 +87,6 @@ clock@date
 示例禁用自动重启
 ```shell
 clock@restart:mode=disable
-true
+ttrue
 ```
 

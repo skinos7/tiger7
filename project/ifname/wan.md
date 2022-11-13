@@ -134,17 +134,17 @@ ifname@wan
 Example, modify the WAN dial mode to DHCP
 ```shell
 ifname@wan:mode=dhcpc
-true
+ttrue
 ```
 Example, modify the WAN2 pppoe username
 ```shell
 ifname@wan2:pppoe/username=dimmalex@ashyelf.com
-true
+ttrue
 ```
 Example, disable the WAN
 ```shell
 ifname@wan:status=disable
-true
+ttrue
 ```
 
 #### **Methods**

@@ -1,5 +1,5 @@
 {
-    "v7.2.1110":
+    "v7.2.1112":
     {
         "20221020":"move the storege media to arch@hotplug",
         "20221020b":"modify the init step",
@@ -27,7 +27,12 @@
         "20221110b":"modify the vpn to metric 5 and extern ifname to metric 10",
         "20221110c":"all vpn ifname support extern parameter",
         "20221110d":"reset the modem exit immediately",
-        "20221110e":"Don't call contrack randomly, beacuse the well interference mutli-wan shunts"
+        "20221110e":"Don't call contrack randomly, beacuse the well interference mutli-wan shunts",
+        "20221112a":"fix he command at sms for contract bug",
+        "20221112b":"add more ttyUSBX for dual LTE maybe cannot work",
+        "20221112c":"add the ddns for std release",
+        "20221112d":"tip to support hex string send and receive",
+        "20221112e":"umount the interval flash when upgrade firmware"
     },
     "v7.2.1012":
     {

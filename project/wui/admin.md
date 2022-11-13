@@ -77,12 +77,12 @@ wui@admin
 Examples, modify the port of web page server
 ```shell
 wui@admin:port=2222
-true
+ttrue
 ```  
 Examples, disable the web page server
 ```shell
 wui@admin:status=disable
-true
+ttrue
 ```  
 
 
@@ -133,12 +133,12 @@ wui@admin
 示例, 修改管理网页服务器的端口为8080
 ```shell
 wui@admin:port=8080
-true
+ttrue
 ```  
 示例, 禁用管理网页服务器
 ```shell
 wui@admin:status=disable
-true
+ttrue
 ```  
 
 

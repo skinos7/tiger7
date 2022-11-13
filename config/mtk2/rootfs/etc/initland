@@ -78,6 +78,14 @@ mkdev	dev/ttyUSB3   c	188 3	$cons
 mkdev	dev/ttyUSB4   c	188 4	$cons
 mkdev	dev/ttyUSB5   c	188 5	$cons
 mkdev	dev/ttyUSB6   c	188 6	$cons
+mkdev	dev/ttyUSB7   c	188 7	$cons
+mkdev	dev/ttyUSB8   c	188 8	$cons
+mkdev	dev/ttyUSB9   c	188 9	$cons
+mkdev	dev/ttyUSB10  c	188 10	$cons
+mkdev	dev/ttyUSB11  c	188 11	$cons
+mkdev	dev/ttyUSB12  c	188 12	$cons
+mkdev	dev/ttyUSB13  c	188 13	$cons
+mkdev	dev/ttyUSB14  c	188 14	$cons
 #mkdev	dev/pts/0   c	136	0   $cons 
 #mkdev	dev/pts/1   c	136	1   $cons 
 #mkdev	dev/pts/2   c	136	2   $cons 

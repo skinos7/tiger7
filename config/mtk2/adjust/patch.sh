@@ -171,6 +171,7 @@ cp -r ${gPLATFORM_DIR}/adjust/patch/package/libgpg-error-namespace-error-fix.pat
 
 # ddns-script to support skinos
 cp -r ${gPLATFORM_DIR}/adjust/patch/ddns/dynamic_dns_functions.sh ${gSDK_DIR}/feeds/packages/net/ddns-scripts/files
+cp -r ${gPLATFORM_DIR}/adjust/patch/ddns/dynamic_dns_updater.sh ${gSDK_DIR}/feeds/packages/net/ddns-scripts/files
 
 
 

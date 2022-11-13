@@ -144,6 +144,41 @@ load_all_config_options()
 	local __VAR
 	local __ALL_OPTION_VARIABLES=""
 
+    # add by dimmalex
+    export enabled=1
+	export retry_count=0
+	export use_syslog=1
+	export use_https=0
+	export use_ipv6=0
+    export service_name=`he ddns@scripts:$2/isp`
+    export lookup_host=`he ddns@scripts:$2/domain`
+    export domain=`he ddns@scripts:$2/domain`
+    export username=`he ddns@scripts:$2/username`
+    export password=`he ddns@scripts:$2/password`
+	export check_unit="seconds"
+	local i=`he ddns@scripts:$2/check_interval`
+	if [ "X$i" != "X" ]; then
+		export check_interval=$i
+	else
+		export check_interval=600
+	fi
+	export retry_unit="seconds"
+	local i=`he ddns@scripts:$2/retry_interval`
+	if [ "X$i" != "X" ]; then
+		export retry_interval=$i
+	else
+		export retry_interval=60
+	fi
+	export ip_network=""
+    export ip_source="interface"
+	local i=`he ddns@scripts:$2/extern`
+	if [ "X$i" != "X" ]; then
+		export ip_interface=`he $i.netdev`
+	else
+		export ip_interface=`he network@frame.default:netdev`
+	fi
+	return 0
+
 	# this callback loads all the variables in the __SECTIONID section when we do
 	# config_load. We need to redefine the option_cb for different sections
 	# so that the active one isn't still active after we're done with it.  For reference
@@ -169,6 +204,8 @@ load_all_config_options()
 	do
 		config_get "$__VAR" "$__SECTIONID" "$__VAR"
 	done
+
+
 	return 0
 }
 
@@ -349,6 +386,20 @@ urlencode() {
 # $3	Name of Variable to store service answer to
 get_service_data() {
 	[ $# -ne 3 ] && write_log 12 "Error calling 'get_service_data()' - wrong number of parameters"
+
+    # add by dimmalex for skinos
+    __URL=`he ddns@scripts:url`
+    __SCRIPT=`he ddns@scripts:scripts`
+    __ANSWER=`he ddns@scripts:answer`
+    [ -n "$service_name" ] && {
+        __URL=`he ddns@services:$service_name/url`
+        __SCRIPT=`he ddns@services:$service_name/scripts`
+        __ANSWER=`he ddns@services:$service_name/answer`
+    }
+	eval "$1=\"$__URL\""
+	eval "$2=\"$__SCRIPT\""
+	eval "$3=\"$__ANSWER\""
+    return 0
 
 	__FILE="/etc/ddns/services"				# IPv4
 	[ $use_ipv6 -ne 0 ] && __FILE="/etc/ddns/services_ipv6"	# IPv6
