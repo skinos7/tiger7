@@ -69,7 +69,7 @@ boole_t _service( obj_t this, param_t param )
                 sleep( i );
             }
             info( "restart the system by %s for %s mode", COM_IDPATH, mode );
-			machine_restart( 5000000, "restart" );
+			machine_restart( 5, "restart" );
         }
     }
 
@@ -127,14 +127,14 @@ boole_t _service( obj_t this, param_t param )
                 if ( hour == ptime->tm_hour && minute == ptime->tm_min )
                 {
                     info( "restart the system by %s for %s mode(%u:%u)", COM_IDPATH, mode, hour, minute );
-					machine_restart( 5000000, "restart" );
+					machine_restart( 5, "restart" );
                 }
             }
 			up = uptime_int();
 			if ( up >= age )
 			{
 				info( "restart the system by %s for %s mode(age:%d:%d)", COM_IDPATH, mode, age, up );
-				machine_restart( 5000000, "restart" );
+				machine_restart( 5, "restart" );
 			}
             sleep( 50 );
         }while(1);
@@ -226,7 +226,7 @@ boole_t _service( obj_t this, param_t param )
 					if ( hour == ptime->tm_hour && minute == ptime->tm_min )
 					{
 						info( "restart the system by %s for %s mode(%u:%u)", COM_IDPATH, mode, hour, minute );
-						machine_restart( 5000000, "restart" );
+						machine_restart( 5, "restart" );
 						return ttrue;
 					}
 				}
@@ -240,7 +240,7 @@ boole_t _service( obj_t this, param_t param )
             {
                 info( "restart the system by %s for %s mode station age(%s)", COM_IDPATH, mode, ptr );
             }
-			machine_restart( 5000000, "restart" );
+			machine_restart( 5, "restart" );
             return ttrue;
         }
     }
