@@ -49,7 +49,7 @@
 						<div class="login-container">
 							<div class="center" id="logo">
 								<h1><span class="white" id="id-text2" data-i18n="Management"></span></h1>
-								<h4 class="blue" id="copywrong">&copy; Ashyelf</h4>
+								<h4 class="blue" id="copyright">&copy; Ashyelf</h4>
 							</div>
 							<div class="space-6"></div>
 							<div class="position-relative">
@@ -140,15 +140,15 @@
 				}
                 $('#logo').html(stamp);
             }
-            else if ( window.machine.copywrong )
+            else
             {
-                if ( window.machine.copywrong == "hide" )
+                if ( window.wui.copyright && window.wui.copyright == "disable" )
                 {
-                    $("#copywrong").hide();
+                    $("#copyright").hide();
                 }
                 else
                 {
-                    $("#copywrong").html( window.machine.copywrong );
+                    $("#copyright").show();
                 }
             }
 

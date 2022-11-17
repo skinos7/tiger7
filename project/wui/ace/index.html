@@ -436,7 +436,11 @@
                 else
                 {
                     $('#sidebar-shortcuts').show();
-                    if ( window.machine.copyright && window.machine.copyright == "enable" )
+                    if ( window.wui.copyright && window.wui.copyright == "disable" )
+                    {
+                        $("#copyright").hide();
+                    }
+                    else
                     {
                         $("#copyright").show();
                     }
@@ -870,7 +874,7 @@
     					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE' ), 'lte?object=ifname@lte' );
     					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE SMS' ), 'ltesms?object=modem@lte' );
     					    var bsim = <%he('modem@lte:bsim'); %>;
-    					    if ( bsim )
+    					    if ( bsim && bsim != "" )
     					    {
     					        menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE Backup SIM' ), 'bsim?object=modem@lte' );
     					    }
@@ -883,7 +887,7 @@
     					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE/NR' ), 'lte?object=ifname@lte2' );
     					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE/NR SMS' ), 'ltesms?object=modem@lte2' );
     					    var bsim = <%he('modem@lte2:bsim'); %>;
-    					    if ( bsim )
+    					    if ( bsim && bsim != "" )
     					    {
     					        menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE/NR Backup SIM' ), 'bsim?object=modem@lte2' );
     					    }
@@ -944,8 +948,11 @@
 				}
 				
                 menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'Hosts' ), 'hosts' );
-                
-                menu.add( menus, $.i18n( 'Wireless' ), 'ssid', 'menu-icon fa fa-wifi' );
+
+                if ( nradio == true || aradio == true )
+                {
+                    menu.add( menus, $.i18n( 'Wireless' ), 'ssid', 'menu-icon fa fa-wifi' );
+                }
 
 				menu.add( menus, $.i18n( 'Station' ), 'station', 'menu-icon fa fa-mobile' );
 

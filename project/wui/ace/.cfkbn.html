@@ -426,6 +426,15 @@
                                         <button class="btn btn-mini btn-main" id="model_modify" data-i18n="Modify"></button>
                                     </div>
                                 </div>
+                                <!-- Features -->
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" data-i18n="Features"></label>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="features_string" class="col-xs-10 col-sm-5" maxlength="128" />
+                                        &nbsp;&nbsp;&nbsp;
+                                        <button class="btn btn-mini btn-main" id="features_modify" data-i18n="Modify"></button>
+                                    </div>
+                                </div>
                                 <!-- MAC地址 -->
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right" data-i18n="MAC Address"></label>
@@ -760,6 +769,21 @@
                   if ( nmodel != window.machine_status.model )
                   {
                       he.exec( [ "arch@data:model="+nmodel ] ).then( function(){
+                          location.reload(true);
+                      });
+                  }
+                  else
+                  {
+                      page.alert( { message: $.i18n('Settings unchanged') } );
+                      return;
+                  }
+              });
+              $('#features_string').val( window.machine_status.features );
+              $('#features_modify').click(function () {
+                  var nfeatures = $("#features_string").val();
+                  if ( nfeatures != window.machine_status.features )
+                  {
+                      he.exec( [ "arch@data:features="+nfeatures ] ).then( function(){
                           location.reload(true);
                       });
                   }

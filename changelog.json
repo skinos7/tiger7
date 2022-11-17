@@ -1,4 +1,12 @@
 {
+    "v7.2.1117":
+    {
+        "20221117a":"add the features for d218 support",
+        "20221117b":"fix the ipsec bug",
+        "20221117c":"fix the interface button cannot work",
+        "20221117d":"no show wireless menu when system have not wifi radio device",
+        "20221117d":"fix the ashyelf copyright cannot hide"
+    },
     "v7.2.1112":
     {
         "20221020":"move the storege media to arch@hotplug",
@@ -32,7 +40,7 @@
         "20221112b":"add more ttyUSBX for dual LTE maybe cannot work",
         "20221112c":"add the ddns for std release",
         "20221112d":"tip to support hex string send and receive",
-        "20221112e":"umount the interval flash when upgrade firmware"
+        "20221112e":"fix gnss memory leak"
     },
     "v7.2.1012":
     {

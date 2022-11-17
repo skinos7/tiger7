@@ -338,7 +338,7 @@
                     <td>
                         <span id="lte2_status"></span>&nbsp; &nbsp;
                         <a class="btn btn-mini btn-warning" id="lte2_btn"><i class="ace-icon fa fa-pause"></i></a>&nbsp;
-                        <a class="btn btn-mini btn-main" href="#lte?obj=ifname@lte2"><i class="ace-icon fa fa-wrench"></i></a>
+                        <a class="btn btn-mini btn-main" href="#lte?object=ifname@lte2"><i class="ace-icon fa fa-wrench"></i></a>
                     </td>
         		</tr>
         		<tr>
@@ -550,7 +550,7 @@
                     <td>
                         <span id="wan2_status"></span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                         <a class="btn btn-mini btn-warning" id="wan2_btn"><i class="ace-icon fa fa-pause"></i></a>&nbsp;
-                        <a class="btn btn-mini btn-main" href="#wan?obj=ifname@wan2"><i class="ace-icon fa fa-wrench"></i></a>
+                        <a class="btn btn-mini btn-main" href="#wan?object=ifname@wan2"><i class="ace-icon fa fa-wrench"></i></a>
                     </td>
         		</tr>
         		<tr>
@@ -863,7 +863,7 @@
                     <td data-i18n="Status"></td>
                     <td>
                         <span id="lan2_status"></span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                        <a class="btn btn-mini btn-main" href="#lan?obj=ifname@lan2"><i class="ace-icon fa fa-wrench"></i></a>                     
+                        <a class="btn btn-mini btn-main" href="#lan?object=ifname@lan2"><i class="ace-icon fa fa-wrench"></i></a>                     
                     </td>
         		</tr>
         		<tr>
@@ -1875,27 +1875,38 @@
       he.bkload( [ 'ifname@lte.status', 'ifname@lte2.status', 'modem@lte.status', 'modem@lte2.status', 'ifname@wan.status', 'ifname@wan2.status', 'ifname@lan.status', 'ifname@lan2.status', 'ifname@wisp.status', 'ifname@wisp2.status', 'arch@ethernet.status' ] ).then( function(v){
         if ( v[0] )
         {
-    		lte_show( v[0], "#lte" );
+    		lte = v[0];
+    		lte_show( lte, "#lte" );
 		}
 		else
 		{
-            ltedev_show( v[2], "#ltedev" );
+    		lte = v[2];
+            ltedev_show( lte, "#ltedev" );
 		}
         if ( v[1] )
         {
-    		lte_show( v[1], "#lte2" );
+    		lte2 = v[1];
+    		lte_show( lte2, "#lte2" );
 		}
 		else
 		{
-            ltedev_show( v[3], "#lte2dev" );
+    		lte2 = v[3];
+            ltedev_show( lte2, "#lte2dev" );
 		}
-		wan_show( v[4], "#wan" );
-		wan_show( v[5], "#wan2" );
-		lan_show( v[6], "#lan" );
-		lan_show( v[7], "#lan2" );
-		wisp_show( v[8], "#wisp" );
-		wisp_show( v[9], "#wisp2" );
-		switch_show( v[10] );
+		wan = v[4];
+		wan_show( wan, "#wan" );
+		wan2 = v[5];
+		wan_show( wan2, "#wan2" );
+		lan = v[6];
+		lan_show( lan, "#lan" );
+		lan2 = v[7];
+		lan_show( lan2, "#lan2" );
+		wisp = v[8];
+		wisp_show( wisp, "#wisp" );
+		wisp2 = v[9];
+		wisp_show( wisp2, "#wisp2" );
+		sw = v[10];
+		switch_show( sw );
       })
     }
     
