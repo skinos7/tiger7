@@ -34,6 +34,16 @@ do
     make ftp
     make repo
 done
+for tmp in smtk2-mt7628-d218-std-wlinkr100  smtk2-mt7628-d218-std-wlinkr222  smtk2-mt7628-d218-std-wlinkr320
+do
+    make gBOARDID=${tmp} pid
+    ./mkdel
+    make test
+    make dep
+    make
+    make sz
+    make ftp
+done
 
 
 

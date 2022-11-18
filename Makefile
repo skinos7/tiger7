@@ -16,7 +16,6 @@
 ifeq (gBOARDID, $(wildcard gBOARDID))
 sinclude gBOARDID 
 endif
-gZZID ?= default
 gBOARDID ?= host-x86-ubuntu
 
 #####################################
@@ -34,8 +33,13 @@ gHARDWARE := $(word 2,${gBOARDIDS})
 gCUSTOM := $(word 3,${gBOARDIDS})
 # Custom Identify
 gSCOPE := $(word 4,${gBOARDIDS})
+# Custom OEM
+gZZID := $(word 5,${gBOARDIDS})
 ifeq (${gSCOPE},)
 gSCOPE := std
+endif 
+ifeq (${gZZID},)
+gZZID := default
 endif 
 # Get the date
 #gPUBLISH ?= $(shell date +%m%d%y)
