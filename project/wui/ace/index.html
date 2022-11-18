@@ -1017,6 +1017,13 @@
 				            continue;
 				        }
 				    }
+				    if ( window.wui.menu )
+				    {
+				        if ( window.wui.menu[index] == "disable" )
+				        {
+				            continue;
+				        }
+				    }
 				    var app_page = app['page'];
 				    if ( !app_page )
 				    {
