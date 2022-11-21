@@ -86,7 +86,7 @@ const char *nic_object_get( const char *radio, const char *syspath, talk_t cfg, 
 	talk_t axp;
 	talk_t caxp;
 	talk_t list;
-	char *value;
+	const char *value;
 	const char *ptr;
 	const char *object;
 	register_file_t h;
