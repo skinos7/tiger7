@@ -11,7 +11,8 @@
 	"vpn@l2tpc":"L2TP Client",
 	"vpn@pptpc":"PPTP Client",
 	"vpn@gre":"GRE Tunnel",
-	"openvpnc@vpn":"OPENVPN Client",
+	"ovpn@client":"OPENVPN Client",
+	"ovpn@server":"OPENVPN Server",
 
 	"recordtext":"View {0} - {1} of {2}"
 }
