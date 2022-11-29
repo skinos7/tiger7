@@ -2009,6 +2009,13 @@ static struct mtd_info *raspi_probe(struct map_info *map)
 	}
 #endif
 
+//add by qingcheng mt7628 have 8M and 16M spi flash, if 16Mbyte resize it
+	if (flash->mtd.size >= 0x1000000) {
+		rt2880_partitions[0].size = flash->mtd.size - 0x180000;
+		rt2880_partitions[4].size = flash->mtd.size - (MTD_BOOT_PART_SIZE + MTD_CONFIG_PART_SIZE + MTD_FACTORY_PART_SIZE + 0x180000);
+		rt2880_partitions[5].size = 0x180000;
+	}
+
 #ifdef TWO_SPI_FLASH
 	flash->chips[0] = chip;
 
