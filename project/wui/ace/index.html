@@ -207,26 +207,32 @@
 	</head>
 
 	<body class="no-skin">
+
+
+
         <table id="logo" width="100%" frame=void rules=none style="display: none" >
             <tr>
                 <td width="200px"><span id="logo_img"></span></td>
                 <td align="left" >
                     <table width="90%" frame=void rules=none>
-                        <tr><td style="font-size:30px">&nbsp;</td></tr>
-                        <tr><td style="font-size:20px" align="left" id="logo_title"></td></tr>
-                        <tr><td style="font-size:10px">&nbsp;</td></tr>
+                        <tr><td width="20px"></td><td style="font-size:30px">&nbsp;</td></tr>
+                        <tr><td><td style="font-size:20px" align="left" id="logo_title"></td></tr>
+                        <tr><td><td style="font-size:10px">&nbsp;</td></tr>
                     </table>            
                 </td>
                 <td width="150px">
-                    <table width="100%" id="logo_model" style="border:0px solid #ffffff;" >
+                    <table width="100%" id="logo_model" style="display: none;border:0px solid #ffffff;" >
                         <tr><th data-i18n="Model"></th><td id="cmodel"></td></tr>
                         <tr><th data-i18n="Version"></th><td id="version"></td></tr>
                     </table>
-                    <div id="logo_logout" style="display: none" class="navbar-header pull-right"><a href="#" id="logout" class="navbar-brand"><i class="ace-icon fa fa-sign-out"></i></a></div>
+                    <div id="logo_logout" class="navbar-header pull-right" style="display: none" ><a href="#" id="logout" class="navbar-brand"><i class="ace-icon fa fa-sign-out"></i></a></div>
                 </td>
             </tr>
         </table>
-		<div id="navbar" class="navbar navbar-default          ace-save-state">
+
+
+
+		<div id="navbar" class="navbar navbar-default          ace-save-state" style="display: none;" >
 			<div class="navbar-container ace-save-state" id="navbar-container">
 				<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
 					<span class="sr-only">Toggle sidebar</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
@@ -261,6 +267,8 @@
 				</div>
 			</div><!-- /.navbar-container -->
 		</div>
+
+
 
 		<div class="main-container ace-save-state" id="main-container">
 			<script type="text/javascript">try{ace.settings.loadState('main-container')}catch(e){}</script>
@@ -305,6 +313,8 @@
 
 			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse"><i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i></a>
 		</div><!-- /.main-container -->
+
+
 
 		<!-- add by dimmalex for loading show -->
 		<div class="overlay-wrapper" style="display: none;" id="overlay-loading">
@@ -359,6 +369,8 @@
 
 		<!-- add by dimmalex for global -->
 		<script type="text/javascript">
+		    var logoshow = false;
+            var nbarshow = true;
             window.obj = <%obj(); %>;
             window.object = <%object(); %>;
             window.username = <%username(); %>;
@@ -379,13 +391,11 @@
 			window.tcpdump = "<%shell( 'which tcpdump | tr -d "\n"' ); %>";
 			window.lang = window.machine.language;
 			document.title = window.machine.name;
-			$('#prompt').html( document.title );
 			var wuimenu = wui.menu;
 			// disable load the subpage, loading when after i18n loadin
 			ace.demo.functions.enableDemoAjax= function () {};
             if ( window.wui )
             {
-                var logoshow = false;
                 if ( window.wui.logo_color )
                 {
                     logoshow = true;
@@ -404,47 +414,81 @@
                     {
                         $('#logo_title').append( document.title );
                     }
+                    else if ( window.wui.logo_title == "#MODEL" )
+                    {
+                        if ( window.machine_status.cmodel )
+                        {
+                            $('#logo_title').text( window.machine_status.cmodel );
+                        }
+                        else
+                        {
+                            $('#logo_title').text( window.machine_status.model );
+                        }
+                    }
                     else
                     {
                         $('#logo_title').append( window.wui.logo_title );
                     }
-                }
-                if ( window.wui.model_bar == "disable" )
-                {
-                    $('#navbar').hide();
+                    $("#logo_title").css("color", window.wui.logo_title_color );
                 }
                 if ( window.wui.logo_model == "disable" )
                 {
                     $('#logo_model').hide();
                     $('#logo_logout').show();
-                }
-                if ( window.machine_status.cmodel )
-                {
-                    $('#cmodel').text( window.machine_status.cmodel );
-                }
-                else
-                {
-                    $('#cmodel').text( window.machine_status.model );
-                }
-                $('#version').text( window.machine_status.version );
-                if ( logoshow == true )
-                {
-                    $('#logo').show();
-                    $("#copyright").hide();
-                    $('#sidebar-shortcuts').hide();
-                }
-                else
-                {
-                    $('#sidebar-shortcuts').show();
-                    if ( window.wui.copyright && window.wui.copyright == "disable" )
+                    if ( window.wui.logo_logout_color )
                     {
-                        $("#copyright").hide();
+                        $("#logout").css("color", window.wui.logo_logout_color );
+                    }
+                }
+                else
+                {
+                    if ( window.machine_status.cmodel )
+                    {
+                        $('#cmodel').text( window.machine_status.cmodel );
                     }
                     else
                     {
-                        $("#copyright").show();
+                        $('#cmodel').text( window.machine_status.model );
                     }
+                    $('#version').text( window.machine_status.version );
+                    $('#logo_model').show();
                 }
+                
+                if ( window.wui.nav_bar == "disable" )
+                {
+                    nbarshow = false;
+                }
+                else
+                {
+                    nbarshow = true;
+                }
+            }
+            if ( logoshow == true )
+            {
+                $('#logo').show();
+                $("#copyright").hide();
+                $('#sidebar-shortcuts').hide();
+            }
+            else
+            {
+                $('#sidebar-shortcuts').show();
+                if ( window.wui.copyright && window.wui.copyright == "disable" )
+                {
+                    $("#copyright").hide();
+                }
+                else
+                {
+                    $("#copyright").show();
+                }
+            }
+            if ( nbarshow == true )
+            {
+                $('#navbar').show();
+                $('#prompt').html( document.title );
+            }
+            else
+            {
+                $('#navbar').hide();
             }
             var win = window;
             var doc = win.document;

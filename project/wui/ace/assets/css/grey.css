@@ -1,0 +1,320 @@
+
+/* 登录提示色, 也是系统默认主色 */
+.main-color {
+  color: #777777!important;
+}
+
+
+
+/*                  Custom LOGO                       */
+/******************************************************/
+/*                  narbar                            */
+/******************************************************/
+/*       *//*         Breadcrumbs                     */
+/*       *//*******************************************/
+/*       *//*                                         */
+/*       *//*                                         */
+/*Sidebar*//*         Page conten                     */
+/*       *//*                                         */
+/*       *//*                                         */
+/*       *//*                                         */
+/*       *//*******************************************/
+/*       *//*         Footer                          */
+/******************************************************/
+
+
+
+/* navbar背景色 */
+.no-skin .navbar {
+  background-color: #858585!important;
+}
+/* navbar上菜单折叠按钮背景色 */
+/* .no-skin .navbar .navbar-toggle[data-toggle=collapse]:not(.collapsed), */
+.no-skin .navbar .navbar-toggle.display,
+.no-skin .navbar .navbar-toggle,
+.no-skin .navbar .navbar-toggle:hover,
+.no-skin .navbar .navbar-toggle:focus {
+  background-color: #777777!important;
+}
+
+
+
+/* Sidebar菜单区上方快捷键背景颜色 */
+#sidebar-shortcuts {
+  background-color: #858585;
+  border-color: #858585;
+}
+/* Sidebar菜单区上方快捷键功能按钮1颜色 */
+.btn-success,
+.btn-success.focus,
+.btn-success:focus {
+  background-color: #888888!important;
+  border-color: #8A8A8A;
+}
+.btn-success.focus:hover,
+.btn-success:active:hover,
+.btn-success:focus:active,
+.btn-success:focus:hover,
+.btn-success:hover {
+  background-color: #858585!important;
+  border-color: #777777;
+}
+/* Sidebar菜单区上方快捷键功能按钮2颜色 */
+.btn-primary,
+.btn-primary.focus,
+.btn-primary:focus {
+  background-color: #888888!important;
+  border-color: #8A8A8A;
+}
+.btn-primary.focus:hover,
+.btn-primary:active:hover,
+.btn-primary:focus:active,
+.btn-primary:focus:hover,
+.btn-primary:hover {
+  background-color: #858585!important;
+  border-color: #777777;
+}
+/* Sidebar菜单区上方快捷键功能按钮3颜色 */
+.btn-info,
+.btn-info.focus,
+.btn-info:focus {
+  background-color: #888888!important;
+  border-color: #8A8A8A;
+}
+.btn-info.focus:hover,
+.btn-info:active:hover,
+.btn-info:focus:active,
+.btn-info:focus:hover,
+.btn-info:hover {
+  background-color: #858585!important;
+  border-color: #777777;
+}
+/* Sidebar菜单区上方快捷键功能按钮4颜色 */
+.btn-danger,
+.btn-danger.focus,
+.btn-danger:focus {
+  background-color: #888888!important;
+  border-color: #8A8A8A;
+}
+.btn-danger.focus:hover,
+.btn-danger:active:hover,
+.btn-danger:focus:active,
+.btn-danger:focus:hover,
+.btn-danger:hover {
+  background-color: #858585!important;
+  border-color: #777777;
+}
+
+
+
+/* Sidebar菜单区背景颜色 */
+#sidebar {
+  background-color: #858585;
+  border-color: #858585;
+}
+/* Sidebar菜单区菜单栏颜色  */
+.no-skin .nav-list,
+.no-skin .nav-list>li,
+.no-skin .nav-list>li>a {
+  color: #ffffff;
+  background-color: #858585!important;
+  border-color: #858585;
+}
+/* Sidebar菜单区菜单栏下菜单项颜色 */
+.no-skin .nav-list>li .submenu,
+.no-skin .nav-list>li .submenu>li,
+.no-skin .nav-list>li .submenu>li>a {
+  color: #ffffff;
+  background-color: #858585!important;
+  border-color: #858585;
+}
+/* Sidebar菜单区菜单栏下菜单项的左边框颜色 */
+.no-skin .nav-list>li .submenu::before,
+.no-skin .nav-list>li .submenu>li::before,
+.no-skin .nav-list>li .submenu>li>a::before {
+  color: #ffffff;
+  background-color: #ffffff!important;
+  border-color: #ffffff;
+}
+
+/* Sidebar菜单区菜单栏选中后颜色  */
+.no-skin .nav-list:focus,
+.no-skin .nav-list>li:focus,
+.no-skin .nav-list>li>a:focus,
+.no-skin .nav-list>li:hover>a,
+.no-skin .nav-list>li.active>a,
+.no-skin .nav-list>li.open>a {
+  color: #ffffff;
+  background-color: #777777!important;
+  border-color: #777777;
+}
+/* Sidebar菜单区菜单栏下菜单项选中后颜色  */
+.no-skin .nav-list>li .submenu>li>a:hover,
+.no-skin .nav-list>li .submenu>li.active>a {
+  color: #ffffff;
+  background-color: #777777!important;
+  border-color: #777777;
+}
+/* Sidebar菜单区菜单栏下菜单项选中后左边框颜色 */
+.no-skin .nav-list>li.active .submenu::before,
+.no-skin .nav-list>li.active .submenu>li::before,
+.no-skin .nav-list>li.active .submenu>li>a::before {
+  color: #f5f5f5;
+  background-color: #f5f5f5!important;
+  border-color: #f5f5f5;
+}
+/* Sidebar菜单区菜单栏下菜单项选中后左边三角形颜色 */
+.no-skin .nav-list>li.active .submenu>li.active>a>i {
+  color: #f5f5f5;
+  background-color: #777777!important;
+  border-color: #777777;
+}
+/* Sidebar菜单区菜单栏选中后的右边框颜色 */
+.no-skin .nav-list>li.active:after {
+  border: 2px solid #ffffff;
+  border-color: #ffffff;
+}
+/* Sidebar菜单区菜单栏选中后的右边框三角型颜色 */
+.no-skin .nav-list li.active>a:after {
+  border-right-color: #ffffff;
+}
+
+/* 左侧菜单下方折叠按键背景 */
+#sidebar-collapse {
+  background-color: #858585!important;
+  border-color: #858585;
+}
+
+
+
+/* 内容区上方位置条颜色 */
+.breadcrumb>li>a {
+  color: #777777;
+  background-color: #f5f5f5!important;
+  border-color: #777777;
+}
+
+/* 单选框 */
+.checkbox-red input[type=checkbox].ace:checked+.lbl::before,
+.radio-red input[type=radio].ace:checked+.lbl::before {
+  color: #777777;
+}
+/* 开关 */
+input[type=checkbox].ace.ace-switch.ace-switch-6:checked+.lbl::before {
+  background-color: #777777;
+}
+
+/* 应用按钮 */
+.btn-main,
+.btn-main.focus,
+.btn-main:focus {
+  background-color: #888888!important;
+  border-color: #8A8A8A;
+}
+.btn-main.focus:hover,
+.btn-main:active:hover,
+.btn-main:focus:active,
+.btn-main:focus:hover,
+.btn-main:hover {
+  background-color: #858585!important;
+  border-color: #777777;
+}
+/* 取消按钮 */
+.btn-second,
+.btn-second.focus,
+.btn-second:focus {
+  background-color: #999999!important;
+  border-color: #999999;
+}
+.btn-second.focus:hover,
+.btn-second:active:hover,
+.btn-second:focus:active,
+.btn-second:focus:hover,
+.btn-second:hover {
+  background-color: #858585!important;
+  border-color: #777777;
+}
+.btn-second[disabled],
+.btn-second.focus:hover[disabled],
+.btn-second:active:hover[disabled],
+.btn-second:focus:active[disabled],
+.btn-second:focus:hover[disabled],
+.btn-second:hover[disabled] {
+  background-color: #858585!important;
+  border-color: #777777;
+}
+/* 高级功能按钮 */
+.btn-warning,
+.btn-warning.focus,
+.btn-warning:focus {
+  background-color: #888888!important;
+  border-color: #8A8A8A;
+}
+.btn-warning.focus:hover,
+.btn-warning:active:hover,
+.btn-warning:focus:active,
+.btn-warning:focus:hover,
+.btn-warning:hover {
+  background-color: #858585!important;
+  border-color: #777777;
+}
+/* 下载按钮 */
+.btn-mini,
+.btn-mini.focus,
+.btn-mini:focus {
+  background-color: #888888!important;
+  border-color: #8A8A8A;
+}
+.btn-mini.focus:hover,
+.btn-mini:active:hover,
+.btn-mini:focus:active,
+.btn-mini:focus:hover,
+.btn-mini:hover {
+  background-color: #858585!important;
+  border-color: #777777;
+}
+/* 上传按钮 */
+.ace-file-input .ace-file-container:before {
+  background-color: #888888!important;
+  border-color: #8A8A8A;
+}
+
+
+
+/* Dashboard左边标签边框色 */
+.widget-box {
+  border-color: #E4E6E9;
+}
+/* Dashboard左边标签抬头 */
+.widget-header {
+  background-color: #E4E6E9!important;
+  border-color: #E4E6E9!important;
+  color: #777777;
+}
+/* jqGrid表头背景颜色 */
+.ui-jqgrid-titlebar {
+  background-color: #E4E6E9!important;
+  border-color: #E4E6E9;
+  color: #777777;
+}
+/* jqGrid表头字颜色 */
+.ui-jqgrid-title {
+  color: #777777;
+}
+/* jqGrid表头后尖头颜色 */
+.ui-jqgrid-headlink {
+  color: #777777!important;
+}
+/* 进度条 */
+.progress-bar-red {
+  background-color: #777777!important;
+}
+
+
+
+
+
+
+
+
+

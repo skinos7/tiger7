@@ -1,32 +1,96 @@
 
-
-/* main-color */
+/* 登录提示色, 也是系统默认主色 */
 .main-color {
   color: #333366!important;
 }
-.second-color {
-  color: #272121!important;
-}
 
 
 
-/* 进度条 */
-.progress-bar-red {
+/*                  Custom LOGO                       */
+/******************************************************/
+/*                  narbar                            */
+/******************************************************/
+/*       *//*         Breadcrumbs                     */
+/*       *//*******************************************/
+/*       *//*                                         */
+/*       *//*                                         */
+/*Sidebar*//*         Page conten                     */
+/*       *//*                                         */
+/*       *//*                                         */
+/*       *//*                                         */
+/*       *//*******************************************/
+/*       *//*         Footer                          */
+/******************************************************/
+
+
+
+/* navbar背景色 */
+.no-skin .navbar {
   background-color: #333366!important;
 }
+/* navbar上菜单折叠按钮背景色 */
+/* .no-skin .navbar .navbar-toggle[data-toggle=collapse]:not(.collapsed), */
+.no-skin .navbar .navbar-toggle.display,
+.no-skin .navbar .navbar-toggle,
+.no-skin .navbar .navbar-toggle:hover,
+.no-skin .navbar .navbar-toggle:focus {
+  background-color: #333366!important;
+}
+
+
+
+/* Sidebar菜单区上方快捷键背景颜色 */
+#sidebar-shortcuts {
+  background-color: #f5f5f5;
+  border-color: #f5f5f5;
+}
+
+
+
+/* Sidebar菜单区菜单栏停靠时左侧颜色 */
+.no-skin .nav-list>li:before {
+  background-color: #969696;
+}
+/* Sidebar菜单区菜单栏选中后颜色  */
+.no-skin .nav-list:focus,
+.no-skin .nav-list>li:focus,
+.no-skin .nav-list>li>a:focus,
+.no-skin .nav-list>li:hover>a,
+.no-skin .nav-list>li.active>a,
+.no-skin .nav-list>li.open>a {
+  color: #272121;
+}
+/* Sidebar菜单区菜单栏下菜单项选中后颜色  */
+.no-skin .nav-list>li .submenu>li>a:hover,
+.no-skin .nav-list>li .submenu>li.active>a {
+  color: #272121;
+}
+/* Sidebar菜单区菜单栏选中后的右边框颜色 */
+.no-skin .nav-list>li.active:after {
+  border: 2px solid #969696;
+}
+/* Sidebar菜单区菜单栏选中后的右边框三角型颜色 */
+.no-skin .nav-list li.active>a:after {
+  border-right-color: #969696;
+}
+
+
+
+.breadcrumb>li>a {
+  color: #272121;
+}
+
 /* 单选框 */
 .checkbox-red input[type=checkbox].ace:checked+.lbl::before,
 .radio-red input[type=radio].ace:checked+.lbl::before {
   color: #333366;
 }
-/* switch */
+/* 开关 */
 input[type=checkbox].ace.ace-switch.ace-switch-6:checked+.lbl::before {
   background-color: #333366;
 }
 
-
-
-/* 确定/设置按钮 */
+/* 应用按钮 */
 .btn-main,
 .btn-main.focus,
 .btn-main:focus {
@@ -41,7 +105,7 @@ input[type=checkbox].ace.ace-switch.ace-switch-6:checked+.lbl::before {
   background-color: #272121!important;
   border-color: #272121;
 }
-/* 取消/备份/下载按钮 */
+/* 取消按钮 */
 .btn-second,
 .btn-second.focus,
 .btn-second:focus {
@@ -65,70 +129,16 @@ input[type=checkbox].ace.ace-switch.ace-switch-6:checked+.lbl::before {
   background-color: #272121!important;
   border-color: #272121;
 }
-/* 重启/复位按钮 */
-
-
-
-
-/* 左上角菜单折叠按钮背景色 */
-/* .no-skin .navbar .navbar-toggle[data-toggle=collapse]:not(.collapsed), */
-.no-skin .navbar .navbar-toggle.display,
-.no-skin .navbar .navbar-toggle,
-.no-skin .navbar .navbar-toggle:hover,
-.no-skin .navbar .navbar-toggle:focus {
-  background-color: #333366!important;
-}
-.no-skin .nav-list>li>a:focus /* 一级菜单 focus */,
-.nav-list>li:before /* 一级菜单hover左侧颜色 */,
-.no-skin .nav-list>li:hover>a /* 一级菜单hover */,
-.no-skin .nav-list>li.active>a /* 一级菜单选中 */,
-.no-skin .nav-list>li.open>a /* 一级菜单展开 */,
-.no-skin .nav-list>li .submenu>li.active>a /* 子菜单选中 */,
-.no-skin .nav-list>li .submenu>li>a:hover /* 子菜单hover */,
-.breadcrumb>li>a /* 面包屑 */ {
-  color: #272121;
-}
-
-
-
-/* 一级菜单左侧颜色 */
-.nav-list>li:before {
-  background-color: #969696;
-}
-/* 左侧菜单选中的右边框颜色 */
-.no-skin .nav-list>li.active:after {
-  border: 2px solid #969696;
-}
-/* 当前选中的菜单右边框颜色 */
-.no-skin .nav-list li.active>a:after {
-  border-right-color: #969696;
-}
 
 
 
 /* jqGrid 表头背景颜色 */
 .ui-jqgrid-titlebar {
-  background-color: #303276!important;
+  background-color: #333366!important;
 }
-
-
-
-/* 设置向导颜色 */
-.steps>li.active.step,
-.steps>li.active:before,
-.steps>li.complete .step,
-.steps>li.complete:before,
-.steps>li.active .step,
-.steps>li.active:before,
-.steps>li.complete .step,
-.steps>li.complete:before {
-  border-color: #272121;
-}
-#navbar {
-  background-color: #333366;
-}
-.disturb:hover {
-  color: #b87777!important;
+/* 进度条 */
+.progress-bar-red {
+  background-color: #333366!important;
 }
 
 
