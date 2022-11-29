@@ -1,4 +1,13 @@
 {
+    "v7.2.1127":
+    {
+        "20221127a":"modify the webpage, delete the color for title at the interface and dashboard",
+        "20221127b":"add the snmpd, ha, upnp",
+        "20221127c":"d218 use uClibc, and add the nfs support",
+        "20221127d":"add the grey css for webpage",
+        "20221127e":"fix fm150 gps bug",
+        "20221127f":"add the conf dir to save the open source code configure file"
+    },
     "v7.2.1117":
     {
         "20221117a":"add the features for d218 support",
