@@ -551,11 +551,11 @@ boole_t _service( obj_t this, param_t param )
 	{
 		if ( com_sexist( ifdev, "reset" ) == true )
 		{
-			ret = scall( ifdev, "reset", NULL );
+			scall( ifdev, "reset", NULL );
 		}
 		talk_free( cfg );
 		sleep( 5 );
-		return ret;
+		return tfalse;
 	}
 
     /* ifdev up take this cfg */
