@@ -36,7 +36,7 @@ boole_t _setup( obj_t this, param_t param )
     if ( ptr == NULL || 0 != strcmp( ptr, "enable" ) )
     {
         talk_free( cfg );
-        return tfalse;
+        return ttrue;
     }
 	/* execute preset */
 	ptr = exe2path( NULL, 0, "dropbearkey.sh" );

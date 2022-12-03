@@ -34,7 +34,7 @@ boole_t _setup( obj_t this, param_t param )
     if ( ptr == NULL || 0 != strcmp( ptr, "enable" ) )
     {
         talk_free( cfg );
-        return tfalse;
+        return ttrue;
     }
     /* get the manager */
 	axp = NULL;
