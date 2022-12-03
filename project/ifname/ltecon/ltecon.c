@@ -844,14 +844,6 @@ boole_t _service( obj_t this, param_t param )
 
 
 
-    /* get the netdev */
-	netdev = register_pointer( ifdev, "netdev" );
-    if ( netdev == NULL || *netdev == '\0' )
-    {
-    	mode = "ppp";
-		method = "disable";
-		json_set_string( cfg, "mode", "ppp" );
-    }
 	/* ifdev connect */
 	info( "%s connect", ifdev );
 	if ( scallt( ifdev, "connect", cfg ) != ttrue )
@@ -897,6 +889,17 @@ boole_t _service( obj_t this, param_t param )
 		return tfalse;
 	}
 
+
+
+    /* get the netdev */
+	netdev = register_value( ifdev, "netdev" );
+    if ( netdev == NULL || *netdev == '\0' )
+    {
+		warn( "%s modify the mode to ppp when cannot find netdev", ifdev );
+    	mode = "ppp";
+		method = "disable";
+		json_set_string( cfg, "mode", "ppp" );
+    }
 	scalls( GPIO_COM, "action", "network/onlineing,%s", ifdev );
 	/* static ip setting */
 	if ( mode != NULL && 0 == strcmp( mode, "static" ) )
