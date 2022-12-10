@@ -420,6 +420,7 @@ boole_t _usb_match( obj_t this, param_t param )
 	const char *netdev;
     const char *object;
 	const char *syspath;
+	char buffer[NAME_MAX];
     char ttylist[10][NAME_MAX];
 
 	dev = param_talk( param, 1 );
@@ -463,7 +464,8 @@ boole_t _usb_match( obj_t this, param_t param )
 			}
 		}
 		/* set the name */
-		json_set_string( dev, "name", "ZTE-7520" );
+		snprintf( buffer, sizeof(buffer), "ZTE-%s", pid );
+		json_set_string( dev, "name", buffer );
 		/* get the object */
 		object = lte_object_get( LTE_COM, syspath, cfg, NULL, 0 );
 		json_set_string( dev, "object", object );
