@@ -36,6 +36,19 @@
                 "en":"en.json"
             }
         },
+        "nmssid":
+        {
+            "menu":"Wireless",
+            "cn":"2.4G多SSID",
+            "en":"2.4G MSSID",
+            "page":"mssid.html",
+            "object":"wifi@n",
+            "lang":
+            {
+                "cn":"cn.json",
+                "en":"en.json"
+            }
+        },
         "nstation":
         {
             "menu":"Wireless",
@@ -78,6 +91,19 @@
             "cn":"5.8G热点",
             "en":"5.8G SSID",
             "page":"radio.html",
+            "object":"wifi@a",
+            "lang":
+            {
+                "cn":"cn.json",
+                "en":"en.json"
+            }
+        },
+        "amssid":
+        {
+            "menu":"Wireless",
+            "cn":"5.8G多SSID",
+            "en":"5.8G MSSID",
+            "page":"mssid.html",
             "object":"wifi@a",
             "lang":
             {

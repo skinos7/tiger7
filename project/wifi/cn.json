@@ -1,5 +1,7 @@
 {
 	"Status":"状态",
+	"Second SSID":"第二个SSID",
+	"Third SSID":"第三个SSID",
 	"Security Mode":"安全模式",
 	"Disable(None)":"禁用",
 	"WPA-PSK(Private)":"WPA-PSK(个人)",

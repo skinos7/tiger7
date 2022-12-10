@@ -1,0 +1,466 @@
+<!-- ajax layout which only needs content area -->
+<div class="row" id="page-modes">
+  <div class="col-xs-12 form-btn-wrapper">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="form-horizontal" role="form">
+
+
+      <!-- 状态 -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Second SSID"></label>
+        <div class="col-sm-9">
+          <label>
+            <input id="status" class="ace ace-switch ace-switch-6" type="checkbox" />
+            <span class="lbl"></span>
+          </label>
+        </div>
+      </div>
+
+      <div id="ssid_cfg">
+        <!-- 名称 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="SSID"></label>
+          <div class="col-sm-9">
+            <div class="clearfix">
+              <input type="text" id="ssid" class="col-xs-10 col-sm-5" maxlength="32" />
+            </div>
+          </div>
+        </div>
+        <!-- 安全模式 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Security Mode"></label>
+          <div class="col-sm-9">
+            <select class="col-xs-10 col-sm-5" id="secure">
+              <option value="disable" data-i18n="Disable(None)"></option>
+              <option value="wpapsk" data-i18n="WPA-PSK(Private)"></option>
+              <option value="wpa2psk" data-i18n="WPA2-PSK(Private)"></option>
+              <option value="wpapskwpa2psk" data-i18n="Mixed WPA-PSK(Private)"></option>
+            </select>
+          </div>
+        </div>
+        <div id="secure_cfg">
+        <!-- WPA 模式 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="WPA Mode"></label>
+          <div class="col-sm-9">
+            <select class="col-xs-10 col-sm-5" id="wpa_encrypt">
+              <option value="tkip" data-i18n="TKIP"></option>
+              <option value="aes" data-i18n="AES"></option>
+              <option value="tkipaes" data-i18n="Auto"></option>
+            </select>
+          </div>
+        </div>
+        <!-- 密码 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Password"></label>
+          <div class="col-sm-9">
+            <div class="clearfix">
+              <span class="input-icon input-icon-right input-icon-form col-xs-10 col-sm-5">
+                <input type="password" id="wpa_key" maxlength="128" autocomplete="new-password" />
+                <i class="ace-icon fa fa-eye-slash" id="wpa_key-icon"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+        </div>  <!-- secure_cfg -->
+        <!-- 隐藏SSID开关 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Hide SSID"></label>
+          <div class="col-sm-9">
+            <label>
+              <input id="hide" class="ace ace-switch ace-switch-6" type="checkbox" />
+              <span class="lbl"></span>
+            </label>
+          </div>
+        </div>
+        <!-- 隔离客户端 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Isolate Clients"></label>
+          <div class="col-sm-9">
+            <label>
+              <input id="isolated" class="ace ace-switch ace-switch-6" type="checkbox" />
+              <span class="lbl"></span>
+            </label>
+          </div>
+        </div>
+        <!-- ACL -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Clients ACL"></label>
+            <div class="col-sm-9">
+              <div class="btn-group">
+                <div class="btn-group">
+                  <a class="btn btn-second" data-i18n="ACL Settings" id="acl" href="#"></a>
+                </div>
+              </div>
+            </div>
+        </div>
+
+      </div> <!-- ssid_cfg -->
+
+
+
+      <div class="hr hr32 hr-dotted"></div>
+
+
+
+      <!-- 状态 -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Third SSID"></label>
+        <div class="col-sm-9">
+          <label>
+            <input id="status2" class="ace ace-switch ace-switch-6" type="checkbox" />
+            <span class="lbl"></span>
+          </label>
+        </div>
+      </div>
+
+      <div id="ssid_cfg2">
+        <!-- 名称 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="SSID"></label>
+          <div class="col-sm-9">
+            <div class="clearfix">
+              <input type="text" id="ssid2" class="col-xs-10 col-sm-5" maxlength="32" />
+            </div>
+          </div>
+        </div>
+        <!-- 安全模式 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Security Mode"></label>
+          <div class="col-sm-9">
+            <select class="col-xs-10 col-sm-5" id="secure2">
+              <option value="disable" data-i18n="Disable(None)"></option>
+              <option value="wpapsk" data-i18n="WPA-PSK(Private)"></option>
+              <option value="wpa2psk" data-i18n="WPA2-PSK(Private)"></option>
+              <option value="wpapskwpa2psk" data-i18n="Mixed WPA-PSK(Private)"></option>
+            </select>
+          </div>
+        </div>
+        <div id="secure_cfg2">
+        <!-- WPA 模式 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="WPA Mode"></label>
+          <div class="col-sm-9">
+            <select class="col-xs-10 col-sm-5" id="wpa_encrypt2">
+              <option value="tkip" data-i18n="TKIP"></option>
+              <option value="aes" data-i18n="AES"></option>
+              <option value="tkipaes" data-i18n="Auto"></option>
+            </select>
+          </div>
+        </div>
+        <!-- 密码 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Password"></label>
+          <div class="col-sm-9">
+            <div class="clearfix">
+              <span class="input-icon input-icon-right input-icon-form col-xs-10 col-sm-5">
+                <input type="password" id="wpa_key2" maxlength="128" autocomplete="new-password" />
+                <i class="ace-icon fa fa-eye-slash" id="wpa_key-icon2"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+        </div>  <!-- secure_cfg2 -->
+        <!-- 隐藏SSID开关 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Hide SSID"></label>
+          <div class="col-sm-9">
+            <label>
+              <input id="hide2" class="ace ace-switch ace-switch-6" type="checkbox" />
+              <span class="lbl"></span>
+            </label>
+          </div>
+        </div>
+        <!-- 隔离客户端 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Isolate Clients"></label>
+          <div class="col-sm-9">
+            <label>
+              <input id="isolated2" class="ace ace-switch ace-switch-6" type="checkbox" />
+              <span class="lbl"></span>
+            </label>
+          </div>
+        </div>
+        <!-- ACL -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Clients ACL"></label>
+            <div class="col-sm-9">
+              <div class="btn-group">
+                <div class="btn-group">
+                  <a class="btn btn-second" data-i18n="ACL Settings" id="acl2" href="#"></a>
+                </div>
+              </div>
+            </div>
+        </div>
+
+      </div> <!-- ssid_cfg2 -->
+
+
+
+
+
+      <div class="clearfix form-actions">
+        <div class="col-md-offset-3 col-md-9">
+          <button class="btn btn-second" type="button" id="refresh"><span data-i18n="Refresh"></span></button>
+          &nbsp; &nbsp; &nbsp;
+          <button class="btn btn-main" type="button" id="apply"><span data-i18n="Apply"></span></button>
+        </div>
+      </div>
+
+
+    </div>
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+
+
+
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+    /* get the object */
+    var ssid;
+    var ssid2;
+    var object = "wifi@x";
+    var index = page.param( 'object', location.hash );
+    if ( index )
+    {
+        object = index;
+    }
+    var langjson = base64.decode( page.param( 'lang', location.hash ) );
+    var sobj = object+"ssid2";
+    var s2obj = object+"ssid3";
+    /* load the configure on the input */
+
+
+
+    function cfg_load()
+    {
+      he.load( [ sobj, s2obj ] ).then( function(v){
+        ssid = v[0];
+        ssid2 = v[1];
+
+        /* ssid */
+        if ( ssid )
+        {
+            $('#status').prop( 'checked', able2boole(ssid.status) );
+            $('#ssid').val( ssid.ssid || '' );
+            $('#secure').val( ssid.secure || 'disable' );
+            $('#wpa_encrypt').val( ssid.wpa_encrypt || 'tkipaes' );
+            $('#wpa_key').val( ssid.wpa_key || '' );
+            if ( ssid.broadcast == "disable" )
+            {
+                $('#hide').prop( 'checked', true );
+            }
+            else
+            {
+                $('#hide').prop( 'checked', false );
+            }
+            $('#isolated').prop( 'checked', able2boole(ssid.isolated) );
+        }
+        else
+        {
+            $('#status').prop( 'checked', false );
+        }
+        $('#status').unbind('change').change(function () {
+          if ($(this).prop('checked'))
+          {
+            $('#ssid_cfg').show();
+          }
+          else
+          {
+            $('#ssid_cfg').hide();
+          }
+        }).trigger('change');
+        $('#secure').unbind('change').change(function (e) {
+          var secure = e.target.value;
+          if ( secure === 'disable' )
+          {
+            $('#secure_cfg').hide();
+          }
+          else
+          {
+            $('#secure_cfg').show();
+          }
+        }).trigger('change');
+        // ACL
+        var link = '#app?page='+base64.encode("/prj/wifi/acl.html");
+        link += '&object='+sobj;
+        link += '&lang='+base64.encode(langjson);
+        $('#acl').attr( "href", link );
+
+        /* ssid2 */
+        if ( ssid2 )
+        {
+            $('#status2').prop( 'checked', able2boole(ssid2.status) );
+            $('#ssid2').val( ssid2.ssid || '' );
+            $('#secure2').val( ssid2.secure || 'disable' );
+            $('#wpa_encrypt2').val( ssid2.wpa_encrypt || 'tkipaes' );
+            $('#wpa_key2').val( ssid2.wpa_key || '' );
+            if ( ssid2.broadcast == "disable" )
+            {
+                $('#hide2').prop( 'checked', true );
+            }
+            else
+            {
+                $('#hide2').prop( 'checked', false );
+            }
+            $('#isolated2').prop( 'checked', able2boole(ssid2.isolated) );
+        }
+        else
+        {
+            $('#status2').prop( 'checked', false );
+        }
+        $('#status2').unbind('change').change(function () {
+          if ($(this).prop('checked'))
+          {
+            $('#ssid_cfg2').show();
+          }
+          else
+          {
+            $('#ssid_cfg2').hide();
+          }
+        }).trigger('change');
+        $('#secure2').unbind('change').change(function (e) {
+          var secure = e.target.value;
+          if ( secure === 'disable' )
+          {
+            $('#secure_cfg2').hide();
+          }
+          else
+          {
+            $('#secure_cfg2').show();
+          }
+        }).trigger('change');
+        // ACL
+        var link = '#app?page='+base64.encode("/prj/wifi/acl.html");
+        link += '&object='+s2obj;
+        link += '&lang='+base64.encode(langjson);
+        $('#acl2').attr( "href", link );
+      })
+    }
+
+    /* save the configure */
+    function ssid_save()
+    {
+      var cmd = [];
+      var ssidcopy = null;
+      var ssid2copy = null;
+      var restart = false;
+
+      if ( ssid == null )
+      {
+        ssid = {};
+      }
+      ssidcopy = JSON.parse(JSON.stringify(ssid));
+      ssid.status = boole2able( $('#status').prop('checked') );
+      if ( ssid.status == "enable" )
+      {
+        if ( !ssidcopy.status || ssidcopy.status != "enable" )
+        {
+            restart = true;
+        }
+        ssid.ssid = $('#ssid').val();
+        ssid.secure = $('#secure').val();
+        if ( ssid.secure != 'disable' )
+        {
+          ssid.wpa_encrypt = $('#wpa_encrypt').val();
+          ssid.wpa_key = $('#wpa_key').val();
+        }
+        ssid.broadcast = boole2able( ! $('#hide').prop('checked') );
+        ssid.isolated = boole2able( $('#isolated').prop('checked') );
+      }
+
+      if ( ssid2 == null )
+      {
+        ssid2 = {};
+      }
+      ssid2copy = JSON.parse(JSON.stringify(ssid2));
+      ssid2.status = boole2able( $('#status2').prop('checked') );
+      if ( ssid2.status == "enable" )
+      {
+        if ( !ssid2copy.status || ssid2copy.status != "enable" )
+        {
+            restart = true;
+        }
+        ssid2.ssid = $('#ssid2').val();
+        ssid2.secure = $('#secure2').val();
+        if ( ssid2.secure != 'disable' )
+        {
+          ssid2.wpa_encrypt = $('#wpa_encrypt2').val();
+          ssid2.wpa_key = $('#wpa_key2').val();
+        }
+        ssid2.broadcast = boole2able( ! $('#hide2').prop('checked') );
+        ssid2.isolated = boole2able( $('#isolated2').prop('checked') );
+      }
+
+      if ( !ocompare( ssid, ssidcopy ) )
+      {
+        cmd.push( sobj+"="+JSON.stringify(ssid) );
+      }
+      if ( !ocompare( ssid2, ssid2copy ) )
+      {
+          cmd.push( s2obj+"="+JSON.stringify(ssid2) );
+      }
+      if ( cmd.length == 0 )
+      {
+          page.alert( { message: $.i18n('Settings unchanged') } );
+          return;
+      }
+      if ( restart == true )
+      {
+          page.confirm( { message: $.i18n('The system will restart because of the change of configuration') } ).then( function(result){
+              if ( result )
+              {
+                  he.save( cmd ).then( function(){
+                      page.confirm( { message: $.i18n('Need to restart the system') } ).then( function(result){
+                          if ( result )
+                          {
+                              he.reboot( { title: $.i18n('Restarting to apply...'), hint:$.i18n('Make sure that the device is reconnected') } );
+                          }
+                          else
+                          {
+                              config_load();
+                          }
+                      });
+                  });
+              }
+          });
+      }
+      else
+      {
+          page.confirm( { message: $.i18n('The wireless client will be disconneted because of the change of configuration') } ).then( function(result){
+            if ( result )
+            {
+              he.save( cmd ).then( function(){
+                page.alert( {message:$.i18n('Make sure that the device is reconnected')} );
+                location.reload();
+              });
+            }
+          });
+      }
+    }
+
+
+    /* init */
+    page.password('wpa_key', 'wpa_key-icon' );
+    page.password('wpa_key2', 'wpa_key-icon2' );
+    $.i18n().load( page.lang(langjson) ).then( function () {
+      /* init the langauage */
+      $.i18n().locale = lang; $('body').i18n();
+      /* load the configure */
+      cfg_load();
+      /* bind the refresh */
+      $('#refresh').on(ace.click_event, function () {
+        location.reload();
+      });
+      /* bind the apply */
+      $('#apply').on(ace.click_event, function () {
+        ssid_save();
+      });
+    });
+
+  })();
+</script>

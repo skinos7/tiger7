@@ -347,7 +347,6 @@
   (function () {
     /* get the object */
     var ssid;
-    var ssid2;
     var radio;
     var radioopt;
     var chlist;
@@ -360,7 +359,6 @@
     var langjson = base64.decode( page.param( 'lang', location.hash ) );
     var robj = object;
     var sobj = object+"ssid";
-    var s2obj = object+"ssid2";
     /* load the configure on the input */
 
 
@@ -390,11 +388,10 @@
     }
     function cfg_load()
     {
-      he.load( [ robj, robj+".options", sobj, s2obj ] ).then( function(v){
+      he.load( [ robj, robj+".options", sobj ] ).then( function(v){
         radio = v[0];
         radioopt = v[1];
         ssid = v[2];
-        ssid2 = v[3];
 
         /* ssid */
         $('#status').prop( 'checked', able2boole(ssid.status) );
