@@ -593,6 +593,7 @@ boole_t _service( obj_t this, param_t param )
 			if ( h != NULL )
 			{
 				register_value_set( h, "local_netdev2", netdev, strlen(netdev)+1, 20 );
+				register_value_set( h, "local_ifname2", object, strlen(object)+1, 20 );
 				register_close( h );
 			}
 		}

@@ -522,10 +522,12 @@ talk_t _state( obj_t this, param_t param )
 				if ( delay > 0 )
 				{
                     json_set_number( ret, "delay", delay );
+                    json_set_number( ret, "keeplive", delay );
 				}
 				else
 				{
                     json_set_string( ret, "delay", "failed" );
+                    json_set_string( ret, "keeplive", "failed" );
 				}
             }
             /* get the livetime */
