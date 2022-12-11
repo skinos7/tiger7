@@ -601,7 +601,7 @@ boole_t _service( obj_t this, param_t param )
 
     /* ifdev connect */
     info( "%s connect", ifdev );
-    if ( scallt( ifdev, "connect", cfg ) != ttrue )
+    if ( scall( ifdev, "connect", NULL ) != ttrue )
     {
         fault( "%s connect failed", ifdev );
         talk_free( cfg );
@@ -621,7 +621,7 @@ boole_t _service( obj_t this, param_t param )
 	check = 0;
 	while( check < 60 )
 	{
-		if ( scallt( ifdev, "connected", cfg ) == ttrue )
+		if ( scall( ifdev, "connected", NULL ) == ttrue )
 		{
 			ready++;
 			if ( ready >= 3 )
