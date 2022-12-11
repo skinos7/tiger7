@@ -1,4 +1,17 @@
 {
+    "v7.2.1128":
+    {
+        "20221128a":"add timeout for switch clear, the command may block on hardware error",
+        "20221128b":"modify mt7628 support 16M flash",
+        "20221128c":"fix wifi crack when country null bug",
+        "20221128d":"add open register with O_SYNC, fix the register cannot sync bug",
+        "20221128e":"fix cimi/cgns/cgmr return \r\t\n causing json errors",
+        "20221128f":"fix dbdc mode at ppp mode of connection cannot add the default route use routes_switch2",
+        "20221128g":"d218/std that use uclibc move to d218/uclibc, make d218/std use the glibc",
+        "20221128h":"fix no netdev add to network frame crack",
+        "20221128j":"add the network frame webpage and add the lan3/lan4/wan3/wan4 support",
+        "20221128k":"modify the keeplive 2 second and shunts count 5 time to dbdc"
+    },
     "v7.2.1127":
     {
         "20221127a":"modify the webpage, delete the color for title at the interface and dashboard",

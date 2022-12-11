@@ -204,8 +204,8 @@ define Build/Install/Fpk
 			$(LN) lib$$i.so ${FPK_BUILD_DIR}/install/lib/lib$$i.so.0; \
 		fi; \
 	done
-	@cd ${FPK_BUILD_DIR};tar zcf $(PKG_BUILD_DIR)/${PROJECT_ID}-${VERSION_ID}-${gHARDWARE}.fpk *
-	@fpk-install $(1) ${gINSTALL_DIR} $(PKG_BUILD_DIR)/${PROJECT_ID}-${VERSION_ID}-${gHARDWARE}.fpk
+	cd ${FPK_BUILD_DIR};tar zcf $(PKG_BUILD_DIR)/${PROJECT_ID}-${VERSION_ID}-${gHARDWARE}.fpk *
+	fpk-install $(1) ${gINSTALL_DIR} $(PKG_BUILD_DIR)/${PROJECT_ID}-${VERSION_ID}-${gHARDWARE}.fpk
 	if [ "X" != "X$(2)" ];then \
 		mv $(PKG_BUILD_DIR)/${PROJECT_ID}-${VERSION_ID}-${gHARDWARE}.fpk $(2); \
 	fi
