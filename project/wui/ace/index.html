@@ -951,6 +951,20 @@
     					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'WAN2' ), 'wan?object=ifname@wan2' );
                         }
     				}
+    				if ( <%he('.ifname@wan3.status'); %> )
+    				{
+                        if ( !wuimenu || wuimenu.wan3 != "disable" )
+                        {
+    					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'WAN3' ), 'wan?object=ifname@wan3' );
+                        }
+    				}
+    				if ( <%he('.ifname@wan4.status'); %> )
+    				{
+                        if ( !wuimenu || wuimenu.wan3 != "disable" )
+                        {
+    					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'WAN4' ), 'wan?object=ifname@wan4' );
+                        }
+    				}
     				if ( window.nradio == true && <%he('.ifname@wisp.status'); %> )
     				{
                         if ( !wuimenu || wuimenu.wisp != "disable" )
@@ -965,29 +979,35 @@
     					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'WISP(5.8G)' ), 'wisp?object=ifname@wisp2' );
                         }
     				}
-                    if ( <%he('.ifname@lan.status'); %> )
-                    {
-                        if ( !wuimenu || wuimenu.lan != "disable" )
-                        {
-                            menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LAN' ), 'lan?object=ifname@lan' );
-                        }
-                    }
+
                 }
-                else
+
+                if ( <%he('.ifname@lan.status'); %> )
                 {
-                    if ( <%he('.ifname@lan.status'); %> )
+                    if ( !wuimenu || wuimenu.lwan != "disable" )
                     {
-                        if ( !wuimenu || wuimenu.lwan != "disable" )
-                        {
-                            menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LAN' ), 'lwan?object=ifname@lan' );
-                        }
+                        menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LAN' ), 'lwan?object=ifname@lan' );
                     }
-                }
+                }                
 				if ( <%he('.ifname@lan2.status'); %> )
 				{
                     if ( !wuimenu || wuimenu.lan2 != "disable" )
                     {
 					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LAN2' ), 'lan?object=ifname@lan2' );
+					}
+				}
+				if ( <%he('.ifname@lan3.status'); %> )
+				{
+                    if ( !wuimenu || wuimenu.lan2 != "disable" )
+                    {
+					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LAN3' ), 'lan?object=ifname@lan3' );
+					}
+				}
+				if ( <%he('.ifname@lan4.status'); %> )
+				{
+                    if ( !wuimenu || wuimenu.lan2 != "disable" )
+                    {
+					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LAN4' ), 'lan?object=ifname@lan4' );
 					}
 				}
 				
