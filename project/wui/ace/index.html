@@ -979,16 +979,25 @@
     					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'WISP(5.8G)' ), 'wisp?object=ifname@wisp2' );
                         }
     				}
-
+                    if ( <%he('.ifname@lan.status'); %> )
+                    {
+                        if ( !wuimenu || wuimenu.lwan != "disable" )
+                        {
+                            menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LAN' ), 'lan?object=ifname@lan' );
+                        }
+                    }                
+                }
+                else
+                {
+                    if ( <%he('.ifname@lan.status'); %> )
+                    {
+                        if ( !wuimenu || wuimenu.lwan != "disable" )
+                        {
+                            menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LAN' ), 'lwan?object=ifname@lan' );
+                        }
+                    }                
                 }
 
-                if ( <%he('.ifname@lan.status'); %> )
-                {
-                    if ( !wuimenu || wuimenu.lwan != "disable" )
-                    {
-                        menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LAN' ), 'lwan?object=ifname@lan' );
-                    }
-                }                
 				if ( <%he('.ifname@lan2.status'); %> )
 				{
                     if ( !wuimenu || wuimenu.lan2 != "disable" )
