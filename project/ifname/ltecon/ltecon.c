@@ -881,7 +881,7 @@ boole_t _service( obj_t this, param_t param )
 		}
 		ready = 0;
 		check++;
-		sleep( 1 );
+		usleep( 500000 );
 	}
 	if ( check >= 90 )
 	{
