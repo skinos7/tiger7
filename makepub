@@ -34,7 +34,7 @@ do
     make ftp
     make repo
 done
-for tmp in smtk2-mt7628-d218-std-wlinkr100 smtk2-mt7628-d218-std-wlinkr222 smtk2-mt7628-d218-std-wlinkr320 smtk2-mt7628-d218-std-ctcunion
+for tmp in smtk2-mt7628-d218-std-wlinkr100 smtk2-mt7628-d218-std-wlinkr222 smtk2-mt7628-d218-std-wlinkr320 smtk2-mt7628-d218-std-ctcunion smtk2-mt7628-d218-std-xexagon
 do
     make gBOARDID=${tmp} pid
     ./mkdel
@@ -48,6 +48,21 @@ done
 
 
 for tmp in smtk2-mt7621-d228
+do
+    make gBOARDID=${tmp} pid
+    make test
+    make clean
+    make distclean
+    make dep
+    make
+    make sz
+    make ftp
+    make repo
+done
+
+
+
+for tmp in smtk2-mt7621-d228p
 do
     make gBOARDID=${tmp} pid
     make test

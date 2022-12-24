@@ -1,4 +1,12 @@
 {
+    "v7.2.1223":
+    {
+        "20221223a":"add the ipsec connection",
+        "20221223b":"add the ipsec tcpmss settings",
+        "20221223c":"add the ipsec pass at firewall",
+        "20221223d":"modify the ntp server for sync well",
+        "20221223f":"lte connect wait 45second "
+    },
     "v7.2.1128":
     {
         "20221128a":"add timeout for switch clear, the command may block on hardware error",
@@ -10,7 +18,8 @@
         "20221128g":"d218/std that use uclibc move to d218/uclibc, make d218/std use the glibc",
         "20221128h":"fix no netdev add to network frame crack",
         "20221128j":"add the network frame webpage and add the lan3/lan4/wan3/wan4 support",
-        "20221128k":"modify the keeplive 2 second and shunts count 5 time to dbdc"
+        "20221128k":"modify the keeplive 2 second and shunts count 5 time to dbdc",
+        "20221128l":"add the drouter project"
     },
     "v7.2.1127":
     {
