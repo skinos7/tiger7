@@ -720,6 +720,10 @@ boole_t _service( obj_t this, param_t param )
 	const char *netdev;
 	const char *method;
 	int connect_failed;
+	int failed_timeout;
+	int failed_threshold;
+	int failed_threshold2;
+	int failed_everytime;
 	const int *bsim_mode;
 	int *reg_connect_failed;
 
@@ -751,6 +755,30 @@ boole_t _service( obj_t this, param_t param )
 		fault( "cannot found %s configure", object );
     	return terror;
     }
+	failed_timeout = 45;
+	failed_threshold = 3;
+	failed_threshold2 = 15;
+	failed_everytime = 24;
+	ptr = json_string( cfg, "failed_timeout" );
+	if ( ptr != NULL && *ptr != '\0' )
+	{
+		failed_timeout = atoi( ptr );
+	}
+	ptr = json_string( cfg, "failed_threshold" );
+	if ( ptr != NULL && *ptr != '\0' )
+	{
+		failed_threshold = atoi( ptr );
+	}
+	ptr = json_string( cfg, "failed_threshold2" );
+	if ( ptr != NULL && *ptr != '\0' )
+	{
+		failed_threshold2 = atoi( ptr );
+	}
+	ptr = json_string( cfg, "failed_everytime" );
+	if ( ptr != NULL && *ptr != '\0' )
+	{
+		failed_everytime = atoi( ptr );
+	}
 	mode = json_string( cfg, "mode" );
 	if ( mode == NULL || *mode == '\0' )
 	{
@@ -816,15 +844,15 @@ boole_t _service( obj_t this, param_t param )
 		/************** bsim process *********************/
 		else
 		{
-			if ( connect_failed == 3 )
+			if ( connect_failed == failed_threshold )
 			{
 				ret = terror;
 			}
-			else if ( connect_failed == 15 )
+			else if ( connect_failed == failed_threshold2 )
 			{
 				ret = terror;
 			}
-			else if ( (connect_failed%24) == 0 )
+			else if ( (connect_failed%failed_everytime) == 0 )
 			{
 				ret = terror;
 			}
@@ -866,7 +894,7 @@ boole_t _service( obj_t this, param_t param )
 	/* check connected */
 	ready = 0;
 	check = 0;
-	while( check < 90 )
+	while( check < failed_timeout )
 	{
 		if ( scallt( ifdev, "connected", cfg ) == ttrue )
 		{
@@ -881,9 +909,9 @@ boole_t _service( obj_t this, param_t param )
 		}
 		ready = 0;
 		check++;
-		usleep( 500000 );
+		sleep( 1 );
 	}
-	if ( check >= 90 )
+	if ( check >= failed_timeout )
 	{
 		warn( "%s connect timeout", ifdev );
 		scall( ifdev, "down", NULL );
@@ -1277,8 +1305,18 @@ boole _set( obj_t this, talk_t v, attr_t path )
 					|| 0 == strcmp( ptr, "gnss" )
 
 					|| 0 == strcmp( ptr, "need_simcard" )
+					|| 0 == strcmp( ptr, "simcard_failed_threshold" )
+					|| 0 == strcmp( ptr, "simcard_failed_threshold2" )
+					|| 0 == strcmp( ptr, "simcard_failed_threshold3" )
+					|| 0 == strcmp( ptr, "simcard_failed_everytime" )
+
 					|| 0 == strcmp( ptr, "need_plmn" )
 					|| 0 == strcmp( ptr, "need_signal" )
+					|| 0 == strcmp( ptr, "signal_failed_threshold" )
+					|| 0 == strcmp( ptr, "signal_failed_threshold2" )
+					|| 0 == strcmp( ptr, "signal_failed_threshold3" )
+					|| 0 == strcmp( ptr, "signal_failed_everytime" )
+
 					|| 0 == strcmp( ptr, "watch_interval" )
 
 					|| 0 == strcmp( ptr, "profile" )
@@ -1331,8 +1369,18 @@ boole _set( obj_t this, talk_t v, attr_t path )
 			|| 0 == strcmp( ptr, "gnss" )
 		
 			|| 0 == strcmp( ptr, "need_simcard" )
+			|| 0 == strcmp( ptr, "simcard_failed_threshold" )
+			|| 0 == strcmp( ptr, "simcard_failed_threshold2" )
+			|| 0 == strcmp( ptr, "simcard_failed_threshold3" )
+			|| 0 == strcmp( ptr, "simcard_failed_everytime" )
+
 			|| 0 == strcmp( ptr, "need_plmn" )
 			|| 0 == strcmp( ptr, "need_signal" )
+			|| 0 == strcmp( ptr, "signal_failed_threshold" )
+			|| 0 == strcmp( ptr, "signal_failed_threshold2" )
+			|| 0 == strcmp( ptr, "signal_failed_threshold3" )
+			|| 0 == strcmp( ptr, "signal_failed_everytime" )
+
 			|| 0 == strcmp( ptr, "watch_interval" )
 		
 			|| 0 == strcmp( ptr, "profile" )

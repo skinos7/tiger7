@@ -97,7 +97,16 @@ Usually ifname@wan is the first WAN network. If there are multiple WAN network i
             "packets":"How many packets",                                                                // [ number ]
             "failed":"failed times"                                                                      // [ number ]
         }
-    }
+    },
+    // configure connect failed to action
+    "failed_timeout":"connect timeout",                                                // [ number ], the unit is second
+    "failed_threshold":"first failed to reset time",                                   // [ number ]
+    "failed_threshold2":"second failed to reset time",                                 // [ number ]
+    "failed_everytime":"every failed to reset time",                                   // [ number ]
+
+    // TTL settings
+    "ttl":"ttl number"                    // default no modify
+    
 }
 ```
 Examples, show the WAN all configure
