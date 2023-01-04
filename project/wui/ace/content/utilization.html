@@ -265,6 +265,10 @@
     
 	function sg_show( id, name, info )
 	{
+	    if ( !info.use )
+	    {
+	        return;
+	    }
         $(id).show();
         $(id+"_name").text( $.i18n(name) );
 	    var usage = parseInt( info.use );

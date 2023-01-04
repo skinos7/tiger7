@@ -143,11 +143,25 @@
 	"Lock PIN":"SIM卡PIN码",
 	"Lock Band":"锁定频段",
 	"Need SIM Card":"检查SIM卡",
+	"Frist number of simcard failures reset modem":"查卡失败次数重置模块",
+	"Second number of simcard failures reset modem":"查卡失败次数重置模块2",
+	"Third number of simcard failures reset modem":"查卡失败次数重置模块3",
+	"Interval number of simcard failures reset modem":"间隔查卡失败次数重置模块",
+	
 	"Need PLMN":"检查网络",
 	"Need Signal":"检查信号",
+	"Frist number of signal failures reset modem":"查信号失败次数重置模块",
+	"Second number of signal failures reset modem":"查信号失败次数重置模块2",
+	"Third number of signal failures reset modem":"查信号失败次数重置模块3",
+	"Interval number of signal failures reset modem":"间隔查信号失败次数重置模块",
+
 	"Watch Interval":"查询间隔",
-
-
+	
+	"Dial timeout":"拨号超时",
+	"Frist number of dial failures reset modem":"拨号失败次数重置模块",
+	"Second number of dial failures reset modem":"拨号失败次数重置模块2",
+	"Interval number of dial failures reset modem":"间隔拨号失败次数重置模块",
+	
 
 	"The LTE connecttion will be disconneted because of the change of configuration":"设备LTE配置将导致网络断开重连"
 

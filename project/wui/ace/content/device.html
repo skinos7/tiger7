@@ -36,27 +36,30 @@
           <div id="mac" class="col-xs-10 col-sm-5 form-right-text"></div>
         </div>
     </div>
-    <!-- 当前时间 -->
-    <div class="form-group">
-        <label class="col-sm-3 control-label no-padding-right" data-i18n="Current Time"></label>
-        <div class="col-sm-9">
-          <div class="col-xs-7 col-sm-3 form-right-text" id="current"></div>
-          <button class="btn btn-main btn-mini" id="copy" data-i18n="Copy from computer"></button>
-        </div>
-    </div>
-    <!-- 时间来源 -->
-    <div class="form-group">
-        <label class="col-sm-3 control-label no-padding-right" data-i18n="Time Source"></label>
-        <div class="col-sm-9">
-          <div class="col-xs-7 col-sm-3 form-right-text" id="source"></div>
-        </div>
-    </div>
 
-    <!-- 运行时长 -->
-    <div class="form-group">
-        <label class="col-sm-3 control-label no-padding-right" data-i18n="Run Time"></label>
-        <div class="col-sm-9">
-          <div class="col-xs-10 col-sm-5 form-right-text" id="livetime"></div>
+    <div id="time_head"  style="display: none;">
+        <!-- 当前时间 -->
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Current Time"></label>
+            <div class="col-sm-9">
+              <div class="col-xs-7 col-sm-3 form-right-text" id="current"></div>
+              <button class="btn btn-main btn-mini" id="copy" data-i18n="Copy from computer"></button>
+            </div>
+        </div>
+        <!-- 时间来源 -->
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Time Source"></label>
+            <div class="col-sm-9">
+              <div class="col-xs-7 col-sm-3 form-right-text" id="source"></div>
+            </div>
+        </div>
+
+        <!-- 运行时长 -->
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Run Time"></label>
+            <div class="col-sm-9">
+              <div class="col-xs-10 col-sm-5 form-right-text" id="livetime"></div>
+            </div>
         </div>
     </div>
 
@@ -102,53 +105,52 @@
 
 
 
-    <div class="hr hr32 hr-dotted"></div>
-
-
-    <!-- 时区 -->
-    <div class="form-group">
-        <label class="col-sm-3 control-label no-padding-right" data-i18n="Time Zone"></label>
-        <div class="col-sm-9">
-          <select class="col-xs-10 col-sm-5" id="timezone">
-          </select>
+    <div id="ntpclient_head" style="display: none;">
+        <div class="hr hr32 hr-dotted"></div>
+        <!-- 时区 -->
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Time Zone"></label>
+            <div class="col-sm-9">
+              <select class="col-xs-10 col-sm-5" id="timezone">
+              </select>
+            </div>
+        </div>
+        <!-- NTP客户端状态 -->
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="NTP"></label>
+            <div class="col-sm-9">
+              <label>
+                <input id="ntpclient" class="ace ace-switch ace-switch-6" type="checkbox" />
+                <span class="lbl"></span>
+              </label>&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
+              <button class="btn btn-main btn-mini" id="sync" data-i18n="Sync"></button>
+            </div>
+        </div>
+        <div id="ntpclientSets">
+            <!-- NTP 服务器 -->
+            <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="NTP Server"></label>
+              <div class="col-sm-9">
+                <input type="text" id="ntpserver" class="col-xs-10 col-sm-5" maxlength="128" />
+              </div>
+            </div>
+            <!-- NTP 服务器2 -->
+            <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="NTP Server2"></label>
+              <div class="col-sm-9">
+                <input type="text" id="ntpserver2" class="col-xs-10 col-sm-5" maxlength="128" />
+              </div>
+            </div>
+            <!-- NTP 服务器3 -->
+            <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="NTP Server3"></label>
+              <div class="col-sm-9">
+                <input type="text" id="ntpserver3" class="col-xs-10 col-sm-5" maxlength="128" />
+              </div>
+            </div>
         </div>
     </div>
 
-    <!-- NTP客户端状态 -->
-    <div class="form-group">
-        <label class="col-sm-3 control-label no-padding-right" data-i18n="NTP"></label>
-        <div class="col-sm-9">
-          <label>
-            <input id="ntpclient" class="ace ace-switch ace-switch-6" type="checkbox" />
-            <span class="lbl"></span>
-          </label>&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
-          <button class="btn btn-main btn-mini" id="sync" data-i18n="Sync"></button>
-        </div>
-    </div>
-
-    <div id="ntpclientSets">
-        <!-- NTP 服务器 -->
-        <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" data-i18n="NTP Server"></label>
-          <div class="col-sm-9">
-            <input type="text" id="ntpserver" class="col-xs-10 col-sm-5" maxlength="128" />
-          </div>
-        </div>
-        <!-- NTP 服务器2 -->
-        <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" data-i18n="NTP Server2"></label>
-          <div class="col-sm-9">
-            <input type="text" id="ntpserver2" class="col-xs-10 col-sm-5" maxlength="128" />
-          </div>
-        </div>
-        <!-- NTP 服务器3 -->
-        <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" data-i18n="NTP Server3"></label>
-          <div class="col-sm-9">
-            <input type="text" id="ntpserver3" class="col-xs-10 col-sm-5" maxlength="128" />
-          </div>
-        </div>
-    </div>
 
     <!-- NTP服务状态 -->
     <div class="form-group" id="ntpservice_head" style="display: none;">
@@ -162,6 +164,7 @@
     </div>
 
 
+    <div id="apply_head" style="display: none;">
       <div class="clearfix form-actions">
         <div class="col-md-offset-3 col-md-9">
           <button class="btn btn-second" type="button" id="refresh"><span data-i18n="Refresh"></span></button>
@@ -169,6 +172,7 @@
           <button class="btn btn-main" type="button" id="apply"><span data-i18n="Apply"></span></button>
         </div>
       </div>
+    </div>
 
 
     </div>
@@ -245,25 +249,46 @@
             date = v[0];
             dates = v[1];
             ntps = v[2];
-            $('#current').text(date2string(dates.current));
-            if ( dates.source )
+
+            if ( dates )
             {
-                $('#source').text( $.i18n(dates.source) );
+                $('#current').text(date2string(dates.current));
+                if ( dates.source )
+                {
+                    $('#source').text( $.i18n(dates.source) );
+                }
+                else
+                {
+                    $('#source').text( $.i18n( "sourcenull" ) );
+                }
+                $('#livetime').text(time2string(dates.livetime));
+                $('#time_head').show();
             }
             else
             {
-                $('#source').text( $.i18n( "sourcenull" ) );
+                $('#time_head').hide();
             }
-            $('#livetime').text(time2string(dates.livetime));
-            $('#timezone').val(date.timezone || '');
-            $('#ntpclient').prop('checked', able2boole(date.ntpclient));
-            $('#ntpserver').val(date.ntpserver || '');
-            $('#ntpserver2').val(date.ntpserver2 || '');
-            $('#ntpserver3').val(date.ntpserver3 || '');
+            
+            if ( date )
+            {
+                $('#timezone').val(date.timezone || '');
+                $('#ntpclient').prop('checked', able2boole(date.ntpclient));
+                $('#ntpserver').val(date.ntpserver || '');
+                $('#ntpserver2').val(date.ntpserver2 || '');
+                $('#ntpserver3').val(date.ntpserver3 || '');
+                $('#ntpclient_head').show();
+                $('#apply_head').show();
+            }
+            else
+            {
+                $('#ntpclient_head').hide();
+            }
+
             if ( ntps )
             {
                 $('#ntpservice').prop('checked', able2boole(ntps.status));
                 $('#ntpservice_head').show();
+                $('#apply_head').show();
             }
             else
             {
@@ -434,6 +459,10 @@
                 $("#mode").append("<option value='"+m+"'>" + $.i18n(m) + "</option>");
             }
         }
+        if ( window.custom.mode[window.machine.mode] == null )
+        {
+            $("#mode").append("<option value='"+window.machine.mode+"'>" + $.i18n(window.machine.mode) + "</option>");
+        }
       }
       else if ( window.mode_list )
       {
@@ -441,6 +470,10 @@
         for( m in window.mode_list )
         {
             $("#mode").append("<option value='"+m+"'>" + $.i18n(m) + "</option>");
+        }
+        if ( window.mode_list[window.machine.mode] == null )
+        {
+            $("#mode").append("<option value='"+window.machine.mode+"'>" + $.i18n(window.machine.mode) + "</option>");
         }
       }
       else

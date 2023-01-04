@@ -49,6 +49,32 @@
         </div>
 
         <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Frist number of simcard failures reset modem"></label>
+          <div class="col-sm-9">
+            <input type="text" id="simcard_failed_threshold" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Second number of simcard failures reset modem"></label>
+          <div class="col-sm-9">
+            <input type="text" id="simcard_failed_threshold2" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Third number of simcard failures reset modem"></label>
+          <div class="col-sm-9">
+            <input type="text" id="simcard_failed_threshold3" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Interval number of simcard failures reset modem"></label>
+          <div class="col-sm-9">
+            <input type="text" id="simcard_failed_everytime" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+        
+
+        <div class="form-group">
           <label class="col-sm-3 control-label no-padding-right" data-i18n="Need PLMN"></label>
           <div class="col-sm-9">
             <label>
@@ -68,11 +94,65 @@
           </div>
         </div>
 
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Frist number of signal failures reset modem"></label>
+          <div class="col-sm-9">
+            <input type="text" id="signal_failed_threshold" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Second number of signal failures reset modem"></label>
+          <div class="col-sm-9">
+            <input type="text" id="signal_failed_threshold2" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Third number of signal failures reset modem"></label>
+          <div class="col-sm-9">
+            <input type="text" id="signal_failed_threshold3" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Interval number of signal failures reset modem"></label>
+          <div class="col-sm-9">
+            <input type="text" id="signal_failed_everytime" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+
 
         <div class="form-group">
           <label class="col-sm-3 control-label no-padding-right" data-i18n="Watch Interval"></label>
           <div class="col-sm-9">
             <input type="text" id="watch_interval" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+
+
+
+
+        <div class="hr hr32 hr-dotted"></div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Dial timeout"></label>
+          <div class="col-sm-9">
+            <input type="text" id="failed_timeout" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Frist number of dial failures reset modem"></label>
+          <div class="col-sm-9">
+            <input type="text" id="failed_threshold" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Second number of dial failures reset modem"></label>
+          <div class="col-sm-9">
+            <input type="text" id="failed_threshold2" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Interval number of dial failures reset modem"></label>
+          <div class="col-sm-9">
+            <input type="text" id="failed_everytime" class="col-xs-10 col-sm-5" maxlength="128" />
           </div>
         </div>
 
@@ -101,7 +181,7 @@
     /* get the object */
     var lte;
     var ltes;
-    var object = "modem@lte";
+    var object = "ifname@lte";
     var index = page.param( 'object', location.hash );
     if ( index )
     {
@@ -123,11 +203,18 @@
         $('#lock_pin').val( lte.lock_pin||'' );
         $('#lock_band').val( lte.lock_band||'' );
 
+
+
         $('#need_simcard').prop('checked', true );
         if ( lte.need_simcard == "disable" )
         {
             $('#need_simcard').prop('checked', false );
         }
+        $('#simcard_failed_threshold').val( lte.simcard_failed_threshold||'' );
+        $('#simcard_failed_threshold2').val( lte.simcard_failed_threshold2||'' );
+        $('#simcard_failed_threshold3').val( lte.simcard_failed_threshold3||'' );
+        $('#simcard_failed_everytime').val( lte.simcard_failed_everytime||'' );
+        
         $('#need_plmn').prop('checked', true );
         if ( lte.need_plmn == "disable" )
         {
@@ -138,7 +225,17 @@
         {
             $('#need_signal').prop('checked', false );
         }
+        $('#signal_failed_threshold').val( lte.signal_failed_threshold||'' );
+        $('#signal_failed_threshold2').val( lte.signal_failed_threshold2||'' );
+        $('#signal_failed_threshold3').val( lte.signal_failed_threshold3||'' );
+        $('#signal_failed_everytime').val( lte.signal_failed_everytime||'' );
+        
         $('#watch_interval').val( lte.watch_interval||'' );
+
+        $('#failed_timeout').val( lte.failed_timeout||'' );
+        $('#failed_threshold').val( lte.failed_threshold||'' );
+        $('#failed_threshold2').val( lte.failed_threshold2||'' );
+        $('#failed_everytime').val( lte.failed_everytime||'' );
 
       })
     }
@@ -157,9 +254,24 @@
       lte.lock_pin = $('#lock_pin').val();
       lte.lock_band = $('#lock_band').val();
       lte.need_simcard = boole2able( $('#need_simcard').prop('checked') );
+      lte.simcard_failed_threshold = $('#simcard_failed_threshold').val();
+      lte.simcard_failed_threshold2 = $('#simcard_failed_threshold2').val();
+      lte.simcard_failed_threshold3 = $('#simcard_failed_threshold3').val();
+      lte.simcard_failed_everytime = $('#simcard_failed_everytime').val();
+
       lte.need_plmn = boole2able( $('#need_plmn').prop('checked') );
       lte.need_signal = boole2able( $('#need_signal').prop('checked') );
+      lte.signal_failed_threshold = $('#signal_failed_threshold').val();
+      lte.signal_failed_threshold2 = $('#signal_failed_threshold2').val();
+      lte.signal_failed_threshold3 = $('#signal_failed_threshold3').val();
+      lte.signal_failed_everytime = $('#signal_failed_everytime').val();
+
       lte.watch_interval = $('#watch_interval').val();
+
+      lte.failed_timeout = $('#failed_timeout').val();
+      lte.failed_threshold = $('#failed_threshold').val();
+      lte.failed_threshold2 = $('#failed_threshold2').val();
+      lte.failed_everytime = $('#failed_everytime').val();
 
       if ( ocompare( lte, ltecopy ) )
       {

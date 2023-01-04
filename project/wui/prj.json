@@ -5,6 +5,19 @@
     "version":"7.0.0",
     "author":"dimmalex@gmail.com",
 
+    "com":
+    {
+        "admin":"admin management web server"
+    },
+    "init":
+    {
+        "manage":"wui@admin.setup"
+    },
+    "uninit":
+    {
+        "manage":"wui@admin.shut"
+    },
+
     "wui":
     {
         "webs":
@@ -12,7 +25,7 @@
             "menu":"System",
             "cn":"WEB服务器",
             "en":"Web Server",
-            "page":"wui.html",
+            "page":"admin.html",
             "config":"wui@admin",
             "lang":
             {

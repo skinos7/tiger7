@@ -3,7 +3,6 @@
     <head>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title><%shell("he machine:title");%></title>
 
 		<!-- <meta name="description" content="overview &amp; stats" /> -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -25,24 +24,21 @@
         <link rel="stylesheet" href="/assets/css/jquery.gritter.min.css" />
         <link rel="stylesheet" href="/assets/css/ui.jqgrid.min.css" />
 
-
+        <!-- canvas -->
         <!--[if lte IE 8]>
           <script src="/assets/js/excanvas.min.js"></script>
         <![endif]-->
 
 		<!-- ace styles -->
 		<link rel="stylesheet" href="/assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
-
 		<!--[if lte IE 9]>
 			<link rel="stylesheet" href="/assets/css/ace-part2.min.css" class="ace-main-stylesheet" />
 		<![endif]-->
 		<link rel="stylesheet" href="/assets/css/ace-skins.min.css" />
 		<!-- <link rel="stylesheet" href="/assets/css/ace-rtl.min.css" /> -->
-
 		<!--[if lte IE 9]>
 		  <link rel="stylesheet" href="/assets/css/ace-ie.min.css" />
 		<![endif]-->
-
 
 		<!-- ace settings handler -->
         <style>
@@ -175,8 +171,6 @@
 		}
         </style>
 
-
-
 		<!-- basic scripts -->
 		<!--[if !IE]> -->
 		<script src="/assets/js/jquery-2.2.1.min.js"></script>
@@ -190,13 +184,10 @@
 		<script src="/assets/js/bootstrap.min.js"></script>
 
 		<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
-
 		<!--[if lte IE 8]>
 		<script src="/assets/js/html5shiv.min.js"></script>
 		<script src="/assets/js/respond.min.js"></script>
 		<![endif]-->
-
-
 
 		<!-- custom styles related to this page -->
 		<%csspath(); %>
@@ -371,12 +362,13 @@
 		<script type="text/javascript">
 		    var logoshow = false;
             var nbarshow = true;
+			window.wui = <%config(); %>;
             window.obj = <%obj(); %>;
             window.object = <%object(); %>;
             window.username = <%username(); %>;
 			window.custom = <%he('arch@custom'); %>;
-			window.machine = <%he('machine'); %>;
-			window.machine_status = <%he('machine.status'); %>;
+			window.machine = <%he('land@machine'); %>;
+			window.machine_status = <%he('land@machine.status'); %>;
 			window.network_frame = <%he('network@frame'); %>;
 			window.mode_list = <%he('network@frame.mode_list'); %>;
 			window.ifname_list = <%he('network@frame.list'); %>;
@@ -385,7 +377,6 @@
 			window.outer_list = <%he('network@frame.list[outer]'); %>;
 			window.nradio = <%he('.wifi@n'); %>;
 			window.aradio = <%he('.wifi@a'); %>;
-			window.wui = <%config(); %>;
 			window.fpk_menu = <%he('land@fpk.wui_menu'); %>;
 			window.wuiterm = "<%shell( 'which ttyd | tr -d "\n"' ); %>";
 			window.tcpdump = "<%shell( 'which tcpdump | tr -d "\n"' ); %>";
@@ -1044,7 +1035,6 @@
 				    menu.addlink( menus, $.i18n( 'System' ), $.i18n( 'Software' ), 'software' );
                 }
 				menu.addlink( menus, $.i18n( 'System' ), $.i18n( 'Password' ), 'password' );
-				menu.addlink( menus, $.i18n( 'System' ), $.i18n( 'Auto Reboot' ), 'restart' );
 
 				menu.add( menus, $.i18n( 'Debug' ), 'debug', 'menu-icon fa fa-bug' );
 				menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'Syslog' ), 'syslog' );

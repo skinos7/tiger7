@@ -543,12 +543,12 @@
                                                 <tr><td data-i18n="MAC Address"></td><td id="ifname@lan_mac"></td></tr>
                                                 <tr><td data-i18n="Online Time"></td><td id="ifname@lan_livetime"></td></tr>
                                                 <tr><td data-i18n="Client Number"></td><td id="ifname@lan_client"></td></tr>
-                                                <tr><td data-i18n="2.4G SSID"></td><td id="wifi@nssid_ssid"></td></tr>
-                                                <tr><td data-i18n="2.4G Channel"></td><td id="wifi@nssid_channel"></td></tr>
-                                                <tr><td data-i18n="2.4G BSSID"></td><td id="wifi@nssid_bssid"></td></tr>
-                                                <tr><td data-i18n="5.8G SSID"></td><td id="wifi@assid_ssid"></td></tr>
-                                                <tr><td data-i18n="5.8G Channel"></td><td id="wifi@assid_channel"></td></tr>
-                                                <tr><td data-i18n="5.8G BSSID"></td><td id="wifi@assid_bssid"></td></tr>
+                                                <tr id="wifi@nssid_ssid_div"><td data-i18n="2.4G SSID"></td><td id="wifi@nssid_ssid"></td></tr>
+                                                <tr id="wifi@nssid_channel_div"><td data-i18n="2.4G Channel"></td><td id="wifi@nssid_channel"></td></tr>
+                                                <tr id="wifi@nssid_bssid_div"><td data-i18n="2.4G BSSID"></td><td id="wifi@nssid_bssid"></td></tr>
+                                                <tr id="wifi@assid_ssid_div"><td data-i18n="5.8G SSID"></td><td id="wifi@assid_ssid"></td></tr>
+                                                <tr id="wifi@assid_channel_div"><td data-i18n="5.8G Channel"></td><td id="wifi@assid_channel"></td></tr>
+                                                <tr id="wifi@assid_bssid_div"><td data-i18n="5.8G BSSID"></td><td id="wifi@assid_bssid"></td></tr>
                                             </tbody>
                                         </table>
                                     </div><!-- /.widget-main -->
@@ -590,7 +590,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-sm-5" id="wifi@nssid_speed_div">
                     <div class="widget-box widget-color-green">
                         <div class="widget-header widget-header-flat widget-header-small"><h5 class="widget-title bigger lighter" data-i18n="wifi@nssid Speed"></h5></div>
                         <div class="widget-body">
@@ -598,7 +598,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-sm-5" id="wifi@assid_speed_div">
                     <div class="widget-box widget-color-green">
                         <div class="widget-header widget-header-flat widget-header-small"><h5 class="widget-title bigger lighter" data-i18n="wifi@assid Speed"></h5></div>
                         <div class="widget-body">
@@ -1259,13 +1259,21 @@
     }
     function ssid_show( ifname, value )
     {
+        if ( value == null || value.state != "up" )
+        {
+            $("[id='"+ifname+"_ssid_div']").hide();
+            $("[id='"+ifname+"_bssid_div']").hide();
+            $("[id='"+ifname+"_channel_div']").hide();
+            $("[id='"+ifname+"_speed_div']").hide();
+            return;
+        }
+        $("[id='"+ifname+"_ssid_div']").show();
+        $("[id='"+ifname+"_bssid_div']").show();
+        $("[id='"+ifname+"_channel_div']").show();
+        $("[id='"+ifname+"_speed_div']").show();
         $("[id='"+ifname+"_ssid']").html( value.ssid||"" );
         $("[id='"+ifname+"_bssid']").html( value.bssid||"" );
         $("[id='"+ifname+"_channel']").html( value.channel||"" );
-        if ( value.state != "up" )
-        {
-            return;
-        }
         /* get the time */
         var date = new Date();
         var day = date.getHours();
@@ -1363,14 +1371,8 @@
                 }
             }
 
-            if ( v[4] )
-            {
-                ssid_show( "wifi@nssid", v[4] );
-            }
-            if ( v[5] )
-            {
-                ssid_show( "wifi@assid", v[5] );
-            }
+            ssid_show( "wifi@nssid", v[4] );
+            ssid_show( "wifi@assid", v[5] );
         })
     }
 

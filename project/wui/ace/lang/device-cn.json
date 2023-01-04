@@ -34,7 +34,8 @@
 	"bridge":"无线网桥",
 	"repeater":"无线中继",
 	"mix":"混合",
-	
+	"parasite":"寄生",
+
 	"Language Settings":"语言",
 	"cn":"中文",
 	"en":"English",

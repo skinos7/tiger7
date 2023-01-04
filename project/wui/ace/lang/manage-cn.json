@@ -20,18 +20,6 @@
 	"Group":"分组",
 	"Json Talk Server":"JSON指令服务器",
 
-
-	"Reboot Mode":"重启模式",
-	"Disable":"禁用",
-	"Idle Reboot":"空闲时重启",
-	"Age":"间隔时间重启",
-	"Point":"定时重启",
-	"Minimum running time(sec)":"最小运行时长(秒)",
-	"None Client duration(sec)":"无客户端时长(秒)",
-	"Maximum running time(sec)":"最大运行时长(秒)",
-	"Reboot time interval(sec)":"间隔时长(秒)",
-	"Point Reboot Time":"重启时间点",
-
 	"LED Indicate":"LED灯指示",
 	"IO Control Center":"IO控制中心",
 	"Protocol":"协议",

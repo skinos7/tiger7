@@ -6,6 +6,7 @@
 
 		<!-- <meta name="description" content="overview &amp; stats" /> -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
 		<!-- bootstrap & fontawesome -->
 		<link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
 		<link rel="stylesheet" href="/assets/css/font-awesome.min.css" />
@@ -13,6 +14,7 @@
 		<!-- text fonts -->
         <link rel="stylesheet" href="/assets/css/ace-fonts.min.css" />
 		<!--<link rel="stylesheet" href="/assets/css/fonts.googleapis.com.css" />-->
+
 		<!-- ace styles -->
 		<link rel="stylesheet" href="/assets/css/ace.min.css" />
 		<!--[if lte IE 9]>
@@ -20,12 +22,11 @@
 		<![endif]-->
 		<link rel="stylesheet" href="/assets/css/ace-skins.min.css" />
 		<!-- <link rel="stylesheet" href="/assets/css/ace-rtl.min.css" /> -->
-
 		<!--[if lte IE 9]>
 		  <link rel="stylesheet" href="/assets/css/ace-ie.min.css" />
 		<![endif]-->
-		<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
 
+		<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
 		<!--[if lte IE 8]>
 		<script src="/assets/js/html5shiv.min.js"></script>
 		<script src="/assets/js/respond.min.js"></script>
@@ -102,7 +103,7 @@
 		<script src="/assets/js/jquery-2.2.1.min.js"></script>
 		<!-- <![endif]-->
 		<!--[if IE]>
-		<script src="assets/js/jquery-1.12.1.min.js"></script>
+		<script src="/assets/js/jquery-1.12.1.min.js"></script>
 		<![endif]-->
 		<script type="text/javascript">
 			if('ontouchstart' in document.documentElement) document.write("<script src='/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
@@ -121,14 +122,18 @@
 
 		<!-- inline scripts related to this page -->
 		<script type="text/javascript">
+
+			window.wui = <%config(); %>;
 			window.obj = <%obj(); %>;
 			window.object = <%object(); %>;
+
             window.custom = <%he('arch@custom'); %>;
-			window.machine = <%he('machine'); %>;
-			window.machine_status = <%he('machine.status'); %>;
-			window.wui = <%config(); %>;
+			window.machine = <%he('land@machine'); %>;
+			window.machine_status = <%he('land@machine.status'); %>;
+
 			window.lang = window.machine.language;
 			document.title = window.machine.name;
+
 			$('#prompt').html( document.title );
             if ( window.wui && window.wui.logo_file )
             {
