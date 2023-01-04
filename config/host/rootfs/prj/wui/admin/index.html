@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta charset="utf-8" />
+		<title><%shell("he machine:title");%></title>
+
+		<!-- <meta name="description" content="overview &amp; stats" /> -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+        <!--[if !IE]> -->
+        <!-- <link rel="stylesheet" href="/assets/css/pace.css" />
+        <script data-pace-options='{ "ajax": true, "document": true, "eventLag": false, "elements": false }' src="/assets/js/pace.min.js"></script> -->
+        <!-- <![endif]-->
+
+		<!-- bootstrap & fontawesome -->
+		<link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="/assets/css/font-awesome.min.css" />
+
+		<!-- text fonts -->
+        <link rel="stylesheet" href="/assets/css/ace-fonts.min.css" />
+		<!--<link rel="stylesheet" href="/assets/css/fonts.googleapis.com.css" />-->
+
+        <!-- plugin -->
+        <link rel="stylesheet" href="/assets/css/jquery.gritter.min.css" />
+        <link rel="stylesheet" href="/assets/css/ui.jqgrid.min.css" />
+
+
+        <!--[if lte IE 8]>
+          <script src="/assets/js/excanvas.min.js"></script>
+        <![endif]-->
+
+		<!-- ace styles -->
+		<link rel="stylesheet" href="/assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+
+		<!--[if lte IE 9]>
+			<link rel="stylesheet" href="/assets/css/ace-part2.min.css" class="ace-main-stylesheet" />
+		<![endif]-->
+		<link rel="stylesheet" href="/assets/css/ace-skins.min.css" />
+		<!-- <link rel="stylesheet" href="/assets/css/ace-rtl.min.css" /> -->
+
+		<!--[if lte IE 9]>
+		  <link rel="stylesheet" href="/assets/css/ace-ie.min.css" />
+		<![endif]-->
+
+
+		<!-- ace settings handler -->
+        <style>
+		.status-item { display: inline-block; word-break: keep-all; }
+		.status-item p { margin: 0 0 3px; }
+		.status-item-link-up { display: inline-block; width: 100%; border-bottom: 4px solid #6bd36b; margin-top: 20px; }
+		.status-item-link-down { display: inline-block; width: 100%;border-bottom: 4px dotted #fea5b9; margin-top: 20px; }
+		.status-item-link-unuse { display: inline-block;wid th: 100%;border-bottom: 4px solid #888a96; margin-top: 20px; }
+		.status-back-link-up { display: inline-block; width: 100%; height: 200px; padding-top: 176px; border-bottom: 4px solid #6bd36b; border-left: 4px solid #6bd36b; }
+		.status-back-link-down { display: inline-block; width: 100%; height: 200px; padding-top: 176px; border-bottom: 4px dotted #fea5b9; border-left: 4px dotted #fea5b9; }
+		.status-back-link-unuse { display: inline-block; width: 100%; height: 200px; padding-top: 176px; border-bottom: 4px solid #888a96; border-left: 4px solid #888a96; }
+		.txrx-wrapper { margin-top: 30px; font-size: 16px; }
+		.txrx-wrapper i { color: #58bcf1; }
+		.rx_wrapper { text-align: right; }
+		.extern-wrapper { display: inline-block; }
+		.lan-wrapper { padding: 8px 8px 0 8px; text-align: center; width: 110px; display: inline-block; }
+		.lan-wrapper-wan, .lan-wrapper-misp, .lan-wrapper-wan2 { border: 2px solid #032f47; }
+		.lan-img { width: 40px; height: 40px; }
+		.lan-wrapper-up { background-color: #6bd36b; }
+		.lan-wrapper-uping { background-color: #d1cd2c; }
+		.lan-wrapper-down { background-color: #fea5b9; }
+		.lan-name { word-wrap: break-word; font-size: 18px; margin: 0; }
+		.lan-detail { word-wrap: break-word; font-size: 14px; margin: 2px; }
+		.line-signal { display: inline-block; height: 14px; margin-left: 2px; margin-right: 2px; margin-bottom: 2px; }
+		.margin-right { margin-right: 4px; }
+		.my-navbar-model { line-height: 25px; }
+		.checkbox-red input { margin-left: 0px!important; }
+		.form-group .checkbox { display: inline-block; margin-right: 12px; }
+		/* 覆盖默认样式 END */
+		/* bug fix */
+		/* 修复jqgrid的form中的table第一行不显示 */
+		[id^="editmod"] .FormGrid .EditTable tr:first-child {display: table-row; }
+		/* bug fix end */
+		/* jqGrid */
+		/* 小屏幕自动将分页导航移到第二行 */
+		@media only screen and (max-width: 767px)
+		{
+			.ui-jqgrid .ui-jqgrid-pager>.ui-pager-control>.ui-pg-table>tbody>tr>td[id$="pager_center"] { width: 0!important; position: static; }
+			.ui-jqgrid .ui-jqgrid-pager > .ui-pager-control > .ui-pg-table > tbody > tr > td[id$="pager_center"] >
+			.ui-pg-table { margin: 12px auto 0!important; position: absolute; right: 0; left: 0; text-align: center; }
+		}
+		/* 修复form中的switch间隔 */
+		.form-group div label { margin-top: 5px; margin-bottom: 0px; }
+		/* 隐藏 IE 查看密码的图标 */
+		::-ms-reveal { display: none; }
+		/* 右侧退出登录按钮 */
+		.navbar-container .icon { height: 45px; padding-top: 8px; padding-right: 8px; font-size: 23px; color: #fff; }
+		.navbar-container .icon:hover { cursor: pointer; }
+		@media only screen and (max-width: 479px)
+		{
+			.navbar:not(.navbar-collapse)
+			.navbar-header { float: left!important; }
+		}
+		/* 右侧退出登录按钮 END */
+		#navbar .logo { height: 25px; }
+		/* 信道分析 */
+		.disturb { cursor: pointer; }
+		@media (min-width: 768px)
+		{
+			.disturb .disturb-label { text-align: right; }
+		}
+		/* 表单中 带icon的input */
+		.input-icon-form { padding-left: 0; padding-right: 0; }
+		.input-icon-form input { width: 100%; }
+		/* 高级设置 */
+		.advance { margin-top: -6px; margin-bottom: -20px; }
+		.advance .advance-wrapper { text-align: right; }
+		.advance .advance-text { cursor: pointer; }
+		.advance-settings { display: none; }
+		/* form 右侧文字 */
+		.form-right-text { height: 28px; line-height: 21px; padding-top: 7px; padding-left: 18px; color: #777; }
+		/* 数字输入框 */
+		.small-number-input { width: 60px; }
+		/* input 右侧文字 */
+		.input-right-text { display: inline-block; height: 34px; line-height: 34px; }
+		.link { cursor: pointer; }
+		/* 响应式布局的list */
+		/* 添加最小高度, 和间隙 */
+		.dl-responsive dt, .dl-responsive dd { margin-bottom: 10px; }
+		/* 宽屏时, dt文字居左 */
+		@media (min-width: 768px)
+		{
+			.dl-responsive dt { text-align: right; }
+		}
+		/* 窄屏时, dd左缩进 */
+		@media (max-width: 768px)
+		{
+			.dl-responsive dd{ padding-left: 24px; }
+		}
+		/* 响应式布局的list END */
+		/* 全屏遮罩层 */
+		.overlay-loading { position: fixed; top: 0; right: 0; bottom: 0; left: 0; background-color: #000; opacity: 0.2; /* for IE8 */ filter:alpha(opacity=20); z-index: 3000; }
+		.overlay-loading-text { margin-top: 80px; }
+		.overlay-wrapper
+		{
+			background-color: #ccd;
+			bottom: 0;
+			height: 100%;
+			left: 0;
+			opacity: 0.8;
+			overflow: hidden;
+			position: fixed;
+			right: 0;
+			top: 0;
+			width: 100%;
+			z-index: 3000;
+			/*ie6,ie7,ie8实现透明*/
+			filter: alpha(opacity=80);
+			/*ie6,ie7自动定位,解决不支持position:fixed*/
+			+position:absolute;
+			+width:expression(eval(Math.max(document.documentElement.scrollWidth,document.documentElement.clientWidth)));
+			+height:expression(eval(Math.max(document.documentElement.scrollHeight,document.documentElement.clientHeight)));
+		}
+		/* 全屏遮罩的内容区 */
+		.overlay-wrapper .overlay-pop
+		{
+			position: fixed;
+			z-index: 3001;
+			left: 0;
+			right: 0;
+			/* top:15px; */
+			top: 40%;
+			/* border:2px solid #396; */
+			clear:both;
+			/*ie6,ie7自动定位,解决不支持position:fixed*/
+			+position:absolute;
+			+width:expression(eval(Math.min(document.documentElement.scrollWidth,document.documentElement.clientWidth)*0.9));
+			+top:expression(eval(document.documentElement.scrollTop+15));
+			+left:expression(eval(document.documentElement.scrollLeft+15));
+		}
+        </style>
+
+
+
+		<!-- basic scripts -->
+		<!--[if !IE]> -->
+		<script src="/assets/js/jquery-2.2.1.min.js"></script>
+		<!-- <![endif]-->
+		<!--[if IE]>
+		<script src="/assets/js/jquery-1.12.1.min.js"></script>
+		<![endif]-->
+		<script type="text/javascript">
+			if('ontouchstart' in document.documentElement) document.write("<script src='/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+		</script>
+		<script src="/assets/js/bootstrap.min.js"></script>
+
+		<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+
+		<!--[if lte IE 8]>
+		<script src="/assets/js/html5shiv.min.js"></script>
+		<script src="/assets/js/respond.min.js"></script>
+		<![endif]-->
+
+
+
+		<!-- custom styles related to this page -->
+		<%csspath(); %>
+		<!-- <link rel="stylesheet" href="/assets/css/custom.css" /> -->
+
+
+		
+	</head>
+
+	<body class="no-skin">
+
+
+
+        <table id="logo" width="100%" frame=void rules=none style="display: none" >
+            <tr>
+                <td width="200px"><span id="logo_img"></span></td>
+                <td align="left" >
+                    <table width="90%" frame=void rules=none>
+                        <tr><td width="20px"></td><td style="font-size:30px">&nbsp;</td></tr>
+                        <tr><td><td style="font-size:20px" align="left" id="logo_title"></td></tr>
+                        <tr><td><td style="font-size:10px">&nbsp;</td></tr>
+                    </table>            
+                </td>
+                <td width="150px">
+                    <table width="100%" id="logo_model" style="display: none;border:0px solid #ffffff;" >
+                        <tr><th data-i18n="Model"></th><td id="cmodel"></td></tr>
+                        <tr><th data-i18n="Version"></th><td id="version"></td></tr>
+                    </table>
+                    <div id="logo_logout" class="navbar-header pull-right" style="display: none" ><a href="#" id="logout" class="navbar-brand"><i class="ace-icon fa fa-sign-out"></i></a></div>
+                </td>
+            </tr>
+        </table>
+
+
+
+		<div id="navbar" class="navbar navbar-default          ace-save-state" style="display: none;" >
+			<div class="navbar-container ace-save-state" id="navbar-container">
+				<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+					<span class="sr-only">Toggle sidebar</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+				</button>
+
+				<div class="navbar-header pull-left"><a href="#" class="navbar-brand"><small id="prompt"></small></a></div>
+
+				<div class="navbar-buttons navbar-header pull-right" role="navigation">
+					<ul class="nav ace-nav">
+						<li class="grey dropdown-modal" style="display: none;" >
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="ace-icon fa fa-tasks"></i><span class="badge badge-grey">4</span></a>
+							<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+								<li class="dropdown-header"><i class="ace-icon fa fa-check"></i>4 Projects</li>
+								<li class="dropdown-content">####Here list the proejcts####<!--land@fpk.list--></li>
+								<li class="dropdown-footer"><a href="#"><span data-i18n="See new FPK with details"></span><i class="ace-icon fa fa-arrow-right"></i></a></li>
+							</ul>
+						</li>
+
+						<li class="purple dropdown-modal" style="display: none;" >
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="ace-icon fa fa-bell icon-animated-bell"></i><span class="badge badge-important">8</span></a>
+							<ul class="dropdown-menu-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
+								<li class="dropdown-header"><i class="ace-icon fa fa-exclamation-triangle"></i>8 Messages</li>
+								<li class="dropdown-content">####Here list the messages####<!--land@message.list--></li>
+								<li class="dropdown-footer"><a href="#"><span data-i18n="See all messages"></span><i class="ace-icon fa fa-arrow-right"></i></a></li>
+							</ul>
+						</li>
+
+						<!-- Logout -->
+						<div class="navbar-header pull-right"><a href="#" id="logout2" class="navbar-brand"><i class="ace-icon fa fa-sign-out"></i></a></div>
+
+					</ul>
+				</div>
+			</div><!-- /.navbar-container -->
+		</div>
+
+
+
+		<div class="main-container ace-save-state" id="main-container">
+			<script type="text/javascript">try{ace.settings.loadState('main-container')}catch(e){}</script>
+
+			<div id="sidebar" class="sidebar responsive ace-save-state">
+				<script type="text/javascript">try{ace.settings.loadState('sidebar')}catch(e){}</script>
+
+				<div class="sidebar-shortcuts" id="sidebar-shortcuts" style="display: none;" >
+					<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+						<a class="btn btn-success" href="#" id="extern_nav" ><i class="ace-icon fa fa-signal"></i> <!-- 4G--></a>
+						<a class="btn btn-primary" href="#ssid"><i class="ace-icon fa fa-wifi"></i> <!-- WIFI--></a>
+						<a class="btn btn-info" href="#interface"><i class="ace-icon fa fa-navicon"></i> <!-- Network --></a>
+						<a class="btn btn-danger" href="#device"><i class="ace-icon fa fa-cog"></i><!-- Settings --></a>
+					</div>
+					<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+						<a class="btn btn-success" href="#" id="extern_nav_mini" ></a>
+						<a class="btn btn-info" href="#ssid"></a>
+						<a class="btn btn-warning" href="#interface"></a>
+						<a class="btn btn-danger" href="#device"></a>
+					</div>
+				</div><!-- /.sidebar-shortcuts -->
+
+				<ul class="nav nav-list" id="nav-list"></ul><!-- /.nav-list -->
+
+				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+					<i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+				</div>
+			</div>
+
+			<div class="main-content">
+				<div class="main-content-inner">
+					<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+						<ul class="breadcrumb"><li><i class="ace-icon fa fa-home home-icon"></i><a href="#"></a></li><li class="active" data-i18n="Dashboard"></li></ul><!-- /.breadcrumb -->
+					</div>
+
+					<div class="page-content"><div class="page-content-area" data-ajax-content="true"></div></div><!-- /.page-content -->
+
+				</div>
+			</div><!-- /.main-content -->
+
+			<div class="footer"><div class="footer-inner"><div class="footer-content"><span class="bigger-120" id="copyright"><span class="blue bolder">ASHYELF</span> &copy; 2019-2020</span></div></div></div>
+
+			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse"><i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i></a>
+		</div><!-- /.main-container -->
+
+
+
+		<!-- add by dimmalex for loading show -->
+		<div class="overlay-wrapper" style="display: none;" id="overlay-loading">
+			<div class="overlay-pop"><div class="overlay-loading-text center" id="overlay-loading-text"></div><div id="overlay-loading-spin"></div></div>
+		</div>
+		<!-- add by dimmalex for progress show -->
+		<div class="overlay-wrapper" style="display: none;" id="overlay-progress">
+			<div class="overlay-pop">
+				<div class="center" id="overlay-progress-title"></div>
+				<div class="row">
+					<div class="col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
+						<div class="progress pos-rel" data-percent="0%"><div class="progress-bar progress-bar-red" style="width:0px;"></div></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	  
+	  
+		<!-- ace scripts -->
+		<script src="/assets/js/ace.min.js"></script>
+		<script src="/assets/js/ace-extra.min.js"></script>
+		<script src="/assets/js/ace-elements.min.js"></script>
+		<script src="/assets/js/spin.min.js"></script>
+		<script src="/assets/js/jquery.spin.min.js"></script>
+		<!-- add by dimmalex for file upload -->
+		<script src="/assets/js/jquery.ui.widget.js"></script>
+		<script src="/assets/js/jquery.iframe-transport.js"></script>
+		<script src="/assets/js/jquery.fileupload.js"></script>
+		<!-- add by dimmalex for i18n -->
+		<script src="/assets/js/jquery.i18n.js"></script>
+		<script src="/assets/js/jquery.i18n.messagestore.js"></script>
+		<!-- add by dimmalex for dialog -->
+		<script src="/assets/js/bootbox.min.js"></script>
+		<!-- add by dimmalex for jqGrid -->
+		<!--<script src="/assets/js/CLDRPluralRuleParser.js"></script>-->
+		<script src="/assets/js/jquery.gritter.js"></script>
+		<script src="/assets/js/jquery.jqGrid.min.js"></script>
+		<!-- add by dimmalex for date select -->
+        <script src="/assets/js/bootstrap-datepicker.min.js"></script>
+        <!-- add by dimmalex for date pie chart -->
+        <script src="/assets/js/jquery.easypiechart.js"></script>
+		<!-- add by johnny for Dashboard -->
+		<script language="javascript" type="text/javascript" src="/assets/js/jquery.flot.min.js"></script>	 
+		<!-- add by dimmalex for gnss -->
+        <script src="/assets/js/jquery.validate.min.js"></script>
+        <script src="/assets/js/additional-methods.min.js"></script>
+
+		<!-- add by dimmalex for api -->
+		<script src="/api/code.js"></script>
+		<script src="/api/he.js"></script>
+		<script src="/api/misc.js"></script>
+
+		<!-- add by dimmalex for global -->
+		<script type="text/javascript">
+		    var logoshow = false;
+            var nbarshow = true;
+            window.obj = <%obj(); %>;
+            window.object = <%object(); %>;
+            window.username = <%username(); %>;
+			window.custom = <%he('arch@custom'); %>;
+			window.machine = <%he('machine'); %>;
+			window.machine_status = <%he('machine.status'); %>;
+			window.network_frame = <%he('network@frame'); %>;
+			window.mode_list = <%he('network@frame.mode_list'); %>;
+			window.ifname_list = <%he('network@frame.list'); %>;
+			window.local_list = <%he('network@frame.list[local]'); %>;
+			window.extern_list = <%he('network@frame.list[extern]'); %>;
+			window.outer_list = <%he('network@frame.list[outer]'); %>;
+			window.nradio = <%he('.wifi@n'); %>;
+			window.aradio = <%he('.wifi@a'); %>;
+			window.wui = <%config(); %>;
+			window.fpk_menu = <%he('land@fpk.wui_menu'); %>;
+			window.wuiterm = "<%shell( 'which ttyd | tr -d "\n"' ); %>";
+			window.tcpdump = "<%shell( 'which tcpdump | tr -d "\n"' ); %>";
+			window.lang = window.machine.language;
+			document.title = window.machine.name;
+			var wuimenu = wui.menu;
+			// disable load the subpage, loading when after i18n loadin
+			ace.demo.functions.enableDemoAjax= function () {};
+            if ( window.wui )
+            {
+                if ( window.wui.logo_color )
+                {
+                    logoshow = true;
+                    $("#logo").css("background-color", window.wui.logo_color );
+                }
+                if (  window.wui.logo_file )
+                {
+                    logoshow = true;
+                    var stamp = '<img src="' + window.wui.logo_file + '" width="' + (window.wui.logo_width || '180px') + '" height="' + (window.wui.logo_height || '100px') + '" /></div>';
+                    $('#logo_img').append(stamp);
+                }
+                if ( window.wui.logo_title )
+                {
+                    logoshow = true;
+                    if ( window.wui.logo_title == "#NAME" )
+                    {
+                        $('#logo_title').append( document.title );
+                    }
+                    else if ( window.wui.logo_title == "#MODEL" )
+                    {
+                        if ( window.machine_status.cmodel )
+                        {
+                            $('#logo_title').text( window.machine_status.cmodel );
+                        }
+                        else
+                        {
+                            $('#logo_title').text( window.machine_status.model );
+                        }
+                    }
+                    else
+                    {
+                        $('#logo_title').append( window.wui.logo_title );
+                    }
+                    $("#logo_title").css("color", window.wui.logo_title_color );
+                }
+                if ( window.wui.logo_model == "disable" )
+                {
+                    $('#logo_model').hide();
+                    $('#logo_logout').show();
+                    if ( window.wui.logo_logout_color )
+                    {
+                        $("#logout").css("color", window.wui.logo_logout_color );
+                    }
+                }
+                else
+                {
+                    if ( window.machine_status.cmodel )
+                    {
+                        $('#cmodel').text( window.machine_status.cmodel );
+                    }
+                    else
+                    {
+                        $('#cmodel').text( window.machine_status.model );
+                    }
+                    $('#version').text( window.machine_status.version );
+                    $('#logo_model').show();
+                }
+                
+                if ( window.wui.nav_bar == "disable" )
+                {
+                    nbarshow = false;
+                }
+                else
+                {
+                    nbarshow = true;
+                }
+            }
+            if ( logoshow == true )
+            {
+                $('#logo').show();
+                $("#copyright").hide();
+                $('#sidebar-shortcuts').hide();
+            }
+            else
+            {
+                $('#sidebar-shortcuts').show();
+                if ( window.wui.copyright && window.wui.copyright == "disable" )
+                {
+                    $("#copyright").hide();
+                }
+                else
+                {
+                    $("#copyright").show();
+                }
+            }
+            if ( nbarshow == true )
+            {
+                $('#navbar').show();
+                $('#prompt').html( document.title );
+            }
+            else
+            {
+                $('#navbar').hide();
+            }
+            var win = window;
+            var doc = win.document;
+            var input = doc.createElement("input");
+            window.ie = (function () {
+              //"!win.ActiveXObject" is evaluated to true in IE11
+              if (win.ActiveXObject === undefined) return null;
+              if (!win.XMLHttpRequest) return 6;
+              if (!doc.querySelector) return 7;
+              if (!doc.addEventListener) return 8;
+              if (!win.atob) return 9;
+              //"!doc.body.dataset" is faster but the body is null when the DOM is not
+              //ready. Anyway, an input tag needs to be created to check if IE is being
+              //emulated
+              if (!input.dataset) return 10;
+              return 11;
+            })();            
+		</script>
+
+		<!-- inline scripts related to this page -->
+		<script type="text/javascript">
+		jQuery(function($)
+		{
+            if ( !window.location.origin )
+            {
+              window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '');
+            }
+
+			/* get the machine config and setup the language */
+			$.i18n().load( page.lang('index') ).then( function () { 
+				$.i18n().locale = window.lang; $('body').i18n();
+
+    			// Logout event
+    			$('#logout').on( ace.click_event, function() {
+    				bootbox.confirm({
+    					message: $.i18n('Are you sure you want to logout?'),
+    					buttons:
+    					{
+    						confirm:
+    						{
+    							label: '<i class="fa fa-check"></i>'+$.i18n('Logout'), className: 'btn btn-main'
+    						},
+    						cancel:
+    						{
+    							label: '<i class="fa fa-times"></i>'+$.i18n('Cancel'), className: 'btn btn-second'
+    						}
+    					},
+    					callback: function (result)
+    					{
+    						if (!result)
+    						{
+    							return;
+    						}
+    						$.ajax({
+    							url: '/action/logout', type: 'POST',
+    							success: function (data, textStatus, request)
+    							{
+    								location.reload(true)
+    							}
+    						});
+    					}
+    				})
+    			});
+                // Logout2 event
+                $('#logout2').on( ace.click_event, function() {
+                    bootbox.confirm({
+                        message: $.i18n('Are you sure you want to logout?'),
+                        buttons:
+                        {
+                            confirm:
+                            {
+                                label: '<i class="fa fa-check"></i>'+$.i18n('Logout'), className: 'btn btn-main'
+                            },
+                            cancel:
+                            {
+                                label: '<i class="fa fa-times"></i>'+$.i18n('Cancel'), className: 'btn btn-second'
+                            }
+                        },
+                        callback: function (result)
+                        {
+                            if (!result)
+                            {
+                                return;
+                            }
+                            $.ajax({
+                                url: '/action/logout', type: 'POST',
+                                success: function (data, textStatus, request)
+                                {
+                                    location.reload(true)
+                                }
+                            });
+                        }
+                    })
+                });
+
+                /* jqgrid setup */
+                $.jgrid = $.jgrid || {};
+                if(!$.jgrid.hasOwnProperty("regional"))
+                {
+                    $.jgrid.regional = [];
+                }
+                $.jgrid.regional["all"] =
+                {
+                    defaults :
+                    {
+                      recordtext: $.i18n('recordtext'),
+                      emptyrecords: $.i18n('No records to view'),
+                      loadtext: "Loading...",
+                      savetext: "Saving...",
+                      pgtext : "{0} / {1}",
+                      pgfirst : $.i18n('First Page'),
+                      pglast : $.i18n('Last Page'),
+                      pgnext : $.i18n('Next Page'),
+                      pgprev : $.i18n('Previous Page'),
+                      pgrecs : $.i18n('Records per Page'),
+                      showhide: "Toggle Expand Collapse Grid",
+                      // mobile
+                      pagerCaption : "Grid::Page Settings",
+                      pageText : "Page:",
+                      recordPage : "Records per Page",
+                      nomorerecs : "No more records...",
+                      scrollPullup: "Pull up to load more...",
+                      scrollPulldown : "Pull down to refresh...",
+                      scrollRefresh : "Release to refresh..."
+                    },
+                    search :
+                    {
+                      caption: "Search...",
+                      Find: "Find",
+                      Reset: "Reset",
+                      odata: [{ oper:'eq', text:'equal'},{ oper:'ne', text:'not equal'},{ oper:'lt', text:'less'},{ oper:'le', text:'less or equal'},{ oper:'gt', text:'greater'},{ oper:'ge', text:'greater or equal'},{ oper:'bw', text:'begins with'},{ oper:'bn', text:'does not begin with'},{ oper:'in', text:'is in'},{ oper:'ni', text:'is not in'},{ oper:'ew', text:'ends with'},{ oper:'en', text:'does not end with'},{ oper:'cn', text:'contains'},{ oper:'nc', text:'does not contain'},{ oper:'nu', text:'is null'},{ oper:'nn', text:'is not null'}],
+                      groupOps: [{ op: "AND", text: "all" },{ op: "OR",  text: "any" }],
+                      operandTitle : "Click to select search operation.",
+                      resetTitle : "Reset Search Value"
+                    },
+                    edit :
+                    {
+                      addCaption: $.i18n('Add Record'),
+                      editCaption: $.i18n('Edit Record'),
+                      bSubmit: $.i18n('Submit'),
+                      bCancel: $.i18n('Cancel'),
+                      bClose: "Close",
+                      saveData: "Data has been changed! Save changes?",
+                      bYes : "Yes",
+                      bNo : "No",
+                      bExit : "Cancel",
+                      msg:
+                      {
+                        required: $.i18n('Field is required'),
+                        number:"Please, enter valid number",
+                        minValue: $.i18n('value must be greater than or equal to'),
+                        maxValue: $.i18n('value must be less than or equal to'),
+                        email: "is not a valid e-mail",
+                        integer: $.i18n('Please, enter valid integer value'),
+                        date: "Please, enter valid date value",
+                        url: "is not a valid URL. Prefix required ('http://' or 'https://')",
+                        nodefined : " is not defined!",
+                        novalue : " return value is required!",
+                        customarray : "Custom function should return array!",
+                        customfcheck : "Custom function should be present in case of custom checking!"
+                      }
+                    },
+                    view :
+                    {
+                      caption: $.i18n('View Record'),
+                      bClose: "Close"
+                    },
+                    del :
+                    {
+                      caption: $.i18n('Delete'),
+                      msg: $.i18n('Delete selected record(s)?'),
+                      bSubmit: $.i18n('Delete'),
+                      bCancel: $.i18n('Cancel')
+                    },
+                    nav :
+                    {
+                      edittext: "",
+                      edittitle: $.i18n('Edit selected row'),
+                      addtext:"",
+                      addtitle: $.i18n('Add new row'),
+                      deltext: "",
+                      deltitle: $.i18n('Delete selected row'),
+                      searchtext: "",
+                      searchtitle: "Find records",
+                      refreshtext: "",
+                      refreshtitle: "Reload Grid",
+                      alertcap: $.i18n('Warning'),
+                      alerttext: $.i18n('Please, select row'),
+                      viewtext: "",
+                      viewtitle: $.i18n('View selected row'),
+                      savetext: "",
+                      savetitle: "Save row",
+                      canceltext: "",
+                      canceltitle : "Cancel row editing",
+                      selectcaption : "Actions..."
+                    },
+                    col :
+                    {
+                      caption: "Select columns",
+                      bSubmit: "Ok",
+                      bCancel: "Cancel"
+                    },
+                    errors :
+                    {
+                      errcap : "Error",
+                      nourl : "No url is set",
+                      norecords: "No records to process",
+                      model : "Length of colNames <> colModel!"
+                    },
+                    formatter :
+                    {
+                      integer : {thousandsSeparator: ",", defaultValue: '0'},
+                      number : {decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, defaultValue: '0.00'},
+                      currency : {decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "", suffix:"", defaultValue: '0.00'},
+                      date :
+                      {
+                        dayNames:
+                        [
+                          "Sun", "Mon", "Tue", "Wed", "Thr", "Fri", "Sat",
+                          "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+                        ],
+                        monthNames:
+                        [
+                          "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+                          "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+                        ],
+                        AmPm : ["am","pm","AM","PM"],
+                        S: function (j) {return j < 11 || j > 13 ? ['st', 'nd', 'rd', 'th'][Math.min((j - 1) % 10, 3)] : 'th';},
+                        srcformat: 'Y-m-d',
+                        newformat: 'n/j/Y',
+                        parseRe : /[#%\\\/:_;.,\t\s-]/,
+                        masks :
+                        {
+                          // see http://php.net/manual/en/function.date.php for PHP format used in jqGrid
+                          // and see http://docs.jquery.com/UI/Datepicker/formatDate
+                          // and https://github.com/jquery/globalize#dates for alternative formats used frequently
+                          // one can find on https://github.com/jquery/globalize/tree/master/lib/cultures many
+                          // information about date, time, numbers and currency formats used in different countries
+                          // one should just convert the information in PHP format
+                          ISO8601Long:"Y-m-d H:i:s",
+                          ISO8601Short:"Y-m-d",
+                          // short date:
+                          //    n - Numeric representation of a month, without leading zeros
+                          //    j - Day of the month without leading zeros
+                          //    Y - A full numeric representation of a year, 4 digits
+                          // example: 3/1/2012 which means 1 March 2012
+                          ShortDate: "n/j/Y", // in jQuery UI Datepicker: "M/d/yyyy"
+                          // long date:
+                          //    l - A full textual representation of the day of the week
+                          //    F - A full textual representation of a month
+                          //    d - Day of the month, 2 digits with leading zeros
+                          //    Y - A full numeric representation of a year, 4 digits
+                          LongDate: "l, F d, Y", // in jQuery UI Datepicker: "dddd, MMMM dd, yyyy"
+                          // long date with long time:
+                          //    l - A full textual representation of the day of the week
+                          //    F - A full textual representation of a month
+                          //    d - Day of the month, 2 digits with leading zeros
+                          //    Y - A full numeric representation of a year, 4 digits
+                          //    g - 12-hour format of an hour without leading zeros
+                          //    i - Minutes with leading zeros
+                          //    s - Seconds, with leading zeros
+                          //    A - Uppercase Ante meridiem and Post meridiem (AM or PM)
+                          FullDateTime: "l, F d, Y g:i:s A", // in jQuery UI Datepicker: "dddd, MMMM dd, yyyy h:mm:ss tt"
+                          // month day:
+                          //    F - A full textual representation of a month
+                          //    d - Day of the month, 2 digits with leading zeros
+                          MonthDay: "F d", // in jQuery UI Datepicker: "MMMM dd"
+                          // short time (without seconds)
+                          //    g - 12-hour format of an hour without leading zeros
+                          //    i - Minutes with leading zeros
+                          //    A - Uppercase Ante meridiem and Post meridiem (AM or PM)
+                          ShortTime: "g:i A", // in jQuery UI Datepicker: "h:mm tt"
+                          // long time (with seconds)
+                          //    g - 12-hour format of an hour without leading zeros
+                          //    i - Minutes with leading zeros
+                          //    s - Seconds, with leading zeros
+                          //    A - Uppercase Ante meridiem and Post meridiem (AM or PM)
+                          LongTime: "g:i:s A", // in jQuery UI Datepicker: "h:mm:ss tt"
+                          SortableDateTime: "Y-m-d\\TH:i:s",
+                          UniversalSortableDateTime: "Y-m-d H:i:sO",
+                          // month with year
+                          //    Y - A full numeric representation of a year, 4 digits
+                          //    F - A full textual representation of a month
+                          YearMonth: "F, Y" // in jQuery UI Datepicker: "MMMM, yyyy"
+                        },
+                        reformatAfterEdit : false,
+                        userLocalTime : false
+                      },
+                      baseLinkUrl: '',
+                      showAction: '',
+                      target: '',
+                      checkbox : {disabled:true},
+                      idName : 'id'
+                    }
+                };
+
+                /* datepicker setup */
+                var dates = $.fn.datepicker.dates =
+                {
+                    en:
+                    {
+                        days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+                        daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+                        daysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
+                        months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                        monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                        today: "Today",
+                        clear: "Clear"
+                    },
+                    //添加cn
+                    cn:
+                    {
+                        days: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+                        daysShort: ["日", "一", "二", "三", "四", "五", "六", "七"],
+                        daysMin: ["日", "一", "二", "三", "四", "五", "六", "七"],
+                        months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+                        monthsShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+                        today: "今天",
+                        clear: "清除"
+                    }
+                };
+                var defaults = $.fn.datepicker.defaults = {
+                    autoclose: false,
+                    beforeShowDay: $.noop,
+                    calendarWeeks: false,
+                    clearBtn: false,
+                    daysOfWeekDisabled: [],
+                    endDate: Infinity,
+                    forceParse: true,
+                    format: 'mm/dd/yyyy',
+                    keyboardNavigation: true,
+                    language: window.lang,
+                    minViewMode: 0,
+                    orientation: "auto",
+                    rtl: false,
+                    startDate: -Infinity,
+                    startView: 0,
+                    todayBtn: false,
+                    todayHighlight: false,
+                    weekStart: 0
+                };
+
+                // 监听子页面加载完成
+                $('.page-content-area').on('ajaxloadcomplete', function (e, params) {
+                    // 翻译子网页
+                    $('#main-container').i18n();
+                });
+
+				/* setup the menus */
+				var menus = [];
+				var router = true;
+				var homepage = "dashboard";
+                if ( window.machine.mode == "default" || window.machine.mode.indexOf("bridge") >= 0 )
+                {
+                    router = false;
+                    $('#extern_nav').attr('href','#');
+                    $('#extern_nav_mini').attr('href','#');
+				}
+				else if ( window.machine.mode == "gateway" || window.machine.mode == "dgateway" )
+				{
+				    if ( !wuimenu || wuimenu.wan != "disable" )
+				    {
+                        $('#extern_nav').attr('href','#wan?object=ifname@wan');
+                        $('#extern_nav_mini').attr('href','#wan?object=ifname@wan');
+                    }
+				}
+				else if ( window.machine.mode == "ngateway" )
+				{
+				    if ( !wuimenu || wuimenu.wan2 != "disable" )
+				    {
+                        $('#extern_nav').attr('href','#wan?object=ifname@wan2');
+                        $('#extern_nav_mini').attr('href','#wan?object=ifname@wan2');
+                    }
+				}
+				else if ( window.machine.mode == "wisp" || window.machine.mode == "dwisp" )
+				{
+				    if ( !wuimenu || wuimenu.wisp != "disable" )
+				    {
+                        $('#extern_nav').attr('href','#wisp?object=ifname@wisp');
+                        $('#extern_nav_mini').attr('href','#wisp?object=ifname@wisp');
+                    }
+				}
+				else if ( window.machine.mode == "nwisp" )
+				{
+				    if ( !wuimenu || wuimenu.wisp2 != "disable" )
+				    {
+                        $('#extern_nav').attr('href','#wisp?object=ifname@wisp2');
+                        $('#extern_nav_mini').attr('href','#wisp?object=ifname@wisp2');
+                    }
+				}
+				else if ( window.machine.mode == "nmisp" )
+				{
+				    if ( !wuimenu || wuimenu.lte2 != "disable" )
+				    {
+                        $('#extern_nav').attr('href','#lte?object=ifname@lte2' );
+                        $('#extern_nav_mini').attr('href','#lte?object=ifname@lte2' );
+                    }
+				}
+				else
+				{
+				    if ( !wuimenu || wuimenu.lte != "disable" )
+				    {
+                        
+                        $('#extern_nav').attr('href','#lte?object=ifname@lte');
+                        $('#extern_nav_mini').attr('href','#lte?object=ifname@lte' );
+                    }
+				}
+
+                menu.add( menus, $.i18n( 'Dashboard' ), 'dashboard', 'menu-icon fa fa-exchange'  );
+                menu.add( menus, $.i18n( 'Utilization' ), 'utilization', 'menu-icon fa fa-area-chart'  );
+				menu.add( menus, $.i18n( 'Interface' ), 'interface', 'menu-icon fa fa-list' );
+
+                menu.add( menus, $.i18n( 'Application' ), '', 'menu-icon fa fa-building' );
+
+				menu.add( menus, $.i18n( 'System' ), 'device', 'menu-icon fa fa-cogs' );
+				menu.addlink( menus, $.i18n( 'System' ), $.i18n( 'Device' ), 'device' );
+                if ( !wuimenu || wuimenu.configure != "disable" )
+                {
+				    menu.addlink( menus, $.i18n( 'System' ), $.i18n( 'Configure' ), 'configure' );
+                }
+                if ( !wuimenu || wuimenu.software != "disable" )
+                {
+				    menu.addlink( menus, $.i18n( 'System' ), $.i18n( 'Software' ), 'software' );
+                }
+				menu.addlink( menus, $.i18n( 'System' ), $.i18n( 'Password' ), 'password' );
+
+				menu.add( menus, $.i18n( 'Debug' ), 'debug', 'menu-icon fa fa-bug' );
+				menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'Syslog' ), 'syslog' );
+				if ( window.wuiterm && ( !wuimenu || wuimenu.terminal != "disable" ) )
+				{
+                    menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'Terminal' ), 'terminal' );
+                    menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'Diagnostic' ), 'diagnostic' );
+    				if ( <%he('.modem@lte.status'); %> )
+    				{
+                        if ( !wuimenu || wuimenu.lte != "disable" )
+                        {
+    					    menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'AT command(LTE)' ), 'atcommand?object=modem@lte' );
+                        }
+    				}
+    				if ( <%he('.modem@lte2.status'); %> )
+    				{
+                        if ( !wuimenu || wuimenu.lte2 != "disable" )
+                        {
+    					    menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'AT command(LTE/NR)' ), 'atcommand?object=modem@lte2' );
+                        }
+    				}
+                }
+				if ( window.machine_status.scope == "std" )
+				{
+    				if ( !wuimenu || wuimenu.development != "disable" )
+    				{
+                        menu.add( menus, $.i18n( 'Development' ), 'sdk', 'menu-icon fa fa-gavel' );
+                        menu.addlink( menus, $.i18n( 'Development' ), $.i18n( 'SDK' ), 'sdk' );
+                        menu.addlink( menus, $.i18n( 'Development' ), $.i18n( 'Inittab' ), 'inittab' );
+                        menu.addlink( menus, $.i18n( 'Development' ), $.i18n( 'Uninittab' ), 'uninittab' );
+                        menu.addlink( menus, $.i18n( 'Development' ), $.i18n( 'Jointtab' ), 'jointtab' );
+                        menu.addlink( menus, $.i18n( 'Development' ), $.i18n( 'Service' ), 'service' );
+                        menu.addlink( menus, $.i18n( 'Development' ), $.i18n( 'Crontab' ), 'crontab' );
+                    }
+                }
+
+				for( var index in window.fpk_menu )
+				{
+				    var app = window.fpk_menu[index];
+				    var app_mode = app['mode'];
+				    if ( app_mode )
+				    {
+				        if ( app_mode[window.machine.mode] != "enable" )
+				        {
+				            continue;
+				        }
+				    }
+				    if ( window.wui.menu )
+				    {
+				        if ( window.wui.menu[index] == "disable" )
+				        {
+				            continue;
+				        }
+				    }
+				    var app_page = app['page'];
+				    if ( !app_page )
+				    {
+				        continue;
+				    }
+				    var app_hash = 'app?page='+base64.encode(app_page);
+				    var app_object = app['object'];
+				    if ( app_object )
+				    {
+				        app_hash += '&object='+app_object;
+				    }
+				    var app_lang = app['lang'][window.lang];
+				    if ( app_lang )
+				    {
+				        app_hash += '&lang='+base64.encode(app_lang);
+				    }
+				    var app_title = app[window.lang];
+				    if ( !app_title )
+				    {
+                        app_title = app["en"];
+				    }
+				    if ( !app_title )
+				    {
+				        continue;
+				    }
+				    var app_menu = app['menu'];
+				    if ( !app_menu )
+				    {
+				        app_menu = 'Application';
+				    }
+				    if ( app_menu == "Quick" )
+				    {
+                        menu.insert( menus, $.i18n( 'Quick' ), app_hash, 'menu-icon fa fa-bolt' );
+                        homepage = app_hash;
+				    }
+				    else if ( app_menu == "Wizard" )
+				    {
+                        menu.insert( menus, $.i18n( 'Wizard' ), app_hash, 'menu-icon fa fa-bolt' );
+                        homepage = app_hash;
+				    }
+				    else
+				    {
+				        menu.addlink( menus, $.i18n( app_menu ), app_title, app_hash );
+				    }
+				}
+
+
+
+                
+				menu.mark( menus, $.i18n( 'Dashboard' ) );
+				menu.display( "#nav-list", menus );
+
+    			/* Logout event
+    			$('#sidebar_signal').on( ace.click_event, function() {
+                    $('#page-content-area').ace_ajax('loadUrl', 'lte' );
+    			}); */
+                // ace Ajax setup
+                $('.page-content-area').ace_ajax({
+                	//close the right menu when moblie
+                	close_active: true, close_mobile_menu: '#sidebar', close_dropdowns: true,
+                	// subpage path
+                	content_url: function( hash )
+                	{
+                		var name = '';
+                		var index = hash.indexOf('?');
+                		// get object name
+                		if ( index <= 0 )
+                		{
+                			name = hash;
+                		}
+                		else
+                		{
+                			name = hash.substring(0, index);
+                		}
+                		// custom the path
+                		if ( name === 'blank' )
+                		{
+                			return 'content/dashboard.html';;
+                		}
+                		else if ( name === 'index' )
+                		{
+                			location.href = 'index.html'
+                			return;
+                		}
+                		else if ( name === 'wizard' )
+                		{
+                			location.href = 'wizard.html'
+                			return;
+                		}
+                		/* for old page for tmp use */
+                		else if ( name === 'app' )
+                		{
+                		    var paper = page.param( 'page', hash );
+                			return base64.decode(paper);
+                		}
+                		return 'content/' + name + '.html';
+                	},
+                	//default url
+                	default_url: homepage  // default url
+                });
+
+			}) // $.i18n.load()
+		})     //jQuery(function($)
+		</script>
+	</body>
+</html>

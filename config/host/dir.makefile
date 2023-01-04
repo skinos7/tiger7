@@ -12,7 +12,8 @@ all dep:
 	for i in ${PROJECTS} ;do \
 		if [ -d $$i ]; then \
 			if [ ! -d ${gBUILD_DIR}/$$i ]; then \
-				cp -Lr $$i ${gBUILD_DIR}; \
+				mkdir ${gBUILD_DIR}/$$i; \
+				cp -fr $$i/* ${gBUILD_DIR}/$$i; \
 			fi; \
 			if [ -f ${gBUILD_DIR}/$$i/${gPROJECT_INF} ];then \
 				if [ -f ${gBUILD_DIR}/$$i/fpk.makefile ]; then \
@@ -29,7 +30,8 @@ install:
 	for i in ${PROJECTS} ;do \
 		if [ -d $$i ]; then \
 			if [ ! -d ${gBUILD_DIR}/$$i ]; then \
-				cp -Lr $$i ${gBUILD_DIR}; \
+				mkdir ${gBUILD_DIR}/$$i; \
+				cp -fr $$i/* ${gBUILD_DIR}/$$i; \
 			fi; \
 			if [ -f ${gBUILD_DIR}/$$i/${gPROJECT_INF} ];then \
 				if [ -f ${gBUILD_DIR}/$$i/fpk.makefile ]; then \

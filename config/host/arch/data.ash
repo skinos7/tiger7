@@ -46,8 +46,7 @@ setup()
         echo "$gPLATFORM-$gHARDWARE-$gCUSTOM-$gSCOPE" > $VROOT/.cfg/.customv6
     fi
     if [ -e $VROOT/mnt/int/.customv6 ]; then
-    	echo "mount the configure"
-        rm -fr $VROOT/mnt/int/.erase*
+    	echo "mount the interval"
 	else
 		rm -fr $VROOT/mnt/int/*
         echo "$gPLATFORM-$gHARDWARE-$gCUSTOM-$gSCOPE" > $VROOT/mnt/int/.customv6

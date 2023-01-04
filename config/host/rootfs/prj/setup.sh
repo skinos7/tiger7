@@ -11,7 +11,7 @@ he land@syslog.setup
 # skinos daemon
 daemon&
 # init the date
-he clock@date.setup
+#he clock@date.setup
 # init the hotplug
 #he arch@hotplug.setup
 # init the led

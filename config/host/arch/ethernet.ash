@@ -8,6 +8,7 @@ setup()
     dev=`he land@register.string[ land,local_netdev ]`
     he land@com.register[ ethernet@lan,arch@ethernet ]
     he network@frame.add[ ethernet@lan,$dev ]
+    echo "{\"netdev\":\"$dev\"}" > /var/skin/network/ifname@lan.ol
     # default the configure if order
     creturn ttrue
 }

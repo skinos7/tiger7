@@ -31,7 +31,7 @@ he network@frame.shut
 he land@uninit.call[core]
 he land@uninit.call[core2]
 
-#he arch@gpio.shut
+he arch@gpio.shut
 he land@syslog.shut
 he arch@data.shut
 daemon exit
