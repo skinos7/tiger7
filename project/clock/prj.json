@@ -19,5 +19,22 @@
     {
         "app":"clock@restart.setup",
         "general":"clock@ntps.setup"
+    },
+
+    "wui":
+    {
+        "webs":
+        {
+            "menu":"System",
+            "cn":"自动重启",
+            "en":"Auto Reboot",
+            "page":"restart.html",
+            "lang":
+            {
+                "cn":"cn.json",
+                "en":"en.json"
+            }
+        }
     }
+    
 }

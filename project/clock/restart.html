@@ -1,0 +1,234 @@
+<!-- ajax layout which only needs content area -->
+<div class="row">
+  <div class="col-xs-12 form-btn-wrapper">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="form-horizontal" role="form">
+
+    
+      <!-- 重启模式 -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Reboot Mode"></label>
+        <div class="col-sm-9">
+          <select class="col-xs-10 col-sm-5" id="mode">
+            <option value="disable" data-i18n="Disable"></option>
+            <option value="idle" data-i18n="Idle Reboot"></option>
+            <option value="age" data-i18n="Age"></option>
+            <option value="point" data-i18n="Point"></option>
+          </select>
+        </div>
+      </div>
+
+      <div id="idleSets">
+        <!-- 最小运行时长 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Minimum running time(sec)"></label>
+          <div class="col-sm-9">
+            <div class="clearfix">
+              <input type="text" id="idle_start" class="col-xs-10 col-sm-5" maxlength="128" />
+            </div>
+          </div>
+        </div>
+        <!-- 无线空闲时长 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="None Client duration(sec)"></label>
+          <div class="col-sm-9">
+            <div class="clearfix">
+              <input type="text" id="idle_time" class="col-xs-10 col-sm-5" maxlength="128" />
+            </div>
+          </div>
+        </div>
+        <!-- 时间点 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Point Reboot Time"></label>
+          <div class="col-sm-9">
+            <select id="idle_hour"></select>
+            <select id="idle_minute"></select>
+          </div>
+        </div>
+        <!-- 最大运行时长 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Maximum running time(sec)"></label>
+          <div class="col-sm-9">
+            <div class="clearfix">
+              <input type="text" id="idle_age" class="col-xs-10 col-sm-5" maxlength="128" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 间隔重启 -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Reboot time interval(sec)"></label>
+        <div class="col-sm-9">
+          <div class="clearfix">
+            <input type="text" id="age" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+      </div>
+
+      <!-- 定点重启 -->
+    <div id="pointSets">
+        <!-- 时间点 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Point Reboot Time"></label>
+          <div class="col-sm-9">
+            <select id="point_hour"></select>
+            <select id="point_minute"></select>
+          </div>
+        </div>
+        <!-- 最大运行时长 -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Maximum running time(sec)"></label>
+          <div class="col-sm-9">
+            <div class="clearfix">
+              <input type="text" id="point_age" class="col-xs-10 col-sm-5" maxlength="128" />
+            </div>
+          </div>
+        </div>
+    </div>
+
+
+
+     <div class="clearfix form-actions">
+       <div class="col-md-offset-3 col-md-9">
+         <button class="btn btn-second" type="button" id="refresh"><span data-i18n="Refresh"></span></button>
+         &nbsp; &nbsp; &nbsp;
+         <button class="btn btn-main" type="button" id="apply"><span data-i18n="Apply"></span></button>
+       </div>
+     </div>
+
+
+    </div>
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+    var cfg;
+    var object = "clock@restart";
+    var langjson = base64.decode( page.param( 'lang', location.hash ) );
+    function load_cfg()
+    {
+        he.load( [ object ] ).then( function( v ){
+            cfg = v[0];
+            $('#mode').val( cfg.mode || 'disable')
+
+            $('#idle_start').val(cfg.idle_start);
+            $('#idle_time').val(cfg.idle_time);
+            $('#idle_age').val(cfg.idle_age);
+            $('#idle_hour').val(cfg.idle_hour);
+            $('#idle_minute').val(cfg.idle_minute);
+           
+            $('#age').val(cfg.age);
+           
+            $('#point_hour').val(cfg.point_hour);
+            $('#point_minute').val(cfg.point_minute);
+            $('#point_age').val(cfg.point_age);
+           
+            // 触发模式改变事件
+            $('#mode').unbind('change').change(function (e) {
+                // 选中的工作模式
+                var mode = e.target.value;
+                switch (mode)
+                {
+                    case 'idle':
+                        $('#idleSets').show();
+                        $('#age').closest('.form-group').hide();
+                        $('#pointSets').hide();
+                        break;
+                    case 'age':
+                        $('#idleSets').hide();
+                        $('#age').closest('.form-group').show();
+                        $('#pointSets').hide();
+                        break;
+                    case 'point':
+                        $('#idleSets').hide();
+                        $('#age').closest('.form-group').hide();
+                        $('#pointSets').show();
+                        break;
+                    default:
+                        $('#idleSets').hide();
+                        $('#age').closest('.form-group').hide();
+                        $('#pointSets').hide();
+                        break;
+                }
+            }).trigger('change');
+        });
+    }
+    function save_cfg()
+    {
+        if ( !cfg )
+        {
+            cfg = {};
+        }
+        var cfgcopy = JSON.parse(JSON.stringify(cfg));
+
+        // 重启模式
+        cfg.mode = $('#mode').val();
+        switch ( cfg.mode )
+        {
+            case 'idle':
+                cfg.idle_start = $('#idle_start').val();
+                cfg.idle_time = $('#idle_time').val();
+                cfg.idle_age = $('#idle_age').val();
+                cfg.idle_hour = $('#idle_hour').val();
+                cfg.idle_minute = $('#idle_minute').val();
+                break;
+            case 'age':
+                cfg.age = $('#age').val();
+                break;
+            case 'point':
+                cfg.point_hour = $('#point_hour').val();
+                cfg.point_minute = $('#point_minute').val();
+                cfg.point_age = $('#point_age').val();
+                break;
+            default:
+                break;
+        }
+
+        if ( ocompare( cfg, cfgcopy ) )
+        {
+            page.alert( { message: $.i18n('Settings unchanged') } );
+            return;
+        }
+        he.save( [ object+"="+JSON.stringify(cfg) ] ).then( function(){
+            page.hint2succeed( $.i18n('Modify successfully') );
+            load_cfg();
+        });
+    }
+  
+    $.i18n().load( page.lang(langjson) ).then( function () {
+        /* init the langauage */
+        $.i18n().locale = lang; $('body').i18n();
+        /* init the select */
+        var str = '';
+        for (var i = 0; i < 24; i ++) {
+          str += '<option value="' + i + '">' + i + '</option>'
+        }
+        $('#point_hour').html(str);
+        $('#idle_hour').html(str);
+        str = '';
+        for (var i = 0; i < 60; i ++) {
+          str += '<option value="' + i + '">' + i + '</option>'
+        }
+        $('#point_minute').html(str);
+        $('#idle_minute').html(str);
+        /* load the configure */
+        load_cfg();
+        /* bind the refresh */
+        $('#refresh').on(ace.click_event, function () {
+            location.reload();
+        });
+        /* bind the apply to save configure */
+        $('#apply').on(ace.click_event, function () {
+            save_cfg();
+        });
+    });
+  
+
+  })();
+</script>
+
+

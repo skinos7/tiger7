@@ -12,33 +12,83 @@
 static boole time_setting( const char *tt, const char *zone )
 {
     int i;
+	boole ret;
 	register_file_t h;
+    const char *ozone;
+    const char *nzone;
     struct tm tm_current;
 
-    memset( &tm_current, 0, sizeof( tm_current ) );
-    i = sscanf( tt, "%d:%d:%d:%d:%d:%d", &(tm_current.tm_hour), &(tm_current.tm_min), \
-                &(tm_current.tm_sec), &(tm_current.tm_mon), &(tm_current.tm_mday), &(tm_current.tm_year) );
-    if ( i != 6 )
+	ret = false;
+    ozone = "CTT-8";
+    nzone = "GMT+8";
+    if ( zone != NULL && *zone != '\0' )
     {
-        return false;
+    	/* set the kernel time zone */
+		info( "system timezone modifyed to %s", zone );
+        date_set( -1, zone );
+		/* set the userspace time zone for old style(uclibc) */
+        if ( 0 == strcasecmp( zone, "-12" ) ){ozone = "GMT12";nzone = "GMT-12";}
+        else if ( 0 == strcasecmp( zone, "-11" ) ){ozone = "GMT11";nzone = "GMT+11";}
+        else if ( 0 == strcasecmp( zone, "-10" ) ){ozone = "GMT10";nzone = "GMT+10";}
+        else if ( 0 == strcasecmp( zone, "-9" ) ){ozone = "GMT9";nzone = "GMT+9";}
+        else if ( 0 == strcasecmp( zone, "-8" ) ){ozone = "GMT8";nzone = "GMT+8";}
+        else if ( 0 == strcasecmp( zone, "-7" ) ){ozone = "GMT7";nzone = "GMT+7";}
+        else if ( 0 == strcasecmp( zone, "-6" ) ){ozone = "GMT6";nzone = "GMT+6";}
+        else if ( 0 == strcasecmp( zone, "-5" ) ){ozone = "GMT5";nzone = "GMT+5";}
+        else if ( 0 == strcasecmp( zone, "-4" ) ){ozone = "GMT4";nzone = "GMT+4";}
+        else if ( 0 == strcasecmp( zone, "-3:30" ) ){ozone = "GMT3:30";nzone = "GMT+4";}
+        else if ( 0 == strcasecmp( zone, "-2" ) ){ozone = "GMT2";nzone = "GMT+2";}
+        else if ( 0 == strcasecmp( zone, "-1" ) ){ozone = "GMT1";nzone = "GMT+1";}
+        else if ( 0 == strcasecmp( zone, "0" ) ){ozone = "UTC0";nzone = "GMT0";}
+        else if ( 0 == strcasecmp( zone, "1" ) ){ozone = "ECT-1";nzone = "GMT-1";}
+        else if ( 0 == strcasecmp( zone, "2" ) ){ozone = "EET-2";nzone = "GMT-2";}
+        else if ( 0 == strcasecmp( zone, "3" ) ){ozone = "EAT-3";nzone = "GMT-3";}
+        else if ( 0 == strcasecmp( zone, "3:30" ) ){ozone = "GMT-3:30";nzone = "GMT-3";}
+        else if ( 0 == strcasecmp( zone, "4" ) ){ozone = "NET-4";nzone = "GMT-4";}
+        else if ( 0 == strcasecmp( zone, "4:30" ) ){ozone = "GMT-4:30";nzone = "GMT-4";}
+        else if ( 0 == strcasecmp( zone, "5" ) ){ozone = "PLT-5";nzone = "GMT-5";}
+        else if ( 0 == strcasecmp( zone, "5:30" ) ){ozone = "GMT-5:30";nzone = "GMT-5";}
+        else if ( 0 == strcasecmp( zone, "6" ) ){ozone = "BST-6";nzone = "GMT-6";}
+        else if ( 0 == strcasecmp( zone, "7" ) ){ozone = "VST-7";nzone = "GMT-7";}
+        else if ( 0 == strcasecmp( zone, "8" ) ){ozone = "CTT-8";nzone = "GMT-8";}
+        else if ( 0 == strcasecmp( zone, "9" ) ){ozone = "JST-9";nzone = "GMT-9";}
+        else if ( 0 == strcasecmp( zone, "9:30" ) ){ozone = "GMT-9:30";nzone = "GMT-9";}
+        else if ( 0 == strcasecmp( zone, "10" ) ){ozone = "AET-10";nzone = "GMT-10";}
+        else if ( 0 == strcasecmp( zone, "11" ) ){ozone = "SST-11";nzone = "GMT-11";}
+        else if ( 0 == strcasecmp( zone, "12" ) ){ozone = "NST-12";nzone = "GMT-12";}
+		string2file( "/etc/TZ", "%s\n", ozone );
+		/* set the userspace time zone for old style(libc) */
+		unlink( "/etc/localtime" );
+		shell( "ln -s /usr/share/zoneinfo/%s /etc/localtime", nzone );
+		ret = true;
     }
-    else
-    {
-        /* set the time */
-        tm_current.tm_year -= 1900;
-        tm_current.tm_mon--;
-        tm_current.tm_isdst = -1;
-        info( "system date modifyed to %s", tt );
-        date_set( mktime( &tm_current ), zone );
-		/* tell the hardware clock */
-        shell( "hwclock -w >/dev/null 2>&1" );
-        /* tell the system that time is ok */
-		h = register_open( LAND_PROJECT, O_RDWR, 0644, 0, 0 );
-		register_value_set( h, "date_src", "set", sizeof("set"), 20 );
-		register_close( h );
-        joint_calls( "date/modify", "set" );
-    }
-    return true;
+
+	if ( tt != NULL && *tt != '\0' )
+	{
+	    memset( &tm_current, 0, sizeof( tm_current ) );
+	    i = sscanf( tt, "%d:%d:%d:%d:%d:%d", &(tm_current.tm_hour), &(tm_current.tm_min), \
+	                &(tm_current.tm_sec), &(tm_current.tm_mon), &(tm_current.tm_mday), &(tm_current.tm_year) );
+	    if ( i == 6 )
+	    {
+			/* set the time */
+			tm_current.tm_year -= 1900;
+			tm_current.tm_mon--;
+			tm_current.tm_isdst = -1;
+			info( "system date modifyed to %s", tt );
+			ret  = date_set( mktime( &tm_current ), NULL );
+			/* tell the hardware clock */
+			shell( "hwclock -w >/dev/null 2>&1" );
+			/* 记录时间来源 */
+			h = register_open( LAND_PROJECT, O_RDWR, 0644, 0, 0 );
+			register_value_set( h, "date_src", "set", sizeof("set"), 20 );
+			register_close( h );
+			/* 发出时间变化的事件 */
+			joint_calls( "date/modify", "set" );
+			ret = true;
+	    }
+	}
+
+    return ret;
 }
 /* sync the time use ntp */
 static boole ntpclient_sync( const char* server, const char* zone )
@@ -59,18 +109,12 @@ static boole ntpclient_sync( const char* server, const char* zone )
         ret = true;
         info( "sync the system time from %s succeed", server );
         execute( 0, true, "hwclock -w" );
-        /* tell the system that time is ok */
+		/* 记录时间来源 */
 		h = register_open( LAND_PROJECT, O_RDWR, 0644, 0, 0 );
 		register_value_set( h, "date_src", "ntp", sizeof("ntp"), 20 );
 		register_close( h );
+		/* 发出时间变化的事件 */
         joint_calls( "date/modify", "ntp" );
-        /*
-        if ( NULL != zone && strlen(zone) )
-        {
-            // check time with zone
-            ret = adjust_time_zone( zone );
-        }
-        */
     }
     return ret;
 }
@@ -81,51 +125,16 @@ boole_t _setup( obj_t this, param_t param )
 {
     talk_t cfg;
     const char *ptr;
-    const char *ozone;
-    const char *nzone;
 
-    ozone = "CTT-8";
-    nzone = "GMT+8";
 	/* get the configure */
     cfg = config_sget( COM_IDPATH, NULL );
-    /* set time zone with old style(ulibc) */
     ptr = json_string( cfg, "timezone" );
-    if ( ptr != NULL && *ptr != '\0' )
+    if ( ptr == NULL || *ptr == '\0' )
     {
-        if ( 0 == strcasecmp( ptr, "-12" ) ){ozone = "GMT12";nzone = "GMT-12";}
-        else if ( 0 == strcasecmp( ptr, "-11" ) ){ozone = "GMT11";nzone = "GMT+11";}
-        else if ( 0 == strcasecmp( ptr, "-10" ) ){ozone = "GMT10";nzone = "GMT+10";}
-        else if ( 0 == strcasecmp( ptr, "-9" ) ){ozone = "GMT9";nzone = "GMT+9";}
-        else if ( 0 == strcasecmp( ptr, "-8" ) ){ozone = "GMT8";nzone = "GMT+8";}
-        else if ( 0 == strcasecmp( ptr, "-7" ) ){ozone = "GMT7";nzone = "GMT+7";}
-        else if ( 0 == strcasecmp( ptr, "-6" ) ){ozone = "GMT6";nzone = "GMT+6";}
-        else if ( 0 == strcasecmp( ptr, "-5" ) ){ozone = "GMT5";nzone = "GMT+5";}
-        else if ( 0 == strcasecmp( ptr, "-4" ) ){ozone = "GMT4";nzone = "GMT+4";}
-        else if ( 0 == strcasecmp( ptr, "-3:30" ) ){ozone = "GMT3:30";nzone = "GMT+4";}
-        else if ( 0 == strcasecmp( ptr, "-2" ) ){ozone = "GMT2";nzone = "GMT+2";}
-        else if ( 0 == strcasecmp( ptr, "-1" ) ){ozone = "GMT1";nzone = "GMT+1";}
-        else if ( 0 == strcasecmp( ptr, "0" ) ){ozone = "UTC0";nzone = "GMT0";}
-        else if ( 0 == strcasecmp( ptr, "1" ) ){ozone = "ECT-1";nzone = "GMT-1";}
-        else if ( 0 == strcasecmp( ptr, "2" ) ){ozone = "EET-2";nzone = "GMT-2";}
-        else if ( 0 == strcasecmp( ptr, "3" ) ){ozone = "EAT-3";nzone = "GMT-3";}
-        else if ( 0 == strcasecmp( ptr, "3:30" ) ){ozone = "GMT-3:30";nzone = "GMT-3";}
-        else if ( 0 == strcasecmp( ptr, "4" ) ){ozone = "NET-4";nzone = "GMT-4";}
-        else if ( 0 == strcasecmp( ptr, "4:30" ) ){ozone = "GMT-4:30";nzone = "GMT-4";}
-        else if ( 0 == strcasecmp( ptr, "5" ) ){ozone = "PLT-5";nzone = "GMT-5";}
-        else if ( 0 == strcasecmp( ptr, "5:30" ) ){ozone = "GMT-5:30";nzone = "GMT-5";}
-        else if ( 0 == strcasecmp( ptr, "6" ) ){ozone = "BST-6";nzone = "GMT-6";}
-        else if ( 0 == strcasecmp( ptr, "7" ) ){ozone = "VST-7";nzone = "GMT-7";}
-        else if ( 0 == strcasecmp( ptr, "8" ) ){ozone = "CTT-8";nzone = "GMT-8";}
-        else if ( 0 == strcasecmp( ptr, "9" ) ){ozone = "JST-9";nzone = "GMT-9";}
-        else if ( 0 == strcasecmp( ptr, "9:30" ) ){ozone = "GMT-9:30";nzone = "GMT-9";}
-        else if ( 0 == strcasecmp( ptr, "10" ) ){ozone = "AET-10";nzone = "GMT-10";}
-        else if ( 0 == strcasecmp( ptr, "11" ) ){ozone = "SST-11";nzone = "GMT-11";}
-        else if ( 0 == strcasecmp( ptr, "12" ) ){ozone = "NST-12";nzone = "GMT-12";}
-		string2file( "/etc/TZ", "%s\n", ozone ); /* because the TZ file in the /tmp/TZ, so you can write anytime */
-		/* set time zone with new style(libc) */
-		unlink( "/etc/localtime" );
-		shell( "ln -s /usr/share/zoneinfo/%s /etc/localtime", nzone );
+    	ptr = "8";
     }
+	time_setting( NULL, ptr );
+
 	/* read from the RTC when have RTC */
 	/* XXXXXXXXXXXXXXX */
 
@@ -299,14 +308,35 @@ boole_t _ntpsync( obj_t this, param_t param )
 }
 boole_t _current( obj_t this, param_t param )
 {
+	talk_t ret;
     const char *ptr;
+    const char *zone;
 
+	ret = NULL;
 	ptr = param_string( param, 1 );
-	if ( time_setting( ptr, NULL ) == true )
+	zone = param_string( param, 2 );
+	if ( ptr != NULL || zone != NULL )
 	{
-		return ttrue;
+		if ( time_setting( ptr, zone ) == true )
+		{
+			return ttrue;
+		}
+		return tfalse;
 	}
-	return tfalse;
+	else
+	{
+        struct timeval tv;
+        struct timezone tz;
+        if ( gettimeofday( &tv, &tz ) == 0 )
+		{
+			ret = json_create( NULL );
+			json_set_number( ret, "sec", tv.tv_sec );
+			json_set_number( ret, "usec", tv.tv_usec );
+			json_set_number( ret, "minuteswest", tz.tz_minuteswest );
+			json_set_number( ret, "dsttime", tz.tz_dsttime );
+		}
+	}
+	return ret;
 }
 
 
