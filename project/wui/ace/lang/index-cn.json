@@ -91,6 +91,8 @@
 
 	"Network":"网络",
 	"Connection":"接入设置",
+	"Not Specified":"未指定",
+
 	"LTE Modem":"4G基带",
 	"LTE/NR Modem":"4G/5G基带",
 	"LTE":"4G网络",
@@ -124,6 +126,7 @@
 	"ifname@lan2":"本地网络2",
 	"ifname@lan3":"本地网络3",
 	"ifname@lan4":"本地网络4",
+	
 	"vpn@l2tpc":"L2TP客户端",
 	"vpn@l2tpc2":"L2TP客户端2",
 	"vpn@l2tpc3":"L2TP客户端3",
@@ -134,7 +137,7 @@
 	"vpn@l2tpc8":"L2TP客户端8",
 	"vpn@l2tpc9":"L2TP客户端9",
 	"vpn@l2tpc10":"L2TP客户端10",
-	"vpn@l2tps":"PPTP服务器",
+
 	"vpn@pptpc":"PPTP客户端",
 	"vpn@pptpc2":"PPTP客户端2",
 	"vpn@pptpc3":"PPTP客户端3",
@@ -145,7 +148,7 @@
 	"vpn@pptpc8":"PPTP客户端8",
 	"vpn@pptpc9":"PPTP客户端9",
 	"vpn@pptpc10":"PPTP客户端10",
-	"vpn@pptps":"PPTP服务器",
+
 	"vpn@gre":"GRE隧道",
 	"vpn@gre2":"GRE隧道2",
 	"vpn@gre3":"GRE隧道3",
@@ -156,6 +159,7 @@
 	"vpn@gre8":"GRE隧道8",
 	"vpn@gre9":"GRE隧道9",
 	"vpn@gre10":"GRE隧道10",
+
 	"ovpn@client":"OPENVPN客户端",
 	"ovpn@client2":"OPENVPN客户端2",
 	"ovpn@client3":"OPENVPN客户端3",
@@ -166,7 +170,7 @@
 	"ovpn@client8":"OPENVPN客户端8",
 	"ovpn@client9":"OPENVPN客户端9",
 	"ovpn@client10":"OPENVPN客户端10",
-	"ovpn@server":"OPENVPN服务器",
+
 	"ipsec@tunnel":"IPSEC隧道",
 	"ipsec@tunnel2":"IPSEC隧道2",
 	"ipsec@tunnel3":"IPSEC隧道3",
@@ -177,7 +181,10 @@
 	"ipsec@tunnel8":"IPSEC隧道8",
 	"ipsec@tunnel9":"IPSEC隧道9",
 	"ipsec@tunnel10":"IPSEC隧道10",
-	"Not Specified":"未指定",
+	
+	"vpns@l2tp":"PPTP服务器",
+	"vpns@pptp":"PPTP服务器",
+	"ovpns@server":"OPENVPN服务器",
 
 	"Routing Table":"路由表",
 	"Policy Routing":"策略路由",
