@@ -8,7 +8,9 @@
         "20221223e":"use the wui@admin component interface to auth user password",
         "20221223f":"fix set the date on modem depend on timezone",
         "20221223g":"fix agent cannot upload config",
-        "20221223h":"fix connect to daemon loop when deamon crack"
+        "20221223h":"fix connect to daemon loop when deamon crack",
+        "20221231a":"fix modem/ltecon deamon reset modem same time to exit",
+        "20221231b":"add multi-openvpn client support"
     },
     "v7.2.1223":
     {
