@@ -82,6 +82,44 @@ static int zte7520_sysinfo( atcmd_t fd, talk_t status )
     }
     return ret;
 }
+/* get current register network signal
+	0 for succeed
+	>0 for failed
+	<0 for error */
+static int zte7520_cesq( atcmd_t fd, talk_t device )
+{
+	int ret;
+	const char *ptr;
+    int rxlev, ber, rscp, ecno, rsrq, rsrp;
+
+    ret = atcmd_send( fd, "AT+CESQ", 3, NULL, ATCMD_DEF );
+    if ( ret != ATCMD_ret_succeed )
+    {
+        return ret;
+    }
+	ret = ATCMD_ret_failed;
+    ptr = atcmd_lastack( fd );
+    if ( sscanf( ptr, "%*[^:]:%d,%d,%d,%d,%d,%d", &rxlev, &ber, &rscp, &ecno, &rsrq, &rsrp ) == 6 )
+    {
+		ret = ATCMD_ret_succeed;
+		/* get the lte rsrp */
+		if ( rsrp > 0 && rsrp <= 97 )
+		{
+			// 1 to 97, -44 to -140
+			rsrp = rsrp-140;
+			json_set_number( device, "rsrp", rsrp );
+		}
+		/* get the lte rsrq */
+		if ( rsrq > 0 && rsrq <= 34 )
+		{
+			// 1 to 34, -19.5 to 3
+			json_set_number( device, "rsrq", (-19+((rsrq*5)/10)) );
+		}
+    }
+
+    return ret;
+}
+
 /* get current network connect state
 	0 for succeed
 	>0 for failed
@@ -885,9 +923,23 @@ boole_t _at_watch( obj_t this, param_t param )
 
 
 
+	json_delete_axp( dev, "rsrp" );
+	json_delete_axp( dev, "rsrq" );
 	json_delete_axp( dev, "nettype" );
 	// AT+QNWINFO
 	i = zte7520_sysinfo( fd, dev );
+	if ( i < ATCMD_ret_succeed )
+	{
+		return terror;
+	}
+	else if ( i == ATCMD_ret_term )
+	{
+		return tfalse;
+	}
+
+	// AT+CESQ
+	// +CESQ: 99,99,255,255,22,41,255,255,255
+	i = zte7520_cesq( fd, dev );
 	if ( i < ATCMD_ret_succeed )
 	{
 		return terror;

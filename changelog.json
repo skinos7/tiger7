@@ -1,4 +1,15 @@
 {
+    "v7.2.1231":
+    {
+        "20221223a":"lte modem webpage can modify the dial timeout/reset time",
+        "20221223b":"fix set the timezone to kernel, then time acl work right",
+        "20221223c":"firewall access option only show when default drop",
+        "20221223d":"move the wui@admin component from webs to wui project",
+        "20221223e":"use the wui@admin component interface to auth user password",
+        "20221223f":"fix set the date on modem depend on timezone",
+        "20221223g":"fix agent cannot upload config",
+        "20221223h":"fix connect to daemon loop when deamon crack"
+    },
     "v7.2.1223":
     {
         "20221223a":"add the ipsec connection",
