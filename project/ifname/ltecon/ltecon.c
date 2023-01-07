@@ -738,13 +738,13 @@ boole_t _service( obj_t this, param_t param )
     if ( ifdev == NULL || *ifdev == '\0' )
     {
 		fault( "cannot found %s ifdev", object );
-		sleep( 3 );
+		sleep( 5 );
         return tfalse;
     }
 	if ( com_sexist( ifdev, NULL ) == false )
 	{
 		fault( "ifdev %s inexistence", ifdev );
-		sleep( 3 );
+		sleep( 5 );
         return tfalse;
 	}
 
