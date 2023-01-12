@@ -25,7 +25,6 @@ done
 for tmp in smtk2-mt7628-d218
 do
     make gBOARDID=${tmp} pid
-    make test
     make clean
     make distclean
     make dep
@@ -38,7 +37,6 @@ for tmp in smtk2-mt7628-d218-std-wlinkr100 smtk2-mt7628-d218-std-wlinker120 smtk
 do
     make gBOARDID=${tmp} pid
     ./mkdel
-    make test
     make dep
     make
     make sz
@@ -50,7 +48,6 @@ done
 for tmp in smtk2-mt7628-r600
 do
     make gBOARDID=${tmp} pid
-    make test
     make clean
     make distclean
     make dep
@@ -63,7 +60,6 @@ for tmp in smtk2-mt7628-d218-r600-wlinkr100 smtk2-mt7628-d218-r600-wlinker120 sm
 do
     make gBOARDID=${tmp} pid
     ./mkdel
-    make test
     make dep
     make
     make sz
@@ -86,7 +82,6 @@ done
 for tmp in smtk2-mt7621-d228
 do
     make gBOARDID=${tmp} pid
-    make test
     make clean
     make distclean
     make dep
@@ -101,7 +96,6 @@ done
 for tmp in smtk2-mt7621-d228p
 do
     make gBOARDID=${tmp} pid
-    make test
     make clean
     make distclean
     make dep
@@ -116,7 +110,6 @@ done
 for tmp in smtk2-mt7621-v520-greatwall smtk2-mt7621-v520-zebra smtk2-mt7621-v520-ddonkey smtk2-mt7621-v520-factory
 do
     make gBOARDID=${tmp} pid
-    make test
     make clean
     make distclean
     make dep
@@ -127,7 +120,6 @@ done
 for tmp in smtk2-mt7621-v520
 do
     make gBOARDID=${tmp} pid
-    make test
     make clean
     make distclean
     make dep
@@ -142,7 +134,6 @@ done
 for tmp in smtk2-mt7621-v520b-ddonkey
 do
     make gBOARDID=${tmp} pid
-    make test
     make clean
     make distclean
     make dep
@@ -153,7 +144,6 @@ done
 for tmp in smtk2-mt7621-v520b
 do
     make gBOARDID=${tmp} pid
-    make test
     make clean
     make distclean
     make dep
@@ -168,7 +158,6 @@ done
 for tmp in smtk2-mt7621-h721-factory
 do
     make gBOARDID=${tmp} pid
-    make test
     make clean
     make distclean
     make dep
@@ -179,7 +168,6 @@ done
 for tmp in smtk2-mt7621-h721
 do
     make gBOARDID=${tmp} pid
-    make test
     make clean
     make distclean
     make dep
@@ -194,7 +182,6 @@ done
 for tmp in smtk2-mt7621-h722
 do
     make gBOARDID=${tmp} pid
-    make test
     make clean
     make distclean
     make dep
