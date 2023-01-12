@@ -12,7 +12,10 @@
         "20221231a":"fix modem/ltecon deamon reset modem same time to exit",
         "20221231b":"add multi-openvpn client support",
         "20221231c":"openvpn server separate project",
-        "20221231d":"clean up all the sdk.config and kernel.config, In particular, the mt7621 has been greatly simplified"
+        "20221231d":"clean up all the sdk.config and kernel.config, In particular, the mt7621 has been greatly simplified",
+        "20221231e":"fix vpn bind extern interface cannot work well",
+        "20221231f":"fix ec2x usb mode modify auto",
+        "20221231g":"add turn off led function"
     },
     "v7.2.1223":
     {
