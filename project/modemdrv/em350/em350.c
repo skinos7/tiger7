@@ -519,7 +519,7 @@ boole_t _at_setting( obj_t this, param_t param )
 	terror for error, need reset the modem */
 boole_t _at_watch( obj_t this, param_t param )
 {
-	int i, t;
+	int i;
     talk_t dev;
 	talk_t cfg;
 	atcmd_t fd;
@@ -581,7 +581,7 @@ boole_t _at_watch( obj_t this, param_t param )
 		}
 		//at^ICCID?
 		//^ICCID: 89860121802374570731
-		t = em350_iccid( fd , dev );
+		i = em350_iccid( fd , dev );
 		if ( i < ATCMD_ret_succeed )
 		{
 			return terror;
