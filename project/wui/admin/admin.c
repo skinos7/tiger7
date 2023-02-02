@@ -585,10 +585,8 @@ boole _set( obj_t this, talk_t v, attr_t attr )
 	ret = false;
 	if ( attr == NULL )
 	{
-		ptr = config_gets_string( NULL, 0, this, "logo_file" );
-		json_set_string( v, "logo_file", ptr );
-		ptr = config_gets_string( NULL, 0, this, "css_file" );
-		json_set_string( v, "css_file", ptr );
+		json_delete_axp( v, "logo_file" );
+		json_delete_axp( v, "css_file" );
 		ret = config_set( this, v, NULL );
 	}
 	else

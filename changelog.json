@@ -1,4 +1,10 @@
 {
+    "v7.3.0202":
+    {
+        "20230201a":"add the gosuncn gm510/gm800 lte modem support",
+        "20220201b":"wui@admin cannot modify logo",
+        "20220201b":"wui@admin cannot modify logo"
+    },
     "v7.2.1231":
     {
         "20221223a":"lte modem webpage can modify the dial timeout/reset time",
