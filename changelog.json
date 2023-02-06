@@ -4,7 +4,8 @@
         "20230201a":"add the gosuncn gm510/gm800 lte modem support",
         "20220201b":"wui@admin cannot modify logo",
         "20220201c":"add the oled for led screen and battary support",
-        "20220201d":"syslog buffer reduce for optimize memory usage"
+        "20220201d":"syslog buffer reduce for optimize memory usage",
+        "20220201e":"fix ipsec/vpn/ovpn cannot delete the connection at webpage"
     },
     "v7.2.1231":
     {
