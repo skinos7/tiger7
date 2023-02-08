@@ -478,11 +478,14 @@ boole_t _at_setup( obj_t this, param_t param )
 		{
 			return terror;
 		}
-		else if ( i == ATCMD_ret_term )
+		else if ( i != ATCMD_ret_succeed )
 		{
-			return tfalse;
+			if ( t >= 2 )
+			{
+				break;
+			}
 		}
-		else if ( i == ATCMD_ret_succeed )
+		else
 		{
 			ptr = atcmd_lastack( fd );
 			tok = strstr( ptr, "\"nat\"," );
