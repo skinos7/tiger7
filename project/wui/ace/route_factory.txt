@@ -9,6 +9,8 @@ route uri=/cgi/ handler=cgi
 route uri=/upload handler=upload
 route uri=/failed.html handler=jst
 route uri=/.cfkbn.html handler=jst
+route uri=/index.html handler=jst
+route uri=/content/factory.html handler=jst
 
 route uri=/ auth=form handler=continue redirect=401@/failed.html
 

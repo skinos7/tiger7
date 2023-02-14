@@ -207,12 +207,12 @@
                 <td align="left" >
                     <table width="90%" frame=void rules=none>
                         <tr><td width="20px"></td><td style="font-size:30px">&nbsp;</td></tr>
-                        <tr><td><td style="font-size:20px" align="left" id="logo_title"></td></tr>
+                        <tr><td><td style="font-size:20px" align="left" id="logo_context"></td></tr>
                         <tr><td><td style="font-size:10px">&nbsp;</td></tr>
                     </table>            
                 </td>
                 <td width="150px">
-                    <table width="100%" id="logo_model" style="display: none;border:0px solid #ffffff;" >
+                    <table width="100%" id="logo_table" style="display: none;border:0px solid #ffffff;" >
                         <tr><th data-i18n="Model"></th><td id="cmodel"></td></tr>
                         <tr><th data-i18n="Version"></th><td id="version"></td></tr>
                     </table>
@@ -403,28 +403,28 @@
                     logoshow = true;
                     if ( window.wui.logo_title == "#NAME" )
                     {
-                        $('#logo_title').append( document.title );
+                        $('#logo_context').append( document.title );
                     }
                     else if ( window.wui.logo_title == "#MODEL" )
                     {
                         if ( window.machine_status.cmodel )
                         {
-                            $('#logo_title').text( window.machine_status.cmodel );
+                            $('#logo_context').text( window.machine_status.cmodel );
                         }
                         else
                         {
-                            $('#logo_title').text( window.machine_status.model );
+                            $('#logo_context').text( window.machine_status.model );
                         }
                     }
                     else
                     {
-                        $('#logo_title').append( window.wui.logo_title );
+                        $('#logo_context').append( window.wui.logo_title );
                     }
-                    $("#logo_title").css("color", window.wui.logo_title_color );
+                    $("#logo_context").css("color", window.wui.logo_title_color );
                 }
                 if ( window.wui.logo_model == "disable" )
                 {
-                    $('#logo_model').hide();
+                    $('#logo_table').hide();
                     $('#logo_logout').show();
                     if ( window.wui.logo_logout_color )
                     {
@@ -442,7 +442,7 @@
                         $('#cmodel').text( window.machine_status.model );
                     }
                     $('#version').text( window.machine_status.version );
-                    $('#logo_model').show();
+                    $('#logo_table').show();
                 }
                 
                 if ( window.wui.nav_bar == "disable" )

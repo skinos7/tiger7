@@ -6,7 +6,12 @@
         "20220201c":"add the oled for led screen and battary support",
         "20220201d":"syslog buffer reduce for optimize memory usage",
         "20220201e":"fix ipsec/vpn/ovpn cannot delete the connection at webpage",
-        "20220201f":"fix the modem setup forever bug"
+        "20220201f":"fix the modem setup forever bug",
+        "20220201g":"fix clear the table only when connection change",
+        "20220201h":"add the serial number support",
+        "20220201i":"add connect failed to try many times at ltecon",
+        "20220201j":"add can custom the css and logo at wui",
+        "20220201k":"add custom and factory page at index.html"
     },
     "v7.2.1231":
     {

@@ -1,10 +1,13 @@
 {
+	"Online":"上线状态",
 	"Device Name":"设备名称",
 	"Modify":"修改",
 	"Input new device name":"输入新的设备名称",
 	"Custom Model":"客户型号",
 	"Model":"硬件型号",
+	"Features":"功能后缀",
 	"Date Code":"生产日期",
+	"Serial Number":"产品序号",
 	"MAC Address":"MAC地址",
 	"Current Time":"当前时间",
 	"Time Source":"时间来源",
@@ -181,12 +184,22 @@
 
 
 
-	"CSS Style":"CSS风格",
+	"Logo Color":"Logo颜色",
 	"Logo Title":"Logo标题",
 	"Logo Width":"Logo宽度",
 	"Logo Height":"Logo高度",
 	"Logo Align":"Logo对齐",
+	"Center":"居中",
+	"Right":"靠右",
+	"Show Logo Model":"Logo栏中显示型号",
+	"Show Model Bar":"显示型号栏",
+	"Show Copyright":"显示版权",
+	"Show Fireware Identify":"显示固件标识",
+	"Show Upgrade Online":"显示在线升级",
+	"Show Repo Online":"显示在线安装包",
+	"Show Development Menu":"显示开发者菜单",
 	"Upload Logo File":"上传Logo文件",
+	"Upload CSS File":"上传CSS文件",
 	"Apply Above Configure":"应用以上配置",
 
 	"Save Default Configure":"保存默认配置",

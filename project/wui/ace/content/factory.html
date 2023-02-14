@@ -1,0 +1,559 @@
+<!-- ajax layout which only needs content area -->
+<div class="row">
+  <div class="col-xs-12 form-btn-wrapper">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="form-horizontal" role="form">
+
+
+
+
+      <!-- 设备信息 -->
+      <table class="table table-bordered table-striped">
+      <tbody>
+          <tr>
+              <th data-i18n="SN"></th>
+              <th data-i18n="MAC"></th>
+              <th data-i18n="IMEI"></th>
+              <th data-i18n="ICCID"></th>
+              <th data-i18n="Online"></th>
+          </tr>
+          <tr>
+              <td id="list_sn"></td>
+              <td id="list_mac"></td>
+          </tr>
+          <tr id="lte_info" style="display: none;">
+              <td id="list_sn1"></td>
+              <td id="list_mac1"></td>
+              <td id="list_imei1"><i class="ace-icon fa fa-times red"></i></td>
+              <td id="list_iccid1"><i class="ace-icon fa fa-times red"></i></td>
+              <td id="list_online1"><i class="ace-icon fa fa-times red"></i></td>
+          </tr>
+          <tr id="lte2_info" style="display: none;">
+              <td id="list_sn2"></td>
+              <td id="list_mac2"></td>
+              <td id="list_imei2"><i class="ace-icon fa fa-times red"></i></td>
+              <td id="list_iccid2"><i class="ace-icon fa fa-times red"></i></td>
+              <td id="list_online2"><i class="ace-icon fa fa-times red"></i></td>
+          </tr>
+      </tbody>
+      </table>            
+      <!-- 设备名称 -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Device Name"></label>
+        <div class="col-sm-9">
+          <div id="device_name" class="col-xs-10 col-sm-5 form-right-text"></div>
+        </div>
+      </div>
+      <!-- 工作模式 -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Operation Mode"></label>
+        <div class="col-sm-9">
+          <div id="mode" class="col-xs-10 col-sm-5 form-right-text"></div>
+        </div>
+      </div>
+      <!-- 软件标识 -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Firmware Identifier"></label>
+        <div class="col-sm-9">
+          <div id="firmware_identify" class="col-xs-10 col-sm-5 form-right-text"></div>
+        </div>
+      </div>
+      <!-- 软件版本 -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Firmware Version"></label>
+        <div class="col-sm-9">
+          <div id="firmware_version" class="col-xs-10 col-sm-5 form-right-text"></div>
+        </div>
+      </div>
+      <!-- 本地升级 -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Upgrade"></label>
+        <div class="col-sm-9">
+          <div class="col-xs-10 col-sm-5"><input type="file" id="upgrade" /></div>
+        </div>
+      </div>
+      <!-- 系统重启 -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right"></label>
+        <div class="col-sm-9">
+          <div class="btn-group">
+            <button class="btn btn-warning" data-i18n="System Reboot" id="reboot"></button>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="hr hr32 hr-dotted"></div>
+      <!-- 配置版本 -->
+      <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Configure Version"></label>
+          <div class="col-sm-9">
+            <div id="cfgversion" class="col-xs-10 col-sm-5 form-right-text"></div>
+          </div>
+      </div>
+      <div class="form-horizontal" role="form">
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right"></label>
+          <div class="col-sm-9">
+            <div class="btn-group">
+              <button class="btn btn-warning" data-i18n="Default Configure" id="default"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 导入配置 -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Restore Default Configure"></label>
+        <div class="col-sm-9">
+          <div class="col-xs-10 col-sm-5">
+            <input type="file" id="restore_default" />
+          </div>
+        </div>
+      </div>
+      <!-- 恢复出厂设置 -->
+      <div class="form-horizontal" role="form">
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right"></label>
+          <div class="col-sm-9">
+            <div class="btn-group">
+              <button class="btn btn-inverse" data-i18n="Save Default Configure" id="save_default"></button>
+              <button class="btn btn-danger" data-i18n="Factory Configure" id="factory"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="hr hr32 hr-dotted"></div>
+      <!-- 客户型号 -->
+      <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Custom Model"></label>
+          <div class="col-sm-9">
+              <input type="text" id="cmodel_string" class="col-xs-10 col-sm-5" maxlength="128" />
+              &nbsp;&nbsp;&nbsp;
+              <button class="btn btn-mini btn-main" id="cmodel_modify" data-i18n="Modify"></button>
+          </div>
+      </div>
+      <!-- 功能代码 -->
+      <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Features"></label>
+          <div class="col-sm-9">
+              <input type="text" id="features_string" class="col-xs-10 col-sm-5" maxlength="128" />
+              &nbsp;&nbsp;&nbsp;
+              <button class="btn btn-mini btn-main" id="features_modify" data-i18n="Modify"></button>
+          </div>
+      </div>
+      <!-- 语言 -->
+      <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Language Settings"></label>
+          <div class="col-sm-9">
+            <select class="col-xs-10 col-sm-5" id="language">
+              <option value="cn">中文</option>
+              <option value="en">English</option>
+            </select>
+          </div>
+      </div>
+      <!-- MAC地址 -->
+      <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="MAC Address"></label>
+          <div class="col-sm-9">
+              <input type="text" id="mac" class="col-xs-10 col-sm-5" maxlength="128" />
+              &nbsp;&nbsp;&nbsp;
+              <button class="btn btn-mini btn-main" id="mac_modify" data-i18n="Modify"></button>
+          </div>
+      </div>
+      <!-- 生产批号 -->
+      <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Date Code"></label>
+          <div class="col-sm-9">
+              <input type="text" id="datecode_string" class="col-xs-10 col-sm-5" maxlength="128" />
+              &nbsp;&nbsp;&nbsp;
+              <button class="btn btn-mini btn-main" id="datecode_modify" data-i18n="Modify"></button>
+          </div>
+      </div>
+      <!-- SN -->
+      <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Serial Number"></label>
+          <div class="col-sm-9">
+              <input type="text" id="sn_string" class="col-xs-10 col-sm-5" maxlength="128" />
+              &nbsp;&nbsp;&nbsp;
+              <button class="btn btn-mini btn-main" id="sn_modify" data-i18n="Modify"></button>
+          </div>
+      </div>
+      <!-- 型号 -->
+      <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Model"></label>
+          <div class="col-sm-9">
+              <input type="text" id="model_string" class="col-xs-10 col-sm-5" maxlength="128" />
+              &nbsp;&nbsp;&nbsp;
+              <button class="btn btn-mini btn-main" id="model_modify" data-i18n="Modify"></button>
+          </div>
+      </div>
+
+
+
+    </div>
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+    var sn;
+    var m;
+    var ms;
+    var lte;
+    var lte2;
+    var ltes;
+    var lte2s;
+    var ethernets;
+    function load_cfg()
+    {
+        he.load( [ "machine", "machine.status", ".ifname@lte", ".ifname@lte2", "ifname@lte.status", "ifname@lte2.status", "arch@ethernet.status" ] ).then( function( v ){
+            m = v[0]
+            ms = v[1];
+            lte = v[2];
+            lte2 = v[3];
+            ltes = v[4];
+            lte2s = v[5];
+            ethernets = v[6];
+
+            if ( m["sn"] )
+            {
+                sn = m["sn"];
+            }
+            else
+            {
+                sn = ms.datecode+""+ms.model+""+ms.macid.substring(6);
+            }
+            $('#list_mac').text( ms.mac );
+            $('#list_sn').text( sn );
+            if ( lte == true )
+            {
+                $('#lte_info').show();
+                $('#list_mac1').text( ms.mac );
+                $('#list_sn1').text( sn );
+                if ( ltes.imei )
+                {
+                $('#list_imei1').text( ltes.imei );
+                }
+                if ( ltes.iccid && ltes.iccid != "nosim" )
+                {
+                    $('#list_iccid1').text( ltes.iccid );
+                }
+                if ( ltes.status == "up" )
+                {
+                    $('#list_online1').html( '<i class="ace-icon fa fa-check green"></i>' );
+                }
+                else
+                {
+                    $('#list_online1').html( '<i class="ace-icon fa fa-times red"></i>' );
+                }
+            }
+            if ( lte2 == true )
+            {
+                $('#lte2_info').show();
+                $('#list_mac2').text( ms.mac );
+                $('#list_sn2').text( sn );
+
+                if ( lte2s.imei )
+                {
+                $('#list_imei2').text( lte2s.imei );
+                }
+                if ( lte2s.iccid && lte2s.iccid != "nosim" )
+                {
+                    $('#list_iccid2').text( lte2s.iccid );
+                }
+                if ( lte2s.status == "up" )
+                {
+                    $('#list_online2').html( '<i class="ace-icon fa fa-check green"></i>' );
+                }
+                else
+                {
+                    $('#list_online2').html( '<i class="ace-icon fa fa-times red"></i>' );
+                }
+            }
+
+            /* load the software */
+            $('#device_name').text( m.name );
+            $("#mode").text( $.i18n(m.mode) );
+            $('#firmware_identify').text( ms.hardware+"-"+ms.custom+"-"+ms.scope );
+            $('#firmware_version').text(ms.version);
+
+            /* load the config */
+            $('#cfgversion').text(ms.cfgversion||$.i18n('Default'));
+
+            $('#cmodel_string').val( ms.cmodel );
+            $('#features_string').val( ms.features );
+            $("#language").val( m.language );
+            $('#mac').val( m.mac );
+            $('#sn_string').val( m.sn );
+            $('#datecode_string').val( ms.datecode );
+            $('#model_string').val( ms.model );
+
+        });
+    }
+    $.i18n().load( page.lang('device') ).then( function () {
+
+        /* init the langauage */
+        $.i18n().locale = lang; $('body').i18n();
+
+
+
+        // 本地升级
+        $('#upgrade').ace_file_input( { no_file: $.i18n('No File'), btn_choose: $.i18n('Choose'), btn_change: $.i18n('Change'), icon_remove: '' } );
+        $('#upgrade').fileupload({
+          url:'/cgi/upgrade', paramName:'filename', dataType:'text',
+          add: function( e, data )
+          {
+              // 提示正在升级, 选择文件之后, 执行升级之前
+              page.overlay($.i18n('Upgrading...'));
+              // 执行升级
+              data.submit();
+          },
+          done: function( e, data )
+          {
+            var hint = "";
+            var wait = null;
+            var result = JSON.parse( data.result );
+            if ( result.msgs )
+            {
+              for( var ind in result.msgs )
+              {
+                  hint += ind;
+                  hint += "---";
+                  hint += $.i18n( result.msgs[ind] );
+                  hint += "<br>";
+              }
+            }
+            else if ( result.msg )
+            {
+              hint = $.i18n( result.msg );
+            }
+            if ( result.wait )
+            {
+              wait = result.wait;
+            }
+            page.overlay2hide();
+            if ( result.status === 'success' )
+            { // 升级成功重启
+        
+                if ( !result.restart )
+                {
+                    if ( !hint )
+                    {
+                      hint = $.i18n( "Success" );
+                    }
+                    page.alert( { message: hint, callback: function( result ){location.reload();} } );
+                }
+                else
+                {
+                    if ( result.msgs )
+                    {
+                      hint += "<br><br><center>"+$.i18n( "Restart the system or not" )+"</center>";
+                    }
+                    else if ( hint )
+                    {
+                      hint += ", "+$.i18n( "Restart the system or not" );
+                    }
+                    else
+                    {
+                      hint = $.i18n( "Success" )+", "+$.i18n( "Restart the system or not" );
+                    }
+                    page.confirm( { message: hint,
+                      callback: function( result )
+                      {
+                        if ( result )
+                        {
+                          he.upgrade_reboot( { title: $.i18n('Update successfully, now restarting...'), hint:$.i18n('Make sure that the device is reconnected'), restartTime:wait } );
+                        }
+                        else
+                        {
+                          location.reload();
+                        }
+                      }
+                    });
+                }
+            }
+            else
+            { // 升级失败
+              page.alert( { message: hint } );
+            }
+          }
+        });
+        // 系统重启
+        $('#reboot').on(ace.click_event, function () {
+            he.reboot( { title: $.i18n('Restarting...'), hint:$.i18n('Make sure that the device is reconnected') } );
+        });
+        
+
+
+        // 恢复默认设置
+        $('#default').on(ace.click_event, function () {
+            he.exec( "arch@data.default" ).then( function(result){location.reload();} );
+        });
+        // 导入默认配置
+        $('#restore_default').ace_file_input( { no_file: $.i18n('No File'), btn_choose: $.i18n('Choose'), btn_change: $.i18n('Change'), icon_remove: '' } );
+        $('#restore_default').fileupload({
+            url: '/cgi/restore_default',
+            paramName: 'filename',
+            dataType: 'text',
+            add: function (e, data)
+            {
+                // 提示正在导入配置
+                page.overlay($.i18n('Restore...'));
+                // 执行导入
+                data.submit();
+            },
+            done: function (e, data)
+            {
+                var result = JSON.parse(data.result);
+                // 隐藏遮罩
+                page.overlay2hide();
+                if ( result.status === 'success')
+                { // 导入成功重启
+                    he.reboot( { title: $.i18n('Restore the configuration is successful, now restarting...'), hint:$.i18n('Make sure that the device is reconnected') } );
+                    
+                }
+                else
+                {
+                    // 提示升级失败
+                    page.alert( { message: $.i18n('Restore Failure') } ).then( function(){ location.reload(); } );
+                }
+            }
+        });
+        // 保存默认配置
+        $('#save_default').click(function () {
+            he.exec( [ "arch@data.current_default" ] ).then( function(v){
+                var ret = v[0];
+                if ( ret == true )
+                {
+                    page.alert( { message: $.i18n('Save configure to default succeed'), callback: function( result ){location.reload();} } );
+                }
+                else
+                {
+                    page.alert( { message: $.i18n('Save configure to default failed') } );
+                }
+            });
+        });
+        // 恢复出厂设置
+        $('#factory').on(ace.click_event, function () {
+            he.exec( "arch@data.factory" ).then( function(result){location.reload();} );
+        });
+
+
+
+        $('#cmodel_modify').click(function () {
+            var nmodel = $("#cmodel_string").val();
+            if ( nmodel != ms.cmodel )
+            {
+                he.exec( [ "arch@data:cmodel="+nmodel ] ).then( function(){
+                    location.reload(true);
+                });
+            }
+            else
+            {
+                page.alert( { message: $.i18n('Settings unchanged') } );
+                return;
+            }
+        });
+        $('#features_modify').click(function () {
+            var nfeatures = $("#features_string").val();
+            if ( nfeatures != ms.features )
+            {
+                he.exec( [ "arch@data:features="+nfeatures ] ).then( function(){
+                    location.reload(true);
+                });
+            }
+            else
+            {
+                page.alert( { message: $.i18n('Settings unchanged') } );
+                return;
+            }
+        });
+        $("#language").change(function(){
+          var nlang = $("#language").val();
+          if ( nlang != m.language )
+          {
+              he.exec( [ "arch@data:language="+nlang ] ).then( function(){
+                  location.reload(true);
+              });
+          }
+        });      
+        $('#mac_modify').click(function () {
+            var nmac = $("#mac").val();
+            if ( nmac != ms.mac )
+            {
+                he.exec( [ "arch@data:mac="+nmac ] ).then( function(){
+                    location.reload(true);
+                });
+            }
+            else
+            {
+                page.alert( { message: $.i18n('Settings unchanged') } );
+                return;
+            }
+        });
+        $('#datecode_modify').click(function () {
+            var ndc = $("#datecode_string").val();
+            if ( ndc != ms.datecode )
+            {
+                he.exec( [ "arch@data:datecode="+ndc ] ).then( function(){
+                    location.reload(true);
+                });
+            }
+            else
+            {
+                page.alert( { message: $.i18n('Settings unchanged') } );
+                return;
+            }
+        });
+        $('#sn_modify').click(function () {
+            var nsn = $("#sn_string").val();
+            if ( nsn != m.sn )
+            {
+                he.exec( [ "arch@data:sn="+nsn ] ).then( function(){
+                    location.reload(true);
+                });
+            }
+            else
+            {
+                page.alert( { message: $.i18n('Settings unchanged') } );
+                return;
+            }
+        });
+        $('#model_modify').click(function () {
+            var nmodel = $("#model_string").val();
+            if ( nmodel != ms.model )
+            {
+                he.exec( [ "arch@data:model="+nmodel ] ).then( function(){
+                    location.reload(true);
+                });
+            }
+            else
+            {
+                page.alert( { message: $.i18n('Settings unchanged') } );
+                return;
+            }
+        });
+
+
+
+        /* load the configure */
+        load_cfg();
+        /* bind the refresh */
+        $('#refresh').on(ace.click_event, function () {
+            location.reload();
+        });
+    });
+
+
+
+  })();
+</script>
+
+

@@ -180,6 +180,11 @@ Example, disable the WISP
 ifname@wisp:status=disable
 ttrue
 ```
+Example, enable the WISP
+```shell
+ifname@wisp:status=enable
+ttrue
+```
 
 
 #### **Methods**
