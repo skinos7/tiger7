@@ -1007,6 +1007,11 @@ boole_t _at_connect( obj_t this, param_t param )
 	{
 		return terror;
 	}
+	else if ( i != ATCMD_ret_succeed )
+	{
+		return tfalse;
+	}
+
 	/* succeed exit to dhcp */
 	return ttrue;
 }
