@@ -707,7 +707,6 @@ talk_t _status( obj_t this, param_t param )
 
 boole_t _service( obj_t this, param_t param )
 {
-    int ready;
     int check;
     talk_t v;
 	talk_t ret;
@@ -875,13 +874,20 @@ boole_t _service( obj_t this, param_t param )
 
 
 	/* ifdev connect */
-	info( "%s connect", ifdev );
-	if ( scallt( ifdev, "connect", cfg ) != ttrue )
+	check = 0;
+	while( check < (failed_timeout/5) )
 	{
-		fault( "%s connect failed", ifdev );
-		talk_free( cfg );
-		sleep( 5 );
-		return tfalse;
+		ret = scallt( ifdev, "connect", cfg );
+		if ( ret == ttrue )
+		{
+			break;
+		}
+		check++;
+		sleep( 3 );
+	}
+	if ( check >= failed_timeout )
+	{
+		warn( "%s connect maybe failed", ifdev );
 	}
 
 	/* set the mac */
@@ -892,22 +898,14 @@ boole_t _service( obj_t this, param_t param )
 	}
 
 	/* check connected */
-	ready = 0;
 	check = 0;
 	while( check < failed_timeout )
 	{
 		if ( scallt( ifdev, "connected", cfg ) == ttrue )
 		{
-			ready++;
-			if ( ready >= 3 )
-			{
-				info( "%s connected ready", ifdev );
-				break;
-			}
-			usleep( 300000 );
-			continue;
+			info( "%s connected ready", ifdev );
+			break;
 		}
-		ready = 0;
 		check++;
 		sleep( 1 );
 	}
