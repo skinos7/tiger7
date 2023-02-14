@@ -580,13 +580,89 @@ talk_t _service( obj_t this, param_t param )
 boole _set( obj_t this, talk_t v, attr_t attr )
 {
 	boole ret;
+	talk_t axp;
 	const char *ptr;
+	const char *start;
 
 	ret = false;
 	if ( attr == NULL )
 	{
-		json_delete_axp( v, "logo_file" );
-		json_delete_axp( v, "css_file" );
+		axp = json_cut_axp( v, "logo_file" );
+		if ( axp != NULL )
+		{
+			start = axp_string( axp );
+			if ( start != NULL )
+			{
+				ptr = strrchr( start, '/' );
+				if ( ptr != NULL )
+				{
+					ptr += 1;
+					json_set_string( v, "logo_file", ptr );
+				}
+				else
+				{
+					json_set_string( v, "logo_file", start );
+				}
+			}
+			talk_free( axp );
+		}
+		axp = json_cut_axp( v, "css_file" );
+		if ( axp != NULL )
+		{
+			start = axp_string( axp );
+			if ( start != NULL )
+			{
+				ptr = strrchr( start, '/' );
+				if ( ptr != NULL )
+				{
+					ptr += 1;
+					json_set_string( v, "css_file", ptr );
+				}
+				else
+				{
+					json_set_string( v, "css_file", start );
+				}
+			}
+			talk_free( axp );
+		}
+		axp = json_cut_axp( v, "login_file" );
+		if ( axp != NULL )
+		{
+			start = axp_string( axp );
+			if ( start != NULL )
+			{
+				ptr = strrchr( start, '/' );
+				if ( ptr != NULL )
+				{
+					ptr += 1;
+					json_set_string( v, "login_file", ptr );
+				}
+				else
+				{
+					json_set_string( v, "login_file", start );
+				}
+			}
+			talk_free( axp );
+		}
+		axp = json_cut_axp( v, "index_file" );
+		if ( axp != NULL )
+		{
+			start = axp_string( axp );
+			if ( start != NULL )
+			{
+				ptr = strrchr( start, '/' );
+				if ( ptr != NULL )
+				{
+					ptr += 1;
+					json_set_string( v, "index_file", ptr );
+				}
+				else
+				{
+					json_set_string( v, "index_file", start );
+				}
+			}
+			talk_free( axp );
+		}
 		ret = config_set( this, v, NULL );
 	}
 	else
@@ -594,18 +670,7 @@ boole _set( obj_t this, talk_t v, attr_t attr )
 		ptr = attr_layer( attr, 1 );
 		if ( ptr != NULL )
 		{
-			if ( 0 == strcmp( ptr, "logo_file" ) )
-			{
-				ret = false;
-			}
-			else if ( 0 == strcmp( ptr, "css_file" ) )
-			{
-				ret = false;
-			}
-			else
-			{
-				ret = config_set( this, v, attr );
-			}
+			ret = config_set( this, v, attr );
 		}
 	}
 	return ret;
@@ -618,10 +683,27 @@ talk_t _get( obj_t this, attr_t path )
 	const char *ptr;
 	const char *css_file;
 	const char *logo_file;
+	const char *login_file;
+	const char *index_file;
 	char webpath[PATH_MAX];
 	char filepath[PATH_MAX];
 	
     cfg = config_get( this, NULL );
+	css_file = json_string( cfg, "css_file" );
+	if ( css_file != NULL && *css_file != '\0' )
+	{
+		ptr = config_path( filepath, sizeof(filepath), PROJECT_ID, css_file );
+		if ( ptr != NULL && stat( ptr, &st ) == 0 )
+		{
+			snprintf( webpath, sizeof(webpath), "/cfg/%s", css_file );
+			json_set_string( cfg, "css_file", webpath );
+		}
+		else
+		{
+			snprintf( webpath, sizeof(webpath), "/assets/css/%s", css_file );
+			json_set_string( cfg, "css_file", webpath );
+		}
+	}
 	logo_file = json_string( cfg, "logo_file" );
 	if ( logo_file != NULL && *logo_file != '\0' )
 	{
@@ -637,19 +719,34 @@ talk_t _get( obj_t this, attr_t path )
 			json_set_string( cfg, "logo_file", webpath );
 		}
 	}
-	css_file = json_string( cfg, "css_file" );
-	if ( css_file != NULL && *css_file != '\0' )
+	login_file = json_string( cfg, "login_file" );
+	if ( login_file != NULL && *login_file != '\0' )
 	{
-		ptr = config_path( filepath, sizeof(filepath), PROJECT_ID, css_file );
+		ptr = config_path( filepath, sizeof(filepath), PROJECT_ID, login_file );
 		if ( ptr != NULL && stat( ptr, &st ) == 0 )
 		{
-			snprintf( webpath, sizeof(webpath), "/cfg/%s", css_file );
-			json_set_string( cfg, "css_file", webpath );
+			snprintf( webpath, sizeof(webpath), "/cfg/%s", login_file );
+			json_set_string( cfg, "login_file", webpath );
 		}
 		else
 		{
-			snprintf( webpath, sizeof(webpath), "/assets/css/%s", css_file );
-			json_set_string( cfg, "css_file", webpath );
+			snprintf( webpath, sizeof(webpath), "/assets/css/%s", login_file );
+			json_set_string( cfg, "login_file", webpath );
+		}
+	}
+	index_file = json_string( cfg, "index_file" );
+	if ( index_file != NULL && *index_file != '\0' )
+	{
+		ptr = config_path( filepath, sizeof(filepath), PROJECT_ID, index_file );
+		if ( ptr != NULL && stat( ptr, &st ) == 0 )
+		{
+			snprintf( webpath, sizeof(webpath), "/cfg/%s", index_file );
+			json_set_string( cfg, "index_file", webpath );
+		}
+		else
+		{
+			snprintf( webpath, sizeof(webpath), "/assets/css/%s", index_file );
+			json_set_string( cfg, "index_file", webpath );
 		}
 	}
 
