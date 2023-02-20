@@ -228,7 +228,7 @@
             }
             else
             {
-                sn = ms.datecode+""+ms.model+""+ms.macid.substring(6);
+                sn = (ms.datecode||"")+""+ms.model+""+ms.macid.substring(6);
             }
             $('#list_mac').text( ms.mac );
             $('#list_sn').text( sn );
