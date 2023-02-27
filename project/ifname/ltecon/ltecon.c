@@ -1092,7 +1092,6 @@ boole_t _online( obj_t this, param_t param )
 	talk_t cfg;
 	talk_t value;
 	const int *tid;
-	const char *ttl;
 	const char *ptr;
 	const char *object;
 	const char *ifdev;
@@ -1194,10 +1193,6 @@ boole_t _online( obj_t this, param_t param )
 		txqueue_set_ifname( object, netdev, ptr );
 	}
 	pmtu_adjust_ifname( object, netdev );
-
-	/* ttl */
-	ttl = json_string( cfg, "ttl" );
-	ttl_set_ifname( object, netdev, ttl );
 
 	/* tid route table init */
 	tid = register_pointer( object, "tid" );

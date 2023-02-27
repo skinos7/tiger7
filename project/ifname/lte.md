@@ -97,9 +97,6 @@ Usually ifname@lte is the first LTE/NR network and module. If there are multiple
     "failed_threshold2":"second failed to reset time",                                 // [ number ]
     "failed_everytime":"every failed to reset time",                                   // [ number ]
 
-    // TTL settings
-    "ttl":"ttl number"                    // default no modify
-
     // For LTE/NR baseband Settings, the parameters are the same as modem@lte
     // ##### For details, see configuration of modem@lte  #####
 
