@@ -35,7 +35,7 @@
 	"manual":"Manual",
 
 	"ifname@lte Speed":"LTE Speed",
-	"ifname@lte2 Speed":"LTE2 Speed",
+	"ifname@lte2 Speed":"LTE/NR Speed",
 	"ifname@wan Speed":"WAN Speed",
 	"ifname@wan2 Speed":"WAN2 Speed",
 	"ifname@wisp Speed":"WISP Speed",

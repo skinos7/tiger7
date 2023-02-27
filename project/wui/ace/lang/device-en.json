@@ -14,7 +14,7 @@
 	"mbridge":"LTE/NR Modem",
 	"misp":"LTE Gateway",
 	"nmisp":"LTE/NR Gateway",
-	"dmisp":"Dual 4G Gateway",
+	"dmisp":"Dual LTE/NR Gateway",
 	"ap":"AP",
 	"bridge":"Brige",
 	"repeater":"Repeater",
@@ -22,8 +22,5 @@
 	"parasite":"Parasite",
 
 	"cn":"中文",
-	"en":"English",
-	"th":"ภาษาไทย"
-	
-
+	"en":"English"
 }
