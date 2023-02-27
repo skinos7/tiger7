@@ -307,17 +307,6 @@
                     </label>
                 </div>
             </div>
-            <!-- TTL -->
-            <div class="form-group">
-              <label class="col-sm-3 control-label no-padding-right" data-i18n="TTL"></label>
-              <div class="col-sm-9">
-                <div class="clearfix">
-                  <input type="text" id="ttl" class="col-xs-10 col-sm-5" maxlength="128" />
-                </div>
-              </div>
-            </div>
-      
-
 
 
 
@@ -577,6 +566,7 @@
               $(id+"_btn").html( '<i class="ace-icon fa fa-play"></i>' );
               $(id+"_status").text( $.i18n("down") );
           }
+          
           /* network */
           if ( ltes.operator )
           {
@@ -666,6 +656,34 @@
       he.load( [ object, object+".ifdev" ] ).then( function(v){
         lte = v[0];
 
+        /* init the network mode select */
+        $("#lock_nettype").empty();
+        $("#lock_nettype").append("<option value='auto'>" + $.i18n("Auto") + "</option>");
+        $("#mode").empty();
+        $("#mode").append("<option value=''>"+$.i18n('Advise')+"</option>");
+        $("#mode").append("<option value='dhcpc'>"+$.i18n('DHCP')+"</option>");
+        $("#mode").append("<option value='static'>"+$.i18n('Static IP')+"</option>");
+        if ( ltes.hwnat == "enable" )
+        {
+            $("#lock_nettype").append("<option value='nsa'>" + "NSA(5G)" + "</option>");
+            $("#lock_nettype").append("<option value='sa'>" + "SA(5G)" + "</option>");
+            $("#lock_nettype").append("<option value='lte'>" + "LTE(4G)" + "</option>");
+            $("#lock_nettype").append("<option value='wcdma'>" + "WCDMA" + "</option>");
+            $("#lock_nettype").append("<option value='tdscdma'>" + "TDSCDMA" + "</option>");
+            $("#lock_nettype").append("<option value='evdo'>" + "EVDO" + "</option>");
+            $("#lock_nettype").append("<option value='cdma'>" + "CDMA" + "</option>");
+            $("#lock_nettype").append("<option value='gsm'>" + "GSM" + "</option>");
+        }
+        else
+        {
+            $("#mode").append("<option value='ppp'>"+$.i18n('PPP')+"</option>");
+            $("#lock_nettype").append("<option value='lte'>" + "LTE(4G)" + "</option>");
+            $("#lock_nettype").append("<option value='wcdma'>" + "WCDMA" + "</option>");
+            $("#lock_nettype").append("<option value='tdscdma'>" + "TDSCDMA" + "</option>");
+            $("#lock_nettype").append("<option value='evdo'>" + "EVDO" + "</option>");
+            $("#lock_nettype").append("<option value='cdma'>" + "CDMA" + "</option>");
+            $("#lock_nettype").append("<option value='gsm'>" + "GSM" + "</option>");
+        }
         /* Modem */
         $('#lock_nettype').val(lte.lock_nettype || 'auto');
         if ( lte.gnss && lte.gnss == "enable" )
@@ -758,7 +776,6 @@
           $('#dns2').val(lte.static.dns2);
         }
         $('#masq').prop('checked', able2boole(lte.masq));
-        $('#ttl').val( lte.ttl||'' );
         $('#mode').unbind('change').change(function (e) {
           var type = e.target.value;
           switch (type)
@@ -1124,7 +1141,6 @@
             }
           }
           lte.masq = boole2able( $('#masq').prop('checked') );
-          lte.ttl = $('#ttl').val();
 
           /* IPV6 */
           if ( lte.method )
@@ -1311,36 +1327,6 @@
     $.i18n().load( page.lang('lte') ).then( function () {
       /* init the langauage */
       $.i18n().locale = lang; $('body').i18n();
-      /* init the network mode select */
-      $("#lock_nettype").append("<option value='auto'>" + $.i18n("Auto") + "</option>");
-      if ( object == "ifname@lte" )
-      {
-          $("#lock_nettype").append("<option value='lte'>" + "LTE(4G)" + "</option>");
-          $("#lock_nettype").append("<option value='wcdma'>" + "WCDMA" + "</option>");
-          $("#lock_nettype").append("<option value='tdscdma'>" + "TDSCDMA" + "</option>");
-          $("#lock_nettype").append("<option value='evdo'>" + "EVDO" + "</option>");
-          $("#lock_nettype").append("<option value='cdma'>" + "CDMA" + "</option>");
-          $("#lock_nettype").append("<option value='gsm'>" + "GSM" + "</option>");
-      }
-      else if ( object == "ifname@lte2" )
-      {
-          $("#lock_nettype").append("<option value='nsa'>" + "NSA(5G)" + "</option>");
-          $("#lock_nettype").append("<option value='sa'>" + "SA(5G)" + "</option>");
-          $("#lock_nettype").append("<option value='lte'>" + "LTE(4G)" + "</option>");
-          $("#lock_nettype").append("<option value='wcdma'>" + "WCDMA" + "</option>");
-          $("#lock_nettype").append("<option value='tdscdma'>" + "TDSCDMA" + "</option>");
-          $("#lock_nettype").append("<option value='evdo'>" + "EVDO" + "</option>");
-          $("#lock_nettype").append("<option value='cdma'>" + "CDMA" + "</option>");
-          $("#lock_nettype").append("<option value='gsm'>" + "GSM" + "</option>");
-      }
-      /* init the dial mode select */
-      $("#mode").append("<option value=''>"+$.i18n('Advise')+"</option>");
-      if ( object == "ifname@lte" )
-      {
-          $("#mode").append("<option value='ppp'>"+$.i18n('PPP')+"</option>");
-      }
-      $("#mode").append("<option value='dhcpc'>"+$.i18n('DHCP')+"</option>");
-      $("#mode").append("<option value='static'>"+$.i18n('Static IP')+"</option>");
 
       /* load the status */
       status_load();
