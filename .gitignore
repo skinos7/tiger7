@@ -9,6 +9,8 @@
 /build/
 /gBOARDID
 
+/project/.vscode/
+
 /config/host/x86/store/
 /config/host/aarch64/store/
 

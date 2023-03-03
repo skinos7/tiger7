@@ -1,5 +1,5 @@
 {
-    "v7.3.0202":
+    "v7.3.0228":
     {
         "20230201a":"add the gosuncn gm510/gm800 lte modem support",
         "20220201b":"wui@admin cannot modify logo",
@@ -13,7 +13,11 @@
         "20220201j":"add can custom the css and logo at wui",
         "20220201k":"add custom and factory page at index.html",
         "20220201l":"fix compatibility lte status to 4.3.2",
-        "20220201m":"fix signal 1 cannot light the led"
+        "20220201m":"fix signal 1 cannot light the led",
+        "20220202n":"fix nmea protocol parse bug",
+        "20220202o":"add the id for remote control",
+        "20220202p":"fix network ttl cannot modify",
+        "20220228":"add uart HTTP POST function"
     },
     "v7.2.1231":
     {

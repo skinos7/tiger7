@@ -10,7 +10,7 @@ Usually ifname@lte is the first LTE/NR network and module. If there are multiple
 ```json
 // Attribute introduction
 {
-    "status":"start at system startup",    // [ enable, disable ]
+    "status":"start at system startup",    // [ "enable", "disable" ]
 
     // IPv4
     "tid":"table identify number",         // [ number ] exclusive route table ID, only for multiple WAN
