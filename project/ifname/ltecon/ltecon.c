@@ -867,7 +867,8 @@ boole_t _service( obj_t this, param_t param )
 			scall( ifdev, "reset", NULL );
 		}
 		talk_free( cfg );
-		sleep( 5 );
+		// sleep wait for reset process to stop this service
+		sleep( 15 );
 		return tfalse;
 	}
 
