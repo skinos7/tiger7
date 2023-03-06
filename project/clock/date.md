@@ -1,16 +1,13 @@
-
 ***
 ## Manage system date
 Manage system date
 
-
 #### Configuration( clock@date )
-
 ```json
 // Attributes introduction
 {
-    "timezone":"time zone",                             // [ -12 to 12 ], West 12 to East 12
-    "ntpclient":"whether to start the NTP client",      // [ disable, enable ]
+    "timezone":"time zone",                             // [ number ], -12 to 12, West 12 to East 12
+    "ntpclient":"whether to start the NTP client",      // [ "disable", "enable" ]
     "ntpserver":"NTP Server",                           // [ string ]
     "ntpserver2":"NTP Server 2",                        // [ string ]
     "ntpserver3":"NTP Server 3",                        // [ string ]
@@ -36,15 +33,14 @@ ttrue
 ```  
 
 #### **Methods**
-
 + `status[]` **get the date infomation**, *succeed return talk to describes, failed return NULL, error return terror*
     ```json
     // Attributes introduction of talk by the method return
     {
-        "current":"current date",                         // hour:minuti:second:month:day:year
-        "livetime":"system live time",                    // hour:minute:second:day
+        "current":"current date",                         // [ string ], format is hour:minuti:second:month:day:year
+        "livetime":"system live time",                    // [ string ], format is hour:minute:second:day
         "uptime":"system uptime in second",               // [ number ]
-        "source":"The source of the time",                // [ ntp, set, lte, gps ]
+        "source":"The source of the time",                // [ "ntp", "set", "lte", "gps" ]
                                                              // ntp: indicates that it originated from NTP, which has the highest NTP priority, and NTP synchronization success covers all other times
                                                              // set: indicates time set by manually
                                                              // rtc: indicates source RTC time  
@@ -63,7 +59,7 @@ ttrue
     }  
     ```
 
-+ `current[ <current date> ]` **set current date**, *succeed return ttrue, failed return tfalse, error return terror*
++ `current[ current date ]` **set current date**, *succeed return ttrue, failed return tfalse, error return terror*
     ```shell
     # examples, set 11:12:23, On July 8th, in 2019
     clock@date.current[ 11:12:23:07:08:2019 ]
@@ -81,8 +77,6 @@ ttrue
     ```
 
 
-
-
 ## 时间管理组件
 管理系统时间
 
@@ -90,15 +84,15 @@ ttrue
 ```json
 // 属性介绍
 {
-    "timezone":"时区",                // [ -12至12], 即西12到东12区
-    "ntpclient":"是否启用NTP客户端",  // [ disable, enable ]
-    "ntpserver":"NTP服务器",          // [ string ]
-    "ntpserver2":"NTP服务器2",        // [ string ]
-    "ntpserver3":"NTP服务器3",        // [ string ]
-    "ntpinterval":"同步间隔"          // [ number ], 即与NTP服务器同步时间的间隔(秒为单位)
+    "timezone":"时区",                // [ 数字 ], -12至12, 即西12到东12区
+    "ntpclient":"是否启用NTP客户端",    // [ "disable", "enable" ]
+    "ntpserver":"NTP服务器",          // [ 字符串 ]
+    "ntpserver2":"NTP服务器2",        // [ 字符串 ]
+    "ntpserver3":"NTP服务器3",        // [ 字符串 ]
+    "ntpinterval":"同步间隔"          // [ 数字 ], 即与NTP服务器同步时间的间隔(秒为单位)
 }
 ```
-示例查询所有配置
+示例，查询所有配置
 ```shell
 clock@date
 {
@@ -110,23 +104,22 @@ clock@date
     "ntpinterval":"86400"             # 每间隔86400秒同步一次NTP时间
 }
 ```  
-示例修改时区为西5区
+示例， 修改时区为西5区
 ```shell
 clock@date:timezone=-5
 ttrue
 ```  
 
 #### **接口** 
-
 + `status[]` **显示时间相关的信息**, *成功返回JSON描述时间信息, 失败返回NULL, 出错返回terror*
     ```json
     // 接口返回信息属性介绍
     {
-        "timezone":"时区",              // [ -12至12], 从-12至12, 即西12到东12区
-        "current":"当前时间",           // 时:分:秒:月:日:年
-        "livetime":"运行时长",          // 时:分:秒:天
-        "uptime":"运行时长",            // 从启动后累计秒数
-        "source":"当前时间来源"         // [ ntp, set, lte, gps ]
+        "timezone":"时区",              // [ 数字 ], 从-12至12, 即西12到东12区
+        "current":"当前时间",            // [ 字符串 ], 格式为 时:分:秒:月:日:年
+        "livetime":"运行时长",          // [ 字符串 ], 格式为 时:分:秒:天
+        "uptime":"运行时长",            // [ 数字 ], 从启动后累计秒数
+        "source":"当前时间来源"         // [ "ntp", "set", "lte", "gps" ]
                                             // ntp表示时间来源于NTP对时, NTP对时优先级最高, NTP对时成功即覆盖所有其它时间
                                             // set表示被手动设置时间
                                             // rtc表示来源RTC时间 

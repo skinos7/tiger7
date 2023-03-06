@@ -22,13 +22,14 @@
                 <th data-i18n="Network"></th>
                 <td>
                     <span id="lte_operator"></span>&nbsp;
-                    <span id="lte_nettype"></span>
+                    <span id="lte_nettype"></span>&nbsp;
+                    <span><img src="/assets/css/images/signal_0.png" id="lte_rssiimg" class="line-signal"></img></span>
+                    <span id="lte_csq"></span>
                 </td>
                 <th data-i18n="RSSI"></th>
                 <td>
-                    <span><img src="/assets/css/images/signal_0.png" id="lte_rssiimg" class="line-signal"></img></span>
-                    <span id="lte_csq"></span>
-                    <span id="lte_rssi"></span>
+                    <span id="lte_rssi"></span>&nbsp;
+                    <span id="lte_rsrp"></span>
                 </td>
             </tr>
             <tr>
@@ -588,27 +589,6 @@
           {
               $(id+"_nettype").text( "" );
           }
-          /* signal */
-          if ( ltes.csq )
-          {
-              $(id+"_csq").text( "CSQ:"+ltes.csq );
-          }
-          else
-          {
-              $(id+"_csq").text( "" );
-          }
-          if ( ltes.rsrp )
-          {
-              $(id+"_rssi").text( "RSRP:"+ltes.rsrp+"dBm" );
-          }
-          else if ( ltes.rssi )
-          {
-              $(id+"_rssi").text( "RSSI:"+ltes.rssi+"dBm" );
-          }
-          else
-          {
-               $(id+"_rssi").text( "" );
-          }
           if ( ltes.signal )
           {
               $(id+"_rssiimg").attr( "src", "/assets/css/images/signal_"+ltes.signal+".png" );
@@ -616,7 +596,35 @@
           else
           {
               $(id+"_rssiimg").attr( "src", "/assets/css/images/signal_0.png" );
-              $(id+"_csq").text( $.i18n("nosignal") );
+          }
+          if ( ltes.csq )
+          {
+              $(id+"_csq").text( ltes.csq );
+          }
+          else
+          {
+              $(id+"_csq").text( "" );
+          }
+          /* signal */
+          if ( ltes.rssi )
+          {
+              $(id+"_rssi").text( ltes.rssi+"dBm" );
+          }
+          else
+          {
+              $(id+"_rssi").text( "" );
+          }
+          if ( ltes.rsrp )
+          {
+              $(id+"_rsrp").text( "RSRP:"+ltes.rsrp+"dBm" );
+          }
+          else
+          {
+              $(id+"_rsrp").text( "" );
+          }
+          if ( !ltes.rssi && !ltes.rsrp )
+          {
+              $(id+"_rssi").text( $.i18n("nosignal") );
           }
           /* device info */
           if ( ltes.imei == "noimei" )

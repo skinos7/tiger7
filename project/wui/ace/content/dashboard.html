@@ -34,14 +34,15 @@
                                                 <tr><td data-i18n="Network"></td>
                                                     <td>
                                                         <span id="ifname@lte_operator"></span>&nbsp;
-                                                        <span id="ifname@lte_nettype"></span>
+                                                        <span id="ifname@lte_nettype"></span>&nbsp;
+                                                        <span><img src="/assets/css/images/signal_0.png" id="ifname@lte_rssiimg" class="line-signal"></img></span>
+                                                        <span id="ifname@lte_csq"></span>
                                                     </td>
                                                 </tr>
                                                 <tr><td data-i18n="Signal"></td>
                                                     <td>
-                                                        <span><img src="/assets/css/images/signal_0.png" id="ifname@lte_rssiimg" class="line-signal"></img></span>
-                                                        <span id="ifname@lte_rssi"></span>
-                                                        <span id="ifname@lte_csq"></span>
+                                                        <span id="ifname@lte_rssi"></span>&nbsp;
+                                                        <span id="ifname@lte_rsrp"></span>
                                                     </td>
                                                 </tr>
                                                 <tr><td data-i18n="IPv4 Address"></td>
@@ -122,14 +123,15 @@
                                                 <tr><td data-i18n="Network"></td>
                                                     <td>
                                                         <span id="ifname@lte2_operator"></span>&nbsp;
-                                                        <span id="ifname@lte2_nettype"></span>
+                                                        <span id="ifname@lte2_nettype"></span>&nbsp;
+                                                        <span><img src="/assets/css/images/signal_0.png" id="ifname@lte2_rssiimg" class="line-signal"></img></span>
+                                                        <span id="ifname@lte2_csq"></span>
                                                     </td>
                                                 </tr>
                                                 <tr><td data-i18n="Signal"></td>
                                                     <td>
-                                                        <span><img src="/assets/css/images/signal_0.png" id="ifname@lte2_rssiimg" class="line-signal"></img></span>
-                                                        <span id="ifname@lte2_rssi"></span>
-                                                        <span id="ifname@lte2_csq"></span>
+                                                        <span id="ifname@lte2_rssi"></span>&nbsp;
+                                                        <span id="ifname@lte2_rsrp"></span>
                                                     </td>
                                                 </tr>
                                                 <tr><td data-i18n="IPv4 Address"></td>
@@ -788,7 +790,6 @@
             $("[id='"+ifname+"_operator']").text( "" );
         }
         $("[id='"+ifname+"_nettype']").html( value.nettype||' ' );
-
         if ( value.signal )
         {
             $("[id='"+ifname+"_rssiimg']").attr( "src", "/assets/css/images/signal_"+value.signal+".png" );
@@ -797,26 +798,36 @@
         {
             $("[id='"+ifname+"_rssiimg']").attr( "src", "/assets/css/images/signal_0.png" );
         }
-        if ( value.rsrp )
-        {
-            $("[id='"+ifname+"_rssi']").text( "RSSI:"+value.rsrp+"dBm" );
-        }
-        else if ( value.rssi )
-        {
-            $("[id='"+ifname+"_rssi']").text( "RSSI:"+value.rssi+"dBm" );            
-        }
-        else
-        {
-            $("[id='"+ifname+"_rssi']").text( "" );            
-        }
         if ( value.csq )
         {
-            $("[id='"+ifname+"_csq']").text( "CSQ:"+value.csq );
+            $("[id='"+ifname+"_csq']").text( value.csq );
         }
         else
         {
             $("[id='"+ifname+"_csq']").text( "" );            
         }
+
+        if ( value.rssi )
+        {
+            $("[id='"+ifname+"_rssi']").text( value.rssi+"dBm" );            
+        }
+        else
+        {
+            $("[id='"+ifname+"_rssi']").text( "" );            
+        }
+        if ( value.rsrp )
+        {
+            $("[id='"+ifname+"_rsrp']").text( "RSRP:"+value.rsrp+"dBm" );
+        }
+        else
+        {
+            $("[id='"+ifname+"_rsrp']").text( "" );            
+        }
+        if ( !value.rssi && !value.rsrp )
+        {
+            $("[id='"+ifname+"_rssi']").text( $.i18n("nosignal") );
+        }
+
         $("[id='"+ifname+"_ip']").html( value.ip||"" );
         if ( value.delay )
         {

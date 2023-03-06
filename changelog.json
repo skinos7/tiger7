@@ -1,4 +1,10 @@
 {
+    "v7.3.0305":
+    {
+        "20220303":"fix radio txpower",
+        "20220304":"Trim the modem reset operation steps",
+        "20220305":"show the csq after signal, show the rssi and rsrp"
+    },
     "v7.3.0228":
     {
         "20230201a":"add the gosuncn gm510/gm800 lte modem support",
