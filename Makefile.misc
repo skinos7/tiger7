@@ -43,10 +43,12 @@ local run:
 	make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@
 sz:
 	make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@
+zzb: boot
+	make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@
 tar: boot
 	make -f Makefile.target flash
 	make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@
-.PHONY: local run sz tar
+.PHONY: local run sz zzb tar
 
 
 ftp repo:
