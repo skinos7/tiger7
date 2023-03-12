@@ -10,26 +10,28 @@ Usually ifname@wisp is the first WISP(2.4G) network. If there are multiple WISP 
 ```json
 // Attribute introduction
 {
-    "status":"start at system startup",    // [ enable, disable ]
-    "mac":"custom the MAC address",        // [ MAC address ]
+    "status":"start at system startup",    // [ "enable", "disable" ]
+    "mac":"custom the MAC address",        // [ mac address ]
 
     // wireless connect
     "peer":"SSID to connect",              // [ string ]
-    "peermac":"BSSID to connect",          // [ MAC address ]
-    "peermode":"mode of connection",       // [ hidden ] Indicates that the peer end does not broadcast SSID. In hidden mode, channel must not be empty  
-    "channel":"wireless channel",          // [ 0-165 ], 0 for auto
-    "secure":"mode of security",           // [ disable ] for no securiyt
-                                           // [ wpapsk ]  for WPAPSK
-                                           // [ wpa2psk ]  for WPA2PSK
-                                           // [ wpapskwpa2psk ] for WPA Mix
-    "wpa_encrypt":"WAP encrypt",           // [ aes ] for AES
-                                           // [ tkip ] for TKIP
-                                           // [ tkipaes ] for auto
+    "peermac":"BSSID to connect",          // [ mac address ]
+    "peermode":"mode of connection",       // [ "hidden" ] Indicates that the peer end does not broadcast SSID. In hidden mode, channel must not be empty  
+    "channel":"wireless channel",          // [ number ], 0-165, 0 for auto
+    "secure":"mode of security",           // [ "disable", "wpapsk", "wpa2psk", "wpapskwpa2psk" ]
+                                                            // [ disable ] for no securiyt
+                                                            // [ wpapsk ]  for WPAPSK
+                                                            // [ wpa2psk ]  for WPA2PSK
+                                                            // [ wpapskwpa2psk ] for WPA Mix
+    "wpa_encrypt":"WAP encrypt",           // [ "aes", "tkip", "tkipaes" ]
+                                                            // [ aes ] for AES
+                                                            // [ tkip ] for TKIP
+                                                            // [ tkipaes ] for auto
     "wpa_key":"WPA key",                   // [ string ], The value is a string of at least 8 characters. This parameter is mandatory if the "secure" is wpapsk/wpa2psk/wpapskwpa2psk
 
     // IPv4
     "tid":"table identify number",         // [ number ] exclusive route table ID, only for multiple WAN
-    "mode":"IPV4 address mode",            // [ dhcpc ] for DHCP, [ static ] for manual setting, [ pppoe ] for PPPOE dial
+    "mode":"IPV4 address mode",            // [ "dhcpc", "static", "pppoe" ], "dhcpc" for DHCP, "static" for manual setting, "pppoe" for PPPOE dial
     "static":                                       // detial configure for "mode" is [ static ]
     {
         "ip":"IPv4 address",                        // < IPv4 address >
@@ -40,9 +42,9 @@ Usually ifname@wisp is the first WISP(2.4G) network. If there are multiple WISP 
     },
     "dhcpc":                                                       // detial configure for mode is [ dhcpc ]
     {
-        "static":"Set an IP address before obtaining IP via DHCP", // [ disable, enable ]
-        "routeopt":"dhcp option static route",                     // [ disable, enable ]
-        "custom_dns":"Custom DNS",                                 // [ disable, enable ]
+        "static":"Set an IP address before obtaining IP via DHCP", // [ "enable", "disable" ]
+        "routeopt":"dhcp option static route",                     // [ "enable", "disable" ]
+        "custom_dns":"Custom DNS",                                 // [ "enable", "disable" ]
         "dns":"Custom DNS1",                                       // [ IP address ], This is valid when custom_dns is [ enable ]
         "dns2":"Custom DNS2"                                       // [ IP address ], This is valid when custom_dns is [ enable ]
     },
@@ -267,6 +269,98 @@ ttrue
     ifname@wan.ifdev
     wifi@nsta
     ```
+
++ `chlist[]` **get the WISP channal list**, *succeed return talk to describes infomation, failed return NULL, error return terror*
+    ```json
+    // Attributes introduction of talk by the method return
+    {
+        "channel number":{},       // [ number ]:{}
+        // ... more channel
+    }
+    ```
+    ```shell
+    # examples, get the first WISP channel list
+    ifname@wisp.chlist
+    {
+        "1":{},        # channel 1
+        "2":{},        # channel 2
+        "3":{},        # channel 3
+        "4":{},        # channel 4
+        "5":{},        # channel 5
+        "6":{},        # channel 6
+        "7":{},        # channel 7
+        "8":{},        # channel 8
+        "9":{},        # channel 9
+        "10":{},       # channel 10
+        "11":{}        # channel 11
+    }
+    ```
+
++ `aplist[]` **use the WISP scan the surrounding AP**, *succeed return talk to describes infomation, failed return NULL, error return terror*
+    ```json
+    // Attributes introduction of talk by the method return
+    {
+        "AP BSSID":                                   // [ mac address ]
+        {
+            "ssid":"SSID name",                           // [ string ]
+            "channel":"channel number",                   // [ number ], 0-165, 0 for auto
+            "secure":"mode of security",                  // [ "disable", "wpapsk", "wpa2psk", "wpapskwpa2psk" ]
+                                                                 // [ disable ] for no securiyt
+                                                                 // [ wpapsk ]  for WPAPSK
+                                                                 // [ wpa2psk ]  for WPA2PSK
+                                                                 // [ wpapskwpa2psk ] for WPA Mix
+            "wpa_encrypt":"WAP encrypt",                  // [ "aes", "tkip", "tkipaes" ]
+                                                                 // [ aes ] for AES
+                                                                 // [ tkip ] for TKIP
+                                                                 // [ tkipaes ] for auto
+            "sig":"signal level(%)",                      // [ number ]
+            "signal":"signal level[0-4]",                 // [ "0", "1", "2", "3", "4" ]
+            "chext":"extern channel",                     // [ "none", "below", "above" ]
+            "mode":"wireless system"                      // [ string ]
+        },
+        // ... more AP
+    }
+    ```
+    ```shell
+    # examples, get the surrounding AP from first WISP scan
+    ifname@wisp.aplist
+    {
+        "80:EA:07:15:0E:E6":                    # first AP by scanning
+        {
+            "ssid":"1411",                                 # frist AP SSID
+            "channel":"6",                                 # first AP channel
+            "secure":"wpapskwpa2psk",                      # secure mode is WPA mix
+            "wpa_encrypt":"aes",                           # encrypt type is AES
+            "sig":"70",                                    # signal is 70%
+            "signal":"3",                                  # signal level is 3, range is 0-4
+            "chext":"below",                               # extern channel is below
+            "mode":"11b/g/n"
+        },
+        "B4:82:C5:80:22:41":                    # second AP by scanning
+        {
+            "ssid":"dimmalex-work",
+            "channel":"11",
+            "secure":"wpapskwpa2psk",
+            "wpa_encrypt":"aes",
+            "sig":"52",
+            "signal":"3",
+            "chext":"none",
+            "mode":"11b/g/n"
+        },
+        "8C:74:A0:D6:68:B0":                    # third AP by scanning
+        {
+            "ssid":"CMCC-ktfK",
+            "channel":"11",
+            "secure":"wpapskwpa2psk",
+            "wpa_encrypt":"aes",
+            "sig":"0",
+            "signal":"0",
+            "chext":"none",
+            "mode":"11b/g/n"
+        }
+    }
+    ```
+
 + `shut[]` **shutdown the WISP network**, *succeed return ttrue, failed return tfalse, error return terror*
     ```shell
     # examples, shutdown the frist WISP network
