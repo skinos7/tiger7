@@ -1,9 +1,17 @@
 {
-    "v7.3.0305":
+    "v7.3.0310":
     {
         "20220303":"fix radio txpower",
         "20220304":"Trim the modem reset operation steps",
-        "20220305":"show the csq after signal, show the rssi and rsrp"
+        "20220305":"show the csq after signal, show the rssi and rsrp",
+        "20220305b":"fix the GNSS map bug",
+        "20220305c":"add the convert options auto show",
+        "20220306a":"add the custom webpage css/index/login",
+        "20220306b":"add the support ep06-e",
+        "20220307":"fix the custom login.html and index.html bug",
+        "20220308":"set the creg be 2 always",
+        "20220309":"gre tunnel add the mtu",
+        "20220310":"add the oids table for snmp web page"
     },
     "v7.3.0228":
     {

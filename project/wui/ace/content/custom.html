@@ -94,6 +94,24 @@
           </div>
         </div>
       </div>
+      <!-- 导入Login -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Upload Login HTML"></label>
+        <div class="col-sm-9">
+          <div class="col-xs-10 col-sm-5">
+            <input type="file" id="upload_login" />
+          </div>
+        </div>
+      </div>
+      <!-- 导入Index -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Upload Index HTML"></label>
+        <div class="col-sm-9">
+          <div class="col-xs-10 col-sm-5">
+            <input type="file" id="upload_index" />
+          </div>
+        </div>
+      </div>
 
       <div class="hr hr32 hr-dotted"></div>
       <!-- logo color -->
@@ -220,7 +238,7 @@
           <label class="col-sm-3 control-label no-padding-right"></label>
           <div class="col-sm-9">
             <div class="btn-group">
-              <button class="btn btn-main" data-i18n="Apply Above Configure" id="apply"></button>
+              <button class="btn btn-main" data-i18n="Apply Above Configure" id="logo_apply"></button>
             </div>
           </div>
         </div>
@@ -277,7 +295,72 @@
           </div>
         </div>
       </div>
-  
+
+
+
+      <div class="hr hr32 hr-dotted"></div>
+      <!-- Upgrade -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Lock Upgrade"></label>
+        <div class="col-sm-9">
+          <label>
+            <input id="lock_upgrade" class="ace ace-switch ace-switch-6" type="checkbox" />
+            <span class="lbl"></span>
+          </label>
+        </div>
+      </div> 
+      <!-- Configure -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Lock Configure"></label>
+        <div class="col-sm-9">
+          <label>
+            <input id="lock_config" class="ace ace-switch ace-switch-6" type="checkbox" />
+            <span class="lbl"></span>
+          </label>
+        </div>
+      </div> 
+      <!-- Restart -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Lock Restart"></label>
+        <div class="col-sm-9">
+          <label>
+            <input id="lock_restart" class="ace ace-switch ace-switch-6" type="checkbox" />
+            <span class="lbl"></span>
+          </label>
+        </div>
+      </div> 
+      <!-- Default -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Lock Default"></label>
+        <div class="col-sm-9">
+          <label>
+            <input id="lock_default" class="ace ace-switch ace-switch-6" type="checkbox" />
+            <span class="lbl"></span>
+          </label>
+        </div>
+      </div> 
+      <!-- Factory -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Lock Factory"></label>
+        <div class="col-sm-9">
+          <label>
+            <input id="lock_factory" class="ace ace-switch ace-switch-6" type="checkbox" />
+            <span class="lbl"></span>
+          </label>
+        </div>
+      </div> 
+      
+      <!-- 应用 -->
+      <div class="form-horizontal" role="form">
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right"></label>
+          <div class="col-sm-9">
+            <div class="btn-group">
+              <button class="btn btn-main" data-i18n="Apply Above Configure" id="lock_apply"></button>
+            </div>
+          </div>
+        </div>
+      </div>
 
 
 
@@ -299,9 +382,10 @@
     var lte2s;
     var ethernets;
     var wui;
+    var lock;
     function load_cfg()
     {
-        he.load( [ "machine", "machine.status", ".ifname@lte", ".ifname@lte2", "ifname@lte.status", "ifname@lte2.status", "arch@ethernet.status", "wui@admin" ] ).then( function( v ){
+        he.load( [ "machine", "machine.status", ".ifname@lte", ".ifname@lte2", "ifname@lte.status", "ifname@lte2.status", "arch@ethernet.status", "wui@admin", "arch@lock" ] ).then( function( v ){
             m = v[0]
             ms = v[1];
             lte = v[2];
@@ -310,6 +394,7 @@
             lte2s = v[5];
             ethernets = v[6];
             wui = v[7];
+            lock = v[8];
 
             if ( m["sn"] )
             {
@@ -447,6 +532,48 @@
             $('#cmodel_string').val( ms.cmodel );
             $('#cfgversion').text(ms.cfgversion||$.i18n('Default'));
 
+            /* lock */
+            if ( lock && lock.upgrade == "enable" )
+            {
+                $('#lock_upgrade').prop('checked', true );
+            }
+            else
+            {
+                $('#lock_upgrade').prop('checked', false );
+            }
+            if ( lock && lock.config == "enable" )
+            {
+                $('#lock_config').prop('checked', true );
+            }
+            else
+            {
+                $('#lock_config').prop('checked', false );
+            }
+            if ( lock && lock.restart == "enable" )
+            {
+                $('#lock_restart').prop('checked', true );
+            }
+            else
+            {
+                $('#lock_restart').prop('checked', false );
+            }
+            if ( lock && lock.default == "enable" )
+            {
+                $('#lock_default').prop('checked', true );
+            }
+            else
+            {
+                $('#lock_default').prop('checked', false );
+            }
+            if ( lock && lock.factory == "enable" )
+            {
+                $('#lock_factory').prop('checked', true );
+            }
+            else
+            {
+                $('#lock_factory').prop('checked', false );
+            }
+
         });
     }
     $.i18n().load( page.lang('device') ).then( function () {
@@ -499,8 +626,46 @@
                 });
             }
         });
+        /* Login文件导入 */
+        $('#upload_login').ace_file_input( { no_file: $.i18n('No File'), btn_choose: $.i18n('Choose'), btn_change: $.i18n('Change'), icon_remove: '' } );
+        $('#upload_login').fileupload({
+            url: '/cgi/upload?PROJECT=wui&FILETYPE=config&FILENAME=login.html',
+            paramName: 'filename',
+            dataType: 'text',
+            add: function (e, data)
+            {
+                page.overlay($.i18n('Importing...'));
+                data.submit();
+            },
+            done: function (e, data)
+            {
+                page.overlay2hide();
+                he.exec( [ "wui@admin:login_file=login.html" ] ).then( function(){
+                    location.reload(true);
+                });
+            }
+        });
+        /* Index文件导入 */
+        $('#upload_index').ace_file_input( { no_file: $.i18n('No File'), btn_choose: $.i18n('Choose'), btn_change: $.i18n('Change'), icon_remove: '' } );
+        $('#upload_index').fileupload({
+            url: '/cgi/upload?PROJECT=wui&FILETYPE=config&FILENAME=index.html',
+            paramName: 'filename',
+            dataType: 'text',
+            add: function (e, data)
+            {
+                page.overlay($.i18n('Importing...'));
+                data.submit();
+            },
+            done: function (e, data)
+            {
+                page.overlay2hide();
+                he.exec( [ "wui@admin:index_file=index.html" ] ).then( function(){
+                    location.reload(true);
+                });
+            }
+        });
         /* bind the apply to save configure */
-        $('#apply').on(ace.click_event, function () {
+        $('#logo_apply').on(ace.click_event, function () {
             if ( wui == null )
             {
                 return;
@@ -602,6 +767,22 @@
                 page.alert( { message: $.i18n('Settings unchanged') } );
                 return;
             }
+        });
+
+        /* bind the apply to save configure */
+        $('#lock_apply').on(ace.click_event, function () {
+            if ( !lock )
+            {
+                lock = {};
+            }
+            lock.upgrade = boole2able( $('#lock_upgrade').prop('checked') );
+            lock.config = boole2able( $('#lock_config').prop('checked') );
+            lock.restart = boole2able( $('#lock_restart').prop('checked') );
+            lock.default = boole2able( $('#lock_default').prop('checked') );
+            lock.factory = boole2able( $('#lock_factory').prop('checked') );
+            he.exec( [ "arch@lock="+JSON.stringify(lock) ] ).then( function(){
+                location.reload(true);
+            });
         });
 
 

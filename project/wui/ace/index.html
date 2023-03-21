@@ -387,11 +387,6 @@
 			ace.demo.functions.enableDemoAjax= function () {};
             if ( window.wui )
             {
-                if ( window.wui.logo_color )
-                {
-                    logoshow = true;
-                    $("#logo").css("background-color", window.wui.logo_color );
-                }
                 if (  window.wui.logo_file )
                 {
                     logoshow = true;
@@ -420,16 +415,11 @@
                     {
                         $('#logo_context').append( window.wui.logo_title );
                     }
-                    $("#logo_context").css("color", window.wui.logo_title_color );
                 }
                 if ( window.wui.logo_model == "disable" )
                 {
                     $('#logo_table').hide();
                     $('#logo_logout').show();
-                    if ( window.wui.logo_logout_color )
-                    {
-                        $("#logout").css("color", window.wui.logo_logout_color );
-                    }
                 }
                 else
                 {

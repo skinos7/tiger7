@@ -1,7 +1,7 @@
 
 /* 登录提示色, 也是系统默认主色 */
 .main-color {
-  color: #777777!important;
+  color: #4D4D4D!important;
 }
 
 
@@ -23,10 +23,24 @@
 /******************************************************/
 
 
+/* logo背景色 */
+.no-skin #logo {
+  background-color: #555555!important;
+}
+/* logo标提色 */
+.no-skin #logo_context{
+  color: #ffffff;
+}
+/* logout色 */
+.no-skin #logout{
+  color: #ffffff;
+}
+
+
 
 /* navbar背景色 */
 .no-skin .navbar {
-  background-color: #858585!important;
+  background-color: #555555!important;
 }
 /* navbar上菜单折叠按钮背景色 */
 /* .no-skin .navbar .navbar-toggle[data-toggle=collapse]:not(.collapsed), */
@@ -41,8 +55,8 @@
 
 /* Sidebar菜单区上方快捷键背景颜色 */
 #sidebar-shortcuts {
-  background-color: #858585;
-  border-color: #858585;
+  background-color: #555555;
+  border-color: #555555;
 }
 /* Sidebar菜单区上方快捷键功能按钮1颜色 */
 .btn-success,
@@ -56,7 +70,7 @@
 .btn-success:focus:active,
 .btn-success:focus:hover,
 .btn-success:hover {
-  background-color: #858585!important;
+  background-color: #555555!important;
   border-color: #777777;
 }
 /* Sidebar菜单区上方快捷键功能按钮2颜色 */
@@ -71,7 +85,7 @@
 .btn-primary:focus:active,
 .btn-primary:focus:hover,
 .btn-primary:hover {
-  background-color: #858585!important;
+  background-color: #555555!important;
   border-color: #777777;
 }
 /* Sidebar菜单区上方快捷键功能按钮3颜色 */
@@ -86,7 +100,7 @@
 .btn-info:focus:active,
 .btn-info:focus:hover,
 .btn-info:hover {
-  background-color: #858585!important;
+  background-color: #555555!important;
   border-color: #777777;
 }
 /* Sidebar菜单区上方快捷键功能按钮4颜色 */
@@ -101,7 +115,7 @@
 .btn-danger:focus:active,
 .btn-danger:focus:hover,
 .btn-danger:hover {
-  background-color: #858585!important;
+  background-color: #555555!important;
   border-color: #777777;
 }
 
@@ -109,24 +123,24 @@
 
 /* Sidebar菜单区背景颜色 */
 #sidebar {
-  background-color: #858585;
-  border-color: #858585;
+  background-color: #555555;
+  border-color: #555555;
 }
 /* Sidebar菜单区菜单栏颜色  */
 .no-skin .nav-list,
 .no-skin .nav-list>li,
 .no-skin .nav-list>li>a {
   color: #ffffff;
-  background-color: #858585!important;
-  border-color: #858585;
+  background-color: #555555!important;
+  border-color: #555555;
 }
 /* Sidebar菜单区菜单栏下菜单项颜色 */
 .no-skin .nav-list>li .submenu,
 .no-skin .nav-list>li .submenu>li,
 .no-skin .nav-list>li .submenu>li>a {
   color: #ffffff;
-  background-color: #858585!important;
-  border-color: #858585;
+  background-color: #555555!important;
+  border-color: #555555;
 }
 /* Sidebar菜单区菜单栏下菜单项的左边框颜色 */
 .no-skin .nav-list>li .submenu::before,
@@ -216,7 +230,7 @@ input[type=checkbox].ace.ace-switch.ace-switch-6:checked+.lbl::before {
 .btn-main:focus:active,
 .btn-main:focus:hover,
 .btn-main:hover {
-  background-color: #858585!important;
+  background-color: #555555!important;
   border-color: #777777;
 }
 /* 取消按钮 */
@@ -231,7 +245,7 @@ input[type=checkbox].ace.ace-switch.ace-switch-6:checked+.lbl::before {
 .btn-second:focus:active,
 .btn-second:focus:hover,
 .btn-second:hover {
-  background-color: #858585!important;
+  background-color: #555555!important;
   border-color: #777777;
 }
 .btn-second[disabled],
@@ -240,7 +254,7 @@ input[type=checkbox].ace.ace-switch.ace-switch-6:checked+.lbl::before {
 .btn-second:focus:active[disabled],
 .btn-second:focus:hover[disabled],
 .btn-second:hover[disabled] {
-  background-color: #858585!important;
+  background-color: #555555!important;
   border-color: #777777;
 }
 /* 高级功能按钮 */
@@ -255,7 +269,7 @@ input[type=checkbox].ace.ace-switch.ace-switch-6:checked+.lbl::before {
 .btn-warning:focus:active,
 .btn-warning:focus:hover,
 .btn-warning:hover {
-  background-color: #858585!important;
+  background-color: #555555!important;
   border-color: #777777;
 }
 /* 下载按钮 */
@@ -270,7 +284,7 @@ input[type=checkbox].ace.ace-switch.ace-switch-6:checked+.lbl::before {
 .btn-mini:focus:active,
 .btn-mini:focus:hover,
 .btn-mini:hover {
-  background-color: #858585!important;
+  background-color: #555555!important;
   border-color: #777777;
 }
 /* 上传按钮 */
@@ -290,6 +304,12 @@ input[type=checkbox].ace.ace-switch.ace-switch-6:checked+.lbl::before {
   background-color: #E4E6E9!important;
   border-color: #E4E6E9!important;
   color: #777777;
+}
+.widget-title {
+  border-color: #E4E6E9!important;
+  background-color: #E4E6E9!important;
+  color: #666666;
+  font-size: 15px!important;
 }
 /* jqGrid表头背景颜色 */
 .ui-jqgrid-titlebar {

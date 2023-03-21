@@ -21,12 +21,13 @@ Administration of equipment Management web page
     },
 
     // custom the webpage frame
-    "css_file":"CSS file path",                   // Fill in the file name must be in located on /prj/wui/admin/assets/css/ or /var/.cfg/wui/
-    "logo_file":"LOGO file path",                 // Fill in the file name must be in located on /prj/wui/admin/assets/css/ or /var/.cfg/wui/ 
-    "logo_color":"Title bar of logo color",       // title color
-    "logo_title":"Text in the middle of a web page",
-    "logo_width":"LOGO width",
-    "logo_height":"LOGO height",
+    "login_file":"file path",                     // [ string ], read only, Fill in the file name must be in located on /prj/wui/admin/ or /var/.cfg/wui/
+    "index_file":"file path",                     // [ string ], read only, Fill in the file name must be in located on /prj/wui/admin/ or /var/.cfg/wui/
+    "css_file":"CSS file path",                   // [ string ], Fill in the file name must be in located on /prj/wui/admin/assets/css/ or /var/.cfg/wui/, via <%csspath(); %> show
+    "logo_file":"LOGO file path",                 // [ string ], Fill in the file name must be in located on /prj/wui/admin/assets/css/ or /var/.cfg/wui/
+    "logo_title":"Text in the middle of page",    // [ string ]
+    "logo_width":"LOGO width",                    // [ string ]
+    "logo_height":"LOGO height",                  // [ string ]
     "logo_align":"center",                        // [ center, right ]
     "logo_model":"show or not",                   // [ enable, disable ]
     "nav_bar":"show or not",                      // [ enable, disable ]

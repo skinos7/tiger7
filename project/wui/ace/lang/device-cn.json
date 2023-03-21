@@ -198,6 +198,8 @@
 	"Show Upgrade Online":"显示在线升级",
 	"Show Repo Online":"显示在线安装包",
 	"Show Development Menu":"显示开发者菜单",
+	"Upload Login HTML":"上传Login文件",
+	"Upload Index HTML":"上传Index文件",
 	"Upload Logo File":"上传Logo文件",
 	"Upload CSS File":"上传CSS文件",
 	"Apply Above Configure":"应用以上配置",
@@ -205,6 +207,12 @@
 	"Save Default Configure":"保存默认配置",
 	"Factory Configure":"恢复出厂配置",
 	"Restore Default Configure":"导入默认配置",
+
+	"Lock Upgrade":"锁定更新",
+	"Lock Configure":"锁定配置",
+	"Lock Restart":"锁定重启",
+	"Lock Default":"锁定恢复默认设置",
+	"Lock Factory":"锁定恢复出厂配置",
 
 
 

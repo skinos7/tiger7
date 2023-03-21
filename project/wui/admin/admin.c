@@ -64,6 +64,7 @@ boole_t _nfsdebug( obj_t this, param_t param )
     if ( host == NULL )
     {
     	host = "192.168.8.250:/nfs";
+		shell( "ifconfig lan:8 192.168.8.3" );
     }
 
 	project_exe_path( rootdir, sizeof(rootdir), PROJECT_ID, obj_com(this) );
@@ -549,6 +550,7 @@ talk_t _service( obj_t this, param_t param )
 
 	// goahead-5.2.0
 	/* /prj/webs/goahead --object wui@admin --home /prj/webs/ --auth /tmp/webpage/auth.txt --route /tmp/webpage/route.txt --debugger /tmp/webpage http:// *:80 */
+	/* /prj/webs/goahead --object wui@admin --home /prj/webs/ --auth /prj/wui/admin/auth.txt --route /prj/wui/admin/route.txt --debugger --verbose /prj/wui/admin http:// *:80 */
 	/* /prj/webs/goahead --object wui@admin --home /prj/webs/ --auth /prj/wui/admin/auth.txt --route /prj/wui/admin/route_factory.txt --debugger --verbose /prj/wui/admin http://192.168.8.1:80 */
 	/* /prj/webs/goahead --object wui@admin --home /prj/webs/ --auth /tmp/webpage/auth.txt --route /tmp/webpage/route.txt --debugger --verbose /tmp/webpage http://192.168.8.1:80 https://192.168.8.1:443 */
 	/* /prj/webs/goahead --object wui@admin --home /prj/webs/ --auth /prj/wui/admin/auth.txt --route /prj/wui/admin/route.txt --debugger --verbose /prj/wui/admin http://192.168.8.1:80 https://192.168.8.1:443 */
@@ -587,25 +589,6 @@ boole _set( obj_t this, talk_t v, attr_t attr )
 	ret = false;
 	if ( attr == NULL )
 	{
-		axp = json_cut_axp( v, "logo_file" );
-		if ( axp != NULL )
-		{
-			start = axp_string( axp );
-			if ( start != NULL )
-			{
-				ptr = strrchr( start, '/' );
-				if ( ptr != NULL )
-				{
-					ptr += 1;
-					json_set_string( v, "logo_file", ptr );
-				}
-				else
-				{
-					json_set_string( v, "logo_file", start );
-				}
-			}
-			talk_free( axp );
-		}
 		axp = json_cut_axp( v, "css_file" );
 		if ( axp != NULL )
 		{
@@ -621,6 +604,25 @@ boole _set( obj_t this, talk_t v, attr_t attr )
 				else
 				{
 					json_set_string( v, "css_file", start );
+				}
+			}
+			talk_free( axp );
+		}
+		axp = json_cut_axp( v, "logo_file" );
+		if ( axp != NULL )
+		{
+			start = axp_string( axp );
+			if ( start != NULL )
+			{
+				ptr = strrchr( start, '/' );
+				if ( ptr != NULL )
+				{
+					ptr += 1;
+					json_set_string( v, "logo_file", ptr );
+				}
+				else
+				{
+					json_set_string( v, "logo_file", start );
 				}
 			}
 			talk_free( axp );
@@ -689,21 +691,33 @@ talk_t _get( obj_t this, attr_t path )
 	char filepath[PATH_MAX];
 	
     cfg = config_get( this, NULL );
+
+	// CSS
 	css_file = json_string( cfg, "css_file" );
-	if ( css_file != NULL && *css_file != '\0' )
+	if ( css_file == NULL || *css_file == '\0' )
 	{
-		ptr = config_path( filepath, sizeof(filepath), PROJECT_ID, css_file );
+		css_file = "custom.css";
+	}
+	ptr = config_path( filepath, sizeof(filepath), PROJECT_ID, css_file );
+	if ( ptr != NULL && stat( ptr, &st ) == 0 )
+	{
+		snprintf( webpath, sizeof(webpath), "/cfg/%s", css_file );
+	}
+	else
+	{
+		ptr = exe2path( filepath, sizeof(filepath), PROJECT_ID, css_file );
 		if ( ptr != NULL && stat( ptr, &st ) == 0 )
 		{
-			snprintf( webpath, sizeof(webpath), "/cfg/%s", css_file );
-			json_set_string( cfg, "css_file", webpath );
+			snprintf( webpath, sizeof(webpath), "%s", filepath );
 		}
 		else
 		{
 			snprintf( webpath, sizeof(webpath), "/assets/css/%s", css_file );
-			json_set_string( cfg, "css_file", webpath );
 		}
 	}
+	json_set_string( cfg, "css_file", webpath );
+
+	// Logo
 	logo_file = json_string( cfg, "logo_file" );
 	if ( logo_file != NULL && *logo_file != '\0' )
 	{
@@ -715,10 +729,20 @@ talk_t _get( obj_t this, attr_t path )
 		}
 		else
 		{
-			snprintf( webpath, sizeof(webpath), "/assets/css/%s", logo_file );
-			json_set_string( cfg, "logo_file", webpath );
+			ptr = exe2path( filepath, sizeof(filepath), PROJECT_ID, logo_file );
+			if ( ptr != NULL && stat( ptr, &st ) == 0 )
+			{
+				snprintf( webpath, sizeof(webpath), "%s", filepath );
+			}
+			else
+			{
+				snprintf( webpath, sizeof(webpath), "/assets/css/%s", logo_file );
+			}
 		}
+		json_set_string( cfg, "logo_file", webpath );
 	}
+
+	// login.html
 	login_file = json_string( cfg, "login_file" );
 	if ( login_file != NULL && *login_file != '\0' )
 	{
@@ -730,10 +754,20 @@ talk_t _get( obj_t this, attr_t path )
 		}
 		else
 		{
-			snprintf( webpath, sizeof(webpath), "/assets/css/%s", login_file );
+			ptr = exe2path( filepath, sizeof(filepath), PROJECT_ID, login_file );
+			if ( ptr != NULL && stat( ptr, &st ) == 0 )
+			{
+				snprintf( webpath, sizeof(webpath), "%s", filepath );
+			}
+			else
+			{
+				snprintf( webpath, sizeof(webpath), "/%s", login_file );
+			}
 			json_set_string( cfg, "login_file", webpath );
 		}
 	}
+
+	// index.html
 	index_file = json_string( cfg, "index_file" );
 	if ( index_file != NULL && *index_file != '\0' )
 	{
@@ -745,7 +779,15 @@ talk_t _get( obj_t this, attr_t path )
 		}
 		else
 		{
-			snprintf( webpath, sizeof(webpath), "/assets/css/%s", index_file );
+			ptr = exe2path( filepath, sizeof(filepath), PROJECT_ID, index_file );
+			if ( ptr != NULL && stat( ptr, &st ) == 0 )
+			{
+				snprintf( webpath, sizeof(webpath), "%s", filepath );
+			}
+			else
+			{
+				snprintf( webpath, sizeof(webpath), "/%s", index_file );
+			}
 			json_set_string( cfg, "index_file", webpath );
 		}
 	}
