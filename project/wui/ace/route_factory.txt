@@ -1,4 +1,7 @@
 route uri=/favicon.ico
+route uri=/grey.css
+route uri=/custom.css
+route uri=/logo.png
 route uri=/api/
 route uri=/assets/
 route uri=/cfg/

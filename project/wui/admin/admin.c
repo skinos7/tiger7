@@ -705,15 +705,7 @@ talk_t _get( obj_t this, attr_t path )
 	}
 	else
 	{
-		ptr = exe2path( filepath, sizeof(filepath), PROJECT_ID, css_file );
-		if ( ptr != NULL && stat( ptr, &st ) == 0 )
-		{
-			snprintf( webpath, sizeof(webpath), "%s", filepath );
-		}
-		else
-		{
-			snprintf( webpath, sizeof(webpath), "/assets/css/%s", css_file );
-		}
+		snprintf( webpath, sizeof(webpath), "/%s", css_file );
 	}
 	json_set_string( cfg, "css_file", webpath );
 
@@ -725,19 +717,10 @@ talk_t _get( obj_t this, attr_t path )
 		if ( ptr != NULL && stat( ptr, &st ) == 0 )
 		{
 			snprintf( webpath, sizeof(webpath), "/cfg/%s", logo_file );
-			json_set_string( cfg, "logo_file", webpath );
 		}
 		else
 		{
-			ptr = exe2path( filepath, sizeof(filepath), PROJECT_ID, logo_file );
-			if ( ptr != NULL && stat( ptr, &st ) == 0 )
-			{
-				snprintf( webpath, sizeof(webpath), "%s", filepath );
-			}
-			else
-			{
-				snprintf( webpath, sizeof(webpath), "/assets/css/%s", logo_file );
-			}
+			snprintf( webpath, sizeof(webpath), "/%s", logo_file );
 		}
 		json_set_string( cfg, "logo_file", webpath );
 	}
@@ -754,17 +737,9 @@ talk_t _get( obj_t this, attr_t path )
 		}
 		else
 		{
-			ptr = exe2path( filepath, sizeof(filepath), PROJECT_ID, login_file );
-			if ( ptr != NULL && stat( ptr, &st ) == 0 )
-			{
-				snprintf( webpath, sizeof(webpath), "%s", filepath );
-			}
-			else
-			{
-				snprintf( webpath, sizeof(webpath), "/%s", login_file );
-			}
-			json_set_string( cfg, "login_file", webpath );
+			snprintf( webpath, sizeof(webpath), "/%s", login_file );
 		}
+		json_set_string( cfg, "login_file", webpath );
 	}
 
 	// index.html
@@ -779,17 +754,9 @@ talk_t _get( obj_t this, attr_t path )
 		}
 		else
 		{
-			ptr = exe2path( filepath, sizeof(filepath), PROJECT_ID, index_file );
-			if ( ptr != NULL && stat( ptr, &st ) == 0 )
-			{
-				snprintf( webpath, sizeof(webpath), "%s", filepath );
-			}
-			else
-			{
-				snprintf( webpath, sizeof(webpath), "/%s", index_file );
-			}
-			json_set_string( cfg, "index_file", webpath );
+			snprintf( webpath, sizeof(webpath), "/%s", index_file );
 		}
+		json_set_string( cfg, "index_file", webpath );
 	}
 
     /* get the path attr */
