@@ -1,5 +1,5 @@
 {
-    "v7.3.0310":
+    "v7.3.0313":
     {
         "20220303":"fix radio txpower",
         "20220304":"Trim the modem reset operation steps",
@@ -11,7 +11,10 @@
         "20220307":"fix the custom login.html and index.html bug",
         "20220308":"set the creg be 2 always",
         "20220309":"gre tunnel add the mtu",
-        "20220310":"add the oids table for snmp web page"
+        "20220310":"add the oids table for snmp web page",
+        "20220311":"add default oids for snmp agent",
+        "20220312":"add lte bridge mode for ec2x",
+        "20220313":"fix the write mac for many times bug"
     },
     "v7.3.0228":
     {
