@@ -20,11 +20,13 @@ Administration of equipment Management web page
         "host name2":"IP address or MAC address" // [ string ]: [ IP/MAC address ]
     },
 
-    // custom the webpage frame
-    "login_file":"file path",                     // [ string ], read only, Fill in the file name must be in located on /prj/wui/admin/ or /var/.cfg/wui/
-    "index_file":"file path",                     // [ string ], read only, Fill in the file name must be in located on /prj/wui/admin/ or /var/.cfg/wui/
+    // custom the webpage html
     "css_file":"CSS file path",                   // [ string ], Fill in the file name must be in located on /prj/wui/admin/assets/css/ or /var/.cfg/wui/, via <%csspath(); %> show
     "logo_file":"LOGO file path",                 // [ string ], Fill in the file name must be in located on /prj/wui/admin/assets/css/ or /var/.cfg/wui/
+    "login_file":"file path",                     // [ string ], read only, Fill in the file name must be in located on /prj/wui/admin/ or /var/.cfg/wui/
+    "index_file":"file path",                     // [ string ], read only, Fill in the file name must be in located on /prj/wui/admin/ or /var/.cfg/wui/
+
+    // custom the webpage frame
     "logo_title":"Text in the middle of page",    // [ string ]
     "logo_width":"LOGO width",                    // [ string ]
     "logo_height":"LOGO height",                  // [ string ]

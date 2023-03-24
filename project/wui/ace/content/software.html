@@ -69,7 +69,7 @@
                 <div class="col-sm-9">
                   <div class="btn-group">
                     <a class="btn btn-main" data-i18n="Enter FPK Repositories" id="repo" href="#repo"></a>
-                    <button class="btn btn-warning" data-i18n="Default FPK&Configure" id="factory"></button>
+                    <button class="btn btn-warning" data-i18n="Default FPK&Configure" id="release"></button>
                   </div>
                 </div>
               </div>
@@ -402,12 +402,12 @@
             ]
         }
       );
-      // factory
-      $('#factory').on(ace.click_event, function () {
+      // release
+      $('#release').on(ace.click_event, function () {
           page.confirm( { message: $.i18n('Are you sure you want to clear all install FPK and default the system configure') } ).then( function(result){
               if ( result )
               {
-                  he.upgrade_reboot( { cmds:["arch@data.factory"] } );
+                  he.upgrade_reboot( { cmds:["arch@data.release"] } );
               }
           });
       });
