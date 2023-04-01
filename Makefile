@@ -152,6 +152,7 @@ dep: lay
 	make boot_dep kernel_dep
 
 lay:
+	./mkdel
 	rm -rf ${gINSTALL_DIR} ${gBUILD_DIR}
 	install -d ${gBUILD_DIR} ${gINSTALL_DIR} ${gINSTALL_DIR}/lib ${gINSTALL_DIR}/include ${gosROOT_DIR} ${gSTORE_DIR}
 	if [ -d ${gPLATFORM_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gPLATFORM_DIR}; fi
