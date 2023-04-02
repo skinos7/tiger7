@@ -123,7 +123,7 @@ In the device web management interface, **System=>Software=>Update** to upgrade 
 If you need to upgrade and restore the factory settings at the same time, you can change the suffix (.zz) of the firmware to .default and then upgrade through the web management interface.
 ***Note: After the firmware is upgraded, it may not start. If it does not start and the system light flashes slowly, please manually reset the device by pressing and holding the reset button for 5-8 seconds.***
 
-# 软件基础开发平台下载或更新 
+# 软件基础开发平台下载及编译
 
 #### 1. 开发环境下载
 在Ubuntu下（建议使用20.04或18.04）执行以下命令下载开发环境(请先安装git及make)
@@ -189,92 +189,121 @@ make
 ![avatar](./frame.jpg)
 
 
-# Component API
-Component interfaces can be invoked either from the command line or through the development interface   
-***Being refined, priority is given to commonly used components***  
-- [Machine management](https://gitee.com/tiger7/doc/blob/master/com/land/machine.md)
-- [Authentication management](https://gitee.com/tiger7/doc/blob/master/com/land/machine.md)
-- [Syslog management](https://gitee.com/tiger7/doc/blob/master/com/land/machine.md)
-- [Date management](https://gitee.com/tiger7/doc/blob/master/com/clock/date.md)
-
-- [Telent server management](https://gitee.com/tiger7/doc/blob/master/com/clock/date.md)
-- [SSH server management](https://gitee.com/tiger7/doc/blob/master/com/clock/date.md)
-- [Web server management](https://gitee.com/tiger7/doc/blob/master/com/clock/date.md)
-
-- [Station management](https://gitee.com/tiger7/doc/blob/master/com/clock/date.md)
-
-- [Firewall management](https://gitee.com/tiger7/doc/blob/master/com/clock/date.md)
-
-- [NAT map management](https://gitee.com/tiger7/doc/blob/master/com/clock/date.md)
-
-- [Route table management](https://gitee.com/tiger7/doc/blob/master/com/clock/date.md)
-- [Route rule table management](https://gitee.com/tiger7/doc/blob/master/com/clock/date.md)
-- [Multi Route table management](https://gitee.com/tiger7/doc/blob/master/com/clock/date.md)
-- [Forward TTL management](https://gitee.com/tiger7/doc/blob/master/com/clock/date.md)
-- [Mark table management](https://gitee.com/tiger7/doc/blob/master/com/clock/date.md)
-- [ALG functions management](https://gitee.com/tiger7/doc/blob/master/com/clock/date.md)
-
-- [GNSS management](https://gitee.com/tiger7/doc/blob/master/com/clock/date.md)
-
-- [IO management](https://gitee.com/tiger7/doc/blob/master/com/clock/date.md)
-
-- [UART management](https://gitee.com/tiger7/doc/blob/master/com/clock/date.md)
-
-
-- [LTE Modem](https://gitee.com/tiger7/doc/blob/master/com/modem/lte.md)
-- [LTE Network](https://gitee.com/tiger7/doc/blob/master/com/ifname/lte.md)
-- [LAN Network](https://gitee.com/tiger7/doc/blob/master/com/ifname/lan.md)
-- [WAN Network](https://gitee.com/tiger7/doc/blob/master/com/ifname/wan.md)
-- [WISP Network](https://gitee.com/tiger7/doc/blob/master/com/ifname/wisp.md)
-
-
-# 组件API
-组件接口可以从命令行调用，也可以通过开发接口调用 
-
-- [设备基本信息管理](https://gitee.com/tiger7/doc/blob/master/com/land/machine.md)
-- [认证及权限管理](https://gitee.com/tiger7/doc/blob/master/com/land/auth.md)
-- [日志管理](https://gitee.com/tiger7/doc/blob/master/com/land/syslog.md)
-- [设备时间管理](https://gitee.com/tiger7/doc/blob/master/com/clock/date.md)
-- [Telent服务器管理](https://gitee.com/tiger7/doc/blob/master/com/tui/telnet.md)
-- [SSH服务器管理](https://gitee.com/tiger7/doc/blob/master/com/tui/ssh.md)
-- [Web服务器管理](https://gitee.com/tiger7/doc/blob/master/com/wui/admin.md)
-
-- [客户端管理](https://gitee.com/tiger7/doc/blob/master/com/client/station.md)
-
-- [防火墙管理](https://gitee.com/tiger7/doc/blob/master/com/forward/firewall.md)
-- [端口映射管理](https://gitee.com/tiger7/doc/blob/master/com/forward/nat.md)
-- [路由表管理](https://gitee.com/tiger7/doc/blob/master/com/forward/route.md)
-- [策略路由管理](https://gitee.com/tiger7/doc/blob/master/com/forward/rule.md)
-- [多路由表管理](https://gitee.com/tiger7/doc/blob/master/com/forward/routes.md)
-- [包标识表管理](https://gitee.com/tiger7/doc/blob/master/com/forward/mark.md)
-- [转换TTL管理](https://gitee.com/tiger7/doc/blob/master/com/forward/ttl.md)
-- [应用层网关管理](https://gitee.com/tiger7/doc/blob/master/com/forward/alg.md)
-
-- [定位管理](https://gitee.com/tiger7/doc/blob/master/com/gnss/nmea.md)
-
-- [IO管理](https://gitee.com/tiger7/doc/blob/master/com/io/agent.md)
-
-- [UART管理](https://gitee.com/tiger7/doc/blob/master/com/uart/serial.md)
-
-- [4G/5G基带管理](https://gitee.com/tiger7/doc/blob/master/com/modem/lte.md)
-- [4G/5G网络管理](https://gitee.com/tiger7/doc/blob/master/com/ifname/lte.md)
-- [本地网络管理](https://gitee.com/tiger7/doc/blob/master/com/ifname/lan.md)
-- [有线宽带管理](https://gitee.com/tiger7/doc/blob/master/com/ifname/wan.md)
-- [无线连接管理](https://gitee.com/tiger7/doc/blob/master/com/ifname/wisp.md)
-
-- [2.4G无线热点管理](https://gitee.com/tiger7/doc/blob/master/com/wifi/nssid.md)
-- [5.8G无线热点管理](https://gitee.com/tiger7/doc/blob/master/com/wifi/assid.md)
-
-- [网络框架管理](https://gitee.com/tiger7/doc/blob/master/com/network/frame.md)
-
-更多接口可在 [接口文档目录](https://gitee.com/tiger7/doc/blob/master/com) 中查找
-
 
 # Development guidance 
 - [Porject and Component Development](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)
 
 # 开发指导 
 - [项目及组件开发](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)
+
+
+
+# Component API
+Component interfaces can be invoked either from the command line or through the development interface   
+***Being refined, priority is given to commonly used components***  
+- **[Machine management](https://github.com/skinos7/doc/blob/master/com/land/machine.md)**
+- **[Authentication management](https://github.com/skinos7/doc/blob/master/com/land/auth.md)**
+- **[Syslog management](https://github.com/skinos7/doc/blob/master/com/land/machine.md)**
+- **[Date management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
+- **[Telent server management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
+- **[SSH server management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
+- **[Web server management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
+
+- **[Station management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
+
+- **[Firewall management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
+- **[NAT map management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
+- **[Route table management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
+- **[Route rule table management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
+- **[Multi Route table management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
+- **[Forward TTL management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
+- **[Mark table management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
+- **[ALG functions management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
+
+- **[GNSS management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
+
+- **[IO management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
+
+- **[UART management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
+
+- **[LTE Modem management](https://github.com/skinos7/doc/blob/master/com/modem/lte.md)**
+- **[LTE Network management](https://github.com/skinos7/doc/blob/master/com/ifname/lte.md)**
+- **[LAN Network management](https://github.com/skinos7/doc/blob/master/com/ifname/lan.md)**
+- **[WAN Network management](https://github.com/skinos7/doc/blob/master/com/ifname/wan.md)**
+- **[WISP Network management](https://github.com/skinos7/doc/blob/master/com/ifname/wisp.md)**
+
+- **[Network frame management](https://github.com/skinos7/doc/blob/master/com/network/frame.md)**
+
+more API in directory [COM Directory](https://github.com/skinos7/doc/blob/master/com)
+
+Component interfaces can be invoked from the command line,  See **[He command](https://github.com/skinos7/doc/blob/master/use/he_command.md)** for details
+It can also be called through the development interface, See **[Project and component development](https://github.com/skinos7/doc/blob/master/dev/beginner_development.md)** for details
+
+
+
+
+# 组件API
+
+- **[设备基本信息管理](https://gitee.com/tiger7/doc/blob/master/com/land/machine.md)**
+    管理设备的基本信息，如工作模式，设备名称等
+- **[认证及权限管理](https://gitee.com/tiger7/doc/blob/master/com/land/auth.md)**
+    管理设备的帐号及权限等
+- **[日志管理](https://gitee.com/tiger7/doc/blob/master/com/land/syslog.md)**
+    管理设备日志
+- **[设备时间管理](https://gitee.com/tiger7/doc/blob/master/com/clock/date.md)**
+    管理设备时间
+- **[Telent服务器管理](https://gitee.com/tiger7/doc/blob/master/com/tui/telnet.md)**
+    管理设备telnet服务
+- **[SSH服务器管理](https://gitee.com/tiger7/doc/blob/master/com/tui/ssh.md)**
+    管理设备SSH服务
+- **[Web服务器管理](https://gitee.com/tiger7/doc/blob/master/com/wui/admin.md)**
+    管理WEB管理服务
+
+- **[客户端管理](https://gitee.com/tiger7/doc/blob/master/com/client/station.md)**
+    对接入的客户端管理， 实现对其的访问控制，带宽管理，上网控制等
+
+- **[防火墙管理](https://gitee.com/tiger7/doc/blob/master/com/forward/firewall.md)**
+    管理外网访问本设备或本地的设备的权限
+- **[端口映射管理](https://gitee.com/tiger7/doc/blob/master/com/forward/nat.md)**
+    将外网地址映射到本地网络上的设备
+- **[路由表管理](https://gitee.com/tiger7/doc/blob/master/com/forward/route.md)**
+- **[策略路由管理](https://gitee.com/tiger7/doc/blob/master/com/forward/rule.md)**
+- **[多路由表管理](https://gitee.com/tiger7/doc/blob/master/com/forward/routes.md)**
+- **[包标识表管理](https://gitee.com/tiger7/doc/blob/master/com/forward/mark.md)**
+- **[转换TTL管理](https://gitee.com/tiger7/doc/blob/master/com/forward/ttl.md)**
+- **[应用层网关管理](https://gitee.com/tiger7/doc/blob/master/com/forward/alg.md)**
+
+- **[定位管理](https://gitee.com/tiger7/doc/blob/master/com/gnss/nmea.md)**
+    管理设备定位的功能
+- **[IO管理](https://gitee.com/tiger7/doc/blob/master/com/io/agent.md)**
+    管理设备IO的功能
+
+- **[UART管理](https://gitee.com/tiger7/doc/blob/master/com/uart/serial.md)**
+    管理设备串口的功能
+
+- **[4G/5G基带管理](https://gitee.com/tiger7/doc/blob/master/com/modem/lte.md)**
+    管理LTE/NR基带的功能，比如驻网, APN等
+- **[4G/5G网络管理](https://gitee.com/tiger7/doc/blob/master/com/ifname/lte.md)**
+    管理LTE/NR网络
+- **[本地网络管理](https://gitee.com/tiger7/doc/blob/master/com/ifname/lan.md)**
+    管理本地的网络
+- **[有线宽带管理](https://gitee.com/tiger7/doc/blob/master/com/ifname/wan.md)**
+    管理有线WAN口
+- **[无线连网管理](https://gitee.com/tiger7/doc/blob/master/com/ifname/wisp.md)**
+    管理无线连网口的功能
+
+- **[2.4G无线热点管理](https://gitee.com/tiger7/doc/blob/master/com/wifi/nssid.md)**
+    2.4G SSID管理
+- **[5.8G无线热点管理](https://gitee.com/tiger7/doc/blob/master/com/wifi/assid.md)**
+    5.8G SSID管理
+
+- **[网络框架管理](https://gitee.com/tiger7/doc/blob/master/com/network/frame.md)**
+    系统网络框架
+
+更多接口可在 [接口文档目录](https://gitee.com/tiger7/doc/blob/master/com) 中查找
+
+组件接口可以通过命令行调用,  具体参见 **[HE终端命令行](https://gitee.com/tiger7/doc/blob/master/use/he_command.md)**
+也可以通过开发接口调用， 具体参见 **[项目及组件开发](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)**
 
 
 
