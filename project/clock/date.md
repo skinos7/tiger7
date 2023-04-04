@@ -31,15 +31,19 @@ Examples, modify the time zone to West 5
 clock@date:timezone=-5
 ttrue
 ```  
+Examples, disable the NTP client time synchronization
+```shell
+clock@date:ntpclient=disable
+ttrue
+```  
+
+
 
 #### **Methods**
 + `status[]` **get the date infomation**, *succeed return talk to describes, failed return NULL, error return terror*
     ```json
     // Attributes introduction of talk by the method return
     {
-        "current":"current date",                         // [ string ], format is hour:minuti:second:month:day:year
-        "livetime":"system live time",                    // [ string ], format is hour:minute:second:day
-        "uptime":"system uptime in second",               // [ number ]
         "source":"The source of the time",                // [ "ntp", "set", "lte", "gps" ]
                                                              // ntp: indicates that it originated from NTP, which has the highest NTP priority, and NTP synchronization success covers all other times
                                                              // set: indicates time set by manually
@@ -47,6 +51,9 @@ ttrue
                                                              // lte: indicates source LTE time 
                                                              // gps: indicates source GPS time 
                                                              // An empty or none of this node indicates that it has not been set
+        "current":"current date",                         // [ string ], format is hour:minuti:second:month:day:year
+        "livetime":"system live time",                    // [ string ], format is hour:minute:second:day
+        "uptime":"system uptime in second"                // [ number ]
     }    
     ```
     ```shell
@@ -77,7 +84,7 @@ ttrue
     ```
 
 
-## 时间管理组件
+## 时间管理
 管理系统时间
 
 #### **配置( clock@date )** 
@@ -85,7 +92,7 @@ ttrue
 // 属性介绍
 {
     "timezone":"时区",                // [ 数字 ], -12至12, 即西12到东12区
-    "ntpclient":"是否启用NTP客户端",    // [ "disable", "enable" ]
+    "ntpclient":"是否启用NTP客户端",   // [ "disable", "enable" ]
     "ntpserver":"NTP服务器",          // [ 字符串 ]
     "ntpserver2":"NTP服务器2",        // [ 字符串 ]
     "ntpserver3":"NTP服务器3",        // [ 字符串 ]
@@ -109,6 +116,11 @@ clock@date
 clock@date:timezone=-5
 ttrue
 ```  
+示例， 禁用NTP客户端对时
+```shell
+clock@date:ntpclient=disable
+ttrue
+```  
 
 #### **接口** 
 + `status[]` **显示时间相关的信息**, *成功返回JSON描述时间信息, 失败返回NULL, 出错返回terror*
@@ -116,7 +128,7 @@ ttrue
     // 接口返回信息属性介绍
     {
         "timezone":"时区",              // [ 数字 ], 从-12至12, 即西12到东12区
-        "current":"当前时间",            // [ 字符串 ], 格式为 时:分:秒:月:日:年
+        "current":"当前时间",           // [ 字符串 ], 格式为 时:分:秒:月:日:年
         "livetime":"运行时长",          // [ 字符串 ], 格式为 时:分:秒:天
         "uptime":"运行时长",            // [ 数字 ], 从启动后累计秒数
         "source":"当前时间来源"         // [ "ntp", "set", "lte", "gps" ]

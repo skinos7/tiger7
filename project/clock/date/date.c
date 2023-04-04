@@ -78,11 +78,11 @@ static boole time_setting( const char *tt, const char *zone )
 			ret  = date_set( mktime( &tm_current ), NULL );
 			/* tell the hardware clock */
 			shell( "hwclock -w >/dev/null 2>&1" );
-			/* 记录时间来源 */
+			/* record time source */
 			h = register_open( LAND_PROJECT, O_RDWR, 0644, 0, 0 );
 			register_value_set( h, "date_src", "set", sizeof("set"), 20 );
 			register_close( h );
-			/* 发出时间变化的事件 */
+			/* cast joint event */
 			joint_calls( "date/modify", "set" );
 			ret = true;
 	    }
@@ -109,11 +109,11 @@ static boole ntpclient_sync( const char* server, const char* zone )
         ret = true;
         info( "sync the system time from %s succeed", server );
         execute( 0, true, "hwclock -w" );
-		/* 记录时间来源 */
+		/* record time source */
 		h = register_open( LAND_PROJECT, O_RDWR, 0644, 0, 0 );
 		register_value_set( h, "date_src", "ntp", sizeof("ntp"), 20 );
 		register_close( h );
-		/* 发出时间变化的事件 */
+		/* cast joint event */
         joint_calls( "date/modify", "ntp" );
     }
     return ret;
@@ -126,25 +126,28 @@ boole_t _setup( obj_t this, param_t param )
     talk_t cfg;
     const char *ptr;
 
-	/* get the configure */
+	/* get the component configure */
     cfg = config_sget( COM_IDPATH, NULL );
+	/* get the attribute value of "timezone" */
     ptr = json_string( cfg, "timezone" );
     if ( ptr == NULL || *ptr == '\0' )
     {
     	ptr = "8";
     }
+	/* set the timezone first */
 	time_setting( NULL, ptr );
 
 	/* read from the RTC when have RTC */
 	/* XXXXXXXXXXXXXXX */
 
-    /* run the service of ntpclient depend configure */
+    /* run the service of ntpclient depend attribute value of "ntpclient" */
     ptr = json_string( cfg, "ntpclient" );
     if ( ptr != NULL && 0 == strcmp( ptr, "enable" ) )
     {
         sstart( COM_IDPATH, "ntploop", NULL, COM_IDPATH );
     }
 
+	/* free the component configure */
     talk_free( cfg );
     return ttrue;
 }

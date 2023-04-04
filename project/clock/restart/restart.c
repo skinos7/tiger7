@@ -32,7 +32,7 @@ boole_t _service( obj_t this, param_t param )
 {
     char *end;
     talk_t cfg;
-    unsigned int i;
+    int i;
     char string[64];
     const char *ptr;
     const char *mode;

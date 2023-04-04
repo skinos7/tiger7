@@ -5,7 +5,7 @@
  */
 
 #include "land/skin.h"
-#define NTPSERVER_CONFIG_FILE "/tmp/.ntps.conf"
+#define NTPSERVER_CONFIG_FILE PROJECT_CONF_DIR"/ntps.conf"
 
 
 
@@ -14,18 +14,23 @@ boole_t _setup( obj_t this, param_t param )
     talk_t cfg;
     const char *ptr;
 
+	/* get the component configure */
     cfg = config_sget( COM_IDPATH, NULL );
+	/* get the attribute vaule of "status" from component configure */
     ptr = json_string( cfg, "status" );
     if ( ptr != NULL && 0 == strcmp( ptr, "enable" ) )
     {
+    	/* start the service for ntp server */
         sstart( COM_IDPATH, "service", NULL, COM_IDPATH );
     }
 
+	/* free the component configure */
     talk_free( cfg );
     return ttrue;
 }
 boole_t _shut( obj_t this, param_t param )
 {
+	/* stop and delete the service */
     sdelete( COM_IDPATH );
     return ttrue;
 }

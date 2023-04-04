@@ -6,7 +6,7 @@ The management NTP Server
 ```json
 // attribute introduction
 {
-    "status":"NTP server state"       // [ "disable", "enable"]
+    "status":"NTP server status"       // [ "disable", "enable"]
 }
 ```
 Example, show the configure
