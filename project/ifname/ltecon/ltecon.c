@@ -184,7 +184,7 @@ static void ppp_chat_build( const char *chatfile, talk_t pppcfg, talk_t profile 
     return;
 }
 /* online the network, return -1 on error, 1 on failed, 0 on succeed  */
-static talk_t ppp_client_connect( const char *object, const char *ifdev, talk_t cfg, talk_t profile )
+static boole_t ppp_client_connect( const char *object, const char *ifdev, talk_t cfg, talk_t profile )
 {
     talk_t pppcfg;
 	const char *mtty;
@@ -271,6 +271,7 @@ boole_t _setup( obj_t this, param_t param )
     const char *object;
 	const char *ifdev;
 
+	/* get the object full name */
     object = obj_combine( this );
     /* get the ifname configure */
     cfg = config_get( this, NULL ); 
@@ -1016,6 +1017,10 @@ boole_t _service( obj_t this, param_t param )
 		/* ipv4 ppp setting */
 		if ( mode != NULL && 0 == strcmp( mode, "ppp" ) )
 		{
+			/* disable the smsd first */
+			scall( ifdev, "smsdisable", NULL );
+			sleep( 1 );
+			/* ppp dial */
 			v = scalls( ifdev, "profile", NULL );
 			ret = ppp_client_connect( object, ifdev, cfg, v );
 			talk_free( v );

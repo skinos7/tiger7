@@ -512,17 +512,6 @@ boole_t _at_setup( obj_t this, param_t param )
 		sleep( 1 );
 	}
 
-    /* sms setting */
-    i = usbtty_smsmode( fd, 1 );
-	if ( i < ATCMD_ret_succeed )
-	{
-		return terror;
-	}
-	else if ( i == ATCMD_ret_term )
-	{
-		return tfalse;
-	}
-
     /* get the imei */
     i = usbtty_cgsn( fd, dev );
 	if ( i < ATCMD_ret_succeed )

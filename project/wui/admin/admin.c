@@ -386,8 +386,8 @@ boole_t _setup( obj_t this, param_t param )
 				if ( manager_init == false )
 				{
 					manager_init = true;
-					iptables( "-t filter -N %s_%s", object );
-					iptables( "-t filter -F %s_%s", object );
+					iptables( "-t filter -N %s", object );
+					iptables( "-t filter -F %s", object );
 					if ( port != NULL && *port != '\0' )
 					{
 						iptables( "-t filter -D INPUT -p tcp --dport %s -j %s", port, object );

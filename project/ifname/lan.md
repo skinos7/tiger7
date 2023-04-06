@@ -1,5 +1,5 @@
 ***
-## Local network management components
+## Local network management
 Manage local network. This component must depend on local network interface or network switch(SOC) and network Management Framework project  
 Usually ifname@lan is the first local network. If there are multiple local network in the system, ifname@lan2 will be the second local network, and increase by degress
 
@@ -50,7 +50,7 @@ Usually ifname@lan is the first local network. If there are multiple local netwo
     },
 
     // IPv6
-    "method":"IPv6 address mode",         [ "disable", "manual", "automatic", "slaac", "relay" ]
+    "method":"IPv6 address mode",             // [ "disable", "manual", "automatic", "slaac", "relay" ]
                                                     // "disable" is not use ipv6
                                                     // "manual" for manual setting
                                                     // "automatic" for DHCPv6
