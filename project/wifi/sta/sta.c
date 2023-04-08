@@ -1088,7 +1088,7 @@ boole_t _relayd( obj_t this, param_t param )
     const char *obj;
     const char *object;
 	const char *netdev;
-	talk_t bridge_status;
+	char ip[NAME_MAX];
 	char bridge[NAME_MAX];
 	char bridge_netdev[NAME_MAX];
 
@@ -1118,21 +1118,21 @@ boole_t _relayd( obj_t this, param_t param )
 		return ttrue;
 	}
 	/* brdige status */
-	bridge_status = scall( bridge, "status", NULL );
+	ip[0] = '\0';
+	netdev_info( bridge_netdev, ip, sizeof(ip), NULL, 0, NULL, 0, NULL, 0 );
+	sleep( 3 );
 
 	/* run the relayd */
-	ptr = json_string( bridge_status, "gw" );
-	if ( ptr != NULL && *ptr != '\0' )
+	if ( ip[0] != '\0' )
 	{
-		execlp( "relayd", "relayd", "-I", bridge_netdev, "-I", netdev, "-B", "-D", "-G", ptr, (char*)0 );
+		execlp( "relayd", "relayd", "-I", netdev, "-I", bridge_netdev, "-B", "-D", "-G", ip, (char*)0 );
 	}
 	else
 	{
-		execlp( "relayd", "relayd", "-I", bridge_netdev, "-I", netdev, "-B", "-D", (char*)0 );
+		execlp( "relayd", "relayd", "-I", netdev, "-I", bridge_netdev, "-B", "-D", (char*)0 );
 	}
 	faulting( "execlp the relayd(%s) error" , "relayd" );
 
-	talk_free( bridge_status );
 	return tfalse;
 }
 boole_t _keeplive( obj_t this, param_t param )

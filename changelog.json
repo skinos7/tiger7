@@ -1,5 +1,5 @@
 {
-    "v7.3.0313":
+    "v7.3.0319":
     {
         "20220303":"fix radio txpower",
         "20220304":"Trim the modem reset operation steps",
@@ -14,7 +14,13 @@
         "20220310":"add the oids table for snmp web page",
         "20220311":"add default oids for snmp agent",
         "20220312":"add lte bridge mode for ec2x",
-        "20220313":"fix the write mac for many times bug"
+        "20220313":"fix the write mac for many times bug",
+        "20220314":"fix the restart age mode bug",
+        "20220315":"clear the connect table after ipsec settings",
+        "20220316":"use smstools2 to process the sms",
+        "20220317":"fix the wui firewall bug",
+        "20220318":"fix the signal level bug",
+        "20220319":"wireless bridge use the lan ip for relay gateway"
     },
     "v7.3.0228":
     {

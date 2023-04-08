@@ -525,9 +525,9 @@ boole_t _at_watch( obj_t this, param_t param )
 	{
         return terror;
 	}
-
 	cfg = param_talk( param, 2 );
 	json_delete_axp( dev, "plmn" );
+	json_delete_axp( dev, "rssi" );
 	json_delete_axp( dev, "signal" );
 
 
@@ -635,7 +635,9 @@ boole_t _at_watch( obj_t this, param_t param )
 		}
 	}
 
-	// 2 to 31
+
+	// 2 to 31, -113dBm to -53dBm  GSM/LTE
+	// 100 to 191, -116dBm to -25dBm  TDSCDMA
 	json_delete_axp( dev, "csq" );
 	csq = 0;
     i = usbtty_csq( fd, &csq );
@@ -649,22 +651,33 @@ boole_t _at_watch( obj_t this, param_t param )
 	}
 	if ( (csq >0 && csq <= 31) || (csq > 100 && csq <= 191) )
 	{
-		signal = 0;
-		json_set_number( dev, "csq", csq );
-		// 2 to 31, -113dBm to -53dBm  GSM/LTE
 		if ( csq > 0 && csq <= 31 )
 		{
 			i = ( csq*2-113 );
-			if ( i >= -75 ) { signal = 4; }
-			else if ( i >= -80 ) { signal = 3; }
-			else if ( i >= -90 ) { signal = 2; }
-			else if ( i >= -105 ) { signal = 1; }
-			if ( json_get_number( dev, "rssi" ) == 0 )
-			{
-				json_set_number( dev, "rssi", i );
-			}
-			json_set_number( dev, "signal", signal );
+			json_set_number( dev, "rssi", i );
 		}
+		else if ( csq > 100 && csq <= 191  )
+		{
+			i = csq -215;
+			json_set_number( dev, "rssi", i );
+		}
+		json_set_number( dev, "csq", csq );
+	}
+
+
+	// signal
+	signal = 0;
+	i = json_number( dev, "rssi" );
+	if ( i != 0 )
+	{
+		if ( i >= -75 ) { signal = 4; }
+		else if ( i >= -80 ) { signal = 3; }
+		else if ( i >= -90 ) { signal = 2; }
+		else if ( i >= -105 ) { signal = 1; }
+	}
+	if ( signal != 0 )
+	{
+		json_set_number( dev, "signal", signal );
 	}
 
 
