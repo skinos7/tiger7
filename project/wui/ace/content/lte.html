@@ -1118,13 +1118,13 @@
                 lte.static = {};
             }
             lte.static.ip = $('#ip').val();
-            if ( check.ip(lte.static.ip) == false )
+            if ( lte.static.ip && check.ip(lte.static.ip) == false )
             {
                 page.alert( { message: $.i18n('IP Address')+" "+$.i18n('must be a valid IP address') } );
                 return;
             }
             lte.static.mask = $('#mask').val();
-            if ( check.ip(lte.static.mask) == false )
+            if ( lte.static.mask && check.ip(lte.static.mask) == false )
             {
                 page.alert( { message: $.i18n('Subnet Mask')+" "+$.i18n('must be a valid IP address') } );
                 return;

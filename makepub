@@ -56,7 +56,7 @@ do
     make ftp
     make repo
 done
-for tmp in smtk2-mt7628-r600-std-wlinkr100 smtk2-mt7628-r600-std-wlinker120 smtk2-mt7628-r600-std-wlinkr222 smtk2-mt7628-r600-std-wlinkr320 smtk2-mt7628-r600-std-wlinkr522 smtk2-mt7628-r600-std-ctcunion smtk2-mt7628-r600-std-xexagon
+for tmp in smtk2-mt7628-r600-std-wlinkr100 smtk2-mt7628-r600-std-wlinker120 smtk2-mt7628-r600-std-wlinkr222 smtk2-mt7628-r600-std-wlinkr320 smtk2-mt7628-r600-std-wlinkr522 smtk2-mt7628-r600-std-ctcunion smtk2-mt7628-r600-std-xexagon smtk2-mt7628-d218-std-h728
 do
     make gBOARDID=${tmp} pid
     ./mkdel

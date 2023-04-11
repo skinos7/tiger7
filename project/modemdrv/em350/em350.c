@@ -143,6 +143,38 @@ int em350_ndisstatqry( atcmd_t fd )
     }
     return ret;
 }
+/* get current network connect state
+	0 for succeed
+	>0 for failed
+	<0 for error */
+int em350_cgpaddr( atcmd_t fd, const char *cid, char *ip )
+{
+	int ret;
+	const char *ptr;
+	const char *str;
+
+	ret = atcmd_tx( fd, 3, NULL, ATCMD_DEF, "AT+CGPADDR=%s", cid );
+	if ( ret != ATCMD_ret_succeed )
+	{
+		return ret;
+	}
+	ret = ATCMD_ret_failed;
+	ip[0] = '\0';
+	ptr = atcmd_lastack( fd );
+	str = strstr( ptr, "CGPADDR:" );
+	if ( str != NULL )
+	{
+		if ( sscanf( str, "%*[^\"]\"%[^\"]", ip ) == 1 )
+		{
+			debug( "get the ip %s", ip );
+			if ( ip[0] != '\0' && NULL == strstr( ip, "0.0.0.0" ) )
+			{
+				ret = ATCMD_ret_succeed;
+			}
+		}
+	}
+	return ret;
+}
 
 /* set the APN profile
 	0 for setings is succeed
@@ -807,8 +839,14 @@ boole_t _at_connect( obj_t this, param_t param )
 boole_t _at_connected( obj_t this, param_t param )
 {
 	int i;
+	talk_t ret;
 	talk_t dev;
 	atcmd_t fd;
+	talk_t cfg;
+	talk_t profile;
+    const char *cid;
+	const char *netdev;
+	char ip[NAME_MAX];
 
 	/* get the information */
 	dev = param_talk( param, 1 );
@@ -816,23 +854,47 @@ boole_t _at_connected( obj_t this, param_t param )
 	{
 		return terror;
 	}
+	netdev = json_string( dev, "netdev" );
 	fd = json_pointer( dev, "fd" );
 	if ( fd == NULL )
 	{
 		return terror;
 	}
+	cfg = param_talk( param, 2 );
+	if ( cfg == NULL )
+	{
+        return terror;
+	}
+	/* prefile setting get */
+	profile = json_value( cfg, "profile_cfg" );
+    cid = json_string( profile, "cid" );
+	if ( cid == NULL || *cid == '\0' )
+	{
+		cid = "1";
+	}
 
+	ret = tfalse;
 	i = em350_ndisstatqry( fd );
 	if ( i < ATCMD_ret_succeed )
 	{
 		return terror;
 	}
-	else if ( i != ATCMD_ret_succeed )
+	else if (i == ATCMD_ret_succeed )
 	{
-		return tfalse;
+		ret = ttrue;
+	}
+	i = em350_cgpaddr( fd, cid, ip );
+	if ( i < ATCMD_ret_succeed )
+	{
+		return terror;
+	}
+	else if ( i == ATCMD_ret_succeed )
+	{
+		ret = ttrue;
+		shell( "ifconfig %s %s up", netdev, ip );
 	}
 
-	return ttrue;
+	return ret;
 }
 /* disconnect the network
 	ttrue for succeed

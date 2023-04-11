@@ -1,0 +1,8 @@
+
+# 编译时增加额加的 CFLAGS
+#CFLAGS +=
+
+# 编译时增加额加的 LDFLAGS, 
+# 在此增下了landmodem的库(landmodem库是系统中对于LTE模块通信需要用到的一个库)
+LDFLAGS += -llandmodem
+
