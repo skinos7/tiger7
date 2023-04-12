@@ -14,7 +14,6 @@
  @? ---------------------- List all the static component
  @@ ---------------------- List all the dynamic component
  <com> ------------------- Show component configure
- <com>. ------------------ List all component interface
  <com>:<config> ---------- Get component configure attribute
  <com>:<config>=<value> -- Set component configure attribute
  -----------------------------------------------------------

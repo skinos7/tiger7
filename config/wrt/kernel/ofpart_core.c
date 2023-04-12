@@ -58,7 +58,6 @@ static int parse_fixed_partitions(struct mtd_info *master,
 		return 0;
 
 	if (!master->parent) { /* Master */
-		
 		ofpart_node = of_get_child_by_name(mtd_node, "partitions");
 		if (!ofpart_node) {
 			/*
@@ -139,15 +138,18 @@ static int parse_fixed_partitions(struct mtd_info *master,
 
 		a_cells = of_n_addr_cells(pp);
 		s_cells = of_n_size_cells(pp);
-		//modify by qingcheng
+
+// add by qingcheng
 #if 0
+
 		if (len / 4 != a_cells + s_cells) {
 			pr_debug("%s: ofpart partition %pOF (%pOF) error parsing reg property.\n",
 				 master->name, pp,
 				 mtd_node);
-			printk("reg node a cells %d s cells %d > len %d\n", a_cells, s_cells, len);
-			//goto ofpart_fail;
+			goto ofpart_fail;
 		}
+
+// add by qingcheng
 #endif
 		if (len / 4 < a_cells + s_cells) {
 			pr_debug("%s: ofpart partition %pOF (%pOF) error parsing reg property.\n",
@@ -159,20 +161,19 @@ static int parse_fixed_partitions(struct mtd_info *master,
 			tmp = 0;
 		else 
 			tmp = reg_offset;
-	
-		//modify by qingcheng	
-		//printk(KERN_ALERT "mtd ofparts get reg len %d  tmp%d\n",  len, tmp);
-		//parts[i].offset = of_read_number(reg, a_cells);
+
+		// modify by qingcheng	
 		parts[i].offset = of_read_number(reg + tmp, a_cells);
-		//parts[i].size = of_read_number(reg + a_cells, s_cells);
 		parts[i].size = of_read_number(reg + tmp + a_cells, s_cells);
+		//parts[i].offset = of_read_number(reg, a_cells);
+		//parts[i].size = of_read_number(reg + a_cells, s_cells);
+
 		parts[i].of_node = pp;
 
 		partname = of_get_property(pp, "label", &len);
 		if (!partname)
 			partname = of_get_property(pp, "name", &len);
 		parts[i].name = partname;
-		//printk(KERN_ALERT "mtd ofparts part name  %s tmp %d\n", partname, tmp);
 
 		if (of_get_property(pp, "read-only", &len))
 			parts[i].mask_flags |= MTD_WRITEABLE;

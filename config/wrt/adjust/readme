@@ -1,0 +1,36 @@
+
+# download
+git clone --branch v22.03.3 https://github.com/openwrt/openwrt.git   # commit 221fbfa2d854ccb6cd003c065ec308fbc0651b11 (HEAD, tag: v22.03.3)
+
+# upgrade
+cd openwrt
+./scripts/feeds update -a
+
+# create the branch tiger7
+git switch -c tiger7
+
+# install feeds
+./scripts/feeds install -a
+
+# make package with git
+cd ..
+tar Jcvf openwrt-v22.03.3-221fbfa2d854ccb6cd003c065ec308fbc0651b11-git.tar.xz openwrt
+
+# make package without git
+cd openwrt
+rm -fr `find . -name .git`
+rm -fr `find . -name .github`
+cd ..
+tar Jcvf openwrt-v22.03.3-221fbfa2d854ccb6cd003c065ec308fbc0651b11.tar.xz openwrt
+
+# make feeds package
+cd openwrt
+tar Jcvf openwrt-v22.03.3-221fbfa2d854ccb6cd003c065ec308fbc0651b11-feeds.tar.xz feeds
+
+# compile
+make menuconfig
+make V=s
+
+# make dl package
+tar Jcvf openwrt-v22.03.3-221fbfa2d854ccb6cd003c065ec308fbc0651b11-dl.tar.xz dl
+

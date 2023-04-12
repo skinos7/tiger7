@@ -1,0 +1,24 @@
+--- a/src/extras.c	2023-04-05 23:32:15.133800264 +0800
++++ b/src/extras.c	2023-04-05 23:34:32.918599335 +0800
+@@ -1979,9 +1979,18 @@
+       }
+     }
+ 
+-    while (!terminate && !break_workless_delay &&
+-           (time_to_sleep = targettime - time(0)) > 0)
+-      sleep(time_to_sleep);
++    /* modify by dimmalex for block forever */
++    if (!terminate && !break_workless_delay )
++    {
++        time_to_sleep = targettime - time(0);
++        if ( time_to_sleep >= 0 )
++        {
++            sleep(time_to_sleep);
++        }
++    }
++    //while (!terminate && !break_workless_delay &&
++    //       (time_to_sleep = targettime - time(0)) > 0)
++    //  sleep(time_to_sleep);
+ 
+     if (!terminate)
+       if (!cb(cb_last))

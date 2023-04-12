@@ -1,7 +1,6 @@
 ::sysinit:/etc/init.d/rcS S boot
 ::shutdown:/etc/init.d/rcS K shutdown
 
-# modify by dimmalex for simple console
+# comment by dimmalex for he console
+#::askconsole:/bin/hetui
 #::askconsole:/usr/libexec/login.sh
-#::askconsole:bin/ash --login
-

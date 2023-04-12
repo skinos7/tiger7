@@ -32,12 +32,22 @@ endef
 
 # add by dimmalex for add the d218 serial model
 define Device/ashyelf_d218
-  IMAGE_SIZE := 7360k
+  IMAGE_SIZE := 7872k
+  DEVICE_VARIANT := 8M
   DEVICE_VENDOR := ASHYELF
   DEVICE_MODEL := d218
   DEVICE_PACKAGES := kmod-usb2 kmod-usb-ohci
 endef
 TARGET_DEVICES += ashyelf_d218
+# add by dimmalex for add the r600 serial model
+define Device/ashyelf_r600
+  IMAGE_SIZE := 16064k
+  DEVICE_VARIANT := 16M
+  DEVICE_VENDOR := ASHYELF
+  DEVICE_MODEL := r600
+  DEVICE_PACKAGES := kmod-usb2 kmod-usb-ohci
+endef
+TARGET_DEVICES += ashyelf_r600
 
 
 
@@ -85,12 +95,6 @@ define Device/asus_rt-n11p-b1
   DEVICE_VENDOR := Asus
   DEVICE_MODEL := RT-N11P
   DEVICE_VARIANT := B1
-  DEVICE_ALT0_VENDOR := ASUS
-  DEVICE_ALT0_MODEL := RT-N12+
-  DEVICE_ALT0_VARIANT := B1
-  DEVICE_ALT1_VENDOR := ASUS
-  DEVICE_ALT1_MODEL := RT-N300
-  DEVICE_ALT1_VARIANT := B1
 endef
 TARGET_DEVICES += asus_rt-n11p-b1
 
@@ -919,6 +923,16 @@ define Device/xiaomi_mi-router-4a-100m
   SUPPORTED_DEVICES += xiaomi,mir4a-100m
 endef
 TARGET_DEVICES += xiaomi_mi-router-4a-100m
+
+define Device/xiaomi_mi-router-4a-100m-intl
+  IMAGE_SIZE := 14976k
+  DEVICE_VENDOR := Xiaomi
+  DEVICE_MODEL := Mi Router 4A
+  DEVICE_VARIANT := 100M International Edition
+  DEVICE_PACKAGES := kmod-mt76x2
+  SUPPORTED_DEVICES += xiaomi,mir4a-100m-intl
+endef
+TARGET_DEVICES += xiaomi_mi-router-4a-100m-intl
 
 define Device/xiaomi_mi-router-4c
   IMAGE_SIZE := 14976k

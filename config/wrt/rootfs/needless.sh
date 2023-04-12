@@ -2,7 +2,7 @@
 
 # delete the needless init
 lookdir="./etc/init.d"
-exception="sysfixtime boot system sysctl done set-irq-affinity land"
+exception="sysfixtime boot system sysctl done set-irq-affinity preland land"
 for file in `ls ${lookdir}`
 do 
     save=0
