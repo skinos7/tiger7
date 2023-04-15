@@ -77,7 +77,7 @@ static struct mtd_partition rt2880_partitions[] = {
     /* add by dimmalex for add Fconfig */
 	,{
 	        name:           "Fconfig",
-	        size:           0x80000,
+	        size:           0x100000,
 	        offset:         MTDPART_OFS_APPEND,
 	}
 

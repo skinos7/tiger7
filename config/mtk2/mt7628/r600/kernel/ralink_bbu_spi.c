@@ -80,7 +80,12 @@ static struct mtd_partition rt2880_partitions[] = {
 	        size:           0x80000,
 	        offset:         MTDPART_OFS_APPEND,
 	}
-
+	/* add by qingcheng */
+	,{
+	        name:           "OEM",
+	        size:           0,
+	        offset:         MTDPART_OFS_APPEND,
+	}
 };
 #else /* CONFIG_SUPPORT_OPENWRT */
 static struct mtd_partition rt2880_partitions[] = {
@@ -2015,7 +2020,9 @@ static struct mtd_info *raspi_probe(struct map_info *map)
 	if (flash->mtd.size >= 0x1000000) {
 		rt2880_partitions[0].size = flash->mtd.size - 0x180000;
 		rt2880_partitions[4].size = flash->mtd.size - (MTD_BOOT_PART_SIZE + MTD_CONFIG_PART_SIZE + MTD_FACTORY_PART_SIZE + 0x180000);
-		rt2880_partitions[5].size = 0x180000;
+		// for oem
+		rt2880_partitions[5].size = 0x100000;
+		rt2880_partitions[6].size = 0x80000;
 	}
 
 #ifdef TWO_SPI_FLASH
@@ -2069,12 +2076,20 @@ static struct mtd_info *raspi_probe(struct map_info *map)
 	ralink_mtd[0] = &flash->mtd;
 	ralink_mtd[1] = &flash->mtd2;
 	merged_mtd = mtd_concat_create(ralink_mtd, 2, "Ralink Merged Flash");
-	add_mtd_partitions(&flash->mtd, rt2880_partitions, ARRAY_SIZE(rt2880_partitions));
+	/*modify by qingcheng, support oem partion*/
+	if (flash->mtd.size >= 0x1000000)
+		add_mtd_partitions(&flash->mtd, rt2880_partitions, ARRAY_SIZE(rt2880_partitions));
+	else
+		add_mtd_partitions(&flash->mtd, rt2880_partitions, ARRAY_SIZE(rt2880_partitions)-1);
 	add_mtd_partitions(&flash->mtd2, rt2880_partitions_2, ARRAY_SIZE(rt2880_partitions_2));
 	return merged_mtd;
 #else
 
-	add_mtd_partitions(&flash->mtd, rt2880_partitions, ARRAY_SIZE(rt2880_partitions));
+	/*modify by qingcheng, support oem partion*/
+	if (flash->mtd.size >= 0x1000000)
+		add_mtd_partitions(&flash->mtd, rt2880_partitions, ARRAY_SIZE(rt2880_partitions));
+	else
+		add_mtd_partitions(&flash->mtd, rt2880_partitions, ARRAY_SIZE(rt2880_partitions)-1);
 
 	return &flash->mtd;
 #endif

@@ -1,0 +1,210 @@
+
+/* 登录提示色, 也是系统默认主色 */
+.main-color {
+  color: #333366!important;
+}
+
+
+
+/*                  Custom LOGO                       */
+/******************************************************/
+/*                  narbar                            */
+/******************************************************/
+/*       *//*         Breadcrumbs                     */
+/*       *//*******************************************/
+/*       *//*                                         */
+/*       *//*                                         */
+/*Sidebar*//*         Page conten                     */
+/*       *//*                                         */
+/*       *//*                                         */
+/*       *//*                                         */
+/*       *//*******************************************/
+/*       *//*         Footer                          */
+/******************************************************/
+
+
+/* logo背景色 */
+.no-skin #logo {
+  background-color: #E4E6E9!important;
+}
+/* logo标提色 */
+.no-skin #logo_context{
+  color: #000000
+}
+
+
+
+/* navbar背景色 */
+.no-skin .navbar {
+  background-color: #333366!important;
+}
+/* navbar上菜单折叠按钮背景色 */
+/* .no-skin .navbar .navbar-toggle[data-toggle=collapse]:not(.collapsed), */
+.no-skin .navbar .navbar-toggle.display,
+.no-skin .navbar .navbar-toggle,
+.no-skin .navbar .navbar-toggle:hover,
+.no-skin .navbar .navbar-toggle:focus {
+  background-color: #333366!important;
+}
+
+
+
+/* Sidebar菜单区上方快捷键背景颜色 */
+#sidebar-shortcuts {
+  background-color: #f5f5f5;
+  border-color: #f5f5f5;
+}
+
+
+
+/* Sidebar菜单区菜单栏停靠时左侧颜色 */
+.no-skin .nav-list>li:before {
+  background-color: #969696;
+}
+/* Sidebar菜单区菜单栏选中后颜色  */
+.no-skin .nav-list:focus,
+.no-skin .nav-list>li:focus,
+.no-skin .nav-list>li>a:focus,
+.no-skin .nav-list>li:hover>a,
+.no-skin .nav-list>li.active>a,
+.no-skin .nav-list>li.open>a {
+  color: #272121;
+}
+/* Sidebar菜单区菜单栏下菜单项选中后颜色  */
+.no-skin .nav-list>li .submenu>li>a:hover,
+.no-skin .nav-list>li .submenu>li.active>a {
+  color: #272121;
+}
+/* Sidebar菜单区菜单栏选中后的右边框颜色 */
+.no-skin .nav-list>li.active:after {
+  border: 2px solid #969696;
+}
+/* Sidebar菜单区菜单栏选中后的右边框三角型颜色 */
+.no-skin .nav-list li.active>a:after {
+  border-right-color: #969696;
+}
+
+
+
+.breadcrumb>li>a {
+  color: #272121;
+}
+
+/* 单选框 */
+.checkbox-red input[type=checkbox].ace:checked+.lbl::before,
+.radio-red input[type=radio].ace:checked+.lbl::before {
+  color: #333366;
+}
+/* 开关 */
+input[type=checkbox].ace.ace-switch.ace-switch-6:checked+.lbl::before {
+  background-color: #333366;
+}
+
+/* 应用按钮 */
+.btn-main,
+.btn-main.focus,
+.btn-main:focus {
+  background-color: #333366!important;
+  border-color: #333366;
+}
+.btn-main.focus:hover,
+.btn-main:active:hover,
+.btn-main:focus:active,
+.btn-main:focus:hover,
+.btn-main:hover {
+  background-color: #272121!important;
+  border-color: #272121;
+}
+/* 取消按钮 */
+.btn-second,
+.btn-second.focus,
+.btn-second:focus {
+  background-color: #969696!important;
+  border-color: #969696;
+}
+.btn-second.focus:hover,
+.btn-second:active:hover,
+.btn-second:focus:active,
+.btn-second:focus:hover,
+.btn-second:hover {
+  background-color: #272121!important;
+  border-color: #3c3535;
+}
+.btn-second[disabled],
+.btn-second.focus:hover[disabled],
+.btn-second:active:hover[disabled],
+.btn-second:focus:active[disabled],
+.btn-second:focus:hover[disabled],
+.btn-second:hover[disabled] {
+  background-color: #272121!important;
+  border-color: #272121;
+}
+
+
+
+/* jqGrid 表头背景颜色 */
+.ui-jqgrid-titlebar {
+  background-color: #333366!important;
+}
+/* 进度条 */
+.progress-bar-red {
+  background-color: #333366!important;
+}
+
+
+
+/* 全屏遮罩层 */
+.overlay-loading {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #000;
+  opacity: 0.2;
+  /* for IE8 */
+  filter:alpha(opacity=20);
+  z-index: 3000;
+}
+
+.overlay-loading-text {
+  margin-top: 80px;
+}
+
+.overlay-wrapper {
+    background-color: #ccd;
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    opacity: 0.8;
+    overflow: hidden;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 100%;
+    z-index: 3000;
+/*ie6,ie7,ie8实现透明*/
+    filter: alpha(opacity=80);
+/*ie6,ie7自动定位,解决不支持position:fixed*/
+    +position:absolute;
+    +width:expression(eval(Math.max(document.documentElement.scrollWidth,document.documentElement.clientWidth)));
+    +height:expression(eval(Math.max(document.documentElement.scrollHeight,document.documentElement.clientHeight)));
+}
+
+/* 全屏遮罩的内容区 */
+.overlay-wrapper .overlay-pop {
+    position: fixed;
+    z-index: 3001;
+    left: 0;
+    right: 0;
+    /* top:15px; */
+    top: 40%;
+    /* border:2px solid #396; */
+    clear:both;
+/*ie6,ie7自动定位,解决不支持position:fixed*/
+    +position:absolute;
+    +width:expression(eval(Math.min(document.documentElement.scrollWidth,document.documentElement.clientWidth)*0.9));
+    +top:expression(eval(document.documentElement.scrollTop+15));
+    +left:expression(eval(document.documentElement.scrollLeft+15));
+}
+

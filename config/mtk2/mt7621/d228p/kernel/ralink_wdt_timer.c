@@ -26,7 +26,7 @@
 #define RALINK_REG_PIORESET   (RALINK_PRGIO_ADDR + 0x40)
 #define RALINK_REG(x)  (*((volatile u32 *)(x)))
 
-#define PAT_WDT_GPIO   29            // for watchdog
+#define PAT_WDT_GPIO   14            // for watchdog
 #define PAT_WDT_500MS	(HZ/2)
 
 /* first stage: manual feed */

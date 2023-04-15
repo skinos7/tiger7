@@ -23,7 +23,6 @@
         "hetui":"UART application components for he command",
         "modbus":"UART application components for modbus",
         "dtu":"UART application components for DTU",
-        "httppost":"UART application components for HTTP Post",
         "nmea":"UART application components for GNSS"
     },
     "init":
@@ -44,8 +43,8 @@
     {
         "serial":
         {
-            "cn":"串口TTL&RS232",
-            "en":"TTL&RS232",
+            "cn":"串口1",
+            "en":"Serial#1",
             "page":"serial.html",
             "object":"uart@serial",
             "lang":
@@ -56,10 +55,22 @@
         },
         "serial2":
         {
-            "cn":"串口RS485&TTL",
-            "en":"RS485&TTL",
+            "cn":"串口2",
+            "en":"Serial#2",
             "page":"serial.html",
             "object":"uart@serial2",
+            "lang":
+            {
+                "cn":"cn.json",
+                "en":"en.json"
+            }
+        },
+        "serial3":
+        {
+            "cn":"串口3",
+            "en":"Serial#3",
+            "page":"serial.html",
+            "object":"uart@serial3",
             "lang":
             {
                 "cn":"cn.json",

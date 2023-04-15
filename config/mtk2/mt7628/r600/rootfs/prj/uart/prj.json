@@ -44,8 +44,8 @@
     {
         "serial":
         {
-            "cn":"串口TTL&RS232",
-            "en":"TTL&RS232",
+            "cn":"串口1",
+            "en":"Serial#1",
             "page":"serial.html",
             "object":"uart@serial",
             "lang":
@@ -56,8 +56,8 @@
         },
         "serial2":
         {
-            "cn":"串口RS485&TTL",
-            "en":"RS485&TTL",
+            "cn":"串口2",
+            "en":"Serial#2",
             "page":"serial.html",
             "object":"uart@serial2",
             "lang":

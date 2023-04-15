@@ -26,7 +26,7 @@
 #define RALINK_REG_PIORESET   (RALINK_PRGIO_ADDR + 0x40)
 #define RALINK_REG(x)  (*((volatile u32 *)(x)))
 
-#define PAT_WDT_GPIO   25            // for v520
+#define PAT_WDT_GPIO   25            // for watchdog
 #define PAT_WDT_500MS	(HZ/2)
 
 /* first stage: manual feed */
@@ -70,7 +70,7 @@ void pat_wdt_feed( void )
 EXPORT_SYMBOL_GPL( pat_wdt_feed );
 
 /* second stage: early feed */
-static int wdg_early_count = 300; //5 min
+static int wdg_early_count = 600; //up 10 min
 static struct timer_list wdg_timer;
 
 void pat_wdt_early_disable( void )

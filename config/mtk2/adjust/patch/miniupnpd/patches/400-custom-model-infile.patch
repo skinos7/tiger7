@@ -1,0 +1,135 @@
+diff -uNr miniupnpd-1.8.20130426/miniupnpd.c miniupnpd-1.8.20130426b/miniupnpd.c
+--- miniupnpd-1.8.20130426/miniupnpd.c	2022-11-27 21:15:26.913532141 +0800
++++ miniupnpd-1.8.20130426b/miniupnpd.c	2022-11-27 21:35:56.559134926 +0800
+@@ -741,6 +741,29 @@
+ 				strncpy(friendly_name, ary_options[i].value, FRIENDLY_NAME_MAX_LEN);
+ 				friendly_name[FRIENDLY_NAME_MAX_LEN-1] = '\0';
+ 				break;
++
++            /* add by dimmalex for custom model and url */
++			case UPNPMANUFACTURER:
++				strncpy(manufacturer, ary_options[i].value, FRIENDLY_NAME_MAX_LEN);
++				manufacturer[FRIENDLY_NAME_MAX_LEN-1] = '\0';
++				break;
++			case UPNPMANUFACTURER_URL:
++				strncpy(manufacturerURL, ary_options[i].value, 128);
++				manufacturerURL[128-1] = '\0';
++				break;
++			case UPNPMODEL_DESC:
++				strncpy(modelDescription, ary_options[i].value, 128);
++				modelDescription[128-1] = '\0';
++				break;
++			case UPNPMODEL_NAME:
++				strncpy(modelName, ary_options[i].value, 64);
++				modelName[64-1] = '\0';
++				break;
++			case UPNPMODEL_URL:
++				strncpy(modelURL, ary_options[i].value, 128);
++				modelURL[128-1] = '\0';
++				break;
++                
+ #ifdef USE_NETFILTER
+ 			case UPNPFORWARDCHAIN:
+ 				miniupnpd_forward_chain = ary_options[i].value;
+diff -uNr miniupnpd-1.8.20130426/options.c miniupnpd-1.8.20130426b/options.c
+--- miniupnpd-1.8.20130426/options.c	2022-11-27 21:15:26.917532132 +0800
++++ miniupnpd-1.8.20130426b/options.c	2022-11-27 21:45:28.412156802 +0800
+@@ -33,6 +33,14 @@
+ 	{ UPNPBITRATE_DOWN, "bitrate_down" },
+ 	{ UPNPPRESENTATIONURL, "presentation_url" },
+ 	{ UPNPFRIENDLY_NAME, "friendly_name" },
++
++    /* add by dimmalex for custom model and url */
++    { UPNPMANUFACTURER, "manufacturer" },
++    { UPNPMANUFACTURER_URL, "manufacturer_url" },
++    { UPNPMODEL_DESC, "model_desc" },
++    { UPNPMODEL_NAME, "model" },
++    { UPNPMODEL_URL, "model_url" },
++
+ 	{ UPNPNOTIFY_INTERVAL, "notify_interval" },
+ 	{ UPNPSYSTEM_UPTIME, "system_uptime" },
+ 	{ UPNPPACKET_LOG, "packet_log" },
+diff -uNr miniupnpd-1.8.20130426/options.h miniupnpd-1.8.20130426b/options.h
+--- miniupnpd-1.8.20130426/options.h	2022-11-27 21:15:26.917532132 +0800
++++ miniupnpd-1.8.20130426b/options.h	2022-11-27 21:35:56.559134926 +0800
+@@ -23,6 +23,14 @@
+ 	UPNPBITRATE_DOWN,		/* "bitrate_down" */
+ 	UPNPPRESENTATIONURL,	/* presentation_url */
+ 	UPNPFRIENDLY_NAME,		/* "friendly_name" */
++
++    /* add by dimmalex for custom model and url */
++    UPNPMANUFACTURER,
++    UPNPMANUFACTURER_URL,
++    UPNPMODEL_DESC,
++    UPNPMODEL_NAME,
++    UPNPMODEL_URL,
++
+ 	UPNPNOTIFY_INTERVAL,	/* notify_interval */
+ 	UPNPSYSTEM_UPTIME,		/* "system_uptime" */
+ 	UPNPPACKET_LOG,			/* "packet_log" */
+diff -uNr miniupnpd-1.8.20130426/upnpdescgen.c miniupnpd-1.8.20130426b/upnpdescgen.c
+--- miniupnpd-1.8.20130426/upnpdescgen.c	2022-11-27 21:15:26.913532141 +0800
++++ miniupnpd-1.8.20130426b/upnpdescgen.c	2022-11-27 22:30:57.417835882 +0800
+@@ -146,6 +146,16 @@
+ 	{"/deviceType", DEVICE_TYPE_IGD},
+ 		/* urn:schemas-upnp-org:device:InternetGatewayDevice:1 or 2 */
+ 	{"/friendlyName", friendly_name/*ROOTDEV_FRIENDLYNAME*/},	/* required */
++
++
++    /* add by dimmalex for custom model and url */
++    {"/manufacturer", manufacturer},        /* required */
++    {"/manufacturerURL", manufacturerURL},  /* optional */
++    {"/modelDescription", modelDescription}, /* recommended */
++    {"/modelName", modelName},  /* required */
++    {"/modelNumber", modelnumber},
++    {"/modelURL", modelURL},
++    #if 0
+ 	{"/manufacturer", ROOTDEV_MANUFACTURER},		/* required */
+ /* 8 */
+ 	{"/manufacturerURL", ROOTDEV_MANUFACTURERURL},	/* optional */
+@@ -153,6 +163,8 @@
+ 	{"/modelName", ROOTDEV_MODELNAME},	/* required */
+ 	{"/modelNumber", modelnumber},
+ 	{"/modelURL", ROOTDEV_MODELURL},
++    #endif
++
+ 	{"/serialNumber", serialnumber},
+ 	{"/UDN", uuidvalue},	/* required */
+ 	/* see if /UPC is needed. */
+diff -uNr miniupnpd-1.8.20130426/upnpglobalvars.c miniupnpd-1.8.20130426b/upnpglobalvars.c
+--- miniupnpd-1.8.20130426/upnpglobalvars.c	2022-11-27 21:15:26.913532141 +0800
++++ miniupnpd-1.8.20130426b/upnpglobalvars.c	2022-11-27 21:47:06.375748002 +0800
+@@ -48,6 +48,15 @@
+ /* friendly name for root devices in XML description */
+ char friendly_name[FRIENDLY_NAME_MAX_LEN] = OS_NAME " router";
+ 
++
++/* add by dimmalex for custom model and url */
++char manufacturer[FRIENDLY_NAME_MAX_LEN] = "ASHYELF";
++char manufacturerURL[128] = "http://www.ashyelf.com";
++char modelDescription[128] = "ASHYELF Router";
++char modelName[64] = "ASHYELF Router";
++char modelURL[128] = "http://www.ashyelf.com";
++
++
+ /* UPnP permission rules : */
+ struct upnpperm * upnppermlist = 0;
+ unsigned int num_upnpperm = 0;
+diff -uNr miniupnpd-1.8.20130426/upnpglobalvars.h miniupnpd-1.8.20130426b/upnpglobalvars.h
+--- miniupnpd-1.8.20130426/upnpglobalvars.h	2022-11-27 21:15:26.913532141 +0800
++++ miniupnpd-1.8.20130426b/upnpglobalvars.h	2022-11-27 21:35:56.559134926 +0800
+@@ -68,6 +68,14 @@
+ #define FRIENDLY_NAME_MAX_LEN (64)
+ extern char friendly_name[];
+ 
++/* add by dimmalex for custom model and url */
++extern char manufacturer[];
++extern char manufacturerURL[];
++extern char modelDescription[];
++extern char modelName[];
++extern char modelURL[];
++
++
+ /* UPnP permission rules : */
+ extern struct upnpperm * upnppermlist;
+ extern unsigned int num_upnpperm;

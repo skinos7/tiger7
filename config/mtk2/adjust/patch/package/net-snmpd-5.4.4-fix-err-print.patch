@@ -1,0 +1,117 @@
+diff -uNr net-snmp-5.4.4/agent/mibgroup/hardware/cpu/cpu_linux.c net-snmp-5.4.4b/agent/mibgroup/hardware/cpu/cpu_linux.c
+--- net-snmp-5.4.4/agent/mibgroup/hardware/cpu/cpu_linux.c	2022-11-29 19:34:46.825624999 +0800
++++ net-snmp-5.4.4b/agent/mibgroup/hardware/cpu/cpu_linux.c	2022-11-29 19:41:28.306939129 +0800
+@@ -238,7 +238,11 @@
+             cpu->pageIn  = (unsigned long)pin*2;  /* ??? */
+ 	} else {
+ 	    if (first)
+-		snmp_log(LOG_ERR, "No pgpgin line in %s\n", VMSTAT_FILE);
++
++        {
++        // comment by dimmalex
++		//snmp_log(LOG_ERR, "No pgpgin line in %s\n", VMSTAT_FILE);
++        }
+             cpu->pageIn  = 0;
+ 	}
+ 	b = strstr(vmbuff, "pgpgout ");
+@@ -247,7 +251,12 @@
+             cpu->pageOut = (unsigned long)pout*2;  /* ??? */
+ 	} else {
+ 	    if (first)
+-		snmp_log(LOG_ERR, "No pgpgout line in %s\n", VMSTAT_FILE);
++
++        {
++        // comment by dimmalex
++		//snmp_log(LOG_ERR, "No pgpgout line in %s\n", VMSTAT_FILE);
++        }
++
+             cpu->pageOut = 0;
+ 	}
+ 	b = strstr(vmbuff, "pswpin ");
+@@ -256,7 +265,12 @@
+             cpu->swapIn  = (unsigned long)swpin;
+ 	} else {
+ 	    if (first)
+-		snmp_log(LOG_ERR, "No pswpin line in %s\n", VMSTAT_FILE);
++
++        {
++        // comment by dimmalex
++		//snmp_log(LOG_ERR, "No pswpin line in %s\n", VMSTAT_FILE);
++        }
++
+             cpu->swapIn  = 0;
+ 	}
+ 	b = strstr(vmbuff, "pswpout ");
+@@ -265,7 +279,12 @@
+             cpu->swapOut = (unsigned long)swpout;
+ 	} else {
+ 	    if (first)
+-		snmp_log(LOG_ERR, "No pswpout line in %s\n", VMSTAT_FILE);
++
++        {
++        // comment by dimmalex
++		//snmp_log(LOG_ERR, "No pswpout line in %s\n", VMSTAT_FILE);
++        }
++
+             cpu->swapOut = 0;
+ 	}
+     }
+diff -uNr net-snmp-5.4.4/agent/mibgroup/ucd-snmp/vmstat_linux.c net-snmp-5.4.4b/agent/mibgroup/ucd-snmp/vmstat_linux.c
+--- net-snmp-5.4.4/agent/mibgroup/ucd-snmp/vmstat_linux.c	2022-11-29 19:34:46.817624973 +0800
++++ net-snmp-5.4.4b/agent/mibgroup/ucd-snmp/vmstat_linux.c	2022-11-29 19:41:28.298939103 +0800
+@@ -289,7 +289,12 @@
+ 	    sscanf(b, "pgpgin %u", pin);
+ 	else {
+ 	    if (first)
+-		snmp_log(LOG_ERR, "No pgpgin line in %s\n", VMSTAT_FILE);
++
++        {
++        // comment by dimmalex
++		//snmp_log(LOG_ERR, "No pgpgin line in %s\n", VMSTAT_FILE);
++        }
++
+ 	    *pin = 0;
+ 	}
+ 	b = strstr(vmbuff, "pgpgout ");
+@@ -297,7 +302,12 @@
+ 	    sscanf(b, "pgpgout %u", pout);
+ 	else {
+ 	    if (first)
+-		snmp_log(LOG_ERR, "No pgpgout line in %s\n", VMSTAT_FILE);
++
++        {
++        // comment by dimmalex
++		//snmp_log(LOG_ERR, "No pgpgout line in %s\n", VMSTAT_FILE);
++        }
++
+ 	    *pout = 0;
+ 	}
+ 	b = strstr(vmbuff, "pswpin ");
+@@ -305,7 +315,12 @@
+ 	    sscanf(b, "pswpin %u", swpin);
+ 	else {
+ 	    if (first)
+-		snmp_log(LOG_ERR, "No pswpin line in %s\n", VMSTAT_FILE);
++
++        {
++        // comment by dimmalex
++		//snmp_log(LOG_ERR, "No pswpin line in %s\n", VMSTAT_FILE);
++        }
++        
+ 	    *swpin = 0;
+ 	}
+ 	b = strstr(vmbuff, "pswpout ");
+@@ -313,7 +328,12 @@
+ 	    sscanf(b, "pswpout %u", swpout);
+ 	else {
+ 	    if (first)
+-		snmp_log(LOG_ERR, "No pswpout line in %s\n", VMSTAT_FILE);
++            
++        {
++        // comment by dimmalex
++		//snmp_log(LOG_ERR, "No pswpout line in %s\n", VMSTAT_FILE);
++        }
++
+ 	    *swpout = 0;
+ 	}
+     }

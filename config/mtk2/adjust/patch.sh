@@ -27,6 +27,10 @@ cp ${gPLATFORM_DIR}/adjust/patch/makefile/kernel-defaults.mk  ${gSDK_DIR}/includ
 cp ${gPLATFORM_DIR}/adjust/patch/makefile/cmake.mk  ${gSDK_DIR}/include/cmake.mk
 # patch the Makefile system ignore the opkg dependencies failed
 cp ${gPLATFORM_DIR}/adjust/patch/makefile/package-Makefile  ${gSDK_DIR}/package/Makefile
+# patch the Makefile system to support 16m image for MT7628
+cp ${gPLATFORM_DIR}/adjust/patch/makefile/image-Makefile ${gSDK_DIR}/target/linux/ramips/image/Makefile
+# path th modules.mk system to support i2c-mtk control driver for menuconfig
+cp ${gPLATFORM_DIR}/adjust/patch/makefile/ramips-modules.mk ${gSDK_DIR}/target/linux/ramips/modules.mk
 
 
 # patch to Build tools system fix pkg-config complie error
@@ -173,5 +177,9 @@ cp -r ${gPLATFORM_DIR}/adjust/patch/package/libgpg-error-namespace-error-fix.pat
 cp -r ${gPLATFORM_DIR}/adjust/patch/ddns/dynamic_dns_functions.sh ${gSDK_DIR}/feeds/packages/net/ddns-scripts/files
 cp -r ${gPLATFORM_DIR}/adjust/patch/ddns/dynamic_dns_updater.sh ${gSDK_DIR}/feeds/packages/net/ddns-scripts/files
 
+# net-snmp don't print err
+cp -r ${gPLATFORM_DIR}/adjust/patch/package/net-snmpd-5.4.4-fix-err-print.patch ${gSDK_DIR}/feeds/packages/net/net-snmp/patches
 
+# smstools bin reset
+cp -r ${gPLATFORM_DIR}/adjust/patch/smstools3/Makefile ${gSDK_DIR}/feeds/packages/utils/smstools3
 

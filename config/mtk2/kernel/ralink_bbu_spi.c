@@ -457,6 +457,8 @@ static struct chip_info chips_data [] = {
 	{ "EN25F32",            0x1c, 0x31161c31, 64 * 1024, 64,  0 },
 	{ "EN25F64",            0x1c, 0x20171c20, 64 * 1024, 128, 0 },  // EN25P64
 	{ "EN25Q64",            0x1c, 0x30171c30, 64 * 1024, 128, 0 },
+	//add by qingcheng, add en25qh64 spi flash support
+	{ "EN25QH64",           0x1c, 0x70171c00, 64 * 1024, 128, 0 },
 	{ "EN25QH64A",          0x1c, 0x70171c70, 64 * 1024, 128, 0 },
 	{ "EN25QH128A",         0x1c, 0x70181c70, 64 * 1024, 256, 0 },
 	{ "W25Q32BV",           0xef, 0x40160000, 64 * 1024, 64,  0 },//W25Q32FV

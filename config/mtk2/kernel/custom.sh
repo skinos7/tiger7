@@ -32,6 +32,10 @@ src2kernel main.c ${LINUX_DIR}/init/
 src2kernel drivers_watchdog_makefile ${LINUX_DIR}/drivers/watchdog/Makefile
 src2kernel hardware_wdt.c ${LINUX_DIR}/drivers/watchdog/
 
+# i2c alog bus 
+src2kernel dev-i2c-bus.c ${LINUX_DIR}/arch/mips/ralink/
+src2kernel i2c-slave.c ${LINUX_DIR}/arch/mips/ralink/
+
 # ralink pci reset don't use uart3 lines
 src2kernel pci.c ${LINUX_DIR}/arch/mips/ralink/
 
