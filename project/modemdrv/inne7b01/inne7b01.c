@@ -506,6 +506,24 @@ boole_t _at_setting( obj_t this, param_t param )
 	{
 		return tfalse;
 	}
+    i = usbtty_ceregmode( fd, 2 );
+	if ( i < ATCMD_ret_succeed )
+	{
+		return terror;
+	}
+	else if ( i == ATCMD_ret_term )
+	{
+		return tfalse;
+	}
+    i = usbtty_cgregmode( fd, 2 );
+	if ( i < ATCMD_ret_succeed )
+	{
+		return terror;
+	}
+	else if ( i == ATCMD_ret_term )
+	{
+		return tfalse;
+	}
 
 	return ret;
 }
@@ -619,6 +637,24 @@ boole_t _at_watch( obj_t this, param_t param )
 
     // +CREG: 0,1\nOK
 	i = usbtty_creg( fd, dev );
+	if ( i < ATCMD_ret_succeed )
+	{
+		return terror;
+	}
+	else if ( i == ATCMD_ret_term )
+	{
+		return tfalse;
+	}
+	i = usbtty_cereg( fd, dev );
+	if ( i < ATCMD_ret_succeed )
+	{
+		return terror;
+	}
+	else if ( i == ATCMD_ret_term )
+	{
+		return tfalse;
+	}
+	i = usbtty_cgreg( fd, dev );
 	if ( i < ATCMD_ret_succeed )
 	{
 		return terror;

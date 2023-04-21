@@ -9,6 +9,7 @@
         "ec200x":"Quectel ec200x lte modem management",
         "zte7520":"ZTEM 7520 lte modem management",
         "inne7b01":"Innofidei E7B01 lte modem management",
-        "ne16u":"Lierda NE16u lte modem management"
+        "ne16u":"Lierda NE16u lte modem management",
+        "fml610":"Fibcom l610 modem management"
     }
 }

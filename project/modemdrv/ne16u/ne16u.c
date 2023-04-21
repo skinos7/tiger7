@@ -109,9 +109,13 @@ static int ne16u_lock_band( atcmd_t fd, const char *band )
 		return ATCMD_ret_failed;
 	}
 	unescape = json_unescape( band );
-
+	if ( unescape == NULL )
+	{
+		return ATCMD_ret_failed;
+	}
 	/* make the band command */
 	snprintf( cmd, sizeof(cmd), "AT+LBAND=%s", unescape );
+	free( unescape );
 	/* set the band */
 	return atcmd_send( fd, cmd, 8, NULL, ATCMD_DEF );
 }
@@ -130,9 +134,13 @@ static int ne16u_lock_cell( atcmd_t fd, const char *cell )
 		return ATCMD_ret_failed;
 	}
 	unescape = json_unescape( cell );
-
+	if ( unescape == NULL )
+	{
+		return ATCMD_ret_failed;
+	}
 	/* make the band command */
 	snprintf( cmd, sizeof(cmd), "AT+QNWLOCK=%s", unescape );
+	free( unescape );
 	/* set the band */
 	return atcmd_send( fd, cmd, 8, NULL, ATCMD_DEF );
 }
@@ -1090,6 +1098,24 @@ boole_t _at_setting( obj_t this, param_t param )
 	{
 		return tfalse;
 	}
+    i = usbtty_ceregmode( fd, 2 );
+	if ( i < ATCMD_ret_succeed )
+	{
+		return terror;
+	}
+	else if ( i == ATCMD_ret_term )
+	{
+		return tfalse;
+	}
+    i = usbtty_cgregmode( fd, 2 );
+	if ( i < ATCMD_ret_succeed )
+	{
+		return terror;
+	}
+	else if ( i == ATCMD_ret_term )
+	{
+		return tfalse;
+	}
     i = usbtty_c5gregmode( fd, 2 );
 	if ( i < ATCMD_ret_succeed )
 	{
@@ -1218,6 +1244,24 @@ boole_t _at_watch( obj_t this, param_t param )
 
     // +CREG: 0,1\nOK
 	i = usbtty_creg( fd, dev );
+	if ( i < ATCMD_ret_succeed )
+	{
+		return terror;
+	}
+	else if ( i == ATCMD_ret_term )
+	{
+		return tfalse;
+	}
+	i = usbtty_cereg( fd, dev );
+	if ( i < ATCMD_ret_succeed )
+	{
+		return terror;
+	}
+	else if ( i == ATCMD_ret_term )
+	{
+		return tfalse;
+	}
+	i = usbtty_cgreg( fd, dev );
 	if ( i < ATCMD_ret_succeed )
 	{
 		return terror;

@@ -1,5 +1,5 @@
 /*
- *  Description:  Fibcom NL668 modem driver
+ *  Description:  Fibcom FM610 modem driver
  *       Author:  dimmalex (dim), dimmalex@gmail.com
  *      Company:  ASHYELF
  */
@@ -10,177 +10,263 @@
 
 
 
-/* get iccid
-	0 for succeed
-	>0 for failed
+/* set the network type:
+	0 for setings is succeed
+	>0 for failed or not need settings
 	<0 for error */
-int em350_iccid( atcmd_t fd, talk_t status )
-{
-	int i;
-    int ret;
-    char *buf;
-    char *ptr;
-    const char *start;
-    char iccidbuf[NAME_MAX];
-
-	for ( i=0; i<3; i++ )
-	{
-		//at^ICCID?
-		//^ICCID: 89860121802374570731
-	    ret = atcmd_send( fd, "AT^ICCID?", 5, NULL, ATCMD_DEF );
-	    if ( ret < ATCMD_ret_succeed || ret == ATCMD_ret_term )
-	    {
-	        return ret;
-	    }
-	    if ( ret == ATCMD_ret_succeed )
-	    {
-		    ret = ATCMD_ret_failed;
-		    memset( iccidbuf, 0, sizeof(iccidbuf) );
-		    buf = atcmd_lastack( fd );
-		    if ( sscanf( buf, "%*[^:]:%s", iccidbuf ) == 1 )
-		    {
-		        // end 
-		        ptr = iccidbuf+( strlen(iccidbuf)-1 );
-		        while( *ptr != '\0' )
-		        {
-		            if ( isalnum( *ptr ) )
-		            {
-		                break;
-		            }
-		            *ptr = '\0';
-		            ptr--;
-		        }
-		        // start 
-		        start = ptr = iccidbuf;
-		        while( *ptr != '\0' )
-		        {
-		            if ( isalnum( *ptr ) )
-		            {
-		                start = ptr;
-		                break;
-		            }
-		            *ptr = '\0';
-		            ptr++;
-		        }
-		        json_set_string( status, "iccid", start );
-		        ret = ATCMD_ret_succeed;
-				break;
-		    }
-	    }
-		sleep( 1 );
-	}
-    return ret;
-}
-/* get network mode
-	0 for succeed
-	>0 for failed
-	<0 for error */
-static int em350_sysinfoex( atcmd_t fd, talk_t status )
-{
-    int ret;
-	int type;
-	const char *ptr;
-
-    ret = atcmd_send( fd, "AT^SYSINFOEX", 3, NULL, ATCMD_DEF );
-    if ( ret != ATCMD_ret_succeed )
-    {
-        return ret;
-    }
-    type = 0;
-    ptr = atcmd_lastack( fd );
-    sscanf( ptr, "%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%d", &type );
-    switch( type )
-    {
-        case 0:
-            json_set_string( status, "nettype", "No Service" );
-            ret = ATCMD_ret_failed;
-            break;
-		case 1:
-			json_set_string( status, "nettype", "GSM" );
-			break;
-        case 2:
-            json_set_string( status, "nettype", "CDMA" );
-            break;
-        case 3:
-            json_set_string( status, "nettype", "WCDMA" );
-            break;
-        case 4:
-            json_set_string( status, "nettype", "TDSCDMA" );
-            break;
-        case 5:
-            json_set_string( status, "nettype", "WIMAX" );
-            break;
-        case 6:
-            json_set_string( status, "nettype", "LTE" );
-            break;
-    }
-    return ret;
-}
-/* get current network connect state
-	0 for succeed
-	>0 for failed
-	<0 for error */
-int em350_ndisstatqry( atcmd_t fd )
-{
-    int ret;
-    char *buf;
-    int type;
-
-    ret = atcmd_send( fd, "AT^NDISSTATQRY?", 3, NULL, ATCMD_DEF );
-    if ( ret != ATCMD_ret_succeed )
-    {
-        return ret;
-    }
-    buf = atcmd_lastack( fd );
-	type = 0;
-    ret = ATCMD_ret_failed;
-    if ( sscanf( buf, "%*[^:]:%d", &type ) == 1 )
-    {
-        if ( type == 1 )
-        {
-            ret = ATCMD_ret_succeed;
-        }
-    }
-    return ret;
-}
-/* get current network connect state
-	0 for succeed
-	>0 for failed
-	<0 for error */
-int em350_cgpaddr( atcmd_t fd, const char *cid, char *ip )
+static int fm610_lock_nettype( atcmd_t fd, talk_t status, const char *netmode )
 {
 	int ret;
+    int type;
 	const char *ptr;
-	const char *str;
+    char cmd[LINE_MAX];
 
-	ret = atcmd_tx( fd, 3, NULL, ATCMD_DEF, "AT+CGPADDR=%s", cid );
-	if ( ret != ATCMD_ret_succeed )
+	if ( netmode == NULL || *netmode == '\0' )
 	{
-		return ret;
+		netmode = "auto";
 	}
-	ret = ATCMD_ret_failed;
-	ip[0] = '\0';
-	ptr = atcmd_lastack( fd );
-	str = strstr( ptr, "CGPADDR:" );
-	if ( str != NULL )
+
+	/* network mode */
+    ret = atcmd_send( fd, "AT+GTRAT?", 3, NULL, ATCMD_DEF );
+    if ( ret != ATCMD_ret_succeed )
+    {
+        return ret;
+    }
+    type = -1;
+    ptr = atcmd_lastack( fd );
+	sscanf( ptr, "%*[^:]:%d", &type );
+
+	/* make the network command */
+	cmd[0] = '\0';
+    switch( netmode[0] )
+    {
+		case '2':
+		case 'g':
+		case 'c':
+			/* GSM */
+            if ( type != 0 )
+            {
+                snprintf( cmd, sizeof(cmd), "AT+GTRAT=0" );
+            }
+            break;
+        case '3':
+		case 'w':
+		case 't':
+		case 'e':
+            /* WCDMA */
+            if ( type != 2 )
+            {
+                snprintf( cmd, sizeof(cmd), "AT+GTRAT=2" );
+            }
+            break;
+        case '4':
+		case 'l':
+			/* LTE */
+            if ( type != 3 )
+            {
+                snprintf( cmd, sizeof(cmd), "AT+GTRAT=3" );
+            }
+            break;
+		default:
+			/* Auto */
+            if ( type != 10 )
+            {
+                snprintf( cmd, sizeof(cmd), "AT+GTRAT=10,3,0" );
+            }
+    }
+	if ( cmd[0] == '\0' )
 	{
-		if ( sscanf( str, "%*[^\"]\"%[^\"]", ip ) == 1 )
+		return ATCMD_ret_failed;
+	}
+
+	/* set the network mode */
+    return atcmd_send( fd, cmd, 8, NULL, ATCMD_DEF );
+}
+
+/* get current register network mode
+	0 for succeed
+	>0 for failed
+	<0 for error */
+static int fm610_cops( atcmd_t fd, talk_t status )
+{
+	int i;
+	int ret;
+	char *ptr;
+	char *end;
+	char *type;
+
+	ret = atcmd_send( fd, "AT+COPS?", 3, NULL, ATCMD_DEF );
+    if ( ret != ATCMD_ret_succeed )
+    {
+        return ret;
+    }
+	ret = ATCMD_ret_failed;
+	ptr = atcmd_lastack( fd );
+	/* find the " start */
+	while( *ptr != '"' && *ptr != '\0' )
+	{
+		ptr++;
+	}
+	if ( *ptr == '"' )
+	{
+		/* find the " end */
+		ptr++;
+		end = ptr;
+		while( *end != '"' && *end != '\0' )
 		{
-			debug( "get the ip %s", ip );
-			if ( ip[0] != '\0' && NULL == strstr( ip, "0.0.0.0" ) )
+			end++;
+		}
+		if ( *end == '"' )
+		{
+			/* get the plmn */
+			*end = '\0';
+			if ( strlen( ptr ) >= 5 )
 			{
+				json_set_string( status, "plmn", ptr );
 				ret = ATCMD_ret_succeed;
+			}
+			/* get the network type */
+			type = end+1;
+			while( *type != '\0' )
+			{
+				if ( isdigit( *type ) )
+				{
+					break;
+				}
+				type++;
+			}
+			if ( isdigit( *type ) )
+			{
+				i = atoi( type );
+				if ( i == 0 || i == 1 || i == 3 )
+				{
+					json_set_string( status, "nettype", "GSM" );
+				}
+				else if ( i == 2 || i == 4 || i == 5 || i == 6 )
+				{
+					json_set_string( status, "nettype", "HSPA" );
+				}
+				else if ( i == 7 || i == 8 || i == 9 )
+				{
+					json_set_string( status, "nettype", "LTE" );
+				}
 			}
 		}
 	}
 	return ret;
+}
+/* get current register network signal
+	0 for succeed
+	>0 for failed
+	<0 for error */
+static int fm610_cesq( atcmd_t fd, talk_t device )
+{
+	int ret;
+	int csq;
+	int rssi;
+	const char *ptr;
+    const char *nettype;
+    int rxlev, ber, rscp, ecno, rsrq, rsrp;
+
+	ret = atcmd_send( fd, "AT+CESQ", 3, NULL, ATCMD_DEF );
+    if ( ret != ATCMD_ret_succeed )
+    {
+        return ret;
+    }
+	ret = ATCMD_ret_failed;
+	csq = rssi = 0;
+    ptr = atcmd_lastack( fd );
+    if ( sscanf( ptr, "%*[^:]:%d,%d,%d,%d,%d,%d", &rxlev, &ber, &rscp, &ecno, &rsrq, &rsrp ) == 6 )
+    {
+        nettype = json_get_string( device, "nettype" );
+        if ( nettype != NULL && NULL != strstr( nettype, "GSM" ) )
+        {
+			/* get the gsm csq, 0/63==-111/-48 */
+			if ( rxlev > 0 && rxlev <= 63 )
+			{
+				csq = rxlev;
+				rssi = csq-111;
+				ret = ATCMD_ret_succeed;
+			}
+        }
+        else if ( nettype != NULL && ( NULL != strstr( nettype, "3G" ) || NULL != strstr( nettype, "HSDPA" ) || NULL != strstr( nettype, "HSUPA" ) || NULL != strstr( nettype, "HSPA" ) ) )
+        {
+			/* get the umts csq, 0/96==-121/-25 */
+			if ( rscp > 0 && rscp <= 96 )
+			{
+				csq = rscp;
+				rssi = csq-121;
+				ret = ATCMD_ret_succeed;
+			}
+        }
+        else
+        {
+			/* get the lte rsrp */
+			if ( rsrp > 0 && rsrp <= 97 )
+			{
+				// 1 to 97, -44 to -140
+				rssi = rsrp = rsrp-140;
+				json_set_number( device, "rsrp", rsrp );
+				ret = ATCMD_ret_succeed;
+			}
+			/* get the lte rsrq */
+			if ( rsrq > 0 && rsrq <= 34 )
+			{
+				// 1 to 34, -19.5 to 3
+				json_set_number( device, "rsrq", (-19+((rsrq*5)/10)) );
+			}
+        }
+		/* get the lte signal */
+		if ( csq != 0 )
+		{
+			json_set_number( device, "csq", csq );
+		}
+		if ( rssi != 0 )
+		{
+			json_set_number( device, "rssi", rssi );
+		}
+    }
+
+    return ret;
+}
+/* get current network connect state
+	0 for succeed
+	>0 for failed
+	<0 for error */
+int fm610_gtrndis( atcmd_t fd )
+{
+    int ret;
+    int type;
+	const char *ptr;
+	const char *str;
+
+    ret = atcmd_send( fd, "AT+GTRNDIS?", 3, NULL, ATCMD_DEF );
+    if ( ret != ATCMD_ret_succeed )
+    {
+        return ret;
+    }
+    ret = ATCMD_ret_failed;
+    type = 0;
+    ptr = atcmd_lastack( fd );
+	str = strstr( ptr, "GTRNDIS:" );
+	if ( str != NULL )
+	{
+	    if ( sscanf( str, "%*[^:]:%d", &type ) == 1 )
+	    {
+	        if ( type == 1 )
+	        {
+	            ret = ATCMD_ret_succeed;
+	        }
+		}
+	}
+    return ret;
 }
 
 /* set the APN profile
 	0 for setings is succeed
 	>0 for failed or not need settings
 	<0 for error */
-static int em350_set_profileset( atcmd_t fd, talk_t profile )
+static int fm610_set_profileset( atcmd_t fd, talk_t profile )
 {
 	int i;
 	int ret;
@@ -189,17 +275,89 @@ static int em350_set_profileset( atcmd_t fd, talk_t profile )
 	const char *ptr;
 	const char *cid;
 	const char *apn;
+	const char *auth;
+	const char *user;
+	const char *pass;
 	const char *iptype;
 
 	ret = ATCMD_ret_failed;
     /* get the configure */
-	iptype = json_get_string( profile, "type" );
 	apn = json_get_string( profile, "apn" );
+	user = json_get_string( profile, "user" );
+	pass = json_get_string( profile, "passwd" );
 	cid = json_get_string( profile, "cid" );
 	if ( cid == NULL || *cid == '\0' )
 	{
 		cid = "1";
 	}
+    /* transition the username/password */
+	auth = "1";
+	ptr = json_get_string( profile, "auth" );
+	if ( ptr == NULL || *ptr == '\0' )
+	{
+		if ( user != NULL && *user != '\0' && pass != NULL && *pass != '\0' )
+		{
+			auth = "1";
+		}
+		else
+		{
+			auth = "0";
+		}
+	}
+	else
+	{
+		if ( 0 == strcmp( ptr, "pap" ) )
+		{
+			auth = "1";
+		}
+		else if ( 0 == strcmp( ptr, "chap" ) )
+		{
+			auth = "2";
+		}
+		else if ( 0 == strcmp( ptr, "papchap" ) )
+		{
+			auth = "3";
+		}
+		else if ( 0 == strcmp( ptr, "disable" ) )
+		{
+			auth = "0";
+			user = NULL;
+			pass = NULL;
+		}
+	}
+    /* transition the ip type */
+	iptype	= "1";
+	ptr = json_get_string( profile, "type" );
+	if ( ptr != NULL && ( 0 == strcasecmp( ptr, "ipv4v6" ) || 0 == strcasecmp( ptr, "ipv6" ) ) )
+	{
+		iptype = "2";
+	}
+	else
+	{
+		iptype = "1";
+	}
+
+	/* set the username and password */
+	i = ATCMD_ret_failed;
+	if ( 0 == strcmp( auth, "0" ) )
+	{
+		i = atcmd_tx( fd, 3, NULL, ATCMD_DEF, "AT+MGAUTH=%s,%s", cid, auth );
+	}
+	else
+	{
+		i = atcmd_tx( fd, 3, NULL, ATCMD_DEF, "AT+MGAUTH=%s,%s,\"%s\",\"%s\"", cid, auth, user?:"", pass?:"" );
+	}
+	if ( i < ATCMD_ret_succeed || i == ATCMD_ret_term )
+	{
+		return i;
+	}
+	else if ( i == ATCMD_ret_succeed )
+	{
+		ret = ATCMD_ret_succeed;
+	}
+	sleep( 2 );
+
+
     /* set the common apn */
 	if ( apn != NULL && *apn != '\0' )
 	{
@@ -255,6 +413,7 @@ boole_t _usb_match( obj_t this, param_t param )
 	const char *netdev;
     const char *object;
 	const char *syspath;
+	char buffer[NAME_MAX];
     char ttylist[10][NAME_MAX];
 
 	dev = param_talk( param, 1 );
@@ -271,9 +430,9 @@ boole_t _usb_match( obj_t this, param_t param )
 		return tfalse;
 	}
 	/* compare the vid and vid is in support list */
-	if ( 0 == strcasecmp( vid, "12d1" ) && 0 == strcasecmp( pid, "15c3" ) )
+	if ( 0 == strcasecmp( vid, "1782" ) && ( 0 == strcasecmp( pid, "4d10" ) || 0 == strcasecmp( pid, "4d11" ) ) )
 	{
-		info( "Huawei EM350 modem found(%s:%s)", vid , pid );
+		info( "Fibocom L610 modem found(%s:%s)", vid , pid );
 		/* insmod the usb driver */
 		shell( "modprobe option" );
 		usleep( 2000000 );
@@ -281,23 +440,24 @@ boole_t _usb_match( obj_t this, param_t param )
 
 		/* find the tty list */
 		i = usbttylist_device_find( syspath, ttylist );
-		if ( i < 4 )
+		if ( i < 5 )
 		{
 			usleep( 2000000 );
 			i = usbttylist_device_find( syspath, ttylist );
-			if ( i < 4	)
+			if ( i < 5	)
 			{
 				usleep( 2000000 );
 				i = usbttylist_device_find( syspath, ttylist );
-				if ( i < 4	)
+				if ( i < 5	)
 				{
-					fault( "Huawei EM350 modem cannot find the specified serial port(%d), system maybe cracked", i );
+					fault( "Fibocom L610 modem cannot find the specified serial port(%d), system maybe cracked", i );
 					return terror;
 				}
 			}
 		}
 		/* set the name */
-		json_set_string( dev, "name", "Huawei-EM350" );
+		snprintf( buffer, sizeof(buffer), "Fibocom-%s", pid );
+		json_set_string( dev, "name", buffer );
 		/* get the object */
 		object = lte_object_get( LTE_COM, syspath, cfg, NULL, 0 );
 		json_set_string( dev, "object", object );
@@ -307,7 +467,8 @@ boole_t _usb_match( obj_t this, param_t param )
 		{
 			json_set_string( dev, "netdev", netdev );
 		}
-		json_set_string( dev, "mtty", ttylist[2] );
+		json_set_string( dev, "stty", ttylist[4] );
+		json_set_string( dev, "mtty", ttylist[3] );
 		json_set_string( dev, "devcom", MODEM_COM );
 		json_set_string( dev, "drvcom", COM_IDPATH );
 		return ttrue;
@@ -322,9 +483,13 @@ boole_t _usb_match( obj_t this, param_t param )
 boole_t _at_setup( obj_t this, param_t param )
 {
 	int i;
+	int t;
+	boole r;
 	atcmd_t fd;
     talk_t dev;
 	talk_t cfg;
+	const char *ptr;
+	const char *tok;
 
 	/* get the information */
 	dev = param_talk( param, 1 );
@@ -364,8 +529,57 @@ boole_t _at_setup( obj_t this, param_t param )
 		return tfalse;
 	}
 
+	r = false;
+	/* switch the dial mode skip the power up misc URC */
+	for( t=0; t<10; t++ )
+	{
+		i = atcmd_send( fd, "AT+GTUSBMODE?", 3, "GTUSBMODE:", ATCMD_DEF );
+		if ( i < ATCMD_ret_succeed )
+		{
+			return terror;
+		}
+		else if ( i != ATCMD_ret_succeed )
+		{
+			if ( t >= 2 )
+			{
+				break;
+			}
+		}
+		else
+		{
+			ptr = atcmd_lastack( fd );
+			tok = strstr( ptr, "GTUSBMODE:" );
+			if ( tok != NULL )
+			{
+				if ( sscanf( tok, "%*[^:]:%d", &i ) == 1 )
+				{
+					if ( i != 32 )
+					{
+						i = atcmd_send( fd, "AT+GTUSBMODE=32", 8, NULL, ATCMD_DEF );
+						if ( i < ATCMD_ret_succeed )
+						{
+							return terror;
+						}
+						else if ( i == ATCMD_ret_term )
+						{
+							return tfalse;
+						}
+						r = true;
+					}
+					break;
+				}
+			}
+		}
+		sleep( 1 );
+	}
+    if ( r == true )
+    {
+        return terror;
+    }
+
+
 	/* disconnection */
-	i = atcmd_send( fd, "AT^NDISDUP=1,0", 3, NULL, ATCMD_DEF );
+	i = atcmd_send( fd, "AT+GTRNDIS=0,1", 3, NULL, ATCMD_DEF );
 	if ( i < ATCMD_ret_succeed )
 	{
 		return terror;
@@ -385,6 +599,19 @@ boole_t _at_setup( obj_t this, param_t param )
 	{
 		return tfalse;
 	}
+    /* get the version */
+    i = usbtty_cgmr( fd, dev );
+	if ( i < ATCMD_ret_succeed )
+	{
+		return terror;
+	}
+	else if ( i == ATCMD_ret_term )
+	{
+		return tfalse;
+	}
+
+	/* sleep for setup */
+	sleep( 5 );
 
 	return ttrue;
 }
@@ -446,7 +673,7 @@ boole_t _at_shut( obj_t this, param_t param )
 	}
 
     /* shutdown the modem */
-    i = atcmd_send( fd, "AT^RESET", 10, "OK", ATCMD_DEF );
+    i = atcmd_send( fd, "AT+CPWROFF", 5, "OK", ATCMD_DEF );
 	if ( i < ATCMD_ret_succeed )
 	{
 		return terror;
@@ -471,6 +698,7 @@ boole_t _at_setting( obj_t this, param_t param )
 	talk_t cfg;
 	boole_t ret;
 	talk_t profile;
+	const char *ptr;
 
 	/* get the information */
 	dev = param_talk( param, 1 );
@@ -490,12 +718,28 @@ boole_t _at_setting( obj_t this, param_t param )
 	}
 
 	ret = ttrue;
+	/* network type setting */
+    ptr = json_get_string( cfg, "lock_nettype" );
+    i = fm610_lock_nettype( fd, dev, ptr );
+	if ( i < ATCMD_ret_succeed )
+	{
+		return terror;
+	}
+	else if ( i == ATCMD_ret_term )
+	{
+		return tfalse;
+	}
+	else if ( i == ATCMD_ret_succeed )
+	{
+		ret = NULL;
+	}
+
 	/* custom prefile setting */
 	profile = json_value( cfg, "profile_cfg" );
 	if ( profile != NULL )
 	{
 		/* set the custom apn */
-		i = em350_set_profileset( fd, profile );
+		i = fm610_set_profileset( fd, profile );
 		if ( i < ATCMD_ret_succeed )
 		{
 			return terror;
@@ -618,9 +862,9 @@ boole_t _at_watch( obj_t this, param_t param )
 		{
 			return tfalse;
 		}
-		//at^ICCID?
-		//^ICCID: 89860121802374570731
-		i = em350_iccid( fd , dev );
+		//AT+CCID
+		//+CCID: 89860121801097564807\nOK
+		i = usbtty_ccid( fd , dev );
 		if ( i < ATCMD_ret_succeed )
 		{
 			return terror;
@@ -633,9 +877,12 @@ boole_t _at_watch( obj_t this, param_t param )
 
 
 
+	json_delete_axp( dev, "csq" );
+	json_delete_axp( dev, "rsrp" );
 	json_delete_axp( dev, "nettype" );
-	// AT+QNWINFO
-	i = em350_sysinfoex( fd, dev );
+	// AT+COPS?
+	// +COPS: 0,0,"46000",7\nOK
+	i = fm610_cops( fd, dev );
 	if ( i < ATCMD_ret_succeed )
 	{
 		return terror;
@@ -645,11 +892,9 @@ boole_t _at_watch( obj_t this, param_t param )
 		return tfalse;
 	}
 
-
-
-	// AT+COPS?
-	// +COPS: 0,0,"46000",7\nOK
-	i = usbtty_cops( fd, dev );
+	// AT+CESQ
+	// +CESQ: 99,99,255,255,22,41,255,255,255
+	i = fm610_cesq( fd, dev );
 	if ( i < ATCMD_ret_succeed )
 	{
 		return terror;
@@ -705,49 +950,58 @@ boole_t _at_watch( obj_t this, param_t param )
 
 
 	// 2 to 31, -113dBm to -53dBm  GSM/LTE
-	// 100 to 191, -116dBm to -25dBm  TDSCDMA
-	json_delete_axp( dev, "csq" );
-	csq = 0;
-    i = usbtty_csq( fd, &csq );
-	if ( i < ATCMD_ret_succeed )
+	if ( json_number( dev, "csq" ) == 0 )
 	{
-		return terror;
-	}
-	else if ( i == ATCMD_ret_term )
-	{
-		return tfalse;
-	}
-	if ( (csq >0 && csq <= 31) || (csq > 100 && csq <= 191) )
-	{
+		csq = 0;
+	    i = usbtty_csq( fd, &csq );
+		if ( i < ATCMD_ret_succeed )
+		{
+			return terror;
+		}
+		else if ( i == ATCMD_ret_term )
+		{
+			return tfalse;
+		}
 		if ( csq > 0 && csq <= 31 )
 		{
 			i = ( csq*2-113 );
-			json_set_number( dev, "rssi", i );
+			if ( json_get_number( dev, "rssi" ) == 0 )
+			{
+				json_set_number( dev, "rssi", i );
+			}
+			json_set_number( dev, "csq", csq );
 		}
-		else if ( csq > 100 && csq <= 191  )
-		{
-			i = csq -215;
-			json_set_number( dev, "rssi", i );
-		}
-		json_set_number( dev, "csq", csq );
 	}
 
 
 	// signal
 	signal = 0;
-	i = json_number( dev, "rssi" );
+	i = json_number( dev, "rsrp" );
 	if ( i != 0 )
 	{
-		if ( i >= -75 ) { signal = 4; }
-		else if ( i >= -80 ) { signal = 3; }
-		else if ( i >= -90 ) { signal = 2; }
-		else if ( i >= -105 ) { signal = 1; }
+		if ( i != 0 )
+		{
+			if ( i >= -105 ) { signal = 4; }
+			else if ( i >= -110 ) { signal = 3; }
+			else if ( i >= -114 ) { signal = 2; }
+			else if ( i >= -120 ) { signal = 1; }
+		}
+	}
+	else
+	{
+		i = json_number( dev, "rssi" );
+		if ( i != 0 )
+		{
+			if ( i >= -75 ) { signal = 4; }
+			else if ( i >= -80 ) { signal = 3; }
+			else if ( i >= -90 ) { signal = 2; }
+			else if ( i >= -105 ) { signal = 1; }
+		}
 	}
 	if ( signal != 0 )
 	{
 		json_set_number( dev, "signal", signal );
 	}
-
 
     return ttrue;
 }
@@ -765,12 +1019,7 @@ boole_t _at_connect( obj_t this, param_t param )
 	talk_t cfg;
 	atcmd_t fd;
 	talk_t profile;
-	const char *ptr;
     const char *cid;
-	const char *apn;
-	const char *auth;
-	const char *user;
-	const char *pass;
     const char *netdev;
 
 	/* get the information */
@@ -801,7 +1050,7 @@ boole_t _at_connect( obj_t this, param_t param )
 	/* prefile setting get */
 	profile = json_value( cfg, "profile_cfg" );
 	/* set the apn */
-	i = em350_set_profileset( fd, profile );
+	i = fm610_set_profileset( fd, profile );
 	if ( i < ATCMD_ret_succeed )
 	{
 		return terror;
@@ -811,56 +1060,19 @@ boole_t _at_connect( obj_t this, param_t param )
 		return tfalse;
 	}
 	/* transition the username/password */
-	apn = json_get_string( profile, "apn" );
-	user = json_get_string( profile, "user" );
-	pass = json_get_string( profile, "passwd" );
     cid = json_string( profile, "cid" );
 	if ( cid == NULL || *cid == '\0' )
 	{
 		cid = "1";
 	}
-    auth = "1";
-	ptr = json_string( profile, "auth" );
-    if ( ptr == NULL || *ptr == '\0' )
-    {
-        if ( user != NULL && *user != '\0' && pass != NULL && *pass != '\0' )
-        {
-            auth = "1";
-        }
-        else
-        {
-            auth = "0";
-        }
-    }
-    else
-    {
-        if ( 0 == strcmp( ptr, "pap" ) )
-        {
-            auth = "1";
-        }
-        else if ( 0 == strcmp( ptr, "chap" ) )
-        {
-            auth = "2";
-        }
-        else if ( 0 == strcmp( ptr, "papchap" ) )
-        {
-            auth = "3";
-        }
-        else if ( 0 == strcmp( ptr, "disable" ) )
-        {
-			auth = "0";
-			user = NULL;
-			pass = NULL;
-        }
-    }
 
 	/* dial */
-	i = atcmd_tx( fd, 20, NULL, ATCMD_DEF, "AT^NDISDUP=%s,1,\"%s\",\"%s\",\"%s\",%s", cid, apn?:"", user?:"", pass?:"", auth );
+	i = atcmd_tx( fd, 20, NULL, ATCMD_DEF, "AT+GTRNDIS=1,%s", cid );
 	if ( i < ATCMD_ret_succeed )
 	{
 		return terror;
 	}
-	else if ( i != ATCMD_ret_succeed )
+	else if ( i == ATCMD_ret_term )
 	{
 		return tfalse;
 	}
@@ -875,14 +1087,8 @@ boole_t _at_connect( obj_t this, param_t param )
 boole_t _at_connected( obj_t this, param_t param )
 {
 	int i;
-	talk_t ret;
 	talk_t dev;
 	atcmd_t fd;
-	talk_t cfg;
-	talk_t profile;
-    const char *cid;
-	const char *netdev;
-	char ip[NAME_MAX];
 
 	/* get the information */
 	dev = param_talk( param, 1 );
@@ -890,47 +1096,23 @@ boole_t _at_connected( obj_t this, param_t param )
 	{
 		return terror;
 	}
-	netdev = json_string( dev, "netdev" );
 	fd = json_pointer( dev, "fd" );
 	if ( fd == NULL )
 	{
 		return terror;
 	}
-	cfg = param_talk( param, 2 );
-	if ( cfg == NULL )
-	{
-        return terror;
-	}
-	/* prefile setting get */
-	profile = json_value( cfg, "profile_cfg" );
-    cid = json_string( profile, "cid" );
-	if ( cid == NULL || *cid == '\0' )
-	{
-		cid = "1";
-	}
 
-	ret = tfalse;
-	i = em350_ndisstatqry( fd );
+	i = fm610_gtrndis( fd );
 	if ( i < ATCMD_ret_succeed )
 	{
 		return terror;
 	}
-	else if (i == ATCMD_ret_succeed )
+	else if ( i != ATCMD_ret_succeed )
 	{
-		ret = ttrue;
-	}
-	i = em350_cgpaddr( fd, cid, ip );
-	if ( i < ATCMD_ret_succeed )
-	{
-		return terror;
-	}
-	else if ( i == ATCMD_ret_succeed )
-	{
-		ret = ttrue;
-		shell( "ifconfig %s %s up", netdev, ip );
+		return tfalse;
 	}
 
-	return ret;
+	return ttrue;
 }
 /* disconnect the network
 	ttrue for succeed
@@ -955,7 +1137,7 @@ boole_t _at_disconnect( obj_t this, param_t param )
 	}
 
 	/* disconnection */
-	i = atcmd_send( fd, "AT^NDISDUP=1,0", 3, NULL, ATCMD_DEF );
+	i = atcmd_send( fd, "AT+GTRNDIS=0,1", 3, NULL, ATCMD_DEF );
 	if ( i < ATCMD_ret_succeed )
 	{
 		return terror;

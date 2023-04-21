@@ -104,11 +104,42 @@ static int ec200x_lock_nettype( atcmd_t fd, talk_t status, const char *netmode )
 	<0 for error */
 static int ec200x_lock_band( atcmd_t fd, const char *band )
 {
+	int ret;
+	char *unescape;
+
 	if ( band != NULL && *band != '\0' )
 	{
-	    return atcmd_tx( fd, 3, NULL, ATCMD_DEF, "AT+QCFG=\"band\",%s", band );
+		unescape = json_unescape( band );
+		if ( unescape != NULL )
+		{
+		    ret = atcmd_tx( fd, 3, NULL, ATCMD_DEF, "AT+QCFG=\"band\",%s", unescape );
+			efree( unescape );
+			return ret;
+		}
 	}
 	/* Cannot verify that it has been set, so only failure will be returned */
+    return ATCMD_ret_failed;
+}
+/* lock the network cell
+	0 for setings is succeed
+	>0 for failed or not need settings
+	<0 for error */
+static int ec200x_lock_cell( atcmd_t fd, const char *cell )
+{
+	int ret;
+	char *unescape;
+
+	if ( cell != NULL && *cell != '\0' )
+	{
+		unescape = json_unescape( cell );
+		if ( unescape != NULL )
+		{
+		    ret = atcmd_tx( fd, 3, NULL, ATCMD_DEF, "AT+QNWLOCK=\"common/4g\",%s", unescape );
+			efree( unescape );
+			return ret;
+		}
+	}
+	/* Cannot verify that it has been set, so only failure will be returned s*/
     return ATCMD_ret_failed;
 }
 /* get current register network mode
@@ -376,7 +407,7 @@ boole_t _usb_match( obj_t this, param_t param )
 	{
 		info( "Quectel EC200X modem found(%s:%s)", vid , pid );
 		/* insmod the usb driver */
-		shell( "modprobe option" );
+		insert_module( "option" );
 		syspath = json_string( dev, "syspath" );
 
 		/* find the tty list */
@@ -654,6 +685,18 @@ boole_t _at_setting( obj_t this, param_t param )
 	{
 		return tfalse;
 	}
+	/* cell setting */
+	ptr = json_get_string( cfg, "lock_cell" );
+	i = ec200x_lock_cell( fd, ptr );
+	if ( i < ATCMD_ret_succeed )
+	{
+		return terror;
+	}
+	else if ( i == ATCMD_ret_term )
+	{
+		return tfalse;
+	}
+
 	/* custom prefile setting */
 	profile = json_value( cfg, "profile_cfg" );
 	if ( profile != NULL )
@@ -686,6 +729,24 @@ boole_t _at_setting( obj_t this, param_t param )
 	}
     /* enable creg urc */
     i = usbtty_cregmode( fd, 2 );
+	if ( i < ATCMD_ret_succeed )
+	{
+		return terror;
+	}
+	else if ( i == ATCMD_ret_term )
+	{
+		return tfalse;
+	}
+    i = usbtty_ceregmode( fd, 2 );
+	if ( i < ATCMD_ret_succeed )
+	{
+		return terror;
+	}
+	else if ( i == ATCMD_ret_term )
+	{
+		return tfalse;
+	}
+    i = usbtty_cgregmode( fd, 2 );
 	if ( i < ATCMD_ret_succeed )
 	{
 		return terror;
@@ -815,6 +876,24 @@ boole_t _at_watch( obj_t this, param_t param )
 
 	// +CREG: 0,1\nOK
 	i = usbtty_creg( fd, dev );
+	if ( i < ATCMD_ret_succeed )
+	{
+		return terror;
+	}
+	else if ( i == ATCMD_ret_term )
+	{
+		return tfalse;
+	}
+	i = usbtty_cereg( fd, dev );
+	if ( i < ATCMD_ret_succeed )
+	{
+		return terror;
+	}
+	else if ( i == ATCMD_ret_term )
+	{
+		return tfalse;
+	}
+	i = usbtty_cgreg( fd, dev );
 	if ( i < ATCMD_ret_succeed )
 	{
 		return terror;
