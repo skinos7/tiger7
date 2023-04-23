@@ -1,10 +1,7 @@
 {
+
 	"ifname@lte":"LTE",
 	"ifname@lte2":"LTE/NR",
-	"ifname@lan":"LAN",
-	"ifname@lan2":"LAN2",
-	"ifname@lan3":"LAN3",
-	"ifname@lan4":"LAN4",
 	"ifname@wisp":"WISP",
 	"ifname@wisp2":"WISP2",
 	"ifname@wan":"WAN",
@@ -13,6 +10,11 @@
 	"ifname@wan4":"WAN3",	
 	"modem@lte":"LTE Modem",
 	"modem@lte2":"LTE/NR Modem",
+	"ifname@lan":"LAN",
+	"ifname@lan2":"LAN2",
+	"ifname@lan3":"LAN3",
+	"ifname@lan4":"LAN4",
+    
 	"vpn@l2tpc":"L2TP Client",
 	"vpn@l2tpc2":"L2TP Client2",
 	"vpn@l2tpc3":"L2TP Client3",
@@ -23,7 +25,7 @@
 	"vpn@l2tpc8":"L2TP Client8",
 	"vpn@l2tpc9":"L2TP Client9",
 	"vpn@l2tpc10":"L2TP Client10",
-	"vpn@l2tps":"L2TP Server",
+
 	"vpn@pptpc":"PPTP Client",
 	"vpn@pptpc2":"PPTP Client2",
 	"vpn@pptpc3":"PPTP Client3",
@@ -34,7 +36,7 @@
 	"vpn@pptpc8":"PPTP Client8",
 	"vpn@pptpc9":"PPTP Client9",
 	"vpn@pptpc10":"PPTP Client10",
-	"vpn@pptps":"PPTP Server",
+    
 	"vpn@gre":"GRE Tunnel",
 	"vpn@gre2":"GRE Tunnel2",
 	"vpn@gre3":"GRE Tunnel3",
@@ -45,6 +47,7 @@
 	"vpn@gre8":"GRE Tunnel8",
 	"vpn@gre9":"GRE Tunnel9",
 	"vpn@gre10":"GRE Tunnel10",
+
 	"ovpn@client":"OPENVPN Client",
 	"ovpn@client2":"OPENVPN Client2",
 	"ovpn@client3":"OPENVPN Client3",
@@ -55,7 +58,7 @@
 	"ovpn@client8":"OPENVPN Client8",
 	"ovpn@client9":"OPENVPN Client9",
 	"ovpn@client10":"OPENVPN Client10",
-	"ovpn@server":"OPENVPN Server",
+    
 	"ipsec@tunnel":"IPSEC Tunnel",
 	"ipsec@tunnel2":"IPSEC Tunnel2",
 	"ipsec@tunnel3":"IPSEC Tunnel3",
@@ -67,5 +70,33 @@
 	"ipsec@tunnel9":"IPSEC Tunnel9",
 	"ipsec@tunnel10":"IPSEC Tunnel10",
 
+	"sdwan@wg":"WireGuard",
+	"sdwan@wg2":"WireGuard2",
+	"sdwan@wg3":"WireGuard3",
+	"sdwan@wg4":"WireGuard4",
+	"sdwan@wg5":"WireGuard5",
+	"sdwan@wg6":"WireGuard6",
+	"sdwan@wg7":"WireGuard7",
+	"sdwan@wg8":"WireGuard8",
+	"sdwan@wg9":"WireGuard9",
+	"sdwan@wg10":"WireGuard10",
+
+    "sdwan@zt":"ZeroTier",
+    "sdwan@zt2":"ZeroTier2",
+    "sdwan@zt3":"ZeroTier3",
+    "sdwan@zt4":"ZeroTier4",
+    "sdwan@zt5":"ZeroTier5",
+    "sdwan@zt6":"ZeroTier6",
+    "sdwan@zt7":"ZeroTier7",
+    "sdwan@zt8":"ZeroTier8",
+    "sdwan@zt9":"ZeroTier9",
+    "sdwan@zt10":"ZeroTier10",
+
+	"vpns@l2tp":"L2TP Server",
+	"vpns@pptp":"PPTP Server",
+	"ovpns@server":"OPENVPN Server",
+
+
+    
 	"recordtext":"View {0} - {1} of {2}"
 }

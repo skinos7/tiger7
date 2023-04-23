@@ -34,6 +34,21 @@
             <input type="text" id="lock_band" class="col-xs-10 col-sm-5" maxlength="128" />
           </div>
         </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Lock Cell"></label>
+          <div class="col-sm-9">
+            <input type="text" id="lock_cell" class="col-xs-10 col-sm-5" maxlength="128" />
+          </div>
+        </div>
+
+
+
+        <div class="hr hr32 hr-dotted"></div>
+        <table id="set-grid-table"></table>
+        <div id="set-grid-pager"></div>
+        <table id="watch-grid-table"></table>
+        <div id="watch-grid-pager"></div>
+
 
 
         <div class="hr hr32 hr-dotted"></div>
@@ -191,7 +206,7 @@
     /* load the configure on the input */
     function config_load()
     {
-      he.load( [ object ] ).then( function(v){
+      he.load( [ object, object+".custom_set", object+".custom_watch" ] ).then( function(v){
         lte = v[0];
         if ( !lte )
         {
@@ -202,7 +217,57 @@
         $('#lock_imsi').val( lte.lock_imsi||'' );
         $('#lock_pin').val( lte.lock_pin||'' );
         $('#lock_band').val( lte.lock_band||'' );
+        $('#lock_cell').val( lte.lock_cell||'' );
 
+
+        if ( lte.custom_set )
+        {
+            var s = v[1];
+            var c = lte.custom_set;
+            var rows = [];
+            for ( var id in c )
+            {
+                var at = c[id];
+                if ( !at )
+                {
+                    continue;
+                }
+                var st = "";
+                if ( s )
+                {
+                    st = s[id];
+                }
+                var row = { name:id, at:at, result:st };
+                rows.push( row );
+            }
+            var scrollPos = jqtable.getScrollPos();
+            $("#set-grid-table").jqGrid('clearGridData').jqGrid('setGridParam', { data: rows }).trigger('reloadGrid');
+            jqtable.setScrollPos(scrollPos);
+        }
+        if ( lte.custom_watch )
+        {
+            var s = v[2];
+            var c = lte.custom_watch;
+            var rows = [];
+            for ( var id in c )
+            {
+                var at = c[id];
+                if ( !at )
+                {
+                    continue;
+                }
+                var st = "";
+                if ( s )
+                {
+                    st = s[id];
+                }
+                var row = { name:id, at:at, result:st };
+                rows.push( row );
+            }
+            var scrollPos = jqtable.getScrollPos();
+            $("#watch-grid-table").jqGrid('clearGridData').jqGrid('setGridParam', { data: rows }).trigger('reloadGrid');
+            jqtable.setScrollPos(scrollPos);
+        }
 
 
         $('#need_simcard').prop('checked', true );
@@ -253,6 +318,31 @@
       lte.lock_imsi = $('#lock_imsi').val();
       lte.lock_pin = $('#lock_pin').val();
       lte.lock_band = $('#lock_band').val();
+      lte.lock_cell = $('#lock_cell').val();
+
+      var data = {};
+      var rows = $("#set-grid-table").jqGrid('getDataIDs');
+      for ( var i = 0; i < rows.length; i++ )
+      {
+          var row = $("#set-grid-table").jqGrid('getRowData', rows[i] );
+          data[row.name] = row.at;
+      }
+      if ( rows.length > 0 )
+      {
+        lte.custom_set = data;
+      }
+      var data = {};
+      var rows = $("#watch-grid-table").jqGrid('getDataIDs');
+      for ( var i = 0; i < rows.length; i++ )
+      {
+          var row = $("#watch-grid-table").jqGrid('getRowData', rows[i] );
+          data[row.name] = row.at;
+      }
+      if ( rows.length > 0 )
+      {
+        lte.custom_watch = data;
+      }
+
       lte.need_simcard = boole2able( $('#need_simcard').prop('checked') );
       lte.simcard_failed_threshold = $('#simcard_failed_threshold').val();
       lte.simcard_failed_threshold2 = $('#simcard_failed_threshold2').val();
@@ -296,6 +386,78 @@
     $.i18n().load( page.lang('lte') ).then( function () {
       /* init the langauage */
       $.i18n().locale = lang; $('body').i18n();
+
+      /* init the table */
+      jqtable.create( "#set-grid-table", "set-grid-pager",
+        {
+            caption: $.i18n("Custom setting AT"),
+            colNames: [ $.i18n('Command Name'), $.i18n('AT Command'), $.i18n('Return') ],
+            colModel: [
+                {
+                    name:'name', width:200,
+                    editable: true,
+                    editrules:{ required: true }
+                },
+                {
+                    name: 'at', width: 300,
+                    editable: true,
+                    editrules: { required: true }
+                },
+                {
+                    name: 'result', width: 300,
+                    editable: false
+                }
+            ]
+        }
+      ).jqGrid(
+            'navGrid', "#set-grid-pager",
+            $.extend(true, {}, jqtable.navOptions, 
+                {
+                    add: true,addicon : 'ace-icon fa fa-plus-circle purple',
+                    del: true,delicon : 'ace-icon fa fa-trash-o red',
+                    edit: true,editicon : 'ace-icon fa fa-pencil blue',
+                    search: false, refresh: false, view: false
+                }
+            ),
+            jqtable.editOptions,
+            jqtable.addOptions,
+            jqtable.deleteOptions
+      );
+      jqtable.create( "#watch-grid-table", "watch-grid-pager",
+        {
+            caption: $.i18n("Custom watching AT"),
+            colNames: [ $.i18n('Command Name'), $.i18n('AT Command'), $.i18n('Return') ],
+            colModel: [
+                {
+                    name:'name', width:200,
+                    editable: true,
+                    editrules:{ required: true }
+                },
+                {
+                    name: 'at', width: 300,
+                    editable: true,
+                    editrules: { required: true }
+                },
+                {
+                    name: 'result', width: 300,
+                    editable: false
+                }
+            ]
+        }
+      ).jqGrid(
+            'navGrid', "#watch-grid-pager",
+            $.extend(true, {}, jqtable.navOptions, 
+                {
+                    add: true,addicon : 'ace-icon fa fa-plus-circle purple',
+                    del: true,delicon : 'ace-icon fa fa-trash-o red',
+                    edit: true,editicon : 'ace-icon fa fa-pencil blue',
+                    search: false, refresh: false, view: false
+                }
+            ),
+            jqtable.editOptions,
+            jqtable.addOptions,
+            jqtable.deleteOptions
+      );
 
       /* load the configure */
       config_load();

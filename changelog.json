@@ -1,5 +1,5 @@
 {
-    "v7.3.0319":
+    "v7.3.0326":
     {
         "20220303":"fix radio txpower",
         "20220304":"Trim the modem reset operation steps",
@@ -20,7 +20,14 @@
         "20220316":"use smstools2 to process the sms",
         "20220317":"fix the wui firewall bug",
         "20220318":"fix the signal level bug",
-        "20220319":"wireless bridge use the lan ip for relay gateway"
+        "20220319":"wireless bridge use the lan ip for relay gateway",
+        "20220320":"add custom the at command when setup or watch modem",
+        "20220321":"add fibcom l610 modem",
+        "20220322":"add sdwan(zerotier/wireguard) for swrt sdk",
+        "20220323":"add the custom at for setup/watch modem",
+        "20220324":"add the cereg/cgreg and json_unescape for band/cell to lte/nr modem",
+        "20220325":"all vpn support modify the depend none ifname",
+        "20220326":"add the sline for command line"
     },
     "v7.3.0228":
     {

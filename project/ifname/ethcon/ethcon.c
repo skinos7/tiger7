@@ -846,6 +846,7 @@ boole_t _online( obj_t this, param_t param )
 	const char *dns2;
 	const char *metric;
 	char path[PATH_MAX];
+	char ipaddr[NAME_MAX];
 
 	object = obj_combine( this );
 	v = param_talk( param, 1 );
@@ -907,13 +908,14 @@ boole_t _online( obj_t this, param_t param )
 	register_set( object, "dns2", dns2, stringlen(dns2)+1, 20 );
 
 	gateway = json_string( v, "gw" );
+	netdev_info( netdev, ipaddr, sizeof(ipaddr), NULL, 0, NULL, 0, NULL, 0 );
 	if ( gateway != NULL && *gateway != '\0' )
 	{
-		info( "%s(%s) online[ %s, %s ]", object, netdev, gateway, dns?:"" );
+		info( "%s(%s) %s online[ %s, %s ]", object, netdev, ipaddr, gateway?:"", dns?:"" );
 	}
 	else
 	{
-		info( "%s(%s) online", object, netdev );
+		info( "%s(%s) %s online", object, netdev, ipaddr );
 	}
 
 	/* clear the connect failed count */

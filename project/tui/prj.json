@@ -9,6 +9,10 @@
         "telnet":"telnet server management",
         "ssh":"ssl shell server management"
     },
+    "cmd":
+    {
+        "sline":"tools for terminal command line"
+    },
     "obj":
     {
         "telnetd":"telnet",

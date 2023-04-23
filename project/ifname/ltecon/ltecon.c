@@ -703,6 +703,34 @@ talk_t _status( obj_t this, param_t param )
 
     return ret;
 }
+talk_t _custom_set( obj_t this, param_t param )
+{
+    const char *ifdev;
+	const char *object;
+
+    object = obj_combine( this );
+	/* get the ifdev */
+	ifdev = register_value( object, "ifdev" );
+	if ( ifdev == NULL || *ifdev == '\0' )
+	{
+		return NULL;
+	}
+	return scall( ifdev, "custom_set", NULL );
+}
+talk_t _custom_watch( obj_t this, param_t param )
+{
+    const char *ifdev;
+	const char *object;
+
+    object = obj_combine( this );
+	/* get the ifdev */
+	ifdev = register_value( object, "ifdev" );
+	if ( ifdev == NULL || *ifdev == '\0' )
+	{
+		return NULL;
+	}
+	return scall( ifdev, "custom_watch", NULL );
+}
 
 
 
@@ -1109,6 +1137,7 @@ boole_t _online( obj_t this, param_t param )
 	const char *dns2;
 	const char *metric;
 	char path[PATH_MAX];
+	char ipaddr[NAME_MAX];
 
 	object = obj_combine( this );
 	v = param_talk( param, 1 );
@@ -1170,7 +1199,8 @@ boole_t _online( obj_t this, param_t param )
 	register_set( object, "dns2", dns2, stringlen(dns2)+1, 20 );
 
 	gateway = json_string( v, "gw" );
-	info( "%s(%s) online[ %s, %s ]", object, netdev, gateway?:"", dns?:"" );
+	netdev_info( netdev, ipaddr, sizeof(ipaddr), NULL, 0, NULL, 0, NULL, 0 );
+	info( "%s(%s) %s online[ %s, %s ]", object, netdev, ipaddr, gateway?:"", dns?:"" );
 
 	/* clear the failed count, dnon't clear at the icmp keeplive(clear in the keeplive) */
 	ptr = json_string( json_value( cfg, "keeplive" ), "type" );
@@ -1303,6 +1333,9 @@ boole _set( obj_t this, talk_t v, attr_t path )
 					|| 0 == strcmp( ptr, "lock_cellid" )
 					|| 0 == strcmp( ptr, "gnss" )
 
+					|| 0 == strcmp( ptr, "custom_set" )
+					|| 0 == strcmp( ptr, "custom_watch" )
+
 					|| 0 == strcmp( ptr, "need_simcard" )
 					|| 0 == strcmp( ptr, "simcard_failed_threshold" )
 					|| 0 == strcmp( ptr, "simcard_failed_threshold2" )
@@ -1366,7 +1399,10 @@ boole _set( obj_t this, talk_t v, attr_t path )
 			|| 0 == strcmp( ptr, "lock_arfcn" )
 			|| 0 == strcmp( ptr, "lock_cellid" )
 			|| 0 == strcmp( ptr, "gnss" )
-		
+
+			|| 0 == strcmp( ptr, "custom_set" )
+			|| 0 == strcmp( ptr, "custom_watch" )
+
 			|| 0 == strcmp( ptr, "need_simcard" )
 			|| 0 == strcmp( ptr, "simcard_failed_threshold" )
 			|| 0 == strcmp( ptr, "simcard_failed_threshold2" )
