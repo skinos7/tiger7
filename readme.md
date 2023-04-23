@@ -205,26 +205,26 @@ Component interfaces can be invoked either from the command line or through the 
 - **[Authentication management](https://github.com/skinos7/doc/blob/master/com/land/auth.md)**
 - **[Syslog management](https://github.com/skinos7/doc/blob/master/com/land/machine.md)**
 - **[Date management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
-- **[Telent server management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
-- **[SSH server management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
-- **[Web server management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
+- **[Telent server management](https://github.com/skinos7/doc/blob/master/com/tui/telnet.md)**
+- **[SSH server management](https://github.com/skinos7/doc/blob/master/com/tui/ssh.md)**
+- **[Web server management](https://github.com/skinos7/doc/blob/master/com/wui/admin.md)**
 
-- **[Station management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
+- **[Station management](https://github.com/skinos7/doc/blob/master/com/client/station.md)**
 
-- **[Firewall management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
-- **[NAT map management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
-- **[Route table management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
-- **[Route rule table management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
-- **[Multi Route table management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
-- **[Forward TTL management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
-- **[Mark table management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
-- **[ALG functions management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
+- **[Firewall management](https://github.com/skinos7/doc/blob/master/com/forward/firewall.md)**
+- **[NAT map management](https://github.com/skinos7/doc/blob/master/com//forward/nat.md)**
+- **[Route table management](https://github.com/skinos7/doc/blob/master/com/forward/route.md)**
+- **[Route rule table management](https://github.com/skinos7/doc/blob/master/com/forward/rule.md)**
+- **[Multi Route table management](https://github.com/skinos7/doc/blob/master/com/forward/routes.md)**
+- **[Forward TTL management](https://github.com/skinos7/doc/blob/master/com/forward/ttl.md)**
+- **[Mark table management](https://github.com/skinos7/doc/blob/master/com/forward/mark.md)**
+- **[ALG functions management](https://github.com/skinos7/doc/blob/master/com/forward/alg.md)**
 
-- **[GNSS management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
+- **[GNSS management](https://github.com/skinos7/doc/blob/master/com/gnss/nmea.md)**
 
-- **[IO management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
+- **[IO management](https://github.com/skinos7/doc/blob/master/com/io/agent.md)**
 
-- **[UART management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
+- **[UART management](https://github.com/skinos7/doc/blob/master/com/uart/serial.md)**
 
 - **[LTE Modem management](https://github.com/skinos7/doc/blob/master/com/modem/lte.md)**
 - **[LTE Network management](https://github.com/skinos7/doc/blob/master/com/ifname/lte.md)**
