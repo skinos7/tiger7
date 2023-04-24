@@ -1,0 +1,3 @@
+
+LDFLAGS += -llandnet -lreadline -lncurses
+
