@@ -146,12 +146,19 @@ make
 - 向系统注册网页界面
 
 **Component** 为 **项目(project)** 中的组件,  **项目(project)** 通过组件向系统及其它项目提供统一的管理接口
+
 **Default Configure** 为 **项目(project)** 的默认配置
+
 **HTML** 为 **项目(project)** 的网页管理界面
+
 **Shell** 可能的Shell脚本
+
 **Open Source Program** 可能的一些开源应用程序
+
 **Linux Executable Program** 可能的一些Linux可执行程序
+
 **Shared Library** 共享库
+
 **Kernel Module** 内核模块
 
 
