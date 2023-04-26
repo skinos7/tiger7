@@ -164,7 +164,6 @@ boole_t _shut( obj_t this, param_t param )
 	sdelete( object );
 	/* 退出, 记住一定要运行后立即退出, 如果不退出可能导致整个系统启动卡死在这里 */
 	return ttrue;
-
 }
 
 /* Usually it is started as a service process in other functions, so it will always run, and if it exits the system it will restart it */
