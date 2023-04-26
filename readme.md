@@ -1,8 +1,12 @@
+---
+title: "Readme"
+author: dimmalex@gmail.com
+date: March 22, 2022
+output:
+    word_document:
+        path: D:/tmp/Readme.docx
+---
 
-# brief 
-The research and development of Internet edge computing based on Linux operating system makes innovative changes in both software and hardware to meet the diversified and complex needs of the market
-- Software-based development of the **Software Foundation Development Platform**, which encapsulates embedded hardware in a unified way, providing a unified and scalable interface upwards 
-- In terms of hardware, we develop highly integrated and interface-rich **routing modules** or **edge computing gateway modules**, and develop targeted routing products and terminal computing products based on modules 
 
 # 简介 
 基于Linux操作系统的资源对边缘计算的研究及开发, 针对软件及硬件两个方面做出创新性的改变以适应市场多样化及复杂化的需求
@@ -10,17 +14,6 @@ The research and development of Internet edge computing based on Linux operating
 - 硬件开发高度集成且接口丰富的 **路由模块** 或 **边缘计算网关模块**， 基于模块开发针对性的路由产品及终端计算产品原型, 并为高度市场化的原型产品设计专用硬件
 
 
-
-# hardware product 
-The routing module is embedded in the customer's device or product to help it access the Internet and complete the calculation of business data related conversion and forwarding, triggering, timing task and so on  
-- **LTE routing module**, **<[D218 Specifications](https://github.com/skinos7/doc/blob/master/product/d218/spec.md)>**
-Provide LTE(4G) access, 2.4g WIFI(300M dual antenna) access or coverage, Ethernet (100M) access or out of the multi-functional and highly extensible routing module, and with double serial port (RS485/RS232/TTL three modes), multi-channel IO port and the corresponding data conversion and forwarding computing capabilities,  And provide a complete SDK and development interface, SDK has integrated a variety of control protocols can help developers to achieve local and remote control of this module  
-
-- **NR(5G) routing module**, **<[D228 Specifications](https://github.com/skinos7/doc/blob/master/product/d228/spec.md)>**
-Provide NR(5G) and LTE(4G) access, 5.8G WIFI(800M dual antenna) access or coverage, Ethernet (1000M) access or out of the multi-functional and highly extensible routing module,  And with three serial ports (RS485/RS232/TTL), multi-channel IO port and the corresponding data conversion and forwarding and other computing capabilities, and provides a complete SDK and development interface, SDK has integrated a variety of control protocols can help developers to achieve local and remote control of the module  
-
-- **NR(5G)&WIFI6 gateway module**, **<[D618 Specifications](https://github.com/skinos7/doc/blob/master/product/d618/spec.md)>(*Data has not been uploaded yet*)**
-Provide NR(5G) and LTE(4G) access, 5.8G WIFI6(1200M dual antenna) access or coverage, Ethernet (1000M) access or lead to the multi-functional and highly scalable routing module, with Bluetooth 5.0, CAN interface, HDMI2.0 audio and video output,  Audio input and output, MIPI-CSI camera head interface, USB2.0 interface (TYPE C), three serial ports (RS485/RS232/TTL), multi-channel IO interface and corresponding data conversion and forwarding and other computing capabilities, and provide a complete SDK and development interface,  SDK has integrated a variety of control protocols to help developers to achieve local and remote control of this module  
 
 # 硬件产品(路由模块) 
 用于嵌入于客户的设备或产品中帮助其接入互联网并完成业务数据相关的转换转发、触发、定时任务等计算, 或基于路由模块加上扩展板形成完整的路由器产品用于各种应用环境中
@@ -33,95 +26,23 @@ Provide NR(5G) and LTE(4G) access, 5.8G WIFI6(1200M dual antenna) access or cove
 
 
 
-# Software base development platform
-Using the functions provided by the Linux operating system, the various resources of embedded hardware are packaged into a relatively uniform development environment  
-Strive to insert a development environment middle layer between embedded hardware and embedded software  
-Stripping out development in two directions:
- - **Development environment** development: porting more embedded hardware platforms, packaging more hardware resources, providing more apis  
- - **Development of embedded application software** : based on the API provided by the development environment to develop more application logic, and application logic can also be convenient to provide interfaces to other applications in the way of API, all kinds of application logic can be very convenient to superimpose each other, to meet the various individual needs of customers  
-
-Through the above means, the embedded application software developed based on the development environment has the following advantages：
-- It can be transplanted to any embedded hardware platform supported by this development environment without code level modification, changing the status quo of repeated development and transplantation or adaptation in embedded  
-- It is very convenient to provide various call interfaces externally
-- Directly implement the corresponding management configuration or call its interface based on the protocol provided by the system  
-- And save the r&d cost in the future update of embedded chip
-
 # 软件基础开发平台
 使用Linux操作系统提供的各项功能, 将嵌入式硬件的各种资源包装成相对统一的 **开发环境**
 致力在嵌入式硬件与软件之间插入 **开发环境** 中间层系统
 剥离出两种方向的开发:
- - **开发环境** 的开发: 移植更多的嵌入式硬件平台, 封装更多硬件资源, 提供更多的组件API
- - **应用软件** 的开发: 基于开发环境提供的组件API开发更多的应用逻辑, 且应用逻辑也可以方便的以组件API的方式向其它应用提供接口, 各种应用逻辑可以很方便的相互叠加, 满足客户的各种个性需求
+ - **开发环境** 的开发: 移植更多的嵌入式硬件平台, 封装更多硬件资源, 提供更多的API
+ - **应用软件** 的开发: 基于开发环境提供的API开发更多的应用, 且应用也以API的方式向其它应用提供接口, 各种应用可以很方便的相互叠加, 满足客户的各种个性需求
 
-通过以上方式使得基于本 **开发环境** 开发的 **应用软件**, 据有以下优势：
-- 可以无代码级修改的移植到本开发环境支持的任意嵌入式硬件平台中, 改变嵌入式中重复开发及移植或适配现状
+通过以上方式使基于本 **开发环境** 开发的 **应用软件**, 据有以下优势：
+- 可以无代码级修改的移植到 **开发环境** 支持的任意嵌入式硬件平台中, 改变嵌入式中重复开发及移植或适配现状
 - 可以非常方便的向外提供各种调用接口
-- 基于系统向外提供的协议直接实现对应管理配置或调用其接口
-- 并在未来的嵌入式芯片更新换代中节约研发成本
+- 基于系统向外提供的协议、用户界面等直接实现对应管理配置或调用其接口
+- 在API稳定的情况下未来嵌入式芯片更新换代中节约研发成本
 
-**软件基础开发平台** 包含有 **开发环境** 跟产品对应的 **应用软件**, 我们称之为 **Skin SDK**
-***注意: 本软件基础开发平台不支持升级到未援权的硬件上, 否则将造成硬件的损坏***
+**软件基础开发平台** 包含有 **开发环境** 跟产品对应的 **应用软件**, 称之为 **SkinSDK**
+通过 **SkinSDK** 编译出来的运行系统称为 **SkinOS**
 
 
-
-# Software basic development platform download or update
-#### 1. Development environment download
-Under Ubuntu (20.04 or 18.04 is recommended), execute the following command to download the development environment (please install git and make first)
-```shell
-git clone https://github.com/skinos7/tiger7.git
-```
-After the above command is successfully completed, the tiger7 directory will be generated. This directory is the top-level directory of the development environment. Enter this directory
-```shell
-cd tiger7
-```
-Execute the following instructions to automatically install some tools required for compilation under Ubuntu
-```
-make ubuntu_preset
-```
-Execute the following command in the top-level directory of the development environment to specify the product model to be developed, and the following requires the input of **product complete model identify**
-*There will be an example corresponding to the product on the **SDK** menu item page under the **Development** menu of the product's web management interface*
-```shell
-make pid gBOARDID=<product complete model identify>
-
-# For D218 products, enter the following command to specify the product model:
-# make pid gBOARDID=mtk2-mt7628-d218
-
-# For products such as D228, enter the following command to specify the product model:
-# make pid gBOARDID=mtk2-mt7621-d228
-
-# For example, for V520 products, enter the following command to specify the product model:
-# make pid gBOARDID=mtk2-mt7621-v520
-````
-Then execute the following instructions to update the compilation environment and embedded application software corresponding to the product model
-```shell
-make update
-````
-Through the above five steps, the complete compilation environment and embedded application software corresponding to the product model can be updated
-***Note: All subsequent execution commands of unnamed directories will be executed in the item level directory of the development environment, that is, the mytry6 directory in the example***
-
-#### 2. Update menu and select Compile Embedded Application Package
-```shell
-make menu
-````
-will update the menu item before executing
-```shell
-make menuconfig
-````
-The software package menu corresponding to the product model is displayed, you can check or uncheck the software package, all the items of this system will be under the **Skin system(*Original Farm system*)** menu item
-***Note: If you do not need to adjust the application functions on the product, please do not check or uncheck the operation, just exit directly***
-
-#### 3. Compile the firmware
-implement
-```shell
-make dep
-make
-````
-The firmware upgrade package corresponding to the product model can be compiled. The firmware upgrade package ends with .zz and is stored in the build directory of the top-level directory.
-
-#### 4. Upgrade the compiled firmware to the product
-In the device web management interface, **System=>Software=>Update** to upgrade firmware with file that suffix be .zz
-If you need to upgrade and restore the factory settings at the same time, you can change the suffix (.zz) of the firmware to .default and then upgrade through the web management interface.
-***Note: After the firmware is upgraded, it may not start. If it does not start and the system light flashes slowly, please manually reset the device by pressing and holding the reset button for 5-8 seconds.***
 
 # 软件基础开发平台下载及编译
 
@@ -130,7 +51,13 @@ If you need to upgrade and restore the factory settings at the same time, you ca
 ```shell
 git clone https://gitee.com/tiger7/tiger7.git
 ```
-以上指令成功完成后会生成tiger7目录, 此目录是开发环境的顶层目录, 进入此目录
+*或者支持访问github的可以从github上下载*
+```shell
+git clone https://github.com/skinos7/tiger7.git
+```
+
+#### 2. Ubuntu上安装必要的开发工具
+以上指令执行完成后会生成tiger7目录, 此目录是开发环境的顶层目录, 进入此目录
 ```shell
 cd tiger7
 ```
@@ -138,111 +65,167 @@ cd tiger7
 ```shell
 make ubuntu_preset
 ```
-在开发环境的顶层目录下执行以下指令来指定要开发的产品型号， 以下要求输入的 **产品完整型号**
-*在产品的管理界面的 **定制开发** 菜单下的 **SDK下载** 菜单项页面上会有产品对应的示例*
+
+#### 3. 指定需要开发的产品
+执行以下指令指定产品型号， 要求输入产品 **完整型号**
+*在产品的WEB管理界面的 **定制开发** 菜单下的 **SDK下载** 菜单项页面上会有产品对应的示例, 当中有对应产品的完整型号*
 ```shell
 make pid gBOARDID=产品完整型号
 
-# 如D218的产品输入以下指令指定产品型号:
+# 如D218的产品输入以下指令:
 # make pid gBOARDID=mtk2-mt7628-d218
 
-# 如D228的产品输入以下指令指定产品型号:
+# 如3218/5218的产品输入以下指令:
+# make pid gBOARDID=mtk2-mt7628-r600
+
+# 如D228的产品输入以下指令:
 # make pid gBOARDID=mtk2-mt7621-d228
 
-# 如V520的产品输入以下指令指定产品型号：
+# 如V520的产品输入以下指令：
 # make pid gBOARDID=mtk2-mt7621-v520
 ```
-之后再执行以下指令来更新产品型号对应的编译环境及嵌入式应用软件
+
+#### 4. 更新应用软件
+之后再执行以下指令来更新应用软件
 ```shell
 make update
 ```
-通过以上五步即可更新产品型号对应的完整的编译环境及嵌入式应用软件
-***注意: 以后所有未指名目录的执行命令都表示在开发环境的项层目录执行, 即示例中的tiger7目录***
+通过以上四步即可更新产品对应的完整的编译环境及应用软件
 
-#### 2. 更新菜单并选择编译嵌入式应用软件包
+#### 5. 更新应用软件菜单并选择编译嵌入式应用软件包
 执行 
 ```shell
 make menu
 ```
-将会更新菜单项, 之后再执行 
+将会刷新菜单项, 之后再执行 
 ```shell
 make menuconfig
 ```
-显示出产品型号对应的软件包菜单， 可进去勾选或去勾选软件包, 所有本系统的项目都会在 **Skin system** 菜单项下
-***注意: 如果不需要调整产品上的应用功能请不要勾选或去勾选操作, 直接退出即可***
+显示产品对应的软件包菜单， 可进去勾选或去勾选软件包, 所有本系统的项目都会在 **Skin system** 菜单项下
+***注意: 如果不需要调整产品上的应用功能请不要勾选或去勾选操作, 直接保存退出即可***
 
-#### 3. 编译固件 
+#### 6. 编译固件 
 执行
 ```shell
 make dep
 make
 ```
-即可编译产品型号对应的固件升级包， 固件升级包以.zz结尾， 存放在顶层目录的build目录下
+即可编译产品型号对应的固件升级包， 固件升级包以.zz结尾， 存放在tiger7目录下的build目录
 
-#### 4. 将编译出来的固件升级到产品上
+#### 7. 将编译出来的固件升级到产品上
 在设备网页管理界面中的 **系统=>软件管理=>软件更新** 来点选.zz结尾的固件升级包来升级固件
 如需升级的同时恢复出厂设置可将固件的后缀名(.zz)修改为.default后现通过网页管理界面升级即可
 
 
 
-# System Frame
+# 系统框架
+- SkinOS中通过组件或共享库的方式对Linux底层封装，向上提供调用接口
+- SkinOS中可管理的对象都是一个个组件
+- 多个相关或相类功能的组件归类到相同的项目中形成一个应用软件
+
 ![avatar](./frame.jpg)
 
 
 
-# Development guidance 
-- [Porject and Component Development](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)
+# 系统中的项目的介绍
+- 应用软件在SkinSDK中对应的是 **项目(project)**， 每个 **项目(project)** 都有对应的目录，目录存放应用软件所有的源代码及各种资源文件
+- SkinSDK的 **项目(project)** 都存放在都在 **[tiger7/project](./project/)** 目录下
+- **项目(project)** 编译后会生成 **FPK安装包**, FPK安装包被用于安装到SkinOS中
+- SkinSDK中开发都需要创建 **项目(project)** 
+- 以下是 **项目(project)** 常见的组成图
 
-# 开发指导 
-- [项目及组件开发](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)
+![avatar](./project.png)
 
+**[prj.json](https://gitee.com/tiger7/doc/blob/master/dev/prj.json.md)** 是对整个 **项目(project)** 的描述，它是一个JSON格式的文件，会在 **项目(project)** 打包编译时打包到FPK安装包中
+- **项目(project)** 中必须存在此文件
+- 它的信息在编译时指导编译过程
+- 在将 **项目(project)** 打包成FPK时指导部分打包过程，在FPK安装到系统时指导安装过程
+- 在系统启动前向系统注册启动项
+- 在系统关机前注册关机项
+- 向系统注册事件处理项，在系统发生事件时触发调用对应的组件接口
+- 向系统注册网页界面
 
-
-# Component API
-Component interfaces can be invoked either from the command line or through the development interface   
-***Being refined, priority is given to commonly used components***  
-- **[Machine management](https://github.com/skinos7/doc/blob/master/com/land/machine.md)**
-- **[Authentication management](https://github.com/skinos7/doc/blob/master/com/land/auth.md)**
-- **[Syslog management](https://github.com/skinos7/doc/blob/master/com/land/machine.md)**
-- **[Date management](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**
-- **[Telent server management](https://github.com/skinos7/doc/blob/master/com/tui/telnet.md)**
-- **[SSH server management](https://github.com/skinos7/doc/blob/master/com/tui/ssh.md)**
-- **[Web server management](https://github.com/skinos7/doc/blob/master/com/wui/admin.md)**
-
-- **[Station management](https://github.com/skinos7/doc/blob/master/com/client/station.md)**
-
-- **[Firewall management](https://github.com/skinos7/doc/blob/master/com/forward/firewall.md)**
-- **[NAT map management](https://github.com/skinos7/doc/blob/master/com//forward/nat.md)**
-- **[Route table management](https://github.com/skinos7/doc/blob/master/com/forward/route.md)**
-- **[Route rule table management](https://github.com/skinos7/doc/blob/master/com/forward/rule.md)**
-- **[Multi Route table management](https://github.com/skinos7/doc/blob/master/com/forward/routes.md)**
-- **[Forward TTL management](https://github.com/skinos7/doc/blob/master/com/forward/ttl.md)**
-- **[Mark table management](https://github.com/skinos7/doc/blob/master/com/forward/mark.md)**
-- **[ALG functions management](https://github.com/skinos7/doc/blob/master/com/forward/alg.md)**
-
-- **[GNSS management](https://github.com/skinos7/doc/blob/master/com/gnss/nmea.md)**
-
-- **[IO management](https://github.com/skinos7/doc/blob/master/com/io/agent.md)**
-
-- **[UART management](https://github.com/skinos7/doc/blob/master/com/uart/serial.md)**
-
-- **[LTE Modem management](https://github.com/skinos7/doc/blob/master/com/modem/lte.md)**
-- **[LTE Network management](https://github.com/skinos7/doc/blob/master/com/ifname/lte.md)**
-- **[LAN Network management](https://github.com/skinos7/doc/blob/master/com/ifname/lan.md)**
-- **[WAN Network management](https://github.com/skinos7/doc/blob/master/com/ifname/wan.md)**
-- **[WISP Network management](https://github.com/skinos7/doc/blob/master/com/ifname/wisp.md)**
-
-- **[Network frame management](https://github.com/skinos7/doc/blob/master/com/network/frame.md)**
-
-more API in directory [COM Directory](https://github.com/skinos7/doc/blob/master/com)
-
-Component interfaces can be invoked from the command line,  See **[He command](https://github.com/skinos7/doc/blob/master/use/he_command.md)** for details
-It can also be called through the development interface, See **[Project and component development](https://github.com/skinos7/doc/blob/master/dev/beginner_development.md)** for details
+**Component** 为 **项目(project)** 中的组件,  **项目(project)** 通过组件向系统及其它项目提供统一的管理接口
+**Default Configure** 为 **项目(project)** 的默认配置
+**HTML** 为 **项目(project)** 的网页管理界面
+**Shell** 可能的Shell脚本
+**Open Source Program** 可能的一些开源应用程序
+**Linux Executable Program** 可能的一些Linux可执行程序
+**Shared Library** 共享库
+**Kernel Module** 内核模块
 
 
+# 系统中的项目架构图
+
+![avatar](./project2.png)
+
+**Skin Layer**, 此层向SkinOS提供管理接口, SkinOS通过此管理接口实现对系统中所有的项目统一管理
+- **Component** 向SkinOS提供接口
+- **Default Configure file** 提供默认配置
+- **HTML** 向SkinOS提供界面接口
+- **prj.json** 向SkinOS描述项目的资源
+
+**Linux System and Application**, 为常用的Linux系统及应用程序, 基于传统Linux应用程序的项目存在此层, 通常为项目内部实现逻辑而存在，不对外提供接口：
+- **Executable program**
+
+- **Kernel Module**
+- **Shared Library** 支持通过编程API向外提供API
+- **shell**
+- **Resource file**
+
+下图演示SkinOS的系统组件或其它项目通过**Skin Layer**实现对项目的管理
+![avatar](./project3.png)
+
+各种系统组件或是其它的项目组件都可以通过 **Skin Layer** 提供的接口对项目进行管理
 
 
-# 组件API
+
+
+# 项目的开发指导
+
+- **[项目及组件开发](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)**
+介绍及演示SkinSDK **项目(project)** 开发步骤, 并以示例的方式演示如何开发一个功能
+
+- **[移植Openwrt项目到SkinSDK中](https://gitee.com/tiger7/doc/blob/master/dev/porting_openwrt.md)**
+介绍及演示移植Openwrt下的开源项目到SkinSDK中
+
+- **[移植Openwrt项目到SkinSDK中-进阶版](https://gitee.com/tiger7/doc/blob/master/dev/porting_openwrt.md)**
+介绍及演示移植Openwrt下的开源项目到SkinSDK中
+
+
+<!--
+- **[在项目中编写Linux可执行程序](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)**
+演示在SkinSDK **项目(project)** 中开发Linux的可执行程序
+
+- **[在项目中编写共享库](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)**
+演示在SkinSDK **项目** 中开发共享动态库
+
+- **[在项目中编写内核模块](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)**
+演示在SkinSDK **项目** 中开发内核模块
+
+- **[在项目中编写脚本程序](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)**
+演示在SkinSDK **项目** 中编写Shell等脚本程序
+
+- **[编写基于已有Linux程序可执行程序的项目](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)**
+演示将已有的Linux二进制程序打包到 **项目** 中
+
+- **[编写基于已有Linux程序可执行程序的项目](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)**
+将已有的Linux二进制程序打包到 **项目** 中
+
+- **[编写基于移植开源程序的项目](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)**
+介绍如何移植传统的Linux开源程序到SkinSDK中
+
+- [自定义默认配置](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)
+介绍在如何自定义产品的默认配置, 允许自定义设备在恢复出厂后的原始配置
+
+- [在lte项目下添加LTE/NR模块驱动](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)
+介绍在如何加入新的LTE/NR模块的驱动, 让SkinSDK支持更多的4G或5G模块的驱动
+
+- [自定义网络连接模式](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)
+介绍在自定义网络连接策略, 实现更复杂的连接逻辑
+-->
+
+# 系统中常用的组件接口
 
 - **[设备基本信息管理](https://gitee.com/tiger7/doc/blob/master/com/land/machine.md)**
     管理设备的基本信息，如工作模式，设备名称等

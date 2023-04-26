@@ -107,16 +107,6 @@ done
 
 
 
-for tmp in smtk2-mt7621-v520-greatwall smtk2-mt7621-v520-zebra smtk2-mt7621-v520-ddonkey smtk2-mt7621-v520-factory
-do
-    make gBOARDID=${tmp} pid
-    make clean
-    make distclean
-    make dep
-    make
-    make sz
-    make ftp
-done
 for tmp in smtk2-mt7621-v520
 do
     make gBOARDID=${tmp} pid
@@ -130,41 +120,6 @@ do
 done
 
 
-
-for tmp in smtk2-mt7621-v520b-ddonkey
-do
-    make gBOARDID=${tmp} pid
-    make clean
-    make distclean
-    make dep
-    make
-    make sz
-    make ftp
-done
-for tmp in smtk2-mt7621-v520b
-do
-    make gBOARDID=${tmp} pid
-    make clean
-    make distclean
-    make dep
-    make
-    make sz
-    make ftp
-    make repo
-done
-
-
-
-for tmp in smtk2-mt7621-h721-factory
-do
-    make gBOARDID=${tmp} pid
-    make clean
-    make distclean
-    make dep
-    make
-    make sz
-    make ftp
-done
 for tmp in smtk2-mt7621-h721
 do
     make gBOARDID=${tmp} pid

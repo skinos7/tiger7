@@ -60,16 +60,9 @@ ftp repo:
 #####################################
 ######### Debug the Value ###########
 #####################################
-debug:
-	env
-	@echo "make kernel obj=network"
-dtebug:
-	if [ "X${obj}" != "X" ]; then \
-		make -f Makefile.target $@ COMPILE_PROJECT=package/${obj}/compile; \
-	else \
-		make -f Makefile.target $@; \
-	fi
-.PHONY: debug tdebug
+show_sdk:
+	@echo ${gSDK_DIR}
+.PHONY: show_sdk
 
 
 

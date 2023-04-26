@@ -70,7 +70,7 @@ boole_t _service( obj_t this, param_t param )
 
 
 /* Typically used for event process */
-talk_t _take( obj_t this, param_t param )
+boole_t _take( obj_t this, param_t param )
 {
     talk_t ms;
 	char *ptr;
