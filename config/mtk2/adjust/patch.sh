@@ -45,6 +45,15 @@ cp ${gPLATFORM_DIR}/adjust/patch/buildtools/mkimage-210-openssl-1.1.x-compat.pat
 cp ${gPLATFORM_DIR}/adjust/patch/buildtools/mkimage-300-ubuntu18-gcc-header-notfound-error.patch  ${gSDK_DIR}/tools/mkimage/patches/300-ubuntu18-gcc-header-notfound-error.patch
 # patch to Build tools system fix gcc complie error
 cp ${gPLATFORM_DIR}/adjust/patch/buildtools/gcc-960-gcc-inline-error.patch  ${gSDK_DIR}/toolchain/gcc/patches/4.8-linaro/960-gcc-inline-error.patch
+if [ "X${UB_REL}" = "X22" ]  ; then
+    echo "Custom Ubuntu ${UB_CODE} Patch"
+    # patch to Build tools system fix m4 ubuntu22 complie error
+    cp ${gPLATFORM_DIR}/adjust/patch/buildtools/m4-ubuntu22-fix-sigstksz.patch ${gSDK_DIR}/tools/m4/patches/210-fix-sigstksz.patch
+    # patch to Build tools system fix mklibs ubuntu22 complie error
+    cp ${gPLATFORM_DIR}/adjust/patch/buildtools/mklibs-ubuntu22.Makefile ${gSDK_DIR}/tools/mklibs/Makefile
+    # patch to Build tools system fix cmake
+    cp ${gPLATFORM_DIR}/adjust/patch/buildtools/cmake-ubuntu-cpp-const-fix.patch ${gSDK_DIR}/tools/cmake/patches/
+fi
 if [ "X${UB_REL}" = "X20" ] || [ "X${UB_REL}" = "X22" ]  ; then
     echo "Custom Ubuntu ${UB_CODE} Patch"
     # patch to Build tools system fix m4 ubuntu20 complie error

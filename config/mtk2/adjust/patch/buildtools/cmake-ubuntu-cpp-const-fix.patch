@@ -1,0 +1,11 @@
+--- a/Source/CTest/cmCTestBuildHandler.cxx	2023-04-27 09:53:22.375441334 +0800
++++ b/Source/CTest/cmCTestBuildHandler.cxx	2023-04-27 09:53:19.371426241 +0800
+@@ -571,7 +571,7 @@
+ public:
+   FragmentCompare(cmFileTimeComparison* ftc): FTC(ftc) {}
+   FragmentCompare(): FTC(0) {}
+-  bool operator()(std::string const& l, std::string const& r)
++  bool operator()(std::string const& l, std::string const& r) const
+     {
+     // Order files by modification time.  Use lexicographic order
+     // among files with the same time.

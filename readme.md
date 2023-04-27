@@ -75,7 +75,7 @@ make pid gBOARDID=产品完整型号
 # 如D218的产品输入以下指令:
 # make pid gBOARDID=mtk2-mt7628-d218
 
-# 如3218/5218的产品输入以下指令:
+# 如2218/3218/5218的产品输入以下指令:
 # make pid gBOARDID=mtk2-mt7628-r600
 
 # 如D228的产品输入以下指令:
@@ -83,6 +83,9 @@ make pid gBOARDID=产品完整型号
 
 # 如V520的产品输入以下指令：
 # make pid gBOARDID=mtk2-mt7621-v520
+
+# 如2218/3218/5218的产品使用最新的Openwrt的底层:
+# make pid gBOARDID=wrt-mt7628-r600
 ```
 
 #### 4. 更新应用软件
