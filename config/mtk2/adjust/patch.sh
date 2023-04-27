@@ -45,7 +45,7 @@ cp ${gPLATFORM_DIR}/adjust/patch/buildtools/mkimage-210-openssl-1.1.x-compat.pat
 cp ${gPLATFORM_DIR}/adjust/patch/buildtools/mkimage-300-ubuntu18-gcc-header-notfound-error.patch  ${gSDK_DIR}/tools/mkimage/patches/300-ubuntu18-gcc-header-notfound-error.patch
 # patch to Build tools system fix gcc complie error
 cp ${gPLATFORM_DIR}/adjust/patch/buildtools/gcc-960-gcc-inline-error.patch  ${gSDK_DIR}/toolchain/gcc/patches/4.8-linaro/960-gcc-inline-error.patch
-if [ "X${UB_REL}" = "X20" ]; then
+if [ "X${UB_REL}" = "X20" ] || [ "X${UB_REL}" = "X22" ]  ; then
     echo "Custom Ubuntu ${UB_CODE} Patch"
     # patch to Build tools system fix m4 ubuntu20 complie error
     cp ${gPLATFORM_DIR}/adjust/patch/buildtools/m4-ubuntu20-compile-fix.patch ${gSDK_DIR}/tools/m4/patches/200-gnulib-compile-fix.patch
