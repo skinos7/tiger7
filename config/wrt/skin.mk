@@ -14,6 +14,9 @@ define Package/Define
   MISC_LIST:=$(wildcard *.json *.cfg *.sh *.ash *.html)
   FPK_BUILD_DIR:=$(PKG_BUILD_DIR)/.fpk
   FPK_LIB_DIR:=$(PKG_BUILD_DIR)/.fpk/lib
+  FPK_BIN_DIR:=$(PKG_BUILD_DIR)/.fpk/bin
+  FPK_ETC_DIR:=$(PKG_BUILD_DIR)/.fpk/etc
+  FPK_INT_DIR:=$(PKG_BUILD_DIR)/.fpk/int
   FPK_ROOTFS_DIR:=$(PKG_BUILD_DIR)/.fpk/rootfs
   PROJECT_ID:=${PKG_NAME}
   VERSION_ID:=${PKG_VERSION}
@@ -29,10 +32,10 @@ define Build/Prepare/Default
 		echo "project ${PROJECT_ID} version cannot find, maybe ${gPROJECT_INF} break"; \
 		exit -1; \
 	fi
-	if [ -d ./so ]; then \
-		$(CP) ./so $(PKG_BUILD_DIR); \
-	fi
 	@mkdir -p $(PKG_BUILD_DIR)
+	if [ -d ./lib ]; then \
+		$(CP) ./lib $(PKG_BUILD_DIR); \
+	fi
 	@if [ "X" == "X$(1)" ];then \
 		for i in ${LIB_LIST} ${COM_LIST} ${CMD_LIST} ${EXE_LIST} ${OSC_LIST} ${KO_LIST} ;do \
 			if [ -e $$$$i ];then \
@@ -153,11 +156,20 @@ define Build/Install/Collect
 	# make the fpk dir
 	$(INSTALL_DIR) $(FPK_BUILD_DIR)
 	$(INSTALL_DIR) $(FPK_LIB_DIR)
-	if [ -d ./so ]; then \
-		$(CP) ./so/*.so* $(FPK_LIB_DIR); \
+	$(INSTALL_DIR) $(FPK_BIN_DIR)
+	if [ -d ./lib ]; then \
+		$(CP) ./lib/*.so* $(FPK_LIB_DIR); \
 	fi
 	if [ -d ./bin ]; then \
-		$(CP) ./bin/* $(FPK_BUILD_DIR); \
+		$(CP) ./bin/* $(FPK_BIN_DIR); \
+	fi
+	if [ -d ./etc ]; then \
+		$(INSTALL_DIR) $(FPK_ETC_DIR); \
+		$(CP) ./etc/* $(FPK_ETC_DIR); \
+	fi
+	if [ -d ./int ]; then \
+		$(INSTALL_DIR) $(FPK_INT_DIR); \
+		$(CP) ./int/* $(FPK_INT_DIR); \
 	fi
 	for c in $(PNG_LIST) $(MISC_LIST) ${RES_LIST}; do \
 		if [ -e ./$$$$c ]; then \
@@ -185,7 +197,7 @@ define Build/Install/Collect
 	for i in ${CMD_LIST};do \
 		if [ -d $(PKG_BUILD_DIR)/$$$$i ];then \
 			if [ -e $(PKG_BUILD_DIR)/$$$$i/$$$$i ];then \
-				$(INSTALL_BIN) $(PKG_BUILD_DIR)/$$$$i/$$$$i $(FPK_BUILD_DIR); \
+				$(INSTALL_BIN) $(PKG_BUILD_DIR)/$$$$i/$$$$i $(FPK_BIN_DIR); \
 			fi; \
 		fi; \
 	done

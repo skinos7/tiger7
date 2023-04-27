@@ -23,6 +23,7 @@
         "hetui":"UART application components for he command",
         "modbus":"UART application components for modbus",
         "dtu":"UART application components for DTU",
+        "httppost":"UART application components for HTTP Post",
         "nmea":"UART application components for GNSS"
     },
     "init":
