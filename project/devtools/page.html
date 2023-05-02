@@ -1,16 +1,16 @@
 <!-- ajax layout which only needs content area -->
 <div class="row">
     <div class="col-xs-12 form-btn-wrapper">
-    <!-- 界面开始 -->
+    <!-- HTML Begin -->
     <div class="form-horizontal" role="form">
 
 
         
-    <!-- 自定义一个状态 -->
+    <!-- Custom a status -->
     <div class="form-group">
         <label class="col-sm-3 control-label no-padding-right" data-i18n="Custom Status"></label>
         <div class="col-sm-9">
-            <!-- 状态选项 -->
+            <!-- status option -->
             <label><input id="status" class="ace ace-switch ace-switch-6" type="checkbox" /><span class="lbl"></span></label>
         </div>
     </div>
@@ -18,11 +18,11 @@
 
     <div id="statusSets">
 
-        <!-- 自定义一个属性 -->
+        <!-- Custom a property -->
         <div class="form-group">
             <label class="col-sm-3 control-label no-padding-right" data-i18n="Custom Property"></label>
             <div class="col-sm-9">
-                <!-- 属性输入框 -->
+                <!-- property input box -->
                 <div class="clearfix"><input type="text" id="property" class="col-xs-10 col-sm-5" maxlength="128" /></div>
             </div>
         </div>
@@ -30,13 +30,13 @@
     </div><!--statusSets-->
 
 
-    <!-- 按键面板 -->
+    <!-- Button panel -->
     <div class="clearfix form-actions">
         <div class="col-md-offset-3 col-md-9">
-            <!-- 刷新按键 -->
+            <!-- Refresh button -->
             <button class="btn btn-second" type="button" id="refresh"><span data-i18n="Refresh"></span></button>
             &nbsp; &nbsp; &nbsp;
-            <!-- 应用按键 -->
+            <!-- Apply button -->
             <button class="btn btn-main" type="button" id="apply"><span data-i18n="Apply"></span></button>
         </div>
     </div>
@@ -44,7 +44,7 @@
 
 
     </div>
-    <!-- 界面结束 -->
+    <!-- End of HTML -->
   </div><!-- /.col -->
 </div><!-- /.row -->
 
@@ -53,44 +53,44 @@
 <!-- page specific plugin scripts -->
 <script type="text/javascript">
 (function () {
-    // Javascript开始
+    // Javascript Begin
 
 
 
-    // 组件配置名称
+    // Component full name
     var comname = "templat@com";
-    // 存放组件配置的变量
+    // Component configure
     var comcfg;
-    // 语言文件路径, 自动跟据系统语言类型变化路径(在prj.json中指名)
+    // Language file path, which automatically varies according to the system language type (named in prj.json)
     var langjson = base64.decode( page.param( 'lang', location.hash ) );
 
-    // 从系统获取组件配置并填入界面中
+    // Get the component configuration from the system and fill it into the html
     function load_comcfg()
     {
-        // 从系统获取组件配置的调用
+        // Get the component configure from the system
         he.load( [ comname ] ).then( function(v){
-            // 将获到的配置赋值给存放组件配置的变量
+            // Get the component configure and stored to "comcfg"
             comcfg = v[0];
             if ( !comcfg )
             {
                 comcfg = {};
             }
-            // 将组件配置状态填入状态选项
+            // load the attribute "status"
             $('#status').prop( 'checked', able2boole(comcfg.status) );
-            // 将组件配置属性值填入属性输入框中
+            // load the attribute "property"
             $('#property').val( comcfg.property );
-            // 为状态选项绑定函数处理, 实现点选时界面隐藏或显示属性输入框
+            // Bind function handling for status options to hide or display property input box when clicked
             $('#status').unbind('change').change(function () {
-                // 如果选中
+                // if select
                 if ($(this).prop('checked'))
                 {
-                    // 显示
+                    // shopw
                     $('#statusSets').show();
                 }
-                // 否则
+                // else
                 else
                 {
-                    //隐藏
+                    // hide
                     $('#statusSets').hide();
                 }
             }).trigger('change');
@@ -98,57 +98,57 @@
     }
 
 
-    // 从界面得到修改的配置后保存并应用到组件配置中
+    // Save the modified configure that from html and apply it to the component configuration
     function save_comcfg()
     {
         if ( !comcfg )
         {
             comcfg = {};
         }
-        // 拷贝一份组件配置
+        // copy a component configure
         var comcfgcopy = JSON.parse(JSON.stringify(comcfg));
-        // 从状态选项中得到组件状态
+        // get the attribute "status"
         comcfg.status = boole2able( $('#status').prop('checked') );
         if ( comcfg.status == "enable" )
         {
-            // 从属性输入框中得到组件属性值
+            // get the attribute "property"
             comcfg.property = $('#property').val();
         }
-        // 比较拷贝确定组件配置是否有被修改
+        // Compare copies to determine if component configure have been modified
         if ( ocompare( comcfg, comcfgcopy ) )
         {
-            // 如果未修改提示没有修改不需要应用
+            // If no modification message no modification does not need to apply
             page.alert( { message: $.i18n('Settings unchanged') } );
             return;
         }
-        // 向系统保存并应用组件配置的调用
+        // Save the component configure
         he.save( [ comname+"="+JSON.stringify(comcfg) ] ).then( function(){
-            // 提示应用成功
+            // hint succeed
             page.hint2succeed( $.i18n('Modify successfully') );
-            // 刷新界面内容
+            // flash the page
             load_comcfg();
         });
     }
     
-    // 加载语言文件
+    // Load the language file
     $.i18n().load( page.lang(langjson) ).then( function () {
-        // 界面语言初始化
+        // HTML language initialization
         $.i18n().locale = window.lang; $('body').i18n();
-        // 加载组件配置
+        // load the component configure
         load_comcfg();
-        /* 绑定刷新按键 */
+        /* Bind refresh button */
         $('#refresh').on(ace.click_event, function () {
             location.reload();
         });
-        /* 绑定应用按键 */
+        /* Bind apply button */
         $('#apply').on(ace.click_event, function () {
-            // 点应用时保存并应用组件配置
+            // Save and apply the component configuration when you click apply
             save_comcfg();
         });
     });
 
 
 
-    // Javascript结束
+    // End of Javascript
 })()
 </script>
