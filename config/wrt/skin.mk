@@ -9,9 +9,10 @@ define Package/Define
   OSC_LIST:=$(shell prj-read osc)
   RES_LIST:=$(shell prj-read res)
   KO_LIST:=$(shell prj-read ko)
+  SH_LIST:=$(wildcard *.sh *.ash)
   MKD_LIST:=$(wildcard *.md)
   PNG_LIST:=$(wildcard *.png *.jpg)
-  MISC_LIST:=$(wildcard *.json *.cfg *.sh *.ash *.html)
+  MISC_LIST:=$(wildcard *.json *.cfg *.html)
   FPK_BUILD_DIR:=$(PKG_BUILD_DIR)/.fpk
   FPK_LIB_DIR:=$(PKG_BUILD_DIR)/.fpk/lib
   FPK_BIN_DIR:=$(PKG_BUILD_DIR)/.fpk/bin
@@ -176,6 +177,14 @@ define Build/Install/Collect
 			$(CP) $$$$c $(FPK_BUILD_DIR); \
 		fi; \
 	done
+	if [ "X" != "$(SH_LIST)"  ]; then \
+		for c in $(SH_LIST); do \
+			if [ -e ./$$$$c ]; then \
+				$(CP) $$$$c $(FPK_BUILD_DIR); \
+				chmod a+x $(FPK_BUILD_DIR)/$$$$c; \
+			fi; \
+		done
+	fi
 	for i in ${COM_LIST};do \
 		if [ -d $(PKG_BUILD_DIR)/$$$$i ];then \
 			$(CP) $(PKG_BUILD_DIR)/$$$$i/$$$$i.com $(FPK_BUILD_DIR); \
