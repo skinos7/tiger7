@@ -183,7 +183,7 @@ define Build/Install/Collect
 				$(CP) $$$$c $(FPK_BUILD_DIR); \
 				chmod a+x $(FPK_BUILD_DIR)/$$$$c; \
 			fi; \
-		done
+		done; \
 	fi
 	for i in ${COM_LIST};do \
 		if [ -d $(PKG_BUILD_DIR)/$$$$i ];then \
