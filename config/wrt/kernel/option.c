@@ -608,6 +608,28 @@ static void option_instat_callback(struct urb *urb);
 
 
 static const struct usb_device_id option_ids[] = {
+
+    
+
+    /* add by dimmalex for lierda */
+	{ USB_DEVICE(0x3505, 0x1001), .driver_info = RSVD(6) },
+
+    
+
+    /* add by dimmalex for EC200(0x2c7c) */
+	{ USB_DEVICE(0x02c7c, 0x6005) },
+    /* add by dimmalex for EC20(0x05c6) */
+	{ USB_DEVICE(0x05c6, 0x9215) },
+    /* add by dimmalex for EC20(0x2c7c) */
+	{ USB_DEVICE(0x05c6, 0x9215) },
+    /* add by dimmalex for EC20(0x2c7c) */
+	{ USB_DEVICE(0x2C7C, 0x0121) },
+	{ USB_DEVICE(0x2C7C, 0x0125) },
+    /* add by dimmalex for RM500U(0x2c7c) */
+    { USB_DEVICE_AND_INTERFACE_INFO(0x2C7C, 0x0900, 0xff, 0x00, 0x00) }, /* Quectel RM500U/RG200U/RX500U */  
+
+
+
 	{ USB_DEVICE(OPTION_VENDOR_ID, OPTION_PRODUCT_COLT) },
 	{ USB_DEVICE(OPTION_VENDOR_ID, OPTION_PRODUCT_RICOLA) },
 	{ USB_DEVICE(OPTION_VENDOR_ID, OPTION_PRODUCT_RICOLA_LIGHT) },

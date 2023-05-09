@@ -27,7 +27,9 @@
         "20220323":"add the custom at for setup/watch modem",
         "20220324":"add the cereg/cgreg and json_unescape for band/cell to lte/nr modem",
         "20220325":"all vpn support modify the depend none ifname",
-        "20220326":"add the sline for command line, support history and line edit function"
+        "20220326":"add the sline for command line, support history and line edit function",
+        "20220327":"add the modbus slave for client",
+        "20220328":"restart delay 120 second for lte modem usb crack"
     },
     "v7.3.0228":
     {
