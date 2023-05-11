@@ -681,14 +681,10 @@ talk_t _get( obj_t this, attr_t path )
 {
 	talk_t ret;
 	talk_t cfg;
-	struct stat st;
-	const char *ptr;
 	const char *css_file;
 	const char *logo_file;
 	const char *login_file;
 	const char *index_file;
-	char webpath[PATH_MAX];
-	char filepath[PATH_MAX];
 	
     cfg = config_get( this, NULL );
 
@@ -697,66 +693,31 @@ talk_t _get( obj_t this, attr_t path )
 	if ( css_file == NULL || *css_file == '\0' )
 	{
 		css_file = "custom.css";
+		json_set_string( cfg, "css_file", css_file );
 	}
-	ptr = config_path( filepath, sizeof(filepath), PROJECT_ID, css_file );
-	if ( ptr != NULL && stat( ptr, &st ) == 0 )
-	{
-		snprintf( webpath, sizeof(webpath), "/cfg/%s", css_file );
-	}
-	else
-	{
-		snprintf( webpath, sizeof(webpath), "/%s", css_file );
-	}
-	json_set_string( cfg, "css_file", webpath );
 
 	// Logo
 	logo_file = json_string( cfg, "logo_file" );
-	if ( logo_file != NULL && *logo_file != '\0' )
+	if ( logo_file == NULL || *logo_file == '\0' )
 	{
-		ptr = config_path( filepath, sizeof(filepath), PROJECT_ID, logo_file );
-		if ( ptr != NULL && stat( ptr, &st ) == 0 )
-		{
-			snprintf( webpath, sizeof(webpath), "/cfg/%s", logo_file );
-		}
-		else
-		{
-			snprintf( webpath, sizeof(webpath), "/%s", logo_file );
-		}
-		json_set_string( cfg, "logo_file", webpath );
+		logo_file = "logo.png";
+		json_set_string( cfg, "logo_file", logo_file );
 	}
 
 	// login.html
 	login_file = json_string( cfg, "login_file" );
-	if ( login_file != NULL && *login_file != '\0' )
+	if ( login_file == NULL || *login_file == '\0' )
 	{
-		ptr = config_path( filepath, sizeof(filepath), PROJECT_ID, login_file );
-		if ( ptr != NULL && stat( ptr, &st ) == 0 )
-		{
-			snprintf( webpath, sizeof(webpath), "/cfg/%s", login_file );
-			json_set_string( cfg, "login_file", webpath );
-		}
-		else
-		{
-			snprintf( webpath, sizeof(webpath), "/%s", login_file );
-		}
-		json_set_string( cfg, "login_file", webpath );
+		login_file = "login.html";
+		json_set_string( cfg, "login_file", login_file );
 	}
 
 	// index.html
 	index_file = json_string( cfg, "index_file" );
-	if ( index_file != NULL && *index_file != '\0' )
+	if ( index_file == NULL || *index_file == '\0' )
 	{
-		ptr = config_path( filepath, sizeof(filepath), PROJECT_ID, index_file );
-		if ( ptr != NULL && stat( ptr, &st ) == 0 )
-		{
-			snprintf( webpath, sizeof(webpath), "/cfg/%s", index_file );
-			json_set_string( cfg, "index_file", webpath );
-		}
-		else
-		{
-			snprintf( webpath, sizeof(webpath), "/%s", index_file );
-		}
-		json_set_string( cfg, "index_file", webpath );
+		index_file = "index.html";
+		json_set_string( cfg, "index_file", index_file );
 	}
 
     /* get the path attr */

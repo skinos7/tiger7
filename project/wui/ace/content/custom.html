@@ -383,6 +383,10 @@
     var ethernets;
     var wui;
     var lock;
+    var css_file = "custom.css";
+    var logo_file = "logo.png";
+    var login_file = "login.html";
+    var index_file = "index.html";
     function load_cfg()
     {
         he.load( [ "machine", "machine.status", ".ifname@lte", ".ifname@lte2", "ifname@lte.status", "ifname@lte2.status", "arch@ethernet.status", "wui@admin", "arch@lock" ] ).then( function( v ){
@@ -459,6 +463,10 @@
             $('#firmware_version').text(ms.version);
 
             /* load wui */
+            css_file = wui.css_file;
+            logo_file = wui.logo_file;
+            login_file = wui.login_file;
+            index_file = wui.index_file;
             $('#logo_color').val( wui.logo_color );
             $('#logo_title').val( wui.logo_title );
             $('#logo_width').val( wui.logo_width );
@@ -591,7 +599,7 @@
         /* LOGO文件导入 */
         $('#upload_logo').ace_file_input( { no_file: $.i18n('No File'), btn_choose: $.i18n('Choose'), btn_change: $.i18n('Change'), icon_remove: '' } );
         $('#upload_logo').fileupload({
-            url: '/cgi/upload?PROJECT=wui&FILETYPE=config&FILENAME=logo.png',
+            url: '/cgi/upload?PROJECT=wui&FILETYPE=config&FILENAME='+logo_file,
             paramName: 'filename',
             dataType: 'text',
             add: function (e, data)
@@ -602,7 +610,7 @@
             done: function (e, data)
             {
                 page.overlay2hide();
-                he.exec( [ "wui@admin:logo_file=logo.png" ] ).then( function(){
+                he.exec( [ "wui@admin:logo_file="+logo_file ] ).then( function(){
                     location.reload(true);
                 });
             }
@@ -610,7 +618,7 @@
         /* CSS文件导入 */
         $('#upload_css').ace_file_input( { no_file: $.i18n('No File'), btn_choose: $.i18n('Choose'), btn_change: $.i18n('Change'), icon_remove: '' } );
         $('#upload_css').fileupload({
-            url: '/cgi/upload?PROJECT=wui&FILETYPE=config&FILENAME=custom.css',
+            url: '/cgi/upload?PROJECT=wui&FILETYPE=config&FILENAME='+css_file,
             paramName: 'filename',
             dataType: 'text',
             add: function (e, data)
@@ -621,7 +629,7 @@
             done: function (e, data)
             {
                 page.overlay2hide();
-                he.exec( [ "wui@admin:css_file=custom.css" ] ).then( function(){
+                he.exec( [ "wui@admin:css_file="+css_file ] ).then( function(){
                     location.reload(true);
                 });
             }
@@ -629,7 +637,7 @@
         /* Login文件导入 */
         $('#upload_login').ace_file_input( { no_file: $.i18n('No File'), btn_choose: $.i18n('Choose'), btn_change: $.i18n('Change'), icon_remove: '' } );
         $('#upload_login').fileupload({
-            url: '/cgi/upload?PROJECT=wui&FILETYPE=config&FILENAME=login.html',
+            url: '/cgi/upload?PROJECT=wui&FILETYPE=config&FILENAME='+login_file,
             paramName: 'filename',
             dataType: 'text',
             add: function (e, data)
@@ -640,7 +648,7 @@
             done: function (e, data)
             {
                 page.overlay2hide();
-                he.exec( [ "wui@admin:login_file=login.html" ] ).then( function(){
+                he.exec( [ "wui@admin:login_file="+login_file ] ).then( function(){
                     location.reload(true);
                 });
             }
@@ -648,7 +656,7 @@
         /* Index文件导入 */
         $('#upload_index').ace_file_input( { no_file: $.i18n('No File'), btn_choose: $.i18n('Choose'), btn_change: $.i18n('Change'), icon_remove: '' } );
         $('#upload_index').fileupload({
-            url: '/cgi/upload?PROJECT=wui&FILETYPE=config&FILENAME=index.html',
+            url: '/cgi/upload?PROJECT=wui&FILETYPE=config&FILENAME='+index_file,
             paramName: 'filename',
             dataType: 'text',
             add: function (e, data)
@@ -659,7 +667,7 @@
             done: function (e, data)
             {
                 page.overlay2hide();
-                he.exec( [ "wui@admin:index_file=index.html" ] ).then( function(){
+                he.exec( [ "wui@admin:index_file="+index_file ] ).then( function(){
                     location.reload(true);
                 });
             }
