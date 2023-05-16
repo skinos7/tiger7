@@ -2,6 +2,7 @@
 	"ntp":"NTP Server",
 	"rtc":"RTC",
 	"lte":"LTE",
+	"gps":"GPS",
 	"set":"Manual",
 	"sourcenull":"Invalid",
 

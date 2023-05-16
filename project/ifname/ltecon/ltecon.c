@@ -1362,6 +1362,8 @@ boole _set( obj_t this, talk_t v, attr_t path )
 
 					|| 0 == strcmp( ptr, "sms" )
 					|| 0 == strcmp( ptr, "sms_cfg" )
+
+					|| 0 == strcmp( ptr, "usb_mode" )
 					)
 				{
 					json_set_value( mcfg, ptr, talk_dup(info) );
@@ -1429,6 +1431,8 @@ boole _set( obj_t this, talk_t v, attr_t path )
 
 			|| 0 == strcmp( ptr, "sms" )
 			|| 0 == strcmp( ptr, "sms_cfg" )
+			
+			|| 0 == strcmp( ptr, "usb_mode" )
 			)
 		{
 			dret = config_sset( ifdev, v, path );

@@ -14,7 +14,7 @@
 	"ntp":"NTP对时",
 	"rtc":"RTC",
 	"lte":"LTE对时",
-	"gps":"LTE对时",
+	"gps":"GPS对时",
 	"set":"手动设置",
 	"sourcenull":"无有效来源",
 	"Copy from computer":"与电脑对时",
