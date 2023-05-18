@@ -29,7 +29,9 @@
         "20220325":"all vpn support modify the depend none ifname",
         "20220326":"add the sline for command line, support history and line edit function",
         "20220327":"add the modbus slave for client",
-        "20220328":"restart delay 120 second for lte modem usb crack"
+        "20220328":"restart delay 120 second for lte modem usb crack",
+        "20220329":"add the usb_mode control the lte modem mode",
+        "20220401":"add read GNSS date"
     },
     "v7.3.0228":
     {

@@ -447,6 +447,16 @@ talk_t _shut( obj_t this, param_t param )
 
     return ttrue;
 }
+talk_t _reset( obj_t this, param_t param )
+{
+	const char *object;
+
+	object = obj_combine( this );
+    /* reset */
+	sreset( NULL, NULL, NULL, object );
+    return ttrue;
+}
+
 boole_t _check( obj_t this, param_t param )
 {
     const char *passwd;
@@ -682,7 +692,6 @@ talk_t _get( obj_t this, attr_t path )
 	talk_t ret;
 	talk_t cfg;
 	const char *css_file;
-	const char *logo_file;
 	const char *login_file;
 	const char *index_file;
 	
@@ -694,14 +703,6 @@ talk_t _get( obj_t this, attr_t path )
 	{
 		css_file = "custom.css";
 		json_set_string( cfg, "css_file", css_file );
-	}
-
-	// Logo
-	logo_file = json_string( cfg, "logo_file" );
-	if ( logo_file == NULL || *logo_file == '\0' )
-	{
-		logo_file = "logo.png";
-		json_set_string( cfg, "logo_file", logo_file );
 	}
 
 	// login.html

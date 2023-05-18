@@ -463,10 +463,10 @@
             $('#firmware_version').text(ms.version);
 
             /* load wui */
-            css_file = wui.css_file;
-            logo_file = wui.logo_file;
-            login_file = wui.login_file;
-            index_file = wui.index_file;
+            if ( wui.css_file ) css_file = wui.css_file;
+            if ( wui.logo_file ) logo_file = wui.logo_file;
+            if ( wui.login_file ) login_file = wui.login_file;
+            if ( wui.index_file ) index_file = wui.index_file;
             $('#logo_color').val( wui.logo_color );
             $('#logo_title').val( wui.logo_title );
             $('#logo_width').val( wui.logo_width );
@@ -610,7 +610,7 @@
             done: function (e, data)
             {
                 page.overlay2hide();
-                he.exec( [ "wui@admin:logo_file="+logo_file ] ).then( function(){
+                he.exec( [ "wui@admin:logo_file="+logo_file, "wui@admin.reset" ] ).then( function(){
                     location.reload(true);
                 });
             }
@@ -629,7 +629,7 @@
             done: function (e, data)
             {
                 page.overlay2hide();
-                he.exec( [ "wui@admin:css_file="+css_file ] ).then( function(){
+                he.exec( [ "wui@admin:css_file="+css_file, "wui@admin.reset" ] ).then( function(){
                     location.reload(true);
                 });
             }
@@ -648,7 +648,7 @@
             done: function (e, data)
             {
                 page.overlay2hide();
-                he.exec( [ "wui@admin:login_file="+login_file ] ).then( function(){
+                he.exec( [ "wui@admin:login_file="+login_file, "wui@admin.reset" ] ).then( function(){
                     location.reload(true);
                 });
             }
@@ -667,7 +667,7 @@
             done: function (e, data)
             {
                 page.overlay2hide();
-                he.exec( [ "wui@admin:index_file="+index_file ] ).then( function(){
+                he.exec( [ "wui@admin:index_file="+index_file, "wui@admin.reset" ] ).then( function(){
                     location.reload(true);
                 });
             }
