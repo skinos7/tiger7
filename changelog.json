@@ -31,7 +31,10 @@
         "20220327":"add the modbus slave for client",
         "20220328":"restart delay 120 second for lte modem usb crack",
         "20220329":"add the usb_mode control the lte modem mode",
-        "20220401":"add read GNSS date"
+        "20220401":"add read GNSS date",
+        "20220402":"fix setup modem failed block forever bug",
+        "20220403":"fix search netdev many times for modem",
+        "20220404":"upgrade reboot increased to 150 seconds"
     },
     "v7.3.0228":
     {

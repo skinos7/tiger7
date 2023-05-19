@@ -338,7 +338,7 @@ var he =
         }
         else
         {
-            timeout = 120;
+            timeout = 150;
         }
         // 显示进度条
         page.progress({

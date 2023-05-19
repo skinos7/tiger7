@@ -434,10 +434,16 @@ boole_t _usb_match( obj_t this, param_t param )
 		object = lte_object_get( LTE_COM, syspath, cfg, NULL, 0 );
 		json_set_string( dev, "object", object );
 		/* find the netdev */
-		netdev = usbeth_device_find( syspath, NULL, 0 );
-		if ( netdev != NULL )
+		for( i=0; i<6; i++ )
 		{
-			json_set_string( dev, "netdev", netdev );
+			netdev = usbeth_device_find( syspath, NULL, 0 );
+			if ( netdev != NULL )
+			{
+				json_set_string( dev, "netdev", netdev );
+				break;
+			}
+			warn( "Quectel EC200X modem cannot found netdev(%s:%s)", vid, pid );
+			sleep( 1 );
 		}
 		json_set_string( dev, "stty", ttylist[1] );
 		json_set_string( dev, "mtty", ttylist[2] );
