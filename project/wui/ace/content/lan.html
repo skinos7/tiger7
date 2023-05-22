@@ -171,6 +171,13 @@
             </div>
           </div>
         </div>
+        <!-- DHCP选项 -->
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="DHCP Server Options(separated by semicolons)"></label>
+            <div class="col-sm-9">
+              <textarea type="text" id="options" class="col-xs-10 col-sm-5" maxlength="1024" />
+            </div>
+        </div>
       </div><!-- dhcpsSets -->
 
 
@@ -395,6 +402,8 @@
                     $('#pool_cfg').hide();
                 }
             }).trigger('change');
+            $('#dns2').val(dhcps.dns2 || '');
+            $('#options').val(dhcps.options||"");
         }
         /* ipv6 */
         if ( lan.manual && lan.manual.addr )
@@ -560,6 +569,7 @@
                 page.alert( { message: $.i18n('Assign DNS2')+" "+$.i18n('must be a valid IP address') } );
                 return;
             }
+            dhcps.options = $('#options').val();
         }
         /* IPV6 addr */
         if ( lan.method )

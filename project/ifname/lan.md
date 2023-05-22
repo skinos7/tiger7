@@ -46,7 +46,8 @@ Usually ifname@lan is the first local network. If there are multiple local netwo
         "lease":"lease time for assigns",                                  // [ number ], the unit is second
         "gw":"Specifies the IPv4 gateway",                                 // [ ipv4 address ], default is local network IP address
         "dns":"Specifies the IPv4 DNS",                                    // [ ipv4 address ], default is local network IP address
-        "dns2":"Specifies the IPv4 backup dns"                             // [ ipv4 address ]
+        "dns2":"Specifies the IPv4 backup dns",                            // [ ipv4 address ]
+        "options":"dnsmasq original options"                               // [ string ], multiple options are separated by semicolons
     },
 
     // IPv6

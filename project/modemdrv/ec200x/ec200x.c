@@ -434,7 +434,7 @@ boole_t _usb_match( obj_t this, param_t param )
 		object = lte_object_get( LTE_COM, syspath, cfg, NULL, 0 );
 		json_set_string( dev, "object", object );
 		/* find the netdev */
-		for( i=0; i<6; i++ )
+		for( i=0; i<12; i++ )
 		{
 			netdev = usbeth_device_find( syspath, NULL, 0 );
 			if ( netdev != NULL )
