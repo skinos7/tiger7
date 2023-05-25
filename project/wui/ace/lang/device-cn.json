@@ -104,6 +104,7 @@
 
 	"Firmware":"固件管理",
 	"Firmware Version":"固件版本",
+	"Firmware SDK":"固件SDK",
 	"Firmware Identifier":"固件标识",
 	"Upgrade":"软件更新",
 	"No File":"未指定文件",

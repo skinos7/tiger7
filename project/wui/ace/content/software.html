@@ -13,6 +13,12 @@
           <div class="col-sm-9"><div id="firmware_version" class="col-xs-10 col-sm-5 form-right-text"></div></div>
         </div>
 
+        <!-- 软件SDK -->
+        <div class="form-group" style="display: none;">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Firmware SDK"></label>
+          <div class="col-sm-9"><div id="firmware_sdk" class="col-xs-10 col-sm-5 form-right-text"></div></div>
+        </div>
+
         <!-- 软件标识 -->
         <div class="form-group" style="display: none;">
           <label class="col-sm-3 control-label no-padding-right" data-i18n="Firmware Identifier"></label>
@@ -164,9 +170,11 @@
 
       /* load the firmware info */
       $('#firmware_version').text(window.machine_status.version);
+      $('#firmware_sdk').text( window.machine_status.platform );
       $('#firmware_id').text( window.machine_status.hardware+"-"+window.machine_status.custom+"-"+window.machine_status.scope );
       if ( !window.wui.firmware_id || window.wui.firmware_id != "disable" )
       {
+          $("#firmware_sdk").closest('.form-group').show();
           $("#firmware_id").closest('.form-group').show();
       }
 
