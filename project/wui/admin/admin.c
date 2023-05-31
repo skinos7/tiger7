@@ -125,10 +125,14 @@ boole_t _ttyd_lte( obj_t this, param_t param )
 	scall( USB_COM, "shut", NULL );
 	stat = scall( object, "status", NULL );
 	ptr = json_get_string( stat, "mtty" );
-	if ( ptr == NULL || *ptr == '\0' )
+	if ( ptr != NULL && *ptr != '\0' )
 	{
-		ptr = json_get_string( stat, "stty" );
+		scall( object, "smsstop", NULL );
+		shell( "ttyd -p %s /bin/tip -l %s >/dev/null 2>&1 &", termport, ptr );
+		talk_free( stat );
+		return ttrue;
 	}
+	ptr = json_get_string( stat, "stty" );
 	if ( ptr == NULL || *ptr == '\0' )
 	{
 		talk_free( stat );
