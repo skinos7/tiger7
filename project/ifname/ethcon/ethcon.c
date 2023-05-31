@@ -643,6 +643,38 @@ boole_t _service( obj_t this, param_t param )
     {
         scalls( ifdev, "setmac", ptr );
     }
+	/* auto mac */
+	else
+	{
+		const int *randp;
+		unsigned int randi;
+		char mac[NAME_MAX];
+
+		mac[0] = '\0';
+		sgets_string( mac, sizeof(mac), DATA_COM, "mac" );
+		if ( mac[0] != '\0' && 0 == strncmp( CRACKID_MAC, mac, 12 ) )
+		{
+			randp = register_value( LAND_PROJECT, "rand" );
+			if ( randp != NULL )
+			{
+				randi = *randp;
+				if ( 0 == strcmp( object, LAN2_COM ) )
+				{
+					snprintf( mac, sizeof(mac), "61%u", randi );
+				}
+				else if ( 0 == strcmp( object, WAN_COM ) )
+				{
+					snprintf( mac, sizeof(mac), "62%u", randi );
+				}
+				else
+				{
+					snprintf( mac, sizeof(mac), "60%u", randi );
+				}
+				scalls( ifdev, "setmac", mac );
+				warn( "%s auto mac address %s", ifdev, mac );
+			}
+		}
+	}
 
 	/* check connected */
 	ready = 0;
