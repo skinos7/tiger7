@@ -10,12 +10,15 @@ route uri=/pub/ handler=jst
 route uri=/action/ handler=action
 route uri=/cgi/ handler=cgi
 route uri=/upload handler=upload
-route uri=/failed.html handler=jst
-route uri=/.cfkbn.html handler=jst
 route uri=/index.html handler=jst
+route uri=/index.html#factory handler=jst
+route uri=/index.html#custom handler=jst
+route uri=/index.html#failed handler=jst
 route uri=/content/factory.html handler=jst
+route uri=/content/custom.html handler=jst
+route uri=/content/failed.html handler=jst
 
-route uri=/ auth=form handler=continue redirect=401@/failed.html
+route uri=/ auth=form handler=continue redirect=401@/index.html#failed
 
 route uri=/ extensions=jst,asp,html handler=jst
 route uri=/content/

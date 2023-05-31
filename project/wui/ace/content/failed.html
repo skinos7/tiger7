@@ -1,0 +1,175 @@
+<!-- ajax layout which only needs content area -->
+<div class="row">
+  <div class="col-xs-12 form-btn-wrapper">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="form-horizontal" role="form">
+
+
+      <!-- 设备信息 -->
+      <table class="table table-bordered table-striped">
+      <tbody>
+          <tr>
+              <th data-i18n="SN"></th>
+              <th data-i18n="MAC"></th>
+              <th data-i18n="IMEI"></th>
+              <th data-i18n="ICCID"></th>
+              <th data-i18n="Online"></th>
+          </tr>
+          <tr>
+              <td id="list_sn"></td>
+              <td id="list_mac"></td>
+          </tr>
+          <tr id="lte_info" style="display: none;">
+              <td id="list_sn1"></td>
+              <td id="list_mac1"></td>
+              <td id="list_imei1"><i class="ace-icon fa fa-times red"></i></td>
+              <td id="list_iccid1"><i class="ace-icon fa fa-times red"></i></td>
+              <td id="list_online1"><i class="ace-icon fa fa-times red"></i></td>
+          </tr>
+          <tr id="lte2_info" style="display: none;">
+              <td id="list_sn2"></td>
+              <td id="list_mac2"></td>
+              <td id="list_imei2"><i class="ace-icon fa fa-times red"></i></td>
+              <td id="list_iccid2"><i class="ace-icon fa fa-times red"></i></td>
+              <td id="list_online2"><i class="ace-icon fa fa-times red"></i></td>
+          </tr>
+      </tbody>
+      </table>            
+      <!-- 设备名称 -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Device Name"></label>
+        <div class="col-sm-9">
+          <div id="device_name" class="col-xs-10 col-sm-5 form-right-text"></div>
+        </div>
+      </div>
+      <!-- 工作模式 -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Operation Mode"></label>
+        <div class="col-sm-9">
+          <div id="mode" class="col-xs-10 col-sm-5 form-right-text"></div>
+        </div>
+      </div>
+      <!-- 软件标识 -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Firmware Identifier"></label>
+        <div class="col-sm-9">
+          <div id="firmware_identify" class="col-xs-10 col-sm-5 form-right-text"></div>
+        </div>
+      </div>
+      <!-- 软件版本 -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Firmware Version"></label>
+        <div class="col-sm-9">
+          <div id="firmware_version" class="col-xs-10 col-sm-5 form-right-text"></div>
+        </div>
+      </div>
+
+
+
+    </div>
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+    var sn;
+    var m;
+    var ms;
+    var lte;
+    var lte2;
+    var ltes;
+    var lte2s;
+    var ethernets;
+    function load_cfg()
+    {
+        he.load( [ "machine", "machine.status", ".ifname@lte", ".ifname@lte2", "ifname@lte.status", "ifname@lte2.status", "arch@ethernet.status" ] ).then( function( v ){
+            m = v[0]
+            ms = v[1];
+            lte = v[2];
+            lte2 = v[3];
+            ltes = v[4];
+            lte2s = v[5];
+            ethernets = v[6];
+
+            if ( m["sn"] )
+            {
+                sn = m["sn"];
+            }
+            else
+            {
+                sn = (ms.datecode||"")+""+ms.model+""+ms.macid.substring(6);
+            }
+            $('#list_mac').text( ms.mac );
+            $('#list_sn').text( sn );
+            if ( lte == true )
+            {
+                $('#lte_info').show();
+                $('#list_mac1').text( ms.mac );
+                $('#list_sn1').text( sn );
+                if ( ltes.imei )
+                {
+                $('#list_imei1').text( ltes.imei );
+                }
+                if ( ltes.iccid && ltes.iccid != "nosim" )
+                {
+                    $('#list_iccid1').text( ltes.iccid );
+                }
+                if ( ltes.status == "up" )
+                {
+                    $('#list_online1').html( '<i class="ace-icon fa fa-check green"></i>' );
+                }
+                else
+                {
+                    $('#list_online1').html( '<i class="ace-icon fa fa-times red"></i>' );
+                }
+            }
+            if ( lte2 == true )
+            {
+                $('#lte2_info').show();
+                $('#list_mac2').text( ms.mac );
+                $('#list_sn2').text( sn );
+
+                if ( lte2s.imei )
+                {
+                $('#list_imei2').text( lte2s.imei );
+                }
+                if ( lte2s.iccid && lte2s.iccid != "nosim" )
+                {
+                    $('#list_iccid2').text( lte2s.iccid );
+                }
+                if ( lte2s.status == "up" )
+                {
+                    $('#list_online2').html( '<i class="ace-icon fa fa-check green"></i>' );
+                }
+                else
+                {
+                    $('#list_online2').html( '<i class="ace-icon fa fa-times red"></i>' );
+                }
+            }
+
+            /* load the software */
+            $('#device_name').text( m.name );
+            $("#mode").text( $.i18n(m.mode) );
+            $('#firmware_identify').text( ms.hardware+"-"+ms.custom+"-"+ms.scope );
+            $('#firmware_version').text(ms.version);
+
+        });
+    }
+    $.i18n().load( page.lang('device') ).then( function () {
+
+        /* init the langauage */
+        $.i18n().locale = lang; $('body').i18n();
+
+        /* load the configure */
+        load_cfg();
+    });
+
+
+
+  })();
+</script>
+
+
+
