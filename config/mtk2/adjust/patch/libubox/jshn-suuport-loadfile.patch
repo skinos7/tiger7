@@ -1,0 +1,88 @@
+--- a/jshn.c	2023-05-25 21:15:46.272445980 +0800
++++ b/jshn.c	2023-05-25 21:36:59.730074640 +0800
+@@ -24,6 +24,12 @@
+ #include <stdio.h>
+ #include <stdbool.h>
+ #include <ctype.h>
++
++// add by dimmalex for support ddns-script
++#include <sys/stat.h>
++#include <fcntl.h>
++#include <unistd.h>
++
+ #include <getopt.h>
+ #include "list.h"
+ 
+@@ -285,6 +291,48 @@
+ 	return ret;
+ }
+ 
++
++// add by dimmalex for support ddns-script
++static int jshn_parse_file(const char *path)
++{
++	struct stat sb;
++	int ret = 0;
++	char *fbuf;
++	int fd;
++
++	if ((fd = open(path, O_RDONLY)) == -1) {
++		fprintf(stderr, "Error opening %s\n", path);
++		return 3;
++	}
++
++	if (fstat(fd, &sb) == -1) {
++		fprintf(stderr, "Error getting size of %s\n", path);
++		close(fd);
++		return 3;
++	}
++
++	if (!(fbuf = calloc(1, sb.st_size+1))) {
++		fprintf(stderr, "Error allocating memory for %s\n", path);
++		close(fd);
++		return 3;
++	}
++
++	if (read(fd, fbuf, sb.st_size) != sb.st_size) {
++		fprintf(stderr, "Error reading %s\n", path);
++		free(fbuf);
++		close(fd);
++		return 3;
++	}
++
++	ret = jshn_parse(fbuf);
++	free(fbuf);
++	close(fd);
++
++	return ret;
++}
++
++
++
+ static int usage(const char *progname)
+ {
+ 	fprintf(stderr, "Usage: %s [-n] [-i] -r <message>|-w\n", progname);
+@@ -297,7 +345,10 @@
+ 	bool indent = false;
+ 	int ch;
+ 
+-	while ((ch = getopt(argc, argv, "p:nir:w")) != -1) {
++    // modify by dimmalex for support ddns-script
++	while ((ch = getopt(argc, argv, "p:nir:R:w")) != -1) {
++	//while ((ch = getopt(argc, argv, "p:nir:w")) != -1) {
++
+ 		switch(ch) {
+ 		case 'p':
+ 			var_prefix = optarg;
+@@ -307,6 +358,11 @@
+ 			return jshn_parse(optarg);
+ 		case 'w':
+ 			return jshn_format(no_newline, indent);
++    
++        // add by dimmalex for support ddns-script
++		case 'R':
++			return jshn_parse_file(optarg);
++        
+ 		case 'n':
+ 			no_newline = true;
+ 			break;

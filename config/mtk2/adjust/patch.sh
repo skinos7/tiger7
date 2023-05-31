@@ -192,3 +192,9 @@ cp -r ${gPLATFORM_DIR}/adjust/patch/package/net-snmpd-5.4.4-fix-err-print.patch 
 # smstools bin reset
 cp -r ${gPLATFORM_DIR}/adjust/patch/smstools3/Makefile ${gSDK_DIR}/feeds/packages/utils/smstools3
 
+# patch to libubox to support ddns-scripts
+if [ ! -d ${gSDK_DIR}/package/libs/libubox/patches ]; then
+    mkdir ${gSDK_DIR}/package/libs/libubox/patches
+fi
+cp ${gPLATFORM_DIR}/adjust/patch/libubox/jshn-suuport-loadfile.patch   ${gSDK_DIR}/package/libs/libubox/patches/
+

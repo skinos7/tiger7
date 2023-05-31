@@ -34,7 +34,20 @@
         "20220401":"add read GNSS date",
         "20220402":"fix setup modem failed block forever bug",
         "20220403":"fix search netdev many times for modem",
-        "20220404":"upgrade reboot increased to 150 seconds"
+        "20220404":"upgrade reboot increased to 150 seconds",
+        "20220405":"fix the jshn support load file to support ddns-scripts work ok",
+        "20220406":"add the modbus client command, dhcp server add the raw options",
+        "20220407":"disable the uart@serial2 and enable the uart@serial to sline for rs485(no pull-down resistance) make sline crack",
+        "20220408":"add the modem@lte tip interface to at command",
+        "20220409":"add the project_i18n for C support i18n, only used by cambattary project for custom release now",
+        "20220410":"disable the ttyd tip for other IE and use new IE version function",
+        "20220411":"add the SDK show at the software webpage",
+        "20220412":"add check the software/model/sdk before restore the configure",
+        "20220413":"add the oem size on arch@data",
+        "20220415":"disable the upgrade online and repo online default on webpage",
+        "20220416":"add support rand mac on factory mode",
+        "20220417":"webpage ttyd lte first use the stty that does not interfere with LTE work",
+        "20220418":"factory mode show the failed in index.html"
     },
     "v7.3.0228":
     {
