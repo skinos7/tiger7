@@ -1,5 +1,5 @@
 {
-    "v7.3.0604":
+    "v7.3.0605":
     {
         "20220303":"fix radio txpower",
         "20220304":"Trim the modem reset operation steps",
@@ -50,7 +50,8 @@
         "20220418":"factory mode show the failed in index.html",
         "20220420":"fix the remake server cert fault",
         "20220421":"fix SIGTRAP receive when read() buffer small the size on swrt SDK",
-        "20220604":"snmp configure compatible with new SDK(swrt)"
+        "20220604":"snmp configure compatible with new SDK(swrt)",
+        "20220605":"fix the ssh cannot work on sline"
     },
     "v7.3.0228":
     {
