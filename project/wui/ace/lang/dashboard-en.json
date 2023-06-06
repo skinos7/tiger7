@@ -61,6 +61,9 @@
 	"lan2":"LAN2",
 	"lan3":"LAN3",
 	"lan4":"LAN4",
-	"wan":"WAN"
+	"wan":"WAN",
+	"wan2":"WAN2",
+	"wan3":"WAN3",
+	"wan4":"WAN4"
 
 }
