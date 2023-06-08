@@ -1,5 +1,5 @@
 {
-    "v7.3.0605":
+    "v7.3.0608":
     {
         "20220303":"fix radio txpower",
         "20220304":"Trim the modem reset operation steps",
@@ -51,7 +51,10 @@
         "20220420":"fix the remake server cert fault",
         "20220421":"fix SIGTRAP receive when read() buffer small the size on swrt SDK",
         "20220604":"snmp configure compatible with new SDK(swrt)",
-        "20220605":"fix the ssh cannot work on sline"
+        "20220605":"fix the ssh cannot work on sline",
+        "20220606":"enable the dhcps when on router mode, fix the dgateway wrong at r600",
+        "20220607":"add default when arch@gpio:reset lost",
+        "20220608":"modify the miniupnpd configure to sync the swrt SDK"
     },
     "v7.3.0228":
     {

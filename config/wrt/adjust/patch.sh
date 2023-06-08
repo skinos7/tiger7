@@ -36,6 +36,8 @@ cp ${gPLATFORM_DIR}/adjust/dts/mt76x8.mk  ${gSDK_DIR}/target/linux/ramips/image/
 cp ${gPLATFORM_DIR}/adjust/package/base-files-makefile  ${gSDK_DIR}/package/base-files/Makefile
 # patch the base-files to don't need warning no password
 cp ${gPLATFORM_DIR}/adjust/package/base-files-profile  ${gSDK_DIR}/package/base-files/files/etc/profile
+# patch the miniupnpd to support custom the verdor
+cp ${gPLATFORM_DIR}/adjust/package/miniupnpd/package-makefile  ${gSDK_DIR}/package/feeds/packages/miniupnpd/Makefile
 
 
 # patch the busybox udhcp client support backupip and ifnameid down to script and renewip failed to exit
@@ -47,4 +49,6 @@ cp ${gPLATFORM_DIR}/adjust/package/busybox-makefile  ${gSDK_DIR}/package/utils/b
 # patch the smstools block forever
 cp ${gPLATFORM_DIR}/adjust/package/smstools3-fix-block.patch  ${gSDK_DIR}/package/feeds/packages/smstools3/patches/010-fix-block.patch
 
+# delete the io
+rm -fr ${gSDK_DIR}/feeds/packages/utils/io
 

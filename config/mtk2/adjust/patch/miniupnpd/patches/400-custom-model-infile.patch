@@ -40,10 +40,10 @@ diff -uNr miniupnpd-1.8.20130426/options.c miniupnpd-1.8.20130426b/options.c
  	{ UPNPFRIENDLY_NAME, "friendly_name" },
 +
 +    /* add by dimmalex for custom model and url */
-+    { UPNPMANUFACTURER, "manufacturer" },
++    { UPNPMANUFACTURER, "manufacturer_name" },
 +    { UPNPMANUFACTURER_URL, "manufacturer_url" },
-+    { UPNPMODEL_DESC, "model_desc" },
-+    { UPNPMODEL_NAME, "model" },
++    { UPNPMODEL_DESC, "model_description" },
++    { UPNPMODEL_NAME, "model_name" },
 +    { UPNPMODEL_URL, "model_url" },
 +
  	{ UPNPNOTIFY_INTERVAL, "notify_interval" },

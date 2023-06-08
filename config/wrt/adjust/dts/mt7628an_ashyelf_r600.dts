@@ -9,7 +9,7 @@
 	compatible = "ashyelf,r600", "mediatek,mt7628an-soc";
 
 	chosen {
-		bootargs = "console=ttyS0,57600";
+		bootargs = "console=ttyS2,57600";
 	};
 };
 

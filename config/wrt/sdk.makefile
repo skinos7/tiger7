@@ -83,25 +83,25 @@ sdkclean: bufclean
 local:
 sz:
 	# 通过xmodem协议发送固件到本地
-	cd ${gBUILD_DIR} && sz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.zz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.upgrade ${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.txt
+	cd ${gBUILD_DIR} && sz ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.zz ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.upgrade ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.txt
 zzb:
 	cd ${gBUILD_DIR}; \
-	if [ -e ${gHARDWARE}_${gCUSTOM}_${gSCOPE}.uboot ] && [ -e ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.upgrade ]; then \
-		rm -fr ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.zzb; \
+	if [ -e ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}.uboot ] && [ -e ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.upgrade ]; then \
+		rm -fr ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.zzb; \
 		if [ -e ${gZZID_DIR} ]; then \
-			firmware-encode ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}_${gZZID}.zzb ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.upgrade ${gHARDWARE}_${gCUSTOM}_${gSCOPE}.uboot ${gZZID_SH} ${gZZID_CONFIG}; \
-			sz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}_${gZZID}.zzb; \
+			firmware-encode ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}_${gZZID}.zzb ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.upgrade ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}.uboot ${gZZID_SH} ${gZZID_CONFIG}; \
+			sz ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}_${gZZID}.zzb; \
 		else \
-			firmware-encode ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.zzb ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.upgrade ${gHARDWARE}_${gCUSTOM}_${gSCOPE}.uboot; \
-			sz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.zzb; \
+			firmware-encode ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.zzb ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.upgrade ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}.uboot; \
+			sz ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.zzb; \
 		fi; \
 	fi
 tar:
 	cd ${gBUILD_DIR}; \
-	if [ -e ${gHARDWARE}_${gCUSTOM}_${gSCOPE}.bb ] && [ -e ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.zz ]; then \
-		rm -fr ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.tar.bz2; \
-		tar jcvf ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.tar.bz2 ${gHARDWARE}_${gCUSTOM}_${gSCOPE}*; \
-		sz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.tar.bz2; \
+	if [ -e ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}.bb ] && [ -e ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.zz ]; then \
+		rm -fr ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.tar.bz2; \
+		tar jcvf ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.tar.bz2 ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}*; \
+		sz ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.tar.bz2; \
 	fi
 ftp:
 	# 未定义了FTP目录不工作
@@ -110,11 +110,11 @@ ftp:
 	fi
 	# 上传到FTP目录
 	if [ -e ${gZZID_DIR} ]; then \
-		curl -u ${gpFTP_PUB_PASSWORD} -T ${gBUILD_DIR}/${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}_${gZZID}.zz ${gpFTP_PUB_DIR}; \
+		curl -u ${gpFTP_PUB_PASSWORD} -T ${gBUILD_DIR}/${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}_${gZZID}.zz ${gpFTP_PUB_DIR}; \
 	else \
-		curl -u ${gpFTP_PUB_PASSWORD} -T ${gBUILD_DIR}/${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.zz ${gpFTP_PUB_DIR}; \
-		if [ -f ${gBUILD_DIR}/${gHARDWARE}_${gCUSTOM}_${gSCOPE}.txt ]; then\
-			curl -u ${gpFTP_PUB_PASSWORD} -T ${gBUILD_DIR}/${gHARDWARE}_${gCUSTOM}_${gSCOPE}.txt ${gpFTP_PUB_DIR}; \
+		curl -u ${gpFTP_PUB_PASSWORD} -T ${gBUILD_DIR}/${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.zz ${gpFTP_PUB_DIR}; \
+		if [ -f ${gBUILD_DIR}/${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}.txt ]; then\
+			curl -u ${gpFTP_PUB_PASSWORD} -T ${gBUILD_DIR}/${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}.txt ${gpFTP_PUB_DIR}; \
 		fi \
 	fi
 repo:
@@ -157,10 +157,10 @@ boot: boot_dep
 	if [ -d ${gpBOOT_DIR} ]; then \
 		unset STRIPTOOL OBJCOPY CONFIG_CROSS_COMPILER_PATH STRIP CONFIGURE_HOST CROSS_COMPILE AR AS RIPTOOL CROSS CXX CC RANLIB LD;echo "E Y" | make -C ${gpBOOT_DIR} menuconfig;make -C ${gpBOOT_DIR}; \
 	fi
-	cd ${gBUILD_DIR} && firmware-encode ${gHARDWARE}_${gCUSTOM}_${gSCOPE}.bb ${gHARDWARE}_${gCUSTOM}_${gSCOPE}.uboot
+	cd ${gBUILD_DIR} && firmware-encode ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}.bb ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}.uboot
 boot_install:
 	if [ -d ${gpBOOT_DIR} ]; then \
-		cd ${gBUILD_DIR} && sz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.bb; \
+		cd ${gBUILD_DIR} && sz ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.bb; \
 	fi
 boot_clean:
 	if [ -d ${gpBOOT_DIR} ]; then \
@@ -206,16 +206,16 @@ kernel: kernel_dep
 	else \
 		cd ${gSDK_DIR};make V=s; \
 	fi
-	cp ${gpUPGRADE_IMAGE} ${gBUILD_DIR}/${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.upgrade
+	cp ${gpUPGRADE_IMAGE} ${gBUILD_DIR}/${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.upgrade
 	cd ${gBUILD_DIR}; \
 	if [ -e ${gZZID_DIR} ]; then \
-		firmware-encode ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}_${gZZID}.zz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.upgrade ${gZZID_SH} ${gZZID_CONFIG}; \
+		firmware-encode ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}_${gZZID}.zz ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.upgrade ${gZZID_SH} ${gZZID_CONFIG}; \
 	else \
-		firmware-encode ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.zz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.upgrade; \
+		firmware-encode ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.zz ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.upgrade; \
 	fi
 kernel_install:
-	cd ${gBUILD_DIR} && fpk-indexed ${gSTORE_DIR} ${gSTORE_DIR}/${gHARDWARE}_${gCUSTOM}_${gSCOPE}.store;
-	cd ${gBUILD_DIR} && change-log ${gVERSION} ${gCUSTOM} ${gSCOPE} ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.zz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}.txt ${gTOP_DIR}/changelog.json ${gPLATFORM_DIR}/changelog.json ${gHARDWARE_DIR}/changelog.json ${gCUSTOM_DIR}/changelog.json ${gSCOPE_DIR}/changelog.json;
+	cd ${gBUILD_DIR} && fpk-indexed ${gSTORE_DIR} ${gSTORE_DIR}/${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}.store;
+	cd ${gBUILD_DIR} && change-log ${gVERSION} ${gCUSTOM} ${gSCOPE} ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.zz ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}.txt ${gTOP_DIR}/changelog.json ${gPLATFORM_DIR}/changelog.json ${gHARDWARE_DIR}/changelog.json ${gCUSTOM_DIR}/changelog.json ${gSCOPE_DIR}/changelog.json;
 kernel_clean:
 	cd ${gSDK_DIR};make V=s clean
 kernel_distclean: kernel_clean
