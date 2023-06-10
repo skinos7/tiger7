@@ -1,5 +1,5 @@
 {
-    "v7.3.0608":
+    "v7.3.0609":
     {
         "20220303":"fix radio txpower",
         "20220304":"Trim the modem reset operation steps",
@@ -54,7 +54,8 @@
         "20220605":"fix the ssh cannot work on sline",
         "20220606":"enable the dhcps when on router mode, fix the dgateway wrong at r600",
         "20220607":"add default when arch@gpio:reset lost",
-        "20220608":"modify the miniupnpd configure to sync the swrt SDK"
+        "20220608":"modify the miniupnpd configure to sync the swrt SDK",
+        "20220609":"add the dns custom for mix connect"
     },
     "v7.3.0228":
     {

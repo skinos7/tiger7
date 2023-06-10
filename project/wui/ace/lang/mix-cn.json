@@ -16,6 +16,13 @@
 	"valid":"可用",
 	"invalid":"不可用",
 
+	"Custom DNS":"自定义DNS",
+	"Disable":"禁用",
+	"Enable":"启用",
+	"DNS":"域名服务器",
+	"DNS2":"域名服务器2",
+	
+
 	"Delay Statistics":"延迟统计次数",
 	"Delay Boundary(ms)":"延迟分界(毫秒)",
 	"Delay Difference(ms)":"延迟差值(毫秒)",

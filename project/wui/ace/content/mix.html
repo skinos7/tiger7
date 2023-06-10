@@ -80,6 +80,32 @@
 
 
     <div id="dbdc-sets" style="display:none;">
+
+        <!-- DNS -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Custom DNS"></label>
+          <div class="col-sm-9">
+            <select class="col-xs-10 col-sm-5" id="custom_dns"></select>
+          </div>
+        </div>
+        <div id="customdns_config" style="display: none;">
+          <!-- DNS -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="DNS"></label>
+            <div class="col-sm-9">
+              <input type="text" id="cdns" class="col-xs-10 col-sm-5" maxlength="128" />
+            </div>
+          </div>
+          <!-- DNS2 -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="DNS2"></label>
+            <div class="col-sm-9">
+              <input type="text" id="cdns2" class="col-xs-10 col-sm-5" maxlength="128" />
+            </div>
+          </div>
+        </div>
+    
+        <div class="hr hr32 hr-dotted"></div>
         <!-- -->
         <div class="form-group">
           <label class="col-sm-3 control-label no-padding-right" data-i18n="Delay Statistics"></label>
@@ -105,7 +131,6 @@
             </div>
           </div>
         </div>
-        <div class="hr hr32 hr-dotted"></div>
         <span class="grey" data-i18n="Statistics <Delay Statistics> times, in the link average delay are located in <Delay Boundary(ms)> different sides and the average delay between links is greater than <Delay Difference(ms)> disables the link with high average delay"></span>
     </div>
       
@@ -198,6 +223,24 @@
         }
         $("#reserve").html( options );
     }
+    function dns_html()
+    {
+        var options = '<option value="disable">' + $.i18n( "Disable" ) + '</option>';
+        var m = $('#main').val();
+        if ( m )
+        {
+            options += '<option value="' + m + '">' + $.i18n( m ) + '</option>'
+        }
+        var b = $('#back').val();
+        if ( b )
+        {
+            options += '<option value="' + b + '">' + $.i18n( b ) + '</option>'
+        }
+        options += '<option value="enable">' + $.i18n( "Enable" ) + '</option>';
+
+        $("#custom_dns").html( options );
+    }
+    
     /* load the status */
     function status_load()
     {
@@ -357,6 +400,10 @@
             $('#king').val( frame.connect.king );
             reserve_html();
             $('#reserve').val( frame.connect.reserve );
+            dns_html();
+            $('#custom_dns').val( frame.connect.custom_dns||"disable" );
+            $('#cdns').val( frame.connect.dns );
+            $('#cdns2').val( frame.connect.dns2 );
             $('#delay_count').val( frame.connect.delay_count );
             $('#delay_divide').val( frame.connect.delay_divide );
             $('#delay_diff').val( frame.connect.delay_diff );
@@ -370,6 +417,17 @@
               else
               {
                 $('#dbdc-sets').hide();
+              }
+            }).trigger('change');
+            $('#custom_dns').unbind('change').change(function (e) {
+              var type = e.target.value;
+              if ( type == "enable" )
+              {
+                $('#customdns_config').show();
+              }
+              else
+              {
+                $('#customdns_config').hide();
               }
             }).trigger('change');
         });
@@ -386,6 +444,12 @@
         frame.connect.back = $('#back').val();
         frame.connect.king = $('#king').val();
         frame.connect.reserve = $('#reserve').val();
+        frame.connect.custom_dns = $('#custom_dns').val();
+        if ( frame.connect.custom_dns == "enable" )
+        {
+            frame.connect.dns = $('#cdns').val();
+            frame.connect.dns2 = $('#cdns2').val();
+        }
         if ( frame.connect.type == "dbdc" )
         {
             frame.connect.delay_count = $('#delay_count').val();
@@ -428,10 +492,12 @@
         back_html();
         king_html();
         reserve_html();
+        dns_html();
       });
       $('#back').unbind('change').change(function (e) {
         king_html();
         reserve_html();
+        dns_html();
       });
       $('#king').unbind('change').change(function (e) {
         reserve_html();
