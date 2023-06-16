@@ -356,7 +356,7 @@
 		<!-- add by dimmalex for api -->
 		<script src="/api/code.js"></script>
 		<script src="/api/he.js"></script>
-		<script src="/api/misc.js"></script>
+		<script src="/api/miscv2.js"></script>
 
 		<!-- add by dimmalex for global -->
 		<script type="text/javascript">
@@ -839,6 +839,7 @@
                 });
 
 				/* setup the menus */
+				var almark = false;
 				var menus = [];
 				var router = true;
 				var homepage = "dashboard";
@@ -898,11 +899,11 @@
                     }
 				}
 
-                menu.add( menus, $.i18n( 'Dashboard' ), 'dashboard', 'menu-icon fa fa-exchange'  );
-                menu.add( menus, $.i18n( 'Utilization' ), 'utilization', 'menu-icon fa fa-area-chart'  );
-				menu.add( menus, $.i18n( 'Interface' ), 'interface', 'menu-icon fa fa-list' );
+                menu.add( true, menus, $.i18n( 'Dashboard' ), 'dashboard', 'menu-icon fa fa-exchange'  );
+                menu.add( true, menus, $.i18n( 'Utilization' ), 'utilization', 'menu-icon fa fa-area-chart'  );
+				menu.add( true, menus, $.i18n( 'Interface' ), 'interface', 'menu-icon fa fa-list' );
 
-                menu.add( menus, $.i18n( 'Network' ), 'network', 'menu-icon fa fa-sitemap' );
+                menu.add( false, menus, $.i18n( 'Network' ), 'network', 'menu-icon fa fa-sitemap' );
 				if ( router == true )
 				{
                     if ( network_frame.connect )
@@ -1023,18 +1024,18 @@
 				
                 menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'Hosts' ), 'hosts' );
                 
-                menu.add( menus, $.i18n( 'VPN' ), 'vpn', 'menu-icon fa fa-lock' );
+                menu.add( false, menus, $.i18n( 'VPN' ), 'vpn', 'menu-icon fa fa-lock' );
 
                 if ( window.nradio == true || window.aradio == true )
                 {
-                    menu.add( menus, $.i18n( 'Wireless' ), 'ssid', 'menu-icon fa fa-wifi' );
+                    menu.add( false, menus, $.i18n( 'Wireless' ), 'ssid', 'menu-icon fa fa-wifi' );
                 }
 
-				menu.add( menus, $.i18n( 'Station' ), 'station', 'menu-icon fa fa-mobile' );
+				menu.add( false, menus, $.i18n( 'Station' ), 'station', 'menu-icon fa fa-mobile' );
 
-                menu.add( menus, $.i18n( 'Application' ), '', 'menu-icon fa fa-building' );
+                menu.add( false, menus, $.i18n( 'Application' ), '', 'menu-icon fa fa-building' );
 
-				menu.add( menus, $.i18n( 'System' ), 'device', 'menu-icon fa fa-cogs' );
+				menu.add( false, menus, $.i18n( 'System' ), 'device', 'menu-icon fa fa-cogs' );
 				menu.addlink( menus, $.i18n( 'System' ), $.i18n( 'Device' ), 'device' );
                 if ( !wuimenu || wuimenu.configure != "disable" )
                 {
@@ -1046,7 +1047,7 @@
                 }
 				menu.addlink( menus, $.i18n( 'System' ), $.i18n( 'Password' ), 'password' );
 
-				menu.add( menus, $.i18n( 'Debug' ), 'debug', 'menu-icon fa fa-bug' );
+				menu.add( false, menus, $.i18n( 'Debug' ), 'debug', 'menu-icon fa fa-bug' );
 				menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'Syslog' ), 'syslog' );
 				if ( window.wuiterm && ( !wuimenu || wuimenu.terminal != "disable" ) )
 				{
@@ -1071,7 +1072,7 @@
 				{
     				if ( !wuimenu || wuimenu.development != "disable" )
     				{
-                        menu.add( menus, $.i18n( 'Development' ), 'sdk', 'menu-icon fa fa-gavel' );
+                        menu.add( false, menus, $.i18n( 'Development' ), 'sdk', 'menu-icon fa fa-gavel' );
                         menu.addlink( menus, $.i18n( 'Development' ), $.i18n( 'SDK' ), 'sdk' );
                         menu.addlink( menus, $.i18n( 'Development' ), $.i18n( 'Inittab' ), 'inittab' );
                         menu.addlink( menus, $.i18n( 'Development' ), $.i18n( 'Uninittab' ), 'uninittab' );
@@ -1131,13 +1132,24 @@
 				    }
 				    if ( app_menu == "Quick" )
 				    {
-                        menu.insert( menus, $.i18n( 'Quick' ), app_hash, 'menu-icon fa fa-bolt' );
+                        menu.insert( true, menus, $.i18n( 'Quick' ), app_hash, 'menu-icon fa fa-bolt' );
                         homepage = app_hash;
+                        menu.mark( menus, $.i18n( 'Quick' ) );
+                        almark = true;
 				    }
 				    else if ( app_menu == "Wizard" )
 				    {
-                        menu.insert( menus, $.i18n( 'Wizard' ), app_hash, 'menu-icon fa fa-bolt' );
+                        menu.insert( true, menus, $.i18n( 'Wizard' ), app_hash, 'menu-icon fa fa-bolt' );
                         homepage = app_hash;
+                        menu.mark( menus, $.i18n( 'Wizard' ) );
+                        almark = true;
+				    }
+				    else if ( app_menu == "Home" )
+				    {
+                        menu.insert( true, menus, $.i18n( 'Home' ), app_hash, 'menu-icon fa fa-bolt' );
+                        homepage = app_hash;
+                        menu.mark( menus, $.i18n( 'Home' ) );
+                        almark = true;
 				    }
 				    else
 				    {
@@ -1147,8 +1159,10 @@
 
 
 
-                
-				menu.mark( menus, $.i18n( 'Dashboard' ) );
+                if ( almark == false )
+                {
+				    menu.mark( menus, $.i18n( 'Dashboard' ) );
+				}
 				menu.display( "#nav-list", menus );
 
     			/* Logout event

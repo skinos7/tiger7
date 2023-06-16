@@ -456,6 +456,7 @@ var menu =
     /* menu structure
         [ 
             {
+                state: true,
                 active: true,
                 title: 2.4G WIFI,
                 hash: myhtml,
@@ -468,14 +469,14 @@ var menu =
         ]
     */
     // add the menu;
-    add: function ( menus, name, link, img )
+    add: function ( stat, menus, name, link, img )
     {
-        menus.push( { active:false, title:name, hash:link, iconClass:img, submenus:null } );
+        menus.push( { state:stat, active:false, title:name, hash:link, iconClass:img, submenus:null } );
     },
     // add the menu;
-    insert: function ( menus, name, link, img )
+    insert: function ( stat, menus, name, link, img )
     {
-        menus.unshift( { active:false, title:name, hash:link, iconClass:img, submenus:null } );
+        menus.unshift( { state:stat, active:false, title:name, hash:link, iconClass:img, submenus:null } );
     },
     // add the menu link
     addlink: function ( menus, name, linkname, link )
@@ -486,6 +487,7 @@ var menu =
             m = menus[ key ];
             if ( m.title == name )
             {
+                m.state = true;
                 if ( !m.submenus )
                 {
                     m.submenus = [];
@@ -535,6 +537,11 @@ var menu =
         for ( var key in menus )
         {
             var m = menus[ key ];
+            /* is disable */
+            if ( m.state == false )
+            {
+                continue;
+            }
             /* is active */
             if ( m.active == true )
             {
