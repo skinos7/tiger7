@@ -70,7 +70,7 @@ done
 
 
 
-for tmp in smtk2-mt7628-d228-ff
+for tmp in smtk2-mt7621-d228-ff
 do
     make gBOARDID=${tmp} pid
     make pidinfo
@@ -95,7 +95,7 @@ done
 
 
 
-for tmp in smtk2-mt7628-d228p-hmjtx
+for tmp in smtk2-mt7621-d228p-hmjtx
 do
     make gBOARDID=${tmp} pid
     make pidinfo
