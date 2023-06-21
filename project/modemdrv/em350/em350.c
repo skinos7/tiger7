@@ -271,7 +271,7 @@ boole_t _usb_match( obj_t this, param_t param )
 		return tfalse;
 	}
 	/* compare the vid and vid is in support list */
-	if ( 0 == strcasecmp( vid, "12d1" ) && 0 == strcasecmp( pid, "15c3" ) )
+	if ( 0 == strcasecmp( vid, "12d1" ) && ( 0 == strcasecmp( pid, "15c3" ) || 0 == strcasecmp( pid, "1506" ) ) )
 	{
 		info( "Huawei EM350 modem found(%s:%s)", vid , pid );
 		/* insmod the usb driver */
@@ -592,7 +592,7 @@ boole_t _at_watch( obj_t this, param_t param )
 	{
 		return terror;
 	}
-	else if ( i == ATCMD_ret_term )
+	else if ( i == ATCMD_ret_term || i == ATCMD_ret_timeout )
 	{
 		return tfalse;
 	}

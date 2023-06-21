@@ -568,7 +568,7 @@ boole_t _at_watch( obj_t this, param_t param )
 	{
 		return terror;
 	}
-	else if ( i == ATCMD_ret_term )
+	else if ( i == ATCMD_ret_term || i == ATCMD_ret_timeout )
 	{
 		return tfalse;
 	}
