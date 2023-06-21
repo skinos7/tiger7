@@ -413,13 +413,12 @@ talk_t _status( obj_t this, param_t param )
 		v = scalls( ifdev, "state", object );
 		talk_patch( v, ret );
 		ptr = json_string( v, "state" );
-		if ( ptr != NULL && 0 != strcmp( ptr, "connect" ) )
+		if ( ptr != NULL && 0 != strcmp( ptr, "connect" ) && 0 != strcmp( ptr, "up" ) )
 		{
 			json_set_string( ret, "status", ptr );
 		}
 		talk_free( v );
 	}
-
     return ret;
 }
 
@@ -646,29 +645,34 @@ boole_t _service( obj_t this, param_t param )
 	/* auto mac */
 	else
 	{
+		const char *test;
 		const int *randp;
 		unsigned int randi;
 		char mac[NAME_MAX];
 
 		mac[0] = '\0';
-		sgets_string( mac, sizeof(mac), DATA_COM, "mac" );
-		if ( mac[0] != '\0' && 0 == strncmp( CRACKID_MAC, mac, 12 ) )
+		test = register_value( LAND_PROJECT, "test" );
+		if ( test != NULL && 0 == strcmp( test, "enable" ) )
 		{
 			randp = register_value( LAND_PROJECT, "rand" );
 			if ( randp != NULL )
 			{
 				randi = *randp;
-				if ( 0 == strcmp( object, LAN2_COM ) )
+				if ( 0 == strcmp( object, WAN_COM ) )
 				{
-					snprintf( mac, sizeof(mac), "61%u", randi );
+					snprintf( mac, sizeof(mac), "6A%u", randi );
 				}
-				else if ( 0 == strcmp( object, WAN_COM ) )
+				else if ( 0 == strcmp( object, LAN_COM ) )
+				{
+					snprintf( mac, sizeof(mac), "60%u", randi );
+				}
+				else if ( 0 == strcmp( object, LAN2_COM ) )
 				{
 					snprintf( mac, sizeof(mac), "62%u", randi );
 				}
 				else
 				{
-					snprintf( mac, sizeof(mac), "60%u", randi );
+					snprintf( mac, sizeof(mac), "63%u", randi );
 				}
 				scalls( ifdev, "setmac", mac );
 				warn( "%s auto mac address %s", ifdev, mac );
