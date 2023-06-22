@@ -645,14 +645,14 @@ boole_t _service( obj_t this, param_t param )
 	/* auto mac */
 	else
 	{
-		const char *test;
 		const int *randp;
 		unsigned int randi;
 		char mac[NAME_MAX];
+		const char *factory_mode;
 
 		mac[0] = '\0';
-		test = register_value( LAND_PROJECT, "test" );
-		if ( test != NULL && 0 == strcmp( test, "enable" ) )
+		factory_mode = register_value( LAND_PROJECT, "factory_mode" );
+		if ( factory_mode != NULL )
 		{
 			randp = register_value( LAND_PROJECT, "rand" );
 			if ( randp != NULL )
@@ -672,7 +672,7 @@ boole_t _service( obj_t this, param_t param )
 				}
 				else
 				{
-					snprintf( mac, sizeof(mac), "63%u", randi );
+					snprintf( mac, sizeof(mac), "64%u", randi );
 				}
 				scalls( ifdev, "setmac", mac );
 				warn( "%s auto mac address %s", ifdev, mac );

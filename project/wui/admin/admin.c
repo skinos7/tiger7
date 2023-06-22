@@ -484,8 +484,7 @@ talk_t _service( obj_t this, param_t param )
 	const char *obj;
 	const char *object;
     const char *login;
-	const char *platform;
-	const boole *config_ready;
+	const char *factory_mode;
     char prjpath[PATH_MAX];
     char httpbin[PATH_MAX];
     char rootdir[PATH_MAX];
@@ -551,15 +550,11 @@ talk_t _service( obj_t this, param_t param )
     {
         snprintf( routetxt, sizeof(routetxt), "%s/route_nologin.txt", rootdir );
     }
-    /* check the mac when factory mode */
-	platform = register_value( LAND_PROJECT, "platform" );
-	if ( platform == NULL || 0 != strcmp( platform, "host" ) )
+    /* check the factory test mode */
+	factory_mode = register_value( LAND_PROJECT, "testmode" );
+	if ( factory_mode != NULL )
 	{
-		config_ready = register_value( LAND_PROJECT, "config_ready" );
-	    if ( config_ready == NULL || *config_ready == false )
-	    {
-	        snprintf( routetxt, sizeof(routetxt), "%s/route_factory.txt", rootdir );
-	    }
+		snprintf( routetxt, sizeof(routetxt), "%s/route_factory.txt", rootdir );
 	}
 
 	// goahead-5.2.0

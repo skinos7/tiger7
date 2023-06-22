@@ -26,6 +26,7 @@ boole_t _setup( obj_t this, param_t param )
 		talk_free( state );
         return tfalse;
 	}
+	/* run the test service */
 	sstart( object, "service", NULL, object );
     talk_free( state );
     return ttrue;
@@ -35,7 +36,7 @@ boole_t _shut( obj_t this, param_t param )
     const char *object;
 
     object = obj_combine( this );
-    sdelete( object );
+    sstop( object );
     return ttrue;
 }
 
@@ -113,8 +114,6 @@ int echo_create( void )
 		faulting( "beacon send broadcast( %d ) error(%d)", echo_port, nwrite );
 		return -1;
 	}
-	info( "echo at %s:%d start", echo_device, echo_port );
-	gverbose( "%d=echo: %s", nwrite, echo_context );
 
 	return sock;
 }
@@ -142,8 +141,6 @@ void echo_boardcast( int fd, short what, void *arg )
 		reactor_break( fd, what, arg );
 		return;
 	}
-	/* log it */
-	gverbose( "%d=echo: %s", nwrite, echo_context );
 }
 void echo_read( int fd, short what, void *arg )
 {
@@ -181,10 +178,10 @@ void echo_read( int fd, short what, void *arg )
 		*(readbuf+nread) = '\0';
 		/* print */
 		inet_ntop( AF_INET, &sockaddr.sin_addr, srcip, sizeof(srcip) );
-		gverbose( "%d=read[%s]: %s", nread, srcip, readbuf );
+		printf( "%s recv %s:%s\n", echo_object, srcip, readbuf );
 		if ( nread == strlen(echo_context) && strcmp( readbuf, echo_context ) != 0 )
 		{
-			register_set( echo_object, "test", readbuf, nread, 1500 );
+			register_set( echo_object, "recv", readbuf, nread, 1500 );
 		}
 	}while( nread > 0 );
 }
@@ -229,43 +226,43 @@ boole_t _service( obj_t this, param_t param )
 		if ( 0 == strcmp( object, "ifname@lan1" ) )
 		{
 			snprintf( ip, sizeof(ip), "192.168.1.1" );
-			snprintf( mac, sizeof(mac), "61%u", randi );
+			snprintf( mac, sizeof(mac), "62%u", randi );
 		}
 		else if ( 0 == strcmp( object, "ifname@lan2" ) )
 		{
 			snprintf( ip, sizeof(ip), "192.168.2.1" );
-			snprintf( mac, sizeof(mac), "62%u", randi );
+			snprintf( mac, sizeof(mac), "64%u", randi );
 		}
 		else if ( 0 == strcmp( object, "ifname@lan3" ) )
 		{
 			snprintf( ip, sizeof(ip), "192.168.3.1" );
-			snprintf( mac, sizeof(mac), "63%u", randi );
+			snprintf( mac, sizeof(mac), "66%u", randi );
 		}
 		else if ( 0 == strcmp( object, "ifname@lan4" ) )
 		{
 			snprintf( ip, sizeof(ip), "192.168.4.1" );
-			snprintf( mac, sizeof(mac), "64%u", randi );
+			snprintf( mac, sizeof(mac), "68%u", randi );
 		}
 		else if ( 0 == strcmp( object, "ifname@lan5" ) )
 		{
 			snprintf( ip, sizeof(ip), "192.168.5.1" );
-			snprintf( mac, sizeof(mac), "65%u", randi );
+			snprintf( mac, sizeof(mac), "6A%u", randi );
 		}
 		else if ( 0 == strcmp( object, "ifname@lan6" ) )
 		{
 			snprintf( ip, sizeof(ip), "192.168.6.1" );
-			snprintf( mac, sizeof(mac), "66%u", randi );
+			snprintf( mac, sizeof(mac), "6C%u", randi );
 		}
 		else if ( 0 == strcmp( object, "ifname@lan7" ) )
 		{
 			snprintf( ip, sizeof(ip), "192.168.7.1" );
-			snprintf( mac, sizeof(mac), "67%u", randi );
+			snprintf( mac, sizeof(mac), "6E%u", randi );
 		}
 	}
 	if ( mac[0] != '\0' )
 	{
 		scalls( ifdev, "setmac", mac );
-		warn( "%s auto mac address %s", ifdev, mac );
+		warn( "%s auto mac address %s", object, mac );
 	}
 	if ( ip[0] != '\0' )
 	{
@@ -312,7 +309,7 @@ talk_t _status( obj_t this, param_t param )
 	const char *buffer;
 
 	object = obj_combine( this );
-	buffer = register_value( object, "test" );
+	buffer = register_value( object, "recv" );
 	if ( buffer != NULL && *buffer != '\0' )
 	{
 		return ttrue;
