@@ -218,6 +218,19 @@
 
 
 
+	"Ethernet":"以太网",
+	"Link":"状态",
+	"Receive":"接收",
+	"Port1":"端口1",
+	"Port2":"端口2",
+	"Port3":"端口3",
+	"Port4":"端口4",
+
+	"UART":"串口",
+	"Serial1":"串口1",
+	"Serial2":"串口2",
+	"Serial3":"串口3",
+	"Serial4":"串口4",
 
 
 

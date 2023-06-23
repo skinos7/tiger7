@@ -551,7 +551,7 @@ talk_t _service( obj_t this, param_t param )
         snprintf( routetxt, sizeof(routetxt), "%s/route_nologin.txt", rootdir );
     }
     /* check the factory test mode */
-	factory_mode = register_value( LAND_PROJECT, "testmode" );
+	factory_mode = register_value( LAND_PROJECT, "factory_mode" );
 	if ( factory_mode != NULL )
 	{
 		snprintf( routetxt, sizeof(routetxt), "%s/route_factory.txt", rootdir );

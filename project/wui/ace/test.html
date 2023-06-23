@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta charset="utf-8" />
+		<title><%shell("he machine:name");%></title>
+
+		<!-- <meta name="description" content="overview &amp; stats" /> -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+        <!--[if !IE]> -->
+        <!-- <link rel="stylesheet" href="/assets/css/pace.css" />
+        <script data-pace-options='{ "ajax": true, "document": true, "eventLag": false, "elements": false }' src="/assets/js/pace.min.js"></script> -->
+        <!-- <![endif]-->
+
+		<!-- bootstrap & fontawesome -->
+		<link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="/assets/css/font-awesome.min.css" />
+
+		<!-- text fonts -->
+        <link rel="stylesheet" href="/assets/css/ace-fonts.min.css" />
+		<!--<link rel="stylesheet" href="/assets/css/fonts.googleapis.com.css" />-->
+
+        <!-- plugin -->
+        <link rel="stylesheet" href="/assets/css/jquery.gritter.min.css" />
+        <link rel="stylesheet" href="/assets/css/ui.jqgrid.min.css" />
+
+        <!-- canvas -->
+        <!--[if lte IE 8]>
+          <script src="/assets/js/excanvas.min.js"></script>
+        <![endif]-->
+
+		<!-- ace styles -->
+		<link rel="stylesheet" href="/assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+		<!--[if lte IE 9]>
+			<link rel="stylesheet" href="/assets/css/ace-part2.min.css" class="ace-main-stylesheet" />
+		<![endif]-->
+		<link rel="stylesheet" href="/assets/css/ace-skins.min.css" />
+		<!-- <link rel="stylesheet" href="/assets/css/ace-rtl.min.css" /> -->
+		<!--[if lte IE 9]>
+		  <link rel="stylesheet" href="/assets/css/ace-ie.min.css" />
+		<![endif]-->
+
+		<!-- ace settings handler -->
+        <style>
+		.status-item { display: inline-block; word-break: keep-all; }
+		.status-item p { margin: 0 0 3px; }
+		.status-item-link-up { display: inline-block; width: 100%; border-bottom: 4px solid #6bd36b; margin-top: 20px; }
+		.status-item-link-down { display: inline-block; width: 100%;border-bottom: 4px dotted #fea5b9; margin-top: 20px; }
+		.status-item-link-unuse { display: inline-block;wid th: 100%;border-bottom: 4px solid #888a96; margin-top: 20px; }
+		.status-back-link-up { display: inline-block; width: 100%; height: 200px; padding-top: 176px; border-bottom: 4px solid #6bd36b; border-left: 4px solid #6bd36b; }
+		.status-back-link-down { display: inline-block; width: 100%; height: 200px; padding-top: 176px; border-bottom: 4px dotted #fea5b9; border-left: 4px dotted #fea5b9; }
+		.status-back-link-unuse { display: inline-block; width: 100%; height: 200px; padding-top: 176px; border-bottom: 4px solid #888a96; border-left: 4px solid #888a96; }
+		.txrx-wrapper { margin-top: 30px; font-size: 16px; }
+		.txrx-wrapper i { color: #58bcf1; }
+		.rx_wrapper { text-align: right; }
+		.extern-wrapper { display: inline-block; }
+		.lan-wrapper { padding: 8px 8px 0 8px; text-align: center; width: 110px; display: inline-block; }
+		.lan-wrapper-wan, .lan-wrapper-misp, .lan-wrapper-wan2 { border: 2px solid #032f47; }
+		.lan-img { width: 40px; height: 40px; }
+		.lan-wrapper-up { background-color: #6bd36b; }
+		.lan-wrapper-uping { background-color: #d1cd2c; }
+		.lan-wrapper-down { background-color: #fea5b9; }
+		.lan-name { word-wrap: break-word; font-size: 18px; margin: 0; }
+		.lan-detail { word-wrap: break-word; font-size: 14px; margin: 2px; }
+		.line-signal { display: inline-block; height: 14px; margin-left: 2px; margin-right: 2px; margin-bottom: 2px; }
+		.margin-right { margin-right: 4px; }
+		.my-navbar-model { line-height: 25px; }
+		.checkbox-red input { margin-left: 0px!important; }
+		.form-group .checkbox { display: inline-block; margin-right: 12px; }
+		/* 覆盖默认样式 END */
+		/* bug fix */
+		/* 修复jqgrid的form中的table第一行不显示 */
+		[id^="editmod"] .FormGrid .EditTable tr:first-child {display: table-row; }
+		/* bug fix end */
+		/* jqGrid */
+		/* 小屏幕自动将分页导航移到第二行 */
+		@media only screen and (max-width: 767px)
+		{
+			.ui-jqgrid .ui-jqgrid-pager>.ui-pager-control>.ui-pg-table>tbody>tr>td[id$="pager_center"] { width: 0!important; position: static; }
+			.ui-jqgrid .ui-jqgrid-pager > .ui-pager-control > .ui-pg-table > tbody > tr > td[id$="pager_center"] >
+			.ui-pg-table { margin: 12px auto 0!important; position: absolute; right: 0; left: 0; text-align: center; }
+		}
+		/* 修复form中的switch间隔 */
+		.form-group div label { margin-top: 5px; margin-bottom: 0px; }
+		/* 隐藏 IE 查看密码的图标 */
+		::-ms-reveal { display: none; }
+		/* 右侧退出登录按钮 */
+		.navbar-container .icon { height: 45px; padding-top: 8px; padding-right: 8px; font-size: 23px; color: #fff; }
+		.navbar-container .icon:hover { cursor: pointer; }
+		@media only screen and (max-width: 479px)
+		{
+			.navbar:not(.navbar-collapse)
+			.navbar-header { float: left!important; }
+		}
+		/* 右侧退出登录按钮 END */
+		#navbar .logo { height: 25px; }
+		/* 信道分析 */
+		.disturb { cursor: pointer; }
+		@media (min-width: 768px)
+		{
+			.disturb .disturb-label { text-align: right; }
+		}
+		/* 表单中 带icon的input */
+		.input-icon-form { padding-left: 0; padding-right: 0; }
+		.input-icon-form input { width: 100%; }
+		/* 高级设置 */
+		.advance { margin-top: -6px; margin-bottom: -20px; }
+		.advance .advance-wrapper { text-align: right; }
+		.advance .advance-text { cursor: pointer; }
+		.advance-settings { display: none; }
+		/* form 右侧文字 */
+		.form-right-text { height: 28px; line-height: 21px; padding-top: 7px; padding-left: 18px; color: #777; }
+		/* 数字输入框 */
+		.small-number-input { width: 60px; }
+		/* input 右侧文字 */
+		.input-right-text { display: inline-block; height: 34px; line-height: 34px; }
+		.link { cursor: pointer; }
+		/* 响应式布局的list */
+		/* 添加最小高度, 和间隙 */
+		.dl-responsive dt, .dl-responsive dd { margin-bottom: 10px; }
+		/* 宽屏时, dt文字居左 */
+		@media (min-width: 768px)
+		{
+			.dl-responsive dt { text-align: right; }
+		}
+		/* 窄屏时, dd左缩进 */
+		@media (max-width: 768px)
+		{
+			.dl-responsive dd{ padding-left: 24px; }
+		}
+		/* 响应式布局的list END */
+		/* 全屏遮罩层 */
+		.overlay-loading { position: fixed; top: 0; right: 0; bottom: 0; left: 0; background-color: #000; opacity: 0.2; /* for IE8 */ filter:alpha(opacity=20); z-index: 3000; }
+		.overlay-loading-text { margin-top: 80px; }
+		.overlay-wrapper
+		{
+			background-color: #ccd;
+			bottom: 0;
+			height: 100%;
+			left: 0;
+			opacity: 0.8;
+			overflow: hidden;
+			position: fixed;
+			right: 0;
+			top: 0;
+			width: 100%;
+			z-index: 3000;
+			/*ie6,ie7,ie8实现透明*/
+			filter: alpha(opacity=80);
+			/*ie6,ie7自动定位,解决不支持position:fixed*/
+			+position:absolute;
+			+width:expression(eval(Math.max(document.documentElement.scrollWidth,document.documentElement.clientWidth)));
+			+height:expression(eval(Math.max(document.documentElement.scrollHeight,document.documentElement.clientHeight)));
+		}
+		/* 全屏遮罩的内容区 */
+		.overlay-wrapper .overlay-pop
+		{
+			position: fixed;
+			z-index: 3001;
+			left: 0;
+			right: 0;
+			/* top:15px; */
+			top: 40%;
+			/* border:2px solid #396; */
+			clear:both;
+			/*ie6,ie7自动定位,解决不支持position:fixed*/
+			+position:absolute;
+			+width:expression(eval(Math.min(document.documentElement.scrollWidth,document.documentElement.clientWidth)*0.9));
+			+top:expression(eval(document.documentElement.scrollTop+15));
+			+left:expression(eval(document.documentElement.scrollLeft+15));
+		}
+        </style>
+
+		<!-- basic scripts -->
+		<!--[if !IE]> -->
+		<script src="/assets/js/jquery-2.2.1.min.js"></script>
+		<!-- <![endif]-->
+		<!--[if IE]>
+		<script src="/assets/js/jquery-1.12.1.min.js"></script>
+		<![endif]-->
+		<script type="text/javascript">
+			if('ontouchstart' in document.documentElement) document.write("<script src='/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+		</script>
+		<script src="/assets/js/bootstrap.min.js"></script>
+
+		<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+		<!--[if lte IE 8]>
+		<script src="/assets/js/html5shiv.min.js"></script>
+		<script src="/assets/js/respond.min.js"></script>
+		<![endif]-->
+
+		<!-- custom styles related to this page -->
+		<%csspath(); %>
+		<!-- <link rel="stylesheet" href="/assets/css/custom.css" /> -->
+
+
+		
+	</head>
+
+	<body class="no-skin">
+
+
+
+        <table id="logo" width="100%" frame=void rules=none style="display: none" >
+            <tr>
+                <td width="200px"><span id="logo_img"></span></td>
+                <td align="left" >
+                    <table width="90%" frame=void rules=none>
+                        <tr><td width="20px"></td><td style="font-size:30px">&nbsp;</td></tr>
+                        <tr><td><td style="font-size:20px" align="left" id="logo_context"></td></tr>
+                        <tr><td><td style="font-size:10px">&nbsp;</td></tr>
+                    </table>            
+                </td>
+                <td width="150px">
+                    <table width="100%" id="logo_table" style="display: none;border:0px solid #ffffff;" >
+                        <tr><th data-i18n="Model"></th><td id="cmodel"></td></tr>
+                        <tr><th data-i18n="Version"></th><td id="version"></td></tr>
+                    </table>
+                    <div id="logo_logout" class="navbar-header pull-right" style="display: none" ><a href="#" id="logout" class="navbar-brand"><i class="ace-icon fa fa-sign-out"></i></a></div>
+                </td>
+            </tr>
+        </table>
+
+
+
+		<div id="navbar" class="navbar navbar-default          ace-save-state" style="display: none;" >
+			<div class="navbar-container ace-save-state" id="navbar-container">
+				<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+					<span class="sr-only">Toggle sidebar</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+				</button>
+
+				<div class="navbar-header pull-left"><a href="#" class="navbar-brand"><small id="prompt"></small></a></div>
+
+				<div class="navbar-buttons navbar-header pull-right" role="navigation">
+					<ul class="nav ace-nav">
+						<li class="grey dropdown-modal" style="display: none;" >
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="ace-icon fa fa-tasks"></i><span class="badge badge-grey">4</span></a>
+							<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+								<li class="dropdown-header"><i class="ace-icon fa fa-check"></i>4 Projects</li>
+								<li class="dropdown-content">####Here list the proejcts####<!--land@fpk.list--></li>
+								<li class="dropdown-footer"><a href="#"><span data-i18n="See new FPK with details"></span><i class="ace-icon fa fa-arrow-right"></i></a></li>
+							</ul>
+						</li>
+
+						<li class="purple dropdown-modal" style="display: none;" >
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="ace-icon fa fa-bell icon-animated-bell"></i><span class="badge badge-important">8</span></a>
+							<ul class="dropdown-menu-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
+								<li class="dropdown-header"><i class="ace-icon fa fa-exclamation-triangle"></i>8 Messages</li>
+								<li class="dropdown-content">####Here list the messages####<!--land@message.list--></li>
+								<li class="dropdown-footer"><a href="#"><span data-i18n="See all messages"></span><i class="ace-icon fa fa-arrow-right"></i></a></li>
+							</ul>
+						</li>
+
+						<!-- Logout -->
+						<div class="navbar-header pull-right"><a href="#" id="logout2" class="navbar-brand"><i class="ace-icon fa fa-sign-out"></i></a></div>
+
+					</ul>
+				</div>
+			</div><!-- /.navbar-container -->
+		</div>
+
+
+
+        <div class="main-container">
+            <div class="main-content" style="padding: 10px;">
+                <div class="row">
+                    <div class="col-sm-10 col-sm-offset-1">
+                        <div class="form-horizontal" role="form">
+              
+
+
+                            <!-- 设备型号 -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" data-i18n="Model"></label>
+                                <div class="col-sm-9">
+                                  <div id="model_string" class="col-xs-10 col-sm-5 form-right-text"></div>
+                                </div>
+                            </div>
+                            <!-- 生产批号 -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" data-i18n="Date Code"></label>
+                                <div class="col-sm-9">
+                                  <div id="datecode" class="col-xs-10 col-sm-5 form-right-text"></div>
+                                </div>
+                            </div>
+                            <!-- 软件标识 -->
+                            <div class="form-group">
+                              <label class="col-sm-3 control-label no-padding-right" data-i18n="Firmware Identifier"></label>
+                              <div class="col-sm-9">
+                                <div id="firmware_id" class="col-xs-10 col-sm-5 form-right-text"></div>
+                              </div>
+                            </div>
+                            <!-- 软件版本 -->
+                            <div class="form-group">
+                              <label class="col-sm-3 control-label no-padding-right" data-i18n="Firmware Version"></label>
+                              <div class="col-sm-9">
+                                <div id="firmware_version" class="col-xs-10 col-sm-5 form-right-text"></div>
+                              </div>
+                            </div>
+                            <!-- 配置版本 -->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" data-i18n="Configure Version"></label>
+                                <div class="col-sm-9">
+                                  <div id="cfgversion" class="col-xs-10 col-sm-5 form-right-text"></div>
+                                </div>
+                            </div>
+
+                            <!-- 设备信息 -->
+                            <table class="table table-bordered table-striped">
+                            <tbody>
+                                <tr>
+                                    <th data-i18n="Serial Number"></th>
+                                    <th data-i18n="MAC Address"></th>
+                                    <th data-i18n="IMEI"></th>
+                                    <th data-i18n="ICCID"></th>
+                                    <th data-i18n="ICCID2"></th>
+                                    <th data-i18n="Online"></th>
+                                </tr>
+                                <tr id="lte_info" style="display: none;">
+                                    <td id="list_sn1"></td>
+                                    <td id="list_mac1"></td>
+                                    <td id="list_imei1"><i class="ace-icon fa fa-times red"></i></td>
+                                    <td id="list_iccid1"><i class="ace-icon fa fa-times red"></i></td>
+                                    <td id="list_iccid1b"><i class="ace-icon fa fa-times red"></i></td>
+                                    <td id="list_online1"><i class="ace-icon fa fa-times red"></i></td>
+                                </tr>
+                                <tr id="lte2_info" style="display: none;">
+                                    <td id="list_sn2"></td>
+                                    <td id="list_mac2"></td>
+                                    <td id="list_imei2"><i class="ace-icon fa fa-times red"></i></td>
+                                    <td id="list_iccid2"><i class="ace-icon fa fa-times red"></i></td>
+                                    <td id="list_iccid2b"><i class="ace-icon fa fa-times red"></i></td>
+                                    <td id="list_online2"><i class="ace-icon fa fa-times red"></i></td>
+                                </tr>
+                            </tbody>
+
+                            <!-- 以太网 -->
+                            <table class="table table-bordered table-striped">
+                            <tbody>
+                                <tr>
+                                    <th data-i18n="Ethernet"  width="80%"></th>
+                                    <th data-i18n="Link"></th>
+                                    <th data-i18n="Receive"></th>
+                                </tr>
+                                <tr id="lan1" style="display: none;">
+                                    <td data-i18n="Port1"></td>
+                                    <td id="lan1_link"><i class="ace-icon fa fa-times red"></i></td>
+                                    <td id="lan1_recv"><i class="ace-icon fa fa-times red"></i></td>
+                                </tr>
+                                <tr id="lan2" style="display: none;">
+                                    <td data-i18n="Port2"></td>
+                                    <td id="lan2_link"><i class="ace-icon fa fa-times red"></i></td>
+                                    <td id="lan2_recv"><i class="ace-icon fa fa-times red"></i></td>
+                                </tr>
+                                <tr id="lan3" style="display: none;">
+                                    <td data-i18n="Port3"></td>
+                                    <td id="lan3_link"><i class="ace-icon fa fa-times red"></i></td>
+                                    <td id="lan3_recv"><i class="ace-icon fa fa-times red"></i></td>
+                                </tr>
+                                <tr id="lan4" style="display: none;">
+                                    <td data-i18n="Port4"></td>
+                                    <td id="lan4_link"><i class="ace-icon fa fa-times red"></i></td>
+                                    <td id="lan4_recv"><i class="ace-icon fa fa-times red"></i></td>
+                                </tr>
+                            </tbody>
+
+
+                            <!-- UART -->
+                            <table class="table table-bordered table-striped">
+                            <tbody>
+                                <tr>
+                                    <th data-i18n="UART" width="80%"></th>
+                                    <th data-i18n="Receive"></th>
+                                </tr>
+                                <tr id="serial" style="display: none;">
+                                    <td data-i18n="Serial1"></td>
+                                    <td id="serial_recv"><i class="ace-icon fa fa-times red"></i></td>
+                                </tr>
+                                <tr id="serial2" style="display: none;">
+                                    <td data-i18n="Serial2"></td>
+                                    <td id="serial2_recv"><i class="ace-icon fa fa-times red"></i></td>
+                                </tr>
+                                <tr id="serial3" style="display: none;">
+                                    <td data-i18n="Serial3"></td>
+                                    <td id="serial3_recv"><i class="ace-icon fa fa-times red"></i></td>
+                                </tr>
+                                <tr id="serial4" style="display: none;">
+                                    <td data-i18n="Serial4"></td>
+                                    <td id="serial4_recv"><i class="ace-icon fa fa-times red"></i></td>
+                                </tr>
+                            </tbody>
+                            
+
+
+                        </div>
+					</div>
+				</div>
+			</div><!-- /.main-content -->
+		</div><!-- /.main-container -->
+
+		<!-- add by dimmalex for loading show -->
+		<div class="overlay-wrapper" style="display: none;" id="overlay-loading">
+			<div class="overlay-pop"><div class="overlay-loading-text center" id="overlay-loading-text"></div><div id="overlay-loading-spin"></div></div>
+		</div>
+		<!-- add by dimmalex for progress show -->
+		<div class="overlay-wrapper" style="display: none;" id="overlay-progress">
+			<div class="overlay-pop">
+				<div class="center" id="overlay-progress-title"></div>
+				<div class="row">
+					<div class="col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
+						<div class="progress pos-rel" data-percent="0%"><div class="progress-bar progress-bar-red" style="width:0px;"></div></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	  
+	  
+		<!-- ace scripts -->
+		<script src="/assets/js/ace.min.js"></script>
+		<script src="/assets/js/ace-extra.min.js"></script>
+		<script src="/assets/js/ace-elements.min.js"></script>
+		<script src="/assets/js/spin.min.js"></script>
+		<script src="/assets/js/jquery.spin.min.js"></script>
+		<!-- add by dimmalex for file upload -->
+		<script src="/assets/js/jquery.ui.widget.js"></script>
+		<script src="/assets/js/jquery.iframe-transport.js"></script>
+		<script src="/assets/js/jquery.fileupload.js"></script>
+		<!-- add by dimmalex for i18n -->
+		<script src="/assets/js/jquery.i18n.js"></script>
+		<script src="/assets/js/jquery.i18n.messagestore.js"></script>
+		<!-- add by dimmalex for dialog -->
+		<script src="/assets/js/bootbox.min.js"></script>
+		<!-- add by dimmalex for jqGrid -->
+		<!--<script src="/assets/js/CLDRPluralRuleParser.js"></script>-->
+		<script src="/assets/js/jquery.gritter.js"></script>
+		<script src="/assets/js/jquery.jqGrid.min.js"></script>
+		<!-- add by dimmalex for date select -->
+        <script src="/assets/js/bootstrap-datepicker.min.js"></script>
+        <!-- add by dimmalex for date pie chart -->
+        <script src="/assets/js/jquery.easypiechart.js"></script>
+		<!-- add by johnny for Dashboard -->
+		<script language="javascript" type="text/javascript" src="/assets/js/jquery.flot.min.js"></script>	 
+		<!-- add by dimmalex for gnss -->
+        <script src="/assets/js/jquery.validate.min.js"></script>
+        <script src="/assets/js/additional-methods.min.js"></script>
+
+		<!-- add by dimmalex for api -->
+		<script src="/api/code.js"></script>
+		<script src="/api/he.js"></script>
+		<script src="/api/miscv2.js"></script>
+
+		<!-- add by dimmalex for global -->
+		<script type="text/javascript">
+		    var logoshow = false;
+            var nbarshow = true;
+			window.wui = <%config(); %>;
+            window.obj = <%obj(); %>;
+            window.object = <%object(); %>;
+            window.username = <%username(); %>;
+			window.custom = <%he('arch@custom'); %>;
+			window.machine = <%he('land@machine'); %>;
+			window.machine_status = <%he('land@machine.status'); %>;
+			window.network_frame = <%he('network@frame'); %>;
+			window.mode_list = <%he('network@frame.mode_list'); %>;
+			window.ifname_list = <%he('network@frame.list'); %>;
+			window.local_list = <%he('network@frame.list[local]'); %>;
+			window.extern_list = <%he('network@frame.list[extern]'); %>;
+			window.outer_list = <%he('network@frame.list[outer]'); %>;
+			window.nradio = <%he('.wifi@n'); %>;
+			window.aradio = <%he('.wifi@a'); %>;
+			window.fpk_menu = <%he('land@fpk.wui_menu'); %>;
+			window.wuiterm = "<%shell( 'which ttyd | tr -d "\n"' ); %>";
+			window.tcpdump = "<%shell( 'which tcpdump | tr -d "\n"' ); %>";
+			window.lang = window.machine.language;
+			document.title = window.machine.name;
+			var wuimenu = wui.menu;
+			// disable load the subpage, loading when after i18n loadin
+			ace.demo.functions.enableDemoAjax= function () {};
+            if ( window.wui )
+            {
+                if (  window.wui.logo_file )
+                {
+                    logoshow = true;
+                    var stamp = '<img src="' + window.wui.logo_file + '" width="' + (window.wui.logo_width || '180px') + '" height="' + (window.wui.logo_height || '100px') + '" /></div>';
+                    $('#logo_img').append(stamp);
+                }
+                if ( window.wui.logo_title )
+                {
+                    logoshow = true;
+                    if ( window.wui.logo_title == "#NAME" )
+                    {
+                        $('#logo_context').append( document.title );
+                    }
+                    else if ( window.wui.logo_title == "#MODEL" )
+                    {
+                        if ( window.machine_status.cmodel )
+                        {
+                            $('#logo_context').text( window.machine_status.cmodel );
+                        }
+                        else
+                        {
+                            $('#logo_context').text( window.machine_status.model );
+                        }
+                    }
+                    else
+                    {
+                        $('#logo_context').append( window.wui.logo_title );
+                    }
+                }
+                if ( window.wui.logo_model == "disable" )
+                {
+                    $('#logo_table').hide();
+                    $('#logo_logout').show();
+                }
+                else
+                {
+                    if ( window.machine_status.cmodel )
+                    {
+                        $('#cmodel').text( window.machine_status.cmodel );
+                    }
+                    else
+                    {
+                        $('#cmodel').text( window.machine_status.model );
+                    }
+                    $('#version').text( window.machine_status.version );
+                    $('#logo_table').show();
+                }
+                
+                if ( window.wui.nav_bar == "disable" )
+                {
+                    nbarshow = false;
+                }
+                else
+                {
+                    nbarshow = true;
+                }
+            }
+            if ( logoshow == true )
+            {
+                $('#logo').show();
+                $("#copyright").hide();
+                $('#sidebar-shortcuts').hide();
+            }
+            else
+            {
+                $('#sidebar-shortcuts').show();
+                if ( window.wui.copyright && window.wui.copyright == "disable" )
+                {
+                    $("#copyright").hide();
+                }
+                else
+                {
+                    $("#copyright").show();
+                }
+            }
+            if ( nbarshow == true )
+            {
+                $('#navbar').show();
+                $('#prompt').html( document.title );
+            }
+            else
+            {
+                $('#navbar').hide();
+            }
+            var win = window;
+            var doc = win.document;
+            var input = doc.createElement("input");
+            function IEVersion() {
+                var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+                var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1; //判断是否IE<11浏览器
+                var isEdge = userAgent.indexOf("Edge") > -1 && !isIE; //判断是否IE的Edge浏览器
+                var isIE11 = userAgent.indexOf('Trident') > -1 && userAgent.indexOf("rv:11.0") > -1;
+                if(isIE) {
+                    var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
+                    reIE.test(userAgent);
+                    var fIEVersion = parseFloat(RegExp["$1"]);
+                    console.log('ieVersion：', fIEVersion);
+                    if(fIEVersion == 7) {
+                        return 7;
+                    } else if(fIEVersion == 8) {
+                        return 8;
+                    } else if(fIEVersion == 9) {
+                        return 9;
+                    } else if(fIEVersion == 10) {
+                        return 10;
+                    } else {
+                        return 6;//IE版本<=7
+                    }
+                } else if(isEdge) {
+                    console.log('isEdge!');
+                    return 12;//edge
+                } else if(isIE11) {
+                    console.log('isIE11!');
+                    return 11; //IE11
+                }else{
+                    console.log('isOther!');
+                    return 13;//不是ie浏览器
+                }
+            }
+            window.ie = IEVersion();            
+		</script>
+
+
+		<script type="text/javascript">
+		jQuery(function($)
+		{
+            if ( !window.location.origin )
+            {
+              window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '');
+            }
+
+			/* get the machine config and setup the language */
+			$.i18n().load( page.lang('device') ).then( function () { 
+				$.i18n().locale = window.lang; $('body').i18n();
+                var r = [];
+                r[0] = "machine";
+                r[1] = "machine.status";
+                r[2] = ".ifname@lte";
+                r[3] = ".ifname@lte2";
+                r[4] = "ifname@lte.status";
+                r[5] = "ifname@lte2.status";
+                r[6] = "arch@ethernet.status";
+                r[7] = "ifname@lan1.status";
+                r[8] = "ifname@lan2.status";
+                r[9] = "ifname@lan3.status";
+                r[10] = "ifname@lan4.status";
+                r[11] = ".uart@serial";
+                r[12] = ".uart@serial2";
+                r[13] = ".uart@serial3";
+                r[14] = "uart@serial.status";
+                r[15] = "uart@serial2.status";
+                r[16] = "uart@serial3.status";
+                he.load( r ).then( function( v ){
+                    m = v[0]
+                    ms = v[1];
+                    lte = v[2];
+                    lte2 = v[3];
+                    ltes = v[4];
+                    lte2s = v[5];
+                    ethernets = v[6];
+                    lan1 = v[7];
+                    lan2 = v[8];
+                    lan3 = v[9];
+                    lan4 = v[10];
+                    serial = v[11];
+                    serial2 = v[12];
+                    serial3 = v[13];
+                    serials = v[14];
+                    serial2s = v[15];
+                    serial3s = v[16];
+
+                    /* load the info */
+                    $('#name_string').text(m.name);
+                    if ( ms.cmodel )
+                    {
+                      $('#model_string').text(ms.cmodel);
+                    }
+                    else
+                    {
+                      $('#model_string').text(ms.model);
+                    }
+                    if ( ms.datecode )
+                    {
+                        $('#datecode').text(ms.datecode);
+                    }
+                    /* load the firmware info */
+                    $('#firmware_id').text( ms.hardware+"-"+ms.custom+"-"+ms.scope );
+                    $('#firmware_version').text(ms.version);
+                    $('#cfgversion').text(m.cfgversion||$.i18n('Default'));
+
+                    /* LTE */
+                    if ( m["sn"] )
+                    {
+                        sn = m["sn"];
+                    }
+                    else
+                    {
+                        sn = (ms.datecode||"")+""+ms.model+""+ms.macid.substring(6);
+                    }
+                    if ( lte == true )
+                    {
+                        $('#lte_info').show();
+                        $('#list_mac1').text( ms.mac );
+                        $('#list_sn1').text( sn );
+                        if ( ltes.imei )
+                        {
+                        $('#list_imei1').text( ltes.imei );
+                        }
+                        if ( ltes.bsim_state )
+                        {
+                            $('#list_iccid1').text( ltes.msim_iccid );
+                            $('#list_iccid1b').text( ltes.bsim_iccid );
+                        }
+                        else
+                        {
+                            if ( ltes.iccid && ltes.iccid != "nosim" )
+                            {
+                                $('#list_iccid1').text( ltes.iccid );
+                            }
+                        }
+                        if ( ltes.status == "up" )
+                        {
+                            $('#list_online1').html( '<i class="ace-icon fa fa-check green"></i>' );
+                        }
+                        else
+                        {
+                            $('#list_online1').html( '<i class="ace-icon fa fa-times red"></i>' );
+                        }
+                    }
+                    if ( lte2 == true )
+                    {
+                        $('#lte2_info').show();
+                        $('#list_mac2').text( ms.mac );
+                        $('#list_sn2').text( sn );
+                
+                        if ( lte2s.imei )
+                        {
+                        $('#list_imei2').text( lte2s.imei );
+                        }
+                        if ( lte2s.bsim_state )
+                        {
+                            $('#list_iccid2').text( lte2s.msim_iccid );
+                            $('#list_iccid2b').text( lte2s.bsim_iccid );
+                        }
+                        else
+                        {
+                            if ( lte2s.iccid && lte2s.iccid != "nosim" )
+                            {
+                                $('#list_iccid2').text( lte2s.iccid );
+                            }
+                        }
+                        if ( lte2s.status == "up" )
+                        {
+                            $('#list_online2').html( '<i class="ace-icon fa fa-check green"></i>' );
+                        }
+                        else
+                        {
+                            $('#list_online2').html( '<i class="ace-icon fa fa-times red"></i>' );
+                        }
+                    }
+
+                    /* ethernet */
+                    if ( ethernets["lan1"] )
+                    {
+                        var v = ethernets["lan1"];
+                        if ( v["status"] = "up" )
+                        {
+                            $('#lan1_link').html( '<i class="ace-icon fa fa-check green"></i>' );
+                        }
+                        if ( lan1 == true )
+                        {
+                            $('#lan1_recv').html( '<i class="ace-icon fa fa-check green"></i>' );
+                        }
+                        $('#lan1').show();
+                    }
+                    if ( ethernets["lan2"] )
+                    {
+                        var v = ethernets["lan2"];
+                        if ( v["status"] = "up" )
+                        {
+                            $('#lan2_link').html( '<i class="ace-icon fa fa-check green"></i>' );
+                        }
+                        if ( lan1 == true )
+                        {
+                            $('#lan2_recv').html( '<i class="ace-icon fa fa-check green"></i>' );
+                        }
+                        $('#lan2').show();
+                    }
+                    if ( ethernets["lan3"] )
+                    {
+                        var v = ethernets["lan3"];
+                        if ( v["status"] = "up" )
+                        {
+                            $('#lan3_link').html( '<i class="ace-icon fa fa-check green"></i>' );
+                        }
+                        if ( lan1 == true )
+                        {
+                            $('#lan3_recv').html( '<i class="ace-icon fa fa-check green"></i>' );
+                        }
+                        $('#lan3').show();
+                    }
+                    if ( ethernets["lan4"] )
+                    {
+                        var v = ethernets["lan4"];
+                        if ( v["status"] = "up" )
+                        {
+                            $('#lan4_link').html( '<i class="ace-icon fa fa-check green"></i>' );
+                        }
+                        if ( lan1 == true )
+                        {
+                            $('#lan4_recv').html( '<i class="ace-icon fa fa-check green"></i>' );
+                        }
+                        $('#lan4').show();
+                    }
+
+                    /* UART */
+                    if ( serial == true )
+                    {
+                        $('#serial').show();
+                        if ( serials == true )
+                        {
+                            $('#serial_recv').html( '<i class="ace-icon fa fa-check green"></i>' );
+                        }
+                    }
+                    if ( serial2 == true )
+                    {
+                        $('#serial2').show();
+                        if ( serial2s == true )
+                        {
+                            $('#serial2_recv').html( '<i class="ace-icon fa fa-check green"></i>' );
+                        }
+                    }
+                    if ( serial3 == true )
+                    {
+                        $('#serial3').show();
+                        if ( serial3s == true )
+                        {
+                            $('#serial3_recv').html( '<i class="ace-icon fa fa-check green"></i>' );
+                        }
+                    }
+                    if ( serial4 == true )
+                    {
+                        $('#serial4').show();
+                        if ( serial4s == true )
+                        {
+                            $('#serial4_recv').html( '<i class="ace-icon fa fa-check green"></i>' );
+                        }
+                    }
+                                
+                });
+
+
+				
+			}) // $.i18n.load()
+		})     //jQuery(function($)
+		</script>
+
+
+
+
+	</body>
+</html>

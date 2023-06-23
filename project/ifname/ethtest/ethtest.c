@@ -62,7 +62,7 @@ int echo_create( void )
 	inanyadd.sin_port = htons( echo_port );
 	if ( ( sock = socket( AF_INET, SOCK_DGRAM, 0 ) ) < 0 )
 	{
-		faulting( "echo create socket() error" );
+		faulting( "%s echo create socket() error", echo_object );
 		return -1;
 	}
 	socket_reuse( sock );
@@ -73,34 +73,34 @@ int echo_create( void )
 	if ( setsockopt( sock, SOL_SOCKET, SO_BINDTODEVICE, (void*)&ifr, sizeof(struct ifreq) ) < 0 )
 	//if ( setsockopt( sock, SOL_SOCKET, SO_BINDTODEVICE, "lan", 3 ) < 0 )
 	{
-		faulting( "echo setsockopt the SO_BINDTODEVICE broadcast(%d) error", echo_port );
+		faulting( "%s echo setsockopt the SO_BINDTODEVICE broadcast(%d) error", echo_object, echo_port );
 		return -1;
 	}
 	/* add dont route */
 	wwrite = 1;
 	if ( setsockopt( sock, SOL_SOCKET, SO_DONTROUTE, (char*)&wwrite, sizeof(wwrite) ) < 0 )
 	{
-		faulting( "echo setsockopt the SO_DONTROUTE broadcast(%d) error", echo_port );
+		faulting( "%s echo setsockopt the SO_DONTROUTE broadcast(%d) error", echo_object, echo_port );
 		return -1;
 	}
 	/* add broadcast */
 	wwrite = 1;
 	if ( setsockopt( sock, SOL_SOCKET, SO_BROADCAST, (char*)&wwrite, sizeof(wwrite) ) < 0 )
 	{
-		faulting( "echo setsockopt the SO_BROADCAST broadcast(%d) error", echo_port );
+		faulting( "%s echo setsockopt the SO_BROADCAST broadcast(%d) error", echo_object, echo_port );
 		return -1;
 	}
 	/* disable loop date */
 	wwrite = 0;
 	if ( setsockopt( sock, IPPROTO_IP, IP_MULTICAST_LOOP, &wwrite, sizeof(wwrite) ) < 0 )
 	{
-		faulting( "echo setsockopt the IP_MULTICAST_LOOP(%d) error", echo_port );
+		faulting( "%s echo setsockopt the IP_MULTICAST_LOOP(%d) error", echo_object, echo_port );
 		return -1;
 	}
 	/* bind the port */
 	if ( bind( sock,(struct sockaddr *)&inanyadd, sizeof(struct sockaddr_in)) < 0 )
 	{
-		faulting( "echo bind the broadcast(%d) error", echo_port );
+		faulting( "%s echo bind the broadcast(%d) error", echo_object, echo_port );
 		return -1;
 	}
 	fd_nonblock( sock );
@@ -111,13 +111,13 @@ int echo_create( void )
 	nwrite = sendto( sock, echo_context, wwrite, 0, (struct sockaddr*)&inanyadd, sizeof(struct sockaddr_in) );
 	if ( nwrite != wwrite )
 	{
-		faulting( "beacon send broadcast( %d ) error(%d)", echo_port, nwrite );
+		faulting( "%s send echo( %d ) error(%d)", echo_object, echo_port, nwrite );
 		return -1;
 	}
 
 	return sock;
 }
-void echo_boardcast( int fd, short what, void *arg )
+void echo_send( int fd, short what, void *arg )
 {
 	int wwrite;
 	int nwrite;
@@ -137,7 +137,7 @@ void echo_boardcast( int fd, short what, void *arg )
 	nwrite = sendto( echo_sock, echo_context, wwrite, 0, (struct sockaddr*)&inanyadd, sizeof(struct sockaddr_in) );
 	if ( nwrite != wwrite )
 	{
-		faulting( "broadcast beacon( %d ) error(%d)", echo_port, nwrite );
+		faulting( "%s echo( %d ) error(%d)", echo_object, echo_port, nwrite );
 		reactor_break( fd, what, arg );
 		return;
 	}
@@ -162,7 +162,7 @@ void echo_read( int fd, short what, void *arg )
 		{
 			if ( errno != EWOULDBLOCK && errno != EINPROGRESS )
 			{
-				faulting( "echo_read( %d, %p, %d ) error", fd, readbuf, wread );
+				faulting( "%s echo_read( %d, %p, %d ) error", echo_object, fd, readbuf, wread );
 				reactor_break( fd, what, arg );
 				return;
 			}
@@ -170,7 +170,7 @@ void echo_read( int fd, short what, void *arg )
 		}
 		else if ( nread == 0 )
 		{
-			warning( "echo_read( %d, %p, %d ) zero return", fd, readbuf, wread );
+			warning( "%s echo_read( %d, %p, %d ) zero return", echo_object, fd, readbuf, wread );
 			reactor_break( fd, what, arg );
 			return;
 		}
@@ -178,7 +178,9 @@ void echo_read( int fd, short what, void *arg )
 		*(readbuf+nread) = '\0';
 		/* print */
 		inet_ntop( AF_INET, &sockaddr.sin_addr, srcip, sizeof(srcip) );
+		info( "%s recv %s:%s\n", echo_object, srcip, readbuf );
 		printf( "%s recv %s:%s\n", echo_object, srcip, readbuf );
+		/* compare to mark */
 		if ( nread == strlen(echo_context) && strcmp( readbuf, echo_context ) != 0 )
 		{
 			register_set( echo_object, "recv", readbuf, nread, 1500 );
@@ -289,7 +291,7 @@ boole_t _service( obj_t this, param_t param )
 		{
 			hander = event_new( base, echo_sock, EV_READ|EV_PERSIST, echo_read, base );
 			event_add( hander, NULL );
-			reactor_timer_create( base, echo_boardcast, interval, 0 );
+			reactor_timer_create( base, echo_send, interval, 0 );
 			event_base_dispatch( base );
 		}
 		event_base_free(base);
@@ -300,6 +302,7 @@ boole_t _service( obj_t this, param_t param )
 	}
 
 	/* exit */
+	close( echo_sock );
 	warn( "%s exit", COM_IDPATH );
 	return tfalse;
 }
