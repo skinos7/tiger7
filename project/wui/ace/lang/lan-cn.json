@@ -21,7 +21,7 @@
 	"Assign Gateway":"指定网关",
 	"Assign DNS":"指定DNS",
 	"Assign DNS2":"指定备用DNS",
-	"DHCP Server Options(separated by semicolons)":"DHCP服务器选项(separated by semicolons)",
+	"DHCP Server Options(separated by semicolons)":"DHCP服务器选项(分号分隔)",
 
 	"IPv6 Mode":"IPV6地址模式",
 	"Disable":"禁用",
