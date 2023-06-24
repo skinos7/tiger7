@@ -172,6 +172,7 @@
 	"Backup Configure":"备份配置",
 	"Default Configure":"恢复默认设置",
 	"Restore Configure":"导入配置",
+	"Backup EEPROM":"备份EEPROM",
 
 	"Restore...":"导入配置...",
 	"Restore Failure":"导入配置失败",

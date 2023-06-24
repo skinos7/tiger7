@@ -193,6 +193,17 @@
           </div>
       </div>
 
+      <!-- 导出EEPROM -->
+      <div class="form-horizontal" role="form">
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Backup EEPROM"></label>
+          <div class="col-sm-9">
+            <div class="btn-group">
+              <button class="btn btn-second" data-i18n="Backup EEPROM" id="backup_eeprom"></button>
+            </div>
+          </div>
+        </div>
+      </div>
 
 
     </div>
@@ -540,7 +551,15 @@
                 return;
             }
         });
-
+        $('#backup_eeprom').on(ace.click_event, function () {
+            var submitForm = document.createElement("FORM");
+            document.body.appendChild(submitForm);
+            submitForm.method= "GET";
+            submitForm.action= "/cgi/backup_eeprom";
+            setTimeout(function() {
+                submitForm.submit();
+            }, 200);
+        });
 
 
         /* load the configure */
