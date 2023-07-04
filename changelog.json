@@ -1,5 +1,5 @@
 {
-    "v7.3.0609":
+    "v7.3.0629":
     {
         "20220303":"fix radio txpower",
         "20220304":"Trim the modem reset operation steps",
@@ -55,7 +55,18 @@
         "20220606":"enable the dhcps when on router mode, fix the dgateway wrong at r600",
         "20220607":"add default when arch@gpio:reset lost",
         "20220608":"modify the miniupnpd configure to sync the swrt SDK",
-        "20220609":"add the dns custom for mix connect"
+        "20220609":"add the dns custom for mix connect",
+        "20220610":"add disable the menu when no menu options",
+        "20220611":"don't default when restore the default",
+        "20220612":"client station add the traffic show",
+        "20220613":"fix block when at no return at modem watch",
+        "20220614":"add the factory test mode, and add the test.html for factory test mode",
+        "20220615":"add the eeprom operator on factory page",
+        "20220616":"fix restore configure the cfgversion maybe change",
+        "20220617":"add the ztp(DHCP/URL) support",
+        "20220618":"add the default value for uart HTTP post",
+        "20220619":"fix uart client2 tx/rx webapge status error",
+        "20220628":"add the ipsec server"
     },
     "v7.3.0228":
     {
