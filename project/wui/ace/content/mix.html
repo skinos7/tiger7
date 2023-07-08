@@ -38,7 +38,8 @@
         <div class="col-sm-9">
           <select class="col-xs-10 col-sm-5" id="type">
             <option value="hot" data-i18n="Link Backup"></option>
-            <option value="dbdc" data-i18n="Load Balancing"></option>
+            <option value="dbdc" data-i18n="Load Balancing(Classify)"></option>
+            <option value="auto" data-i18n="Load Balancing(Equality)"></option>
           </select>
         </div>
       </div>
@@ -79,8 +80,7 @@
       </div>
 
 
-    <div id="dbdc-sets" style="display:none;">
-
+    <div id="dns-sets" style="display:none;">
         <!-- DNS -->
         <div class="form-group">
           <label class="col-sm-3 control-label no-padding-right" data-i18n="Custom DNS"></label>
@@ -105,6 +105,10 @@
           </div>
         </div>
     
+    </div>
+
+
+    <div id="delay-sets" style="display:none;">
         <div class="hr hr32 hr-dotted"></div>
         <!-- -->
         <div class="form-group">
@@ -412,11 +416,18 @@
               var type = e.target.value;
               if ( type == "dbdc" )
               {
-                $('#dbdc-sets').show();
+                $('#dns-sets').show();
+                $('#delay-sets').show();
+              }
+              else if ( type == "auto" )
+              {
+                  $('#dns-sets').show();
+                  $('#delay-sets').hide();
               }
               else
               {
-                $('#dbdc-sets').hide();
+                  $('#dns-sets').hide();
+                  $('#delay-sets').hide();
               }
             }).trigger('change');
             $('#custom_dns').unbind('change').change(function (e) {
