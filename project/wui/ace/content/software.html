@@ -169,7 +169,15 @@
       $.i18n().locale = lang; $('body').i18n();
 
       /* load the firmware info */
-      $('#firmware_version').text(window.machine_status.version);
+      if ( window.wui.bigversion && window.wui.bigversion == "enable" )
+      {
+        var v = window.machine_status.version.split('.');
+        $('#firmware_version').text( v[0]+"."+v[1] );
+      }
+      else
+      {
+        $('#firmware_version').text(window.machine_status.version);
+      }
       $('#firmware_sdk').text( window.machine_status.platform );
       $('#firmware_id').text( window.machine_status.hardware+"-"+window.machine_status.custom+"-"+window.machine_status.scope );
       if ( !window.wui.firmware_id || window.wui.firmware_id != "disable" )

@@ -35,6 +35,7 @@ Administration of equipment Management web page
     "nav_bar":"show or not",                      // [ enable, disable ]
 
     // custom the webpage show
+    "bigversion":"show or not",                   // [ enable, disable ]
     "copyright":"show or not",                    // [ enable, disable ]
     "firmware_id":"show or not",                  // [ enable, disable ]
     "repo_online":"show or not",                  // [ disable, enable ]
