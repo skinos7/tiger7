@@ -1,6 +1,8 @@
 {
 	"Type":"类型",
 	"Link Backup":"链路备份",
+	"Link Backup(Hot)":"热备份",
+	"Link Backup(Cold)":"冷备份",
 	"Load Balancing(Classify)":"负载均衡(分级)",
 	"Load Balancing(Equality)":"负载均衡(平分)",
 	"Aggregation":"链接聚合",

@@ -68,7 +68,8 @@
         "20220619":"fix uart client2 tx/rx webapge status error",
         "20220628":"add the ipsec server",
         "20220701":"fix the backup simcard factory test bug and uart test failed to restart",
-        "20220702":"uart dtu add the ssl suport"
+        "20220702":"uart dtu add the ssl suport",
+        "20220703":"fix the wisp no signal connected ok"
     },
     "v7.3.0228":
     {
