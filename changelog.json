@@ -1,5 +1,5 @@
 {
-    "v7.3.0702":
+    "v7.3.0705":
     {
         "20220303":"fix radio txpower",
         "20220304":"Trim the modem reset operation steps",
@@ -69,7 +69,8 @@
         "20220628":"add the ipsec server",
         "20220701":"fix the backup simcard factory test bug and uart test failed to restart",
         "20220702":"uart dtu add the ssl suport",
-        "20220703":"fix the wisp no signal connected ok"
+        "20220703":"fix the wisp no signal connected ok",
+        "20220704":"add the cold backup for mix"
     },
     "v7.3.0228":
     {
