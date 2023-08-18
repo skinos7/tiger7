@@ -1,5 +1,5 @@
 {
-    "v7.3.0705":
+    "v7.3.0709":
     {
         "20220303":"fix radio txpower",
         "20220304":"Trim the modem reset operation steps",
@@ -70,7 +70,9 @@
         "20220701":"fix the backup simcard factory test bug and uart test failed to restart",
         "20220702":"uart dtu add the ssl suport",
         "20220703":"fix the wisp no signal connected ok",
-        "20220704":"add the cold backup for mix"
+        "20220704":"add the cold backup for mix",
+        "20220706":"modify crack mac enter to test mode auto",
+        "20220708":"only skip the space to create json for support UTF8"
     },
     "v7.3.0228":
     {

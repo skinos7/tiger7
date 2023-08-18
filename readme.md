@@ -81,6 +81,9 @@ make pid gBOARDID=产品完整型号
 # 如D228的产品输入以下指令:
 # make pid gBOARDID=mtk2-mt7621-d228
 
+# 如D228P的产品输入以下指令:
+# make pid gBOARDID=mtk2-mt7621-d228p
+
 # 如V520的产品输入以下指令：
 # make pid gBOARDID=mtk2-mt7621-v520
 
@@ -169,25 +172,23 @@ make
 
 ![avatar](./project2.png)
 
-**Skin Layer**, 此层向SkinOS提供管理接口, SkinOS通过此管理接口实现对系统中所有的项目统一管理
-- **Component** 向SkinOS提供接口
+**Skin Layer**, 此层向SkinOS或用户提供管理接口, SkinOS或用户通过此管理接口实现对系统中所有的项目统一管理
+- **Component** 向SkinOS或用户提供接口
 - **Default Configure file** 提供默认配置
-- **HTML** 向SkinOS提供界面接口
+- **HTML** 向SkinOS提供管理界面, 使用户可以通过些WEB界面管理项目的功能及配置
 - **prj.json** 向SkinOS描述项目的资源
 
 **Linux System and Application**, 为常用的Linux系统及应用程序, 基于传统Linux应用程序的项目存在此层, 通常为项目内部实现逻辑而存在，不对外提供接口：
 - **Executable program**
-
 - **Kernel Module**
 - **Shared Library** 支持通过编程API向外提供API
-- **shell**
+- **shell**脚本
 - **Resource file**
 
 下图演示SkinOS的系统组件或其它项目通过**Skin Layer**实现对项目的管理
 ![avatar](./project3.png)
 
 系统组件或是其它的项目组件都可以通过 **Skin Layer** 提供的接口对项目进行管理
-
 
 
 
