@@ -7,7 +7,7 @@
 	"ifname@wan":"WAN",
 	"ifname@wan2":"WAN2",	
 	"ifname@wan3":"WAN3",
-	"ifname@wan4":"WAN3",	
+	"ifname@wan4":"WAN4",	
 	"modem@lte":"LTE Modem",
 	"modem@lte2":"LTE/NR Modem",
 	"ifname@lan":"LAN",

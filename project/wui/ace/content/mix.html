@@ -14,6 +14,12 @@
           <tr id="wan2" style="display: none;">
               <th data-i18n="ifname@wan2"></th><td id="wan2_status"></td><td id="wan2_state"></td>
           </tr>
+          <tr id="wan3" style="display: none;">
+              <th data-i18n="ifname@wan3"></th><td id="wan3_status"></td><td id="wan3_state"></td>
+          </tr>
+          <tr id="wan4" style="display: none;">
+              <th data-i18n="ifname@wan4"></th><td id="wan4_status"></td><td id="wan4_state"></td>
+          </tr>
           <tr id="wisp" style="display: none;">
               <th data-i18n="ifname@wisp"></th><td id="wisp_status"></td><td id="wisp_state"></td>
           </tr>
@@ -255,6 +261,8 @@
         {
             $('#wan').hide();
             $('#wan2').hide();
+            $('#wan3').hide();
+            $('#wan4').hide();
             $('#wisp').hide();
             $('#wisp2').hide();
             $('#lte').hide();
@@ -285,7 +293,7 @@
         {
             if ( list["ifname@wan2"].status )
             {
-                $('#wan_status').html( $.i18n( list["ifname@wan2"].status ) );
+                $('#wan2_status').html( $.i18n( list["ifname@wan2"].status ) );
             }
             if ( list["ifname@wan2"].inuse == "enable" )
             {
@@ -300,6 +308,46 @@
         else
         {
             $('#wan2').hide();
+        }
+        if ( list["ifname@wan3"] )
+        {
+            if ( list["ifname@wan3"].status )
+            {
+                $('#wan3_status').html( $.i18n( list["ifname@wan3"].status ) );
+            }
+            if ( list["ifname@wan3"].inuse == "enable" )
+            {
+                $('#wan3_state').html( $.i18n('In Use') );
+            }
+            else
+            {
+                $('#wan3_state').html( $.i18n('Unused') );
+            }
+            $('#wan3').show();
+        }
+        else
+        {
+            $('#wan3').hide();
+        }
+        if ( list["ifname@wan4"] )
+        {
+            if ( list["ifname@wan4"].status )
+            {
+                $('#wan4_status').html( $.i18n( list["ifname@wan4"].status ) );
+            }
+            if ( list["ifname@wan4"].inuse == "enable" )
+            {
+                $('#wan4_state').html( $.i18n('In Use') );
+            }
+            else
+            {
+                $('#wan4_state').html( $.i18n('Unused') );
+            }
+            $('#wan4').show();
+        }
+        else
+        {
+            $('#wan4').hide();
         }
 
         if ( list["ifname@wisp"] )
