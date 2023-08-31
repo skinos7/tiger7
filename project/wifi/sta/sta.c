@@ -761,6 +761,33 @@ talk_t _state( obj_t this, param_t param )
 }
 boole_t _online( obj_t this, param_t param )
 {
+	const char *object;
+	const char *netdev;
+	const char *ifname;
+	const char *gateway;
+
+	object = obj_combine( this );
+	/* get the netdev */
+	netdev = register_value( object, "netdev" );
+	if ( netdev == NULL || *netdev == '\0' )
+	{
+		return tfalse;
+	}
+	/* get the ifname for sta the lan */
+	ifname = param_string( param, 1 );
+	if ( ifname == NULL || strstr( ifname, LAN_COM ) == NULL )
+	{
+		return ttrue;
+	}
+	/* get the ifname gateway for set the sta gateway */
+	gateway = register_value( ifname, "gateway" );
+	if ( gateway == NULL || *gateway == '\0' )
+	{
+		return ttrue;
+	}
+	info( "%s(%s) online reset the relayd", object, netdev );
+	/* reset the relayd */
+	sreset( NULL, NULL, NULL, "%s-relayd", netdev );
 	return ttrue;
 }
 boole_t _offline( obj_t this, param_t param )
@@ -1088,7 +1115,9 @@ boole_t _relayd( obj_t this, param_t param )
     const char *obj;
     const char *object;
 	const char *netdev;
+	const char *gateway;
 	char ip[NAME_MAX];
+	char ifname[NAME_MAX];
 	char bridge[NAME_MAX];
 	char bridge_netdev[NAME_MAX];
 
@@ -1117,18 +1146,38 @@ boole_t _relayd( obj_t this, param_t param )
 	{
 		return ttrue;
 	}
+	/* brdige ifname */
+	ptr = scalls_string( ifname, sizeof(ifname), NETWORK_COM, "ifname", bridge );
+	if ( ptr == NULL )
+	{
+		return ttrue;
+	}
+	/* get the gateway when have */
+	gateway = register_value( ifname, "gateway" );
 	/* brdige status */
 	ip[0] = '\0';
 	netdev_info( bridge_netdev, ip, sizeof(ip), NULL, 0, NULL, 0, NULL, 0 );
 	sleep( 3 );
 
 	/* run the relayd */
-	if ( ip[0] != '\0' )
+	if ( ip[0] != '\0' && gateway != NULL && gateway[0] != '\0' )
 	{
-		execlp( "relayd", "relayd", "-I", netdev, "-I", bridge_netdev, "-B", "-D", "-G", ip, (char*)0 );
+		info( "%s(%s) relayd use %s on %s", object, netdev, gateway, ip );
+		execlp( "relayd", "relayd", "-I", netdev, "-I", bridge_netdev, "-B", "-D", "-L", ip, "-G", gateway, (char*)0 );
+	}
+	else if ( ip[0] != '\0' )
+	{
+		info( "%s(%s) relayd on %s", object, netdev, ip );
+		execlp( "relayd", "relayd", "-I", netdev, "-I", bridge_netdev, "-B", "-D", "-L", ip, (char*)0 );
+	}
+	else if ( gateway != NULL && gateway[0] != '\0' )
+	{
+		info( "%s(%s) relayd use %s", object, netdev, gateway );
+		execlp( "relayd", "relayd", "-I", netdev, "-I", bridge_netdev, "-B", "-D", "-G", gateway, (char*)0 );
 	}
 	else
 	{
+		info( "%s(%s) relayd", object, netdev );
 		execlp( "relayd", "relayd", "-I", netdev, "-I", bridge_netdev, "-B", "-D", (char*)0 );
 	}
 	faulting( "execlp the relayd(%s) error" , "relayd" );
