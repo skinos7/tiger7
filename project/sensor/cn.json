@@ -1,0 +1,42 @@
+{
+	"Voltameter":"电量计",
+	"State":"状态",
+	"Disable":"禁用",
+	"noboard":"无电源板",
+	"nobattary":"无电池",
+	"charge":"充电中",
+	"uncharge":"电池电量",
+	"Percent(%)":"电量(%)",
+	"Voltage(V)":"电压(V)",
+
+	"Solar Power":"太阳能板",
+    "Night or Day":"昼夜",
+    "night":"夜晚",
+    "day":"白天",
+    "Charge Status":"充电状态",
+    "uncharge":"未充电",
+    "charge":"充电中",
+    "Discharge Status":"放电状态",
+    "undischarge":"未放电",
+    "discharge":"放电中",
+    "Environment Temperature":"环境温度",
+    "Device Temperature":"设备温度",
+    "Battery Status":"电池状态",
+    "Load Status":"负载状态",
+    "Solar Status":"太阳能状态",
+    "Charge Summary":"充电总结",
+    "Consumption Summary":"用电总结",
+
+	"Methanometry":"甲烷监测仪",
+    "Light Level":"灯光亮度",
+    "Methane Concentration":"甲烷浓度",
+    "Turn On Light":"打开蓝光",
+    "Turn Off Light":"关闭蓝光",
+    "Succeed":"成功",
+    "Failed":"失败",
+
+    "Hygrometer":"温湿度计",
+    "Humidity":"湿度",
+    "Temperature":"湿度"
+
+}

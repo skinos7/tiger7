@@ -1,0 +1,67 @@
+{
+    "name":"sensor",
+    "version":"7.0.0",
+    "author":"dimmalex@gmail.com",
+    "intro":"common sensor device management",
+    "obj":
+    {
+        "cambattary@humiture":"sensor@hygrometer",
+        "cambattary@battary":"sensor@voltameter"
+    },
+
+    "wui":
+    {
+        "voltameter":
+        {
+            "menu":"Sensor",
+            "en": "Voltameter",
+            "cn": "电量计",
+            "config":"sensor@voltameter",
+            "page": "voltameter.html",
+            "lang":
+            {
+                "cn": "cn.json",
+                "en": "en.json"
+            }
+        },
+        "solarpower":
+        {
+            "menu":"Sensor",
+            "en": "Solar Power",
+            "cn": "太阳能板",
+            "config":"sensor@solarpower",
+            "page": "solarpower.html",
+            "lang":
+            {
+                "cn": "cn.json",
+                "en": "en.json"
+            }
+        },
+        "hygrometer":
+        {
+            "menu":"Sensor",
+            "en": "Hygrometer",
+            "cn": "温湿度计",
+            "config":"sensor@hygrometer",
+            "page": "hygrometer.html",
+            "lang":
+            {
+                "cn": "cn.json",
+                "en": "en.json"
+            }
+        },
+        "methanometry":
+        {
+            "menu":"Sensor",
+            "en": "Methanometry",
+            "cn": "甲烷仪",
+            "config":"sensor@methanometry",
+            "page": "methanometry.html",
+            "lang":
+            {
+                "cn": "cn.json",
+                "en": "en.json"
+            }
+        }
+    }
+}

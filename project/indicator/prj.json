@@ -1,0 +1,22 @@
+{
+    "name":"indicator",
+    "version":"7.0.0",
+    "author":"dimmalex@gmail.com",
+    "intro":"indicator device management",
+
+    "wui":
+    {
+        "oled":
+        {
+            "menu":"Indicator",
+            "en": "OLED Screen",
+            "cn": "OLED屏",
+            "page": "oled.html",
+            "lang":
+            {
+                "cn": "cn.json",
+                "en": "en.json"
+            }
+        }
+    }
+}

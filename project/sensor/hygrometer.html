@@ -1,0 +1,165 @@
+<!-- ajax layout which only needs content area -->
+<div class="row">
+    <div class="col-xs-12 form-btn-wrapper">
+    <!-- 界面开始 -->
+    <div class="form-horizontal" role="form">
+
+
+        
+    <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Hygrometer"></label>
+        <div class="col-sm-9">
+            <!-- 状态选项 -->
+            <label><input id="status" class="ace ace-switch ace-switch-6" type="checkbox" /><span class="lbl"></span></label>
+        </div>
+    </div>
+
+
+    <div id="status-sets">
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Humidity"></label>
+            <div class="col-sm-9 form-right-text">
+                <span id="humidity"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Temperature"></label>
+            <div class="col-sm-9 form-right-text">
+                <span id="temperature"></span>
+            </div>
+        </div>
+    </div><!--status-sets-->
+
+
+    <div id="config-sets">
+    </div><!--config-sets-->
+
+
+
+    <!-- 按键面板 -->
+    <div class="clearfix form-actions">
+        <div class="col-md-offset-3 col-md-9">
+            <!-- 刷新按键 -->
+            <button class="btn btn-second" type="button" id="refresh"><span data-i18n="Refresh"></span></button>
+            &nbsp; &nbsp; &nbsp;
+            <!-- 应用按键 -->
+            <button class="btn btn-main" type="button" id="apply"><span data-i18n="Apply"></span></button>
+        </div>
+    </div>
+
+
+
+    </div>
+    <!-- 界面结束 -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+(function () {
+    // Javascript开始
+
+
+
+    // 组件配置名称
+	var comname = "sensor@hygrometer";
+    // 存放组件配置的变量
+    var comcfg;
+    // 存放组件状态的变量
+    var comstat;
+    // 语言文件路径, 自动跟据系统语言类型变化路径(在prj.json中指名)
+    var langjson = base64.decode( page.param( 'lang', location.hash ) );
+
+    // 从系统获取组件配置并填入界面中
+    function load_comcfg()
+    {
+        // 从系统获取组件配置的调用
+        he.load( [ comname, comname+".status" ] ).then( function(v){
+            // 将获到的配置赋值给存放组件配置的变量
+            comcfg = v[0];
+            comstat = v[1];
+            if ( comstat )
+            {
+                $('#humidity').text( comstat.humidity + "%" );
+                $('#temperature').text( comstat.temperature + "℃" );
+            }
+
+            // 将组件配置状态填入状态选项
+            $('#status').prop( 'checked', able2boole(comcfg.status) );
+
+            // 为状态选项绑定函数处理, 实现点选时界面隐藏或显示属性输入框
+            $('#status').unbind('change').change(function () {
+                // 如果选中
+                if ($(this).prop('checked'))
+                {
+                    // 显示
+                    $('#status-sets').show();
+                    $('#config-sets').show();
+                }
+                // 否则
+                else
+                {
+                    //隐藏
+                    $('#status-sets').hide();
+                    $('#config-sets').hide();
+                }
+            }).trigger('change');
+        });
+    }
+
+    // 从界面得到修改的配置后保存并应用到组件配置中
+    function save_comcfg()
+    {
+        if ( !comcfg )
+        {
+            comcfg = {};
+        }
+        // 拷贝一份组件配置
+        var comcfgcopy = JSON.parse(JSON.stringify(comcfg));
+
+        // 从状态选项中得到组件状态
+        comcfg.status = boole2able( $('#status').prop('checked') );
+        // 比较拷贝确定组件配置是否有被修改
+        if ( ocompare( comcfg, comcfgcopy ) )
+        {
+            // 如果未修改提示没有修改不需要应用
+            page.alert( { message: $.i18n('Settings unchanged') } );
+            return;
+        }
+        // 向系统保存并应用组件配置的调用
+        he.save( [ comname+"="+JSON.stringify(comcfg) ] ).then( function(){
+            // 提示应用成功
+            page.hint2succeed( $.i18n('Modify successfully') );
+            // 刷新界面内容
+            load_comcfg();
+        });
+    }
+
+
+    
+    // 加载语言文件
+    $.i18n().load( page.lang(langjson) ).then( function () {
+        // 界面语言初始化
+        $.i18n().locale = window.lang; $('body').i18n();
+        // 加载组件配置
+        load_comcfg();
+
+        /* 绑定刷新按键 */
+        $('#refresh').on(ace.click_event, function () {
+            location.reload();
+        });
+        /* 绑定应用按键 */
+        $('#apply').on(ace.click_event, function () {
+            // 点应用时保存并应用组件配置
+            save_comcfg();
+        });
+        
+    });
+
+
+
+    // Javascript结束
+})()
+</script>
