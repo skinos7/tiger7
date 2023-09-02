@@ -948,10 +948,12 @@ boole_t _online( obj_t this, param_t param )
 	if ( gateway != NULL && *gateway != '\0' )
 	{
 		info( "%s(%s) %s online[ %s, %s ]", object, netdev, ipaddr, gateway?:"", dns?:"" );
+		register_set( object, "gateway", gateway, stringlen(gateway)+1, 20 );
 	}
 	else
 	{
 		info( "%s(%s) %s online", object, netdev, ipaddr );
+		register_set( object, "gateway", NULL, 0, 20 );
 	}
 
 	/* clear the connect failed count */
