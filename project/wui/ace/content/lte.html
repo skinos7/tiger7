@@ -571,7 +571,7 @@
           /* network */
           if ( ltes.operator )
           {
-              $(id+"_operator").text( ltes.operator );
+              $(id+"_operator").text( $.i18n(ltes.operator) );
           }
           else if ( ltes.plmn )
           {
@@ -671,16 +671,29 @@
         $("#mode").append("<option value=''>"+$.i18n('Advise')+"</option>");
         $("#mode").append("<option value='dhcpc'>"+$.i18n('DHCP')+"</option>");
         $("#mode").append("<option value='static'>"+$.i18n('Static IP')+"</option>");
-        if ( ltes.hwnat == "enable" )
+        if ( ltes )
         {
-            $("#lock_nettype").append("<option value='nsa'>" + "NSA(5G)" + "</option>");
-            $("#lock_nettype").append("<option value='sa'>" + "SA(5G)" + "</option>");
-            $("#lock_nettype").append("<option value='lte'>" + "LTE(4G)" + "</option>");
-            $("#lock_nettype").append("<option value='wcdma'>" + "WCDMA" + "</option>");
-            $("#lock_nettype").append("<option value='tdscdma'>" + "TDSCDMA" + "</option>");
-            $("#lock_nettype").append("<option value='evdo'>" + "EVDO" + "</option>");
-            $("#lock_nettype").append("<option value='cdma'>" + "CDMA" + "</option>");
-            $("#lock_nettype").append("<option value='gsm'>" + "GSM" + "</option>");
+            if ( ltes.hwnat == "enable" )
+            {
+                $("#lock_nettype").append("<option value='nsa'>" + "NSA(5G)" + "</option>");
+                $("#lock_nettype").append("<option value='sa'>" + "SA(5G)" + "</option>");
+                $("#lock_nettype").append("<option value='lte'>" + "LTE(4G)" + "</option>");
+                $("#lock_nettype").append("<option value='wcdma'>" + "WCDMA" + "</option>");
+                $("#lock_nettype").append("<option value='tdscdma'>" + "TDSCDMA" + "</option>");
+                $("#lock_nettype").append("<option value='evdo'>" + "EVDO" + "</option>");
+                $("#lock_nettype").append("<option value='cdma'>" + "CDMA" + "</option>");
+                $("#lock_nettype").append("<option value='gsm'>" + "GSM" + "</option>");
+            }
+            else
+            {
+                $("#mode").append("<option value='ppp'>"+$.i18n('PPP')+"</option>");
+                $("#lock_nettype").append("<option value='lte'>" + "LTE(4G)" + "</option>");
+                $("#lock_nettype").append("<option value='wcdma'>" + "WCDMA" + "</option>");
+                $("#lock_nettype").append("<option value='tdscdma'>" + "TDSCDMA" + "</option>");
+                $("#lock_nettype").append("<option value='evdo'>" + "EVDO" + "</option>");
+                $("#lock_nettype").append("<option value='cdma'>" + "CDMA" + "</option>");
+                $("#lock_nettype").append("<option value='gsm'>" + "GSM" + "</option>");
+            }
         }
         else
         {
@@ -722,9 +735,9 @@
           $('#auth').val(lte.profile_cfg.auth);
           $('#cid').val(lte.profile_cfg.cid);
         }
-        else
+        else if ( ltes )
         {
-            if ( ltes && ltes.operator_advise )
+            if ( ltes.operator_advise )
             {
                 $('#dial').val(ltes.operator_advise.dial);
                 $('#apn').val(ltes.operator_advise.apn);
