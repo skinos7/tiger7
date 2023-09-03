@@ -1,19 +1,47 @@
 #!/bin/bash
 
-#for tmp in shost-x86-ubuntu shost-aarch64-ubuntu
-#do
-#    make gBOARDID=${tmp} pid
-#    make test
-#    make clean
-#    make distclean
-#    make dep
-#    make
-#    make repo
-#done
-
-for tmp in smtk2-mt7628-r600-inrico smtk2-mt7628-r600-oled
+###################################
+############# D218 ################
+###################################
+make gBOARDID=smtk2-mt7628-d218-8m pid
+make pidinfo
+make clean
+make distclean
+make dep
+make
+make sz
+make ftp
+for tmp in h728 wlinker120
 do
-    make gBOARDID=${tmp} pid
+    make gBOARDID=smtk2-mt7628-d218-8m-${tmp} pid
+    ./mkdel
+    make dep
+    make
+    make sz
+    make ftp
+done
+
+make gBOARDID=smtk2-mt7628-d218-std pid
+make clean
+make distclean
+make dep
+make
+make sz
+make ftp
+make repo
+for tmp in wlinkr222 wlinkr320 wlinkr522 wlinker120 wlinkr200e ctcunion
+do
+    make gBOARDID=smtk2-mt7628-d218-std-${tmp} pid
+    ./mkdel
+    make dep
+    make
+    make sz
+    make ftp
+done
+
+for tmp in oled ipsec uclibc sr sx ok gs gg ggnw xyc inrico zwzx jjsd hmjtx base rover wlinkr200e xexagon
+do
+    make gBOARDID=smtk2-mt7628-d218-${tmp} pid
     make pidinfo
     make clean
     make distclean
@@ -22,20 +50,53 @@ do
     make sz
     make ftp
 done
-for tmp in smtk2-mt7628-r600
+
+
+
+###################################
+############# R600 ################
+###################################
+make gBOARDID=smtk2-mt7628-r600-std pid
+make clean
+make distclean
+make dep
+make
+make sz
+make ftp
+make repo
+for tmp in wlinkr320 wlinkr522 ctcunion h728 xexagon giant
 do
-    make gBOARDID=${tmp} pid
+    make gBOARDID=smtk2-mt7628-r600-std-${tmp} pid
+    ./mkdel
+    make dep
+    make
+    make sz
+    make ftp
+done
+
+for tmp in oled inrico wan
+do
+    make gBOARDID=smtk2-mt7628-r600-${tmp} pid
+    make pidinfo
     make clean
     make distclean
     make dep
     make
     make sz
     make ftp
-    make repo
 done
-for tmp in smtk2-mt7628-r600-std-ctcunion smtk2-mt7628-r600-std-h728 smtk2-mt7628-r600-std-wlinker120 smtk2-mt7628-r600-std-wlinkr100 smtk2-mt7628-r600-std-wlinkr222 smtk2-mt7628-r600-std-wlinkr320 smtk2-mt7628-r600-std-wlinkr522 smtk2-mt7628-r600-std-xexagon
+
+make gBOARDID=swrt-mt7628-r600-std pid
+make clean
+make distclean
+make dep
+make
+make sz
+make ftp
+make repo
+for tmp in wlinkr320 wlinkr522
 do
-    make gBOARDID=${tmp} pid
+    make gBOARDID=swrt-mt7628-r600-std-${tmp} pid
     ./mkdel
     make dep
     make
@@ -45,9 +106,20 @@ done
 
 
 
-for tmp in smtk2-mt7628-d218-8m smtk2-mt7628-d218-ctcunion smtk2-mt7628-d218-gs smtk2-mt7628-d218-h728 smtk2-mt7628-d218-hmjtx smtk2-mt7628-d218-inrico smtk2-mt7628-d218-ipsec smtk2-mt7628-d218-jjsd smtk2-mt7628-d218-ok smtk2-mt7628-d218-oled smtk2-mt7628-d218-sr smtk2-mt7628-d218-sx smtk2-mt7628-d218-wlinkr200e smtk2-mt7628-d218-xexagon smtk2-mt7628-d218-xyc smtk2-mt7628-d218-zwzx 
+###################################
+############# D228 ################
+###################################
+make gBOARDID=smtk2-mt7621-d228-std pid
+make clean
+make distclean
+make dep
+make
+make sz
+make ftp
+make repo
+for tmp in ff
 do
-    make gBOARDID=${tmp} pid
+    make gBOARDID=smtk2-mt7621-d228-${tmp} pid
     make pidinfo
     make clean
     make distclean
@@ -56,23 +128,23 @@ do
     make sz
     make ftp
 done
-for tmp in smtk2-mt7628-d218
+
+
+
+###################################
+############# D228P ###############
+###################################
+make gBOARDID=smtk2-mt7621-d228p-std pid
+make clean
+make distclean
+make dep
+make
+make sz
+make ftp
+make repo
+for tmp in hmjtx
 do
-    make gBOARDID=${tmp} pid
-    make clean
-    make distclean
-    make dep
-    make
-    make sz
-    make ftp
-    make repo
-done
-
-
-
-for tmp in smtk2-mt7621-d228-ff
-do
-    make gBOARDID=${tmp} pid
+    make gBOARDID=smtk2-mt7621-d228p-${tmp} pid
     make pidinfo
     make clean
     make distclean
@@ -81,23 +153,23 @@ do
     make sz
     make ftp
 done
-for tmp in smtk2-mt7621-d228
+
+
+
+###################################
+############# V520 ################
+###################################
+make gBOARDID=smtk2-mt7621-v520 pid
+make clean
+make distclean
+make dep
+make
+make sz
+make ftp
+make repo
+for tmp in greatwall donkey ddonkey zebra ltruck szsh udeer hifly
 do
-    make gBOARDID=${tmp} pid
-    make clean
-    make distclean
-    make dep
-    make
-    make sz
-    make ftp
-    make repo
-done
-
-
-
-for tmp in smtk2-mt7621-d228p-hmjtx
-do
-    make gBOARDID=${tmp} pid
+    make gBOARDID=smtk2-mt7621-v520-${tmp} pid
     make pidinfo
     make clean
     make distclean
@@ -106,56 +178,68 @@ do
     make sz
     make ftp
 done
-for tmp in smtk2-mt7621-d228p
+
+
+
+###################################
+############# V520B ###############
+###################################
+make gBOARDID=smtk2-mt7621-v520b pid
+make clean
+make distclean
+make dep
+make
+make sz
+make ftp
+make repo
+for tmp in donkey ddonkey
 do
-    make gBOARDID=${tmp} pid
+    make gBOARDID=smtk2-mt7621-v520b-${tmp} pid
+    make pidinfo
     make clean
     make distclean
     make dep
     make
     make sz
     make ftp
-    make repo
 done
 
 
 
-for tmp in smtk2-mt7621-v520
+###################################
+############# H721 ################
+###################################
+make gBOARDID=smtk2-mt7621-h721 pid
+make clean
+make distclean
+make dep
+make
+make sz
+make ftp
+make repo
+for tmp in waveshare
 do
-    make gBOARDID=${tmp} pid
+    make gBOARDID=smtk2-mt7621-h721-${tmp} pid
+    make pidinfo
     make clean
     make distclean
     make dep
     make
     make sz
     make ftp
-    make repo
-done
-
-
-for tmp in smtk2-mt7621-h721
-do
-    make gBOARDID=${tmp} pid
-    make clean
-    make distclean
-    make dep
-    make
-    make sz
-    make ftp
-    make repo
 done
 
 
 
-for tmp in smtk2-mt7621-h722
-do
-    make gBOARDID=${tmp} pid
-    make clean
-    make distclean
-    make dep
-    make
-    make sz
-    make ftp
-    make repo
-done
+###################################
+############# H722 ################
+###################################
+make gBOARDID=smtk2-mt7621-h722 pid
+make clean
+make distclean
+make dep
+make
+make sz
+make ftp
+make repo
 

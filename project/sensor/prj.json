@@ -16,7 +16,7 @@
             "menu":"Sensor",
             "en": "Voltameter",
             "cn": "电量计",
-            "config":"sensor@voltameter",
+            "object":"sensor@voltameter",
             "page": "voltameter.html",
             "lang":
             {
@@ -29,7 +29,7 @@
             "menu":"Sensor",
             "en": "Solar Power",
             "cn": "太阳能板",
-            "config":"sensor@solarpower",
+            "object":"sensor@solarpower",
             "page": "solarpower.html",
             "lang":
             {
@@ -42,7 +42,7 @@
             "menu":"Sensor",
             "en": "Hygrometer",
             "cn": "温湿度计",
-            "config":"sensor@hygrometer",
+            "object":"sensor@hygrometer",
             "page": "hygrometer.html",
             "lang":
             {
@@ -54,8 +54,8 @@
         {
             "menu":"Sensor",
             "en": "Methanometry",
-            "cn": "甲烷仪",
-            "config":"sensor@methanometry",
+            "cn": "甲烷监测仪",
+            "object":"sensor@methanometry",
             "page": "methanometry.html",
             "lang":
             {

@@ -17,7 +17,7 @@ $(eval $(call Package/Define))
 
 # menuconfig的选项的位置及说明
 define Package/$(PKG_NAME)
-  CATEGORY:=Skin system
+  CATEGORY:=Skin driver
   TITLE:=$(INTRO_STR)
   DEPENDS:=+PACKAGE_arch:arch +PACKAGE_land:land +PACKAGE_modem:modem +libevent2
 endef
