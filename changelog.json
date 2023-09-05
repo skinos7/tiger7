@@ -1,11 +1,13 @@
 {
-    "v7.3.0903":
+    "v7.3.0905":
     {
         "20220810":"fix lte webpage crack on load",
         "20220811":"add the sensor/indicator/i2cdrv/modbusdrv project to support many type sensor",
         "20220812":"add support call pass the pointer",
         "20220813":"modify the cambattary to support new sensor/indicator frame",
-        "20220814":"fix the remote agent wait long time for space remote2/3 address"
+        "20220814":"fix the remote agent wait long time for space remote2/3 address",
+        "20220901":"update all product sdk configure",
+        "20220904":"optimize wifi"
     },
     "v7.3.0713":
     {
