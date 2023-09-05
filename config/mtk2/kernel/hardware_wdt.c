@@ -22,9 +22,9 @@ module_param(nowayout, int, 0);
 MODULE_PARM_DESC(nowayout, "Watchdog cannot be stopped once started (default=" __MODULE_STRING(WATCHDOG_NOWAYOUT) ")");
 #endif
 
-/* add by dimmalex for hwwdt feed */
-extern void pat_wdt_feed( void );
-extern void pat_wdt_early_disable( void );
+#define WDG_TIMER_DFT_CNT	30	//feed watchdog hand 15 second
+//modify by qingcheng extern void pat_wdt_early_disable( void );
+extern void pat_wdt_set_count(int count);
 
 
 /*
@@ -34,7 +34,8 @@ static int hardware_wdt_open(struct inode *inode, struct file *file)
 {
     /* add by dimmalex for hwwdt */
 	//printk("Turn off early pat watchdog refush\n");
-	pat_wdt_early_disable();
+	//pat_wdt_early_disable();
+	pat_wdt_set_count(WDG_TIMER_DFT_CNT);
 
 	return nonseekable_open(inode, file);
 }
@@ -43,7 +44,7 @@ static int hardware_wdt_release(struct inode *inode, struct file *file)
 {
 	/* Shut off the timer.
 	 * Lock it in if it's a module and we defined ...NOWAYOUT */
-	pat_wdt_feed();
+	pat_wdt_set_count(10);
 	return 0;
 }
 
@@ -51,7 +52,7 @@ static ssize_t hardware_wdt_write(struct file *file, const char *data, size_t le
 {
 	/* Refresh the timer. */
 	if (len) {
-        pat_wdt_feed();
+		pat_wdt_set_count(WDG_TIMER_DFT_CNT);
 	}
 	return len;
 }
@@ -81,8 +82,7 @@ static int hardware_wdt_ioctl(struct inode *inode, struct file *file,
 		case WDIOC_GETBOOTSTATUS:
 			return put_user(0,(int *)arg);
 		case WDIOC_KEEPALIVE:
-            pat_wdt_feed();
-
+			pat_wdt_set_count(WDG_TIMER_DFT_CNT);
 			return 0;
 		case WDIOC_GETTIMEOUT:
 			return put_user(WATCHDOG_TIMEOUT,(int *)arg);
@@ -106,7 +106,7 @@ static int hardware_wdt_ioctl(struct inode *inode, struct file *file,
 
 static int hardware_wdt_notify_sys(struct notifier_block *this, unsigned long code, void *unused)
 {
-    pat_wdt_feed();
+	pat_wdt_set_count(10);
 
 	return NOTIFY_DONE;
 }

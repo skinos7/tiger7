@@ -26,7 +26,7 @@
 #define RALINK_REG_PIORESET   (RALINK_PRGIO_ADDR + 0x40)
 #define RALINK_REG(x)  (*((volatile u32 *)(x)))
 
-#define PAT_WDT_GPIO   37            // for d218
+#define PAT_WDT_GPIO   37            // for watchdog
 #define PAT_WDT_500MS	(HZ/2)
 
 /* first stage: manual feed */
@@ -34,9 +34,8 @@
 static int pat_wdt_state = 0;
 void pat_wdt_feed( void )
 {
-    unsigned int t = 0;
+    unsigned int t = PAT_WDT_GPIO;
 
-    t = PAT_WDT_GPIO;
     if ( pat_wdt_state != 0 )
     {
         if ( t < 32 )
@@ -71,14 +70,16 @@ void pat_wdt_feed( void )
 EXPORT_SYMBOL_GPL( pat_wdt_feed );
 
 /* second stage: early feed */
-static int wdg_early_count = 300; //5 min
+static int wdg_early_count = 600; //5 min
 static struct timer_list wdg_timer;
 
-void pat_wdt_early_disable( void )
+void pat_wdt_set_count(int count)
 {
-	del_timer( &wdg_timer );
+	wdg_early_count = count;
+	//modify by qingcheng, 
+	//del_timer( &wdg_timer );
 }
-EXPORT_SYMBOL_GPL( pat_wdt_early_disable );
+EXPORT_SYMBOL_GPL(pat_wdt_set_count);
 
 static void pat_wdt_handle( unsigned long unused )
 {
@@ -88,11 +89,12 @@ static void pat_wdt_handle( unsigned long unused )
     	wdg_timer.expires = jiffies + PAT_WDT_500MS;
     	add_timer( &wdg_timer );
 	}
-	else
-    {
-		pat_wdt_early_disable();
-    }
+	//else
+    //{
+		//pat_wdt_early_disable();
+    //}
 }
+
 void pat_wdt_early_init( void )
 {
 	init_timer( &wdg_timer );

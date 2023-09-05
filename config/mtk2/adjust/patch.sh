@@ -97,83 +97,93 @@ cp ${gPLATFORM_DIR}/adjust/patch/kernel/mt7603/patches/mt7603_no_wps_compile_fix
 cp ${gPLATFORM_DIR}/adjust/patch/kernel/mt7603/patches/mt7603_no_wpa3_compile_fix.patch   ${gSDK_DIR}/package/mtk/drivers/mt7603/patches/021-wpa3_compile_fix.patch
 # patch to mt76x2 chip to platform
 rm -fr ${gSDK_DIR}/package/mtk/drivers/mt76x2/
-cp -r ${gPLATFORM_DIR}/adjust/patch/kernel/mt76x2   ${gSDK_DIR}/package/mtk/drivers/mt76x2
+cp -r ${gPLATFORM_DIR}/adjust/patch/kernel/mt76x2 ${gSDK_DIR}/package/mtk/drivers/mt76x2
+mv ${gSDK_DIR}/package/mtk/drivers/mt76x2/package.make ${gSDK_DIR}/package/mtk/drivers/mt76x2/Makefile
 # patch to mt7663 to read the eeprom from flash
-cp ${gPLATFORM_DIR}/adjust/patch/kernel/mt7663/files/mt7663.1.dat   ${gSDK_DIR}/package/mtk/drivers/mt7663/files/
-cp ${gPLATFORM_DIR}/adjust/patch/kernel/mt7663/files/mt7663.2.dat   ${gSDK_DIR}/package/mtk/drivers/mt7663/files/
+cp ${gPLATFORM_DIR}/adjust/patch/kernel/mt7663/files/mt7663.1.dat ${gSDK_DIR}/package/mtk/drivers/mt7663/files/
+cp ${gPLATFORM_DIR}/adjust/patch/kernel/mt7663/files/mt7663.2.dat ${gSDK_DIR}/package/mtk/drivers/mt7663/files/
 # patch to mt7663  chip new drivers to platform
-cp -r ${gPLATFORM_DIR}/adjust/patch/kernel/mt7663/patches/001-driver-path.patch   ${gSDK_DIR}/package/mtk/drivers/mt7663/patches/001-driver-path.patch
+cp -r ${gPLATFORM_DIR}/adjust/patch/kernel/mt7663/patches/001-driver-path.patch ${gSDK_DIR}/package/mtk/drivers/mt7663/patches/001-driver-path.patch
 
 # patch to mt7663 ver6.0.3  chip new drivers to platform
 rm -fr ${gSDK_DIR}/package/mtk/drivers/mt7663_603/
-cp -r ${gPLATFORM_DIR}/adjust/patch/kernel/mt7663_603   ${gSDK_DIR}/package/mtk/drivers/mt7663_603
+cp -r ${gPLATFORM_DIR}/adjust/patch/kernel/mt7663_603 ${gSDK_DIR}/package/mtk/drivers/mt7663_603
+mv ${gSDK_DIR}/package/mtk/drivers/mt7663_603/package.make ${gSDK_DIR}/package/mtk/drivers/mt7663_603/Makefile
 # patch to mt7628 for .dat file
-cp ${gPLATFORM_DIR}/adjust/patch/kernel/mt7628/files/mt7628.dat   ${gSDK_DIR}/package/mtk/drivers/mt7628/files/
+cp ${gPLATFORM_DIR}/adjust/patch/kernel/mt7628/files/mt7628.dat ${gSDK_DIR}/package/mtk/drivers/mt7628/files/
 # patch to mt7628 to compile apcli no error
-cp ${gPLATFORM_DIR}/adjust/patch/kernel/mt7628/patches/mt7628_100_compile_error.patch   ${gSDK_DIR}/package/mtk/drivers/mt7628/patches/100_compile_error.patch
-cp ${gPLATFORM_DIR}/adjust/patch/kernel/mt7628/patches/mt7628_101_nowsc_fix.patch   ${gSDK_DIR}/package/mtk/drivers/mt7628/patches/101_nowsc_fix.patch
+cp ${gPLATFORM_DIR}/adjust/patch/kernel/mt7628/patches/mt7628_100_compile_error.patch ${gSDK_DIR}/package/mtk/drivers/mt7628/patches/100_compile_error.patch
+cp ${gPLATFORM_DIR}/adjust/patch/kernel/mt7628/patches/mt7628_101_nowsc_fix.patch ${gSDK_DIR}/package/mtk/drivers/mt7628/patches/101_nowsc_fix.patch
 
 
 # patch to busybox for udhcpc support ifnameid and exit when renewip failed
-cp ${gPLATFORM_DIR}/adjust/patch/busybox/busybox-900-udhcpc_renewexit_backupip_ifnameid.patch  ${gSDK_DIR}/package/utils/busybox/patches/900-udhcpc_renewexit_backupip_ifnameid.patch
+cp ${gPLATFORM_DIR}/adjust/patch/busybox/busybox-900-udhcpc_renewexit_backupip_ifnameid.patch ${gSDK_DIR}/package/utils/busybox/patches/900-udhcpc_renewexit_backupip_ifnameid.patch
 # patch to busybox for no log interference
-cp ${gPLATFORM_DIR}/adjust/patch/busybox/busybox-901-nolog_interference.patch  ${gSDK_DIR}/package/utils/busybox/patches/901-nolog_interference.patch
+cp ${gPLATFORM_DIR}/adjust/patch/busybox/busybox-901-nolog_interference.patch ${gSDK_DIR}/package/utils/busybox/patches/901-nolog_interference.patch
 
 # fix the base-file do not need the netifd
-cp ${gPLATFORM_DIR}/adjust/patch/package/base-files-Makefile  ${gSDK_DIR}/package/base-files/Makefile
+cp ${gPLATFORM_DIR}/adjust/patch/package/base-files-Makefile ${gSDK_DIR}/package/base-files/Makefile
 # fix the base-file do support ipv6 forwarding
-cp ${gPLATFORM_DIR}/adjust/patch/package/sysctl.conf  ${gSDK_DIR}/package/base-files/files/etc/
+cp ${gPLATFORM_DIR}/adjust/patch/package/sysctl.conf ${gSDK_DIR}/package/base-files/files/etc/
 # fix the dropbear cannot run the hetui
-cp ${gPLATFORM_DIR}/adjust/patch/package/shells  ${gSDK_DIR}/package/base-files/files/etc/
+cp ${gPLATFORM_DIR}/adjust/patch/package/shells ${gSDK_DIR}/package/base-files/files/etc/
 # remove the down the wifi at shutdown, this patch causes the reboot instruction to malfunction
 rm -fr ${gSDK_DIR}/package/utils/busybox/patches/311-reboot-down-wifi.patch
 # patch to mtd for no return error when complie
-cp ${gPLATFORM_DIR}/adjust/patch/package/mtd.c  ${gSDK_DIR}/package/system/mtd/src/
+cp ${gPLATFORM_DIR}/adjust/patch/package/mtd.c ${gSDK_DIR}/package/system/mtd/src/
 # patch to ated for down the lte and change interface from br0 to lan
-cp ${gPLATFORM_DIR}/adjust/patch/package/ate.c  ${gSDK_DIR}/package/mtk/applications/ated/src/
+cp ${gPLATFORM_DIR}/adjust/patch/package/ate.c ${gSDK_DIR}/package/mtk/applications/ated/src/
 # patch to ated for down the lte and change interface from br-lan to lan
-cp ${gPLATFORM_DIR}/adjust/patch/package/ate-ext.c  ${gSDK_DIR}/package/mtk/applications/ated/src/
+cp ${gPLATFORM_DIR}/adjust/patch/package/ate-ext.c ${gSDK_DIR}/package/mtk/applications/ated/src/
 # patch to ated for down the lte and change interface from br-lan to lan
-cp ${gPLATFORM_DIR}/adjust/patch/package/ated_ext-9ccd2fb9.tar.bz2  ${gSDK_DIR}/dl/
+cp ${gPLATFORM_DIR}/adjust/patch/package/ated_ext-9ccd2fb9.tar.bz2 ${gSDK_DIR}/dl/
 # patch to ipset for compile error
-cp ${gPLATFORM_DIR}/adjust/patch/package/ipset-makefile  ${gSDK_DIR}/package/network/utils/ipset/Makefile
+cp ${gPLATFORM_DIR}/adjust/patch/package/ipset-makefile ${gSDK_DIR}/package/network/utils/ipset/Makefile
 if [ ! -d ${gSDK_DIR}/package/network/utils/ipset/patches ]; then
     mkdir ${gSDK_DIR}/package/network/utils/ipset/patches
 fi
-cp ${gPLATFORM_DIR}/adjust/patch/package/ipset-010-new_api_compile_error.patch   ${gSDK_DIR}/package/network/utils/ipset/patches/010-new_api_compile_error.patch
+cp ${gPLATFORM_DIR}/adjust/patch/package/ipset-010-new_api_compile_error.patch ${gSDK_DIR}/package/network/utils/ipset/patches/010-new_api_compile_error.patch
 
 # patch to switch to support or/and operation
 if [ ! -d ${gSDK_DIR}/package/mtk/applications/switch/patches ]; then
     mkdir ${gSDK_DIR}/package/mtk/applications/switch/patches
 fi
-cp ${gPLATFORM_DIR}/adjust/patch/package/switch-100-support-and-or.patch   ${gSDK_DIR}/package/mtk/applications/switch/patches/100-support-and-or.patch
+cp ${gPLATFORM_DIR}/adjust/patch/package/switch-100-support-and-or.patch ${gSDK_DIR}/package/mtk/applications/switch/patches/100-support-and-or.patch
 # add the smp to fast network
 cp ${gPLATFORM_DIR}/adjust/patch/package/smp.sh ${gSDK_DIR}/package/mtk/misc/mtk-base-files/files/usr/sbin/
 
 # patch to wathdog to no log print
-cp ${gPLATFORM_DIR}/adjust/patch/package/watchdog.c   ${gSDK_DIR}/package/mtk/applications/watchdog/src/
+cp ${gPLATFORM_DIR}/adjust/patch/package/watchdog.c ${gSDK_DIR}/package/mtk/applications/watchdog/src/
 
 # replace this directory from smtk/package/network/services/dnsmasq, beacuse this smtk2 release run crack
 rm -fr ${gSDK_DIR}/package/network/services/dnsmasq
-cp -r ${gPLATFORM_DIR}/adjust/patch/dnsmasq   ${gSDK_DIR}/package/network/services/
+cp -r ${gPLATFORM_DIR}/adjust/patch/dnsmasq ${gSDK_DIR}/package/network/services/dnsmasq
+mv ${gSDK_DIR}/package/network/services/dnsmasq/package.make ${gSDK_DIR}/package/network/services/dnsmasq/Makefile
 # replace this directory from openwrt(2d23fedac5709f94184a401667e45ed0d861ac5e) for wpa_supplicant don't suuport -H
 rm -fr ${gSDK_DIR}/package/network/services/hostapd
-cp -r ${gPLATFORM_DIR}/adjust/patch/hostapd   ${gSDK_DIR}/package/network/services/
+cp -r ${gPLATFORM_DIR}/adjust/patch/hostapd ${gSDK_DIR}/package/network/services/hostapd
+mv ${gSDK_DIR}/package/network/services/hostapd/package.make ${gSDK_DIR}/package/network/services/hostapd/Makefile
 # replace this directory from openwrt(2d23fedac5709f94184a401667e45ed0d861ac5e) for update
 rm -fr ${gSDK_DIR}/package/network/services/relayd
-cp -r ${gPLATFORM_DIR}/adjust/patch/relayd   ${gSDK_DIR}/package/network/services/
+cp -r ${gPLATFORM_DIR}/adjust/patch/relayd ${gSDK_DIR}/package/network/services/relayd
+mv ${gSDK_DIR}/package/network/services/relayd/package.make ${gSDK_DIR}/package/network/services/relayd/Makefile
 # replace this directory from posc of smtk, only sync to smtk skinos com
 rm -fr ${gSDK_DIR}/package/network/services/proftpd
-cp -r ${gPLATFORM_DIR}/adjust/patch/proftpd   ${gSDK_DIR}/package/network/services/
+cp -r ${gPLATFORM_DIR}/adjust/patch/proftpd ${gSDK_DIR}/package/network/services/proftpd
+mv ${gSDK_DIR}/package/network/services/proftpd/package.make  ${gSDK_DIR}/package/network/services/proftpd/Makefile
 # replace this directory from smtk/package/network/services/miniupnpd, only sync to smtk skinos com
 rm -fr ${gSDK_DIR}/package/mtk/applications/miniupnpd
-cp -r ${gPLATFORM_DIR}/adjust/patch/miniupnpd   ${gSDK_DIR}/package/network/services/
+rm -fr ${gSDK_DIR}/package/network/services/miniupnpd
+cp -r ${gPLATFORM_DIR}/adjust/patch/miniupnpd ${gSDK_DIR}/package/network/services/miniupnpd
+mv ${gSDK_DIR}/package/network/services/miniupnpd/package.make ${gSDK_DIR}/package/network/services/miniupnpd/Makefile
 # add the ttyd support from the smtk/package/utils
 rm -fr ${gSDK_DIR}/package/utils/ttyd
-cp -r ${gPLATFORM_DIR}/adjust/patch/ttyd   ${gSDK_DIR}/package/utils/
+cp -r ${gPLATFORM_DIR}/adjust/patch/ttyd ${gSDK_DIR}/package/utils/ttyd
+mv ${gSDK_DIR}/package/utils/ttyd/package.make ${gSDK_DIR}/package/utils/ttyd/Makefile
 # add the libwebsockets support from the smtk/package/utils
 rm -fr ${gSDK_DIR}/feeds/packages/libs/libwebsockets/
-cp -r ${gPLATFORM_DIR}/adjust/patch/libwebsockets   ${gSDK_DIR}/feeds/packages/libs/libwebsockets
+cp -r ${gPLATFORM_DIR}/adjust/patch/libwebsockets ${gSDK_DIR}/feeds/packages/libs/libwebsockets
+mv ${gSDK_DIR}/feeds/packages/libs/libwebsockets/package.make ${gSDK_DIR}/feeds/packages/libs/libwebsockets/Makefile
 # delete this directory from smtk/package/network/services/igmpproxy, beacuse this smtk2 release complie error
 rm -fr ${gSDK_DIR}/package/mtk/applications/igmpproxy
 # fix the gawk don't support namespace val
@@ -190,11 +200,11 @@ cp -r ${gPLATFORM_DIR}/adjust/patch/ddns/dynamic_dns_updater.sh ${gSDK_DIR}/feed
 cp -r ${gPLATFORM_DIR}/adjust/patch/package/net-snmpd-5.4.4-fix-err-print.patch ${gSDK_DIR}/feeds/packages/net/net-snmp/patches
 
 # smstools bin reset
-cp -r ${gPLATFORM_DIR}/adjust/patch/smstools3/Makefile ${gSDK_DIR}/feeds/packages/utils/smstools3
+cp -r ${gPLATFORM_DIR}/adjust/patch/smstools3/package.make ${gSDK_DIR}/feeds/packages/utils/smstools3/Makefile
 
 # patch to libubox to support ddns-scripts
 if [ ! -d ${gSDK_DIR}/package/libs/libubox/patches ]; then
     mkdir ${gSDK_DIR}/package/libs/libubox/patches
 fi
-cp ${gPLATFORM_DIR}/adjust/patch/libubox/jshn-suuport-loadfile.patch   ${gSDK_DIR}/package/libs/libubox/patches/
+cp ${gPLATFORM_DIR}/adjust/patch/libubox/jshn-suuport-loadfile.patch ${gSDK_DIR}/package/libs/libubox/patches/
 
