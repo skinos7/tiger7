@@ -1,5 +1,6 @@
 {
 	"Voltameter":"电量计",
+    "Battary":"电池电量",
 	"State":"状态",
 	"Disable":"禁用",
 	"noboard":"无电源板",
