@@ -1,0 +1,25 @@
+#!/bin/bash
+
+###################################
+############# H721 ################
+###################################
+make gBOARDID=smtk2-mt7621-h721 pid
+make clean
+make distclean
+make dep
+make
+make sz
+make ftp
+make repo
+for tmp in waveshare hx
+do
+    make gBOARDID=smtk2-mt7621-h721-${tmp} pid
+    make pidinfo
+    make clean
+    make distclean
+    make dep
+    make
+    make sz
+    make ftp
+done
+

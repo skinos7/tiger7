@@ -1,0 +1,53 @@
+#!/bin/bash
+
+###################################
+############# D218 ################
+###################################
+make gBOARDID=smtk2-mt7628-d218-8m pid
+make pidinfo
+make clean
+make distclean
+make dep
+make
+make sz
+make ftp
+for tmp in h728 wlinker120
+do
+    make gBOARDID=smtk2-mt7628-d218-8m-${tmp} pid
+    ./mkdel
+    make dep
+    make
+    make sz
+    make ftp
+done
+
+make gBOARDID=smtk2-mt7628-d218-std pid
+make clean
+make distclean
+make dep
+make
+make sz
+make ftp
+make repo
+for tmp in wlinkr222 wlinkr320 wlinkr522 wlinker120 wlinkr200e ctcunion
+do
+    make gBOARDID=smtk2-mt7628-d218-std-${tmp} pid
+    ./mkdel
+    make dep
+    make
+    make sz
+    make ftp
+done
+
+for tmp in oled ipsec uclibc sr sx ok gs gg ggnw xyc inrico zwzx jjsd hmjtx base rover wlinkr200e xexagon
+do
+    make gBOARDID=smtk2-mt7628-d218-${tmp} pid
+    make pidinfo
+    make clean
+    make distclean
+    make dep
+    make
+    make sz
+    make ftp
+done
+

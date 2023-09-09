@@ -1,0 +1,25 @@
+#!/bin/bash
+
+###################################
+############# H722 ################
+###################################
+make gBOARDID=smtk2-mt7621-h722 pid
+make clean
+make distclean
+make dep
+make
+make sz
+make ftp
+make repo
+for tmp in hx
+do
+    make gBOARDID=smtk2-mt7621-h722-${tmp} pid
+    make pidinfo
+    make clean
+    make distclean
+    make dep
+    make
+    make sz
+    make ftp
+done
+

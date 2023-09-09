@@ -1,0 +1,25 @@
+#!/bin/bash
+
+###################################
+############# D228P ###############
+###################################
+make gBOARDID=smtk2-mt7621-d228p-std pid
+make clean
+make distclean
+make dep
+make
+make sz
+make ftp
+make repo
+for tmp in hmjtx
+do
+    make gBOARDID=smtk2-mt7621-d228p-${tmp} pid
+    make pidinfo
+    make clean
+    make distclean
+    make dep
+    make
+    make sz
+    make ftp
+done
+

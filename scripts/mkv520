@@ -1,0 +1,25 @@
+#!/bin/bash
+
+###################################
+############# V520 ################
+###################################
+make gBOARDID=smtk2-mt7621-v520 pid
+make clean
+make distclean
+make dep
+make
+make sz
+make ftp
+make repo
+for tmp in greatwall donkey ddonkey zebra ltruck szsh udeer hifly
+do
+    make gBOARDID=smtk2-mt7621-v520-${tmp} pid
+    make pidinfo
+    make clean
+    make distclean
+    make dep
+    make
+    make sz
+    make ftp
+done
+

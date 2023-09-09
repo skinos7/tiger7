@@ -1,5 +1,5 @@
 {
-    "v7.3.0905":
+    "v7.3.0909":
     {
         "20220810":"fix lte webpage crack on load",
         "20220811":"add the sensor/indicator/i2cdrv/modbusdrv project to support many type sensor",
@@ -7,7 +7,10 @@
         "20220813":"modify the cambattary to support new sensor/indicator frame",
         "20220814":"fix the remote agent wait long time for space remote2/3 address",
         "20220901":"update all product sdk configure",
-        "20220904":"optimize wifi"
+        "20220904":"optimize wifi",
+        "20220906":"add the parameter to support quotation mark",
+        "20220907":"fix the firewall/nat/mark/acl to support multi-port or multi-ip",
+        "20220908":"add detect simcard when the gateway have hardware for detect"
     },
     "v7.3.0713":
     {

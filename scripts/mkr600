@@ -1,0 +1,54 @@
+#!/bin/bash
+
+###################################
+############# R600 ################
+###################################
+make gBOARDID=smtk2-mt7628-r600-std pid
+make clean
+make distclean
+make dep
+make
+make sz
+make ftp
+make repo
+for tmp in wlinkr320 wlinkr522 ctcunion h728 xexagon giant
+do
+    make gBOARDID=smtk2-mt7628-r600-std-${tmp} pid
+    ./mkdel
+    make dep
+    make
+    make sz
+    make ftp
+done
+
+for tmp in oled inrico wan
+do
+    make gBOARDID=smtk2-mt7628-r600-${tmp} pid
+    make pidinfo
+    make clean
+    make distclean
+    make dep
+    make
+    make sz
+    make ftp
+done
+
+make gBOARDID=swrt-mt7628-r600-std pid
+make clean
+make distclean
+make dep
+make
+make sz
+make ftp
+make repo
+for tmp in wlinkr320 wlinkr522
+do
+    make gBOARDID=swrt-mt7628-r600-std-${tmp} pid
+    ./mkdel
+    make dep
+    make
+    make sz
+    make ftp
+done
+
+

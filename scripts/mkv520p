@@ -1,0 +1,25 @@
+#!/bin/bash
+
+###################################
+############# V520B ###############
+###################################
+make gBOARDID=smtk2-mt7621-v520b pid
+make clean
+make distclean
+make dep
+make
+make sz
+make ftp
+make repo
+for tmp in donkey ddonkey
+do
+    make gBOARDID=smtk2-mt7621-v520b-${tmp} pid
+    make pidinfo
+    make clean
+    make distclean
+    make dep
+    make
+    make sz
+    make ftp
+done
+
