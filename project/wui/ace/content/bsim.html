@@ -35,6 +35,10 @@
                     <th data-i18n="Main Simcard IMSI"></th><td><span id="msim_imsi"></span></td>
                     <th data-i18n="Backup Simcard IMSI"></th><td id="bsim_imsi"></td>
                 </tr>
+                <tr id="detect"  style="display: none;">
+                    <th data-i18n="Main Simcard Detection"></th><td><span id="msim_cd"></span></td>
+                    <th data-i18n="Backup Simcard Detection"></th><td id="bsim_cd"></td>
+                </tr>
             </tbody>
             </table>            
 
@@ -227,18 +231,52 @@
               $("#msim_iccid").text( "" );
           }
           $("#msim_imsi").text( ltes.msim_imsi||"" );
-          
+          if ( ltes.msim_detect )
+          {
+            if ( ltes.msim_detect == "1" )
+            {
+                $('#msim_cd').html( '<i class="ace-icon fa fa-check green"></i>' );
+            }
+            else
+            {
+                $('#msim_cd').html( '<i class="ace-icon fa fa-times red"></i>' );
+            }
+          }
+          if ( ltes.bsim_detect )
+          {
+            if ( ltes.bsim_detect == "1" )
+            {
+                $('#bsim_cd').html( '<i class="ace-icon fa fa-check green"></i>' );
+            }
+            else
+            {
+                $('#bsim_cd').html( '<i class="ace-icon fa fa-times red"></i>' );
+            }
+          }
       })
     }
 
     /* load the configure on the input */
     function config_load()
     {
-      he.load( [ object ] ).then( function(v){
+      he.load( [ object, object+".siminfo" ] ).then( function(v){
         lte = v[0];
+        ltes = v[1];
         if ( !lte.bsim_cfg )
         {
             lte.bsim_cfg = {};
+        }
+        if ( ltes )
+        {
+            $("#mode").empty();
+            $("#mode").append("<option value='auto'>"+$.i18n('Auto')+"</option>");
+            $("#mode").append("<option value='msim'>"+$.i18n('Main Simcard')+"</option>");
+            $("#mode").append("<option value='bsim'>"+$.i18n('Backup Simcard')+"</option>");
+            if ( ltes.msim_detect || ltes.bsim_detect )
+            {
+                $("#mode").append("<option value='detect'>" + $.i18n("Detection") + "</option>");
+                $('#detect').show();
+            }
         }
         if ( lte.bsim == "enable" )
         {

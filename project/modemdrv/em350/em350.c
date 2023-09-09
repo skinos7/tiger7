@@ -766,33 +766,33 @@ boole_t _at_connect( obj_t this, param_t param )
 	atcmd_t fd;
 	talk_t profile;
 	const char *ptr;
-    const char *cid;
+	const char *cid;
 	const char *apn;
 	const char *auth;
 	const char *user;
 	const char *pass;
-    const char *netdev;
+	const char *netdev;
 
 	/* get the information */
 	dev = param_talk( param, 1 );
 	if ( dev == NULL )
 	{
-        return terror;
+		return terror;
 	}
 	fd = json_pointer( dev, "fd" );
 	if ( fd == NULL )
 	{
-        return terror;
+		return terror;
 	}
 	cfg = param_talk( param, 2 );
 	if ( cfg == NULL )
 	{
-        return terror;
+		return terror;
 	}
 
-    /* get the device */
-    netdev = json_string( dev, "netdev" );
-    /* clear the last dial */
+	/* get the device */
+	netdev = json_string( dev, "netdev" );
+	/* clear the last dial */
 	if ( netdev )
 	{
 		shell( "ifconfig %s up", netdev );
@@ -814,45 +814,45 @@ boole_t _at_connect( obj_t this, param_t param )
 	apn = json_get_string( profile, "apn" );
 	user = json_get_string( profile, "user" );
 	pass = json_get_string( profile, "passwd" );
-    cid = json_string( profile, "cid" );
+	cid = json_string( profile, "cid" );
 	if ( cid == NULL || *cid == '\0' )
 	{
 		cid = "1";
 	}
-    auth = "1";
+	auth = "1";
 	ptr = json_string( profile, "auth" );
-    if ( ptr == NULL || *ptr == '\0' )
-    {
-        if ( user != NULL && *user != '\0' && pass != NULL && *pass != '\0' )
-        {
-            auth = "1";
-        }
-        else
-        {
-            auth = "0";
-        }
-    }
-    else
-    {
-        if ( 0 == strcmp( ptr, "pap" ) )
-        {
-            auth = "1";
-        }
-        else if ( 0 == strcmp( ptr, "chap" ) )
-        {
-            auth = "2";
-        }
-        else if ( 0 == strcmp( ptr, "papchap" ) )
-        {
-            auth = "3";
-        }
-        else if ( 0 == strcmp( ptr, "disable" ) )
-        {
+	if ( ptr == NULL || *ptr == '\0' )
+	{
+		if ( user != NULL && *user != '\0' && pass != NULL && *pass != '\0' )
+		{
+			auth = "1";
+		}
+		else
+		{
+			auth = "0";
+		}
+	}
+	else
+	{
+		if ( 0 == strcmp( ptr, "pap" ) )
+		{
+			auth = "1";
+		}
+		else if ( 0 == strcmp( ptr, "chap" ) )
+		{
+			auth = "2";
+		}
+		else if ( 0 == strcmp( ptr, "papchap" ) )
+		{
+			auth = "3";
+		}
+		else if ( 0 == strcmp( ptr, "disable" ) )
+		{
 			auth = "0";
 			user = NULL;
 			pass = NULL;
-        }
-    }
+		}
+	}
 
 	/* dial */
 	i = atcmd_tx( fd, 20, NULL, ATCMD_DEF, "AT^NDISDUP=%s,1,\"%s\",\"%s\",\"%s\",%s", cid, apn?:"", user?:"", pass?:"", auth );
@@ -880,7 +880,7 @@ boole_t _at_connected( obj_t this, param_t param )
 	atcmd_t fd;
 	talk_t cfg;
 	talk_t profile;
-    const char *cid;
+	const char *cid;
 	const char *netdev;
 	char ip[NAME_MAX];
 
@@ -899,11 +899,11 @@ boole_t _at_connected( obj_t this, param_t param )
 	cfg = param_talk( param, 2 );
 	if ( cfg == NULL )
 	{
-        return terror;
+		return terror;
 	}
 	/* prefile setting get */
 	profile = json_value( cfg, "profile_cfg" );
-    cid = json_string( profile, "cid" );
+	cid = json_string( profile, "cid" );
 	if ( cid == NULL || *cid == '\0' )
 	{
 		cid = "1";
@@ -923,6 +923,10 @@ boole_t _at_connected( obj_t this, param_t param )
 	if ( i < ATCMD_ret_succeed )
 	{
 		return terror;
+	}
+	else if ( i == ATCMD_ret_term )
+	{
+		return tfalse;
 	}
 	else if ( i == ATCMD_ret_succeed )
 	{

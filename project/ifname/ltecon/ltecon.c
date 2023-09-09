@@ -849,7 +849,7 @@ boole_t _service( obj_t this, param_t param )
 	{
 		/************** bsim process *********************/
 		bsim_mode = register_pointer( ifdev, "bsim_mode" );
-		if ( bsim_mode != NULL && *bsim_mode == 3 )
+		if ( bsim_mode != NULL && ( *bsim_mode == 3 || *bsim_mode == 4 ) )
 		{
 			const int *dfailed = register_pointer( ifdev, "bsim_dial_failed" );
 			if ( dfailed != NULL && *dfailed > 0 && (connect_failed%(*dfailed))==0 )
@@ -1356,7 +1356,7 @@ boole _set( obj_t this, talk_t v, attr_t path )
 
 					|| 0 == strcmp( ptr, "bsim" )
 					|| 0 == strcmp( ptr, "bsim_cfg" )
-
+					
 					|| 0 == strcmp( ptr, "ssim" )
 					|| 0 == strcmp( ptr, "ssim_cfg" )
 
@@ -1425,7 +1425,7 @@ boole _set( obj_t this, talk_t v, attr_t path )
 		
 			|| 0 == strcmp( ptr, "bsim" )
 			|| 0 == strcmp( ptr, "bsim_cfg" )
-		
+					
 			|| 0 == strcmp( ptr, "ssim" )
 			|| 0 == strcmp( ptr, "ssim_cfg" )
 
