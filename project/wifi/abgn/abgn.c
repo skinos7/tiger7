@@ -83,6 +83,31 @@ boole_t _pci_match( obj_t this, param_t param )
 		json_set_string( dev, "drvcom", COM_IDPATH );
 		return ttrue;
 	}
+	else if ( ( 0 == strcasecmp( vid, "168c" ) && ( 0 == strcasecmp( pid, "002a" ) || 0 == strcasecmp( pid, "002e" ) ) )
+		)
+	{
+		syspath = json_string( dev, "syspath" );
+		/* find the netdev */
+		netdev = pcieth_device_find( syspath, NULL, 0 );
+		if ( netdev == NULL )
+		{
+			return tfalse;
+		}
+		info( "PCI ath11bgn-002a found(%s:%s)", vid , pid );
+		json_set_string( dev, "netdev", netdev );
+		/* get the object */
+		object = wifi_object_get( NRADIO_COM, syspath, cfg, NULL, 0 );
+		/* set the netdev for object */
+		register_set( object, "vid", vid, strlen(vid)+1, 10 );
+		register_set( object, "pid", pid, strlen(pid)+1, 10 );
+		register_set( object, "netdev", netdev, strlen(netdev)+1, 40 );
+		/* set the other infomation */
+		json_set_string( dev, "name", "ath11bgn-002a" );
+		json_set_string( dev, "object", object );
+		json_set_string( dev, "devcom", "wifi@radio" );
+		json_set_string( dev, "drvcom", COM_IDPATH );
+		return ttrue;
+	}
 	return tfalse;
 }
 boole_t _sdio_match( obj_t this, param_t param )
