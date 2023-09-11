@@ -552,7 +552,8 @@ boole_t _hostapd( obj_t this, param_t param )
 		fprintf( fp, "ieee80211n=1\n" );
 		// ht_capab
 		fprintf( fp, "ht_capab=" );
-		wireless_11a_adjustment( fp, channel, extcha, bandwidth, country, shortgi );
+		value = json_value( hstopt, "shortgi" );
+		wireless_11a_adjustment( fp, channel, extcha, bandwidth, country, shortgi, value );
 		/* stbc */
 		if ( stbc != NULL && 0 == strcmp( stbc, "enable" ) )
 		{
@@ -582,7 +583,7 @@ boole_t _hostapd( obj_t this, param_t param )
 		if ( mode != NULL && NULL != strstr( mode, "ac" ) )
 		{
 			fprintf( fp, "ieee80211ac=1\n" );		
-			wireless_11ac_adjustment( fp, channel, extcha, bandwidth, country, shortgi );
+			wireless_11ac_adjustment( fp, channel, extcha, bandwidth, country, shortgi, value );
 			/* stbc */
 			if ( stbc != NULL && 0 == strcmp( stbc, "enable" ) )
 			{
@@ -635,7 +636,8 @@ boole_t _hostapd( obj_t this, param_t param )
 		fprintf( fp, "ieee80211n=1\n" );
 		// ht_capab std
 		fprintf( fp, "ht_capab=" );
-		wireless_11n_adjustment( fp, channel, extcha, bandwidth, country, shortgi );
+		value = json_value( hstopt, "shortgi" );
+		wireless_11n_adjustment( fp, channel, extcha, bandwidth, country, shortgi, value );
 		/* stbc */
 		if ( stbc != NULL && 0 == strcmp( stbc, "enable" ) )
 		{

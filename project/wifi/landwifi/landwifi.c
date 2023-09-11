@@ -430,8 +430,9 @@ void wifi_object_free( const char *object )
 
 
 
-void wireless_11n_adjustment( FILE *fp, const char *channel, const char *ext, const char *bandwidth, const char *country, const char *shortgi )
+void wireless_11n_adjustment( FILE *fp, const char *channel, const char *ext, const char *bandwidth, const char *country, const char *shortgi, talk_t shortgiopt )
 {
+	const char *ptr;
 	int ch = 0;
 
 	if ( channel != NULL )
@@ -443,7 +444,18 @@ void wireless_11n_adjustment( FILE *fp, const char *channel, const char *ext, co
     {
     	if ( shortgi != NULL && 0 == strcmp( shortgi, "enable" ) )
 		{
-            fprintf( fp, "[SHORT-GI-20]" );
+			if ( shortgiopt != NULL )
+			{
+				ptr = json_string( shortgiopt, "20" );
+				if ( ptr != NULL && *ptr != '\0' )
+				{
+					fprintf( fp, ptr );
+				}
+			}
+			else
+			{
+				fprintf( fp, "[SHORT-GI-20]" );
+			}
 		}
     }
 	/* 40M */
@@ -471,12 +483,24 @@ void wireless_11n_adjustment( FILE *fp, const char *channel, const char *ext, co
 		/* GI */
 		if ( shortgi != NULL && 0 == strcmp( shortgi, "enable" ) )
 		{
-			fprintf( fp, "[SHORT-GI-20][SHORT-GI-40]" );
+			if ( shortgiopt != NULL )
+			{
+				ptr = json_string( shortgiopt, "40" );
+				if ( ptr != NULL && *ptr != '\0' )
+				{
+					fprintf( fp, ptr );
+				}
+			}
+			else
+			{
+				fprintf( fp, "[SHORT-GI-20][SHORT-GI-40]" );
+			}
 		}
 	}
 }
-void wireless_11a_adjustment( FILE *fp, const char *channel, const char *ext, const char *bandwidth, const char *country, const char *shortgi )
+void wireless_11a_adjustment( FILE *fp, const char *channel, const char *ext, const char *bandwidth, const char *country, const char *shortgi, talk_t shortgiopt )
 {
+	const char *ptr;
 	int ch = 0;
 
 	if ( channel != NULL )
@@ -501,7 +525,18 @@ void wireless_11a_adjustment( FILE *fp, const char *channel, const char *ext, co
 		/* GI */
 		if ( shortgi != NULL && 0 == strcmp( shortgi, "enable" ) )
 		{
-			fprintf( fp, "[SHORT-GI-20][SHORT-GI-40]" );
+			if ( shortgiopt != NULL )
+			{
+				ptr = json_string( shortgiopt, "40" );
+				if ( ptr != NULL && *ptr != '\0' )
+				{
+					fprintf( fp, ptr );
+				}
+			}
+			else
+			{
+				fprintf( fp, "[SHORT-GI-20][SHORT-GI-40]" );
+			}
 		}
 	}
 	/* 20M */
@@ -509,12 +544,24 @@ void wireless_11a_adjustment( FILE *fp, const char *channel, const char *ext, co
     {
     	if ( shortgi != NULL && 0 == strcmp( shortgi, "enable" ) )
 		{
-            fprintf( fp, "[SHORT-GI-20]" );
+			if ( shortgiopt != NULL )
+			{
+				ptr = json_string( shortgiopt, "20" );
+				if ( ptr != NULL && *ptr != '\0' )
+				{
+					fprintf( fp, ptr );
+				}
+			}
+			else
+			{
+				fprintf( fp, "[SHORT-GI-20]" );
+			}
 		}
     }
 }
-void wireless_11ac_adjustment( FILE *fp, const char *channel, const char *ext, const char *bandwidth, const char *country, const char *shortgi )
+void wireless_11ac_adjustment( FILE *fp, const char *channel, const char *ext, const char *bandwidth, const char *country, const char *shortgi, talk_t shortgiopt )
 {
+	const char *ptr;
 	int ch = 0;
 	const char *idx = "";
 
@@ -613,7 +660,18 @@ void wireless_11ac_adjustment( FILE *fp, const char *channel, const char *ext, c
 		/* GI */
 		if ( shortgi != NULL && 0 == strcmp( shortgi, "enable" ) )
 		{
-			fprintf( fp, "[SHORT-GI-80]" );
+			if ( shortgiopt != NULL )
+			{
+				ptr = json_string( shortgiopt, "80" );
+				if ( ptr != NULL && *ptr != '\0' )
+				{
+					fprintf( fp, ptr );
+				}
+			}
+			else
+			{
+				fprintf( fp, "[SHORT-GI-80]" );
+			}
 		}
     }
 	// 160M
@@ -641,12 +699,25 @@ void wireless_11ac_adjustment( FILE *fp, const char *channel, const char *ext, c
 		/* GI */
 		if ( shortgi != NULL && 0 == strcmp( shortgi, "enable" ) )
 		{
-			fprintf( fp, "[SHORT-GI-80][SHORT-GI-160]" );
+			if ( shortgiopt != NULL )
+			{
+				ptr = json_string( shortgiopt, "160" );
+				if ( ptr != NULL && *ptr != '\0' )
+				{
+					fprintf( fp, ptr );
+				}
+			}
+			else
+			{
+				fprintf( fp, "[SHORT-GI-80][SHORT-GI-160]" );
+			}
 		}
 		else
 		{
 			fprintf( fp, "[VHT160]" );
 		}
+		
+		
     }
 }
 

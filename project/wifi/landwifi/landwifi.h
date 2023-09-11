@@ -42,9 +42,9 @@ void wifi_object_free( const char *object );
 
 
 
-void wireless_11n_adjustment( FILE *fp, const char *channel, const char *ext, const char *bandwidth, const char *country, const char *gi );
-void wireless_11a_adjustment( FILE *fp, const char *channel, const char *ext, const char *bandwidth, const char *country, const char *gi );
-void wireless_11ac_adjustment( FILE *fp, const char *channel, const char *ext, const char *bandwidth, const char *country, const char *gi );
+void wireless_11n_adjustment( FILE *fp, const char *channel, const char *ext, const char *bandwidth, const char *country, const char *gi, talk_t shortgiopt );
+void wireless_11a_adjustment( FILE *fp, const char *channel, const char *ext, const char *bandwidth, const char *country, const char *gi, talk_t shortgiopt );
+void wireless_11ac_adjustment( FILE *fp, const char *channel, const char *ext, const char *bandwidth, const char *country, const char *gi, talk_t shortgiopt );
 
 
 
