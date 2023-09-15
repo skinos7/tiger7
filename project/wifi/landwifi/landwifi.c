@@ -449,7 +449,7 @@ void wireless_11n_adjustment( FILE *fp, const char *channel, const char *ext, co
 				ptr = json_string( shortgiopt, "20" );
 				if ( ptr != NULL && *ptr != '\0' )
 				{
-					fprintf( fp, ptr );
+					fprintf( fp, "%s", ptr );
 				}
 			}
 			else
@@ -488,7 +488,7 @@ void wireless_11n_adjustment( FILE *fp, const char *channel, const char *ext, co
 				ptr = json_string( shortgiopt, "40" );
 				if ( ptr != NULL && *ptr != '\0' )
 				{
-					fprintf( fp, ptr );
+					fprintf( fp, "%s", ptr );
 				}
 			}
 			else
@@ -530,7 +530,7 @@ void wireless_11a_adjustment( FILE *fp, const char *channel, const char *ext, co
 				ptr = json_string( shortgiopt, "40" );
 				if ( ptr != NULL && *ptr != '\0' )
 				{
-					fprintf( fp, ptr );
+					fprintf( fp, "%s", ptr );
 				}
 			}
 			else
@@ -549,7 +549,7 @@ void wireless_11a_adjustment( FILE *fp, const char *channel, const char *ext, co
 				ptr = json_string( shortgiopt, "20" );
 				if ( ptr != NULL && *ptr != '\0' )
 				{
-					fprintf( fp, ptr );
+					fprintf( fp, "%s", ptr );
 				}
 			}
 			else
@@ -665,7 +665,7 @@ void wireless_11ac_adjustment( FILE *fp, const char *channel, const char *ext, c
 				ptr = json_string( shortgiopt, "80" );
 				if ( ptr != NULL && *ptr != '\0' )
 				{
-					fprintf( fp, ptr );
+					fprintf( fp, "%s", ptr );
 				}
 			}
 			else
@@ -704,7 +704,7 @@ void wireless_11ac_adjustment( FILE *fp, const char *channel, const char *ext, c
 				ptr = json_string( shortgiopt, "160" );
 				if ( ptr != NULL && *ptr != '\0' )
 				{
-					fprintf( fp, ptr );
+					fprintf( fp, "%s", ptr );
 				}
 			}
 			else
