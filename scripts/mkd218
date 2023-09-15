@@ -11,7 +11,7 @@ make dep
 make
 make sz
 make ftp
-for tmp in h728 wlinker120
+for tmp in h728 wlinker120 hx
 do
     make gBOARDID=smtk2-mt7628-d218-8m-${tmp} pid
     ./mkdel
