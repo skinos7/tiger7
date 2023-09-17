@@ -17,7 +17,6 @@ all:
 	$(call Build/Install/Collect)
 	mkdir $(FPK_BUILD_DIR)/admin
 	cp -fr ${gpWUI_ADMIN_THEME}/* $(FPK_BUILD_DIR)/admin
-	cp ${gpWUI_ADMIN_THEME}/.cfkbn.html $(FPK_BUILD_DIR)/admin
 install:
 	$(call Build/Install/Fpk,$(gosROOT_DIR),$(gSTORE_DIR))
 dep:
