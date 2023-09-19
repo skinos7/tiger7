@@ -21,10 +21,10 @@ Administration of equipment Management web page
     },
 
     // custom the webpage html
-    "css_file":"CSS file path",                   // [ string ], Fill in the file name must be in located on /prj/wui/admin/assets/css/ or /var/.cfg/wui/, via <%csspath(); %> show
-    "logo_file":"LOGO file path",                 // [ string ], Fill in the file name must be in located on /prj/wui/admin/assets/css/ or /var/.cfg/wui/
-    "login_file":"file path",                     // [ string ], read only, Fill in the file name must be in located on /prj/wui/admin/ or /var/.cfg/wui/
-    "index_file":"file path",                     // [ string ], read only, Fill in the file name must be in located on /prj/wui/admin/ or /var/.cfg/wui/
+    "css_file":"CSS file path",                   // [ string ], Fill in the file name must be in located on /prj/wui/admin/assets/css/ or /mnt/config/wui/, via <%csspath(); %> show
+    "logo_file":"LOGO file path",                 // [ string ], Fill in the file name must be in located on /prj/wui/admin/assets/css/ or /mnt/config/wui/
+    "login_file":"file path",                     // [ string ], read only, Fill in the file name must be in located on /prj/wui/admin/ or /mnt/config/wui/
+    "index_file":"file path",                     // [ string ], read only, Fill in the file name must be in located on /prj/wui/admin/ or /mnt/config/wui/
 
     // custom the webpage frame
     "logo_title":"Text in the middle of page",    // [ string ]

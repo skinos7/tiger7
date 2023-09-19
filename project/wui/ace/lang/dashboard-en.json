@@ -48,7 +48,7 @@
 
 
 	"config":"Config",
-	"int":"FPK",
+	"internal":"Internal",
 
 	"mmcblk0p1":"TF Card",
 	"mmcblk0p2":"TF Card2",

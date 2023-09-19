@@ -109,7 +109,7 @@
 	"Memory Usage":"内存利用率",
 
 	"config":"配置区",
-	"int":"FPK区",
+	"internal":"内部存储区",
 	
 	"mmcblk0p1":"TF卡1",
 	"mmcblk0p2":"TF卡2",
