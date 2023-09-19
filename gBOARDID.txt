@@ -55,7 +55,7 @@
 #gBOARDID=smtk2-mt7628-r600-wan
 
 #gBOARDID=swrt-mt7628-r600-std
-#gBOARDID=swrt-mt7628-r600-std-wlinkr320
+gBOARDID=swrt-mt7628-r600-std-wlinkr320
 #gBOARDID=swrt-mt7628-r600-std-wlinkr522
 #gBOARDID=swrt-mt7628-r600-pure
 
@@ -136,7 +136,8 @@
 #gBOARDID=host-x86-ubuntu
 
 #gBOARDID=srkw-rk3568-d618-pure
-#gBOARDID=srkw-rk3568-d618
+#gBOARDID=srkl-rk3568-d618-pure
+#gBOARDID=srkl-rk3568-d618
 
 
 
