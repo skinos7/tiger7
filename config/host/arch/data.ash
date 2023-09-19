@@ -15,10 +15,10 @@ setup()
     mkdir -p $VROOT/.reg
     mkdir -p $VROOT/.ser
     mkdir -p $VROOT/.com
-    mkdir -p $VROOT/.cfg
     mkdir -p $VROOT/mnt
-    mkdir -p $VROOT/mnt/int
-    mkdir -p $VROOT/mnt/int/prj
+    mkdir -p $VROOT/mnt/config
+    mkdir -p $VROOT/mnt/internal
+    mkdir -p $VROOT/mnt/internal/prj
     # load the basic ko
     if [ -e /prj/pdriver/crackid.ko ]; then
         insmod /prj/pdriver/crackid.ko
@@ -39,17 +39,17 @@ setup()
     MAC=`he arch@data:mac`
     he land@register.set_string[land,mac,$MAC]
     # default the configure if order
-    if [ -e $VROOT/.cfg/.customv6 ]; then
+    if [ -e $VROOT/mnt/config/.customv6 ]; then
     	echo "mount the configure"
     else
-        rm -fr $VROOT/.cfg/*
-        echo "$gPLATFORM-$gHARDWARE-$gCUSTOM-$gSCOPE" > $VROOT/.cfg/.customv6
+        rm -fr $VROOT/mnt/config/*
+        echo "$gPLATFORM-$gHARDWARE-$gCUSTOM-$gSCOPE" > $VROOT/mnt/config/.customv6
     fi
-    if [ -e $VROOT/mnt/int/.customv6 ]; then
+    if [ -e $VROOT/mnt/internal/.customv6 ]; then
     	echo "mount the interval"
 	else
-		rm -fr $VROOT/mnt/int/*
-        echo "$gPLATFORM-$gHARDWARE-$gCUSTOM-$gSCOPE" > $VROOT/mnt/int/.customv6
+		rm -fr $VROOT/mnt/internal/*
+        echo "$gPLATFORM-$gHARDWARE-$gCUSTOM-$gSCOPE" > $VROOT/mnt/internal/.customv6
     fi
 
     NAME=`hostname`

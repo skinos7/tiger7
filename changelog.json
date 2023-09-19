@@ -1,5 +1,5 @@
 {
-    "v7.3.0909":
+    "v7.3.0912":
     {
         "20220810":"fix lte webpage crack on load",
         "20220811":"add the sensor/indicator/i2cdrv/modbusdrv project to support many type sensor",
@@ -10,7 +10,9 @@
         "20220904":"optimize wifi",
         "20220906":"add the parameter to support quotation mark",
         "20220907":"fix the firewall/nat/mark/acl to support multi-port or multi-ip",
-        "20220908":"add detect simcard when the gateway have hardware for detect"
+        "20220908":"add detect simcard when the gateway have hardware for detect",
+        "20220910":"add portal function",
+        "20220911":"modify the /var/.cfg to /mnt/config and /mnt/int to /mnt/internal"
     },
     "v7.3.0713":
     {
