@@ -17,7 +17,7 @@ define Package/Define
   FPK_LIB_DIR:=$(PKG_BUILD_DIR)/.fpk/lib
   FPK_BIN_DIR:=$(PKG_BUILD_DIR)/.fpk/bin
   FPK_ETC_DIR:=$(PKG_BUILD_DIR)/.fpk/etc
-  FPK_INT_DIR:=$(PKG_BUILD_DIR)/.fpk/int
+  FPK_INT_DIR:=$(PKG_BUILD_DIR)/.fpk/internal
   FPK_ROOTFS_DIR:=$(PKG_BUILD_DIR)/.fpk/rootfs
   PROJECT_ID:=${PKG_NAME}
   VERSION_ID:=${PKG_VERSION}
@@ -168,9 +168,9 @@ define Build/Install/Collect
 		$(INSTALL_DIR) $(FPK_ETC_DIR); \
 		$(CP) ./etc/* $(FPK_ETC_DIR); \
 	fi
-	if [ -d ./int ]; then \
+	if [ -d ./internal ]; then \
 		$(INSTALL_DIR) $(FPK_INT_DIR); \
-		$(CP) ./int/* $(FPK_INT_DIR); \
+		$(CP) ./internal/* $(FPK_INT_DIR); \
 	fi
 	for c in $(PNG_LIST) $(MISC_LIST) ${RES_LIST}; do \
 		if [ -e ./$$$$c ]; then \

@@ -16,6 +16,8 @@
 /feeds/
 **/*.fpk
 **/*.store
+**/DS_Store
+**/*.DS_Store
 
 /boot/
 

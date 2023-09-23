@@ -25,8 +25,8 @@ extern int watchdog_dev_register(struct watchdog_device *wdd);
 extern int watchdog_dev_unregister(struct watchdog_device *wdd); 
 
 /* add by qingcheng */
-extern void hard_wdt_early_disable(void); 
-extern void hard_wdt_feed(void);
+//extern void hard_wdt_early_disable(void); 
+//extern void hard_wdt_feed(void);
 
 static bool nowayout = WATCHDOG_NOWAYOUT;
 module_param(nowayout, bool, 0);
@@ -34,12 +34,15 @@ MODULE_PARM_DESC(nowayout,
 		 "Watchdog cannot be stopped once started (default="
 		 __MODULE_STRING(WATCHDOG_NOWAYOUT) ")");
 
+#define WDG_TIMER_DFT_CNT	30	//feed watchdog hand 15 second
+extern void hard_wdt_set_count(int count);
 
 static int hardware_wdt_ping(struct watchdog_device *w)
 {
-	hard_wdt_early_disable();
-	hard_wdt_feed();
+	//hard_wdt_early_disable();
+	//hard_wdt_feed();
 
+	hard_wdt_set_count(WDG_TIMER_DFT_CNT);
 	return 0;
 }
 

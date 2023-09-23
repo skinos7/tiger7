@@ -28,8 +28,10 @@ cp ${gPLATFORM_DIR}/adjust/makefile/image-commands.mk  ${gSDK_DIR}/include/image
 # patch the Kernel to support ashyelf dst
 cp ${gPLATFORM_DIR}/adjust/dts/*.dtsi  ${gSDK_DIR}/target/linux/ramips/dts/
 cp ${gPLATFORM_DIR}/adjust/dts/*.dts  ${gSDK_DIR}/target/linux/ramips/dts/
-# patch the Kernel to support 7628 8m general product
+# patch the Kernel to support 7628 16m general product
 cp ${gPLATFORM_DIR}/adjust/dts/mt76x8.mk  ${gSDK_DIR}/target/linux/ramips/image/mt76x8.mk
+# patch the Kernel to support 7628 16m general product
+cp ${gPLATFORM_DIR}/adjust/dts/mt7621.mk  ${gSDK_DIR}/target/linux/ramips/image/mt7621.mk
 
 
 # patch the base-files to don't need the netifd
@@ -37,7 +39,10 @@ cp ${gPLATFORM_DIR}/adjust/package/base-files-makefile  ${gSDK_DIR}/package/base
 # patch the base-files to don't need warning no password
 cp ${gPLATFORM_DIR}/adjust/package/base-files-profile  ${gSDK_DIR}/package/base-files/files/etc/profile
 # patch the miniupnpd to support custom the verdor
-cp ${gPLATFORM_DIR}/adjust/package/miniupnpd/package-makefile  ${gSDK_DIR}/package/feeds/packages/miniupnpd/Makefile
+cp ${gPLATFORM_DIR}/adjust/miniupnpd/package-makefile  ${gSDK_DIR}/package/feeds/packages/miniupnpd/Makefile
+# patch the proftpd to support skinos
+cp -r ${gPLATFORM_DIR}/adjust/proftpd ${gSDK_DIR}/package/network/services/proftpd
+mv ${gSDK_DIR}/package/network/services/proftpd/package.make  ${gSDK_DIR}/package/network/services/proftpd/Makefile
 
 
 # patch the busybox udhcp client support backupip and ifnameid down to script and renewip failed to exit
