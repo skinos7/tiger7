@@ -39,7 +39,7 @@ do
     make ftp
 done
 
-for tmp in oled ipsec uclibc sr sx ok gs gg ggnw xyc inrico zwzx jjsd hmjtx base rover wlinkr200e xexagon
+for tmp in oled ipsec sr sx ok gs gg ggnw xyc inrico zwzx jjsd hmjtx base rover wlinkr200e xexagon
 do
     make gBOARDID=smtk2-mt7628-d218-${tmp} pid
     make pidinfo
