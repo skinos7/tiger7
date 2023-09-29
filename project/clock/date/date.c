@@ -156,7 +156,7 @@ boole_t _shut( obj_t this, param_t param )
 	/* stop the service */
     sdelete( COM_IDPATH );
 	/* kill the ntpclient to prevent the ntpclient pause */
-	shell( "killall ntpclient" );
+	shell( "killall ntpclient >/dev/null 2>&1" );
     return ttrue;
 }
 boole_t _ntploop( obj_t this, param_t param )

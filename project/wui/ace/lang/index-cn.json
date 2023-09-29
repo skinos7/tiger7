@@ -127,6 +127,10 @@
 	"ifname@lan2":"本地网络2",
 	"ifname@lan3":"本地网络3",
 	"ifname@lan4":"本地网络4",
+	"wifi@nssid":"无线热点(2.4G)",
+	"wifi@assid":"无线热点(5.8G)",
+	"wifi@nsta":"无线网卡(2.4G)",
+	"wifi@asta":"无线网卡(5.8G)",
 	
 	"vpn@l2tpc":"L2TP客户端",
 	"vpn@l2tpc2":"L2TP客户端2",

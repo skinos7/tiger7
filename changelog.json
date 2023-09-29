@@ -1,5 +1,5 @@
 {
-    "v7.3.0912":
+    "v7.3.0916":
     {
         "20220810":"fix lte webpage crack on load",
         "20220811":"add the sensor/indicator/i2cdrv/modbusdrv project to support many type sensor",
@@ -13,7 +13,9 @@
         "20220908":"add detect simcard when the gateway have hardware for detect",
         "20220910":"add portal function",
         "20220911":"modify the /var/.cfg to /mnt/config and /mnt/int to /mnt/internal",
-        "20220912":"add the univision camera support"
+        "20220912":"add the univision camera support",
+        "20220914":"add the configure save only that be modified",
+        "20220915":"add the chilli for r600"
     },
     "v7.3.0713":
     {

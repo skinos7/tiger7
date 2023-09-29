@@ -14,6 +14,10 @@
 	"ifname@lan2":"LAN2",
 	"ifname@lan3":"LAN3",
 	"ifname@lan4":"LAN4",
+	"wifi@nssid":"SSID(2.4G)",
+	"wifi@assid":"SSID(5.8G)",
+	"wifi@nsta":"AP Client(2.4G)",
+	"wifi@asta":"AP Client(5.8G)",
     
 	"vpn@l2tpc":"L2TP Client",
 	"vpn@l2tpc2":"L2TP Client2",
