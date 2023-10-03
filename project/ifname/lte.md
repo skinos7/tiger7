@@ -71,7 +71,11 @@ Usually ifname@lte is the first LTE/NR network and module. If there are multiple
     // Configure for link detection mechanism, or call it keeplive mechanism
     "keeplive":
     {
-        "type":"keeplive mode",   // [ "disable" ] for disable the keeplive, [ "icmp" ] for ping keeplive, [ "recv" ] for count receive packet to keeplive
+        "type":"keeplive mode",   // [ "disable" ] for disable the keeplive
+                                  // [ "icmp" ] for ping keeplive
+                                  // [ "dns" ] for test the dns response
+                                  // [ "recv" ] for count receive packet to keeplive
+                                  // [ "auto" ] for count receive packet to keeplive when test the dns response failed
         "icmp":                                                   // detial configure for "type" is "icmp"
         {
             "dest":                                                         // destination address for ICMP keeplive
@@ -80,6 +84,17 @@ Usually ifname@lte is the first LTE/NR network and module. If there are multiple
                 // "...":"..." You can configure multiple destination IP addresses. If only one PING echo packet is returned, the detection succeeds. If no PING echo packet is returned, the detection fails  
             },
             "timeout":"Maximum time to wait for the return of a PING echo packet",     // [ number ], The unit is in seconds
+            "failed":"Number of detection failures",                                   // [ number ], If the number of detection failures exceeds this threshold, the link is deactivated
+            "interval":"Interval of each Successful detection",                        // [ number ], The unit is in seconds
+
+            // Line shake calculation  
+            "ill_range":"Total number of counts",                                      // [ number], Total number of counts
+            "ill_delay":"Delay threshold",                                             // [ number], The unit is in millisecond
+            "ill_time":"Maximum time to warnning",                                     // [ number]
+        },
+        "dns":                                                   // detial configure for "type" is "icmp"
+        {
+            "timeout":"Maximum time to wait for the return of a dns resolve packet",   // [ number ], The unit is in seconds
             "failed":"Number of detection failures",                                   // [ number ], If the number of detection failures exceeds this threshold, the link is deactivated
             "interval":"Interval of each Successful detection",                        // [ number ], The unit is in seconds
 

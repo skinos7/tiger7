@@ -131,15 +131,19 @@
 	"Availability Check":"可用性检测(保活)",
 	"Disable":"禁用",
 	"Receive Count":"接收包计数",
-
+	"DNS":"检测DNS服务器",
+	"DNS or Receive Count":"自动",
 	"Test Address":"检测地址",
 	"Test Address 2":"检测地址2",
 	"Test Address 3":"检测地址3",
 	"Each Query Timeout(sec)":"单次检测超时(秒)",
 	"Test Times":"检测次数",
 	"Test Interval(sec)":"检测间隔(秒)",
-	"Duration(sec)":"时间段(秒)",
-	"Request packets":"要求包数",
+	"Query Times":"检测次数",
+	"Query Interval(sec)":"检测间隔(秒)",
+	"Count Duration(sec)":"统计时间段(秒)",
+	"Count Times":"统计次数",
+	"Received packets":"要求包数",
 
 
 	"Advanced Settings":"高级设置",

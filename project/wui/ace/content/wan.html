@@ -290,7 +290,9 @@
               <select class="col-xs-10 col-sm-5" id="keeplive">
                 <option value="disable" data-i18n="Disable"></option>
                 <option value="icmp" data-i18n="ICMP"></option>
+                <option value="dns" data-i18n="DNS"></option>
                 <option value="recv" data-i18n="Receive Count"></option>
+                <option value="auto" data-i18n="DNS or Receive Count"></option>
               </select>
             </div>
           </div>
@@ -341,23 +343,53 @@
               </div>
             </div>
           </div><!-- icmp_cfg -->
+          <div id="dns_cfg" style="display: none;">
+            <!-- 超时 -->
+            <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Each Query Timeout(sec)"></label>
+              <div class="col-sm-9">
+                <input type="text" id="dns_timeout" class="col-xs-10 col-sm-5" maxlength="128" />
+              </div>
+            </div>
+            <!-- 次数 -->
+            <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Query Times"></label>
+              <div class="col-sm-9">
+                <input type="text" id="dns_failed" class="col-xs-10 col-sm-5" maxlength="128" />
+              </div>
+            </div>
+            <!-- 间隔 -->
+            <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Query Interval(sec)"></label>
+              <div class="col-sm-9">
+                <input type="text" id="dns_interval" class="col-xs-10 col-sm-5" maxlength="128" />
+              </div>
+            </div>
+          </div>
           <!-- Receive配置 -->
           <div id="recv_cfg" style="display: none;">
             <!-- 超时 -->
             <div class="form-group">
-              <label class="col-sm-3 control-label no-padding-right" data-i18n="Duration(sec)"></label>
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Count Duration(sec)"></label>
               <div class="col-sm-9">
                 <input type="text" id="recv_timeout" class="col-xs-10 col-sm-5" maxlength="128" />
               </div>
             </div>
             <!-- 次数 -->
             <div class="form-group">
-              <label class="col-sm-3 control-label no-padding-right" data-i18n="Request packets"></label>
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Count Times"></label>
+              <div class="col-sm-9">
+                <input type="text" id="recv_failed" class="col-xs-10 col-sm-5" maxlength="128" />
+              </div>
+            </div>
+            <!-- 包数 -->
+            <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Received packets"></label>
               <div class="col-sm-9">
                 <input type="text" id="recv_packets" class="col-xs-10 col-sm-5" maxlength="128" />
               </div>
             </div>
-          </div><!-- recv_cfg -->
+          </div>
 
 
 
@@ -597,9 +629,16 @@
               $('#icmp_failed').val(wan.keeplive.icmp.failed);
               $('#icmp_interval').val(wan.keeplive.icmp.interval);
             }
+            if ( wan.keeplive.dns )
+            {
+              $('#dns_timeout').val(wan.keeplive.dns.timeout);
+              $('#dns_failed').val(wan.keeplive.dns.failed);
+              $('#dns_interval').val(wan.keeplive.dns.interval);
+            }
             if ( wan.keeplive.recv )
             {
               $('#recv_timeout').val(wan.keeplive.recv.timeout);
+              $('#recv_failed').val(wan.keeplive.recv.failed);
               $('#recv_packets').val(wan.keeplive.recv.packets);
             }
         }
@@ -613,14 +652,27 @@
           {
               case 'disable':
                 $('#icmp_cfg').hide();
+                $('#dns_cfg').hide();
                 $('#recv_cfg').hide();
                 break;
               case 'icmp':
                 $('#icmp_cfg').show();
+                $('#dns_cfg').hide();
+                $('#recv_cfg').hide();
+                break;
+              case 'dns':
+                $('#icmp_cfg').hide();
+                $('#dns_cfg').show();
                 $('#recv_cfg').hide();
                 break;
               case 'recv':
                 $('#icmp_cfg').hide();
+                $('#dns_cfg').hide();
+                $('#recv_cfg').show();
+                break;
+              case 'auto':
+                $('#icmp_cfg').hide();
+                $('#dns_cfg').show();
                 $('#recv_cfg').show();
                 break;
           }
@@ -844,7 +896,32 @@
                 return;
             }
           }
-          else if ( wan.keeplive.type == "recv" )
+          if ( wan.keeplive.type == "dns" || wan.keeplive.type == "auto" )
+          {
+            if ( !wan.keeplive.dns )
+            {
+              wan.keeplive.dns = {};
+            }
+            wan.keeplive.dns.timeout = $('#dns_timeout').val();
+            if ( check.number(wan.keeplive.dns.timeout) == false )
+            {
+                page.alert( { message: $.i18n('Each Query Timeout(sec)')+" "+$.i18n('must be a valid number') } );
+                return;
+            }
+            wan.keeplive.dns.failed = $('#dns_failed').val();
+            if ( check.number(wan.keeplive.dns.failed) == false )
+            {
+                page.alert( { message: $.i18n('Query Times')+" "+$.i18n('must be a valid number') } );
+                return;
+            }
+            wan.keeplive.dns.interval = $('#dns_interval').val();
+            if ( check.number(wan.keeplive.dns.interval) == false )
+            {
+                page.alert( { message: $.i18n('Query Interval(sec)')+" "+$.i18n('must be a valid number') } );
+                return;
+            }
+          }
+          if ( wan.keeplive.type == "recv" || wan.keeplive.type == "auto" )
           {
             if ( !wan.keeplive.recv )
             {
@@ -853,13 +930,19 @@
             wan.keeplive.recv.timeout = $('#recv_timeout').val();
             if ( check.number(wan.keeplive.recv.timeout) == false )
             {
-                page.alert( { message: $.i18n('Duration(sec)')+" "+$.i18n('must be a valid number') } );
+                page.alert( { message: $.i18n('Count Duration(sec)')+" "+$.i18n('must be a valid number') } );
+                return;
+            }
+            wan.keeplive.recv.failed = $('#recv_failed').val();
+            if ( check.number(wan.keeplive.recv.failed) == false )
+            {
+                page.alert( { message: $.i18n('Count Times')+" "+$.i18n('must be a valid number') } );
                 return;
             }
             wan.keeplive.recv.packets = $('#recv_packets').val();
             if ( check.number(wan.keeplive.recv.packets) == false )
             {
-                page.alert( { message: $.i18n('Request packets')+" "+$.i18n('must be a valid number') } );
+                page.alert( { message: $.i18n('Received packets')+" "+$.i18n('must be a valid number') } );
                 return;
             }
           }

@@ -281,7 +281,7 @@ boole_t _setup( obj_t this, param_t param )
     if ( ptr != NULL && 0 == strcmp( ptr, "disable" ) )
     {
         talk_free( cfg );
-        return tfalse;
+		return ttrue;
     }
 	/* set the tid */
 	ptr = json_string( cfg, "tid" );
@@ -416,7 +416,7 @@ talk_t _state( obj_t this, param_t param )
 	ifdev = register_value( object, "ifdev" );
     /* get the keeplive */
 	ptr = register_value( object, "keeplive" );
-    if ( ptr != NULL && 0 == strcmp( ptr, "icmp" ) )
+    if ( ptr != NULL && ( 0 == strcmp( ptr, "icmp" ) || 0 == strcmp( ptr, "dns" ) || 0 == strcmp( ptr, "auto" ) ) )
     {
     	keeplive = true;
 		register2int( object, "delay", reg_delay, delay, 0 );
