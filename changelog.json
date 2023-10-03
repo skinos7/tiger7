@@ -14,8 +14,9 @@
         "20220910":"add portal function",
         "20220911":"modify the /var/.cfg to /mnt/config and /mnt/int to /mnt/internal",
         "20220912":"add the univision camera support",
-        "20220914":"add the configure save only that be modified",
-        "20220915":"add the chilli for r600"
+        "20220913":"add the configure save only that be modified",
+        "20220914":"add the chilli for r600",
+        "20220915":"add the dns/auto keeplive for lte/wan, modify the default keeplive to auto on lte"
     },
     "v7.3.0713":
     {
