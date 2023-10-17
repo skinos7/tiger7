@@ -1,5 +1,5 @@
 {
-    "v7.3.0916":
+    "v7.3.0920":
     {
         "20220810":"fix lte webpage crack on load",
         "20220811":"add the sensor/indicator/i2cdrv/modbusdrv project to support many type sensor",
@@ -16,7 +16,10 @@
         "20220912":"add the univision camera support",
         "20220913":"add the configure save only that be modified",
         "20220914":"add the chilli for r600",
-        "20220915":"add the dns/auto keeplive for lte/wan, modify the default keeplive to auto on lte"
+        "20220915":"add the dns/auto keeplive for lte/wan, modify the default keeplive to auto on lte",
+        "20220917":"fix the portal show webpage bug",
+        "20220918":"add the buffer post GPS function",
+        "20220919":"add the mt5710 and modify the fm150/fm650 signal bug"
     },
     "v7.3.0713":
     {

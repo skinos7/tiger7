@@ -1,11 +1,11 @@
 ***
-## 2.4G SSID management components
+## 2.4G SSID Management   
 Manage 2.4G SSID
 Usually wifi@nssid is the first 2.4G SSID. If there are multiple 2.4G SSID in the system, wifi@nssid2 will be the second 2.4G SSID, and increase by degress
 
-#### **configuration( wifi@nssid )**
-**wifi@nssid** is first 2.4G SSID
-**wifi@nssid2** is second 2.4G SSID
+#### Configuration( wifi@nssid )   
+**wifi@nssid** is first 2.4G SSID   
+**wifi@nssid2** is second 2.4G SSID   
 
 ```json
 // Attribute introduction
@@ -44,6 +44,7 @@ Usually wifi@nssid is the first 2.4G SSID. If there are multiple 2.4G SSID in th
         //... more custom attribute
     }
 }
+```
 
 Example, show first 2.4G SSID all configure
 ```shell
@@ -69,21 +70,25 @@ wifi@nssid
     "wmm":"enable"                  # enable the WMM
 }
 ```  
+
 Example, modify the first 2.4G SSID name be myNewSSID
 ```shell
 wifi@nssid:ssid=myNewSSID
 ttrue
 ```
+
 Example, disable the first 2.4G SSID
 ```shell
 wifi@nssid:status=disable
 ttrue
 ```
+
 Example, enable the first 2.4G SSID
 ```shell
 wifi@nssid:status=enable
 ttrue
 ```
+
 Example, modify the first 2.4G SSID secure mode to WPAPSK and change the wpa key to 88888888
 ```shell
 wifi@nssid:secure=wpapsk            # modify the secure mode to WPAPSK
@@ -96,17 +101,18 @@ ttrue
 wifi@nssid|{"secure":"wpapsk", "wpa_encrypt":"tkipaes", "wpa_key":"88888888"}
 ttrue
 ```
+
 Example, disable the second 2.4G SSID
 ```shell
 wifi@nssid2:status=disable
 ttrue
 ```
 
-#### **Methods**
-**wifi@nssid** is first 2.4G SSID
-**wifi@nssid2** is second 2.4G SSID
+#### **Methods**   
+**wifi@nssid** is first 2.4G SSID   
+**wifi@nssid2** is second 2.4G SSID   
 
-+ `status[]` **get the SSID infomation**, *succeed return talk to describes infomation, failed reeturn NULL, error return terror*
++ `status[]` **get the SSID infomation**, *succeed return talk to describes infomation, failed reeturn NULL, error return terror*   
     ```json
     // Attributes introduction of talk by the method return
     {
@@ -132,6 +138,7 @@ ttrue
         "rate":"current rate"                   // [ number ]
     }
     ```
+
     ```shell
     # examples, get the first 2.4G SSID status
     wifi@nssid.status
@@ -155,7 +162,7 @@ ttrue
     }
     ```
 
-+ `stalist[]` get list of clients, *succeed return talk to describes infomation, failed reeturn NULL, error return terror*
++ `stalist[]` get list of clients, *succeed return talk to describes infomation, failed reeturn NULL, error return terror*   
     ```json
     // Attributes introduction of talk by the method return
     {
@@ -167,25 +174,26 @@ ttrue
         // ... more client
     }
     ```
+
     ```shell
     # examples, get the first 2.4G SSID's client list
-    wifi@nssid.list
+    wifi@nssid.stalist
     {
-        "78:11:DC:92:D3:9E":                  // client 1
+        "78:11:DC:92:D3:9E":                  # client 1
         {
             "apidx":"0",
             "livetime":"14:53:17:2",
             "rssi":"-52",
             "ifdev":"wifi@nssid"
         },
-        "88:C3:97:75:1B:C0":                 // client 2
+        "88:C3:97:75:1B:C0":                 # client 2
         {
             "apidx":"0",
             "livetime":"14:53:14:2",
             "rssi":"-52",
             "ifdev":"wifi@nssid"
         },
-        "40:31:3C:4D:78:35":                 // client 3
+        "40:31:3C:4D:78:35":                 # client 3
         {
             "apidx":"0",
             "livetime":"14:52:22:2",
@@ -195,7 +203,7 @@ ttrue
     }
     ```
 
-+ `stabeat[ MAC address ]` disconnect the client, *succeed return tttrue, failed return tfalse, error return terror*
++ `stabeat[ MAC address ]` disconnect the client, *succeed return tttrue, failed return tfalse, error return terror*   
     ```shell
     # examples, disconnect the client 00:03:7F:13:BD:30 from first 2.4G SSID
     wifi@nssid.stabeat[ 00:03:7F:13:BD:30 ]

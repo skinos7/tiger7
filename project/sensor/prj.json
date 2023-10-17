@@ -62,6 +62,19 @@
                 "cn": "cn.json",
                 "en": "en.json"
             }
+        },
+        "isiot-201":
+        {
+            "menu":"Sensor",
+            "en": "IS-IOT 201",
+            "cn": "多合一监测器",
+            "object":"sensor@isiot-201",
+            "page": "isiot-201.html",
+            "lang":
+            {
+                "cn": "cn.json",
+                "en": "en.json"
+            }
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- *  Description:  Fibcom NL668 modem driver
+ *  Description:  Huawei MU609 modem driver
  *       Author:  dimmalex (dim), dimmalex@gmail.com
  *      Company:  ASHYELF
  */
@@ -77,7 +77,6 @@ int em350_iccid( atcmd_t fd, talk_t status )
 	<0 for error */
 static int em350_sysinfoex( atcmd_t fd, talk_t status )
 {
-	int i;
     int ret;
 	int type;
 	const char *ptr;
@@ -89,16 +88,11 @@ static int em350_sysinfoex( atcmd_t fd, talk_t status )
     }
     type = 0;
     ptr = atcmd_lastack( fd );
-    i = sscanf( ptr, "%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%d", &type );
-	if ( i == 0 )
-	{
-		// ^SYSINFOEX: 2,3,0,1,,3,"WCDMA",41,"WCDMA"^M ^M OK^M
-		i = sscanf( ptr, "%*[^,],%*[^,],%*[^,],%*[^,],,%d", &type );
-	}
+    sscanf( ptr, "%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%d", &type );
     switch( type )
     {
         case 0:
-			json_set_string( status, "nettype", "No Service" );
+            json_set_string( status, "nettype", "No Service" );
             ret = ATCMD_ret_failed;
             break;
 		case 1:
@@ -277,48 +271,7 @@ boole_t _usb_match( obj_t this, param_t param )
 		return tfalse;
 	}
 	/* compare the vid and vid is in support list */
-	if ( 0 == strcasecmp( vid, "12d1" ) && ( 0 == strcasecmp( pid, "15c3" ) || 0 == strcasecmp( pid, "1506" ) ) )
-	{
-		info( "Huawei EM350 modem found(%s:%s)", vid , pid );
-		/* insmod the usb driver */
-		shell( "modprobe option" );
-		usleep( 2000000 );
-		syspath = json_string( dev, "syspath" );
-
-		/* find the tty list */
-		i = usbttylist_device_find( syspath, ttylist );
-		if ( i < 4 )
-		{
-			usleep( 2000000 );
-			i = usbttylist_device_find( syspath, ttylist );
-			if ( i < 4	)
-			{
-				usleep( 2000000 );
-				i = usbttylist_device_find( syspath, ttylist );
-				if ( i < 4	)
-				{
-					fault( "Huawei EM350 modem cannot find the specified serial port(%d), system maybe cracked", i );
-					return terror;
-				}
-			}
-		}
-		/* set the name */
-		json_set_string( dev, "name", "Huawei-EM350" );
-		/* get the object */
-		object = lte_object_get( LTE_COM, syspath, cfg, NULL, 0 );
-		json_set_string( dev, "object", object );
-		/* find the netdev */
-		netdev = usbeth_device_find( syspath, NULL, 0 );
-		if ( netdev != NULL )
-		{
-			json_set_string( dev, "netdev", netdev );
-		}
-		json_set_string( dev, "mtty", ttylist[2] );
-		json_set_string( dev, "devcom", MODEM_COM );
-		json_set_string( dev, "drvcom", COM_IDPATH );
-		return ttrue;
-	}
-	else if ( 0 == strcasecmp( vid, "12d1" ) && ( 0 == strcasecmp( pid, "1573" ) ) )
+	if ( 0 == strcasecmp( vid, "12d1" ) && ( 0 == strcasecmp( pid, "1573" ) ) )
 	{
 		info( "Huawei MU609 modem found(%s:%s)", vid , pid );
 		/* insmod the usb driver */
@@ -570,15 +523,6 @@ boole_t _at_setting( obj_t this, param_t param )
 	}
     /* enable creg urc */
     i = usbtty_cregmode( fd, 2 );
-	if ( i < ATCMD_ret_succeed )
-	{
-		return terror;
-	}
-	else if ( i == ATCMD_ret_term )
-	{
-		return tfalse;
-	}
-    i = usbtty_ceregmode( fd, 2 );
 	if ( i < ATCMD_ret_succeed )
 	{
 		return terror;

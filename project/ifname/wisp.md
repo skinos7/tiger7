@@ -1,11 +1,11 @@
 ***
-## WISP network management components
+## WISP Network Management
 Manage WISP network. This component must depend on wireless station interface and network Management Framework project  
 Usually ifname@wisp is the first WISP(2.4G) network. If there are multiple WISP network in the system, ifname@wisp2 will be the second WISP(5.8G) network, and increase by degress
 
-#### **configuration( ifname@wisp )**
-**ifname@wisp** is first WISP(2.4G) network
-**ifname@wisp2** is second WISP(5.8G) network
+#### **configuration( ifname@wisp )**   
+**ifname@wisp** is first WISP(2.4G) network   
+**ifname@wisp2** is second WISP(5.8G) network   
 
 ```json
 // Attribute introduction
@@ -113,7 +113,7 @@ Usually ifname@wisp is the first WISP(2.4G) network. If there are multiple WISP 
             "packets":"How many packets",                                              // [ number ]
             "failed":"failed times"                                                    // [ number ]
         }
-    }
+    },
     // configure connect failed to action
     "failed_timeout":"connect timeout",                                                // [ number ], the unit is second
     "failed_threshold":"first failed to reset time",                                   // [ number ]
@@ -121,7 +121,8 @@ Usually ifname@wisp is the first WISP(2.4G) network. If there are multiple WISP 
     "failed_everytime":"every failed to reset time"                                    // [ number ]
 }
 ```
-Example, show all the WISP configure
+
+Example, show first WISP(2.4G) all configure
 ```shell
 {
     "tid":"3",                                       # exclusive route table ID is 2
@@ -157,7 +158,8 @@ Example, show all the WISP configure
     }
 }
 ```
-Example, modify the SSID for WISP connect
+
+Example, modify the SSID for first WISP(2.4G) connect
 ```shell
 ifname@wisp:peer=Myhotpot
 ttrue
@@ -169,28 +171,38 @@ ttrue
 ifname@wisp|{"peer":"Myhotpot", "secure":"wpapsk", "wpa_key":"88888888"}
 ttrue
 ```
-Example, disable the WISP keeplive function
+
+Example, disable the first WISP(2.4G) keeplive function
 ```shell
 ifname@wisp:keeplive=disable
 ttrue
 ```
-Example, disable the WISP
+
+Example, disable the first WISP(2.4G)
 ```shell
 ifname@wisp:status=disable
 ttrue
 ```
-Example, enable the WISP
+
+Example, enable the first WISP(2.4G)
 ```shell
 ifname@wisp:status=enable
 ttrue
 ```
 
+Example, enable the second WISP(5.8G)
+```shell
+ifname@wisp2:status=enable
+ttrue
+```
 
-#### **Methods**
-**ifname@wisp** is first WISP network
-**ifname@wisp2** is second WISP network
 
-+ `status[]` **get the WISP infomation**, *succeed return talk to describes infomation, failed return NULL, error return terror*
+
+#### **Methods**   
+**ifname@wisp** is first WISP network   
+**ifname@wisp2** is second WISP network   
+
++ `status[]` **get the WISP infomation**, *succeed return talk to describes infomation, failed return NULL, error return terror*   
     ```json
     // Attributes introduction of talk by the method return
     {
@@ -226,6 +238,7 @@ ttrue
         "addr3":"IPv6 address3"         // [ ipv6 address ]
     }
     ```
+
     ```shell
     # examples, get the first WISP network infomation
     ifname@wisp.status
@@ -257,27 +270,29 @@ ttrue
     }
     ```
 
-+ `netdev[]` **get the WISP netdev**, *succeed return netdev, failed return NULL, error return terror*
++ `netdev[]` **get the WISP netdev**, *succeed return netdev, failed return NULL, error return terror*   
     ```shell
     # examples, get the first WISP netdev
     ifname@wisp.netdev
     ath11
     ```
-+ `ifdev[]` **get the ifdev**, *succeed return ifdev, failed return NULL, error return terror*
+
++ `ifdev[]` **get the ifdev**, *succeed return ifdev, failed return NULL, error return terror*   
     ```shell
     # examples, get the first WISP network ifdev
     ifname@wan.ifdev
     wifi@nsta
     ```
 
-+ `chlist[]` **get the WISP channal list**, *succeed return talk to describes infomation, failed return NULL, error return terror*
++ `chlist[]` **get the WISP channal list**, *succeed return talk to describes infomation, failed return NULL, error return terror*   
     ```json
     // Attributes introduction of talk by the method return
     {
-        "channel number":{},       // [ number ]:{}
+        "channel number":{}       // [ number ]:{}
         // ... more channel
     }
     ```
+
     ```shell
     # examples, get the first WISP channel list
     ifname@wisp.chlist
@@ -296,7 +311,7 @@ ttrue
     }
     ```
 
-+ `aplist[]` **use the WISP scan the surrounding AP**, *succeed return talk to describes infomation, failed return NULL, error return terror*
++ `aplist[]` **use the WISP scan the surrounding AP**, *succeed return talk to describes infomation, failed return NULL, error return terror*   
     ```json
     // Attributes introduction of talk by the method return
     {
@@ -317,10 +332,11 @@ ttrue
             "signal":"signal level[0-4]",                 // [ "0", "1", "2", "3", "4" ]
             "chext":"extern channel",                     // [ "none", "below", "above" ]
             "mode":"wireless system"                      // [ string ]
-        },
+        }
         // ... more AP
     }
     ```
+
     ```shell
     # examples, get the surrounding AP from first WISP scan
     ifname@wisp.aplist
@@ -361,15 +377,21 @@ ttrue
     }
     ```
 
-+ `shut[]` **shutdown the WISP network**, *succeed return ttrue, failed return tfalse, error return terror*
++ `shut[]` **shutdown the WISP network**, *succeed return ttrue, failed return tfalse, error return terror*   
     ```shell
     # examples, shutdown the frist WISP network
     ifname@wisp.shut
     ttrue
+    # examples, shutdown the second WISP network
+    ifname@wisp2.shut
+    ttrue
     ```
 
-+ `setup[]` **setup the WISP network**, *succeed return ttrue, failed return tfalse, error return terror*
++ `setup[]` **setup the WISP network**, *succeed return ttrue, failed return tfalse, error return terror*   
     ```shell
+    # examples, setup the frist WISP network
+    ifname@wisp.setup
+    ttrue
     # examples, setup the second WISP network
     ifname@wisp2.setup
     ttrue

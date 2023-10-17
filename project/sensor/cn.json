@@ -39,6 +39,8 @@
 
     "Hygrometer":"温湿度计",
     "Humidity":"湿度",
-    "Temperature":"湿度"
+    "Temperature":"湿度",
+
+    "IS-IOT 201":"多合一监测器"
 
 }

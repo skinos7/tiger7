@@ -1,16 +1,16 @@
 ***
-## Local network management
-Manage local network. This component must depend on local network interface or network switch(SOC) and network Management Framework project  
+## Local/LAN Network Management
+Manage local network. This component must depend on local network interface or network switch(SOC) and network management framework project  
 Usually ifname@lan is the first local network. If there are multiple local network in the system, ifname@lan2 will be the second local network, and increase by degress
 
-#### **configuration( ifname@lan )**
-**ifname@lan** is first local network
-**ifname@lan2** is second local network
+#### **configuration( ifname@lan )**   
+**ifname@lan** is first local network   
+**ifname@lan2** is second local network   
 
 ```json
 // Attribute introduction
 {
-    "status":"start at system startup",    // [ enable", "disable" ]
+    "status":"start at system startup",    // [ "enable", "disable" ]
 
     // IPv4
     "mode":"IPV4 address mode",            // [ "dhcpc", "static" ] "dhcpc" for DHCP, "static" for manual setting
@@ -81,38 +81,12 @@ Usually ifname@lan is the first local network. If there are multiple local netwo
         "hop":"Specifies the IPv4 gateway",                                  // [ ipv4 address ], default is local network IP address
         "resolve":"Specifies the IPv4 DNS",                                  // [ ipv4 address ], default is local network IP address
         "resolve2":"Specifies the IPv4 backup dns"                           // [ ipv4 address ]
-    },
-
-    // Configure for link detection mechanism, or call it keeplive mechanism
-    "keeplive":
-    {
-        "type":"keeplive mode",   // [ "disable" ] for disable the keeplive, [ "icmp" ] for ping keeplive, [ "recv" ] for count receive packet to keeplive
-        "icmp":                                                   // detial configure for "type" is "icmp"
-        {
-            "dest":                                                         // destination address for ICMP keeplive
-            {
-                "destination identify2":"destination address1",                        // [ string ]:[ IP address ]
-                // "...":"..." You can configure multiple destination IP addresses. If only one PING echo packet is returned, the detection succeeds. If no PING echo packet is returned, the detection fails  
-            },
-            "timeout":"Maximum time to wait for the return of a PING echo packet",     // [ number ], The unit is in seconds
-            "failed":"Number of detection failures",                                   // [ number ], If the number of detection failures exceeds this threshold, the link is deactivated
-            "interval":"Interval of each Successful detection",                        // [ number ], The unit is in seconds
-
-            // Line shake calculation  
-            "ill_range":"Total number of counts",                                      // [ number], Total number of counts
-            "ill_delay":"Delay threshold",                                             // [ number], The unit is in millisecond
-            "ill_time":"Maximum time to warnning",                                     // [ number]
-        },
-        "recv":                                                   // detial configure for "type" is "recv"
-        {
-            "timeout":"How many seconds did not receive a packet considered a failure",// [ number ], The unit is in seconds
-            "packets":"How many packets",                                              // [ number ]
-            "failed":"failed times"                                                    // [ number ]
-        }
     }
+
 }
 ```
-Example, show all local network configure
+
+Example, show all first local network configure
 ```shell
 ifname@lan
 {
@@ -136,22 +110,31 @@ ifname@lan
     }    
 }
 ```
-Example, modify the local network ip address
+
+Example, modify the first local network ip address, Take effect after restart
 ```shell
 ifname@lan:static/ip=192.168.2.1
 ttrue
 ```
-Example, disable the local network dhcp server
+
+Example, disable the first local network dhcp server, Take effect after restart
 ```shell
 ifname@lan:dhcps/status=disable
 ttrue
 ```
 
-#### **Methods**
-**ifname@lan** is first local network
-**ifname@lan2** is second local network
+Example, modify the first local network dhcp pool, start ip 192.168.2.100, end ip 192.168.2.200
+```shell
+ifname@lan:dhcps|{"startip":"192.168.2.100","endip":"192.168.2.200"}
+ttrue
+```
 
-+ `status[]` **get the local network infomation**, *succeed return talk to describes infomation, failed return NULL, error return terror*
+
+#### **Methods**
+**ifname@lan** is first local network   
+**ifname@lan2** is second local network   
+
++ `status[]` **get the local network infomation**, *succeed return talk to describes infomation, failed return NULL, error return terror*   
     ```json
     // Attributes introduction of talk by the method return
     {
@@ -178,6 +161,7 @@ ttrue
         "addr3":"IPv6 address3"         // [ ipv6 address ]
     }
     ```
+
     ```shell
     # examples, get the first local network infomation
     ifname@lan.status
@@ -198,24 +182,30 @@ ttrue
     }
     ```
 
-+ `netdev[]` **get the netdev**, *succeed return netdev, failed return NULL, error return terror*
++ `netdev[]` **get the netdev**, *succeed return netdev, failed return NULL, error return terror*   
     ```shell
     # examples, get the first local network netdev
     ifname@lan.netdev
     lan
     ```
 
-+ `shut[]` **shutdown the local network**, *succeed return ttrue, failed return tfalse, error return terror*
++ `shut[]` **shutdown the local network**, *succeed return ttrue, failed return tfalse, error return terror*   
     ```shell
+    # examples, shutdown the first local network
+    ifname@lan.shut
+    ttrue
     # examples, shutdown the second local network
     ifname@lan2.shut
     ttrue
     ```
 
-+ `setup[]` **setup the local network**, *succeed return ttrue, failed return tfalse, error return terror*
++ `setup[]` **setup the local network**, *succeed return ttrue, failed return tfalse, error return terror*   
     ```shell
     # examples, setup the frist local network
     ifname@lan.setup
+    ttrue
+    # examples, setup the second local network
+    ifname@lan2.setup
     ttrue
     ```
 

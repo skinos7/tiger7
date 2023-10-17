@@ -1,11 +1,11 @@
 ***
-## 5.8G SSID management components
+## 5.8G SSID Management
 Manage 5.8G SSID
 Usually wifi@assid is the first 5.8G SSID. If there are multiple 5.8G SSID in the system, wifi@assid2 will be the second 5.8G SSID, and increase by degress
 
-#### **configuration( wifi@assid )**
-**wifi@assid** is first 5.8G SSID
-**wifi@assid2** is second 5.8G SSID
+#### Configuration( wifi@assid )   
+**wifi@assid** is first 5.8G SSID   
+**wifi@assid2** is second 5.8G SSID   
 
 ```json
 // Attribute introduction
@@ -44,6 +44,7 @@ Usually wifi@assid is the first 5.8G SSID. If there are multiple 5.8G SSID in th
         //... more custom attribute
     }
 }
+```
 
 Example, show first 5.8G SSID all configure
 ```shell
@@ -69,21 +70,25 @@ wifi@assid
     "wmm":"enable"                  # enable the WMM
 }
 ```  
+
 Example, modify the first 5.8G SSID name be myNewSSID
 ```shell
 wifi@assid:ssid=myNewSSID
 ttrue
 ```
+
 Example, disable the first 5.8G SSID
 ```shell
 wifi@assid:status=disable
 ttrue
 ```
+
 Example, enable the first 5.8G SSID
 ```shell
 wifi@assid:status=enable
 ttrue
 ```
+
 Example, modify the first 5.8G SSID secure mode to WPAPSK and change the wpa key to 88888888
 ```shell
 wifi@assid:secure=wpapsk            # modify the secure mode to WPAPSK
@@ -96,17 +101,18 @@ ttrue
 wifi@assid|{"secure":"wpapsk", "wpa_encrypt":"tkipaes", "wpa_key":"88888888"}
 ttrue
 ```
+
 Example, disable the second 5.8G SSID
 ```shell
 wifi@assid2:status=disable
 ttrue
 ```
 
-#### **Methods**
-**wifi@assid** is first 5.8G SSID
-**wifi@assid2** is second 5.8G SSID
+#### **Methods**   
+**wifi@assid** is first 5.8G SSID   
+**wifi@assid2** is second 5.8G SSID   
 
-+ `status[]` **get the SSID infomation**, *succeed return talk to describes infomation, failed reeturn NULL, error return terror*
++ `status[]` **get the SSID infomation**, *succeed return talk to describes infomation, failed reeturn NULL, error return terror*   
     ```json
     // Attributes introduction of talk by the method return
     {
@@ -132,6 +138,7 @@ ttrue
         "rate":"current rate"                   // [ number ]
     }
     ```
+
     ```shell
     # examples, get the first 5.8G SSID status
     wifi@assid.status
@@ -155,7 +162,7 @@ ttrue
     }
     ```
 
-+ `stalist[]` get list of clients, *succeed return talk to describes infomation, failed reeturn NULL, error return terror*
++ `stalist[]` get list of clients, *succeed return talk to describes infomation, failed reeturn NULL, error return terror*   
     ```json
     // Attributes introduction of talk by the method return
     {
@@ -167,9 +174,10 @@ ttrue
         // ... more client
     }
     ```
+
     ```shell
     # examples, get the first 5.8G SSID's client list
-    wifi@assid.list
+    wifi@assid.stalist
     {
         "78:11:DC:92:D3:9E":                  // client 1
         {
@@ -195,7 +203,7 @@ ttrue
     }
     ```
 
-+ `stabeat[ MAC address ]` disconnect the client, *succeed return tttrue, failed return tfalse, error return terror*
++ `stabeat[ MAC address ]` disconnect the client, *succeed return tttrue, failed return tfalse, error return terror*   
     ```shell
     # examples, disconnect the client 00:03:7F:13:BD:30 from first 5.8G SSID
     wifi@assid.stabeat[ 00:03:7F:13:BD:30 ]

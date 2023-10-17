@@ -1,11 +1,11 @@
 ***
-## WAN network management components
+## WAN Network Management
 Manage WAN network. This component must depend on WAN network interface and network Management Framework project  
 Usually ifname@wan is the first WAN network. If there are multiple WAN network in the system, ifname@wan2 will be the second WAN network, and increase by degress
 
-#### **configuration( ifname@wan )**
-**ifname@wan** is first WAN network
-**ifname@wan2** is second WAN network
+#### **configuration( ifname@wan )**   
+**ifname@wan** is first WAN network   
+**ifname@wan2** is second WAN network   
 
 ```json
 // Attribute introduction
@@ -97,7 +97,7 @@ Usually ifname@wan is the first WAN network. If there are multiple WAN network i
             "packets":"How many packets",                                              // [ number ]
             "failed":"failed times"                                                    // [ number ]
         }
-    }
+    },
     // configure connect failed to action
     "failed_timeout":"connect timeout",                                                // [ number ], the unit is second
     "failed_threshold":"first failed to reset time",                                   // [ number ]
@@ -106,7 +106,8 @@ Usually ifname@wan is the first WAN network. If there are multiple WAN network i
     
 }
 ```
-Examples, show the WAN all configure
+
+Examples, show the first WAN all configure
 ```shell
 ifname@wan
 {
@@ -137,19 +138,33 @@ ifname@wan
     }
 }
 ```
-Example, modify the WAN dial mode to DHCP
+
+Example, modify the first WAN dial mode to DHCP
 ```shell
 ifname@wan:mode=dhcpc
 ttrue
 ```
-Example, modify the WAN2 pppoe username
+
+Example, modify the first WAN pppoe username and password
 ```shell
-ifname@wan2:pppoe/username=dimmalex@ashyelf.com
+ifname@wan:pppoe/username=dimmalex@ashyelf.com
+ttrue
+ifname@wan:pppoe/password=123456
+ttrue
+# You can also use one command to complete the operation of the above three command
+ifname@wan:pppoe|{"username":"dimmalex@ashyelf.com", "password":"123456"}
 ttrue
 ```
-Example, disable the WAN
+
+Example, disable the first WAN
 ```shell
 ifname@wan:status=disable
+ttrue
+```
+
+Example, disable the second WAN
+```shell
+ifname@wan2:status=disable
 ttrue
 ```
 
@@ -157,7 +172,7 @@ ttrue
 **ifname@wan** is first WAN network
 **ifname@wan2** is second WAN network
 
-+ `status[]` **get the local network infomation**, *succeed return talk to describes infomation, failed return NULL, error return terror*
++ `status[]` **get the local network infomation**, *succeed return talk to describes infomation, failed return NULL, error return terror*   
     ```json
     // Attributes introduction of talk by the method return
     {
@@ -208,27 +223,35 @@ ttrue
     }
     ```
 
-+ `netdev[]` **get the WAN netdev**, *succeed return netdev, failed return NULL, error return terror*
++ `netdev[]` **get the WAN netdev**, *succeed return netdev, failed return NULL, error return terror*   
     ```shell
     # examples, get the first WAN network netdev
     ifname@wan.netdev
     wan
     ```
-+ `ifdev[]` **get the ifdev**, *succeed return ifdev, failed return NULL, error return terror*
+
++ `ifdev[]` **get the ifdev**, *succeed return ifdev, failed return NULL, error return terror*   
     ```shell
     # examples, get the first WAN network ifdev
     ifname@wan.ifdev
     vlan@wan
     ```
-+ `shut[]` **shutdown the WAN network**, *succeed return ttrue, failed return tfalse, error return terror*
+
++ `shut[]` **shutdown the WAN network**, *succeed return ttrue, failed return tfalse, error return terror*   
     ```shell
     # examples, shutdown the frist WAN network
     ifname@wan.shut
     ttrue
+    # examples, shutdown the second WAN network
+    ifname@wan2.shut
+    ttrue    
     ```
 
-+ `setup[]` **setup the WAN network**, *succeed return ttrue, failed return tfalse, error return terror*
++ `setup[]` **setup the WAN network**, *succeed return ttrue, failed return tfalse, error return terror*   
     ```shell
+    # examples, setup the frist WAN network
+    ifname@wan.setup
+    ttrue
     # examples, setup the second WAN network
     ifname@wan2.setup
     ttrue

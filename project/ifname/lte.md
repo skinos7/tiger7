@@ -1,11 +1,11 @@
 ***
-## LTE/NR network management components
+## LTE/NR Network Management
 Manage LTE/NR networks and 4G/NR basebands. This component must depend on the LTE/NR baseband components and network Management Framework project  
 Usually ifname@lte is the first LTE/NR network and module. If there are multiple LTE/NR modules in the system, ifname@lte2 will be the second LTE/NR network and module, and increase by degress
 
-#### **configuration( ifname@lte )**
-**ifname@lte** is first LTE network
-**ifname@lte2** is second LTE network
+#### **configuration( ifname@lte )**   
+**ifname@lte** is first LTE network   
+**ifname@lte2** is second LTE network   
 
 ```json
 // Attribute introduction
@@ -47,7 +47,7 @@ Usually ifname@lte is the first LTE/NR network and module. If there are multiple
     "masq":"out stream share the interface IPv4 address to access the Internet",  // [ "disable", "enable" ]
 
     // IPv6
-    "method":"IPv6 address mode",         [ "disable", "manual", "automatic", "slaac", "relay" ]
+    "method":"IPv6 address mode",             // [ "disable", "manual", "automatic", "slaac", "relay" ]
                                                     // "disable" is not use ipv6
                                                     // "manual" for manual setting
                                                     // "automatic" for DHCPv6
@@ -109,7 +109,7 @@ Usually ifname@lte is the first LTE/NR network and module. If there are multiple
             "packets":"How many packets",                                              // [ number ]
             "failed":"failed times"                                                    // [ number ]
         }
-    }
+    },
     // configure connect failed to action
     "failed_timeout":"connect timeout",                                                // [ number ], the unit is second
     "failed_threshold":"first failed to reset time",                                   // [ number ]
@@ -121,6 +121,7 @@ Usually ifname@lte is the first LTE/NR network and module. If there are multiple
 
 }
 ```
+
 Example, show LTE all configure
 ```shell
 ifname@lte
@@ -147,39 +148,55 @@ ifname@lte
     }
 }
 ```
-Example, modify the keeplive to icmp for LTE1
+
+Example, modify the keeplive to icmp for first LTE
 ```shell
 ifname@lte:keeplive/type=icmp
 ttrue
 ```
-Example, modify the keeplive to icmp for LTE2
+
+Example, modify the mode to ppp for first LTE
+```shell
+ifname@lte:mode=ppp
+ttrue
+```
+
+Example, modify the keeplive to icmp for first LTE
+```shell
+ifname@lte:keeplive/type=icmp
+ttrue
+```
+
+Example, modify the icmp keeplive destination address for first LTE
+```shell
+ifname@lte:keeplive/icmp/dest/test=8.8.8.8            # modify the icmp keeplive first destination address to 8.8.8.8
+ttrue
+ifname@lte:keeplive/icmp/dest/test2=8.8.4.4           # modify the icmp keeplive second destination address to 8.8.4.4 
+ttrue
+ifname@lte:keeplive/icmp/dest/test3=114.114.114.114   # modify the icmp keeplive third destination address to 114.114.114.114
+ttrue
+# You can also use one command to complete the operation of the above three command
+ifname@lte:keeplive/icmp/dest|{"test":"8.8.8.8", "test2":"8.8.4.4", "test3":"114.114.114.114"}
+ttrue
+```
+
+Example, disable the first LTE network
+```shell
+ifname@lte:status=disable
+ttrue
+```
+
+Example, modify the keeplive to icmp for second LTE
 ```shell
 ifname@lte2:keeplive/type=icmp
 ttrue
 ```
-Example, modify the icmp keeplive destination address for LTE2
-```shell
-ifname@lte2:keeplive/icmp/dest/test=8.8.8.8            # modify the icmp keeplive first destination address to 8.8.8.8
-ttrue
-ifname@lte2:keeplive/icmp/dest/test2=8.8.4.4           # modify the icmp keeplive second destination address to 8.8.4.4 
-ttrue
-ifname@lte2:keeplive/icmp/dest/test3=114.114.114.114   # modify the icmp keeplive third destination address to 114.114.114.114
-ttrue
-# You can also use one command to complete the operation of the above three command
-ifname@lte2:keeplive/icmp/dest|{"test":"8.8.8.8", "test2":"8.8.4.4", "test3":"114.114.114.114"}
-ttrue
-```
-Example, disable the LTE2 network
-```shell
-ifname@lte2:status=disable
-ttrue
-```
 
-#### **Methods**
-**ifname@lte** is first LTE network
-**ifname@lte2** is second LTE/NR network
+#### **Methods**   
+**ifname@lte** is first LTE network   
+**ifname@lte2** is second LTE/NR network   
 
-+ `status[]` **get the LTE network infomation**, *succeed return talk to describes infomation, failed reeturn NULL, error return terror*
++ `status[]` **get the LTE network infomation**, *succeed return talk to describes infomation, failed reeturn NULL, error return terror*   
     ```json
     // Attributes introduction of talk by the method return
     {
@@ -211,6 +228,7 @@ ttrue
         // ##### For details, see status of modem@lte  #####
     }
     ```
+
     ```shell
     # examples, get the first lte network infomation
     ifname@lte.status
@@ -250,29 +268,35 @@ ttrue
     }
     ```
 
-+ `netdev[]` **get the netdev**, *succeed return netdev, failed return NULL, error return terror*
++ `netdev[]` **get the netdev**, *succeed return netdev, failed return NULL, error return terror*   
     ```shell
     # examples, get the first LTE network netdev
     ifname@lte.netdev
     usb0
     ```
 
-+ `ifdev[]` **get the ifdev**, *succeed return ifdev, failed return NULL, error return terror*
++ `ifdev[]` **get the ifdev**, *succeed return ifdev, failed return NULL, error return terror*   
     ```shell
     # examples, get the first LTE network ifdev
     ifname@lte.ifdev
     modem@lte
     ```
 
-+ `shut[]` **shutdown the modem network**, *succeed return ttrue, failed return tfalse, error return terror*
++ `shut[]` **shutdown the modem network**, *succeed return ttrue, failed return tfalse, error return terror*   
     ```shell
     # examples, shutdown the frist LTE network
     ifname@lte.shut
     ttrue
+    # examples, shutdown the second LTE network
+    ifname@lte2.shut
+    ttrue
     ```
 
-+ `setup[]` **setup the modem network**, *succeed return tttrue, failed return tfalse, error return terror*
++ `setup[]` **setup the modem network**, *succeed return tttrue, failed return tfalse, error return terror*   
     ```shell
+    # examples, setup the frist LTE network
+    ifname@lte.setup
+    ttrue
     # examples, setup the second LTE network
     ifname@lte2.setup
     ttrue
