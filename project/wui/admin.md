@@ -1,6 +1,6 @@
 
 ***
-## Management of web page component
+## Administrator WEB Server Management
 Administration of equipment Management web page
 
 #### Configuration( wui@admin )
