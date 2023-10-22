@@ -9,72 +9,85 @@ output:
 
 
 
-# SkinOS system framework( 系统框架 )
-
+# SkinOS system framework
 - SkinOS encapsulates the manageable objects of Linux through the **component**, providing the interface(API) to the upper layer
 - The objects that can be managed in SkinOS are all individual components
-- Multiple related or similar functional components make up a **project**
-- SkinOS中通过 **组件** 对Linux的可管理对象封装，向上层提供调用接口
-- 在SkinOS中可管理的对象都是一个个 **组件**
-- 多个相关或相类功能的组件组成一个项目
+- Multiple related or similar functional components make up a **project**   
+
+> - SkinOS中通过 **组件** 对Linux的可管理对象封装，向上层提供调用接口
+> - 在SkinOS中可管理的对象都是一个个 **组件**
+> - 多个相关或相类功能的组件组成一个项目   
 
 ![avatar](./frame.jpg)
 
 
 
-# SkinOS project introduction( 项目介绍 )
-
+# SkinOS project introduction   
 - Applications in SkinOS is **project**
 - **project** There is a corresponding directory in the SDK, which stores the source code and various resource files related to the project
-- **project** corresponding directory all are stored in the **[tiger7/project](./project/)** directory
+- **project** corresponding directory all are stored in the **[tiger7/project](https://github.com/skinos7/tiger7/tree/master/project)** directory
 - **project** will generate **FPK** after compiling, which is used to install into SkinOS
-- The following is structure **project**
-- SkinOS中的应用程序是 **项目**
-- **项目** 在SDK中有对应的目录，目录中存放项目相关的源代码及各种资源文件
-- **项目** 对应的目录都存放在都在 **[tiger7/project](./project/)** 目录下
-- **项目** 编译后会生成 **FPK安装包**, 用于安装到SkinOS中
-- 以下是 **项目** 结构
+- The following is structure **project**   
+
+> - SkinOS中的应用程序是 **项目**
+> - **项目** 在SDK中有对应的目录，目录中存放项目相关的源代码及各种资源文件
+> - **项目** 对应的目录都存放在都在 **[tiger7/project](https://gitee.com/tiger7/tiger7/tree/master/project)** 目录下
+> - **项目** 编译后会生成 **FPK安装包**, 用于安装到SkinOS中
+> - 以下是 **项目** 结构   
 
 ![avatar](./project.png)
 
+**[prj.json](https://github.com/skinos7/doc/blob/master/dev/prj.json.md)** Describe all of the project's resources in JSON format   
+- Guide the compilation process at compiling
+- Guide the installation process during installation
+- The boot option is registered during SkinOS startup
+- Register the shutdown item when the SkinOS shuts down
+- Register event handlers to SkinOS
+- Register the web menu(page) to SkinOS   
+
+**Component** Provide a unified management interface to the SkinOS or users   
+**Default Configure** Default setting   
+**HTML** The web page file corresponding to the web menu   
+**Shell** Shell script file   
+**Open Source Program** Open source application   
+**Linux Executable Program** executable program   
+**Shared Library**    
+**Kernel Module**   
+
+> [prj.json](https://gitee.com/tiger7/doc/blob/master/dev/prj.json.md) 以JSON格式描述项目所有的资源
+> - 编译时指导编译过程
+> - 安装时指导安装过程
+> - 系统启动时注册启动项
+> - 系统关机时注册关机项
+> - 向系统注册事件处理项
+> - 向系统注册网页界面
+>
+> **Component** 向系统或用户提供统一的管理接口
+> **Default Configure** 默认配置
+> **HTML** 菜单对应的界面文件
+> **Shell** shell脚本文件
+> **Open Source Program** 开源应用程序
+> **Linux Executable Program** 可执行程序
+> **Shared Library** 共享库
+> **Kernel Module** 内核模块
 
 
-**[prj.json](https://gitee.com/tiger7/doc/blob/master/dev/prj.json.md)** Describe all of the project's resources in JSON format( 以JSON格式描述项目所有的资源 )
 
-- Guide the compilation process at compiling( 编译时指导编译过程 )
-- Guide the installation process during installation( 安装时指导安装过程 )
-- The boot option is registered during SkinOS startup( 系统启动时注册启动项 )
-- Register the shutdown item when the SkinOS shuts down( 系统关机时注册关机项 )
-- Register event handlers to SkinOS( 向系统注册事件处理项 )
-- Register the web menu(page) to SkinOS( 向系统注册网页界面 )
-
-
-**Component** Provide a unified management interface to the SkinOS or users( 向系统或用户提供统一的管理接口 )
-
-**Default Configure** Default setting( 默认配置 )
-
-**HTML** The web page file corresponding to the web menu( 菜单对应的界面文件 )
-
-**Shell** Shell script file( shell脚本文件 )
-
-**Open Source Program** Open source application( 开源应用程序 )
-
-**Linux Executable Program** executable program( 可执行程序 )
-
-**Shared Library** 
-
-**Kernel Module**
-
-
-# SkinOS project framework( 项目框架 )
+# SkinOS project framework
 
 ![avatar](./project2.png)
 
-**Skin Layer**, provide a unified management interface to the SkinOS or users
+**Skin Layer**, provide a unified management interface to the SkinOS or users   
 - **Component** provide a unified management interface to the SkinOS or users
 - **Default Configure file** provide default setting
 - **HTML** provide management UI
 - **prj.json** Describe all of the project's resources in JSON format
+
+> **Skin Layer**, 向系统或用户提供统一的接口   
+> - **Component** 向系统或用户提供统一的接口
+> - **Default Configure file** 提供默认配置
+> - **HTML** 提供WEB管理界面
+> - **prj.json** 以JSON格式描述项目所有的资源
 
 **Linux System and Application**, Traditional Linux applications, resource files, etc, Generally, no external interface is provided：
 - **Executable program**
@@ -83,107 +96,164 @@ output:
 - **shell** script
 - **Resource file**
 
-SkinOS system components manage the project through **Skin Layer**( SkinOS的系统组件通过**Skin Layer**对项目的管理 )
+> **Linux System and Application**, 传统的Linux程序,资源文件等等, 通常不外提供接口：
+> - **Executable program** 可执行程主邓
+> - **Kernel Module** 内核模块
+> - **Shared Library** 共享库
+> - **shell** 脚本
+> - **Resource file** 资源文件
+
+SkinOS system components manage the project through **Skin Layer**
+> SkinOS的系统组件通过**Skin Layer**对项目的管理
+
 ![avatar](./project3.png)
 
 
 
 
 
-# SkinOS component interface( 组件接口 )
+# SkinOS component interface
 
+### Common component API   
+The following figure describes common project and component interfaces of gateway
 
-### Common component API( 常用的组件API )
-
-The following figure describes common project and component interfaces of gateway( 下图介绍网关常用的项目及组件API )
+> #### 常用的组件API   
+> 下图介绍网关常用的项目及组件API
 
 ![avatar](./component.png)
 
-
 **land** project, SkinOS core project, manage gateway basic information
+- machine component, name it **land@machine**, The alias is **machine**, **[Management of Basic Infomation](https://github.com/skinos7/doc/blob/master/com/land/machine.md)**   
+- service component, name it **land@service**, The alias is **service**, **[Management of System Service](https://github.com/skinos7/doc/blob/master/com/land/service.md)**   
+- auth component, name it **land@auth**, The alias is **auth**, **[Username/Password and Permission Management](https://github.com/skinos7/doc/blob/master/com/land/auth.md)**   
+- syslog component, name it **land@syslog**, The alias is **log**, **[Syslog Management](https://github.com/skinos7/doc/blob/master/com/land/syslog.md)**   
 
-- machine component, name it **land@machine**, The alias is **machine**, **[Management of Basic Infomation](https://gitee.com/tiger7/doc/blob/master/com/land/machine.md)**( 设备基本信息管理 )
-- service component, name it **land@service**, The alias is **service**, **[Management of System Service](https://gitee.com/tiger7/doc/blob/master/com/land/service.md)**( 系统服务管理 )
-- auth 
-- auth component, name it **land@auth**, The alias is **auth**, **[Username/Password and Permission Management](https://gitee.com/tiger7/doc/blob/master/com/land/auth.md)**( 用户名密码及权限管理 )
-- syslog component, name it **land@syslog**, The alias is **log**, **[Syslog Management](https://gitee.com/tiger7/doc/blob/master/com/land/syslog.md)**( 日志管理 )
+**client** project, Manage all clients   
+- global component, name it **client@global**,  **[Management of Global Access](https://github.com/skinos7/doc/blob/master/com/client/global.md)**   
+- station component, name it **client@station**,  **[Management of Client Access](https://github.com/skinos7/doc/blob/master/com/client/station.md)**   
 
-**client** project, Manage all clients
+**forward** project, Manage forward functions   
+- alg component, name it **forward@alg**, **[Management of Application Layer Gateway](https://github.com/skinos7/doc/blob/master/com/forward/alg.md)**   
+- route component, name it **forward@route**, **[System Route Table Management](https://github.com/skinos7/doc/blob/master/com/forward/route.md)**   
+- firewall component, name it **forward@firewall**, **[Management of System Firewall](https://github.com/skinos7/doc/blob/master/com/forward/firewall.md)**   
+- nat component, name it **forward@nat**, **[Management of System NAT/DMZ](https://github.com/skinos7/doc/blob/master/com/forward/nat.md)**   
 
-- global component, name it **client@global**,  **[Management of Global Access](https://gitee.com/tiger7/doc/blob/master/com/client/global.md)**( 访问管理 )
-- station component, name it **client@station**,  **[Management of Client Access](https://gitee.com/tiger7/doc/blob/master/com/client/station.md)**( 客户端管理 )
+**ifname** project, Manage all connections of gateway   
+- lte connection component, first LTE name it **ifname@lte**, second LTE name it **ifname@lte2**, **[LTE/NR Network Management](https://github.com/skinos7/doc/blob/master/com/ifname/lte.md)**   
+- wan connection component, first WAN name it **ifname@wan**, second WAN name it **ifname@wan2**, **[WAN Network Management](https://github.com/skinos7/doc/blob/master/com/ifname/wan.md)**   
+- lan connection component, first LAN name it **ifname@lan**, second LAN name it **ifname@lan2**, **[LAN Network Management](https://github.com/skinos7/doc/blob/master/com/ifname/lan.md)**   
+- wisp connection component, first WISP name it **ifname@wisp**, second WISP name it **ifname@wisp2**, **[WISP Network Management](https://github.com/skinos7/doc/blob/master/com/ifname/wisp.md)**   
 
-**forward** project, Manage forward functions
+**clock** project, time management   
+- date component, name it **clock@date**, **[Manage System Date](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**   
+- restart component, name it **clock@restart**, **[System restart Plan Management](https://github.com/skinos7/doc/blob/master/com/clock/restart.md)**   
 
-- alg component, name it **forward@alg**, **[Management of Application Layer Gateway](https://gitee.com/tiger7/doc/blob/master/com/forward/alg.md)**( 应用层网关管理 )
-- route component, name it **forward@route**, **[System Route Table Management](https://gitee.com/tiger7/doc/blob/master/com/forward/route.md)**( 路由表管理 )
-- firewall component, name it **forward@firewall**, **[Management of System Firewall](https://gitee.com/tiger7/doc/blob/master/com/forward/firewall.md)**( 防火墙管理 )
-- nat component, name it **forward@nat**, **[Management of System NAT/DMZ](https://gitee.com/tiger7/doc/blob/master/com/forward/nat.md)**( 端口映射管理 )
+**wui** project, web server for user   
+- admin component, name it **wui@admin**, **[Administrator WEB Server Management](https://github.com/skinos7/doc/blob/master/com/wui/admin.md)**   
 
-**ifname** project, Manage all connections of gateway
+**tui** project, terminal server for user   
+- ssh component, name it **tui@ssh**, **[SSH Server Management](https://github.com/skinos7/doc/blob/master/com/tui/ssh.md)**   
+- telnet component, name it **tui@telnet**, **[Telnet Server Management](https://gitee.com/tiger7/doc/blob/master/com/tui/telnet.md)**   
 
-- lte connection component, first LTE name it **ifname@lte**, second LTE name it **ifname@lte2**, **[LTE/NR Network Management](https://gitee.com/tiger7/doc/blob/master/com/ifname/lte.md)**( LTE网络管理 )
-- wan connection component, first WAN name it **ifname@wan**, second WAN name it **ifname@wan2**, **[WAN Network Management](https://gitee.com/tiger7/doc/blob/master/com/ifname/wan.md)**( WAN口管理 )
-- lan connection component, first LAN name it **ifname@lan**, second LAN name it **ifname@lan2**, **[LAN Network Management](https://gitee.com/tiger7/doc/blob/master/com/ifname/lan.md)**( LAN口管理 )
-- wisp connection component, first WISP name it **ifname@wisp**, second WISP name it **ifname@wisp2**, **[WISP Network Management](https://gitee.com/tiger7/doc/blob/master/com/ifname/wisp.md)**( 无线互联网管理 )
+**wifi** project, all the 802.11abgn/ac interface   
+- nssid component, first SSID(2.4G) name it **wifi@nssid**, second SSID(2.4G) name it **wifi@nssid2**, **[2.4G SSID Management](https://github.com/skinos7/doc/blob/master/com/wifi/nssid.md)**   
+- assid component, first SSID(5.8G) name it **wifi@assid**, second SSID(5.8G) name it **wifi@assid2**, **[5.8G SSID Management](https://github.com/skinos7/doc/blob/master/com/wifi/assid.md)**   
+- nsta component, name it **wifi@nsta**, **[2.4G Station Management](https://github.com/skinos7/doc/blob/master/com/wifi/nsta.md)**   
+- asta component, name it **wifi@asta**, **[5.8G Station Management](https://github.com/skinos7/doc/blob/master/com/wifi/asta.md)**   
+- n component, name it **wifi@n**, **[2.4G Radio Management](https://github.com/skinos7/doc/blob/master/com/wifi/n.md)**   
+- a component, name it **wifi@a**, **[5.8G Radio Management](https://github.com/skinos7/doc/blob/master/com/wifi/a.md)**   
 
-**clock** project, time management
+**modem** project, lte/nr modem   
+- lte modem component, first LTE/NR modem name it **modem@lte**, second LTE/NR modem name it **modem@lte2**, **[LTE/NR Modem Management](https://github.com/skinos7/doc/blob/master/com/modem/lte.md)**   
 
-- date component, name it **clock@date**, **[Manage System Date](https://gitee.com/tiger7/doc/blob/master/com/clock/date.md)**( 时间管理 )
-- restart component, name it **clock@restart**, **[System restart Plan Management](https://gitee.com/tiger7/doc/blob/master/com/clock/restart.md)**( 重启计划管理 )
+**io** project, io management   
+- agent component, name it **io@agent**, **[IO Management Agent](https://github.com/skinos7/doc/blob/master/com/io/agent.md)**   
 
-**wui** project, web server for user
+**gnss** project, gps management   
+- nmea component, name it **gnss@nmea**, **[GNSS NEMA Protocol Management](https://github.com/skinos7/doc/blob/master/com/gnss/nmea.md)**   
+**uart** project, uart management   
+- serial component, first serial name it **uart@serial**, second serial name it **uart@serial2**, **[UART Management](https://github.com/skinos7/doc/blob/master/com/uart/serial.md)**   
 
-- admin component, name it **wui@admin**, **[Administrator WEB Server Management](https://gitee.com/tiger7/doc/blob/master/com/wui/admin.md)**( WEB服务管理 )
+**arch** project, Hardware related cross-platform components   
+- gpio component, name it **arch@gpio**, **[Hardware GPIO Management](https://github.com/skinos7/doc/blob/master/com/arch/gpio.md)**   
+- ethernet component, name it **arch@ethernet**, **[Hardware Switch/Ethernet Management](https://github.com/skinos7/doc/blob/master/com/arch/ethernet.md)**   
+- pci component, name it **arch@pci**, **[Hardware PCI Management](https://github.com/skinos7/doc/blob/master/com/arch/pci.md)**   
+- usb component, name it **arch@usb**, **[Hardware USB Management](https://github.com/skinos7/doc/blob/master/com/arch/usb.md)**   
+- data component, name it **arch@data**, **[Hardware Data/EEPROM Management](https://github.com/skinos7/doc/blob/master/com/arch/data.md)**   
+- firmware component, name it **arch@firmware**, **[Firmware Management](hhttps://github.com/skinos7/doc/blob/master/com/arch/firmware.md)**   
 
-**tui** project, terminal server for user
+> **land** 项目, SkinOS核心项目, 管理网关的基本信息   
+> - machine 组件, 命名为 **land@machine**, 别名为 **machine**, **[设备基本信息管理](https://gitee.com/tiger7/doc/blob/master/com/land/machine.md)**   
+> - service 组件, 命名为 **land@service**, 别名为 **service**, **[系统服务管理](https://gitee.com/tiger7/doc/blob/master/com/land/service.md)**   
+> - auth 组件, 命名为 **land@auth**, 别名为 **auth**, **[用户名密码及权限管理](https://gitee.com/tiger7/doc/blob/master/com/land/auth.md)**   
+> - syslog 组件, 命名为 **land@syslog**,  **log**, **[日志管理](https://gitee.com/tiger7/doc/blob/master/com/land/syslog.md)**   
+>
+> **client** 项目, 管理所有客户端   
+> - global 组件, 命名为 **client@global**,  **[访问管理](https://gitee.com/tiger7/doc/blob/master/com/client/global.md)**   
+> - station 组件, 命名为 **client@station**,  **[客户端管理](https://gitee.com/tiger7/doc/blob/master/com/client/station.md)**   
+>
+> **forward** 项目, 管理路由转发功能   
+> - alg 组件, 命名为 **forward@alg**, **[应用层网关管理](https://gitee.com/tiger7/doc/blob/master/com/forward/alg.md)**   
+> - route 组件, 命名为 **forward@route**, **[路由表管理](https://gitee.com/tiger7/doc/blob/master/com/forward/route.md)**   
+> - firewall 组件, 命名为 **forward@firewall**, **[防火墙管理](https://gitee.com/tiger7/doc/blob/master/com/forward/firewall.md)**   
+> - nat 组件, 命名为 **forward@nat**, **[端口映射管理](https://gitee.com/tiger7/doc/blob/master/com/forward/nat.md)**   
+>
+> **ifname** 项目, 管理网关所有的连接   
+> - lte 连接组件, 第一个LTE命名为 **ifname@lte**, 第二个LTE命名为 **ifname@lte2**, **[LTE网络管理](https://gitee.com/tiger7/doc/blob/master/com/ifname/lte.md)**   
+> - wan 连接组件, 第一个WAN命名为 **ifname@wan**, 第二个WAN命名为 **ifname@wan2**, **[WAN口管理](https://gitee.com/tiger7/doc/blob/master/com/ifname/wan.md)**   
+> - lan 连接组件, 第一个LAN命名为 **ifname@lan**, 第二个LAN命名为 **ifname@lan2**, **[LAN口管理](https://gitee.com/tiger7/doc/blob/master/com/ifname/lan.md)**   
+> - wisp 连接组件, 第一个WISP命名为 **ifname@wisp**, 第二个WISP命名为 **ifname@wisp2**, **[无线互联网管理](https://gitee.com/tiger7/doc/blob/master/com/ifname/wisp.md)**   
+> 
+> **clock** 项目, 时间管理   
+> - date 组件, 命名为 **clock@date**, **[时间管理](https://gitee.com/tiger7/doc/blob/master/com/clock/date.md)**    
+> - restart 组件, 命名为 **clock@restart**, **[重启计划管理](https://gitee.com/tiger7/doc/blob/master/com/clock/restart.md)**   
+> 
+> **wui** 项目, WEB服务   
+> - admin 组件, 命名为 **wui@admin**, **[WEB服务管理](https://gitee.com/tiger7/doc/blob/master/com/wui/admin.md)**   
+> 
+> **tui** 项目, 终端服务   
+> - ssh 组件, 命名为 **tui@ssh**, **[SSH服务管理](https://gitee.com/tiger7/doc/blob/master/com/tui/ssh.md)**    
+> - telnet 组件, 命名为 **tui@telnet**, **[TELNET服务管理](https://gitee.com/tiger7/doc/blob/master/com/tui/telnet.md)**   
+> 
+> **wifi** 项目, 所有802.11abgn/ac接口管理   
+> - nssid 组件, 第一个SSID(2.4G)命名为 **wifi@nssid**, 第二个SSID(2.4G)命名为 **wifi@nssid2**, **[2.4G无线热点管理](https://gitee.com/tiger7/doc/blob/master/com/wifi/nssid.md)**   
+> - assid 组件, 第一个SSID(5.8G)命名为 **wifi@assid**, 第二个SSID(5.8G)命名为 **wifi@assid2**, **[5.8G无线热点管理](https://gitee.com/tiger7/doc/blob/master/com/wifi/assid.md)**   
+> - nsta 组件, 命名为 **wifi@nsta**, **[2.4G网卡管理](https://gitee.com/tiger7/doc/blob/master/com/wifi/nsta.md)**   
+> - asta 组件, 命名为 **wifi@asta**, **[5.8G网卡管理](https://gitee.com/tiger7/doc/blob/master/com/wifi/asta.md)**   
+> - n 组件, 命名为 **wifi@n**, **[2.4G基带管理](https://gitee.com/tiger7/doc/blob/master/com/wifi/n.md)**   
+> - a 组件, 命名为 **wifi@a**, **[5.8G基带管理](https://gitee.com/tiger7/doc/blob/master/com/wifi/a.md)**   
+>
+> **modem** 项目, LTE/NR模块管理   
+> - lte 模块组件, 第一个LTE/NR模块命令为 **modem@lte**, 第二个LTE/NR模块命令为 **modem@lte2**, **[LTE模块管理](https://gitee.com/tiger7/doc/blob/master/com/modem/lte.md)**   
+>
+> **io** 项目, IO口管理   
+> - agent 组件, 命名为 **io@agent**, **[IO口管理](https://gitee.com/tiger7/doc/blob/master/com/io/agent.md)**   
+>
+> **gnss** 项目, 定位管理   
+> - nmea 组件, 命名为 **gnss@nmea**, **[GNSS定位管理](https://gitee.com/tiger7/doc/blob/master/com/gnss/nmea.md)**   
+>
+> **uart** 项目, UART管理   
+> - serial 组件, 第一个UART命令为 **uart@serial**, 第二个UART命令为 **uart@serial2**, **[串口管理](https://gitee.com/tiger7/doc/blob/master/com/uart/serial.md)**   
+>
+> **arch** 项目, 底层硬件相关的项目   
+> - gpio 组件, 命名为 **arch@gpio**, **[GPIO管理](https://gitee.com/tiger7/doc/blob/master/com/arch/gpio.md)**   
+> - ethernet 组件, 命名为 **arch@ethernet**, **[以太网管理](https://gitee.com/tiger7/doc/blob/master/com/arch/ethernet.md)**   
+> - pci 组件, 命名为 **arch@pci**, **[PCI设备管理](https://gitee.com/tiger7/doc/blob/master/com/arch/pci.md)**   
+> - usb 组件, 命名为 **arch@usb**, **[USB设备管理](https://gitee.com/tiger7/doc/blob/master/com/arch/usb.md)**   
+> - data 组件, 命名为 **arch@data**, **[数据管理](https://gitee.com/tiger7/doc/blob/master/com/arch/data.md)**   
+> - firmware 组件, 命名为 **arch@firmware**, **[固件管理](https://gitee.com/tiger7/doc/blob/master/com/arch/firmware.md)**   
 
-- ssh component, name it **tui@ssh**, **[SSH Server Management](https://gitee.com/tiger7/doc/blob/master/com/tui/ssh.md)**( SSH服务管理 )
-- telnet component, name it **tui@telnet**, **[Telnet Server Management](https://gitee.com/tiger7/doc/blob/master/com/tui/telnet.md)**( TELNET服务管理 )
-
-**wifi** project, all the 802.11abgn/ac interface
-
-- nssid component, first SSID(2.4G) name it **wifi@nssid**, second SSID(2.4G) name it **wifi@nssid2**, **[2.4G SSID Management](https://gitee.com/tiger7/doc/blob/master/com/wifi/nssid.md)**( 2.4G无线热点管理 )
-- assid component, first SSID(5.8G) name it **wifi@assid**, second SSID(5.8G) name it **wifi@assid2**, **[5.8G SSID Management](https://gitee.com/tiger7/doc/blob/master/com/wifi/assid.md)**( 5.8G无线热点管理 )
-- nsta component, name it **wifi@nsta**, **[2.4G Station Management](https://gitee.com/tiger7/doc/blob/master/com/wifi/nsta.md)**( 2.4G网卡管理 )
-- asta component, name it **wifi@asta**, **[5.8G Station Management](https://gitee.com/tiger7/doc/blob/master/com/wifi/asta.md)**( 5.8G网卡管理 )
-- n component, name it **wifi@n**, **[2.4G Radio Management](https://gitee.com/tiger7/doc/blob/master/com/wifi/n.md)**( 2.4G基带管理 )
-- a component, name it **wifi@a**, **[5.8G Radio Management](https://gitee.com/tiger7/doc/blob/master/com/wifi/a.md)**( 5.8G基带管理 )
-
-**modem** project, lte/nr modem
-
-- lte modem component, first LTE/NR modem name it **modem@lte**, second LTE/NR modem name it **modem@lte2**, **[LTE/NR Modem Management](https://gitee.com/tiger7/doc/blob/master/com/modem/lte.md)**( LTE模块管理 )
-
-**io** project, io management
-
-- agent component, name it **io@agent**, **[IO Management Agent](https://gitee.com/tiger7/doc/blob/master/com/io/agent.md)**( IO口管理 )
-
-**gnss** project, gps management
-
-- nmea component, name it **gnss@nmea**, **[GNSS NEMA Protocol Management](https://gitee.com/tiger7/doc/blob/master/com/gnss/nmea.md)**( GNSS定位管理 )
-
-**uart** project, uart management
-
-- serial component, first serial name it **uart@serial**, second serial name it **uart@serial2**, **[UART Management](https://gitee.com/tiger7/doc/blob/master/com/uart/serial.md)**( 串口管理 )
-
-**arch** project, Hardware related cross-platform components
-
-- gpio component, name it **arch@gpio**, **[Hardware GPIO Management](https://gitee.com/tiger7/doc/blob/master/com/arch/gpio.md)**( GPIO管理 )
-- ethernet component, name it **arch@ethernet**, **[Hardware Switch/Ethernet Management](https://gitee.com/tiger7/doc/blob/master/com/arch/ethernet.md)**( 以太网管理 )
-- pci component, name it **arch@pci**, **[Hardware PCI Management](https://gitee.com/tiger7/doc/blob/master/com/arch/pci.md)**( PCI设备管理 )
-- usb component, name it **arch@usb**, **[Hardware USB Management](https://gitee.com/tiger7/doc/blob/master/com/arch/usb.md)**( USB设备管理 )
-- data component, name it **arch@data**, **[Hardware Data/EEPROM Management](https://gitee.com/tiger7/doc/blob/master/com/arch/data.md)**( 数据管理 )
-- firmware component, name it **arch@firmware**, **[Firmware Management](https://gitee.com/tiger7/doc/blob/master/com/arch/firmware.md)**( 固件管理 )
 
 
+# Communicate with SkinOS
 
-# Communicate with SkinOS( 与网关交互 )
+## HE Command calls component API management gateway
 
-## HE Command calls component API management gateway( 命令行执行HE指令调用组件API管理网关 )
+#### 1. Login   
+Login to the gateway using TELNET or SSH or UART   
+> ##### 登录
+> 通过telnet/ssh/串口登陆到网关
 
-#### Login(登录)
-
-Login to the gateway using TELNET or SSH or UART( 通过telnet/ssh/串口登陆到网关 )
 ```
 dimmalex@HMS:~$ telnet 192.168.8.1
 Trying 192.168.8.1...
@@ -213,10 +283,13 @@ Password:
  -----------------------------------------------------------
 #
 ```
-*The account is the same as that on the WEB management page( 帐号与WEB管理帐号相同 )*
+
+*The account is the same as that on the WEB management page*
+> *帐号与WEB管理帐号相同*
 
 
-#### HE Command Calling component API, Example Query the configuration/status of component land@machine( 调用接口, 示例查询组件land@machine的配置和状态 )
+#### 2. HE Command Calling component API, Example Query the configuration/status of component land@machine   
+> ##### 调用接口, 示例查询组件land@machine的配置和状态
 
 ```json
 # land@machine                         /* HE Command show the gateway basic configure */
@@ -247,14 +320,15 @@ Password:
 # 
 ```
 
-**See this document for more command lines [HE command](https://gitee.com/tiger7/doc/blob/master/use/he_command.md)**
-**更多命令行介绍见此文档 [HE指令介绍](https://gitee.com/tiger7/doc/blob/master/use/he_command.md)**
+**See this document for more command lines [HE command](https://github.com/skinos7/doc/blob/master/use/he_command.md)**
+> **更多命令行介绍见此文档 [HE指令介绍](https://gitee.com/tiger7/doc/blob/master/use/he_command.md)**
 
 
 
-## TCP(JSON) calls component API management gateway( TCP协议调用组件API管理网关 )
+## TCP(JSON) calls component API management gateway
 
-Send commands after connecting to TCP port 22220, Example Query the configuration of component land@machine( 连接TCP端口22220后发送, 示例查询组件land@machine的配置 )
+Send commands after connecting to TCP port 22220, Example Query the configuration of component land@machine   
+> 连接TCP端口22220后发送, 示例查询组件land@machine的配置
 
 ```json
 
@@ -263,7 +337,8 @@ Send commands after connecting to TCP port 22220, Example Query the configuratio
 }
 ```
 
-Receive( 接收 )
+Receive   
+> 接收
 
 ```json
 {
@@ -279,7 +354,8 @@ Receive( 接收 )
 }
 ```
 
-Send commands after connecting to TCP port 22220, Example Query the status of component land@machine( 连接TCP端口22220后发送, 示例查询组件land@machine的状态 )
+Send commands after connecting to TCP port 22220, Example Query the status of component land@machine   
+> 连接TCP端口22220后发送, 示例查询组件land@machine的状态
 
 ```json
 {
@@ -287,7 +363,8 @@ Send commands after connecting to TCP port 22220, Example Query the status of co
 }
 ```
 
-Receive( 接收 )
+Receive   
+> 接收
 
 ```json
 {
@@ -310,21 +387,24 @@ Receive( 接收 )
 }
 ```
 
-
-**See this document for more JSON-TCP protocol [TCP(JSON) Protocol](https://gitee.com/tiger7/doc/blob/master/protocol/localport_protocol.md)**
-**更多JSON-TCP协议介绍见此文档 [TCP(JSON)协议](https://gitee.com/tiger7/doc/blob/master/protocol/localport_protocol.md)**
-
+**See this document for more JSON-TCP protocol [TCP(JSON) Protocol](https://github.com/skinos7/doc/blob/master/protocol/localport_protocol.md)**   
+> **更多JSON-TCP协议介绍见此文档 [TCP(JSON)协议](https://gitee.com/tiger7/doc/blob/master/protocol/localport_protocol.md)**
 
 
-## HTTP(JSON) calls component API management gateway( HTTP协议调用组件API管理网关 )
 
-#### Login(登录)
+## HTTP(JSON) calls component API management gateway
 
+#### 1. Login   
 Method: POST
 URL: http://GatewayIP:GatewayPORT/action/login
-Content: username=XXXXXXX&password=XXXXXXX
+Content: username=XXXXXXX&password=XXXXXXX   
+> ##### 登录
+> 方法: POST
+> URL: http://GatewayIP:GatewayPORT/action/login
+> 内容: username=XXXXXXX&password=XXXXXXX
 
-1. Use username: admin password:admin to login and get the cookies( 使用用户名admin密码admin登录并获取cookies )
+Use username: admin password:admin to login and get the cookies   
+> 使用用户名admin密码admin登录并获取cookies
 
 ```
 dimmalex@HMS:~$ curl -XPOST http://192.168.8.1/action/login -d'username=admin&password=admin' -c ./gateway.cookies
@@ -334,7 +414,8 @@ dimmalex@HMS:~$ curl -XPOST http://192.168.8.1/action/login -d'username=admin&pa
 </body></html>
 ```
 
-2. Receive on success( 成功时接收 )
+Receive on success   
+> 成功时接收
 
 ```
 <html><head></head><body>
@@ -343,7 +424,8 @@ dimmalex@HMS:~$ curl -XPOST http://192.168.8.1/action/login -d'username=admin&pa
 </body></html>
 ```
 
-3. Receive on failure( 失败时接收 )
+Receive on failure   
+> 失败时接收
 
 ```
 <html><head></head><body>
@@ -352,19 +434,24 @@ dimmalex@HMS:~$ curl -XPOST http://192.168.8.1/action/login -d'username=admin&pa
 </body></html>
 ```
 
-##### POST the HE command( Calling component API )( 调用接口, 示例查询组件land@machine的配置 )
-
+#### 2. POST the HE command( Calling component API )
 POST the HE command to /action/he, the Content format is:
+> ##### 调用接口, 示例查询组件land@machine的配置
+> POST HE指令到/action/he, POST格式如下:
+
 ```
 &he=UrlEncode(Base64(HE Command))&he2=UrlEncode(Base64(HE Command2))&&he2=UrlEncode(Base64(HE Command3))...
 ```
 
 
-##### Example Query the configuration of component land@machine( 调用接口, 示例查询组件land@machine的配置 )
-
+#### 3. Example Query the configuration of component land@machine   
 Method: POST
 URL: http://GatewayIP:GatewayPORT/action/he
-Content: &he=UrlEncode(Base64(land@machine))
+Content: &he=UrlEncode(Base64(land@machine))   
+> ##### 调用接口, 示例查询组件land@machine的配置
+> 方法: POST
+> URL: http://GatewayIP:GatewayPORT/action/he
+> 内容: &he=UrlEncode(Base64(land@machine))   
 
 ```
 dimmalex@HMS:~$ curl -XPOST http://192.168.8.1/action/he -d'&he=bGFuZEBtYWNoaW5l' -b ./gateway.cookies
@@ -373,28 +460,31 @@ dimmalex@HMS:~$
 
 ```
 
-Receive( 接收 )
+Receive   
+> 接收   
 
 ```
 eyJoZSI6eyJtb2RlIjoibWlzcCIsIm5hbWUiOiJMVEUmTlItR2F0ZXdheSIsIm1hYyI6IjAwOjAzOjdGOjEyOjAwOjA4IiwibWFjaWQiOiIwMDAzN0YxMjAwMDgiLCJsYW5ndWFnZSI6ImVuIiwiY2ZndmVyc2lvbiI6IjgifX0=通
 ```
 
-Receive( 接收 ) and base64 decode
+Receive and base64 decode   
+> 接收并使用base64解码   
 
 ```
 {"he":{"mode":"misp","name":"LTE&NR-Gateway","mac":"00:03:7F:12:00:08","macid":"00037F120008","language":"en","cfgversion":"8"}}
 
 ```
 
-Got this( 最终得到 )
+Got this   
+> 最终得到   
 
 ```
 {"mode":"misp","name":"LTE&NR-Gateway","mac":"00:03:7F:12:00:08","macid":"00037F120008","language":"en","cfgversion":"8"}
 ```
 
+**See this document for more command lines [HE command](https://github.com/skinos7/doc/blob/master/use/he_command.md)**
+> **更多命令行介绍见此文档 [HE指令介绍](https://gitee.com/tiger7/doc/blob/master/use/he_command.md)**
 
-**See this document for more command lines [HE command](https://gitee.com/tiger7/doc/blob/master/use/he_command.md)**
-**更多命令行介绍见此文档 [HE指令介绍](https://gitee.com/tiger7/doc/blob/master/use/he_command.md)**
 
 
 ---
@@ -478,7 +568,8 @@ In the gateway web page management interface, **System => Software => Upgrade** 
 
 
 ---
-
+---
+---
 
 
 # 项目的开发指导
