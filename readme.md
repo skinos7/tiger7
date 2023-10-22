@@ -251,8 +251,10 @@ The following figure describes common project and component interfaces of gatewa
 
 #### 1. Login   
 Login to the gateway using TELNET or SSH or UART   
+*The account is the same as that on the WEB management page*   
 > ##### 登录
 > 通过telnet/ssh/串口登陆到网关
+> *帐号与WEB管理帐号相同*
 
 ```
 dimmalex@HMS:~$ telnet 192.168.8.1
@@ -282,10 +284,8 @@ Password:
  <com>:<config>=<value> -- Set component configure attribute
  -----------------------------------------------------------
 #
-```
+```   
 
-*The account is the same as that on the WEB management page*
-> *帐号与WEB管理帐号相同*
 
 
 #### 2. HE Command Calling component API, Example Query the configuration/status of component land@machine   
@@ -318,7 +318,7 @@ Password:
     "cfgversion":"8"
 }
 # 
-```
+```   
 
 **See this document for more command lines [HE command](https://github.com/skinos7/doc/blob/master/use/he_command.md)**
 > **更多命令行介绍见此文档 [HE指令介绍](https://gitee.com/tiger7/doc/blob/master/use/he_command.md)**
@@ -385,7 +385,7 @@ Receive
         "cfgversion":"8"
     }
 }
-```
+```   
 
 **See this document for more JSON-TCP protocol [TCP(JSON) Protocol](https://github.com/skinos7/doc/blob/master/protocol/localport_protocol.md)**   
 > **更多JSON-TCP协议介绍见此文档 [TCP(JSON)协议](https://gitee.com/tiger7/doc/blob/master/protocol/localport_protocol.md)**
@@ -436,8 +436,8 @@ Receive on failure
 
 #### 2. POST the HE command( Calling component API )
 POST the HE command to /action/he, the Content format is:
-> ##### 调用接口, 示例查询组件land@machine的配置
-> POST HE指令到/action/he, POST格式如下:
+> ##### 调用接口
+> POST HE指令 到/action/he, POST格式如下:
 
 ```
 &he=UrlEncode(Base64(HE Command))&he2=UrlEncode(Base64(HE Command2))&&he2=UrlEncode(Base64(HE Command3))...
@@ -472,7 +472,6 @@ Receive and base64 decode
 
 ```
 {"he":{"mode":"misp","name":"LTE&NR-Gateway","mac":"00:03:7F:12:00:08","macid":"00037F120008","language":"en","cfgversion":"8"}}
-
 ```
 
 Got this   
@@ -491,29 +490,34 @@ Got this
 
 
 
-# SkinOS SDK download and compile( SDK下载 )
+# SkinOS SDK download and compile
 
-#### 1. Development environment download( 开发环境下载 )
+#### 1. Development environment download   
+Under Ubuntu ( 20.04 or 18.04 recommended ) run the following command to download the development environment ( please install git and make first )   
+> #### 开发环境下载
+> 在Ubuntu下（ 建议使用20.04或18.04 ）执行以下命令下载开发环境( 请先安装git及make )
 
-Under Ubuntu ( 20.04 or 18.04 recommended ) run the following command to download the development environment ( please install git and make first )
-在Ubuntu下（ 建议使用20.04或18.04 ）执行以下命令下载开发环境( 请先安装git及make )
-
-```shell
-git clone https://gitee.com/tiger7/tiger7.git
-```
-*Or download it from github*
 ```shell
 git clone https://github.com/skinos7/tiger7.git
 ```
 
-#### 2. Install the necessary development tools( 安装开发工具 )
+*Or download it from gitee*
+> *或者从gitee上下载*
+
+```shell
+git clone https://gitee.com/tiger7/tiger7.git
+```
+
+#### 2. Install the necessary development tools   
+> #### 安装开发工具
 
 ```shell
 cd tiger7
 make ubuntu_preset
 ```
 
-#### 3. Specify the product model to be developed( 指定产品型号 )
+#### 3. Specify the product model to be developed   
+> #### 指定产品型号
 
 ```shell
 make pid gBOARDID=<Product complete model>
@@ -532,36 +536,39 @@ make pid gBOARDID=mtk2-mt7621-d228p
 
 ```
 
-#### 4. Download the SDK corresponding to the product model( 下载产品型号对应的SDK )
+#### 4. Download the SDK corresponding to the product model   
+> #### 下载产品型号对应的SDK
 
 ```shell
 make update
 ```
 
-#### 5. Update the application menu( 更新软件菜单 )
+#### 5. Update the application menu   
+> #### 更新软件菜单
 
 ```shell
 make menu
 make menuconfig
 ```  
 ***Note: Save and exit directly when show the menu***
-***注意: 显示菜单后直接退出并保存即可***
+> ***注意: 显示菜单后直接退出并保存即可***
 
-#### 6. Compile gateway firmware( 编译网关固件 )
+#### 6. Compile gateway firmware   
+> #### 编译网关固件
 
 ```shell
 make dep
 make
 ```
-After 2 to 5 hours, the gateway firmware upgrade package ending in **.zz** will be generated in the tiger7/build directory
-等待大约2至5个小时后会在tiger7/build目录下生成以 **.zz** 结尾的网关固件升级包
+After 2 to 5 hours, the gateway firmware upgrade package ending in **.zz** will be generated in the tiger7/build directory   
+> 等待大约2至5个小时后会在tiger7/build目录下生成以 **.zz** 结尾的网关固件升级包
 
 
 
-#### 7. Upgrade the firmware to the gateway( 将固件升级到网关 )
-
-In the gateway web page management interface, **System => Software => Upgrade** Click the firmware that ending in **.zz** to upgrading
-在网关网页管理界面中的 **系统=>软件管理=>软件更新** 来点选.zz结尾的固件升级包来升级固件
+#### 7. Upgrade the firmware to the gateway   
+In the gateway web page management interface, **System => Software => Upgrade** Click the firmware that ending in **.zz** to upgrading   
+> #### 将固件升级到网关
+> 在网关网页管理界面中的 **系统=>软件管理=>软件更新** 来点选.zz结尾的固件升级包来升级固件
 
 ![avatar](./upgrade.png)
 
@@ -570,9 +577,13 @@ In the gateway web page management interface, **System => Software => Upgrade** 
 ---
 ---
 ---
+---
+---
+---
+---
 
 
-# 项目的开发指导
+# 项目的开发指导--- 正在编写中
 
 - **[项目及组件开发](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)**
 介绍及演示SkinSDK **项目(project)** 开发步骤, 并以示例的方式演示如何开发一个功能
