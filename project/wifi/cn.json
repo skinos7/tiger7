@@ -194,6 +194,7 @@
 	"tkipaes":"自动",
 	"Password":"密码",
 	"Hidden SSID":"隐藏的SSID",
+	"Disable Local SSID":"成功后关闭本地SSID",
 
 	"AP List":"热点列表",
 	"Channel":"信道",

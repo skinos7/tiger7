@@ -28,6 +28,7 @@ Usually ifname@wisp is the first WISP(2.4G) network. If there are multiple WISP 
                                                             // [ tkip ] for TKIP
                                                             // [ tkipaes ] for auto
     "wpa_key":"WPA key",                   // [ string ], The value is a string of at least 8 characters. This parameter is mandatory if the "secure" is wpapsk/wpa2psk/wpapskwpa2psk
+    "ssid_disable":"disable the ssid",     // [ "disable", "enable" ], disable the local ssid when connected
 
     // IPv4
     "tid":"table identify number",         // [ number ] exclusive route table ID, only for multiple WAN
