@@ -145,6 +145,11 @@
                 </div>
             </div>
         </div>
+        <!-- Disable local SSID -->
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Disable Local SSID"></label>
+            <div class="col-sm-9"><label><input id="ssid_disable" class="ace ace-switch ace-switch-6" type="checkbox" /><span class="lbl"></span></label></div>
+        </div>
 
 
 
@@ -820,6 +825,7 @@
         $('#secure').val( wan.secure || 'disable' );
         $('#wpa_encrypt').val( wan.wpa_encrypt || 'tkipaes' );
         $('#wpa_key').val( wan.wpa_key || '' );
+        $('#ssid_disable').prop( 'checked', wan.ssid_disable=="enable" );
         $('#secure').unbind('change').change(function (e) {
             var secure = e.target.value;
             if ( secure === 'disable' )
@@ -1173,6 +1179,7 @@
               return;
           }
       }
+      wan.ssid_disable = boole2able( $('#ssid_disable').prop('checked') );
       delete wan.peermode;
       delete wan.channel;
       if ( $('#hidden').prop('checked') )

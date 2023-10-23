@@ -363,6 +363,7 @@ boole_t _up( obj_t this, param_t param )
 	const char *secure;
 	const char *wpa_encrypt;
 	const char *wpa_key;
+	const char *ssid_disable;
 	char path[PATH_MAX];
 
 	obj = obj_com( this );
@@ -449,6 +450,7 @@ boole_t _up( obj_t this, param_t param )
 		secure = json_string( value, "secure" );
 		wpa_encrypt = json_string( value, "wpa_encrypt" );
 		wpa_key = json_string( value, "wpa_key" );
+		ssid_disable = json_string( value, "ssid_disable" );
 		/* save the configure */
 		register_set( object, "peer", peer, stringlen(peer)+1, 40 );
 		register_set( object, "peer2", peer2, stringlen(peer2)+1, 40 );
@@ -462,6 +464,7 @@ boole_t _up( obj_t this, param_t param )
 		register_set( object, "secure", secure, stringlen(secure)+1, 20 );
 		register_set( object, "wpa_encrypt", wpa_encrypt, stringlen(wpa_encrypt)+1, 20 );
 		register_set( object, "wpa_key", wpa_key, stringlen(wpa_key)+1, 200 );
+		register_set( object, "ssid_disable", ssid_disable, stringlen(ssid_disable)+1, 20 );
 		/* up the device */
 		sstart( object, "wpa", NULL, "%s-wpa", netdev );
 		sstart( object, "keeplive", NULL, "%s-keeplive", netdev );
@@ -1187,6 +1190,7 @@ boole_t _relayd( obj_t this, param_t param )
 boole_t _keeplive( obj_t this, param_t param )
 {
 	int i;
+	int s;
 	talk_t v;
     const char *obj;
 	const char *radio;
@@ -1194,6 +1198,7 @@ boole_t _keeplive( obj_t this, param_t param )
 	const char *netdev;
 	const char *ifname;
 	const char *channel;
+	const char *ssid_disable;
 
 	obj = obj_com( this );
 	if ( 0 == strcmp( obj, COM_ID ) )
@@ -1216,6 +1221,8 @@ boole_t _keeplive( obj_t this, param_t param )
 	}
 	/* get the ifname */
 	ifname = register_value( object, "ifname" );
+	/* get the ssid_disable */
+	ssid_disable = register_value( object, "ssid_disable" );
 
 start:
     /* first check */
@@ -1251,7 +1258,7 @@ start:
 #endif
 
 	/* check and check forever */
-	i = 0;
+	s = i = 0;
 	while( 1 )
 	{
 		if ( station_dev_connected( object, netdev ) == 0 )
@@ -1262,6 +1269,25 @@ start:
 				debug( "%s(%s) is connected", object, netdev );
 			}
 			sleep( 5 );
+			s++;
+			if ( s == 36 )
+			{
+				/* disable the ssid when enable */
+				if ( ssid_disable != NULL && 0 == strcmp( ssid_disable, "enable" ) )
+				{
+					info(  "%s(%s) connection connected disable the local SSID", object, netdev );
+					if ( 0 == strcmp( object, NSTA_COM ) )
+					{
+						scalls( NSSID_COM, "shut", NULL );
+						scalls( NSSID2_COM, "shut", NULL );
+					}
+					else if ( 0 == strcmp( object, ASTA_COM ) )
+					{
+						scalls( ASSID_COM, "shut", NULL );
+						scalls( ASSID2_COM, "shut", NULL );
+					}
+				}
+			}
 		}
 		else
 		{

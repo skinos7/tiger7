@@ -19,7 +19,11 @@
         "20220915":"add the dns/auto keeplive for lte/wan, modify the default keeplive to auto on lte",
         "20220917":"fix the portal show webpage bug",
         "20220918":"add the buffer post GPS function",
-        "20220919":"add the mt5710 and modify the fm150/fm650 signal bug"
+        "20220919":"add the mt5710 and modify the fm150/fm650 signal bug",
+        "20220921":"separate remote management into two webpage( Remote agent/local control )",
+        "20220922":"local control add the port/manager settings",
+        "20220923":"local control add the command type",
+        "20220924":"wisp/sta can select the disable the SSID on same radio after connect succeed"
     },
     "v7.3.0713":
     {
