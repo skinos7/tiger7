@@ -373,7 +373,7 @@ Receive
 }
 ```   
 
-**See this document for more JSON-TCP protocol [TCP(JSON) Protocol](https://github.com/skinos7/doc/blob/master/protocol/localport_protocol.md)**   
+**See this document for more JSON-TCP protocol [TCP(JSON) Protocol](https://github.com/skinos7/doc/blob/master/protocol/localport_protocol_en.md)**   
 > **更多JSON-TCP协议介绍见此文档 [TCP(JSON)协议](https://gitee.com/tiger7/doc/blob/master/protocol/localport_protocol.md)**
 
 
