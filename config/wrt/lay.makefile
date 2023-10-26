@@ -19,7 +19,7 @@ fpk_distinct:
 	list=`ls`; \
 	for i in $${list}; do \
 		if [ -f ${gPROJECT_DIR}/$$i/${gPROJECT_INF} ]; then \
-			rm -fr $(gBUILD_DIR)/$$i-*.fpk; \
+			rm -fr $(gBUILD_DIR)/*$$i-*.fpk; \
 		fi \
 	done;
 	if [ -d ${gRICE_DIR} ]; then \
@@ -27,7 +27,7 @@ fpk_distinct:
 		list=`ls`; \
 		for i in $${list}; do \
 			if [ -f ${gRICE_DIR}/$$i/prj.json ]; then \
-				rm -fr $(gBUILD_DIR)/$$i-*.fpk; \
+				rm -fr $(gBUILD_DIR)/*$$i-*.fpk; \
 			fi \
 		done; \
 	fi
@@ -36,7 +36,7 @@ fpk_distinct:
 	list="arch pdriver"; \
 	for i in $${list}; do \
 		if [ -f ${gPLATFORM_DIR}/$$i/Makefile ]; then \
-			rm -fr $(gBUILD_DIR)/$$i-*.fpk; \
+			rm -fr $(gBUILD_DIR)/*$$i-*.fpk; \
 		fi \
 	done
 

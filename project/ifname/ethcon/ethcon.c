@@ -506,7 +506,7 @@ boole_t _service( obj_t this, param_t param )
 		fault( "cannot found %s configure", object );
     	return terror;
     }
-	failed_timeout = 60;
+	failed_timeout = 45;
 	failed_threshold = 3;
 	failed_threshold2 = 15;
 	failed_everytime = 24;

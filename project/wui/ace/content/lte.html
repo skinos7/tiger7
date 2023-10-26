@@ -136,12 +136,22 @@
             </select>
           </div>
         </div>
-        <!-- GPS -->
+        <!-- GNSS -->
         <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" data-i18n="GPS"></label>
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="GNSS"></label>
           <div class="col-sm-9">
             <label>
               <input id="gnss" class="ace ace-switch ace-switch-6" type="checkbox" />
+              <span class="lbl"></span>
+            </label>
+          </div>
+        </div> 
+        <!-- AT Port -->
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="AT Port"></label>
+          <div class="col-sm-9">
+            <label>
+              <input id="atport" class="ace ace-switch ace-switch-6" type="checkbox" />
               <span class="lbl"></span>
             </label>
           </div>
@@ -740,6 +750,14 @@
         {
             $('#gnss').prop('checked',  false );
         }
+        if ( lte.atport && lte.atport == "enable" )
+        {
+            $('#atport').prop('checked',  true );
+        }
+        else
+        {
+            $('#atport').prop('checked',  false );
+        }
 
         /* profile */
         if ( lte.profile == "enable" )
@@ -1065,6 +1083,14 @@
       else
       {
         lte.gnss = "disable";
+      }
+      if ( $('#atport').prop('checked') == true )
+      {
+        lte.atport = "enable";
+      }
+      else
+      {
+        lte.atport = "disable";
       }
 
       /* profile */

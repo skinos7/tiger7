@@ -1,5 +1,5 @@
 {
-    "v7.3.0920":
+    "v7.3.1001":
     {
         "20220810":"fix lte webpage crack on load",
         "20220811":"add the sensor/indicator/i2cdrv/modbusdrv project to support many type sensor",
@@ -23,7 +23,13 @@
         "20220921":"separate remote management into two webpage( Remote agent/local control )",
         "20220922":"local control add the port/manager settings",
         "20220923":"local control add the command type",
-        "20220924":"wisp/sta can select the disable the SSID on same radio after connect succeed"
+        "20220924":"wisp/sta can select the disable the SSID on same radio after connect succeed",
+        "20220925":"add the modem at port agent",
+        "20220926":"modify the default osd flush up to 15 second",
+        "20220927":"power off module wait 5 seconds, it was 2 seconds",
+        "20220928":"wan/wisp connection timeout default wait 45 seconds, it was 60 seconds",
+        "20220929":"fix the internal/config cannot show when df -h not support",
+        "20220930":"fix the syslog cannot save to internal part"
     },
     "v7.3.0713":
     {
