@@ -29,7 +29,10 @@
         "20220927":"power off module wait 5 seconds, it was 2 seconds",
         "20220928":"wan/wisp connection timeout default wait 45 seconds, it was 60 seconds",
         "20220929":"fix the internal/config cannot show when df -h not support",
-        "20220930":"fix the syslog cannot save to internal part"
+        "20220930":"fix the syslog cannot save to internal part",
+        "20220931":"modify the beacon on mt7628 default to 300ms and apsta both",
+        "20220932":"fix the can factory upgradp on broadcast command be query",
+        "20220933":"modify ap scan delay 4 to 8 second ascending"
     },
     "v7.3.0713":
     {
