@@ -411,14 +411,22 @@ talk_t _status( obj_t this, param_t param )
 	if ( com_sexist( ifdev, "state" ) == true )
 	{
 		v = scalls( ifdev, "state", object );
-		talk_patch( v, ret );
-		ptr = json_string( v, "state" );
-		if ( ptr != NULL && 0 != strcmp( ptr, "connect" ) && 0 != strcmp( ptr, "up" ) )
-		{
-			json_set_string( ret, "status", ptr );
-		}
-		talk_free( v );
-	}
+        if ( v > TALK_ECODEMAX )
+        {
+            ptr = json_string( ret, "netdev" );
+            if ( ptr != NULL && *ptr != '\0' )
+            {
+                json_delete_axp( v, "netdev" );
+            }
+            talk_patch( v, ret );
+            ptr = json_string( v, "state" );
+            if ( ptr != NULL && 0 != strcmp( ptr, "connect" ) && 0 != strcmp( ptr, "up" ) )
+            {
+                json_set_string( ret, "status", ptr );
+            }
+            talk_free( v );
+        }
+    }
     return ret;
 }
 

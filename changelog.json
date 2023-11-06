@@ -1,5 +1,5 @@
 {
-    "v7.3.1001":
+    "v7.3.1005":
     {
         "20220810":"fix lte webpage crack on load",
         "20220811":"add the sensor/indicator/i2cdrv/modbusdrv project to support many type sensor",
@@ -32,7 +32,10 @@
         "20220930":"fix the syslog cannot save to internal part",
         "20220931":"modify the beacon on mt7628 default to 300ms and apsta both",
         "20220932":"fix the can factory upgradp on broadcast command be query",
-        "20220933":"modify ap scan delay 4 to 8 second ascending"
+        "20220933":"modify ap scan delay 4 to 8 second ascending",
+        "20221002":"fix the Country be US auto channnal select the 12/13",
+        "20221004":"fix the ltecon/ethcon netdev wrong",
+        "20221005":"fix upgrade online bug for std scope release"
     },
     "v7.3.0713":
     {

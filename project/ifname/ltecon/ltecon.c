@@ -667,6 +667,11 @@ talk_t _status( obj_t this, param_t param )
 		v = scalls( ifdev, "state", object );
 		if ( v > TALK_ECODEMAX )
 		{
+            ptr = json_string( ret, "netdev" );
+            if ( ptr != NULL && *ptr != '\0' )
+            {
+                json_delete_axp( v, "netdev" );
+            }
 			talk_patch( v, ret );
 			ptr = json_string( v, "state" );
 			if ( ptr != NULL && 0 != strcmp( ptr, "connected" ) )
