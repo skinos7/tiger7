@@ -1,5 +1,5 @@
 {
-    "v7.3.1005":
+    "v7.3.1009":
     {
         "20220810":"fix lte webpage crack on load",
         "20220811":"add the sensor/indicator/i2cdrv/modbusdrv project to support many type sensor",
@@ -35,7 +35,11 @@
         "20220933":"modify ap scan delay 4 to 8 second ascending",
         "20221002":"fix the Country be US auto channnal select the 12/13",
         "20221004":"fix the ltecon/ethcon netdev wrong",
-        "20221005":"fix upgrade online bug for std scope release"
+        "20221005":"fix upgrade online bug for std scope release",
+        "20221006":"add the gnss reboot option for no data",
+        "20221007":"fix the gnss reboot unit wrong on webpage",
+        "20221008":"fix the custom snmp oid cannot work",
+        "20221009":"fix sms to support > for component gap"
     },
     "v7.3.0713":
     {
