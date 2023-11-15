@@ -606,6 +606,18 @@ static void option_instat_callback(struct urb *urb);
 /* Device needs ZLP */
 #define ZLP		BIT(17)
 
+/* add by dimmalex for fibocom l710  */
+#define FIBOCOM_USB_VENDOR_AND_INTERFACE_INFO(vend, cl, sc, pr) \
+        .match_flags = USB_DEVICE_ID_MATCH_INT_INFO | USB_DEVICE_ID_MATCH_VENDOR, \
+        .idVendor = (vend), \
+        .bInterfaceClass = (cl), \
+        .bInterfaceSubClass = (sc), \
+        .bInterfaceProtocol = (pr)
+
+/* add by dimmalex for MT5710 */
+#define TDTECH_VENDOR_ID 0x3466
+
+
 
 static const struct usb_device_id option_ids[] = {
 
@@ -616,17 +628,219 @@ static const struct usb_device_id option_ids[] = {
 
     
 
+    /* add by dimmalex for gosuncn GM800 */
+    { USB_DEVICE(0x305A, 0x1421), .driver_info = RSVD(3)|RSVD(4)|RSVD(5) }, // Gosuncn GM800
+    //{ USB_DEVICE(0x305A, 0x1406), .driver_info = RSVD(3)|RSVD(4)|RSVD(5) }, // Gosuncn GM800
+    { USB_DEVICE(0x305A, 0x1403), .driver_info = RSVD(3)|RSVD(4)|RSVD(5) }, // Gosuncn GM800
+    { USB_DEVICE(0x3763, 0x3C93) }, // Gosuncn GM510
+
+
+
+    /* add by dimmalex for meiglink slm730 */
+    { USB_DEVICE(0x05C6, 0xF601), .driver_info = RSVD(4)|RSVD(5) }, // forge slm730
+
+
+
+    /* add by dimmalex for yuga clm920/meiglink slm750  */
+    { USB_DEVICE(0x05C6, 0x9025), .driver_info = RSVD(4) },
+
+
+    /* add by dimmalex for xinyi m710a-s  */
+    { USB_DEVICE(0x05C6, 0x5013), .driver_info = RSVD(4) },
+
+
+
+    /* add by dimmalex for longsung u8300 */
+    { USB_DEVICE(0x1C9E, 0x9B05), .driver_info = RSVD(4) },
+    { USB_DEVICE(0x1C9E, 0x9B3C), .driver_info = RSVD(4) },
+
+
+
+    /* add by dimmalex for simcom sim7600/sim8200 */
+    { USB_DEVICE(0x05C6, 0x90DB), .driver_info = RSVD(2)|RSVD(3)|RSVD(4)|RSVD(5) },
+    { USB_DEVICE(0x1E0E, 0x9001), .driver_info = RSVD(5)|RSVD(6) },
+	//{ USB_DEVICE_INTERFACE_CLASS( 0x1E0E, 0x9011, 0xff), .driver_info = RSVD(7) },
+
+
+
+    /* add by dimmalex for chinamoblie m8321 */
+	{ USB_DEVICE_AND_INTERFACE_INFO(ZTE_VENDOR_ID, 0x0532, 0xff, 0xff, 0xff) },
+	{ USB_DEVICE_AND_INTERFACE_INFO(ZTE_VENDOR_ID, 0x0536, 0xff, 0xff, 0xff) },
+	{ USB_DEVICE_AND_INTERFACE_INFO(ZTE_VENDOR_ID, 0x0542, 0xff, 0xff, 0xff) },
+	{ USB_DEVICE_AND_INTERFACE_INFO(ZTE_VENDOR_ID, 0x0573, 0xff, 0xff, 0xff) },
+	{ USB_DEVICE_AND_INTERFACE_INFO(ZTE_VENDOR_ID, 0x0579, 0xff, 0xff, 0xff) },
+
+
+
+    /* add by dimmalex for uCloudlink m2 */
+	{ USB_DEVICE_AND_INTERFACE_INFO(0x1782, 0x5D22, 0xff, 0x00, 0x00), .driver_info = RSVD(3) },
+
+
+
+    /* add by dimmalex for Innofidei E7B01 */
+	{ USB_DEVICE_AND_INTERFACE_INFO(0x1d53, 0x3d53, 0x2, 0x2, 0x1) },
+	{ USB_DEVICE_AND_INTERFACE_INFO(0x1d53, 0xd00d, 0x2, 0x2, 0x1) },
+
+
+    
+    /* add by dimmalex for fibocom l710  */
+    { FIBOCOM_USB_VENDOR_AND_INTERFACE_INFO(0x2CB7, 0xff, 0xff, 0xff) },
+    { FIBOCOM_USB_VENDOR_AND_INTERFACE_INFO(0x2CB7, 0x0a, 0x00, 0xff) },
+    { USB_DEVICE_AND_INTERFACE_INFO(0x19D2, 0x0256, 0xff, 0xff, 0xff) },
+    // { USB_DEVICE_AND_INTERFACE_INFO(0x19D2, 0x0579, 0xff, 0xff, 0xff) },  comment beacuse already add in chinamoblie m8321
+
+
+
+    /* add by dimmalex for fibocom l610  */
+    //{ USB_DEVICE(0x1782, 0x4d11), .driver_info = RSVD(4) },
+    //{ USB_DEVICE(0x1782, 0x4d10), .driver_info = RSVD(4) },
+
+
+
+    /* add by dimmalex for ZTE ME3760/thinkwill ML7810 */
+	//{ USB_DEVICE(0x19D2, 0x0199) },
+
+
+
+    /* add by dimmalex TD Tech Em250/EM350 */
+    { USB_DEVICE(HUAWEI_VENDOR_ID, 0x1506) },
+    //{ USB_DEVICE(HUAWEI_VENDOR_ID, 0x1C05) },
+
+
+
     /* add by dimmalex for EC200(0x2c7c) */
 	{ USB_DEVICE(0x02c7c, 0x6005) },
     /* add by dimmalex for EC20(0x05c6) */
-	{ USB_DEVICE(0x05c6, 0x9215) },
-    /* add by dimmalex for EC20(0x2c7c) */
 	{ USB_DEVICE(0x05c6, 0x9215) },
     /* add by dimmalex for EC20(0x2c7c) */
 	{ USB_DEVICE(0x2C7C, 0x0121) },
 	{ USB_DEVICE(0x2C7C, 0x0125) },
     /* add by dimmalex for RM500U(0x2c7c) */
     { USB_DEVICE_AND_INTERFACE_INFO(0x2C7C, 0x0900, 0xff, 0x00, 0x00) }, /* Quectel RM500U/RG200U/RX500U */  
+
+
+
+    // add by dimmalex for Fibcom begin
+	{ USB_DEVICE(0x2CB7, 0x0107) },
+	{ USB_DEVICE(0x2CB7, 0x0108) },
+	{ USB_DEVICE(0x2CB7, 0x0109), .driver_info = RSVD(2)|RSVD(3)|RSVD(4)|RSVD(5)|RSVD(6) },
+    { USB_DEVICE(0x2CB7, 0x0110), .driver_info = RSVD(2) },                       // FM150
+	{ USB_DEVICE(0x2CB7, 0x0A05), .driver_info = RSVD(0)|RSVD(1)|RSVD(6) },   // FM650
+	{ USB_DEVICE(0x1508, 0x1001), .driver_info = RSVD(4)|RSVD(5)|RSVD(6)  },    // Fibocom NL668 (IOT version)
+
+	/*Added by Fibocom 2020-03-12 */
+	{ USB_DEVICE(0x1782, 0x4028), .driver_info = RSVD(0)|RSVD(1)|RSVD(2) },
+	{ USB_DEVICE(0x1782, 0x4030), .driver_info = RSVD(0)|RSVD(1)|RSVD(2) },
+	{ USB_DEVICE(0x1782, 0x4032), .driver_info = RSVD(0)|RSVD(1)|RSVD(2) },
+	{ USB_DEVICE(0x1782, 0x4033), .driver_info = RSVD(0)|RSVD(1)|RSVD(4) },
+	{ USB_DEVICE(0x1782, 0x4D00) },
+
+	//for Fibocom FG621-EA
+	{ USB_DEVICE(0x2CB7, 0x0A04), .driver_info = RSVD(0)|RSVD(1)|RSVD(5) },
+	//{ USB_DEVICE(0x2CB7, 0x0A05), .driver_info = RSVD(0)|RSVD(1)|RSVD(6) },  comment beacuse already add in FM650
+	{ USB_DEVICE(0x2CB7, 0x0A06), .driver_info = RSVD(0)|RSVD(1)|RSVD(6) },
+	{ USB_DEVICE(0x2CB7, 0x0A07), .driver_info = RSVD(0)|RSVD(1)|RSVD(6) },
+	//End of changing by Fibocom 2020-03-12
+
+
+    
+	//for MT5710 add by dimmalex
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x01, 0x03) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x01, 0x06) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x01, 0x0A) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x01, 0x0B) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x01, 0x0E) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x01, 0x10) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x01, 0x12) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x01, 0x13) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x01, 0x14) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x01, 0x15) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x01, 0x18) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x01, 0x19) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x01, 0x1A) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x01, 0x1B) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x01, 0x1C) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x01, 0x1D) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x02, 0x03) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x02, 0x06) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x02, 0x0A) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x02, 0x0B) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x02, 0x0E) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x02, 0x10) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x02, 0x12) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x02, 0x13) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x02, 0x14) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x02, 0x15) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x02, 0x18) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x02, 0x19) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x02, 0x1A) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x02, 0x1B) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x02, 0x1C) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x02, 0x1D) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x03, 0x03) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x03, 0x06) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x03, 0x0A) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x03, 0x0B) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x03, 0x0E) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x03, 0x10) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x03, 0x12) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x03, 0x13) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x03, 0x14) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x03, 0x15) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x03, 0x18) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x03, 0x19) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x03, 0x1A) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x03, 0x1B) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x03, 0x1C) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x03, 0x1D) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x04, 0x03) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x04, 0x06) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x04, 0x0A) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x04, 0x0B) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x04, 0x0E) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x04, 0x10) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x04, 0x12) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x04, 0x13) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x04, 0x14) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x04, 0x15) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x04, 0x18) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x04, 0x19) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x04, 0x1A) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x04, 0x1B) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x04, 0x1C) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x04, 0x1D) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x05, 0x03) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x05, 0x06) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x05, 0x0A) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x05, 0x0B) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x05, 0x0E) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x05, 0x10) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x05, 0x12) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x05, 0x13) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x05, 0x14) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x05, 0x15) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x05, 0x18) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x05, 0x19) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x05, 0x1A) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x05, 0x1B) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x05, 0x1C) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x05, 0x1D) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x06, 0x03) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x06, 0x06) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x06, 0x0A) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x06, 0x0B) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x06, 0x0E) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x06, 0x10) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x06, 0x12) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x06, 0x13) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x06, 0x14) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x06, 0x15) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x06, 0x18) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x06, 0x19) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x06, 0x1A) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x06, 0x1B) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x06, 0x1C) },
+    { USB_VENDOR_AND_INTERFACE_INFO(TDTECH_VENDOR_ID, 0xff, 0x06, 0x1D) },
 
 
 
@@ -2355,6 +2569,30 @@ static int option_probe(struct usb_serial *serial,
 	 */
 	if (device_flags & NUMEP2 && iface_desc->bNumEndpoints != 2)
 		return -ENODEV;
+
+    /* add by dimmalex for fibocom l710 */
+    if ( serial->dev->descriptor.idVendor == 0x2cb7 &&
+        serial->dev->descriptor.idProduct == 0x0001 &&
+        serial->interface->cur_altsetting->desc.bInterfaceClass == 0x7 )
+		return -ENODEV;
+    if ( serial->dev->descriptor.idVendor == ZTE_VENDOR_ID &&
+        serial->dev->descriptor.idProduct == 0x0579 &&
+        serial->interface->cur_altsetting->desc.bInterfaceClass == 0x6 )
+		return -ENODEV;
+
+    /* add by dimmalex for INNOFIDEI E7B01 */
+    if (id->idVendor == 0x1d53)
+    {
+        struct usb_device *udev = NULL;
+        udev = interface_to_usbdev(serial->interface);
+        printk("Innofidei LTE modem\n");
+        #ifdef CONFIG_PM
+        pm_runtime_set_autosuspend_delay(&udev->dev, 10000);
+        usb_enable_autosuspend(udev);
+        #else
+        usb_disable_autosuspend(udev);
+        #endif
+    }
 
 	/* Store the device flags so we can use them during attach. */
 	usb_set_serial_data(serial, (void *)device_flags);

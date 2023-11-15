@@ -876,6 +876,15 @@ static int usb_serial_probe(struct usb_interface *interface,
 	int num_ports = 0;
 	unsigned char max_endpoints;
 
+    // add by dimmalex for ZTE ME3760
+    if ( ( le16_to_cpu(dev->descriptor.idVendor) == 0x19d2 ) && ( le16_to_cpu(dev->descriptor.idProduct) == 0x0199 ) )
+    {
+        if ( 1 == interface->cur_altsetting->desc.bInterfaceNumber )
+        {
+            return -ENODEV;
+        }
+    }
+
 	mutex_lock(&table_lock);
 	type = search_serial_device(interface);
 	if (!type) {
@@ -889,6 +898,42 @@ static int usb_serial_probe(struct usb_interface *interface,
 		dev_err(ddev, "module get failed, exiting\n");
 		return -EIO;
 	}
+
+    /* add by dimmalex for TD-MH5000 */
+    #ifdef CONFIG_SUPPORT_TDTECH_5G_MODULE
+    if ( ( le16_to_cpu(dev->descriptor.idVendor) == 0x1782 ) && ( 
+                le16_to_cpu(dev->descriptor.idProduct) == 0x04038 ||
+                le16_to_cpu(dev->descriptor.idProduct) == 0x04039 ||
+                le16_to_cpu(dev->descriptor.idProduct) == 0x04040 ||
+                le16_to_cpu(dev->descriptor.idProduct) == 0x04041 ||
+                le16_to_cpu(dev->descriptor.idProduct) == 0x04056 ||
+                le16_to_cpu(dev->descriptor.idProduct) == 0x04057 ||
+                le16_to_cpu(dev->descriptor.idProduct) == 0x04058 ||
+                le16_to_cpu(dev->descriptor.idProduct) == 0x04059
+            )
+       )
+    {
+        struct usb_interface_descriptor *usb_iface_desc = &interface->cur_altsetting->desc;
+        /* td-tech: Do not bind ADB(Android Debug Bridge) interface */
+        if ( usb_iface_desc->bInterfaceClass == USB_CLASS_VENDOR_SPEC &&
+                usb_iface_desc->bInterfaceSubClass == 0x42 &&
+                usb_iface_desc->bInterfaceProtocol == 1 )
+        {
+            mutex_unlock( &table_lock );
+            dev_dbg( ddev, "skip ADB interface!\n" );
+            return -ENODEV;
+        }
+        /* td-tech: Do not bind net card interface */
+        if ( usb_iface_desc->bInterfaceNumber == 1 &&
+                usb_iface_desc->bInterfaceClass == 10 )
+        {
+            mutex_unlock( &table_lock );
+            dev_dbg( ddev, "skip net card interface!\n" );
+            return -ENODEV;
+        }
+    }
+    #endif
+
 	mutex_unlock(&table_lock);
 
 	serial = create_serial(dev, interface, type);

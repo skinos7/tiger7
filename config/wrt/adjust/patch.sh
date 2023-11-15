@@ -41,7 +41,7 @@ cp ${gPLATFORM_DIR}/adjust/package/base-files-profile  ${gSDK_DIR}/package/base-
 # patch the miniupnpd to support custom the verdor
 cp ${gPLATFORM_DIR}/adjust/miniupnpd/package-makefile  ${gSDK_DIR}/package/feeds/packages/miniupnpd/Makefile
 # patch the proftpd to support skinos
-cp -r ${gPLATFORM_DIR}/adjust/proftpd ${gSDK_DIR}/package/network/services/proftpd
+cp -r ${gPLATFORM_DIR}/adjust/proftpd ${gSDK_DIR}/package/network/services/
 mv ${gSDK_DIR}/package/network/services/proftpd/package.make  ${gSDK_DIR}/package/network/services/proftpd/Makefile
 
 

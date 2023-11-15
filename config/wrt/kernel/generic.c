@@ -32,7 +32,14 @@ MODULE_PARM_DESC(vendor, "User specified USB idVendor");
 module_param(product, ushort, 0);
 MODULE_PARM_DESC(product, "User specified USB idProduct");
 
+/* modify by dimmalex for MH5000 */
+#ifdef CONFIG_SUPPORT_TDTECH_5G_MODULE
+/* td tech: Enlarge group size for supporting td tech 5G module */
+static struct usb_device_id generic_device_ids[10]; /* Initially all zeroes. */
+#else
 static struct usb_device_id generic_device_ids[2]; /* Initially all zeroes. */
+#endif
+
 
 static int usb_serial_generic_probe(struct usb_serial *serial,
 					const struct usb_device_id *id)
@@ -85,10 +92,39 @@ int usb_serial_generic_register(void)
 	int retval = 0;
 
 #ifdef CONFIG_USB_SERIAL_GENERIC
+
+
+/* modify by dimmalex for TD-MH5000 */
+#ifdef CONFIG_SUPPORT_TDTECH_5G_MODULE
+    /* td tech: modify for supporting td tech 5G module */
+    int i = 0;
+    const __u16 vid_pid_group[][2] = {
+        /* initial vid pid */
+        { vendor, product },
+        /* td tech: debug version */
+        {0x1782, 0x4038}, {0x1782, 0x4039}, {0x1782, 0x4040}, {0x1782, 0x4041},
+        /* td tech: release version */
+        {0x1782, 0x4056}, {0x1782, 0x4057}, {0x1782, 0x4058}, {0x1782, 0x4059}
+    };
+    /* Note: Be care to enlarge generic_device_ids[] when needed */
+    if ( sizeof(generic_device_ids)/sizeof(generic_device_ids[0]) < sizeof(vid_pid_group)/sizeof(vid_pid_group[0]) )
+    {
+        printk(KERN_ERR "%s :generic_device_ids[] overflowed! n", __func__);
+        return -1;
+    }
+    for ( i = 0; i < sizeof(vid_pid_group)/sizeof(vid_pid_group[0]); i++ )
+    {
+        generic_device_ids[i].idVendor = vid_pid_group[i][0];
+        generic_device_ids[i].idProduct = vid_pid_group[i][1];
+        generic_device_ids[i].match_flags = USB_DEVICE_ID_MATCH_VENDOR | USB_DEVICE_ID_MATCH_PRODUCT;
+    }
+#else  
 	generic_device_ids[0].idVendor = vendor;
 	generic_device_ids[0].idProduct = product;
 	generic_device_ids[0].match_flags =
 		USB_DEVICE_ID_MATCH_VENDOR | USB_DEVICE_ID_MATCH_PRODUCT;
+#endif
+
 
 	retval = usb_serial_register_drivers(serial_drivers,
 			"usbserial_generic", generic_device_ids);

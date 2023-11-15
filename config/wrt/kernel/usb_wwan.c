@@ -189,6 +189,9 @@ int usb_wwan_write(struct tty_struct *tty, struct usb_serial_port *port,
 	int err;
 	unsigned long flags;
 
+    /* add by dimmalex */
+    struct usb_host_endpoint *ep = NULL;
+
 	portdata = usb_get_serial_port_data(port);
 	intfdata = usb_get_serial_data(port->serial);
 
@@ -221,6 +224,33 @@ int usb_wwan_write(struct tty_struct *tty, struct usb_serial_port *port,
 		/* send the data */
 		memcpy(this_urb->transfer_buffer, buf, todo);
 		this_urb->transfer_buffer_length = todo;
+
+
+
+        /* add by dimmalex for fibocom l710 */
+        if(( 0x2cb7 == port->serial->dev->descriptor.idVendor)
+            && ( 0x0100 != port->serial->dev->descriptor.bcdUSB)) 
+        { 
+            ep = usb_pipe_endpoint(this_urb->dev, this_urb->pipe);
+            if (ep && (0 != this_urb->transfer_buffer_length) 
+                && (0 == this_urb->transfer_buffer_length % ep->desc.wMaxPacketSize)) 
+            {
+                this_urb->transfer_flags |= URB_ZERO_PACKET;
+                printk("GHT:Send ZERO PACKET ####\r\n");
+            }
+        }
+        /* add by dimmalex for huawei MH5000 */
+        if ( ( 0x12d1 == port->serial->dev->descriptor.idVendor ) && ( 0x0110 != port->serial->dev->descriptor.bcdUSB ) ) 
+        { 
+            ep = usb_pipe_endpoint(this_urb->dev, this_urb->pipe);
+            if ( ep && ( 0 != this_urb->transfer_buffer_length ) && ( 0 == this_urb->transfer_buffer_length % ep->desc.wMaxPacketSize ) ) 
+            {
+                this_urb->transfer_flags |= URB_ZERO_PACKET;
+                printk("Huawei MH5000:Send ZERO Packet\n");
+            }
+        }
+
+
 
 		spin_lock_irqsave(&intfdata->susp_lock, flags);
 		if (intfdata->suspended) {

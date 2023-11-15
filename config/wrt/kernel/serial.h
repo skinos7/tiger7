@@ -26,6 +26,9 @@
 #define USB_SERIAL_WRITE_BUSY	0
 #define USB_SERIAL_THROTTLED	1
 
+/* add by dimmalex MH5000: suport for td-tech 5G module */
+#define CONFIG_SUPPORT_TDTECH_5G_MODULE
+
 /**
  * usb_serial_port: structure for the specific ports of a device.
  * @serial: pointer back to the struct usb_serial owner of this port.
