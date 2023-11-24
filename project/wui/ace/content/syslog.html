@@ -123,6 +123,12 @@
             {
                 $('#status').prop('checked', true );
             }
+            else if ( syslog.status == "file" )
+            {
+                $('#status').prop('checked', true );
+                $("#location").closest('.form-group').hide();
+                $("#remote").closest('.form-group').hide();
+            }
             else
             {
                 $('#status').prop('checked', false );
@@ -169,8 +175,15 @@
 
         if ( $('#status').prop('checked') == true )
         {
-            syslog.status = "enable";
-            syslog.location = $('#location').val();
+            if ( window.machine_status.platform == "host" )
+            {
+                syslog.status = "file";
+            }
+            else
+            {
+                syslog.status = "enable";
+                syslog.location = $('#location').val();
+            }
             syslog.size = $('#size').val();
             syslog.level = $('#level').val();
             syslog.type = $('#type').val();

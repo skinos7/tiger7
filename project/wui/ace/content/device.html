@@ -262,15 +262,11 @@
                     $('#source').text( $.i18n( "sourcenull" ) );
                 }
                 $('#livetime').text(time2string(dates.livetime));
-                $('#time_head').show();
-            }
-            else
-            {
-                $('#time_head').hide();
             }
             
             if ( date )
             {
+                $('#time_head').show();
                 $('#timezone').val(date.timezone || '');
                 $('#ntpclient').prop('checked', able2boole(date.ntpclient));
                 $('#ntpserver').val(date.ntpserver || '');
@@ -281,6 +277,7 @@
             }
             else
             {
+                $('#time_head').hide();
                 $('#ntpclient_head').hide();
             }
 

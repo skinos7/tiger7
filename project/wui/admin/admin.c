@@ -558,11 +558,11 @@ talk_t _service( obj_t this, param_t param )
 	}
 
 	// goahead-5.2.0
-	/* /prj/webs/goahead --object wui@admin --home /prj/webs/ --auth /tmp/webpage/auth.txt --route /tmp/webpage/route.txt --debugger /tmp/webpage http:// *:80 */
-	/* /prj/webs/goahead --object wui@admin --home /prj/webs/ --auth /prj/wui/admin/auth.txt --route /prj/wui/admin/route.txt --debugger --verbose /prj/wui/admin http:// *:80 */
-	/* /prj/webs/goahead --object wui@admin --home /prj/webs/ --auth /prj/wui/admin/auth.txt --route /prj/wui/admin/route_factory.txt --debugger --verbose /prj/wui/admin http://192.168.8.1:80 */
-	/* /prj/webs/goahead --object wui@admin --home /prj/webs/ --auth /tmp/webpage/auth.txt --route /tmp/webpage/route.txt --debugger --verbose /tmp/webpage http://192.168.8.1:80 https://192.168.8.1:443 */
-	/* /prj/webs/goahead --object wui@admin --home /prj/webs/ --auth /prj/wui/admin/auth.txt --route /prj/wui/admin/route.txt --debugger --verbose /prj/wui/admin http://192.168.8.1:80 https://192.168.8.1:443 */
+	/* /PRJ/webs/goahead --object wui@admin --home /PRJ/webs/ --auth /tmp/webpage/auth.txt --route /tmp/webpage/route.txt --debugger /tmp/webpage http:// *:80 */
+	/* /PRJ/webs/goahead --object wui@admin --home /PRJ/webs/ --auth /PRJ/wui/admin/auth.txt --route /PRJ/wui/admin/route.txt --debugger --verbose /PRJ/wui/admin http:// *:80 */
+	/* /PRJ/webs/goahead --object wui@admin --home /PRJ/webs/ --auth /PRJ/wui/admin/auth.txt --route /PRJ/wui/admin/route_factory.txt --debugger --verbose /PRJ/wui/admin http://192.168.8.1:80 */
+	/* /PRJ/webs/goahead --object wui@admin --home /PRJ/webs/ --auth /tmp/webpage/auth.txt --route /tmp/webpage/route.txt --debugger --verbose /tmp/webpage http://192.168.8.1:80 https://192.168.8.1:443 */
+	/* /PRJ/webs/goahead --object wui@admin --home /PRJ/webs/ --auth /PRJ/wui/admin/auth.txt --route /PRJ/wui/admin/route.txt --debugger --verbose /PRJ/wui/admin http://192.168.8.1:80 https://192.168.8.1:443 */
 	debug( "%s --object %s --home %s --auth %s --route %s --debugger %s %s %s", httpbin, object, prjpath, authtxt, routetxt, rootdir, httplisten, httpslisten );
 	if ( httplisten[0] != '\0' && httpslisten[0] != '\0' )
 	{
@@ -578,7 +578,7 @@ talk_t _service( obj_t this, param_t param )
 	}
 
 	// embedthis-goahead-d19898e
-	/* /prj/webs/goahead --object wui@admin --listen http://192.168.8.1:80 --rootdir /prj/wui/admin --default index.html -a /prj/wui/admin/auth.txt -r /prj/wui/admin/route.txt  --debugger --verbose */
+	/* /PRJ/webs/goahead --object wui@admin --listen http://192.168.8.1:80 --rootdir /PRJ/wui/admin --default index.html -a /PRJ/wui/admin/auth.txt -r /PRJ/wui/admin/route.txt  --debugger --verbose */
 	//debug( "%s --object %s --listen %s --rootdir %s --default %s -a %s -r %s --debugger", httpbin, obj, listenall, rootdir, defaultfile, authtxt, routetxt );
 	//execlp( httpbin, httpbin, "--object", object, "--listen", listenall, "--rootdir", rootdir, "--default", defaultfile, "-a", authtxt, "-r", routetxt, "--debugger", (char*)0 );
 
@@ -679,54 +679,43 @@ boole _set( obj_t this, talk_t v, attr_t attr )
 	else
 	{
 		ptr = attr_layer( attr, 1 );
-		if ( ptr != NULL )
+		if ( ptr != NULL && ( 0 == strcmp( ptr, "css_file" ) || 0 == strcmp( ptr, "logo_file" ) || 0 == strcmp( ptr, "login_file" ) || 0 == strcmp( ptr, "index_file" ) )  )
+		{
+			start = x_text( v );
+			if ( start != NULL )
+			{
+				ptr = strrchr( start, '/' );
+				if ( ptr != NULL )
+				{
+					ptr += 1;
+					ret = config_set_string( this, ptr, attr );
+				}
+				else
+				{
+					ret = config_set_string( this, start, attr );
+				}
+			}
+			else
+			{
+				ret = config_set( this, v, attr );
+			}
+		}
+		else
 		{
 			ret = config_set( this, v, attr );
 		}
+	}
+
+	if ( ret == true )
+	{
+		_shut( this, NULL );
+		_setup( this, NULL );
 	}
 	return ret;
 }
 talk_t _get( obj_t this, attr_t path )
 {
-	talk_t ret;
-	talk_t cfg;
-	const char *css_file;
-	const char *login_file;
-	const char *index_file;
-	
-    cfg = config_get( this, NULL );
-
-	// CSS
-	css_file = json_string( cfg, "css_file" );
-	if ( css_file == NULL || *css_file == '\0' )
-	{
-		css_file = "custom.css";
-		json_set_string( cfg, "css_file", css_file );
-	}
-
-	// login.html
-	login_file = json_string( cfg, "login_file" );
-	if ( login_file == NULL || *login_file == '\0' )
-	{
-		login_file = "login.html";
-		json_set_string( cfg, "login_file", login_file );
-	}
-
-	// index.html
-	index_file = json_string( cfg, "index_file" );
-	if ( index_file == NULL || *index_file == '\0' )
-	{
-		index_file = "index.html";
-		json_set_string( cfg, "index_file", index_file );
-	}
-
-    /* get the path attr */
-    ret = attr_cut( cfg, path );
-    if ( ret != cfg )
-    {
-        talk_free( cfg );
-    }
-	return ret;
+	return config_get( this, path );
 }
 
 

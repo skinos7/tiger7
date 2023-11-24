@@ -190,8 +190,8 @@
 		<![endif]-->
 
 		<!-- custom styles related to this page -->
-		<%csspath(); %>
-		<!-- <link rel="stylesheet" href="/assets/css/custom.css" /> -->
+        <link rel="stylesheet" href="/assets/css/custom.css" />
+        <%csspath(); %>
 
 
 		
@@ -843,7 +843,7 @@
 				var menus = [];
 				var router = true;
 				var homepage = "dashboard";
-                if ( window.machine.mode == "default" || window.machine.mode.indexOf("bridge") >= 0 )
+                if ( window.machine.mode == "default" || window.machine.mode == "parasite" || window.machine.mode.indexOf("bridge") >= 0 )
                 {
                     router = false;
                     $('#extern_nav').attr('href','#');
@@ -991,13 +991,13 @@
                 }
                 else
                 {
-                    if ( <%he('.ifname@lan.status'); %> )
+                    if ( <%he('.ifname@lan.status'); %> && <%he('ifname@lan:mode'); %> )
                     {
                         if ( !wuimenu || wuimenu.lwan != "disable" )
                         {
                             menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LAN' ), 'lwan?object=ifname@lan' );
                         }
-                    }                
+                    }
                 }
 
 				if ( <%he('.ifname@lan2.status'); %> )
@@ -1009,21 +1009,25 @@
 				}
 				if ( <%he('.ifname@lan3.status'); %> )
 				{
-                    if ( !wuimenu || wuimenu.lan2 != "disable" )
+                    if ( !wuimenu || wuimenu.lan3 != "disable" )
                     {
 					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LAN3' ), 'lan?object=ifname@lan3' );
 					}
 				}
 				if ( <%he('.ifname@lan4.status'); %> )
 				{
-                    if ( !wuimenu || wuimenu.lan2 != "disable" )
+                    if ( !wuimenu || wuimenu.lan4 != "disable" )
                     {
 					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LAN4' ), 'lan?object=ifname@lan4' );
 					}
 				}
-				
-                menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'Hosts' ), 'hosts' );
-                
+				if ( <%he('network@hosts:localhost'); %> )
+				{
+                    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'Hosts' ), 'hosts' );
+				}				
+
+                menu.add( false, menus, $.i18n( 'Cloud' ), '', 'menu-icon fa fa-building' );
+
                 menu.add( false, menus, $.i18n( 'VPN' ), 'vpn', 'menu-icon fa fa-lock' );
 
                 menu.add( false, menus, $.i18n( 'Wireless' ), 'ssid', 'menu-icon fa fa-wifi' );

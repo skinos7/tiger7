@@ -43,7 +43,7 @@ gZZID := default
 endif 
 # Get the date
 #gPUBLISH ?= $(shell date +%m%d%y)
-gPUBLISH ?= v7.3.1009
+gPUBLISH ?= v7.4.1123
 #gPUBLISH ?= v7.3.0307
 #gPUBLISH ?= v7.2.1020
 gVERSION ?= $(gPUBLISH)
@@ -85,6 +85,7 @@ gZZID_CONFIG_DIR := ${gZZID_DIR}/rootfs/prj/
 gCOMFACE_DIR := ${gTOP_DIR}/doc/com
 # Tools directory for compile
 gTOOLS_DIR := ${gTOP_DIR}/tools
+gpTOOLS_DIR := ${gPLATFORM_DIR}/tools
 # firmware upgrade setup shell, you can execute some commend at the firmware upgrade
 # Project source code directory
 gPROJECT_DIR := ${gTOP_DIR}/project
@@ -123,13 +124,13 @@ gFLASH_MAKEFILE := ${gPLATFORM_DIR}/flash.makefile
 # Export macro
 export gTOP_DIR gBUILD_DIR gINSTALL_DIR
 export gosROOT_DIR gosPRJ_NAME gosPRJ_DIR
-export gPLATFORM_DIR gHARDWARE_DIR gSTORE_DIR gCUSTOM_DIR gSCOPE_DIR gCOMFACE_DIR gTOOLS_DIR gPROJECT_DIR gRICE_DIR
+export gPLATFORM_DIR gHARDWARE_DIR gSTORE_DIR gCUSTOM_DIR gSCOPE_DIR gCOMFACE_DIR gTOOLS_DIR gpTOOLS_DIR gPROJECT_DIR gRICE_DIR
 export gZZID_DIR gZZID_SH gZZID_SH_FILE gZZID_CONFIG gZZID_CONFIG_DIR
 export gPROJECT_INF gMAKEFILE_CFGFILE
 export gSDK_DIR
 export gSDK_MAKEFILE gLAY_MAKEFILE gDIR_MAKEFILE gFPK_MAKEFILE gCOM_MAKEFILE gLIB_MAKEFILE gEXE_MAKEFILE gFLASH_MAKEFILE
 # add the tools directory to PATH
-PATH := $(gTOOLS_DIR):$(PATH)
+PATH := $(gpTOOLS_DIR):$(gTOOLS_DIR):$(PATH)
 export PATH
 
 #####################################

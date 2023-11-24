@@ -21,6 +21,10 @@ boole_t _setup( obj_t this, param_t param )
     object = obj_combine( this );
     /* get the ifname configure */
     cfg = config_get( this, NULL ); 
+	if ( cfg == NULL )
+	{
+		return ttrue;
+	}
     /* exit when the status is disable */
     ptr = json_string( cfg, "status" );
     if ( ptr != NULL && 0 == strcmp( ptr, "disable" ) )

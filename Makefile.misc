@@ -40,7 +40,7 @@ bufclean sdkclean:
 ######## Misc Target ################
 #####################################
 
-local run:
+local start stop:
 	make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@
 sz:
 	make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@
@@ -49,7 +49,7 @@ zzb: boot
 tar: boot
 	make -f Makefile.target flash
 	make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@
-.PHONY: local run sz zzb tar
+.PHONY: local start sz zzb tar
 
 
 ftp repo:

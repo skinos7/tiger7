@@ -21,10 +21,10 @@ Administration of equipment Management web page
     },
 
     // custom the webpage html
-    "css_file":"CSS file path",                   // [ string ], Fill in the file name must be in located on /prj/wui/admin/assets/css/ or /mnt/config/wui/, via <%csspath(); %> show
-    "logo_file":"LOGO file path",                 // [ string ], Fill in the file name must be in located on /prj/wui/admin/assets/css/ or /mnt/config/wui/
-    "login_file":"file path",                     // [ string ], read only, Fill in the file name must be in located on /prj/wui/admin/ or /mnt/config/wui/
-    "index_file":"file path",                     // [ string ], read only, Fill in the file name must be in located on /prj/wui/admin/ or /mnt/config/wui/
+    "css_file":"CSS file path",                   // [ string ], Fill in the file name must be in located on /PRJ/wui/admin/assets/css/ or /mnt/config/wui/, via <%csspath(); %> show
+    "logo_file":"LOGO file path",                 // [ string ], Fill in the file name must be in located on /PRJ/wui/admin/assets/css/ or /mnt/config/wui/
+    "login_file":"file path",                     // [ string ], read only, Fill in the file name must be in located on /PRJ/wui/admin/ or /mnt/config/wui/
+    "index_file":"file path",                     // [ string ], read only, Fill in the file name must be in located on /PRJ/wui/admin/ or /mnt/config/wui/
 
     // custom the webpage frame
     "logo_title":"Text in the middle of page",    // [ string ]
@@ -111,9 +111,9 @@ ttrue
         "名称1":"IP地址或MAC地址",
         "名称2":"IP地址或MAC地址"
     },
-    "css_file":"CSS文件",                             // 空表示使用默认的, 填入的文件名必须位于/prj/wui/admin/assets/css中
+    "css_file":"CSS文件",                             // 空表示使用默认的, 填入的文件名必须位于/PRJ/wui/admin/assets/css中
     "logo_title":"网页中间文字",
-    "logo_file":"LOGO文件",                           // 空表示无LOGO, 填入的文件名必须位于/prj/wui/admin/assets/css中 
+    "logo_file":"LOGO文件",                           // 空表示无LOGO, 填入的文件名必须位于/PRJ/wui/admin/assets/css中 
     "logo_width":"LOGO宽度",
     "logo_height":"LOGO高度",
     "logo_align":"center"                             // center表示居中, right表示靠左

@@ -458,6 +458,7 @@ boole_t _usb_match( obj_t this, param_t param )
 	const char *netdev;
     const char *object;
 	const char *syspath;
+	char path[PATH_MAX];
 	char buffer[NAME_MAX];
     char ttylist[10][NAME_MAX];
 
@@ -528,8 +529,14 @@ boole_t _usb_match( obj_t this, param_t param )
 		shell( "rmmod me3760_cdc_encap" );
 		shell( "rmmod rndis_host" );
 		shell( "rmmod cdc_ether" );
-		shell( "insmod /prj/pdriver/me3760_cdc_encap.ko" );
-		shell( "insmod /prj/pdriver/me3760_cdc_ether.ko" );
+		if ( project_ko_path( path, sizeof(path), PDRIVER_PROJECT, "me3760_cdc_encap.ko" ) != NULL )
+		{
+			shell( "insmod %s", path );
+		}
+		if ( project_ko_path( path, sizeof(path), PDRIVER_PROJECT, "me3760_cdc_ether.ko" ) != NULL )
+		{
+			shell( "insmod %s", path );
+		}
 		shell( "modprobe option" );
 		usleep( 2000000 );
 		syspath = json_string( dev, "syspath" );
