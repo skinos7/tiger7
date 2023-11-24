@@ -1,0 +1,52 @@
+{
+	"Ethernet(ethernet@lan) Mode":"以太网(ethernet@lan)模式",
+	"Bridge":"桥",
+
+	"Ethernet(ethernet@lan) Port Number":"以太网(ethernet@lan)端口数",
+	"Port Name":"端口名",
+	"Port Identify":"端口ID",
+	"Status":"状态",
+	"PVID":"PVID",
+	"Type":"类型",
+	"VIDs(Separated by semicolon)":"VIDs(分号分隔)",
+	"Switch network interface device: ethernet@lan":"以太网接口设备: ethernet@lan",
+	"Main 2.4G SSID network interface device: wifi@nssid":"主2.4G SSID接口设备: wifi@nssid",
+	"Second 2.4G SSID network interface device: wifi@nssid2":"第二个2.4G SSID接口设备: wifi@nssid2",
+	"Third 2.4G SSID network interface device: wifi@nssid3":"第三个2.4G SSID接口设备: wifi@nssid3",
+	"Main 5.8G SSID network interface device: wifi@assid":"主5.8G SSID接口设备: wifi@assid",
+	"Second 5.8G SSID network interface device: wifi@assid2":"第二个5.8G SSID接口设备: wifi@assid2",
+	"Third 5.8G SSID network interface device: wifi@assid3":"第三个5.8G SSID接口设备: wifi@assid3",
+	
+
+	"VLAN Interface Device":"VLAN接口设备",
+	"Interface Device(ifdev)":"接口设备(ifdev)",
+	"ID":"标识",
+	"Baseon Interface Device(ifdev)":"基于的接口设备(ifdev)",
+	"VID":"VID",
+	"Operation":"操作",
+
+	"Bridge Interface Device":"网桥接口设备",
+	"Interface Device":"接口设备(ifdev)",
+	"Name":"设备名",
+	"Members(ifdev Separated by semicolon)":"成员(ifdev以分号分隔)",
+	"STP":"STP",
+	"Enable":"启用",
+	"Disable":"禁用",
+	"Priority":"优先级",
+	"Operation":"操作",
+
+	"Local Interface Name":"本地接口名称",
+	"Extern Interface Name":"联网接口名称",
+	"Interface Name(ifname)":"接口名称(ifname)",
+	"Name":"常用名称",
+	"Connect Component":"连接组件",
+
+	"lan":"LAN",
+	"lan1":"LAN1",
+	"lan2":"LAN2",
+	"lan3":"LAN3",
+	"lan4":"LAN4",
+	"wan":"WAN"
+
+	
+}

@@ -1,0 +1,105 @@
+<!-- ajax layout which only needs content area -->
+<div class="row">
+  <div class="col-xs-12">
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="form-horizontal" role="form">
+
+        <!-- 状态 -->
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Status"></label>
+            <div class="col-sm-9">
+                <label>
+                    <input id="status" class="ace ace-switch ace-switch-6" type="checkbox" />
+                    <span class="lbl"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="clearfix form-actions">
+          <div class="col-md-offset-3 col-md-9">
+            <button class="btn btn-second" type="button" id="refresh"><span data-i18n="Refresh"></span></button>
+            &nbsp; &nbsp; &nbsp;
+            <button class="btn btn-main" type="button" id="apply"><span data-i18n="Apply"></span></button>
+          </div>
+        </div>
+
+    </div>
+    <!-- PAGE CONTENT ENDS -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
+
+
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+  (function () {
+    /* get the object */
+    var cfg;
+    var object = "arch@gpio";
+    var langjson = base64.decode( page.param( 'lang', location.hash ) );
+    /* load the configure on the input */
+    function cfg_load()
+    {
+        he.load( [ object ] ).then( function(v){
+            cfg = v[0];
+            if ( !cfg )
+            {
+                return;
+            }
+            if ( cfg.led == "disable" )
+            {
+                $('#status').prop('checked', false);
+            }
+            else
+            {
+                $('#status').prop('checked', true);
+            }
+        });
+    }
+    /* save the configure */
+    function cfg_save()
+    {
+        if ( cfg == null )
+        {
+            return;
+        }
+        var cfgcopy = JSON.parse(JSON.stringify(cfg));;
+
+        cfg.led = boole2able($('#status').prop('checked'));
+        if ( ocompare( cfg, cfgcopy ) )
+        {
+            page.alert( { message: $.i18n('Settings unchanged') } );
+            return;
+        }
+        he.save( [ object+"="+JSON.stringify(cfg) ] ).then( function(){
+            page.confirm( { message: $.i18n('Restart the system to apply') } ).then( function(result){
+                if ( result )
+                {
+                    he.reboot( { title: $.i18n('Restarting to apply...'), hint:$.i18n('Make sure that the device is reconnected') } );
+                }
+            });
+        });
+    }
+
+
+    /* init */
+    $.i18n().load( page.lang(langjson) ).then( function () {
+        /* init the langauage */
+        $.i18n().locale = lang; $('body').i18n();
+
+        /* load the configure */
+        cfg_load();
+
+        /* bind the refresh */
+        $('#refresh').on(ace.click_event, function () {
+            location.reload();
+        });
+        /* bind the apply */
+        $('#apply').on(ace.click_event, function () {
+            cfg_save();
+        });
+    });
+
+  })();
+  </script>
+  <!-- page specific plugin scripts -->

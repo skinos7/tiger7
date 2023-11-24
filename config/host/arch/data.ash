@@ -15,13 +15,13 @@ setup()
     mkdir -p $VROOT/.reg
     mkdir -p $VROOT/.ser
     mkdir -p $VROOT/.com
+    mkdir -p $VROOT/.conf
     mkdir -p $VROOT/mnt
     mkdir -p $VROOT/mnt/config
     mkdir -p $VROOT/mnt/internal
-    mkdir -p $VROOT/mnt/internal/prj
     # load the basic ko
-    if [ -e /prj/pdriver/crackid.ko ]; then
-        insmod /prj/pdriver/crackid.ko
+    if [ -e /usr/prj/pdriver/crackid.ko ]; then
+        insmod /usr/prj/pdriver/crackid.ko
     fi
     # make the register value default
     RAND=`date +%s`
@@ -33,7 +33,8 @@ setup()
     he land@register.set_string[land,scope,$gSCOPE]
     he land@register.set_string[land,version,$gVERSION]
     he land@register.set_string[land,local_ifname,ifname@lan]
-    he land@register.set_string[land,local_netdev,enp89s0]
+    NETDEV=`he arch@data:local_netdev`
+    he land@register.set_string[land,local_netdev,$NETDEV]
     MODEL=`he arch@data:model`
     he land@register.set_string[land,model,$MODEL]
     MAC=`he arch@data:mac`
@@ -42,12 +43,14 @@ setup()
     if [ -e $VROOT/mnt/config/.customv6 ]; then
     	echo "mount the configure"
     else
+    	echo "clear the configure"
         rm -fr $VROOT/mnt/config/*
         echo "$gPLATFORM-$gHARDWARE-$gCUSTOM-$gSCOPE" > $VROOT/mnt/config/.customv6
     fi
     if [ -e $VROOT/mnt/internal/.customv6 ]; then
     	echo "mount the interval"
 	else
+    	echo "clear the interval"
 		rm -fr $VROOT/mnt/internal/*
         echo "$gPLATFORM-$gHARDWARE-$gCUSTOM-$gSCOPE" > $VROOT/mnt/internal/.customv6
     fi

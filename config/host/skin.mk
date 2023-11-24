@@ -8,11 +8,15 @@ define Package/Define
   OSC_LIST:=$(shell prj-read osc)
   RES_LIST:=$(shell prj-read res)
   KO_LIST:=$(shell prj-read ko)
+  SH_LIST:=$(wildcard *.sh *.ash)
   MKD_LIST:=$(wildcard *.md)
   PNG_LIST:=$(wildcard *.png *.jpg)
-  MISC_LIST:=$(wildcard *.json *.cfg *.sh *.ash *.html)
+  MISC_LIST:=$(wildcard *.json *.cfg *.html)
   FPK_BUILD_DIR:=$(PKG_BUILD_DIR)/.fpk
   FPK_LIB_DIR:=$(PKG_BUILD_DIR)/.fpk/lib
+  FPK_BIN_DIR:=$(PKG_BUILD_DIR)/.fpk/bin
+  FPK_ETC_DIR:=$(PKG_BUILD_DIR)/.fpk/etc
+  FPK_INT_DIR:=$(PKG_BUILD_DIR)/.fpk/internal
   FPK_ROOTFS_DIR:=$(PKG_BUILD_DIR)/.fpk/rootfs
   PROJECT_ID:=${PKG_NAME}
   VERSION_ID:=${PKG_VERSION}
@@ -28,8 +32,9 @@ define Build/Prepare/Default
 		echo "project ${PROJECT_ID} version cannot find, maybe ${gPROJECT_INF} break"; \
 		exit -1; \
 	fi
-	if [ -d ./so ]; then \
-		$(CP) ./so $(PKG_BUILD_DIR); \
+	@mkdir -p $(PKG_BUILD_DIR)
+	if [ -d ./lib ]; then \
+		$(CP) ./lib $(PKG_BUILD_DIR); \
 	fi
 	@mkdir -p $(PKG_BUILD_DIR)
 	@if [ "X" == "X$(1)" ];then \
@@ -87,7 +92,12 @@ define Build/Compile/Default
 	$(call Build/Compile/FarmBin,${CMD_LIST},${gEXE_MAKEFILE})
 	$(call Build/Compile/FarmBin,${EXE_LIST},${gEXE_MAKEFILE})
 	$(call Build/Compile/FarmKo,${KO_LIST})
-	#$(call Build/Compile/FarmBin,${OSC_LIST})
+	if [ "X" == "X$(1)" ];then \
+		$(call Build/Compile/FarmBin,${OSC_LIST},$(2)); \
+	fi
+	if [ "X" != "X$(1)" ];then \
+		$(call Build/Compile/FarmBin,$(1),$(2)); \
+	fi
 endef
 
 # 定义项目安装函数
@@ -126,17 +136,34 @@ define Build/Install/Collect
 	# make the fpk dir
 	$(INSTALL_DIR) $(FPK_BUILD_DIR)
 	$(INSTALL_DIR) $(FPK_LIB_DIR)
-	if [ -d ./so ]; then \
-		$(CP) ./so/*.so* $(FPK_LIB_DIR); \
+	$(INSTALL_DIR) $(FPK_BIN_DIR)
+	if [ -d ./lib ]; then \
+		$(CP) ./lib/*.so* $(FPK_LIB_DIR); \
 	fi
 	if [ -d ./bin ]; then \
-		$(CP) ./bin/* $(FPK_BUILD_DIR); \
+		$(CP) ./bin/* $(FPK_BIN_DIR); \
+	fi
+	if [ -d ./etc ]; then \
+		$(INSTALL_DIR) $(FPK_ETC_DIR); \
+		$(CP) ./etc/* $(FPK_ETC_DIR); \
+	fi
+	if [ -d ./internal ]; then \
+		$(INSTALL_DIR) $(FPK_INT_DIR); \
+		$(CP) ./internal/* $(FPK_INT_DIR); \
 	fi
 	for c in $(PNG_LIST) $(MISC_LIST) ${RES_LIST}; do \
 		if [ -e ./$$c ]; then \
 			$(CP) $$c $(FPK_BUILD_DIR); \
 		fi; \
 	done
+	if [ "X" != "$(SH_LIST)"  ]; then \
+		for c in $(SH_LIST); do \
+			if [ -e ./$$c ]; then \
+				$(CP) $$c $(FPK_BUILD_DIR); \
+				chmod a+x $(FPK_BUILD_DIR)/$$c; \
+			fi; \
+		done; \
+	fi
 	for i in ${COM_LIST};do \
 		if [ -d $(PKG_BUILD_DIR)/$$i ];then \
 			$(CP) $(PKG_BUILD_DIR)/$$i/$$i.com $(FPK_BUILD_DIR); \
@@ -158,7 +185,7 @@ define Build/Install/Collect
 	for i in ${CMD_LIST};do \
 		if [ -d $(PKG_BUILD_DIR)/$$i ];then \
 			if [ -e $(PKG_BUILD_DIR)/$$i/$$i ];then \
-				$(INSTALL_BIN) $(PKG_BUILD_DIR)/$$i/$$i $(FPK_BUILD_DIR); \
+				$(INSTALL_BIN) $(PKG_BUILD_DIR)/$$i/$$i $(FPK_BIN_DIR); \
 			fi; \
 		fi; \
 	done
@@ -174,6 +201,7 @@ define Build/Install/Collect
 			$(INSTALL_BIN) $(PKG_BUILD_DIR)/$$i/*.ko $(FPK_BUILD_DIR); \
 		fi; \
 	done
+	#
 	$(INSTALL_DIR) $(gCOMFACE_DIR)/$(PROJECT_ID)
 	for i in ${MKD_LIST};do \
         if [ -e ./$$i ]; then \

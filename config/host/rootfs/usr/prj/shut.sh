@@ -36,6 +36,3 @@ he land@syslog.shut
 he arch@data.shut
 daemon exit
 
-sudo rm -fr /tmp/skin
-sudo rm -fr /var/skin
-

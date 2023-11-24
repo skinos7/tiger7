@@ -24,20 +24,23 @@ sdkclean: bufclean
 
 
 local:
-	if [ -f /prj/shut.sh ]; then \
-		/prj/shut.sh; \
-	fi
 	sudo rm -fr /tmp/skin
-	sudo rm -fr /var/skin
-	sudo rm -fr /prj
-	sudo cp -ar ${gosROOT_DIR}/bin/* /usr/local/bin
-	sudo cp -ar ${gosROOT_DIR}/lib/* /usr/local/lib
-	sudo cp -ar ${gosROOT_DIR}/prj /
+	sudo rm -fr /usr/prj
+	sudo cp -ar ${gosROOT_DIR}/usr/local/bin/* /usr/local/bin
+	sudo cp -ar ${gosROOT_DIR}/usr/local/lib/* /usr/local/lib
+	sudo cp -ar ${gosROOT_DIR}/usr/prj /usr
 	sudo ldconfig
-	if [ -f /prj/setup.sh ]; then \
-		/prj/setup.sh; \
+start:
+	if [ -f /usr/prj/setup.sh ]; then \
+		/usr/prj/setup.sh; \
+	fi
+stop:
+	if [ -f /usr/prj/shut.sh ]; then \
+		/usr/prj/shut.sh; \
 	fi
 sz:
+	# 通过xmodem协议发送固件到本地
+	cd ${gBUILD_DIR} && sz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.zz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.upgrade ${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.txt
 tar:
 ftp:
 repo:
@@ -51,7 +54,7 @@ repo:
 			curl -u ${gpFTP_PUB_PASSWORD} -T ${gSTORE_DIR}/$${i} ${gpFTP_PUB_REPO}/; \
 		done \
 	fi
-.PHONY: local sz tar ftp repo
+.PHONY: local start stop sz tar ftp repo
 
 
 
@@ -106,6 +109,9 @@ app_install:
 	fi
 	make -f ${gFPK_MAKEFILE} -C ${gBUILD_DIR}/arch install
 	make -C ${gTOP_DIR} lay_install
+	cd ${gosROOT_DIR};if [ -f needless.sh ]; then \
+		chmod a+rwx needless.sh;./needless.sh; \
+	fi
 	cd ${gBUILD_DIR} && fpk-indexed ${gSTORE_DIR} ${gSTORE_DIR}/${gHARDWARE}_${gCUSTOM}_${gSCOPE}.store;
 	cd ${gBUILD_DIR} && rm -fr ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.tar.bz2
 	cd ${gosROOT_DIR} && tar jcvf ../${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.tar.bz2 *

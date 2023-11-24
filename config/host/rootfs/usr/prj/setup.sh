@@ -6,8 +6,6 @@ he arch@data.setup
 he land@machine.setup
 # start the log first
 he land@syslog.setup
-# enable the sdk watchdog
-#watchdog
 # skinos daemon
 daemon&
 # init the date
