@@ -128,33 +128,12 @@ var he =
                     else if ( heindex == null )
                     {
                         ret = callbak.he;
-                        if ( callbak[ "he" ] == "TTRUE" )
-                        {
-                            ret = true;
-                        }
-                        else if ( callbak[ "he" ] == "TFALSE" )
-                        {
-                            ret = false;
-                        }
                     }
                     else
                     {
                         var value = new Object();
                         for ( i in heindex )
                         {
-                            if ( typeof callbak[ i ] == "string" )
-                            {
-                                if ( callbak[ i ] == "TTRUE" )
-                                {
-                                    value[ heindex[ i ] ] = true;
-                                    continue;
-                                }
-                                else if ( callbak[ i ] == "TFALSE" )
-                                {
-                                    value[ heindex[ i ] ] = false;
-                                    continue;
-                                }
-                            }
                             value[ heindex[ i ] ] = callbak[ i ];
                         }
                         ret = value;
@@ -179,33 +158,12 @@ var he =
             else if ( heindex == null )
             {
                 ret = callbak.he;
-                if ( callbak[ "he" ] == "TTRUE" )
-                {
-                    ret = true;
-                }
-                else if ( callbak[ "he" ] == "TFALSE" )
-                {
-                    ret = false;
-                }
             }
             else
             {
                 var value = new Object();
                 for ( i in heindex )
                 {
-                    if ( typeof callbak[ i ] == "string" )
-                    {
-                        if ( callbak[ i ] == "TTRUE" )
-                        {
-                            value[ heindex[ i ] ] = true;
-                            continue;
-                        }
-                        else if ( callbak[ i ] == "TFALSE" )
-                        {
-                            value[ heindex[ i ] ] = false;
-                            continue;
-                        }
-                    }
                     value[ heindex[ i ] ] = callbak[ i ];
                 }
                 ret = value;
