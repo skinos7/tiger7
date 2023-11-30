@@ -35,7 +35,7 @@
         <script src="/assets/js/ace-extra.min.js"></script>
 
 		<!-- custom styles related to this page -->
-        <link rel="stylesheet" href="/assets/css/custom.css" />
+		<link rel="stylesheet" href="/assets/css/custom.css" />
         <%csspath(); %>
 
 
@@ -117,8 +117,7 @@
 		<script src="/assets/js/jquery.i18n.messagestore.js"></script>
 		<!-- add by dimmalex for api -->
 		<script src="/api/code.js"></script>
-		<script src="/api/he.js"></script>
-		<script src="/api/miscv2.js"></script>
+		<script src="/api/misc.js"></script>
 
 		<!-- inline scripts related to this page -->
 		<script type="text/javascript">
@@ -129,7 +128,7 @@
 
             window.custom = <%he('arch@custom'); %>;
 			window.machine = <%he('land@machine'); %>;
-			window.machine_status = <%he('land@machine.status'); %>;
+			window.machines = <%he('land@machine.status'); %>;
 
 			window.lang = window.machine.language;
 			document.title = window.machine.name;

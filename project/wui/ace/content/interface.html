@@ -2204,13 +2204,13 @@
       $('#lte_btn').on(ace.click_event, function () {
           if ( lte.status != "up" && lte.status != "uping" && lte.status != "connect" )
           {
-              he.exec(['wui@admin.ttyd_kill','ifname@lte.setup']).then( function(result){
+              he.exec( ['wui@admin.ttyd_kill','ifname@lte.setup' ] ).then( function(result){
                   location.reload();
               } );
           }
           else
           {
-              he.exec('ifname@lte.shut').then( function(result){
+              he.exec( [ 'ifname@lte.shut' ] ).then( function(result){
                   location.reload();
               } );
           }
@@ -2218,13 +2218,13 @@
       $('#lte2_btn').on(ace.click_event, function () {
           if ( lte2.status != "up" && lte2.status != "uping" && lte2.status != "connect" )
           {
-              he.exec(['wui@admin.ttyd_kill','ifname@lte2.setup']).then( function(result){
+              he.exec( [ 'wui@admin.ttyd_kill','ifname@lte2.setup' ] ).then( function(result){
                   location.reload();
               } );
           }
           else
           {
-              he.exec('ifname@lte2.shut').then( function(result){
+              he.exec( [ 'ifname@lte2.shut' ] ).then( function(result){
                   location.reload();
               } );
           }
@@ -2232,13 +2232,13 @@
       $('#wan_btn').on(ace.click_event, function () {
           if ( wan.status == "down" )
           {
-              he.exec('ifname@wan.setup').then( function(result){
+              he.exec( [ 'ifname@wan.setup' ] ).then( function(result){
                   location.reload();
               } );
           }
           else
           {
-              he.exec('ifname@wan.shut').then( function(result){
+              he.exec( [ 'ifname@wan.shut' ] ).then( function(result){
                   location.reload();
               } );
           }
@@ -2246,13 +2246,13 @@
       $('#wan2_btn').on(ace.click_event, function () {
           if ( wan2.status == "down" )
           {
-              he.exec('ifname@wan2.setup').then( function(result){
+              he.exec( [ 'ifname@wan2.setup' ] ).then( function(result){
                   location.reload();
               } );
           }
           else
           {
-              he.exec('ifname@wan2.shut').then( function(result){
+              he.exec( [ 'ifname@wan2.shut' ] ).then( function(result){
                   location.reload();
               } );
           }
@@ -2260,13 +2260,13 @@
       $('#wan3_btn').on(ace.click_event, function () {
           if ( wan3.status == "down" )
           {
-              he.exec('ifname@wan3.setup').then( function(result){
+              he.exec( [ 'ifname@wan3.setup' ] ).then( function(result){
                   location.reload();
               } );
           }
           else
           {
-              he.exec('ifname@wan3.shut').then( function(result){
+              he.exec( [ 'ifname@wan3.shut' ] ).then( function(result){
                   location.reload();
               } );
           }
@@ -2274,13 +2274,13 @@
       $('#wan4_btn').on(ace.click_event, function () {
           if ( wan4.status == "down" )
           {
-              he.exec('ifname@wan4.setup').then( function(result){
+              he.exec( [ 'ifname@wan4.setup' ] ).then( function(result){
                   location.reload();
               } );
           }
           else
           {
-              he.exec('ifname@wan4.shut').then( function(result){
+              he.exec( [ 'ifname@wan4.shut' ] ).then( function(result){
                   location.reload();
               } );
           }
@@ -2288,13 +2288,13 @@
       $('#wisp_btn').on(ace.click_event, function () {
           if ( wisp.status == "down" )
           {
-              he.exec('ifname@wisp.setup').then( function(result){
+              he.exec( [ 'ifname@wisp.setup' ] ).then( function(result){
                   location.reload();
               } );
           }
           else
           {
-              he.exec('ifname@wisp.shut').then( function(result){
+              he.exec( [ 'ifname@wisp.shut' ] ).then( function(result){
                   location.reload();
               } );
           }
@@ -2302,13 +2302,13 @@
       $('#wisp2_btn').on(ace.click_event, function () {
           if ( wisp2.status == "down" )
           {
-              he.exec('ifname@wisp2.setup').then( function(result){
+              he.exec( [ 'ifname@wisp2.setup' ] ).then( function(result){
                   location.reload();
               } );
           }
           else
           {
-              he.exec('ifname@wisp2.shut').then( function(result){
+              he.exec( [ 'ifname@wisp2.shut' ] ).then( function(result){
                   location.reload();
               ;} );
           }

@@ -366,8 +366,8 @@
     
     function flash_channel( mode, country, channel, acs )
     {
-        he.bkload( robj+".chlist["+mode+","+country+"]" ).then( function(v){
-            if ( v )
+        he.bkload( [ robj+".chlist["+mode+","+country+"]" ] ).then( function(v){
+            if ( v[0] )
             {
             
                 $("#channel").empty();
@@ -375,7 +375,7 @@
                 {
                     $("#channel").append("<option value='0'>" + $.i18n("Auto") + "</option>");
                 }
-                for( c in v )
+                for( c in v[0] )
                 {
                     $("#channel").append("<option value='"+c+"'>" + c + "</option>");
                 }
@@ -497,7 +497,7 @@
     /* save the configure */
     function ssid_save()
     {
-      var cmd = [];
+      var cmds = [];
       var ssidcopy = null;
       var radiocopy = null;
 
@@ -550,13 +550,13 @@
 
       if ( !ocompare( radio, radiocopy ) )
       {
-        cmd.push( robj+"="+JSON.stringify(radio) );
+        cmds.push( robj+"="+JSON.stringify(radio) );
       }
       if ( !ocompare( ssid, ssidcopy ) )
       {
-          cmd.push( sobj+"="+JSON.stringify(ssid) );
+          cmds.push( sobj+"="+JSON.stringify(ssid) );
       }
-      if ( cmd.length == 0 )
+      if ( cmds.length == 0 )
       {
           page.alert( { message: $.i18n('Settings unchanged') } );
           return;
@@ -564,7 +564,7 @@
       page.confirm( { message: $.i18n('The wireless client will be disconneted because of the change of configuration') } ).then( function(result){
         if ( result )
         {
-          he.save( cmd ).then( function(){
+          he.save( cmds ).then( function(){
             page.alert( {message:$.i18n('Make sure that the device is reconnected')} );
             location.reload();
           });

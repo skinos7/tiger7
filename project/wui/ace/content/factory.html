@@ -405,7 +405,7 @@
 
         // 恢复默认设置
         $('#default').on(ace.click_event, function () {
-            he.exec( "arch@data.default" ).then( function(result){location.reload();} );
+            he.exec( [ "arch@data.default" ] ).then( function(result){location.reload();} );
         });
         // 导入默认配置
         $('#restore_default').ace_file_input( { no_file: $.i18n('No File'), btn_choose: $.i18n('Choose'), btn_change: $.i18n('Change'), icon_remove: '' } );
@@ -453,7 +453,7 @@
         });
         // 恢复出厂设置
         $('#factory').on(ace.click_event, function () {
-            he.exec( "arch@data.factory" ).then( function(result){location.reload();} );
+            he.exec( [ "arch@data.factory" ] ).then( function(result){location.reload();} );
         });
 
 

@@ -356,7 +356,7 @@
 		<!-- add by dimmalex for api -->
 		<script src="/api/code.js"></script>
 		<script src="/api/he.js"></script>
-		<script src="/api/miscv2.js"></script>
+		<script src="/api/misc.js"></script>
 
 		<!-- add by dimmalex for global -->
 		<script type="text/javascript">
@@ -368,7 +368,7 @@
             window.username = <%username(); %>;
 			window.custom = <%he('arch@custom'); %>;
 			window.machine = <%he('land@machine'); %>;
-			window.machine_status = <%he('land@machine.status'); %>;
+			window.machines = <%he('land@machine.status'); %>;
 			window.network_frame = <%he('network@frame'); %>;
 			window.mode_list = <%he('network@frame.mode_list'); %>;
 			window.ifname_list = <%he('network@frame.list'); %>;
@@ -402,13 +402,13 @@
                     }
                     else if ( window.wui.logo_title == "#MODEL" )
                     {
-                        if ( window.machine_status.cmodel )
+                        if ( window.machines.cmodel )
                         {
-                            $('#logo_context').text( window.machine_status.cmodel );
+                            $('#logo_context').text( window.machines.cmodel );
                         }
                         else
                         {
-                            $('#logo_context').text( window.machine_status.model );
+                            $('#logo_context').text( window.machines.model );
                         }
                     }
                     else
@@ -423,15 +423,15 @@
                 }
                 else
                 {
-                    if ( window.machine_status.cmodel )
+                    if ( window.machines.cmodel )
                     {
-                        $('#cmodel').text( window.machine_status.cmodel );
+                        $('#cmodel').text( window.machines.cmodel );
                     }
                     else
                     {
-                        $('#cmodel').text( window.machine_status.model );
+                        $('#cmodel').text( window.machines.model );
                     }
-                    $('#version').text( window.machine_status.version );
+                    $('#version').text( window.machines.version );
                     $('#logo_table').show();
                 }
                 
@@ -910,7 +910,7 @@
                     {
                         if ( !wuimenu || wuimenu.connection != "disable" )
                         {
-    					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'Connection' ), window.machine_status.mode );
+    					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'Connection' ), window.machines.mode );
                         }
                     }
     				if ( <%he('.ifname@lte.status'); %> )
@@ -1073,7 +1073,7 @@
                         }
     				}
                 }
-				if ( window.machine_status.scope == "std" )
+				if ( window.machines.scope == "std" )
 				{
     				if ( !wuimenu || wuimenu.development != "disable" )
     				{

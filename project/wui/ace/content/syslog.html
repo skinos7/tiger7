@@ -115,6 +115,7 @@
 <script type="text/javascript">
   (function () {
     var syslog;
+    var wuimenu = window.wui.menu;
     function load_syslog()
     {
         he.load( [ 'land@syslog' ] ).then( function(v){
@@ -175,7 +176,7 @@
 
         if ( $('#status').prop('checked') == true )
         {
-            if ( window.machine_status.platform == "host" )
+            if ( window.machines.platform == "host" )
             {
                 syslog.status = "file";
             }
@@ -229,7 +230,7 @@
       // 清除日志
       $('#clear-log').on(ace.click_event, function (e) {
         e.preventDefault();
-        he.exec('land@syslog.clear').then(function () {
+        he.exec( [ 'land@syslog.clear' ] ).then(function () {
           $('.page-content-area').ace_ajax('reload');
         });
       });
@@ -243,7 +244,12 @@
         submitForm.action= "/cgi/log";
         submitForm.submit();
       });
-      
+
+      if ( wuimenu && wuimenu.download_log == "disable" )
+      {
+          $('#download-log').hide();
+      }
+
     });
 
 

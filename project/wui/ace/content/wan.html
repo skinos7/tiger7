@@ -979,11 +979,11 @@
         $('#wan_btn').on(ace.click_event, function () {
             if ( wans.status == "down" )
             {
-                he.exec(object+'.setup').then( function(result){status_load();} );
+                he.exec( [ object+'.setup' ] ).then( function(result){status_load();} );
             }
             else
             {
-                he.exec(object+'.shut').then( function(result){status_load();} );
+                he.exec( [ object+'.shut' ] ).then( function(result){status_load();} );
             }
         });
 

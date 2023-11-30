@@ -83,7 +83,7 @@
         cmd += (rule.level + ']');
 
         // 执行添加
-        he.exec( cmd ).then(function () {
+        he.exec( [ cmd ] ).then(function () {
             // 重新加载数据
             return rule_load();
         }).then(function () {
@@ -101,7 +101,7 @@
         cmd += (rule.level + ']');
       
         // 执行添加
-        he.exec( cmd ).then(function () {
+        he.exec( [ cmd ] ).then(function () {
             // 重新加载数据
             return rule_load();
         }).then(function () {

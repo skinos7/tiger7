@@ -36,69 +36,63 @@ var he =
         {
             timeout = 0;
         }
-        if ( args && args.loading )
+        /* get the paramter */
+        t = 0;
+        heindex = {};
+        paramter = "";
+        if ( a instanceof Array )               // array
         {
-            page.overlay( args.loading );
+            for ( i in a )
+            {
+                if ( t == 0 )
+                {
+                    hekey = "he";
+                }
+                else
+                {
+                    hekey = "he" + t;
+                }
+                heindex[ hekey ] = i;
+                paramter += ( "&" + hekey + "=" + url.encode( base64.encode( a[ i ] ) ) );
+                // paramter += ("&" + hekey + "=" + base64.encode( a[ i ] ) ); have a bug
+                t++;
+            }
+        }
+        else if ( a instanceof Object )         // object
+        {
+            for ( i in a )
+            {
+                if ( t == 0 )
+                {
+                    hekey = "he";
+                }
+                else
+                {
+                    hekey = "he" + t;
+                }
+                heindex[ hekey ] = i;
+                paramter += ( "&" + hekey + "=" + url.encode( base64.encode( a[ i ] ) ) );
+                // paramter += ("&" + hekey + "=" + base64.encode( a[ i ] ) ); have a bug
+                t++;
+            }
+        }
+        if ( paramter == "" )
+        {
+            return null;
         }
         /* get the uri */
         uri = "/action/he?rand=" + Math.random();
-        /* get the paramter */
-        paramter = "";
-        heindex = null;
-        if ( a instanceof Array )
+        /* show the loading */
+        if ( args && args.loading )
         {
-            heindex = new Array();
-            t = 0;
-            for ( i in a )
-            {
-                if ( t == 0 )
-                {
-                    hekey = "he";
-                }
-                else
-                {
-                    hekey = "he" + t;
-                }
-                paramter += ( "&" + hekey + "=" + url.encode( base64.encode( a[ i ] ) ) );
-                // paramter += ("&" + hekey + "=" + base64.encode( a[ i ] ) ); have a bug
-                heindex[ hekey ] = i;
-                t++;
-            }
-        }
-        else if ( a instanceof Object )
-        {
-            t = 0;
-            heindex = new Object();
-            for ( i in a )
-            {
-                if ( t == 0 )
-                {
-                    hekey = "he";
-                }
-                else
-                {
-                    hekey = "he" + t;
-                }
-                paramter += (   "&" + hekey + "=" + url.encode( base64.encode( a[ i ] ) ) );
-                // paramter += ("&" + hekey + "=" + base64.encode( a[ i ] ) ); have a bug
-                heindex[ hekey ] = i;
-                t++;
-            }
-        }
-        else
-        {
-            paramter = "&he=" + url.encode( base64.encode( a ) );
-            // paramter = "&he=" + base64.encode( a );
-        }
-        if ( paramter == null || paramter == "" )
-        {
-            return null;
+            page.overlay( args.loading );
         }
         /* get the async */
         if ( func != null )
         {
             $.ajax({
-                'url': uri, 'type': 'POST', 'timeout': timeout, 'contentType': 'application/x-www-form-urlencoded', 'data': paramter, 'async': true, 'complete': function ( x, s )
+                'url':uri, 'type':'POST', 'timeout':timeout, 'async':true, 'contentType':'application/x-www-form-urlencoded', 'data':paramter,
+                'complete': function ( x, s )
                 {
                     // return while in rebooting
                     if ( window.rebooting )
@@ -113,32 +107,28 @@ var he =
                         return;
                     }
                     paramter = base64.decode( x.responseText );
-                    if ( a === "machine.restart" )
+                    // string for Exception
+                    if ( paramter.indexOf("{" ) < 0 )
                     {
-                        callbak = null;
+                        console.log( "Server Response String: "+paramter );
+                        func( paramter );
                     }
                     else
                     {
                         callbak = eval( "(" + paramter + ")" );
-                    }
-                    if ( callbak == null )
-                    {
-                        ret = null;
-                    }
-                    else if ( heindex == null )
-                    {
-                        ret = callbak.he;
-                    }
-                    else
-                    {
+                        if ( callbak == null )
+                        {
+                            console.log( "Server Response Not JSON: "+paramter );
+                            return;
+                        }
                         var value = new Object();
                         for ( i in heindex )
                         {
                             value[ heindex[ i ] ] = callbak[ i ];
                         }
                         ret = value;
+                        func( ret );
                     }
-                    func( ret );
                     if ( args && args.loading )
                     {
                         page.overlay2hide();
@@ -148,25 +138,42 @@ var he =
         }
         else
         {
-            htmlobj = $.ajax( { 'url': uri, 'type': 'POST', 'timeout': timeout, 'contentType': 'application/x-www-form-urlencoded', 'data': paramter, 'async': false } );
-            paramter = base64.decode( htmlobj.responseText)
-            callbak = eval( "(" + paramter + ")" );
-            if ( callbak == null )
+            htmlobj = $.ajax( { 'url':uri, 'type':'POST', 'timeout':timeout, 'async':false, 'contentType':'application/x-www-form-urlencoded', 'data':paramter } );
+            // return while in rebooting
+            if ( window.rebooting )
             {
-                ret = null;
+                return null;
             }
-            else if ( heindex == null )
+            // relogin while rebooting or no permision
+            if ( ( !htmlobj.getAllResponseHeaders() ) || htmlobj.getResponseHeader( 'content-type' ) === 'text/html' )
             {
-                ret = callbak.he;
+                window.location.href = 'login.html';
+                return null;
+            }
+            paramter = base64.decode( htmlobj.responseText);
+            // string for Exception
+            if ( paramter.indexOf("{" ) < 0 )
+            {
+                console.log( "Server Response String: "+paramter );
+                ret = paramter;
             }
             else
             {
-                var value = new Object();
-                for ( i in heindex )
+                callbak = eval( "(" + paramter + ")" );
+                if ( callbak == null )
                 {
-                    value[ heindex[ i ] ] = callbak[ i ];
+                    console.log( "Server Response Not JSON: "+paramter );
+                    ret = null;
                 }
-                ret = value;
+                else
+                {
+                    var value = new Object();
+                    for ( i in heindex )
+                    {
+                        value[ heindex[ i ] ] = callbak[ i ];
+                    }
+                    ret = value;
+                }
             }
             if ( args && args.loading )
             {
@@ -182,7 +189,14 @@ var he =
         page.overlay( loading|| $.i18n('Loading') );
         this.cmd( a, null, function (v) {
             page.overlay2hide();
-            dfd.resolve(v);
+            if ( typeof v == "string" )
+            {
+                page.alert( { message: $.i18n( v ) } );
+            }
+            else if ( typeof v == "object" )
+            {
+                dfd.resolve(v);
+            }
         })
         return dfd.promise();
     },
@@ -190,7 +204,14 @@ var he =
     {
         var dfd = $.Deferred();
         this.cmd( a, null, function (v) {
-            dfd.resolve(v);
+            if ( typeof v == "string" )
+            {
+                page.alert( { message: $.i18n( v ) } );
+            }
+            else if ( typeof v == "object" )
+            {
+                dfd.resolve(v);
+            }
         })
         return dfd.promise();
     },
@@ -200,7 +221,14 @@ var he =
         page.overlay( loading||$.i18n('Saving') );
         this.cmd( a, null, function (v) {
             page.overlay2hide();
-            dfd.resolve(v);
+            if ( typeof v == "string" )
+            {
+                page.alert( { message: $.i18n( v ) } );
+            }
+            else if ( typeof v == "object" )
+            {
+                dfd.resolve(v);
+            }
         })
         return dfd.promise();
     },
@@ -208,7 +236,14 @@ var he =
     {
         var dfd = $.Deferred();
         this.cmd( a, null, function (v) {
-            dfd.resolve(v);
+            if ( typeof v == "string" )
+            {
+                page.alert( { message: $.i18n( v ) } );
+            }
+            else if ( typeof v == "object" )
+            {
+                dfd.resolve(v);
+            }
         })
         return dfd.promise();
     },
@@ -218,7 +253,14 @@ var he =
         page.overlay( loading||$.i18n('Running') );
         this.cmd( a, null, function (v) {
             page.overlay2hide();
-            dfd.resolve(v);
+            if ( typeof v == "string" )
+            {
+                page.alert( { message: $.i18n( v ) } );
+            }
+            else if ( typeof v == "object" )
+            {
+                dfd.resolve(v);
+            }
         })
         return dfd.promise();
     },

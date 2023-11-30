@@ -48,9 +48,9 @@
       /* init the langauage */
       $.i18n().locale = lang; $('body').i18n();
 
-      he.load( 'land@machine.status' ).then( function(v){
+      he.load( [ 'land@machine.status' ] ).then( function(v){
           var gBOARDID = '';
-          var platform = v.platform;
+          var platform = v[0].platform;
           if ( platform == "smtk" )
           {
             platform = "mtk";
@@ -63,13 +63,13 @@
           {
             platform = "ath";
           }
-          if ( v.scope == "std" )
+          if ( v[0].scope == "std" )
           {
-            gBOARDID = platform + '-' + v.hardware + '-' + v.custom;
+            gBOARDID = platform + '-' + v[0].hardware + '-' + v[0].custom;
           }
           else
           {
-            gBOARDID = platform + '-' + v.hardware + '-' + v.custom + '-' + v.scope;
+            gBOARDID = platform + '-' + v[0].hardware + '-' + v[0].custom + '-' + v[0].scope;
           }
           $('#gBOARDID').text(gBOARDID);
       });

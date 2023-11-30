@@ -171,15 +171,15 @@
       /* load the firmware info */
       if ( window.wui.bigversion && window.wui.bigversion == "enable" )
       {
-        var v = window.machine_status.version.split('.');
+        var v = window.machines.version.split('.');
         $('#firmware_version').text( v[0]+"."+v[1] );
       }
       else
       {
-        $('#firmware_version').text(window.machine_status.version);
+        $('#firmware_version').text(window.machines.version);
       }
-      $('#firmware_sdk').text( window.machine_status.platform );
-      $('#firmware_id').text( window.machine_status.hardware+"-"+window.machine_status.custom+"-"+window.machine_status.scope );
+      $('#firmware_sdk').text( window.machines.platform );
+      $('#firmware_id').text( window.machines.hardware+"-"+window.machines.custom+"-"+window.machines.scope );
       if ( !window.wui.firmware_id || window.wui.firmware_id != "disable" )
       {
           $("#firmware_sdk").closest('.form-group').show();
@@ -292,8 +292,8 @@
       }
       // check new version online
       $('#check').unbind(ace.click_event).on(ace.click_event, function () {
-          he.exec( 'arch@firmware.online_check', $.i18n("Checking...") ).then( function(v){
-            if ( !v )
+          he.exec( [ 'arch@firmware.online_check' ], $.i18n("Checking...") ).then( function(v){
+            if ( !v[0] )
             {
                 page.alert( { message: $.i18n('No new version'), callback: function( result ){
                     $('#new_version').hide();
@@ -302,18 +302,18 @@
             }
             else
             {
-                if ( !v.url )
+                if ( ! v[0].url )
                 {
                     page.alert( { message: $.i18n( "It's the latest version"), callback: function( result ){
                         $('#new_version').hide();
-                        if ( v.changelog )
+                        if ( v[0].changelog )
                         {
                             var log = "";
-                            for ( var i in v.changelog )
+                            for ( var i in v[0].changelog )
                             {
                                 log += i;
                                 log += ":";
-                                log += v.changelog[i];
+                                log += v[0].changelog[i];
                                 log += "<br>";
                             }
                             $('#changelog').html( log );
@@ -327,17 +327,17 @@
                 }
                 else
                 {
-                    newst_url = v.url;
-                    $('#online_version').html( v.version+ '   <i class="ace-icon fa fa-arrow-up">' );
+                    newst_url = v[0].url;
+                    $('#online_version').html( v[0].version+ '   <i class="ace-icon fa fa-arrow-up">' );
                     $('#new_version').show();
-                    if ( v.changelog )
+                    if ( v[0].changelog )
                     {
                         var log = "";
-                        for ( var i in v.changelog )
+                        for ( var i in v[0].changelog )
                         {
                             log += i;
                             log += ":";
-                            log += v.changelog[i];
+                            log += v[0].changelog[i];
                             log += "<br>";
                         }
                         $('#changelog').html( log );
@@ -361,8 +361,8 @@
           page.confirm( { message: $.i18n('Are you sure you want to upgrade the newst version online, it will take long time') } ).then( function(result){
               if ( result )
               {
-                  he.exec( 'arch@firmware.online_upgrade['+newst_url+']', $.i18n("Upgrading...") ).then( function(v){
-                    if ( v )
+                  he.exec( [ 'arch@firmware.online_upgrade['+newst_url+']' ], $.i18n("Upgrading...") ).then( function(v){
+                    if ( v[0] )
                     {
                         page.confirm( { message: $.i18n("Upgrade online successfully, Restart the system or not"),
                           callback: function( result )

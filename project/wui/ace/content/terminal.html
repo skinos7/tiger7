@@ -78,8 +78,8 @@
 
       $('#hetui').on(ace.click_event, function () {
           $('#terminal').hide();
-          he.exec( 'wui@admin.ttyd_he', $.i18n("Opening...") ).then( function(v){
-            if ( v == true )
+          he.exec( [ 'wui@admin.ttyd_he' ], $.i18n("Opening...") ).then( function(v){
+            if ( v[0] == true )
             {
                 $('#terminal').attr('src', null );
                 open_term();
@@ -96,8 +96,8 @@
               if ( result )
               {
                   $('#terminal').hide();
-                  he.exec( 'wui@admin.ttyd_serial[uart@serial]', $.i18n("Opening...") ).then( function(v){
-                    if ( v == true )
+                  he.exec( [ 'wui@admin.ttyd_serial[uart@serial]' ], $.i18n("Opening...") ).then( function(v){
+                    if ( v[0] == true )
                     {
                         $('#terminal').attr('src', null );
                         open_term();
@@ -116,8 +116,8 @@
               if ( result )
               {
                   $('#terminal').hide();
-                  he.exec( 'wui@admin.ttyd_serial[uart@serial2]', $.i18n("Opening...") ).then( function(v){
-                    if ( v == true )
+                  he.exec( [ 'wui@admin.ttyd_serial[uart@serial2]' ], $.i18n("Opening...") ).then( function(v){
+                    if ( v[0] == true )
                     {
                         $('#terminal').attr('src', null );
                         open_term();
@@ -136,8 +136,8 @@
               if ( result )
               {
                   $('#terminal').hide();
-                  he.exec( 'wui@admin.ttyd_serial[uart@serial3]', $.i18n("Opening...") ).then( function(v){
-                    if ( v == true )
+                  he.exec( [ 'wui@admin.ttyd_serial[uart@serial3]' ], $.i18n("Opening...") ).then( function(v){
+                    if ( v[0] == true )
                     {
                         $('#terminal').attr('src', null );
                         open_term();
@@ -152,8 +152,8 @@
           });
       });
       $('#close').on(ace.click_event, function () {
-          he.exec( 'wui@admin.ttyd_kill', $.i18n("closing...") ).then( function(v){
-            if ( v == true )
+          he.exec( [ 'wui@admin.ttyd_kill' ], $.i18n("closing...") ).then( function(v){
+            if ( v[0] == true )
             {
                 $('#terminal').hide();
             }

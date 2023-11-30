@@ -448,7 +448,7 @@
 		<!-- add by dimmalex for api -->
 		<script src="/api/code.js"></script>
 		<script src="/api/he.js"></script>
-		<script src="/api/miscv2.js"></script>
+		<script src="/api/misc.js"></script>
 
 		<!-- add by dimmalex for global -->
 		<script type="text/javascript">
@@ -460,7 +460,7 @@
             window.username = <%username(); %>;
 			window.custom = <%he('arch@custom'); %>;
 			window.machine = <%he('land@machine'); %>;
-			window.machine_status = <%he('land@machine.status'); %>;
+			window.machines = <%he('land@machine.status'); %>;
 			window.network_frame = <%he('network@frame'); %>;
 			window.mode_list = <%he('network@frame.mode_list'); %>;
 			window.ifname_list = <%he('network@frame.list'); %>;
@@ -494,13 +494,13 @@
                     }
                     else if ( window.wui.logo_title == "#MODEL" )
                     {
-                        if ( window.machine_status.cmodel )
+                        if ( window.machines.cmodel )
                         {
-                            $('#logo_context').text( window.machine_status.cmodel );
+                            $('#logo_context').text( window.machines.cmodel );
                         }
                         else
                         {
-                            $('#logo_context').text( window.machine_status.model );
+                            $('#logo_context').text( window.machines.model );
                         }
                     }
                     else
@@ -515,15 +515,15 @@
                 }
                 else
                 {
-                    if ( window.machine_status.cmodel )
+                    if ( window.machines.cmodel )
                     {
-                        $('#cmodel').text( window.machine_status.cmodel );
+                        $('#cmodel').text( window.machines.cmodel );
                     }
                     else
                     {
-                        $('#cmodel').text( window.machine_status.model );
+                        $('#cmodel').text( window.machines.model );
                     }
-                    $('#version').text( window.machine_status.version );
+                    $('#version').text( window.machines.version );
                     $('#logo_table').show();
                 }
                 
@@ -613,25 +613,25 @@
 			/* get the machine config and setup the language */
 			$.i18n().load( page.lang('device') ).then( function () { 
 				$.i18n().locale = window.lang; $('body').i18n();
-                var r = [];
-                r[0] = "machine";
-                r[1] = "machine.status";
-                r[2] = ".ifname@lte";
-                r[3] = ".ifname@lte2";
-                r[4] = "ifname@lte.status";
-                r[5] = "ifname@lte2.status";
-                r[6] = "arch@ethernet.status";
-                r[7] = "ifname@lan1.status";
-                r[8] = "ifname@lan2.status";
-                r[9] = "ifname@lan3.status";
-                r[10] = "ifname@lan4.status";
-                r[11] = ".uart@serial";
-                r[12] = ".uart@serial2";
-                r[13] = ".uart@serial3";
-                r[14] = "uart@serial.status";
-                r[15] = "uart@serial2.status";
-                r[16] = "uart@serial3.status";
-                he.load( r ).then( function( v ){
+                var cmds = [];
+                cmds[0] = "machine";
+                cmds[1] = "machine.status";
+                cmds[2] = ".ifname@lte";
+                cmds[3] = ".ifname@lte2";
+                cmds[4] = "ifname@lte.status";
+                cmds[5] = "ifname@lte2.status";
+                cmds[6] = "arch@ethernet.status";
+                cmds[7] = "ifname@lan1.status";
+                cmds[8] = "ifname@lan2.status";
+                cmds[9] = "ifname@lan3.status";
+                cmds[10] = "ifname@lan4.status";
+                cmds[11] = ".uart@serial";
+                cmds[12] = ".uart@serial2";
+                cmds[13] = ".uart@serial3";
+                cmds[14] = "uart@serial.status";
+                cmds[15] = "uart@serial2.status";
+                cmds[16] = "uart@serial3.status";
+                he.load( cmds ).then( function( v ){
                     m = v[0]
                     ms = v[1];
                     lte = v[2];

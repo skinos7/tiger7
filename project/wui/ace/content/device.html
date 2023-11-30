@@ -190,6 +190,7 @@
     var date;
     var dates;
     var ntps;
+    var wuimenu = window.wui.menu;
 
     /* load the configure on the input */
     function date_load()
@@ -310,8 +311,8 @@
                 // 实际的月份
                 m = parseInt(now.getMonth()) + 1;
                 // 使用客户端时间
-                he.exec( 'clock@date.current['+now.getHours()+':'+now.getMinutes()+':'+now.getSeconds()+':'+m+':'+now.getDate()+':'+now.getFullYear()+']' ).then(function ( result ) {
-                    if ( result )
+                he.exec( [ 'clock@date.current['+now.getHours()+':'+now.getMinutes()+':'+now.getSeconds()+':'+m+':'+now.getDate()+':'+now.getFullYear()+']' ] ).then(function ( result ) {
+                    if ( result[0] )
                     {
                         page.hint2succeed($.i18n('Sync successfully'));
                     }
@@ -324,8 +325,8 @@
             });
             // NTP对时
             $('#sync').on(ace.click_event, function () {
-                he.exec('clock@date.ntpsync').then(function (result) {
-                    if ( result )
+                he.exec( [ 'clock@date.ntpsync' ] ).then(function (result) {
+                    if ( result[0] )
                     {
                         page.hint2succeed($.i18n('Sync successfully'));
                     }
@@ -340,7 +341,7 @@
     }
     function date_save()
     {
-        var cmd = [];
+        var cmds = [];
         var datecopy = null;
         var ntpscopy = null;
         var needsave = false;
@@ -358,7 +359,7 @@
             }
             if ( !ocompare( date, datecopy ) )
             {
-                cmd.push( "clock@date="+JSON.stringify(date) );
+                cmds.push( "clock@date="+JSON.stringify(date) );
                 needsave = true;
             }
         }
@@ -375,7 +376,7 @@
             }
             if ( !ocompare( ntps, ntpscopy ) )
             {
-                cmd.push( "clock@ntps="+JSON.stringify(ntps) );
+                cmds.push( "clock@ntps="+JSON.stringify(ntps) );
                 needsave = true;
             }
         }
@@ -385,7 +386,7 @@
           page.alert( { message: $.i18n('Settings unchanged') } );
           return;
         }
-        he.save( cmd ).then( function(){
+        he.save( cmds ).then( function(){
             page.hint2succeed( $.i18n('Modify successfully') );
             date_load();
         });
@@ -399,21 +400,21 @@
 
       /* load the info */
       $('#name_string').text(window.machine.name);
-      if ( window.machine_status.cmodel )
+      if ( window.machines.cmodel )
       {
-        $('#model_string').text(window.machine_status.cmodel);
+        $('#model_string').text(window.machines.cmodel);
       }
       else
       {
-        $('#model_string').text(window.machine_status.model);
+        $('#model_string').text(window.machines.model);
       }
       if ( !wuimenu || wuimenu.model != "disable" )
       {
           $("#model_string").closest('.form-group').show();
       }
-      if ( window.machine_status.datecode )
+      if ( window.machines.datecode )
       {
-          $('#datecode').text(window.machine_status.datecode);
+          $('#datecode').text(window.machines.datecode);
           $("#datecode").closest('.form-group').show();
       }
       $('#mac').text(window.machine.mac);

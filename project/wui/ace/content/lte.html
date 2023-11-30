@@ -1452,7 +1452,7 @@
       $('#lte_btn').on(ace.click_event, function () {
           if ( ltes.status == "up" || ltes.status == "uping" || ltes.status == "connect" )
           {
-              he.exec( object+'.shut').then( function(result){status_load();} );
+              he.exec( [ object+'.shut' ] ).then( function(result){status_load();} );
           }
           else
           {

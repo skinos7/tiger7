@@ -353,7 +353,7 @@
     /* save the configure */
     function cfg_save()
     {
-      var cmd = [];
+      var cmds = [];
       var stacopy = null;
 
       if ( sta == null )
@@ -411,14 +411,14 @@
       }
       if ( !ocompare( sta, stacopy ) )
       {
-        cmd.push( object+"="+JSON.stringify(sta) );
+        cmds.push( object+"="+JSON.stringify(sta) );
       }
-      if ( cmd.length == 0 )
+      if ( cmds.length == 0 )
       {
           page.alert( { message: $.i18n('Settings unchanged') } );
           return;
       }
-      he.save( cmd ).then( function(){
+      he.save( cmds ).then( function(){
         page.hint2succeed( $.i18n('Modify successfully') );
         cfg_load();
       });
@@ -509,11 +509,11 @@
         $('#status_btn').on(ace.click_event, function () {
             if ( $('#status_status').text() == $.i18n('down') )
             {
-                he.exec( object+'.up').then( function(result){status_load();} );
+                he.exec( [ object+'.up' ] ).then( function(result){status_load();} );
             }
             else
             {
-                he.exec( object+'.down').then( function(result){status_load();} );
+                he.exec( [ object+'.down' ] ).then( function(result){status_load();} );
             }
         });
 

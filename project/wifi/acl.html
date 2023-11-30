@@ -163,7 +163,7 @@
     /* save the configure */
     function wifiacl_save()
     {
-        var cmd = [];
+        var cmds = [];
 
         if ( ssid != null )
         {
@@ -188,10 +188,10 @@
             }
             if ( !ocompare( ssid, ssidcopy ) )
             {
-                cmd.push( object+"="+JSON.stringify(ssid) );
+                cmds.push( object+"="+JSON.stringify(ssid) );
             }
         }
-        if ( cmd.length == 0 )
+        if ( cmds.length == 0 )
         {
             page.alert( { message: $.i18n('Settings unchanged') } );
             return;
@@ -199,7 +199,7 @@
         page.confirm( { message: $.i18n('The wireless client will be disconneted because of the change of configuration') } ).then( function(result){
             if ( result )
             {
-                he.save( cmd ).then( function(){
+                he.save( cmds ).then( function(){
                     page.alert( {message:$.i18n('Make sure that the device is reconnected')} );
                     wifiacl_load();
                 });

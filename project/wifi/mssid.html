@@ -345,7 +345,7 @@
     /* save the configure */
     function ssid_save()
     {
-      var cmd = [];
+      var cmds = [];
       var ssidcopy = null;
       var ssid2copy = null;
       var restart = false;
@@ -398,13 +398,13 @@
 
       if ( !ocompare( ssid, ssidcopy ) )
       {
-        cmd.push( sobj+"="+JSON.stringify(ssid) );
+        cmds.push( sobj+"="+JSON.stringify(ssid) );
       }
       if ( !ocompare( ssid2, ssid2copy ) )
       {
-          cmd.push( s2obj+"="+JSON.stringify(ssid2) );
+          cmds.push( s2obj+"="+JSON.stringify(ssid2) );
       }
-      if ( cmd.length == 0 )
+      if ( cmds.length == 0 )
       {
           page.alert( { message: $.i18n('Settings unchanged') } );
           return;
@@ -414,7 +414,7 @@
           page.confirm( { message: $.i18n('The system will restart because of the change of configuration') } ).then( function(result){
               if ( result )
               {
-                  he.save( cmd ).then( function(){
+                  he.save( cmds ).then( function(){
                       page.confirm( { message: $.i18n('Need to restart the system') } ).then( function(result){
                           if ( result )
                           {
@@ -434,7 +434,7 @@
           page.confirm( { message: $.i18n('The wireless client will be disconneted because of the change of configuration') } ).then( function(result){
             if ( result )
             {
-              he.save( cmd ).then( function(){
+              he.save( cmds ).then( function(){
                 page.alert( {message:$.i18n('Make sure that the device is reconnected')} );
                 location.reload();
               });

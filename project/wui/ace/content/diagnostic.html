@@ -85,8 +85,8 @@
       $('#ping').on(ace.click_event, function () {
           var ip = $('#ping_address').val();
           $('#terminal').hide();
-          he.exec( 'wui@admin.ttyd_ping['+ip+']', $.i18n("Opening...") ).then( function(v){
-            if ( v == true )
+          he.exec( [ 'wui@admin.ttyd_ping['+ip+']' ], $.i18n("Opening...") ).then( function(v){
+            if ( v[0] == true )
             {
                 $('#terminal').attr('src', null );
                 open_term();
@@ -101,8 +101,8 @@
       $('#traceroute').on(ace.click_event, function () {
           var ip = $('#traceroute_address').val();
           $('#terminal').hide();
-          he.exec( 'wui@admin.ttyd_traceroute['+ip+']', $.i18n("Opening...") ).then( function(v){
-            if ( v == true )
+          he.exec( [ 'wui@admin.ttyd_traceroute['+ip+']' ], $.i18n("Opening...") ).then( function(v){
+            if ( v[0] == true )
             {
                 $('#terminal').attr('src', null );
                 open_term();
@@ -117,8 +117,8 @@
       $('#capture').on(ace.click_event, function () {
           var expression = $('#expression').val();
           $('#terminal').hide();
-          he.exec( 'wui@admin.ttyd_tcpdump['+expression+']', $.i18n("Opening...") ).then( function(v){
-            if ( v == true )
+          he.exec( [ 'wui@admin.ttyd_tcpdump['+expression+']' ], $.i18n("Opening...") ).then( function(v){
+            if ( v[0] == true )
             {
                 $('#terminal').attr('src', null );
                 open_term();
@@ -131,8 +131,8 @@
           });
       });
       $('#close').on(ace.click_event, function () {
-          he.exec( 'wui@admin.ttyd_kill', $.i18n("closing...") ).then( function(v){
-            if ( v == true )
+          he.exec( [ 'wui@admin.ttyd_kill' ], $.i18n("closing...") ).then( function(v){
+            if ( v[0] == true )
             {
                 $('#terminal').hide();
             }
