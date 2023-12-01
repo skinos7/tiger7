@@ -360,6 +360,47 @@ boole_t _usb_match( obj_t this, param_t param )
 		json_set_string( dev, "drvcom", COM_IDPATH );
 		return ttrue;
 	}
+	else if ( 0 == strcasecmp( vid, "12d1" ) && ( 0 == strcasecmp( pid, "15c1" ) ) )
+	{
+		info( "Huawei ME909S modem found(%s:%s)", vid , pid );
+		/* insmod the usb driver */
+		shell( "modprobe option" );
+		usleep( 2000000 );
+		syspath = json_string( dev, "syspath" );
+
+		/* find the tty list */
+		i = usbttylist_device_find( syspath, ttylist );
+		if ( i < 4 )
+		{
+			usleep( 2000000 );
+			i = usbttylist_device_find( syspath, ttylist );
+			if ( i < 4	)
+			{
+				usleep( 2000000 );
+				i = usbttylist_device_find( syspath, ttylist );
+				if ( i < 4	)
+				{
+					fault( "Huawei MU609 modem cannot find the specified serial port(%d), system maybe cracked", i );
+					return terror;
+				}
+			}
+		}
+		/* set the name */
+		json_set_string( dev, "name", "Huawei-ME909S" );
+		/* get the object */
+		object = lte_object_get( LTE_COM, syspath, cfg, NULL, 0 );
+		json_set_string( dev, "object", object );
+		/* find the netdev */
+		netdev = usbeth_device_find( syspath, NULL, 0 );
+		if ( netdev != NULL )
+		{
+			json_set_string( dev, "netdev", netdev );
+		}
+		json_set_string( dev, "mtty", ttylist[2] );
+		json_set_string( dev, "devcom", MODEM_COM );
+		json_set_string( dev, "drvcom", COM_IDPATH );
+		return ttrue;
+	}
 
     return tfalse;
 }
