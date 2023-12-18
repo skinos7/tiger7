@@ -40,7 +40,7 @@ bufclean sdkclean:
 ######## Misc Target ################
 #####################################
 
-local start stop:
+local start stop purge:
 	make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@
 sz:
 	make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@

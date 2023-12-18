@@ -38,6 +38,8 @@ stop:
 	if [ -f /usr/prj/shut.sh ]; then \
 		/usr/prj/shut.sh; \
 	fi
+purge:
+	sudo rm -fr /var/skin
 sz:
 	# 通过xmodem协议发送固件到本地
 	cd ${gBUILD_DIR} && sz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.zz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.upgrade ${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.txt
@@ -54,7 +56,7 @@ repo:
 			curl -u ${gpFTP_PUB_PASSWORD} -T ${gSTORE_DIR}/$${i} ${gpFTP_PUB_REPO}/; \
 		done \
 	fi
-.PHONY: local start stop sz tar ftp repo
+.PHONY: local start stop purge sz tar ftp repo
 
 
 
