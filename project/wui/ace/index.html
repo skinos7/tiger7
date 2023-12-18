@@ -366,6 +366,7 @@
             window.obj = <%obj(); %>;
             window.object = <%object(); %>;
             window.username = <%username(); %>;
+			window.gpio = <%he('arch@gpio'); %>;
 			window.custom = <%he('arch@custom'); %>;
 			window.machine = <%he('land@machine'); %>;
 			window.machines = <%he('land@machine.status'); %>;
@@ -919,7 +920,7 @@
                         {
     					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE' ), 'lte?object=ifname@lte' );
     					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE SMS' ), 'ltesms?object=modem@lte' );
-    					    var bsim = <%he('modem@lte:bsim'); %>;
+    					    var bsim = window.gpio["modem@lte_sim"];
     					    if ( bsim && bsim != "" )
     					    {
     					        menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE Backup SIM' ), 'bsim?object=modem@lte' );
@@ -932,7 +933,7 @@
                         {
     					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE/NR' ), 'lte?object=ifname@lte2' );
     					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE/NR SMS' ), 'ltesms?object=modem@lte2' );
-    					    var bsim = <%he('modem@lte2:bsim'); %>;
+    					    var bsim = window.gpio["modem@lte2_sim"];
     					    if ( bsim && bsim != "" )
     					    {
     					        menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE/NR Backup SIM' ), 'bsim?object=modem@lte2' );
