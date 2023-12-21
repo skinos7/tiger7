@@ -398,6 +398,11 @@
       /* init the langauage */
       $.i18n().locale = lang; $('body').i18n();
 
+      /* compatibility to 7.3 */
+      if ( window.machine_status )
+      {
+          window.machines = window.machine_status;
+      }
       /* load the info */
       $('#name_string').text(window.machine.name);
       if ( window.machines.cmodel )

@@ -176,6 +176,11 @@
 
         if ( $('#status').prop('checked') == true )
         {
+            /* compatibility to 7.3 */
+            if ( window.machine_status )
+            {
+                window.machines = window.machine_status;
+            }
             if ( window.machines.platform == "host" )
             {
                 syslog.status = "file";
