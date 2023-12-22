@@ -652,6 +652,9 @@ static const struct option_blacklist_info cinterion_rmnet2_blacklist = {
 };
 
 
+static const struct option_blacklist_info blacklist_34 = {
+	.reserved = BIT(3)|BIT(4),
+};
 static const struct option_blacklist_info blacklist_45 = {
 	.reserved = BIT(4)|BIT(5),
 };
@@ -792,9 +795,19 @@ static const struct usb_device_id option_ids[] = {
 
 
 
+    /* add by dimmalex for ZTE ME3630 */
+    { USB_DEVICE(0x19D2, 0x1476), .driver_info = (kernel_ulong_t)&blacklist_34 },
+
+
+
     /* add by dimmalex TD Tech Em250/EM350 */
     { USB_DEVICE(HUAWEI_VENDOR_ID, 0x1506) },
     { USB_DEVICE(HUAWEI_VENDOR_ID, 0x1C05) },
+
+
+
+    /* add by dimmalex TD Tech Em250/EM350 */
+    { USB_DEVICE(HUAWEI_VENDOR_ID, 0x15C1) },
 
 
 

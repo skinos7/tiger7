@@ -208,3 +208,11 @@ if [ ! -d ${gSDK_DIR}/package/libs/libubox/patches ]; then
 fi
 cp ${gPLATFORM_DIR}/adjust/patch/libubox/jshn-suuport-loadfile.patch ${gSDK_DIR}/package/libs/libubox/patches/
 
+# update the openvpn
+rm -fr ${gSDK_DIR}/package/network/services/openvpn
+cp -r ${gPLATFORM_DIR}/adjust/patch/openvpn ${gSDK_DIR}/package/network/services/
+
+# update the dropbear
+rm -fr ${gSDK_DIR}/package/network/services/dropbear
+cp -r ${gPLATFORM_DIR}/adjust/patch/dropbear ${gSDK_DIR}/package/network/services/
+
