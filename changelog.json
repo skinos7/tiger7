@@ -1,4 +1,11 @@
 {
+    "v7.4.1223":
+    {
+        "20231201":"update openvpn to support tls",
+        "20231202":"update the dropbear to support new cipber",
+        "20231203":"cloud server for remote mange skinos",
+        "20231204":"support tcp port proxy for skinos local device"
+    },
     "v7.3.1009":
     {
         "20220810":"fix lte webpage crack on load",
