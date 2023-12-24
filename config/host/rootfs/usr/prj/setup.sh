@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# modify the maximum number of open file descriptors
+ulimit -n 65535
 # need arch@data.setup init the dir
 he arch@data.setup
 # need land@machine.setup init the configure and register the project
