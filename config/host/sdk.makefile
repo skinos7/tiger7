@@ -38,6 +38,7 @@ stop:
 	if [ -f /usr/prj/shut.sh ]; then \
 		/usr/prj/shut.sh; \
 	fi
+	sudo rm -fr /tmp/skin
 purge:
 	sudo rm -fr /var/skin
 sz:
