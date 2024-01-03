@@ -1,10 +1,13 @@
 {
-    "v7.4.1223":
+    "v7.4.1225":
     {
         "20231201":"update openvpn to support tls",
         "20231202":"update the dropbear to support new cipber",
         "20231203":"cloud server for remote mange skinos",
-        "20231204":"support tcp port proxy for skinos local device"
+        "20231204":"support tcp port proxy for skinos local device",
+        "20231205":"can custom the manage_dir for devui",
+        "20231206":"support set the mtu for lte/wan/wisp",
+        "20231207":"pport support pond the client connection"
     },
     "v7.3.1009":
     {

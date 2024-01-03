@@ -254,13 +254,6 @@
                   </div>
                 </div>
             
-                <!-- mtu -->
-                <div class="form-group">
-                    <label class="col-sm-3 control-label no-padding-right" data-i18n="MTU"></label>
-                    <div class="col-sm-9">
-                      <input type="text" id="mtu" class="col-xs-10 col-sm-5" maxlength="128" />
-                    </div>
-                </div>
                 <!-- lcp 间隔 -->
                 <div class="form-group">
                     <label class="col-sm-3 control-label no-padding-right" data-i18n="LCP Echo Interval"></label>
@@ -315,6 +308,13 @@
                        <span class="lbl"></span>
                    </label>
                </div>
+           </div>
+           <!-- mtu -->
+           <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" data-i18n="MTU"></label>
+                <div class="col-sm-9">
+                    <input type="text" id="mtu" class="col-xs-10 col-sm-5" maxlength="128" />
+                </div>
            </div>
 
 
@@ -649,7 +649,6 @@
         {
           $('#username').val(wan.pppoec.username);
           $('#password').val(wan.pppoec.password);
-          $('#mtu').val(wan.pppoec.mtu);
           $('#lcp_echo_interval').val(wan.pppoec.lcp_echo_interval);
           $('#lcp_echo_failure').val(wan.pppoec.lcp_echo_failure);
         }
@@ -662,6 +661,7 @@
           $('#dns2').val(wan.static.dns2);
         }
         $('#masq').prop('checked', able2boole(wan.masq));
+        $('#mtu').val(wan.mtu||"");
         $('#mode').unbind('change').change(function (e) {
           var type = e.target.value;
           switch (type)
@@ -929,12 +929,6 @@
             }
             wan.pppoec.username = $('#username').val();
             wan.pppoec.password = $('#password').val();
-            wan.pppoec.mtu = $('#mtu').val();
-            if ( wan.pppoec.mtu && check.number(wan.pppoec.mtu) == false )
-            {
-                page.alert( { message: $.i18n('MTU')+" "+$.i18n('must be a valid number') } );
-                return;
-            }
             wan.pppoec.lcp_echo_interval = $('#lcp_echo_interval').val();
             if ( wan.pppoec.lcp_echo_interval && check.number(wan.pppoec.lcp_echo_interval) == false )
             {
@@ -1009,6 +1003,12 @@
             }
           }
           wan.masq = boole2able( $('#masq').prop('checked') );
+          wan.mtu = $('#mtu').val();
+          if ( wan.mtu && check.number(wan.mtu) == false )
+          {
+             page.alert( { message: $.i18n('MTU')+" "+$.i18n('must be a valid number') } );
+             return;
+          }
 
           /* IPV6 */
           if ( wan.method )

@@ -200,13 +200,6 @@
 
             <!-- PPP设置-->
             <div id="ppp_cfg" style="display: none;" >
-                <!-- mtu -->
-                <div class="form-group">
-                    <label class="col-sm-3 control-label no-padding-right" data-i18n="MTU"></label>
-                    <div class="col-sm-9">
-                      <input type="text" id="mtu" class="col-xs-10 col-sm-5" maxlength="128" />
-                    </div>
-                </div>
                 <!-- lcp 间隔 -->
                 <div class="form-group">
                     <label class="col-sm-3 control-label no-padding-right" data-i18n="LCP Echo Interval"></label>
@@ -316,6 +309,13 @@
                         <input id="masq" class="ace ace-switch ace-switch-6" type="checkbox" />
                         <span class="lbl"></span>
                     </label>
+                </div>
+            </div>
+            <!-- mtu -->
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" data-i18n="MTU"></label>
+                <div class="col-sm-9">
+                    <input type="text" id="mtu" class="col-xs-10 col-sm-5" maxlength="128" />
                 </div>
             </div>
 
@@ -826,7 +826,6 @@
         $('#mode').val( lte.mode||"" );
         if ( lte.ppp )
         {
-          $('#mtu').val(lte.ppp.mtu);
           $('#lcp_echo_interval').val(lte.ppp.lcp_echo_interval);
           $('#lcp_echo_failure').val(lte.ppp.lcp_echo_failure);
           $('#pppopt').val(lte.ppp.pppopt);
@@ -840,6 +839,7 @@
           $('#dns2').val(lte.static.dns2);
         }
         $('#masq').prop('checked', able2boole(lte.masq));
+        $('#mtu').val(lte.mtu||"");
         $('#mode').unbind('change').change(function (e) {
           var type = e.target.value;
           switch (type)
@@ -1151,12 +1151,6 @@
                   return;
               }
             }
-            lte.ppp.mtu = $('#mtu').val();
-            if ( lte.ppp.mtu && check.number(lte.ppp.mtu) == false )
-            {
-                page.alert( { message: $.i18n('MTU')+" "+$.i18n('must be a valid number') } );
-                return;
-            }
             lte.ppp.lcp_echo_interval = $('#lcp_echo_interval').val();
             if ( lte.ppp.lcp_echo_interval && check.number(lte.ppp.lcp_echo_interval) == false )
             {
@@ -1232,6 +1226,12 @@
             }
           }
           lte.masq = boole2able( $('#masq').prop('checked') );
+          lte.mtu = $('#mtu').val();
+          if ( lte.mtu && check.number(lte.mtu) == false )
+          {
+              page.alert( { message: $.i18n('MTU')+" "+$.i18n('must be a valid number') } );
+              return;
+          }
 
           /* IPV6 */
           if ( lte.method )
