@@ -813,7 +813,13 @@ boole_t _service( obj_t this, param_t param )
 		/* ipv4 pppoe setting */
 		else if ( mode != NULL && 0 == strcmp( mode, "pppoec" ) )
 		{
+			const char *mtu;
 			v = json_value( cfg, "pppoec" );
+			mtu = json_string( cfg, "mtu" );
+			if ( mtu != NULL && atoi(mtu) > 0 )
+			{
+				json_set_string( v, "mtu", mtu );
+			}
 			ret = pppoe_client_connect( object, ifdev, netdev, v );
 		}
 	}
@@ -893,6 +899,7 @@ boole_t _online( obj_t this, param_t param )
 	const char *dns;
 	const char *dns2;
 	const char *metric;
+    const char *mtu;
 	char path[PATH_MAX];
 	char ipaddr[NAME_MAX];
 
@@ -979,6 +986,12 @@ boole_t _online( obj_t this, param_t param )
 	{
 		iptables("-t nat -A %s -o %s -j MASQUERADE", MASQ_CHAIN, netdev );
 	}
+	/* mtu */
+	mtu = json_string( cfg, "mtu" );
+	if ( mtu != NULL && atoi(mtu) > 0 )
+	{
+		shell( "ifconfig %s mtu %s", netdev, mtu );
+	}
 	/* ppp tcp mss */
 	if ( 0 == strncmp( netdev, "ppp", 3 ) )
 	{
@@ -989,13 +1002,13 @@ boole_t _online( obj_t this, param_t param )
 			ptr = "500";
 		}
 		txqueue_set_ifname( object, netdev, ptr );
-		pmtu_adjust_ifname( object, netdev );
+		pmtu_adjust_ifname( object, netdev, mtu );
 	}
 	else
 	{
 		if ( gateway != NULL && *gateway != '\0' )
 		{
-			pmtu_adjust_ifname( object, netdev );
+			pmtu_adjust_ifname( object, netdev, mtu );
 		}
 	}
 
@@ -1018,6 +1031,8 @@ boole_t _online( obj_t this, param_t param )
 }
 talk_t _offline( obj_t this, param_t param )
 {
+	talk_t cfg;
+	const char *mtu;
     const char *object;
     const char *ifdev;
 	const char *netdev;
@@ -1032,11 +1047,11 @@ talk_t _offline( obj_t this, param_t param )
     if ( netdev != NULL && *netdev != '\0' )
     {
 		iptables( "-t nat -D %s -o %s -j MASQUERADE", MASQ_CHAIN, netdev );
-	    if ( 0 == strncmp( netdev, "ppp", 3 ) )
-	    {
-			/* ppp tcp mss */
-	        iptables( "-t mangle -D POSTROUTING -o %s -p tcp -m tcp --tcp-flags SYN,RST SYN -m tcpmss --mss 1400:1536 -j TCPMSS --clamp-mss-to-pmtu", netdev );
-	    }
+		/* tcp mss */
+		cfg = config_get( this, NULL );
+		mtu = json_string( cfg, "mtu" );
+		pmtu_clear_ifname( object, netdev, mtu );
+		talk_free( cfg );
 		info( "%s(%s) offline", object, netdev );
     }
 	else
@@ -1060,16 +1075,17 @@ boole _set( obj_t this, talk_t v, attr_t path )
     boole ret;
 	const char *object;
 
-    ret = config_set( this, v, path );
-    if ( ret == true )
-    {
-    	object = obj_combine( this );
-		if ( NULL == strstr( object, LAN_COM ) )
-		{
-	        _shut( this, NULL );
-	        _setup( this, NULL );
-		}
-    }
+	object = obj_combine( this );
+	if ( NULL == strstr( object, LAN_COM ) )
+	{
+		_shut( this, NULL );
+		ret = config_set( this, v, path );
+		_setup( this, NULL );
+	}
+	else
+	{
+		ret = config_set( this, v, path );
+	}
     return ret;
 }
 talk_t _get( obj_t this, attr_t path )

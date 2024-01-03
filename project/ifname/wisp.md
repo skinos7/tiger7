@@ -55,7 +55,6 @@ Usually ifname@wisp is the first WISP(2.4G) network. If there are multiple WISP 
         "password":"PPPOE password",                     // [ string ]
         "service":"service name",                        // [ string ], default accept all service
         "txqueuelen":"tx queue szie",                    // [ number ]
-        "mtu":"Maximum transmission unit",               // [ number ], The unit is in bytes
         "mss":"TCP Maximum Segment Size",                // [ number ], The unit is in bytes
         "lcp_echo_interval":"LCP echo interval",         // [ number ], The unit is in seconds
         "lcp_echo_failure":"LCP echo failure times",     // [ number ]
@@ -65,6 +64,7 @@ Usually ifname@wisp is the first WISP(2.4G) network. If there are multiple WISP 
         "dns2":"Custom DNS2"                             // [ IP address ], This is valid when custom_dns is [ enable ]
     },
     "masq":"out stream share the interface IPv4 address to access the Internet",  // [ "disable", "enable" ]
+    "mtu":"Maximum transmission unit",                                            // [ number ], The unit is in bytes
 
     // IPv6
     "method":"IPv6 address mode",         [ "disable", "manual", "automatic", "slaac", "relay" ]

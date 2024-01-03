@@ -34,7 +34,6 @@ Usually ifname@lte is the first LTE/NR network and module. If there are multiple
     },
     "ppp":                                    // detial configure for "mode" is "ppp"
     {
-        "mtu":"Maximum transmission unit",               // [ number ], The unit is in bytes
         "mss":"TCP Maximum Segment Size",                // [ number ], The unit is in bytes
         "lcp_echo_interval":"LCP echo interval",         // [ number ], The unit is in seconds
         "lcp_echo_failure":"LCP echo failure times",     // [ number ]
@@ -45,6 +44,7 @@ Usually ifname@lte is the first LTE/NR network and module. If there are multiple
         "txqueuelen":"tx queue len"
     },
     "masq":"out stream share the interface IPv4 address to access the Internet",  // [ "disable", "enable" ]
+    "mtu":"Maximum transmission unit",                                            // [ number ], The unit is in bytes
 
     // IPv6
     "method":"IPv6 address mode",             // [ "disable", "manual", "automatic", "slaac", "relay" ]
