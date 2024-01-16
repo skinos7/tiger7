@@ -33,13 +33,23 @@ boole_t _service( obj_t this, param_t param )
     char *end;
     talk_t cfg;
     int i;
+	int delay;
     char string[64];
     const char *ptr;
     const char *mode;
     unsigned int pass;
 
-    /* sleep 2 second for action, get pass time */
-    sleep( 120 );
+    /* sleep 2 min for work */
+    cfg = config_sget( COM_IDPATH, NULL );
+	delay = 120;
+	ptr = json_string( cfg, "delay" );
+	if ( ptr != NULL && *ptr != '\0' )
+	{
+		delay = atoi( ptr );
+	}
+    sleep( delay );
+
+	/* get the pass time */
     memset( string, 0, sizeof(string) );
     file2string( "/proc/uptime", string, sizeof(string) );
     end = strstr( string, "." );
@@ -51,7 +61,6 @@ boole_t _service( obj_t this, param_t param )
     pass = atoll( string );
 
     /* restart */
-    cfg = config_sget( COM_IDPATH, NULL );
     mode = json_string( cfg, "mode" );
     if ( mode != NULL && 0 == strcmp( mode, "age" ) )
     {
@@ -109,7 +118,9 @@ boole_t _service( obj_t this, param_t param )
         {
             age = atoi( ptr );
         }
-		info( "restart at the %d:%d delay %d before and max runtime %d", hour, minute, start, age );
+		time( &now );
+		ptime = localtime( &now );
+		info( "current %u:%u delay %d restart at %u:%u and max runtime %d", ptime->tm_hour, ptime->tm_min, start, hour, minute, age );
 		if ( start > 0 )
 		{
 			sleep( start );
@@ -128,7 +139,9 @@ boole_t _service( obj_t this, param_t param )
                 {
                     info( "restart the system by %s for %s mode(%u:%u)", COM_IDPATH, mode, hour, minute );
 					machine_restart( 5, "restart" );
+					return ttrue;
                 }
+				//info( "current %u:%u", ptime->tm_hour, ptime->tm_min );
             }
 			up = uptime_int();
 			if ( up >= age )
@@ -183,6 +196,9 @@ boole_t _service( obj_t this, param_t param )
         {
             minute = atoi( ptr );
         }
+		time( &now );
+		ptime = localtime( &now );
+		info( "current %u:%u delay %d restart at %u:%u and max runtime %d( idle=%d )", ptime->tm_hour, ptime->tm_min, start, hour, minute, age, idle );
         if ( start >= 300 && idle > 0 && start < age )
         {
             start -= pass;
@@ -229,6 +245,7 @@ boole_t _service( obj_t this, param_t param )
 						machine_restart( 5, "restart" );
 						return ttrue;
 					}
+					//info( "current %u:%u", ptime->tm_hour, ptime->tm_min );
 				}
                 sleep( 50 );
             }while(1);

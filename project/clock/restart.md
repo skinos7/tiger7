@@ -13,6 +13,7 @@ The management system restarts automatically, and it restarts the system at a sp
                                                          // "point": fixed-point to restart
                                                          // "idle": idle specifie period to restart
 
+    "delay":"delay some second to work",                       // [ number ], The unit is seconds, valid for all mode"
     "age":"The maximum runtime",                               // [ number ], The unit is seconds, valid for "mode" is "age"
 
     "point_age":"The maximum runtime",                         // [ number ], valid for "mode" is "point"
