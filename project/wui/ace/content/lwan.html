@@ -33,6 +33,7 @@
 
         <!-- Static设置-->
         <div id="static_cfg" style="display: none;" >
+            <div class="hr hr32 hr-dotted"></div>
             <!-- IP地址 -->
             <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv4 Address"></label>
@@ -52,7 +53,74 @@
                 </div>
             </div>
 
+            <div class="hr hr32 hr-dotted"></div>
+            <!-- IP地址2 -->
+            <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Address 2"></label>
+              <div class="col-sm-9">
+                <label>
+                  <input id="ipmask2" class="ace ace-switch ace-switch-6" type="checkbox" />
+                  <span class="lbl"></span>
+                </label>
+              </div>
+            </div>
+            <div id="ipmask2_cfg" style="display: none;">
+                <!-- IP地址 -->
+                <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv4 Address"></label>
+                    <div class="col-sm-9">
+                      <div class="clearfix">
+                        <input type="text" id="ip2" class="col-xs-10 col-sm-5" maxlength="128" />
+                      </div>
+                    </div>
+                </div>
+                <!-- 掩码 -->
+                <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right" data-i18n="Subnet Mask"></label>
+                    <div class="col-sm-9">
+                      <div class="clearfix">
+                        <input type="text" id="mask2" class="col-xs-10 col-sm-5" maxlength="128" />
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hr hr32 hr-dotted"></div>
+            <!-- IP地址3 -->
+            <div class="form-group">
+              <label class="col-sm-3 control-label no-padding-right" data-i18n="Address 3"></label>
+              <div class="col-sm-9">
+                <label>
+                  <input id="ipmask3" class="ace ace-switch ace-switch-6" type="checkbox" />
+                  <span class="lbl"></span>
+                </label>
+              </div>
+            </div>
+            
+            <div id="ipmask3_cfg" style="display: none;">
+                <!-- IP地址 -->
+                <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right" data-i18n="IPv4 Address"></label>
+                    <div class="col-sm-9">
+                      <div class="clearfix">
+                        <input type="text" id="ip3" class="col-xs-10 col-sm-5" maxlength="128" />
+                      </div>
+                    </div>
+                </div>
+                <!-- 掩码 -->
+                <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right" data-i18n="Subnet Mask"></label>
+                    <div class="col-sm-9">
+                      <div class="clearfix">
+                        <input type="text" id="mask3" class="col-xs-10 col-sm-5" maxlength="128" />
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+
             <div id="gateway_cfg" style="display: none;" >
+                <div class="hr hr32 hr-dotted"></div>
                 <!-- 网关 -->
                 <div class="form-group">
                   <label class="col-sm-3 control-label no-padding-right" data-i18n="Gateway"></label>
@@ -241,10 +309,51 @@
         {
           $('#ip').val(wan.static.ip);
           $('#mask').val(wan.static.mask);
+          if ( wan.static.ip2 && wan.static.mask2 )
+          {
+              $('#ip2').val(wan.static.ip2 || '');
+              $('#mask2').val(wan.static.mask2 || '');
+              $('#ipmask2').prop('checked', true );
+          }
+          else
+          {
+              $('#ipmask2').prop('checked', false );
+          }
+          if ( wan.static.ip3 && wan.static.mask3 )
+          {
+              $('#ip3').val(wan.static.ip3 || '');
+              $('#mask3').val(wan.static.mask3 || '');
+              $('#ipmask3').prop('checked', true );
+          }
+          else
+          {
+              $('#ipmask3').prop('checked', false );
+          }
           $('#gw').val(wan.static.gw);
           $('#dns').val(wan.static.dns);
           $('#dns2').val(wan.static.dns2);
         }
+        $('#ipmask2').unbind('change').change(function (){
+            if ($(this).prop('checked'))
+            {
+                $('#ipmask2_cfg').show();
+            }
+            else
+            {
+                $('#ipmask2_cfg').hide();
+            }
+        }).trigger('change');
+        $('#ipmask3').unbind('change').change(function (){
+            if ($(this).prop('checked'))
+            {
+                $('#ipmask3_cfg').show();
+            }
+            else
+            {
+                $('#ipmask3_cfg').hide();
+            }
+        }).trigger('change');
+
         $('#mode').unbind('change').change(function (e) {
           var type = e.target.value;
           switch (type)
@@ -371,6 +480,7 @@
       }
       if ( wan.mode == "static" || ( wan.mode == "dhcpc" && wan.dhcpc.static == "enable" ) )
       {
+        /* IPV4 addr */
         if ( !wan.static )
         {
             wan.static = {};
@@ -404,6 +514,46 @@
         {
             page.alert( { message: $.i18n('DNS2')+" "+$.i18n('must be a valid IP address') } );
             return;
+        }
+        if ( $('#ipmask2').prop('checked') == true )
+        {
+            wan.static.ip2 = $('#ip2').val();
+            if ( check.ip(wan.static.ip2) == false )
+            {
+                page.alert( { message: $.i18n('IPv4 Address')+" "+$.i18n('must be a valid IP address') } );
+                return;
+            }
+            wan.static.mask2 = $('#mask2').val();
+            if ( check.ip(wan.static.mask2) == false )
+            {
+                page.alert( { message: $.i18n('Subnet Mask')+" "+$.i18n('must be a valid IP address') } );
+                return;
+            }
+        }
+        else
+        {
+            wan.static.ip2 = "";
+            wan.static.mask2 = "";
+        }
+        if ( $('#ipmask3').prop('checked') == true )
+        {
+            wan.static.ip3 = $('#ip3').val();
+            if ( check.ip(wan.static.ip3) == false )
+            {
+                page.alert( { message: $.i18n('IPv4 Address')+" "+$.i18n('must be a valid IP address') } );
+                return;
+            }
+            wan.static.mask3 = $('#mask3').val();
+            if ( check.ip(wan.static.mask3) == false )
+            {
+                page.alert( { message: $.i18n('Subnet Mask')+" "+$.i18n('must be a valid IP address') } );
+                return;
+            }
+        }
+        else
+        {
+            wan.static.ip3 = "";
+            wan.static.mask3 = "";
         }
         /* DHCPS */
         if ( !wan.dhcps )
