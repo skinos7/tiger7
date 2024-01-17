@@ -8,24 +8,27 @@
 
 
         <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" data-i18n="Lock IMEI"></label>
-          <div class="col-sm-9">
-            <input type="text" id="lock_imei" class="col-xs-10 col-sm-5" maxlength="128" />
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" data-i18n="Lock IMSI"></label>
-          <div class="col-sm-9">
-            <input type="text" id="lock_imsi" class="col-xs-10 col-sm-5" maxlength="128" />
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" data-i18n="Lock PIN"></label>
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="PIN Code"></label>
           <div class="col-sm-9">
             <input type="text" id="lock_pin" class="col-xs-10 col-sm-5" maxlength="128" />
           </div>
+        </div>
+
+        <!-- IMEI -->
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Lock IMEI"></label>
+            <div class="col-sm-9">
+              <div id="lock_imei" class="col-xs-7 col-sm-3 form-right-text"></div>
+              <button class="btn btn-main btn-mini" id="imei_lock" data-i18n="Lock"></button>
+            </div>
+        </div>
+        <!-- IMSI -->
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Lock IMSI"></label>
+            <div class="col-sm-9">
+              <div id="lock_imsi" class="col-xs-7 col-sm-3 form-right-text"></div>
+              <button class="btn btn-main btn-mini" id="imsi_lock" data-i18n="Lock"></button>
+            </div>
         </div>
 
         <div class="form-group">
@@ -213,8 +216,27 @@
             lte = {};
         }
 
-        $('#lock_imei').val( lte.lock_imei||'' );
-        $('#lock_imsi').val( lte.lock_imsi||'' );
+        if ( lte.lock_imei )
+        {
+            $('#lock_imei').text( lte.lock_imei );
+            $('#imei_lock').hide();
+        }
+        else
+        {
+            $('#lock_imei').text( $.i18n("Unlocked" ) );
+            $('#imei_lock').show();
+        }
+        if ( lte.lock_imsi )
+        {
+            $('#lock_imsi').text( lte.lock_imsi );
+            $('#imsi_lock').hide();
+        }
+        else
+        {
+            $('#lock_imsi').text( $.i18n("Unlocked" ) );
+            $('#imsi_lock').show();
+        }
+
         $('#lock_pin').val( lte.lock_pin||'' );
         $('#lock_band').val( lte.lock_band||'' );
         $('#lock_cell').val( lte.lock_cell||'' );
@@ -314,8 +336,6 @@
       }
       var ltecopy = JSON.parse(JSON.stringify(lte));;
 
-      lte.lock_imei = $('#lock_imei').val();
-      lte.lock_imsi = $('#lock_imsi').val();
       lte.lock_pin = $('#lock_pin').val();
       lte.lock_band = $('#lock_band').val();
       lte.lock_cell = $('#lock_cell').val();
@@ -461,6 +481,39 @@
 
       /* load the configure */
       config_load();
+
+      // 锁IMEI
+      $('#imei_lock').on(ace.click_event, function () {
+          page.confirm( { message: $.i18n('Once locked cannot be undone'), callback:function(result){
+              if ( result )
+              { 
+                  // 执行修改
+                  he.exec( [ object+".lock_imei" ] ).then( function(v){
+                      var ret = v[0];
+                      if ( ret == true )
+                      {
+                        location.reload();
+                      }
+                  });
+              }
+          } } );
+      });
+      // 锁IMSI
+      $('#imsi_lock').on(ace.click_event, function () {
+          page.confirm( { message: $.i18n('Once locked cannot be undone'), callback:function(result){
+              if ( result )
+              { 
+                  // 执行修改
+                  he.exec( [ object+".lock_imsi" ] ).then( function(v){
+                      var ret = v[0];
+                      if ( ret == true )
+                      {
+                        location.reload();
+                      }
+                  });
+              }
+          } } );
+      });
 
       /* bind the refresh */
       $('#refresh').on(ace.click_event, function () {

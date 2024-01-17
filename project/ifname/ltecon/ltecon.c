@@ -742,6 +742,34 @@ talk_t _custom_watch( obj_t this, param_t param )
 	}
 	return scall( ifdev, "custom_watch", NULL );
 }
+talk_t _lock_imei( obj_t this, param_t param )
+{
+    const char *ifdev;
+	const char *object;
+
+    object = obj_combine( this );
+	/* get the ifdev */
+	ifdev = register_value( object, "ifdev" );
+	if ( ifdev == NULL || *ifdev == '\0' )
+	{
+		return tfalse;
+	}
+	return scall( ifdev, "lock_imei", NULL );
+}
+talk_t _lock_imsi( obj_t this, param_t param )
+{
+    const char *ifdev;
+	const char *object;
+
+    object = obj_combine( this );
+	/* get the ifdev */
+	ifdev = register_value( object, "ifdev" );
+	if ( ifdev == NULL || *ifdev == '\0' )
+	{
+		return tfalse;
+	}
+	return scall( ifdev, "lock_imsi", NULL );
+}
 
 
 
@@ -1340,6 +1368,8 @@ boole _set( obj_t this, talk_t v, attr_t path )
         }
         else
         {
+			json_delete_axp( v, "lock_imei" );
+			json_delete_axp( v, "lock_imsi" );
             /* separation the modem cfg and ifname cfg */
             axp = NULL;
             cfg = json_create( NULL );
@@ -1348,9 +1378,7 @@ boole _set( obj_t this, talk_t v, attr_t path )
             {
                 ptr = axp_id( axp );
 				info = axp_get_value( axp );
-				if ( 0 == strcmp( ptr, "lock_imei" )
-					|| 0 == strcmp( ptr, "lock_imsi" )
-					|| 0 == strcmp( ptr, "lock_pin" )
+				if ( 0 == strcmp( ptr, "lock_pin" )
 					|| 0 == strcmp( ptr, "lock_nettype" )
 					|| 0 == strcmp( ptr, "lock_band" )
 					|| 0 == strcmp( ptr, "lock_arfcn" )
@@ -1418,9 +1446,11 @@ boole _set( obj_t this, talk_t v, attr_t path )
     }
     else
     {
-		if ( 0 == strcmp( ptr, "lock_imei" )
-			|| 0 == strcmp( ptr, "lock_imsi" )
-			|| 0 == strcmp( ptr, "lock_pin" )
+		if ( 0 == strcmp( ptr, "lock_imei" ) || 0 == strcmp( ptr, "lock_imsi" ) )
+		{
+			// ignore
+    	}
+		else if ( 0 == strcmp( ptr, "lock_pin" )
 			|| 0 == strcmp( ptr, "lock_nettype" )
 			|| 0 == strcmp( ptr, "lock_band" )
 			|| 0 == strcmp( ptr, "lock_arfcn" )
@@ -1479,6 +1509,8 @@ boole _set( obj_t this, talk_t v, attr_t path )
 		/* mark the config not sync */
 		i = 0;
 		register_set( ifdev, "setting_sync", &i, sizeof(i), 0 );
+		register_set( ifdev, "simcard_failed", &i, sizeof(i), 0 );
+		register_set( ifdev, "signal_failed", &i, sizeof(i), 0 );
         scall( ifdev, "setup", NULL );
     }
     else if ( ret == true )
@@ -1507,7 +1539,7 @@ talk_t _get( obj_t this, attr_t path )
 	if ( ifdev != NULL && *ifdev != '\0' )
     {
         /* combination the cfg */
-        mcfg = config_sget( ifdev, NULL );
+        mcfg = sget( ifdev, NULL );
         if ( cfg == NULL )
         {
             cfg = mcfg;

@@ -364,6 +364,21 @@
 
 
 
+      <div class="hr hr32 hr-dotted"></div>
+      <!-- Unlock -->
+      <div class="form-horizontal" role="form">
+        <div class="form-group">
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Lock Modem"></label>
+          <div class="col-sm-9">
+            <div class="btn-group">
+              <button class="btn btn-danger" data-i18n="Unlock LTE" id="unlock_lte"></button>
+              <button class="btn btn-warning" data-i18n="Unlock LTE2" id="unlock_lte2"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
 
     </div>
     <!-- PAGE CONTENT ENDS -->
@@ -793,6 +808,14 @@
             });
         });
 
+        // Unlock
+        $('#unlock_lte').on(ace.click_event, function () {
+            he.exec( [ "arch@data:lte_imei=null", "arch@data:lte_imsi=null" ] ).then( function(result){location.reload();} );
+        });
+        // Unlock
+        $('#unlock_lte2').on(ace.click_event, function () {
+            he.exec( [ "arch@data:lte2_imei=null", "arch@data:lte2_imsi=null" ] ).then( function(result){location.reload();} );
+        });
 
 
         /* load the configure */
