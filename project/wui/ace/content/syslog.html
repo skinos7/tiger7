@@ -89,11 +89,13 @@
           </div>
         </div>
         <!-- 当前日志 -->
-        <div class="form-group">
-          <label class="col-sm-3 control-label no-padding-right" data-i18n="Operation"></label>
-          <div class="col-sm-9 form-right-text">
-            <button id="clear-log" class="btn btn-main btn-mini" data-i18n="Clear"></button>
-            <button id="download-log" class="btn btn-mini" data-i18n="Download"></button>
+        <div class="form-group" id="download-log" >
+          <label class="col-sm-3 control-label no-padding-right" data-i18n="Local Log"></label>
+          <div class="col-sm-9">
+            <div>
+                <table id="syslogs-grid-table"></table>
+                <div id="syslogs-grid-pager"></div>
+            </div>
           </div>
         </div>
       </div> <!-- statusSets -->
@@ -115,10 +117,14 @@
 <script type="text/javascript">
   (function () {
     var syslog;
+    var filelist;
     var wuimenu = window.wui.menu;
+    var syslogs_table = '#syslogs-grid-table';
+    var syslogs_pager = '#syslogs-grid-pager';
     function load_syslog()
     {
-        he.load( [ 'land@syslog' ] ).then( function(v){
+        he.load( [ 'land@syslog', 'land@syslog.list' ] ).then( function(v){
+
             syslog = v[0];
             if ( syslog.status == "enable" || syslog.status == "both" )
             {
@@ -163,7 +169,25 @@
                     $('#syslogdSets').hide();
                 }
             }).trigger('change')
-            
+
+            filelist = v[1];
+            var count = 0;
+            var rows = [];
+            for ( var i in filelist )
+            {
+                var file = filelist[i];
+                rows.push( { name: i } );
+                count++;
+            }
+            // 表头设置为在线客户端的数量
+            $(syslogs_table).jqGrid( "setCaption", $.i18n('Log List') + '(' + count + ')' );
+            // 记住滚动条的位置
+            var scrollPos = jqtable.getScrollPos();
+            // 给proejcts表格设置数据
+            $(syslogs_table).jqGrid( 'clearGridData' ).jqGrid( 'setGridParam', { data: rows } ).trigger( 'reloadGrid' );
+            // 恢复滚动条的位置
+            jqtable.setScrollPos(scrollPos);
+
         });
     }
     function save_syslog()
@@ -219,9 +243,62 @@
         });
     }
 
+    /* delete the client key */
+    function syslog_delete( indexStr )
+    {
+        // 选中的行
+        var indexs = indexStr.split(',');
+        // 删除路由的he命令
+        var cmds = [];
+        for ( var index  = 0; index < indexs.length; index++ )
+        {
+            // 选中行的数据
+            var row = $(syslogs_table).jqGrid('getRowData', indexs[index]);
+            // 通过name删除
+            cmds.push( 'land@syslog.delete['+row.name+"]" );
+        }
+        // 执行删除
+        he.exec( cmds ).then(function (){
+            // 重新加载数据
+            return load_syslog();
+        }).then(function (){
+            // 提示成功
+            page.hint2succeed( $.i18n('Delete successfully') );
+        });
+    }
+
+
     $.i18n().load( page.lang('debug') ).then( function () {
       /* init the langauage */
       $.i18n().locale = lang; $('body').i18n();
+      /* init the clients table */
+      jqtable.create(  syslogs_table, syslogs_pager,
+        {
+            caption: ' ', // 必需设置值, 防止表格不能折叠
+            colNames: [ $.i18n('Log File'), $.i18n('Download'), $.i18n('Operation') ],
+            colModel: [
+                { name:'name', width:180 },
+                {
+                    name: 'download', width: 80,
+                    fixed: true, sortable: false,
+                    formatter: function ( cellvalue, options, rowObject )
+                    {
+                        return '<button class="btn btn-main btn-xs btn-choose" onclick="syslog_down(' + options.rowId + ')" data-id="' + options.rowId + '">' + $.i18n('Download') + '</button>'
+                    }
+                },
+                $.extend( true, {}, jqtable.actionOptions,
+                    { formatoptions:{ delOptions:{ onclickSubmit:function(params, data) { syslog_delete(data); } }, editformbutton:false, editbutton:false } } )
+            ]
+        }
+      ).jqGrid( 
+            'navGrid', syslogs_pager,
+            $.extend(true, {}, jqtable.navOptions, {add: false, edit: false, view: false}),
+            jqtable.editOptions,
+            jqtable.addOptions,
+            $.extend(true, {}, jqtable.deleteOptions, { onclickSubmit: function(params, data) { syslog_delete(data); } }),
+            {}
+      );
+      
       /* load the configure */
       load_syslog();
       /* bind the refresh */
@@ -232,24 +309,7 @@
       $('#apply').on(ace.click_event, function () {
         save_syslog();
       });
-      // 清除日志
-      $('#clear-log').on(ace.click_event, function (e) {
-        e.preventDefault();
-        he.exec( [ 'land@syslog.clear' ] ).then(function () {
-          $('.page-content-area').ace_ajax('reload');
-        });
-      });
       
-      // 下载日志
-      $('#download-log').on(ace.click_event, function (e) {
-        e.preventDefault();
-        var submitForm = document.createElement("FORM");
-        document.body.appendChild(submitForm);
-        submitForm.method= "GET";
-        submitForm.action= "/cgi/log";
-        submitForm.submit();
-      });
-
       if ( wuimenu && wuimenu.download_log == "disable" )
       {
           $('#download-log').hide();
@@ -257,6 +317,28 @@
 
     });
 
-
   })();
+
+  
+  // 下载日志
+  function syslog_down( rowId )
+  {
+      // 某个选中行的数据
+      var client = $('#syslogs-grid-table').jqGrid( 'getRowData', rowId );
+      var name = client.name;
+      var submitForm = document.createElement("FORM");
+      document.body.appendChild(submitForm);
+      submitForm.method= "GET";
+      submitForm.action= "/cgi/log";
+      var input = document.createElement('input')
+      input.setAttribute('name', "SYSLOG" );
+      input.setAttribute('value', name )
+      input.setAttribute('type', 'hidden')
+      submitForm.appendChild(input)
+      setTimeout(function() {
+          submitForm.submit();
+      }, 200);
+  }
+  
+  
 </script>
