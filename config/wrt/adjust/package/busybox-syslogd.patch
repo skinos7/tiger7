@@ -1,0 +1,152 @@
+--- a/sysklogd/syslogd.c	2021-12-27 00:53:21.000000000 +0800
++++ b/sysklogd/syslogd.c	2024-01-16 14:04:00.000000000 +0800
+@@ -1002,6 +1002,93 @@
+ }
+ #endif
+ 
++
++
++/* add by dimmalex for get mac */
++#include <net/if.h>
++int netdev_info( const char *card, char* ip, int ip_len, char *pppip, int pppip_len, char *mask, int mask_len, char *mac, int mac_len )
++{
++    int sock;
++    int ret;
++    struct ifreq ifr;
++    struct sockaddr_in *addr;
++
++    if ( card == NULL || *card == '\0' )
++    {
++        return -1;
++    }
++    if ( ( sock = socket( AF_INET, SOCK_DGRAM, 0 ) ) < 0 ) 
++    {
++        return -1;
++    }
++    ret = -1;
++	memset( &ifr, 0, sizeof(ifr) );
++	strncpy( ifr.ifr_name, card, sizeof(ifr.ifr_name)-1 );
++	ifr.ifr_addr.sa_family = AF_INET;
++    if ( NULL != ip && ip_len > 0 )
++    {
++        // get the addrress info
++        if ( 0 == ioctl(sock, SIOCGIFADDR, &ifr ) )
++        {
++            addr = ( ( struct sockaddr_in* ) &ifr.ifr_addr );
++            if ( inet_ntop( AF_INET, &addr->sin_addr, ip, ip_len-1 ) != NULL )
++			{
++	            ip[ip_len-1] = '\0';
++	            ret = 0;
++			}
++        }
++    }
++    #ifdef SIOCGIFDSTADDR
++    if ( NULL != pppip && pppip_len > 0 )
++    {
++        // get the dst addrress info
++        if ( 0 == ioctl(sock, SIOCGIFDSTADDR, &ifr ) )
++        {
++            addr = ( ( struct sockaddr_in* ) &ifr.ifr_addr );
++            if ( inet_ntop( AF_INET, &addr->sin_addr, pppip, pppip_len-1 ) != NULL )
++			{
++	            pppip[pppip_len-1] = '\0';
++	            ret = 0;
++			}
++        }
++    }
++    #endif
++    if ( NULL != mask && mask_len > 0 )
++    {
++        // get the netmask info
++        if ( 0 == ioctl( sock, SIOCGIFNETMASK, &ifr ) )
++        {
++            addr = ( ( struct sockaddr_in* ) &ifr.ifr_addr );
++            if ( inet_ntop( AF_INET, &addr->sin_addr, mask, mask_len-1 ) != NULL )
++			{
++	            mask[mask_len-1] = '\0';
++	            ret = 0;
++			}
++        }
++    }
++    if ( NULL != mac && mac_len > 0 )
++    {
++        // get the mac address
++        if ( 0 == ioctl( sock, SIOCGIFHWADDR, &ifr ) )
++        {
++            snprintf( mac, mac_len-1, "%2.2X%2.2X%2.2X%2.2X%2.2X%2.2X", 
++                (ifr.ifr_hwaddr.sa_data[0])&0xFF,
++                (ifr.ifr_hwaddr.sa_data[1])&0xFF,
++                (ifr.ifr_hwaddr.sa_data[2])&0xFF,
++                (ifr.ifr_hwaddr.sa_data[3])&0xFF,
++                (ifr.ifr_hwaddr.sa_data[4])&0xFF,
++                (ifr.ifr_hwaddr.sa_data[5])&0xFF
++            );
++            mac[mac_len-1] = '\0';
++            ret = 0;
++        }
++    }
++    close( sock );
++    return ret;
++}
++
++
++
+ static void do_syslogd(void) NORETURN;
+ static void do_syslogd(void)
+ {
+@@ -1016,6 +1103,12 @@
+ #define recvbuf (G.recvbuf)
+ #endif
+ 
++	/* add by dimmalex */
++	char *s1;
++	char *s2;
++	char macid[20];
++	netdev_info( "lan", NULL, 0, NULL, 0, NULL, 0, macid, sizeof(macid) );
++
+ 	/* Set up signal handlers (so that they interrupt read()) */
+ 	signal_no_SA_RESTART_empty_mask(SIGTERM, record_signo);
+ 	signal_no_SA_RESTART_empty_mask(SIGINT, record_signo);
+@@ -1075,6 +1168,13 @@
+ 				continue;
+ 		last_sz = sz;
+ #endif
++
++		/* add by dimmalex */
++		if (!ENABLE_FEATURE_REMOTE_LOG || (option_mask32 & OPT_locallog)) {
++			recvbuf[sz] = '\0'; // ensure it *is* NUL terminated
++			split_escape_and_log(recvbuf, sz);
++		}
++
+ #if ENABLE_FEATURE_REMOTE_LOG
+ 		/* Stock syslogd sends it '\n'-terminated
+ 		 * over network, mimic that */
+@@ -1095,7 +1195,11 @@
+ 			 * On some errors, close and set remoteFD to -1
+ 			 * so that DNS resolution is retried.
+ 			 */
+-			if (sendto(rh->remoteFD, recvbuf, sz+1,
++
++			/* modify by dimmalex */
++			if (sendto(rh->remoteFD, G.printbuf, strlen(G.printbuf),
++			//if (sendto(rh->remoteFD, recvbuf, sz+1,
++
+ 					MSG_DONTWAIT | MSG_NOSIGNAL,
+ 					&(rh->remoteAddr->u.sa), rh->remoteAddr->len) == -1
+ 			) {
+@@ -1111,10 +1215,14 @@
+ 			}
+ 		}
+ #endif
++
++		/* comment by dimmalex
+ 		if (!ENABLE_FEATURE_REMOTE_LOG || (option_mask32 & OPT_locallog)) {
+-			recvbuf[sz] = '\0'; /* ensure it *is* NUL terminated */
++			recvbuf[sz] = '\0'; // ensure it *is* NUL terminated
+ 			split_escape_and_log(recvbuf, sz);
+ 		}
++		*/
++
+ 	} /* while (!bb_got_signal) */
+ 
+ 	timestamp_and_log_internal("syslogd exiting");

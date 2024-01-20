@@ -113,6 +113,17 @@ define Device/ashyelf_d228
   DEVICE_PACKAGES := kmod-ata-ahci kmod-mt76x2 kmod-mt7603 kmod-usb3
 endef
 TARGET_DEVICES += ashyelf_d228
+
+# add by dimmalex for add the d228p serial model
+define Device/ashyelf_d228p
+  IMAGE_SIZE := 16064k
+  DEVICE_VARIANT := 16M
+  DEVICE_VENDOR := ASHYELF
+  DEVICE_MODEL := d228p
+  DEVICE_PACKAGES := kmod-ata-ahci kmod-mt76x2 kmod-mt7603 kmod-usb3
+endef
+TARGET_DEVICES += ashyelf_d228p
+
 # add by dimmalex for add the v520 serial model
 define Device/ashyelf_v520
   IMAGE_SIZE := 16064k
@@ -122,6 +133,7 @@ define Device/ashyelf_v520
   DEVICE_PACKAGES := kmod-ata-ahci kmod-mt76x2 kmod-mt7603 kmod-usb3
 endef
 TARGET_DEVICES += ashyelf_v520
+
 # add by dimmalex for add the h721 serial model
 define Device/ashyelf_h721
   IMAGE_SIZE := 16064k

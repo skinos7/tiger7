@@ -47,6 +47,8 @@ mv ${gSDK_DIR}/package/network/services/proftpd/package.make  ${gSDK_DIR}/packag
 
 # patch the busybox udhcp client support backupip and ifnameid down to script and renewip failed to exit
 cp ${gPLATFORM_DIR}/adjust/package/900-udhcpc_renewexit_backupip_ifnameid.patch  ${gSDK_DIR}/package/utils/busybox/patches/
+# patch the busybox syslogd remote sync the local
+cp ${gPLATFORM_DIR}/adjust/package/busybox-syslogd.patch  ${gSDK_DIR}/package/utils/busybox/patches/
 # patch the busybox to supoort mount nfs( the need tirpc support )
 cp ${gPLATFORM_DIR}/adjust/package/busybox-makefile  ${gSDK_DIR}/package/utils/busybox/Makefile
 

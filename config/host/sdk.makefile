@@ -8,9 +8,9 @@
 
 update:
 	# 更新fpk
-	-if [ -e ${gCUSTOM_DIR} ]; then \
+	if [ -e ${gCUSTOM_DIR} ]; then \
 		cd ${gCUSTOM_DIR}; rm -fr *.fpk*; \
-		cd ${gCUSTOM_DIR}; wget --ftp-user=dl --ftp-password=tiger7@ASHYELF ${gpFTP_PUB_SDK}/${gHARDWARE}/${gCUSTOM}/*.fpk; \
+		cd ${gPLATFORM_DIR}; sdk-update host ${gHARDWARE} ${gCUSTOM} fpk; \
 	fi
 adjust:
 menu:
@@ -44,20 +44,20 @@ purge:
 sz:
 	# 通过xmodem协议发送固件到本地
 	cd ${gBUILD_DIR} && sz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.zz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.upgrade ${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.txt
+zzb:
 tar:
 ftp:
 repo:
-	# 未定义了FTP库不工作
-	if [ "X${gpFTP_PUB_REPO}" = "X" ]; then\
-		sleep 10000;\
+	# 上传到FTP目录
+	if [ -e ${gOEM_DIR} ]; then \
+		firmware-upload host ${gHARDWARE} ${gCUSTOM} ${gSCOPE} ${gBUILD_DIR} ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}_${gOEM}.zz; \
+	else \
+		firmware-upload host ${gHARDWARE} ${gCUSTOM} ${gSCOPE} ${gBUILD_DIR} ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.zz; \
+		if [ -f ${gBUILD_DIR}/${gHARDWARE}_${gCUSTOM}_${gSCOPE}.txt ]; then\
+			firmware-upload host ${gHARDWARE} ${gCUSTOM} ${gSCOPE} ${gBUILD_DIR} ${gHARDWARE}_${gCUSTOM}_${gSCOPE}.txt; \
+		fi \
 	fi
-	# 上传到FTP库
-	if [ -d ${gSTORE_DIR} ]; then\
-		for i in `ls ${gSTORE_DIR}`; do \
-			curl -u ${gpFTP_PUB_PASSWORD} -T ${gSTORE_DIR}/$${i} ${gpFTP_PUB_REPO}/; \
-		done \
-	fi
-.PHONY: local start stop purge sz tar ftp repo
+.PHONY: local start stop purge sz zzb tar ftp repo
 
 
 

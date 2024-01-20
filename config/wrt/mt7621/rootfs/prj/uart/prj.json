@@ -1,0 +1,84 @@
+{
+    "name":"uart",
+    "intro":"uart forwarding project",
+    "desc":"uart management and custom",
+    "type":"root",
+    "version":"7.0.0",
+    "author":"dimmalex@gmail.com",
+    "lib":
+    {
+        "landuart":"uart library"
+    },
+    "osc":
+    {
+        "mbusd":"modbusRTU to modbusTCP gateway,https://github.com/3cky/mbusd.git"
+    },
+    "cmd":
+    {
+        "tip":"tools for serial command"
+    },
+    "com":
+    {
+        "frame":"uart frame",
+        "modbus":"UART application components for modbus",
+        "modbusm":"UART application components for modbus master",
+        "dtu":"UART application components for DTU",
+        "httppost":"UART application components for HTTP Post",
+        "nmea":"UART application components for GNSS",
+        "hetui":"UART application components for sline",
+        "uarttest":"UART application components for test"
+    },
+    "init":
+    {
+        "manage":
+        {
+            "uart@frame.setup":""
+        }
+    },
+    "uninit":
+    {
+        "manage":
+        {
+            "uart@frame.shut":""
+        }
+    },
+    "wui":
+    {
+        "serial":
+        {
+            "cn":"串口1",
+            "en":"Serial#1",
+            "page":"serial.html",
+            "object":"uart@serial",
+            "lang":
+            {
+                "cn":"cn.json",
+                "en":"en.json"
+            }
+        },
+        "serial2":
+        {
+            "cn":"串口2(调试)",
+            "en":"Serial#2(Debug)",
+            "page":"serial.html",
+            "object":"uart@serial2",
+            "lang":
+            {
+                "cn":"cn.json",
+                "en":"en.json"
+            }
+        },
+        "serial3":
+        {
+            "cn":"串口3",
+            "en":"Serial#3",
+            "page":"serial.html",
+            "object":"uart@serial3",
+            "lang":
+            {
+                "cn":"cn.json",
+                "en":"en.json"
+            }
+        }
+    }
+}

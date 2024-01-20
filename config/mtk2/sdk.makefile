@@ -7,35 +7,35 @@
 
 
 OPENWRT_SDK_NAME:=openwrt.tar.xz
-OPENWRT_FEED_NAME:=feeds.tar.gz
 OPENWRT_DL_NAME:=dl.tar.xz
+OPENWRT_FEED_NAME:=feeds.tar.gz
 # Ubuntu编译环境安装
 update:
 	# 下载或更新底层SDK
 	if [ ! -d ${gSDK_DIR} ]; then \
-		if [ ! -e ${gPLATFORM_DIR}/openwrt.tar.xz ]; then \
-			cd ${gPLATFORM_DIR}; curl -u ${gpFTP_PUB_PASSWD} -k --connect-timeout 30 -m 2000 ${gpFTP_PUB_SDK}/${OPENWRT_SDK_NAME} -o openwrt.tar.xz; \
+		if [ ! -e ${gPLATFORM_DIR}/${OPENWRT_SDK_NAME} ]; then \
+			cd ${gPLATFORM_DIR}; sdk-update mtk2 ${gHARDWARE} ${gCUSTOM} ${OPENWRT_SDK_NAME}; \
 		fi; \
-		cd ${gTOP_DIR}; tar -Jxvf ${gPLATFORM_DIR}/openwrt.tar.xz; mv openwrt ${gPLATFORM};\
+		cd ${gTOP_DIR}; tar -Jxvf ${gPLATFORM_DIR}/${OPENWRT_SDK_NAME}; mv openwrt ${gPLATFORM};\
 	fi
 	# 更新dl目录, 避免每次一个一个下载
 	if [ ! -d ${gSDK_DIR}/dl ]; then \
-		if [ ! -e ${gPLATFORM_DIR}/dl.tar.xz ]; then \
-			cd ${gPLATFORM_DIR}; curl -u ${gpFTP_PUB_PASSWD} -k --connect-timeout 30 -m 3000 ${gpFTP_PUB_SDK}/${OPENWRT_DL_NAME} -o dl.tar.xz; \
+		if [ ! -e ${gPLATFORM_DIR}/${OPENWRT_DL_NAME} ]; then \
+			cd ${gPLATFORM_DIR}; sdk-update mtk2 ${gHARDWARE} ${gCUSTOM} ${OPENWRT_DL_NAME}; \
 		fi; \
-		cd ${gSDK_DIR}; tar -Jxvf ${gPLATFORM_DIR}/dl.tar.xz; \
-	fi
-	# 更新fpk
-	-if [ -e ${gCUSTOM_DIR} ]; then \
-		cd ${gCUSTOM_DIR}; rm -fr *.fpk*; \
-		cd ${gCUSTOM_DIR}; wget --ftp-user=dl --ftp-password=tiger7@ASHYELF ${gpFTP_PUB_SDK}/${gHARDWARE}/${gCUSTOM}/*.fpk; \
+		cd ${gSDK_DIR}; tar -Jxvf ${gPLATFORM_DIR}/${OPENWRT_DL_NAME}; \
 	fi
 	# 更新并安装所有的菜单项
 	if [ ! -d ${gSDK_DIR}/feeds ]; then \
-		if [ ! -e ${gPLATFORM_DIR}/feeds.tar.gz ]; then \
-			cd ${gPLATFORM_DIR}; curl -u ${gpFTP_PUB_PASSWD} -k --connect-timeout 30 -m 2000 ${gpFTP_PUB_SDK}/${OPENWRT_FEED_NAME} -o feeds.tar.gz; \
+		if [ ! -e ${gPLATFORM_DIR}/${OPENWRT_FEED_NAME} ]; then \
+			cd ${gPLATFORM_DIR}; sdk-update mtk2 ${gHARDWARE} ${gCUSTOM} ${OPENWRT_FEED_NAME}; \
 		fi; \
-		cd ${gSDK_DIR}; tar zxvf ${gPLATFORM_DIR}/feeds.tar.gz; \
+		cd ${gSDK_DIR}; tar zxvf ${gPLATFORM_DIR}/${OPENWRT_FEED_NAME}; \
+	fi
+	# 更新fpk
+	if [ -e ${gCUSTOM_DIR} ]; then \
+		cd ${gCUSTOM_DIR}; rm -fr *.fpk*; \
+		cd ${gPLATFORM_DIR}; sdk-update mtk2 ${gHARDWARE} ${gCUSTOM} fpk; \
 	fi
 adjust:
 	# 对底层SDK打补丁
@@ -45,10 +45,10 @@ adjust:
 menu:
 	# 更新并安装所有的菜单项
 	if [ ! -d ${gSDK_DIR}/feeds ]; then \
-		if [ ! -e ${gPLATFORM_DIR}/feeds.tar.gz ]; then \
-			cd ${gPLATFORM_DIR}; curl -u ${gpFTP_PUB_PASSWD} -k --connect-timeout 30 -m 2000 ${gpFTP_PUB_SDK}/${OPENWRT_FEED_NAME} -o feeds.tar.gz; \
+		if [ ! -e ${gPLATFORM_DIR}/${OPENWRT_FEED_NAME} ]; then \
+			cd ${gPLATFORM_DIR}; sdk-update mtk2 ${gHARDWARE} ${gCUSTOM} ${OPENWRT_FEED_NAME}; \
 		fi; \
-		cd ${gSDK_DIR}; tar zxvf ${gPLATFORM_DIR}/feeds.tar.gz; \
+		cd ${gSDK_DIR}; tar zxvf ${gPLATFORM_DIR}/${OPENWRT_FEED_NAME}; \
 	fi
 	# 对底层SDK打补丁
 	if [ -e ${gPLATFORM_DIR}/adjust/patch.sh ]; then \
@@ -80,7 +80,6 @@ sdkclean: bufclean
 
 
 
-local:
 sz:
 	# 通过xmodem协议发送固件到本地
 	cd ${gBUILD_DIR} && sz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.zz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.upgrade ${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.txt
@@ -88,9 +87,9 @@ zzb:
 	cd ${gBUILD_DIR}; \
 	if [ -e ${gHARDWARE}_${gCUSTOM}_${gSCOPE}.uboot ] && [ -e ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.upgrade ]; then \
 		rm -fr ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.zzb; \
-		if [ -e ${gZZID_DIR} ]; then \
-			firmware-encode ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}_${gZZID}.zzb ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.upgrade ${gHARDWARE}_${gCUSTOM}_${gSCOPE}.uboot ${gZZID_SH} ${gZZID_CONFIG}; \
-			sz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}_${gZZID}.zzb; \
+		if [ -e ${gOEM_DIR} ]; then \
+			firmware-encode ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}_${gOEM}.zzb ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.upgrade ${gHARDWARE}_${gCUSTOM}_${gSCOPE}.uboot ${gOEM_SH} ${gOEM_CONFIG}; \
+			sz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}_${gOEM}.zzb; \
 		else \
 			firmware-encode ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.zzb ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.upgrade ${gHARDWARE}_${gCUSTOM}_${gSCOPE}.uboot; \
 			sz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.zzb; \
@@ -104,31 +103,21 @@ tar:
 		sz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.tar.bz2; \
 	fi
 ftp:
-	# 未定义了FTP目录不工作
-	if [ "X${gpFTP_PUB_DIR}" = "X" ]; then\
-		sleep 10000;\
-	fi
 	# 上传到FTP目录
-	if [ -e ${gZZID_DIR} ]; then \
-		curl -u ${gpFTP_PUB_PASSWORD} -T ${gBUILD_DIR}/${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}_${gZZID}.zz ${gpFTP_PUB_DIR}; \
+	if [ -e ${gOEM_DIR} ]; then \
+		firmware-upload mtk2 ${gHARDWARE} ${gCUSTOM} ${gSCOPE} ${gBUILD_DIR} ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}_${gOEM}.zz; \
 	else \
-		curl -u ${gpFTP_PUB_PASSWORD} -T ${gBUILD_DIR}/${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.zz ${gpFTP_PUB_DIR}; \
+		firmware-upload mtk2 ${gHARDWARE} ${gCUSTOM} ${gSCOPE} ${gBUILD_DIR} ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.zz; \
 		if [ -f ${gBUILD_DIR}/${gHARDWARE}_${gCUSTOM}_${gSCOPE}.txt ]; then\
-			curl -u ${gpFTP_PUB_PASSWORD} -T ${gBUILD_DIR}/${gHARDWARE}_${gCUSTOM}_${gSCOPE}.txt ${gpFTP_PUB_DIR}; \
+			firmware-upload mtk2 ${gHARDWARE} ${gCUSTOM} ${gSCOPE} ${gBUILD_DIR} ${gHARDWARE}_${gCUSTOM}_${gSCOPE}.txt; \
 		fi \
 	fi
 repo:
-	# 未定义了FTP库不工作
-	if [ "X${gpFTP_PUB_REPO}" = "X" ]; then\
-		sleep 10000;\
-	fi
 	# 上传到FTP库
 	if [ -d ${gSTORE_DIR} ]; then\
-		for i in `ls ${gSTORE_DIR}`; do \
-			curl -u ${gpFTP_PUB_PASSWORD} -T ${gSTORE_DIR}/$${i} ${gpFTP_PUB_REPO}/; \
-		done \
+		firmware-upload mtk2 ${gHARDWARE} ${gCUSTOM} ${gSCOPE} ${gSTORE_DIR} fpk; \
 	fi
-.PHONY: local sz tar ftp repo
+.PHONY: sz tar ftp repo
 
 
 
@@ -208,8 +197,8 @@ kernel: kernel_dep
 	fi
 	cp ${gpUPGRADE_IMAGE} ${gBUILD_DIR}/${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.upgrade
 	cd ${gBUILD_DIR}; \
-	if [ -e ${gZZID_DIR} ]; then \
-		firmware-encode ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}_${gZZID}.zz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.upgrade ${gZZID_SH} ${gZZID_CONFIG}; \
+	if [ -e ${gOEM_DIR} ]; then \
+		firmware-encode ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}_${gOEM}.zz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.upgrade ${gOEM_SH} ${gOEM_CONFIG}; \
 	else \
 		firmware-encode ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.zz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.upgrade; \
 	fi
