@@ -16,7 +16,8 @@
         "20240101":"fix the syslog date wrong for swrt",
         "20240102":"fix the web cgi bug",
         "20240103":"lock the imei/iccid on admin, unlock at the custom",
-        "20240105":"log support download all file"
+        "20240105":"log support download all file",
+        "20240106":"add the prj at runtime system to develop, move the devtools to tmptools"
     },
     "v7.3.1009":
     {
