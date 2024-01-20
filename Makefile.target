@@ -6,6 +6,7 @@ include ${gMAKEFILE_CFGFILE}
 COMPILE_PROJECT := ${COMPILE_PROJECT}
 export COMPILE_PROJECT
 
+# SDK complie
 menu menuclean menuconfig:
 	if [ -d ${gSDK_DIR} ]; then \
 		make -f ${gSDK_MAKEFILE} -C ${gSDK_DIR} $@; \
@@ -31,51 +32,25 @@ app_menuconfig app_dep app app_install app_clean app_distclean:
 		make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@; \
 	fi
 
-# SDK Download
-update:
-	# Update the tiger7
-	git pull
-	# Update the Platform-specific configure repositories
-	if [ -d ${gPLATFORM_DIR} ]; then \
-		echo "cd ${gPLATFORM_DIR}; git pull"; \
-	else \
-		echo "cd ${gTOP_DIR}/config; git clone git@gitee.com:ashyelf/${gPLATFORM}"; \
-	fi
-	# Platform-specific SDK Makefile update
-	make -f ${gSDK_MAKEFILE} $@
-	# Adjust the Platform-specific SDK
-	make -f Makefile.target adjust
-	# Refresh the menu
-	make -f Makefile.target menu
-# SDK Adjust
-adjust:
+# SDK update
+update adjust:
 	# Adjust the Platform-specific SDK
 	if [ -d ${gSDK_DIR} ]; then \
 		make -f ${gSDK_MAKEFILE} -C ${gSDK_DIR} $@; \
 	else \
 		make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@; \
 	fi
-# Firmware and fpk put
+# Firmware upload
 ftp repo:
 	if [ -d ${gSDK_DIR} ]; then \
 		make -f ${gSDK_MAKEFILE} -C ${gSDK_DIR} $@; \
 	else \
 		make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@; \
 	fi
-# make the flash image
-flash:
-	if [ "X${gFLASH_MAKEFILE}" != "X" ]; then \
-		if [ -f ${gFLASH_MAKEFILE} ]; then \
-			make -f ${gFLASH_MAKEFILE}; \
-		fi; \
-	fi
-# debug
-pdebug:
-	env	
 
 .PHONY: menu menuclean menuconfig
 .PHONY: boot_menuconfig boot_dep boot boot_install boot_clean boot_distclean
 .PHONY: kernel_menuconfig kernel_dep kernel kernel_install kernel_clean kernel_distclean
 .PHONY: app_menuconfig app_dep app app_install app_clean app_distclean
-.PHONY: update adjust ftp repo pdebug
+.PHONY: update adjust ftp repo
 

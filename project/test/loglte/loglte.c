@@ -1,6 +1,6 @@
 /*
  *    Description:  component template
- *         Author:  devtools, zxx@ashyelf.com
+ *         Author:  tmptools, zxx@ashyelf.com
  *        Company:  ashyelf
  */
 

@@ -1,0 +1,46 @@
+{
+    "name":"example",
+    "intro":"development example",
+    "desc":"development example projects, including many examples",
+    "type":"root",
+    "version":"7.0.0",
+    "author":"dimmalex@gmail.com",
+    "com":
+    {
+        "telecom4g":"Telecom 4G CPE register function",
+        "test-lpcall":"call the child named test-callbk",
+        "test-callbk":"call back to father named test-lpcall",
+        "test-keeplive":"test the network connect robustness"
+    },
+    "exe":
+    {
+        "test-talk":"test the talk function program",
+        "test-param":"test the param function program"
+    },
+    "init":
+    {
+        "general":"example@telecom4g.setup"
+    },
+    "uninit":
+    {
+        "general":"example@telecom4g.shut"
+    },
+    "joint":
+    {
+        "network/online":"example@telecom4g.take"
+    },
+    "wui":
+    {
+        "telecom4g":
+        {
+            "page":"telecom4g.html",
+            "lang":
+            {
+                "cn":"telecom4g-cn.json",
+                "en":"telecom4g-en.json"
+            },
+            "cn":"电信注册",
+            "en":"Telecom Register"
+        }
+    }
+}

@@ -2,7 +2,7 @@
 include $(TOPDIR)/rules.mk
 
 # 定义项目基本信息
-PKG_NAME:=devtools
+PKG_NAME:=test
 PKG_VERSION:=$(shell prj-read version)
 INTRO_STR:=$(shell prj-read intro)
 DESC_STR:=$(shell prj-read desc)

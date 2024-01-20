@@ -13,6 +13,8 @@ ubuntu_preset:
 	# Disable Check the SSL certificate of the server
 	git config --global http.sslVerify false
 
+
+
 # Model switch
 pid:
 	@echo '\ngBOARDID=${gBOARDID}' >> gBOARDID
@@ -20,11 +22,30 @@ pid:
 pidinfo:
 	@echo 'gBOARDID=${gBOARDID}'
 
-
-
 # SDK Download
-update adjust:
+update:
+	# Update the tiger7
+	git pull
+	# Update the Platform-specific configure repositories
+	if [ -d ${gPLATFORM_DIR} ]; then \
+		echo "cd ${gPLATFORM_DIR}; git pull"; \
+	else \
+		echo "cd ${gTOP_DIR}/config; git clone git@gitee.com:ashyelf/${gPLATFORM}"; \
+	fi
+	# Platform-specific SDK Makefile update
+	make -f Makefile.target update
+	# Adjust the Platform-specific SDK
+	make -f Makefile.target adjust
+	# Refresh the menu
+	make -f Makefile.target menu
+adjust:
+	# Adjust the Platform-specific SDK
+	make -f Makefile.target adjust
+
+# Firmware upload
+ftp repo:
 	make -f Makefile.target $@
+
 # SDK clear
 bufclean sdkclean:
 	if [ -d ${gSDK_DIR} ]; then \
@@ -33,7 +54,7 @@ bufclean sdkclean:
 		make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@; \
 	fi
 
-.PHONY: ubuntu_preset pid update adjust bufclean sdkclean
+.PHONY: ubuntu_preset pid pidinfo update adjust ftp repo bufclean sdkclean
 
 
 
@@ -48,14 +69,13 @@ sz:
 zzb: boot
 	make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@
 tar: boot
-	make -f Makefile.target flash
+	if [ "X${gFLASH_MAKEFILE}" != "X" ]; then \
+		if [ -f ${gFLASH_MAKEFILE} ]; then \
+			make -f ${gFLASH_MAKEFILE}; \
+		fi; \
+	fi
 	make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@
 .PHONY: local start sz zzb tar
-
-
-ftp repo:
-	make -f Makefile.target $@
-.PHONY: ftp repo
 
 
 

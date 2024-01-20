@@ -16,7 +16,7 @@
 ifeq (gBOARDID, $(wildcard gBOARDID))
 sinclude gBOARDID 
 endif
-gBOARDID ?= host-x86-ubuntu
+gBOARDID ?= host-x86-x1000
 
 #####################################
 ######### Do not modify #############
@@ -34,22 +34,20 @@ gCUSTOM := $(word 3,${gBOARDIDS})
 # Custom Identify
 gSCOPE := $(word 4,${gBOARDIDS})
 # Custom OEM
-gZZID := $(word 5,${gBOARDIDS})
+gOEM := $(word 5,${gBOARDIDS})
 ifeq (${gSCOPE},)
 gSCOPE := std
 endif 
-ifeq (${gZZID},)
-gZZID := default
+ifeq (${gOEM},)
+gOEM := default
 endif 
 # Get the date
 #gPUBLISH ?= $(shell date +%m%d%y)
-gPUBLISH ?= v7.4.1225
-#gPUBLISH ?= v7.3.0307
-#gPUBLISH ?= v7.2.1020
+gPUBLISH ?= v7.4.0106
 gVERSION ?= $(gPUBLISH)
 # Name for compiler
 gMAKER ?= dimmalex@gmail.com
-export gNPROC gZZID gPLATFORM gHARDWARE gCUSTOM gSCOPE gVERSION gPUBLISH gMAKER
+export gNPROC gOEM gPLATFORM gHARDWARE gCUSTOM gSCOPE gVERSION gPUBLISH gMAKER
 
 #####################################
 ######### Do not modify #############
@@ -76,11 +74,11 @@ gSTORE_DIR := ${gBUILD_DIR}/store
 gCUSTOM_DIR := ${gHARDWARE_DIR}/${gCUSTOM}
 # Custom configure directory
 gSCOPE_DIR := ${gCUSTOM_DIR}/${gSCOPE}
-gZZID_DIR := ${gCUSTOM_DIR}/${gZZID}
-gZZID_SH := ${gZZID}.sh
-gZZID_SH_FILE := ${gZZID_DIR}/${gZZID}.sh
-gZZID_CONFIG := ${gZZID}.dtar
-gZZID_CONFIG_DIR := ${gZZID_DIR}/rootfs/prj/
+gOEM_DIR := ${gCUSTOM_DIR}/${gOEM}
+gOEM_SH := ${gOEM}.sh
+gOEM_SH_FILE := ${gOEM_DIR}/${gOEM}.sh
+gOEM_CONFIG := ${gOEM}.dtar
+gOEM_CONFIG_DIR := ${gOEM_DIR}/rootfs/prj/
 # Markdown directory for project component
 gCOMFACE_DIR := ${gTOP_DIR}/doc/com
 # Tools directory for compile
@@ -125,7 +123,7 @@ gFLASH_MAKEFILE := ${gPLATFORM_DIR}/flash.makefile
 export gTOP_DIR gBUILD_DIR gINSTALL_DIR
 export gosROOT_DIR gosPRJ_NAME gosPRJ_DIR
 export gPLATFORM_DIR gHARDWARE_DIR gSTORE_DIR gCUSTOM_DIR gSCOPE_DIR gCOMFACE_DIR gTOOLS_DIR gpTOOLS_DIR gPROJECT_DIR gRICE_DIR
-export gZZID_DIR gZZID_SH gZZID_SH_FILE gZZID_CONFIG gZZID_CONFIG_DIR
+export gOEM_DIR gOEM_SH gOEM_SH_FILE gOEM_CONFIG gOEM_CONFIG_DIR
 export gPROJECT_INF gMAKEFILE_CFGFILE
 export gSDK_DIR
 export gSDK_MAKEFILE gLAY_MAKEFILE gDIR_MAKEFILE gFPK_MAKEFILE gCOM_MAKEFILE gLIB_MAKEFILE gEXE_MAKEFILE gFLASH_MAKEFILE
@@ -167,12 +165,12 @@ lay_install:
 	if [ -d ${gHARDWARE_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gHARDWARE_DIR} rootfs_install; fi
 	if [ -d ${gCUSTOM_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gCUSTOM_DIR} rootfs_install; fi
 	if [ -d ${gSCOPE_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gSCOPE_DIR} rootfs_install; fi
-	if [ -e ${gZZID_SH_FILE} ]; then \
-		cp ${gZZID_SH_FILE} ${gBUILD_DIR}; \
+	if [ -e ${gOEM_SH_FILE} ]; then \
+		cp ${gOEM_SH_FILE} ${gBUILD_DIR}; \
 	fi
-	if [ -e ${gZZID_CONFIG_DIR} ]; then \
-		cd ${gZZID_CONFIG_DIR}; \
-		tar -c * -f ${gBUILD_DIR}/${gZZID_CONFIG}; \
+	if [ -e ${gOEM_CONFIG_DIR} ]; then \
+		cd ${gOEM_CONFIG_DIR}; \
+		tar -c * -f ${gBUILD_DIR}/${gOEM_CONFIG}; \
 	fi
 clean:
 	if [ "X${obj}" != "X" ]; then \

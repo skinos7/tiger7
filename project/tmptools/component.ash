@@ -7,21 +7,21 @@
 # setup method for register a normal service
 setup()
 {
-    echo "the devtools@sh setup has be called"
-    he log.info[ "the devtools@sh setup has be called"  ]
+    echo "the ${PROJECT}@${COM} setup has be called"
+    he log.info[ "the ${PROJECT}@${COM} setup has be called"  ]
     creturn ttrue
 }
 # shut method for unregister all service
 shut()
 {
-    echo "the devtools@sh setup has be called"
-    he log.info[ "the devtools@sh setup has be called"  ]
+    echo "the ${PROJECT}@${COM} setup has be called"
+    he log.info[ "the ${PROJECT}@${COM} setup has be called"  ]
     creturn ttrue
 }
 
 
 
-# the service will exit with ttrue, the service will log for forever
+# method, service will exit with ttrue, the service will log for forever
 service()
 {
     nubmer=1
@@ -35,6 +35,7 @@ service()
     creturn tfalse
 }
 
+# method, call by ${PROJECT}@${COM}.list
 list()
 {
     ret='{"'$PARAM1'":"'$PARAM2'"}'

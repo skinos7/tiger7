@@ -1,0 +1,20 @@
+{
+    "name":"tmptools",
+    "intro":"Assist template/development tools",
+    "desc":"Assist with template/development projects, including many examples and templates, and some debugging tools",
+    "type":"root",
+    "version":"7.0.0",
+    "author":"dimmalex@gmail.com",
+
+    "cmd":
+    {
+        "prj":"online programming tool"
+    },
+    "com":
+    {
+    },
+    "exe":
+    {
+    }
+
+}

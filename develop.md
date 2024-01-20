@@ -10,7 +10,10 @@ output:
 
 
 
-# 项目的开发指导--- 正在编写中
+# 项目的开发指导
+
+- **[在线SHELL组件开发](https://gitee.com/tiger7/doc/blob/master/dev/online_development.md)**
+介绍及演示在运行系统是直接编写SHELL脚本组件
 
 - **[项目及组件开发](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)**
 介绍及演示SkinSDK **项目(project)** 开发步骤, 并以示例的方式演示如何开发一个功能
