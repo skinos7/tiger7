@@ -16,73 +16,79 @@
 
 
     <div id="status-sets">
+
         <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right" data-i18n="Night or Day"></label>
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Battary Capacity"></label>
             <div class="col-sm-9 form-right-text">
-                <span id="nighttime"></span>
+                <span id="battery_capacity"></span>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right" data-i18n="Charge Status"></label>
-            <div class="col-sm-9 form-right-text">
-                <span id="charge_status"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right" data-i18n="Discharge Status"></label>
-            <div class="col-sm-9 form-right-text">
-                <span id="discharge_status"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right" data-i18n="Environment Temperature"></label>
-            <div class="col-sm-9 form-right-text">
-                <span id="extern_temp"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right" data-i18n="Device Temperature"></label>
-            <div class="col-sm-9 form-right-text">
-                <span id="interval_temp"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right" data-i18n="Battery Status"></label>
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Battery Voltage"></label>
             <div class="col-sm-9 form-right-text">
                 <span id="battery_voltage"></span>
             </div>
         </div>
+
         <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right" data-i18n="Load Status"></label>
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Charge Electricity"></label>
+            <div class="col-sm-9 form-right-text">
+                <span id="charge_electricity"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Battery Temperature"></label>
+            <div class="col-sm-9 form-right-text">
+                <span id="battery_temperature"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Board Temperature"></label>
+            <div class="col-sm-9 form-right-text">
+                <span id="board_temperature"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Load Voltage"></label>
             <div class="col-sm-9 form-right-text">
                 <span id="load_voltage"></span>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right" data-i18n="Solar Status"></label>
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Load Electricity"></label>
+            <div class="col-sm-9 form-right-text">
+                <span id="load_electricity"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Load Power"></label>
+            <div class="col-sm-9 form-right-text">
+                <span id="load_power"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Solar Voltage"></label>
             <div class="col-sm-9 form-right-text">
                 <span id="solar_voltage"></span>
             </div>
         </div>
-
         <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right" data-i18n="Charge Summary"></label>
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Solar Electricity"></label>
             <div class="col-sm-9 form-right-text">
-                <span id="charge_capacity"></span>
+                <span id="solar_electricity"></span>
             </div>
         </div>
+
         <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right" data-i18n="Consumption Summary"></label>
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Charge Power"></label>
             <div class="col-sm-9 form-right-text">
-                <span id="consumption_capacity"></span>
+                <span id="charge_power"></span>
             </div>
         </div>
     </div><!--status-sets-->
-
-
-    <div id="config-sets">
-    </div><!--config-sets-->
-
 
 
     <!-- 按键面板 -->
@@ -134,19 +140,17 @@
             comstat = v[1];
             if ( comstat )
             {
-                $('#nighttime').text( $.i18n(comstat.nighttime) );
-                $('#charge_status').text( $.i18n(comstat.charge_status) );
-                $('#discharge_status').text( $.i18n(comstat.discharge_status) );
-
-                $('#extern_temp').text( comstat.extern_temp + "℃" );
-                $('#interval_temp').text( comstat.interval_temp + "℃" );
-
-                $('#battery_voltage').text( comstat.battery_voltage+"V / "+comstat.battery_capacity+"%" );
-                $('#load_voltage').text( comstat.load_voltage+"V / "+comstat.load_circuit+"A" );
-                $('#solar_voltage').text( comstat.solar_voltage+"V / "+comstat.solar_circuit+"A" );
-
-                $('#charge_capacity').text( comstat.charge_capacity_today+"kW·h / "+comstat.charge_capacity+"kW·h" );
-                $('#consumption_capacity').text( comstat.consumption_capacity_today+"kW·h / "+comstat.consumption_capacity+"kW·h" );
+                $('#battery_capacity').text( $.i18n(comstat.battery_capacity) );
+                $('#battery_voltage').text( $.i18n(comstat.battery_voltage) );
+                $('#charge_electricity').text( $.i18n(comstat.charge_electricity) );
+                $('#battery_temperature').text( $.i18n(comstat.battery_temperature) );
+                $('#board_temperature').text( $.i18n(comstat.board_temperature) );
+                $('#load_voltage').text( $.i18n(comstat.load_voltage) );
+                $('#load_electricity').text( $.i18n(comstat.load_electricity) );
+                $('#load_power').text( $.i18n(comstat.load_power) );
+                $('#solar_voltage').text( $.i18n(comstat.solar_voltage) );
+                $('#solar_electricity').text( $.i18n(comstat.solar_electricity) );
+                $('#charge_power').text( $.i18n(comstat.charge_power) );
             }
 
             // 将组件配置状态填入状态选项

@@ -163,9 +163,11 @@ The following figure describes common project and component interfaces of gatewa
 **clock** project, time management   
 - date component, name it **clock@date**, **[Manage System Date](https://github.com/skinos7/doc/blob/master/com/clock/date.md)**   
 - restart component, name it **clock@restart**, **[System restart Plan Management](https://github.com/skinos7/doc/blob/master/com/clock/restart.md)**   
+- ntps component, name it **clock@ntps**, **[NTP Server Management](https://github.com/skinos7/doc/blob/master/com/clock/ntps.md)**   
 > **clock** 项目, 时间管理   
 > - date 组件, 命名为 **clock@date**, **[时间管理](https://gitee.com/tiger7/doc/blob/master/com/clock/date.md)**    
 > - restart 组件, 命名为 **clock@restart**, **[重启计划管理](https://gitee.com/tiger7/doc/blob/master/com/clock/restart.md)**   
+> - ntps 组件, 命名为 **clock@ntps**, **[NTP服务器管理](https://gitee.com/tiger7/doc/blob/master/com/clock/ntps.md)**   
 
 **wui** project, web server for user   
 - admin component, name it **wui@admin**, **[Administrator WEB Server Management](https://github.com/skinos7/doc/blob/master/com/wui/admin.md)**   

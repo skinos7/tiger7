@@ -104,7 +104,7 @@ boole telecom_cpe_register( const char *remote, const char *encrypt, talk_t lte 
     }
 
 	/* 使用remotetalk库中的函数发起POST请求, 因此注意在组件的mconfig文件中加入remotetalk的链接, 并且也要加入curl库的链接(因为remotetalk用到了curl库) */
-	ack = easy_rtalk_type( remote, "Content-Type:application/encrypted-json", encrypt, v, 30, 30, PROJECT_TMP_DIR"/.verify_telecom4g_cookie" );
+	ack = easy_rtalk_type( remote, "Content-Type:application/encrypted-json", encrypt, NULL, v, NULL, 30, 30, PROJECT_TMP_DIR"/.verify_telecom4g_cookie" );
 	if ( ack == tfalse )
 	{
 		talk_free( v );
