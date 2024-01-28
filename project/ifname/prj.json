@@ -8,7 +8,6 @@
     "com":
     {
         "ethcon":"ethernet connect component",
-        "ltecon":"lte modem connect component",
-        "ethtest":"ethernet test connect component"
+        "ltecon":"lte modem connect component"
     }
 }
