@@ -82,7 +82,8 @@ sdkclean: bufclean
 
 sz:
 	# 通过xmodem协议发送固件到本地
-	cd ${gBUILD_DIR} && sz ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.zz ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.upgrade ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.txt
+	cd ${gBUILD_DIR} && sz ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.zz
+	#cd ${gBUILD_DIR} && sz ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.zz ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.upgrade ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.txt
 zzb:
 	cd ${gBUILD_DIR}; \
 	if [ -e ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}.uboot ] && [ -e ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.upgrade ]; then \
