@@ -6,30 +6,65 @@
 
         <!-- ping -->
         <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right" data-i18n="Address"></label>
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Ping Address"></label>
             <div class="col-sm-9">
               <input type="text" id="ping_address" class="col-xs-7 col-sm-5" maxlength="128" />&nbsp; &nbsp; &nbsp;
-              <button class="btn btn-main btn-mini" id="ping" data-i18n="Ping"></button>
             </div>
         </div>
 
+        <div class="form-horizontal" role="form">
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right"></label>
+            <div class="col-sm-9">
+                <button class="btn btn-warning" id="logping" data-i18n="Log Ping"></button>
+                <button style="display: none;" class="btn btn-main" id="fileping" data-i18n="Download results"></button>&nbsp; &nbsp; &nbsp;
+                <button class="btn btn-second" id="ttyping" data-i18n="Termnial Ping"></button>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="hr hr32 hr-dotted"></div>
         <!-- traceroute -->
         <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right" data-i18n="Address"></label>
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Traceroute Address"></label>
             <div class="col-sm-9">
               <input type="text" id="traceroute_address" class="col-xs-7 col-sm-5" maxlength="128" />&nbsp; &nbsp; &nbsp;
-              <button class="btn btn-main btn-mini" id="traceroute" data-i18n="Traceroute"></button>
             </div>
+        </div>
+        <div class="form-horizontal" role="form">
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right"></label>
+            <div class="col-sm-9">
+                <button class="btn btn-warning" id="logtraceroute" data-i18n="Log Traceroute"></button>
+                <button style="display: none;" class="btn btn-main" id="filetraceroute" data-i18n="Download results"></button>&nbsp; &nbsp; &nbsp;
+                <button class="btn btn-second" id="ttytraceroute" data-i18n="Termnial Traceroute"></button>
+            </div>
+          </div>
         </div>
 
+
+
+        <div class="hr hr32 hr-dotted"></div>
         <!-- Tcpdump -->
         <div class="form-group" id="tcpdump" style="display: none;">
-            <label class="col-sm-3 control-label no-padding-right" data-i18n="Expression"></label>
+            <label class="col-sm-3 control-label no-padding-right" data-i18n="Capture Expression"></label>
             <div class="col-sm-9">
               <input type="text" id="expression" class="col-xs-7 col-sm-5" maxlength="128" />&nbsp; &nbsp; &nbsp;
-              <button class="btn btn-main btn-mini" id="capture" data-i18n="Capture"></button>
             </div>
         </div>
+        <div class="form-horizontal" role="form">
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right"></label>
+            <div class="col-sm-9">
+                <button class="btn btn-warning" id="logcapture" data-i18n="Log Capture"></button>
+                <button style="display: none;" class="btn btn-main" id="filecapture" data-i18n="Download results"></button>&nbsp; &nbsp; &nbsp;
+                <button class="btn btn-second" id="ttycapture" data-i18n="Termnial Capture"></button>
+            </div>
+          </div>
+        </div>
+
 
 
     </div>
@@ -77,12 +112,46 @@
       $('#terminal').show();
       $('#tips').hide();
     }
+    /* load the configure fill the page */
+    function file_load()
+    {
+        he.load( [ "wui@admin.file_ping", "wui@admin.file_traceroute", "wui@admin.file_tcpdump" ] ).then( function(v){
+            if ( v[0] == true )
+            {
+                $('#fileping').show();
+            }
+            else
+            {
+                $('#fileping').hide();
+            }
+            if ( v[1] == true )
+            {
+                $('#filetraceroute').show();
+            }
+            else
+            {
+                $('#filetraceroute').hide();
+            }
+            if ( v[2] == true )
+            {
+                $('#filecapture').show();
+            }
+            else
+            {
+                $('#filecapture').hide();
+            }
+        });
+    }
+
+
 
     $.i18n().load( page.lang('debug') ).then( function () {        
       /* init the langauage */
       $.i18n().locale = lang; $('body').i18n();
 
-      $('#ping').on(ace.click_event, function () {
+      file_load();
+
+      $('#ttyping').on(ace.click_event, function () {
           var ip = $('#ping_address').val();
           $('#terminal').hide();
           he.exec( [ 'wui@admin.ttyd_ping['+ip+']' ], $.i18n("Opening...") ).then( function(v){
@@ -98,7 +167,50 @@
             }
           });
       });
-      $('#traceroute').on(ace.click_event, function () {
+      $('#logping').on(ace.click_event, function () {
+          var ip = $('#ping_address').val();
+          $('#terminal').hide();
+          he.exec( [ 'wui@admin.log_ping['+ip+']' ], $.i18n("Starting...") ).then( function(v){
+            if ( v[0] == true )
+            {
+                file_load();
+            }
+            else
+            {
+                page.alert( { message: $.i18n('Cannot open it') } );
+                file_load();
+                return;
+            }
+          });
+      });
+      $('#fileping').on(ace.click_event, function () {
+          var submitForm = document.createElement("FORM");
+          document.body.appendChild(submitForm);
+          submitForm.method= "GET";
+          submitForm.action= "/cgi/download";
+          var input = document.createElement('input')
+          input.setAttribute('name', "PROJECT" );
+          input.setAttribute('value', "wui" )
+          input.setAttribute('type', 'hidden')
+          submitForm.appendChild(input)
+          input = document.createElement('input')
+          input.setAttribute('name', "FILETYPE" );
+          input.setAttribute('value', "var" )
+          input.setAttribute('type', 'hidden')
+          submitForm.appendChild(input)
+          input = document.createElement('input')
+          input.setAttribute('name', "FILENAME" );
+          input.setAttribute('value', "ping.txt" )
+          input.setAttribute('type', 'hidden')
+          submitForm.appendChild(input)
+          setTimeout(function() {
+              submitForm.submit();
+          }, 200);
+      });
+
+
+
+      $('#ttytraceroute').on(ace.click_event, function () {
           var ip = $('#traceroute_address').val();
           $('#terminal').hide();
           he.exec( [ 'wui@admin.ttyd_traceroute['+ip+']' ], $.i18n("Opening...") ).then( function(v){
@@ -114,7 +226,50 @@
             }
           });
       });
-      $('#capture').on(ace.click_event, function () {
+      $('#logtraceroute').on(ace.click_event, function () {
+          var ip = $('#traceroute_address').val();
+          $('#terminal').hide();
+          he.exec( [ 'wui@admin.log_traceroute['+ip+']' ], $.i18n("Starting...") ).then( function(v){
+            if ( v[0] == true )
+            {
+                file_load();
+            }
+            else
+            {
+                page.alert( { message: $.i18n('Cannot open it') } );
+                file_load();
+                return;
+            }
+          });
+      });
+      $('#filetraceroute').on(ace.click_event, function () {
+          var submitForm = document.createElement("FORM");
+          document.body.appendChild(submitForm);
+          submitForm.method= "GET";
+          submitForm.action= "/cgi/download";
+          var input = document.createElement('input')
+          input.setAttribute('name', "PROJECT" );
+          input.setAttribute('value', "wui" )
+          input.setAttribute('type', 'hidden')
+          submitForm.appendChild(input)
+          input = document.createElement('input')
+          input.setAttribute('name', "FILETYPE" );
+          input.setAttribute('value', "var" )
+          input.setAttribute('type', 'hidden')
+          submitForm.appendChild(input)
+          input = document.createElement('input')
+          input.setAttribute('name', "FILENAME" );
+          input.setAttribute('value', "traceroute.txt" )
+          input.setAttribute('type', 'hidden')
+          submitForm.appendChild(input)
+          setTimeout(function() {
+              submitForm.submit();
+          }, 200);
+      });
+
+
+      
+      $('#ttycapture').on(ace.click_event, function () {
           var expression = $('#expression').val();
           $('#terminal').hide();
           he.exec( [ 'wui@admin.ttyd_tcpdump['+expression+']' ], $.i18n("Opening...") ).then( function(v){
@@ -130,15 +285,60 @@
             }
           });
       });
+      $('#logcapture').on(ace.click_event, function () {
+          var ip = $('#expression').val();
+          $('#terminal').hide();
+          he.exec( [ 'wui@admin.log_tcpdump['+ip+']' ], $.i18n("Starting...") ).then( function(v){
+            if ( v[0] == true )
+            {
+                file_load();
+            }
+            else
+            {
+                page.alert( { message: $.i18n('Cannot open it') } );
+                file_load();
+                return;
+            }
+          });
+      });
+      $('#filecapture').on(ace.click_event, function () {
+          var submitForm = document.createElement("FORM");
+          document.body.appendChild(submitForm);
+          submitForm.method= "GET";
+          submitForm.action= "/cgi/download";
+          var input = document.createElement('input')
+          input.setAttribute('name', "PROJECT" );
+          input.setAttribute('value', "wui" )
+          input.setAttribute('type', 'hidden')
+          submitForm.appendChild(input)
+          input = document.createElement('input')
+          input.setAttribute('name', "FILETYPE" );
+          input.setAttribute('value', "var" )
+          input.setAttribute('type', 'hidden')
+          submitForm.appendChild(input)
+          input = document.createElement('input')
+          input.setAttribute('name', "FILENAME" );
+          input.setAttribute('value', "tcpdump.cap" )
+          input.setAttribute('type', 'hidden')
+          submitForm.appendChild(input)
+          setTimeout(function() {
+              submitForm.submit();
+          }, 200);
+      });
+
+
+      
       $('#close').on(ace.click_event, function () {
-          he.exec( [ 'wui@admin.ttyd_kill' ], $.i18n("closing...") ).then( function(v){
+          he.exec( [ 'wui@admin.ttyd_kill', 'wui@admin.clear_ping', 'wui@admin.clear_traceroute', 'wui@admin.clear_tcpdump' ], $.i18n("Closing...") ).then( function(v){
             if ( v[0] == true )
             {
                 $('#terminal').hide();
+                file_load();
             }
             else
             {
                 page.alert( { message: $.i18n('Cannot close it') } );
+                file_load();
                 return;
             }
           });

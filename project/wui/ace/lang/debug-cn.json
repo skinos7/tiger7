@@ -36,11 +36,19 @@
 	"Cannot open it":"未能正常打开, 请确认设备是否正常",
 	"Cannot close it":"未能正常关闭, 请重启设备",
 
-	"Address":"目的地址",
-	"Ping":"PING",
-	"Traceroute":"路由跟踪",
-	"Expression":"表达式",
-	"Capture":"抓包",
+	"Ping Address":"Ping地址",
+	"Log Ping":"Ping存入文件",
+	"Termnial Ping":"终端Ping",
+	"Download results":"下载结果",
+	
+	"Traceroute Address":"路由跟踪地址",
+	"Log Traceroute":"Traceroute存入文件",
+	"Termnial Traceroute":"终端Traceroute",
+	
+	"Capture Expression":"抓包表达式",
+	"Log Capture":"抓包存入文件",
+	"Termnial Capture":"终端抓包",
+	
 	"Serial Terminal":"串口终端",
 	"Serial2 Terminal":"串口2终端",
 	"Serial3 Terminal":"串口3终端",

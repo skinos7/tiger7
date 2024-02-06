@@ -144,6 +144,7 @@ boole_t _ttyd_lte( obj_t this, param_t param )
 	talk_free( stat );
     return ttrue;
 }   
+
 boole_t _ttyd_ping( obj_t this, param_t param )
 {
 	const char *dest;
@@ -205,7 +206,7 @@ boole_t _ttyd_tcpdump( obj_t this, param_t param )
 	dest = param_string( param, 1 );
 	if ( dest == NULL )
 	{
-		dest = "127.0.0.1";
+		dest = "";
 	}
     shell( "ttyd -p %s /usr/sbin/tcpdump %s >/dev/null 2>&1 &", termport, dest );
     return ttrue;
@@ -299,6 +300,126 @@ boole_t _ttyd_kill( obj_t this, param_t param )
 {
     shell( "killall -9 ttyd" );
     return ttrue;
+}   
+
+
+
+boole_t _log_traceroute( obj_t this, param_t param )
+{
+	const char *dest;
+	char path[PATH_MAX];
+
+	dest = param_string( param, 1 );
+	if ( dest == NULL )
+	{
+		dest = "127.0.0.1";
+	}
+	var2path( path, sizeof(path), "traceroute.txt" );
+    shell( "killall -9 traceroute" );
+    shell( "rm -fr %s", path );
+    shell( "traceroute %s  2>&1 > %s&", dest, path );
+	sleep( 2 );
+    return ttrue;
+}   
+boole_t _file_traceroute( obj_t this, param_t param )
+{
+	struct stat st;
+	char path[PATH_MAX];
+	
+	var2path( path, sizeof(path), "traceroute.txt" );
+	if ( stat( path, &st ) == 0 )
+	{
+		return ttrue;
+	}
+	return tfalse;
+}   
+boole_t _clear_traceroute( obj_t this, param_t param )
+{
+	char path[PATH_MAX];
+	
+	var2path( path, sizeof(path), "traceroute.txt" );
+    shell( "killall -9 traceroute" );
+    shell( "rm -fr %s", path );
+	return ttrue;
+}
+
+boole_t _log_ping( obj_t this, param_t param )
+{
+	const char *dest;
+	char path[PATH_MAX];
+
+	dest = param_string( param, 1 );
+	if ( dest == NULL )
+	{
+		dest = "127.0.0.1";
+	}
+	var2path( path, sizeof(path), "ping.txt" );
+    shell( "killall -9 ping" );
+    shell( "rm -fr %s", path );
+    shell( "ping %s  2>&1 > %s&", dest, path );
+	sleep( 2 );
+    return ttrue;
+}   
+boole_t _file_ping( obj_t this, param_t param )
+{
+	struct stat st;
+	char path[PATH_MAX];
+	
+	var2path( path, sizeof(path), "ping.txt" );
+	if ( stat( path, &st ) == 0 )
+	{
+		return ttrue;
+	}
+	return tfalse;
+}   
+boole_t _clear_ping( obj_t this, param_t param )
+{
+	char path[PATH_MAX];
+	
+	var2path( path, sizeof(path), "ping.txt" );
+    shell( "killall -9 ping" );
+    shell( "rm -fr %s", path );
+	return ttrue;
+}
+
+boole_t _log_tcpdump( obj_t this, param_t param )
+{
+	const char *dest;
+	char path[PATH_MAX];
+
+	/* get the term port */
+	dest = param_string( param, 1 );
+	if ( dest == NULL )
+	{
+		dest = "";
+	}
+	var2path( path, sizeof(path), "tcpdump.cap" );
+    shell( "killall -9 tcpdump" );
+    shell( "rm -fr %s", path );
+    shell( "tcpdump %s -C 20 -W 1 -w %s&", dest, path );
+	sleep( 3 );
+    return ttrue;
+}   
+boole_t _file_tcpdump( obj_t this, param_t param )
+{
+	struct stat st;
+	char path[PATH_MAX];
+	
+	var2path( path, sizeof(path), "tcpdump.cap" );
+	if ( stat( path, &st ) == 0 )
+	{
+		return ttrue;
+	}
+	return tfalse;
+}   
+boole_t _clear_tcpdump( obj_t this, param_t param )
+{
+	char path[PATH_MAX];
+	
+	var2path( path, sizeof(path), "tcpdump.cap" );
+    shell( "killall -9 tcpdump" );
+    shell( "rm -fr %s", path );
+	return ttrue;
 }   
 
 
