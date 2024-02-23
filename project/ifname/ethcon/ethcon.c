@@ -654,43 +654,6 @@ boole_t _service( obj_t this, param_t param )
     {
         scalls( ifdev, "setmac", ptr );
     }
-	/* auto mac */
-	else
-	{
-		const int *randp;
-		unsigned int randi;
-		char mac[NAME_MAX];
-		const char *factory_mode;
-
-		mac[0] = '\0';
-		factory_mode = register_value( LAND_PROJECT, "factory_mode" );
-		if ( factory_mode != NULL )
-		{
-			randp = register_value( LAND_PROJECT, "rand" );
-			if ( randp != NULL )
-			{
-				randi = *randp;
-				if ( 0 == strcmp( object, WAN_COM ) )
-				{
-					snprintf( mac, sizeof(mac), "6A%u", randi );
-				}
-				else if ( 0 == strcmp( object, LAN_COM ) )
-				{
-					snprintf( mac, sizeof(mac), "60%u", randi );
-				}
-				else if ( 0 == strcmp( object, LAN2_COM ) )
-				{
-					snprintf( mac, sizeof(mac), "62%u", randi );
-				}
-				else
-				{
-					snprintf( mac, sizeof(mac), "64%u", randi );
-				}
-				scalls( ifdev, "setmac", mac );
-				warn( "%s auto mac address %s", ifdev, mac );
-			}
-		}
-	}
 
 	/* check connected */
 	ready = 0;
