@@ -19,7 +19,9 @@
         "20240103":"log support download all file",
         "20240104":"add the prj at runtime system to develop, move the devtools to tmptools",
         "20240105":"fix the route add for default the metic wrong",
-        "20240120":"Normalized on-line event, Separate out network/on, network/onextern, network/onvpn, network/online"
+        "20240120":"Normalized on-line event, Separate out network/on, network/onextern, network/onvpn, network/online",
+        "20240201":"diagnostic web support log the result and download",
+        "20240210":"support only have signal no plmn can work for simcom"
     },
     "v7.3.1009":
     {
