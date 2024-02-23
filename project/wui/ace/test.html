@@ -343,6 +343,16 @@
                                     <th data-i18n="Link"></th>
                                     <th data-i18n="Receive"></th>
                                 </tr>
+                                <tr id="wan" style="display: none;">
+                                    <td data-i18n="Port0"></td>
+                                    <td id="wan_link"><i class="ace-icon fa fa-times red"></i></td>
+                                    <td id="wan_recv"><i class="ace-icon fa fa-times red"></i></td>
+                                </tr>
+                                <tr id="lan" style="display: none;">
+                                    <td data-i18n="Port1"></td>
+                                    <td id="lan_link"><i class="ace-icon fa fa-times red"></i></td>
+                                    <td id="lan_recv"><i class="ace-icon fa fa-times red"></i></td>
+                                </tr>
                                 <tr id="lan1" style="display: none;">
                                     <td data-i18n="Port1"></td>
                                     <td id="lan1_link"><i class="ace-icon fa fa-times red"></i></td>
@@ -616,39 +626,17 @@
                 var cmds = [];
                 cmds[0] = "machine";
                 cmds[1] = "machine.status";
-                cmds[2] = ".ifname@lte";
-                cmds[3] = ".ifname@lte2";
-                cmds[4] = "ifname@lte.status";
-                cmds[5] = "ifname@lte2.status";
-                cmds[6] = "arch@ethernet.status";
-                cmds[7] = "ifname@lan1.status";
-                cmds[8] = "ifname@lan2.status";
-                cmds[9] = "ifname@lan3.status";
-                cmds[10] = "ifname@lan4.status";
-                cmds[11] = ".uart@serial";
-                cmds[12] = ".uart@serial2";
-                cmds[13] = ".uart@serial3";
-                cmds[14] = "uart@serial.status";
-                cmds[15] = "uart@serial2.status";
-                cmds[16] = "uart@serial3.status";
+                cmds[2] = "ifname@lte.status";
+                cmds[3] = "ifname@lte2.status";
+                cmds[4] = "arch@ethernet.status";
+                cmds[5] = "arch@factory.status";
                 he.load( cmds ).then( function( v ){
                     m = v[0]
                     ms = v[1];
                     lte = v[2];
                     lte2 = v[3];
-                    ltes = v[4];
-                    lte2s = v[5];
-                    ethernets = v[6];
-                    lan1 = v[7];
-                    lan2 = v[8];
-                    lan3 = v[9];
-                    lan4 = v[10];
-                    serial = v[11];
-                    serial2 = v[12];
-                    serial3 = v[13];
-                    serials = v[14];
-                    serial2s = v[15];
-                    serial3s = v[16];
+                    ethernets = v[4];
+                    tests = v[5];
 
                     /* load the info */
                     $('#name_string').text(m.name);
@@ -657,12 +645,6 @@
                     {
                         $('#datecode').text(ms.datecode);
                     }
-                    /* load the firmware info */
-                    $('#firmware_id').text( ms.hardware+"-"+ms.custom+"-"+ms.scope );
-                    $('#firmware_version').text(ms.version);
-                    $('#cfgversion').text(m.cfgversion||$.i18n('Default'));
-
-                    /* LTE */
                     if ( m["sn"] )
                     {
                         sn = m["sn"];
@@ -671,28 +653,36 @@
                     {
                         sn = (ms.datecode||"")+""+ms.model+""+ms.macid.substring(6);
                     }
-                    if ( lte == true )
+                    $('#list_sn1').text( sn );
+                    $('#list_mac1').text( ms.mac );
+                    $('#list_sn2').text( sn );
+                    $('#list_mac2').text( ms.mac );
+                    /* load the firmware info */
+                    $('#firmware_id').text( ms.hardware+"-"+ms.custom+"-"+ms.scope );
+                    $('#firmware_version').text(ms.version);
+                    $('#cfgversion').text(m.cfgversion||$.i18n('Default'));
+
+                    /* LTE */
+                    if ( tests["modem@lte"] )
                     {
                         $('#lte_info').show();
-                        $('#list_mac1').text( ms.mac );
-                        $('#list_sn1').text( sn );
-                        if ( ltes.imei )
+                        if ( lte.imei )
                         {
-                        $('#list_imei1').text( ltes.imei );
+                        $('#list_imei1').text( lte.imei );
                         }
-                        if ( ltes.bsim_state )
+                        if ( lte.bsim_state )
                         {
-                            $('#list_iccid1').text( ltes.msim_iccid );
-                            $('#list_iccid1b').text( ltes.bsim_iccid );
+                            $('#list_iccid1').text( lte.msim_iccid );
+                            $('#list_iccid1b').text( lte.bsim_iccid );
                         }
                         else
                         {
-                            if ( ltes.iccid && ltes.iccid != "nosim" )
+                            if ( lte.iccid && lte.iccid != "nosim" )
                             {
-                                $('#list_iccid1').text( ltes.iccid );
+                                $('#list_iccid1').text( lte.iccid );
                             }
                         }
-                        if ( ltes.status == "up" )
+                        if ( lte.status == "up" )
                         {
                             $('#list_online1').html( '<i class="ace-icon fa fa-check green"></i>' );
                         }
@@ -701,29 +691,27 @@
                             $('#list_online1').html( '<i class="ace-icon fa fa-times red"></i>' );
                         }
                     }
-                    if ( lte2 == true )
+                    if ( tests["modem@lte2"] )
                     {
                         $('#lte2_info').show();
-                        $('#list_mac2').text( ms.mac );
-                        $('#list_sn2').text( sn );
                 
-                        if ( lte2s.imei )
+                        if ( lte2.imei )
                         {
-                        $('#list_imei2').text( lte2s.imei );
+                        $('#list_imei2').text( lte2.imei );
                         }
-                        if ( lte2s.bsim_state )
+                        if ( lte2.bsim_state )
                         {
-                            $('#list_iccid2').text( lte2s.msim_iccid );
-                            $('#list_iccid2b').text( lte2s.bsim_iccid );
+                            $('#list_iccid2').text( lte2.msim_iccid );
+                            $('#list_iccid2b').text( lte2.bsim_iccid );
                         }
                         else
                         {
-                            if ( lte2s.iccid && lte2s.iccid != "nosim" )
+                            if ( lte2.iccid && lte2.iccid != "nosim" )
                             {
-                                $('#list_iccid2').text( lte2s.iccid );
+                                $('#list_iccid2').text( lte2.iccid );
                             }
                         }
-                        if ( lte2s.status == "up" )
+                        if ( lte2.status == "up" )
                         {
                             $('#list_online2').html( '<i class="ace-icon fa fa-check green"></i>' );
                         }
@@ -734,6 +722,32 @@
                     }
 
                     /* ethernet */
+                    if ( ethernets["wan"] )
+                    {
+                        var v = ethernets["wan"];
+                        if ( v["status"] == "up" )
+                        {
+                            $('#wan_link').html( '<i class="ace-icon fa fa-check green"></i>' );
+                        }
+                        if ( tests["wan"] == "ok" )
+                        {
+                            $('#wan_recv').html( '<i class="ace-icon fa fa-check green"></i>' );
+                        }
+                        $('#wan').show();
+                    }
+                    if ( ethernets["lan"] )
+                    {
+                        var v = ethernets["lan"];
+                        if ( v["status"] == "up" )
+                        {
+                            $('#lan_link').html( '<i class="ace-icon fa fa-check green"></i>' );
+                        }
+                        if ( tests["lan"] == "ok" )
+                        {
+                            $('#lan_recv').html( '<i class="ace-icon fa fa-check green"></i>' );
+                        }
+                        $('#lan').show();
+                    }
                     if ( ethernets["lan1"] )
                     {
                         var v = ethernets["lan1"];
@@ -741,7 +755,7 @@
                         {
                             $('#lan1_link').html( '<i class="ace-icon fa fa-check green"></i>' );
                         }
-                        if ( lan1 == true )
+                        if ( tests["lan1"] == "ok" )
                         {
                             $('#lan1_recv').html( '<i class="ace-icon fa fa-check green"></i>' );
                         }
@@ -754,7 +768,7 @@
                         {
                             $('#lan2_link').html( '<i class="ace-icon fa fa-check green"></i>' );
                         }
-                        if ( lan1 == true )
+                        if ( tests["lan2"] == "ok" )
                         {
                             $('#lan2_recv').html( '<i class="ace-icon fa fa-check green"></i>' );
                         }
@@ -767,7 +781,7 @@
                         {
                             $('#lan3_link').html( '<i class="ace-icon fa fa-check green"></i>' );
                         }
-                        if ( lan1 == true )
+                        if ( tests["lan3"] == "ok" )
                         {
                             $('#lan3_recv').html( '<i class="ace-icon fa fa-check green"></i>' );
                         }
@@ -780,7 +794,7 @@
                         {
                             $('#lan4_link').html( '<i class="ace-icon fa fa-check green"></i>' );
                         }
-                        if ( lan1 == true )
+                        if ( tests["lan4"] == "ok" )
                         {
                             $('#lan4_recv').html( '<i class="ace-icon fa fa-check green"></i>' );
                         }
@@ -788,26 +802,26 @@
                     }
 
                     /* UART */
-                    if ( serial == true )
+                    if ( tests["uart@serial"] )
                     {
                         $('#serial').show();
-                        if ( serials == true )
+                        if ( tests["uart@serial"] == "ok" )
                         {
                             $('#serial_recv').html( '<i class="ace-icon fa fa-check green"></i>' );
                         }
                     }
-                    if ( serial2 == true )
+                    if ( tests["uart@serial2"] )
                     {
                         $('#serial2').show();
-                        if ( serial2s == true )
+                        if ( tests["uart@serial2"] == "ok" )
                         {
                             $('#serial2_recv').html( '<i class="ace-icon fa fa-check green"></i>' );
                         }
                     }
-                    if ( serial3 == true )
+                    if ( tests["uart@serial3"] )
                     {
                         $('#serial3').show();
-                        if ( serial3s == true )
+                        if ( tests["uart@serial3"] == "ok" )
                         {
                             $('#serial3_recv').html( '<i class="ace-icon fa fa-check green"></i>' );
                         }
