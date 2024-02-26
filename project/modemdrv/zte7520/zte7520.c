@@ -450,7 +450,7 @@ static int zte7520_set_profileset( atcmd_t fd, talk_t profile )
 	terror for error, need reset the modem */
 boole_t _usb_match( obj_t this, param_t param )
 {
-	int i;
+	int i, t;
     talk_t dev;
 	talk_t cfg;
     const char *vid;
@@ -482,25 +482,23 @@ boole_t _usb_match( obj_t this, param_t param )
 		/* 加载option驱动 */
 		insert_module( "cdc_ether" );
 		insert_module( "option" );
-		usleep( 2000000 );
 		syspath = json_string( dev, "syspath" );
 
 		/* find the tty list */
-		i = usbttylist_device_find( syspath, ttylist );
-		if ( i < 3 )
+		i = t = 0;
+		for( ; t<30; t++ )
 		{
-			usleep( 2000000 );
 			i = usbttylist_device_find( syspath, ttylist );
-			if ( i < 3	)
+			if ( i >= 3 )
 			{
-				usleep( 2000000 );
-				i = usbttylist_device_find( syspath, ttylist );
-				if ( i < 3	)
-				{
-					fault( "ZTE 7520 modem cannot find the specified serial port(%d), system maybe cracked", i );
-					return terror;
-				}
+				break;
 			}
+			usleep( 300000 );
+		}
+		if ( t >= 30 )
+		{
+			fault( "ZTE 7520 modem cannot find the specified serial port(%d), system maybe cracked", i );
+			return terror;
 		}
 		/* set the name */
 		snprintf( buffer, sizeof(buffer), "ZTE-%s", pid );
@@ -509,13 +507,19 @@ boole_t _usb_match( obj_t this, param_t param )
 		object = lte_object_get( LTE_COM, syspath, cfg, NULL, 0 );
 		json_set_string( dev, "object", object );
 		/* find the netdev */
-		netdev = usbeth_device_find( syspath, NULL, 0 );
-		if ( netdev != NULL )
+		for( t=0; t<40; t++ )
 		{
-			json_set_string( dev, "netdev", netdev );
+			netdev = usbeth_device_find( syspath, NULL, 0 );
+			if ( netdev != NULL )
+			{
+				json_set_string( dev, "netdev", netdev );
+				break;
+			}
+			usleep( 300000 );
+			warn( "ZTE 7520 modem cannot found netdev(%s:%s)", vid, pid );
 		}
-		json_set_string( dev, "stty", ttylist[1] );
-		json_set_string( dev, "mtty", ttylist[0] );
+		json_set_string( dev, "stty", ttylist[0] );
+		json_set_string( dev, "mtty", ttylist[1] );
 		json_set_string( dev, "devcom", MODEM_COM );
 		json_set_string( dev, "drvcom", COM_IDPATH );
 		return ttrue;
@@ -538,25 +542,23 @@ boole_t _usb_match( obj_t this, param_t param )
 			shell( "insmod %s", path );
 		}
 		shell( "modprobe option" );
-		usleep( 2000000 );
 		syspath = json_string( dev, "syspath" );
 
 		/* find the tty list */
-		i = usbttylist_device_find( syspath, ttylist );
-		if ( i < 3 )
+		i = t = 0;
+		for( ; t<30; t++ )
 		{
-			usleep( 2000000 );
 			i = usbttylist_device_find( syspath, ttylist );
-			if ( i < 3	)
+			if ( i >= 3 )
 			{
-				usleep( 2000000 );
-				i = usbttylist_device_find( syspath, ttylist );
-				if ( i < 3	)
-				{
-					fault( "ZTE ME3760 modem cannot find the specified serial port(%d), system maybe cracked", i );
-					return terror;
-				}
+				break;
 			}
+			usleep( 300000 );
+		}
+		if ( t >= 30 )
+		{
+			fault( "ZTE ME3760 modem cannot find the specified serial port(%d), system maybe cracked", i );
+			return terror;
 		}
 		/* set the name */
 		snprintf( buffer, sizeof(buffer), "ZTE-%s", pid );
@@ -565,10 +567,16 @@ boole_t _usb_match( obj_t this, param_t param )
 		object = lte_object_get( LTE_COM, syspath, cfg, NULL, 0 );
 		json_set_string( dev, "object", object );
 		/* find the netdev */
-		netdev = usbeth_device_find( syspath, NULL, 0 );
-		if ( netdev != NULL )
+		for( t=0; t<40; t++ )
 		{
-			json_set_string( dev, "netdev", netdev );
+			netdev = usbeth_device_find( syspath, NULL, 0 );
+			if ( netdev != NULL )
+			{
+				json_set_string( dev, "netdev", netdev );
+				break;
+			}
+			usleep( 300000 );
+			warn( "ZTE ME3760 modem cannot found netdev(%s:%s)", vid, pid );
 		}
 		json_set_string( dev, "stty", ttylist[0] );
 		json_set_string( dev, "mtty", ttylist[1] );

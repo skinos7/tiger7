@@ -623,7 +623,7 @@ static int ne16u_qnetdevstatus( atcmd_t fd, const char *cid )
 	terror for error, need reset the modem */
 boole_t _usb_match( obj_t this, param_t param )
 {
-	int i;
+	int i, t;
     talk_t dev;
 	talk_t cfg;
     const char *vid;
@@ -653,25 +653,23 @@ boole_t _usb_match( obj_t this, param_t param )
 		info( "Lierda NE16U modem found(%s:%s)", vid , pid );
 		/* insmod the usb driver */
 		shell( "modprobe option" );
-		usleep( 2000000 );
 		syspath = json_string( dev, "syspath" );
 
 		/* find the tty list */
-		i = usbttylist_device_find( syspath, ttylist );
-		if ( i < 4 )
+		i = t = 0;
+		for( ; t<30; t++ )
 		{
-			usleep( 2000000 );
 			i = usbttylist_device_find( syspath, ttylist );
-			if ( i < 4	)
+			if ( i >= 4 )
 			{
-				usleep( 2000000 );
-				i = usbttylist_device_find( syspath, ttylist );
-				if ( i < 4	)
-				{
-					fault( "Lierda NE16U modem cannot find the specified serial port(%d), system maybe cracked", i );
-					return terror;
-				}
+				break;
 			}
+			usleep( 300000 );
+		}
+		if ( t >= 30 )
+		{
+			fault( "Lierda NE16U modem cannot find the specified serial port(%d), system maybe cracked", i );
+			return terror;
 		}
 		/* set the name */
 		snprintf( buffer, sizeof(buffer), "Lierda-%s", pid );
@@ -680,11 +678,17 @@ boole_t _usb_match( obj_t this, param_t param )
 		object = lte_object_get( LTE_COM, syspath, cfg, NULL, 0 );
 		json_set_string( dev, "object", object );
 		/* find the netdev */
-		netdev = usbeth_device_find( syspath, NULL, 0 );
-		if ( netdev != NULL )
+		for( i=0; i<40; i++ )
 		{
-			json_set_string( dev, "netdev", netdev );
-			json_set_string( dev, "hwnat", "enable" );
+			netdev = usbeth_device_find( syspath, NULL, 0 );
+			if ( netdev != NULL )
+			{
+				json_set_string( dev, "netdev", netdev );
+				json_set_string( dev, "hwnat", "enable" );
+				break;
+			}
+			warn( "Lierda NE16U modem cannot found netdev(%s:%s)", vid, pid );
+			usleep( 300000 );
 		}
 		json_set_string( dev, "stty", ttylist[2] );
 		json_set_string( dev, "gtty", ttylist[3] );

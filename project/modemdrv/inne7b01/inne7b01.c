@@ -203,7 +203,7 @@ static int innofidei_set_profileset( atcmd_t fd, talk_t profile )
 	terror for error, need reset the modem */
 boole_t _usb_match( obj_t this, param_t param )
 {
-	int i;
+	int i, t;
     talk_t dev;
 	talk_t cfg;
 	const char *ptr;
@@ -239,25 +239,23 @@ boole_t _usb_match( obj_t this, param_t param )
 		{
 			shell( "insmod %s", project_ko_path( NULL, 0, PDRIVER_PROJECT, "innofidei_cdc.ko" ) );
 		}
-		usleep( 2000000 );
 		syspath = json_string( dev, "syspath" );
 
 		/* find the tty list */
-		i = usbttylist_device_find( syspath, ttylist );
-		if ( i < 3 )
+		i = t = 0;
+		for( ; t<30; t++ )
 		{
-			usleep( 2000000 );
 			i = usbttylist_device_find( syspath, ttylist );
-			if ( i < 3	)
+			if ( i >= 3 )
 			{
-				usleep( 2000000 );
-				i = usbttylist_device_find( syspath, ttylist );
-				if ( i < 3	)
-				{
-					fault( "Innofidei E7B01 modem cannot find the specified serial port(%d), system maybe cracked", i );
-					return terror;
-				}
+				break;
 			}
+			usleep( 300000 );
+		}
+		if ( t >= 30 )
+		{
+			fault( "Innofidei E7B01 modem cannot find the specified serial port(%d), system maybe cracked", i );
+			return terror;
 		}
 		/* set the name */
 		snprintf( buffer, sizeof(buffer), "Innofidei-%s", pid );
@@ -266,10 +264,16 @@ boole_t _usb_match( obj_t this, param_t param )
 		object = lte_object_get( LTE_COM, syspath, cfg, NULL, 0 );
 		json_set_string( dev, "object", object );
 		/* find the netdev */
-		netdev = usbeth_device_find( syspath, NULL, 0 );
-		if ( netdev != NULL )
+		for( i=0; i<40; i++ )
 		{
-			json_set_string( dev, "netdev", netdev );
+			netdev = usbeth_device_find( syspath, NULL, 0 );
+			if ( netdev != NULL )
+			{
+				json_set_string( dev, "netdev", netdev );
+				break;
+			}
+			warn( "Innofidei E7B01 modem cannot found netdev(%s:%s)", vid, pid );
+			usleep( 300000 );
 		}
 		json_set_string( dev, "stty", ttylist[0] );
 		json_set_string( dev, "mtty", ttylist[0] );

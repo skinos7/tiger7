@@ -1,7 +1,13 @@
 {
+	"b":"11B",
+	"g":"11G",
 	"n":"11N",
+	"bg":"11BG",
+	"bgn":"11BGN",
 	"a":"11A",
+	"an":"11AN",
 	"ac":"11AC",
+	"anac":"11AN/AC",
 
 
 	"scanning":"Scanning",
