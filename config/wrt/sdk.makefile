@@ -30,7 +30,7 @@ update:
 		if [ ! -e ${gPLATFORM_DIR}/${OPENWRT_FEED_NAME} ]; then \
 			cd ${gPLATFORM_DIR}; sdk-update wrt ${gHARDWARE} ${gCUSTOM} ${OPENWRT_FEED_NAME}; \
 		fi; \
-		cd ${gSDK_DIR}; tar zxvf ${gPLATFORM_DIR}/${OPENWRT_FEED_NAME}; \
+		cd ${gSDK_DIR}; tar -Jxvf ${gPLATFORM_DIR}/${OPENWRT_FEED_NAME}; \
 	fi
 	# 更新fpk
 	if [ -e ${gCUSTOM_DIR} ]; then \
@@ -48,7 +48,7 @@ menu:
 		if [ ! -e ${gPLATFORM_DIR}/${OPENWRT_FEED_NAME} ]; then \
 			cd ${gPLATFORM_DIR}; sdk-update wrt ${gHARDWARE} ${gCUSTOM} ${OPENWRT_FEED_NAME}; \
 		fi; \
-		cd ${gSDK_DIR}; tar zxvf ${gPLATFORM_DIR}/${OPENWRT_FEED_NAME}; \
+		cd ${gSDK_DIR}; tar -Jxvf ${gPLATFORM_DIR}/${OPENWRT_FEED_NAME}; \
 	fi
 	# 对底层SDK打补丁
 	if [ -e ${gPLATFORM_DIR}/adjust/patch.sh ]; then \

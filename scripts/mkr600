@@ -11,7 +11,7 @@ make
 make sz
 make ftp
 make repo
-for tmp in wlinkr320 wlinkr522 ctcunion h728 xexagon giant hx xabg
+for tmp in wlinkr320 wlinkr522 ctcunion h728 xexagon giant xabg hx zwzx hsta
 do
     make gBOARDID=smtk2-mt7628-r600-std-${tmp} pid
     ./mkdel

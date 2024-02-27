@@ -1,19 +1,7 @@
 
-/openwrt.tar.gz
-/openwrt.tar.xz
-/openwrt.tar
-/openwrt
-/openwrt/
-/dl.tar.gz
-/dl.tar.xz
-/dl.tar
-/dl
-/dl/
-/feeds.tar.gz
-/feeds.tar.xz
-/feeds.tar
-/feeds
-/feeds/
+/openwrt-v22.03.3-221fbfa2d854ccb6cd003c065ec308fbc0651b11-dl.tar.xz
+/openwrt-v22.03.3-221fbfa2d854ccb6cd003c065ec308fbc0651b11-feeds.tar.xz
+/openwrt-v22.03.3-221fbfa2d854ccb6cd003c065ec308fbc0651b11.tar.xz 
 **/*.fpk
 **/*.store
 **/DS_Store
