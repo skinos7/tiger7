@@ -1,5 +1,5 @@
 {
-    "v7.4.0106":
+    "v7.4.0219":
     {
         "20231201":"update openvpn to support tls",
         "20231202":"update the dropbear to support new cipber",
@@ -23,7 +23,9 @@
         "20240201":"diagnostic web support log the result and download",
         "20240210":"support only have signal no plmn can work for simcom",
         "20240211":"support a/b/g/bg/bgn mode options for wifi",
-        "20240212":"fix cannot found tty/netdev for modem when the modem boot slower"
+        "20240212":"fix cannot found tty/netdev for modem when the modem boot slower",
+        "20240214":"compatibility 4.3.x for network/frame.mode, ifname/lan.status, ifname/wan.status, client/station.list",
+        "20240215":"fix the em350 no auth to nidsup failed"
     },
     "v7.3.1009":
     {

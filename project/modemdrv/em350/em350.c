@@ -195,17 +195,65 @@ static int em350_set_profileset( atcmd_t fd, talk_t profile )
 	const char *ptr;
 	const char *cid;
 	const char *apn;
+	const char *auth;
+	const char *user;
+	const char *pass;
 	const char *iptype;
 
 	ret = ATCMD_ret_failed;
-    /* get the configure */
+	/* get the configure */
 	iptype = json_get_string( profile, "type" );
 	apn = json_get_string( profile, "apn" );
+	user = json_get_string( profile, "user" );
+	pass = json_get_string( profile, "passwd" );
 	cid = json_get_string( profile, "cid" );
 	if ( cid == NULL || *cid == '\0' )
 	{
 		cid = "1";
 	}
+	/* transition the username/password */
+	auth = "1";
+	ptr = json_get_string( profile, "auth" );
+	if ( ptr == NULL || *ptr == '\0' )
+	{
+		if ( user != NULL && *user != '\0' && pass != NULL && *pass != '\0' )
+		{
+			auth = "1";
+		}
+		else
+		{
+			auth = "0";
+		}
+	}
+	else
+	{
+		if ( 0 == strcmp( ptr, "pap" ) )
+		{
+			auth = "1";
+		}
+		else if ( 0 == strcmp( ptr, "chap" ) )
+		{
+			auth = "2";
+		}
+		else if ( 0 == strcmp( ptr, "papchap" ) )
+		{
+			auth = "3";
+		}
+		else if ( 0 == strcmp( ptr, "disable" ) )
+		{
+			auth = "0";
+			user = NULL;
+			pass = NULL;
+		}
+	}
+
+	/* set the username and password */
+    if ( atcmd_tx( fd, 3, NULL, ATCMD_DEF, "AT^AUTHDATA=%s,%s,\"\",\"%s\",\"%s\"", cid, auth?:"0", user?:"", pass?:"" ) < 0 )
+    {
+		return -1;
+    }
+	sleep( 1 );
+	
     /* set the common apn */
 	if ( apn != NULL && *apn != '\0' )
 	{
@@ -956,7 +1004,16 @@ boole_t _at_connect( obj_t this, param_t param )
 	}
 
 	/* dial */
-	i = atcmd_tx( fd, 20, NULL, ATCMD_DEF, "AT^NDISDUP=%s,1,\"%s\",\"%s\",\"%s\",%s", cid, apn?:"", user?:"", pass?:"", auth );
+	i = ATCMD_ret_failed;
+	if ( strcmp( auth, "0" ) == 0 )
+	{
+		/* AT^NDISDUP=1,1,"cmnet"   */
+		i = atcmd_tx( fd, 20, NULL, ATCMD_DEF, "AT^NDISDUP=%s,1,\"%s\"", cid, apn?:"" );
+	}
+	else
+	{
+		i = atcmd_tx( fd, 20, NULL, ATCMD_DEF, "AT^NDISDUP=%s,1,\"%s\",\"%s\",\"%s\",%s", cid, apn?:"", user?:"", pass?:"", auth );
+	}
 	if ( i < ATCMD_ret_succeed )
 	{
 		return terror;
