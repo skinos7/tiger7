@@ -18,13 +18,14 @@
             <div class="col-sm-9">
                 <button class="btn btn-warning" id="logping" data-i18n="Log Ping"></button>
                 <button style="display: none;" class="btn btn-main" id="fileping" data-i18n="Download results"></button>&nbsp; &nbsp; &nbsp;
-                <button class="btn btn-second" id="ttyping" data-i18n="Termnial Ping"></button>
+                <button style="display: none;" class="btn btn-second" id="ttyping" data-i18n="Termnial Ping"></button>
             </div>
           </div>
         </div>
 
 
 
+        <!-- Traceroute -->
         <div class="hr hr32 hr-dotted"></div>
         <!-- traceroute -->
         <div class="form-group">
@@ -39,13 +40,37 @@
             <div class="col-sm-9">
                 <button class="btn btn-warning" id="logtraceroute" data-i18n="Log Traceroute"></button>
                 <button style="display: none;" class="btn btn-main" id="filetraceroute" data-i18n="Download results"></button>&nbsp; &nbsp; &nbsp;
-                <button class="btn btn-second" id="ttytraceroute" data-i18n="Termnial Traceroute"></button>
+                <button style="display: none;" class="btn btn-second" id="ttytraceroute" data-i18n="Termnial Traceroute"></button>
             </div>
           </div>
         </div>
 
 
 
+        <div  id="iperf" style="display: none;">
+            <!-- Iperf -->
+            <div class="hr hr32 hr-dotted"></div>
+            <!-- traceroute -->
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" data-i18n="Iperf2 Address(TCP:5001)"></label>
+                <div class="col-sm-9">
+                  <input type="text" id="iperf_address" class="col-xs-7 col-sm-5" maxlength="128" />&nbsp; &nbsp; &nbsp;
+                </div>
+            </div>
+            <div class="form-horizontal" role="form">
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right"></label>
+                <div class="col-sm-9">
+                    <button class="btn btn-warning" id="logiperf" data-i18n="Log Iperf2"></button>
+                    <button style="display: none;" class="btn btn-main" id="fileiperf" data-i18n="Download results"></button>&nbsp; &nbsp; &nbsp;
+                    <button style="display: none;" class="btn btn-second" id="ttyiperf" data-i18n="Termnial Iperf2"></button>
+                </div>
+              </div>
+            </div>
+        </div>
+        
+
+        
         <div  id="tcpdump" style="display: none;">
             <div class="hr hr32 hr-dotted"></div>
             <!-- Tcpdump -->
@@ -61,7 +86,7 @@
                 <div class="col-sm-9">
                     <button class="btn btn-warning" id="logcapture" data-i18n="Log Capture"></button>
                     <button style="display: none;" class="btn btn-main" id="filecapture" data-i18n="Download results"></button>&nbsp; &nbsp; &nbsp;
-                    <button class="btn btn-second" id="ttycapture" data-i18n="Termnial Capture"></button>
+                    <button style="display: none;" class="btn btn-second" id="ttycapture" data-i18n="Termnial Capture"></button>
                 </div>
               </div>
             </div>
@@ -106,6 +131,17 @@
     {
       $('#tcpdump').show();
     }
+    if ( window.iperf )
+    {
+      $('#iperf').show();
+    }
+    if ( window.wuiterm )
+    {
+      $('#ttyping').show();
+      $('#ttytraceroute').show();
+      $('#ttyiperf').show();
+      $('#ttycapture').show();
+    }
     function open_term()
     {
       var wh = $(window).height();
@@ -117,7 +153,7 @@
     /* load the configure fill the page */
     function file_load()
     {
-        he.load( [ "wui@admin.file_ping", "wui@admin.file_traceroute", "wui@admin.file_tcpdump" ] ).then( function(v){
+        he.load( [ "wui@admin.file_ping", "wui@admin.file_traceroute", "wui@admin.file_iperf", "wui@admin.file_tcpdump" ] ).then( function(v){
             if ( v[0] == true )
             {
                 $('#fileping').show();
@@ -135,6 +171,14 @@
                 $('#filetraceroute').hide();
             }
             if ( v[2] == true )
+            {
+                $('#fileiperf').show();
+            }
+            else
+            {
+                $('#fileiperf').hide();
+            }
+            if ( v[3] == true )
             {
                 $('#filecapture').show();
             }
@@ -270,6 +314,65 @@
       });
 
 
+
+      $('#ttyiperf').on(ace.click_event, function () {
+          var ip = $('#iperf_address').val();
+          $('#terminal').hide();
+          he.exec( [ 'wui@admin.ttyd_iperf['+ip+']' ], $.i18n("Opening...") ).then( function(v){
+            if ( v[0] == true )
+            {
+                $('#terminal').attr('src', null );
+                open_term();
+            }
+            else
+            {
+                page.alert( { message: $.i18n('Cannot open it') } );
+                return;
+            }
+          });
+      });
+      $('#logiperf').on(ace.click_event, function () {
+          var ip = $('#iperf_address').val();
+          $('#terminal').hide();
+          he.exec( [ 'wui@admin.log_iperf['+ip+']' ], $.i18n("Starting...") ).then( function(v){
+            if ( v[0] == true )
+            {
+                file_load();
+            }
+            else
+            {
+                page.alert( { message: $.i18n('Cannot open it') } );
+                file_load();
+                return;
+            }
+          });
+      });
+      $('#fileiperf').on(ace.click_event, function () {
+          var submitForm = document.createElement("FORM");
+          document.body.appendChild(submitForm);
+          submitForm.method= "GET";
+          submitForm.action= "/cgi/download";
+          var input = document.createElement('input')
+          input.setAttribute('name', "PROJECT" );
+          input.setAttribute('value', "wui" )
+          input.setAttribute('type', 'hidden')
+          submitForm.appendChild(input)
+          input = document.createElement('input')
+          input.setAttribute('name', "FILETYPE" );
+          input.setAttribute('value', "var" )
+          input.setAttribute('type', 'hidden')
+          submitForm.appendChild(input)
+          input = document.createElement('input')
+          input.setAttribute('name', "FILENAME" );
+          input.setAttribute('value', "iperf.txt" )
+          input.setAttribute('type', 'hidden')
+          submitForm.appendChild(input)
+          setTimeout(function() {
+              submitForm.submit();
+          }, 200);
+      });
+
+
       
       $('#ttycapture').on(ace.click_event, function () {
           var expression = $('#expression').val();
@@ -331,7 +434,7 @@
 
       
       $('#close').on(ace.click_event, function () {
-          he.exec( [ 'wui@admin.ttyd_kill', 'wui@admin.clear_ping', 'wui@admin.clear_traceroute', 'wui@admin.clear_tcpdump' ], $.i18n("Closing...") ).then( function(v){
+          he.exec( [ 'wui@admin.ttyd_kill', 'wui@admin.clear_ping', 'wui@admin.clear_traceroute', 'wui@admin.clear_iperf', 'wui@admin.clear_tcpdump' ], $.i18n("Closing...") ).then( function(v){
             if ( v[0] == true )
             {
                 $('#terminal').hide();

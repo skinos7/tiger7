@@ -382,6 +382,7 @@
 			window.fpk_menu = <%he('land@fpk.wui_menu'); %>;
 			window.wuiterm = "<%shell( 'which ttyd | tr -d "\n"' ); %>";
 			window.tcpdump = "<%shell( 'which tcpdump | tr -d "\n"' ); %>";
+			window.iperf = "<%shell( 'which iperf | tr -d "\n"' ); %>";
 			window.lang = window.machine.language;
 			document.title = window.machine.name;
 			var wuimenu = wui.menu;
@@ -1056,10 +1057,10 @@
 
 				menu.add( false, menus, $.i18n( 'Debug' ), 'debug', 'menu-icon fa fa-bug' );
 				menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'Syslog' ), 'syslog' );
+                menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'Diagnostic' ), 'diagnostic' );
 				if ( window.wuiterm && ( !wuimenu || wuimenu.terminal != "disable" ) )
 				{
                     menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'Terminal' ), 'terminal' );
-                    menu.addlink( menus, $.i18n( 'Debug' ), $.i18n( 'Diagnostic' ), 'diagnostic' );
     				if ( <%he('.modem@lte.status'); %> )
     				{
                         if ( !wuimenu || wuimenu.lte != "disable" )

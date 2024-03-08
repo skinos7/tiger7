@@ -189,6 +189,32 @@ boole_t _ttyd_traceroute( obj_t this, param_t param )
     shell( "ttyd -p %s /usr/bin/traceroute %s >/dev/null 2>&1 &", termport, dest );
     return ttrue;
 }   
+boole_t _ttyd_iperf( obj_t this, param_t param )
+{
+	const char *dest;
+	const char *object;
+	char termport[NAME_MAX];
+
+	/* get the term port */
+	object = obj_combine( this );
+    shell( "killall -9 ttyd" );
+	if ( config_sgets_string( termport, sizeof(termport), object, "termport" ) == NULL )
+	{
+		strncpy( termport, "81", sizeof(termport) );
+	}
+
+	dest = param_string( param, 1 );
+	if ( dest == NULL )
+	{
+		shell( "ttyd -p %s /usr/bin/iperf -i 1 -s >/dev/null 2>&1 &", termport );
+	}
+	else
+	{
+		shell( "ttyd -p %s /usr/bin/iperf -i 1 -c %s >/dev/null 2>&1 &", termport, dest );
+	}
+    return ttrue;
+}   
+
 boole_t _ttyd_tcpdump( obj_t this, param_t param )
 {
 	const char *dest;
@@ -378,6 +404,48 @@ boole_t _clear_ping( obj_t this, param_t param )
 	
 	var2path( path, sizeof(path), "ping.txt" );
     shell( "killall -9 ping" );
+    shell( "rm -fr %s", path );
+	return ttrue;
+}
+
+boole_t _log_iperf( obj_t this, param_t param )
+{
+	const char *dest;
+	char path[PATH_MAX];
+
+	dest = param_string( param, 1 );
+	var2path( path, sizeof(path), "iperf.txt" );
+    shell( "killall -9 iperf" );
+    shell( "rm -fr %s", path );
+	if ( dest == NULL )
+	{
+		shell( "iperf -i 1 -s 2>&1 > %s&", path );
+	}
+	else
+	{
+		shell( "iperf -i 1 -c %s 2>&1 > %s&", dest, path );
+	}
+	sleep( 2 );
+    return ttrue;
+}   
+boole_t _file_iperf( obj_t this, param_t param )
+{
+	struct stat st;
+	char path[PATH_MAX];
+	
+	var2path( path, sizeof(path), "iperf.txt" );
+	if ( stat( path, &st ) == 0 )
+	{
+		return ttrue;
+	}
+	return tfalse;
+}   
+boole_t _clear_iperf( obj_t this, param_t param )
+{
+	char path[PATH_MAX];
+	
+	var2path( path, sizeof(path), "iperf.txt" );
+    shell( "killall -9 iperf" );
     shell( "rm -fr %s", path );
 	return ttrue;
 }

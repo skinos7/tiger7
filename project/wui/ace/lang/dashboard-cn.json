@@ -77,8 +77,8 @@
 	"Byte":"字节",
 	"Packet":"包",
 
-	"ifname@lte Speed":"4G/5G网络速率",
-	"ifname@lte2 Speed":"4G/5G网络2速率",
+	"ifname@lte Speed":"4G网络速率",
+	"ifname@lte2 Speed":"4G/5G网络速率",
 	"ifname@wan Speed":"有线宽带速率",
 	"ifname@wan2 Speed":"有线宽带2速率",
 	"ifname@wisp Speed":"无线连网速率",
