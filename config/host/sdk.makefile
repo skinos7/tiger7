@@ -47,15 +47,19 @@ sz:
 zzb:
 tar:
 ftp:
-repo:
 	# 上传到FTP目录
 	if [ -e ${gOEM_DIR} ]; then \
-		firmware-upload host ${gHARDWARE} ${gCUSTOM} ${gSCOPE} ${gBUILD_DIR} ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}_${gOEM}.zz; \
+		firmware-upload host ${gHARDWARE} ${gCUSTOM} ${gSCOPE} ${gBUILD_DIR} ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}_${gOEM}.tar.bz2; \
 	else \
-		firmware-upload host ${gHARDWARE} ${gCUSTOM} ${gSCOPE} ${gBUILD_DIR} ${gPLATFORM}_${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.zz; \
+		firmware-upload host ${gHARDWARE} ${gCUSTOM} ${gSCOPE} ${gBUILD_DIR} ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.tar.bz2; \
 		if [ -f ${gBUILD_DIR}/${gHARDWARE}_${gCUSTOM}_${gSCOPE}.txt ]; then\
 			firmware-upload host ${gHARDWARE} ${gCUSTOM} ${gSCOPE} ${gBUILD_DIR} ${gHARDWARE}_${gCUSTOM}_${gSCOPE}.txt; \
 		fi \
+	fi
+repo:
+	# 上传到FTP库
+	if [ -d ${gSTORE_DIR} ]; then\
+		firmware-upload host ${gHARDWARE} ${gCUSTOM} ${gSCOPE} ${gSTORE_DIR} fpk; \
 	fi
 .PHONY: local start stop purge sz zzb tar ftp repo
 
