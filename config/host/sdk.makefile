@@ -8,8 +8,8 @@
 
 update:
 	# 更新fpk
-	if [ -e ${gCUSTOM_DIR} ]; then \
-		cd ${gCUSTOM_DIR}; rm -fr *.fpk*; \
+	if [ -e ${gPLATFORM_DIR} ]; then \
+		cd ${gPLATFORM_DIR}; rm -fr *.fpk*; \
 		cd ${gPLATFORM_DIR}; sdk-update host ${gHARDWARE} ${gCUSTOM} fpk; \
 	fi
 adjust:
