@@ -3,9 +3,9 @@
 ############# D218 ################
 ###################################
 #gBOARDID=smtk2-mt7628-d218-8m
-#gBOARDID=smtk2-mt7628-d218-8m-h728
 #gBOARDID=smtk2-mt7628-d218-8m-wlinker120
 #gBOARDID=smtk2-mt7628-d218-8m-hx
+#gBOARDID=smtk2-mt7628-d218-8m-h728
 #gBOARDID=smtk2-mt7628-d218-8m-shfly
 #gBOARDID=smtk2-mt7628-d218-8m-hsta
 #
@@ -19,8 +19,6 @@
 
 #gBOARDID=smtk2-mt7628-d218-oled
 #gBOARDID=smtk2-mt7628-d218-ipsec
-#gBOARDID=smtk2-mt7628-d218-uclibc
-#
 #gBOARDID=smtk2-mt7628-d218-sr
 #gBOARDID=smtk2-mt7628-d218-sx
 #gBOARDID=smtk2-mt7628-d218-ok
@@ -29,7 +27,6 @@
 #gBOARDID=smtk2-mt7628-d218-ggnw
 #gBOARDID=smtk2-mt7628-d218-xyc
 #gBOARDID=smtk2-mt7628-d218-lega
-#
 #gBOARDID=smtk2-mt7628-d218-inrico
 #gBOARDID=smtk2-mt7628-d218-zwzx
 #gBOARDID=smtk2-mt7628-d218-jjsd
@@ -85,6 +82,7 @@
 #gBOARDID=smtk2-mt7621-d228-ff
 #gBOARDID=smtk2-mt7621-d228-hmjtx
 #gBOARDID=smtk2-mt7621-d228-sr
+#gBOARDID=smtk2-mt7621-d228-shfly
 
 
 
@@ -111,7 +109,7 @@
 #gBOARDID=smtk2-mt7621-v520-udeer
 #gBOARDID=smtk2-mt7621-v520-hifly
 #gBOARDID=smtk2-mt7621-v520-xg
-gBOARDID=smtk2-mt7621-v520-factory
+#gBOARDID=smtk2-mt7621-v520-factory
 #gBOARDID=smtk2-mt7621-v520-pure
 
 #gBOARDID=swrt-mt7621-v520
@@ -162,7 +160,7 @@ gBOARDID=smtk2-mt7621-v520-factory
 #gBOARDID=swrt-mt7621-v520-pure
 #gBOARDID=swrt-mt7621-d228-pure
 
-#gBOARDID=host-x86-ubuntu
+gBOARDID=host-x86-ubuntu
 
 #gBOARDID=srkl-rk3568-d618-pure
 #gBOARDID=srkl-rk3568-d618-pure
