@@ -11,11 +11,11 @@
     },
     "init":
     {
-        "manage":"wui@admin.setup"
+        "app":"wui@admin.setup"
     },
     "uninit":
     {
-        "manage":"wui@admin.shut"
+        "app":"wui@admin.shut"
     },
 
     "wui":
