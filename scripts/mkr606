@@ -1,0 +1,14 @@
+#!/bin/bash
+
+###################################
+############# R600 ################
+###################################
+make gBOARDID=smtk2-mt7621-r606-std pid
+make clean
+make distclean
+make dep
+make
+make sz
+make ftp
+make repo
+
