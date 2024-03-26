@@ -28,7 +28,8 @@
         "20240215":"fix the em350 no auth to nidsup failed",
         "20240216":"support iperf on web",
         "20240301":"don't setup the wifi and no memtester on factory mode",
-        "20240302":"agent and devms project work ok for gate2gate"
+        "20240302":"agent and devms project work ok for gate2gate",
+        "20240310":"fix the json_client/he_client/g2g bug"
     },
     "v7.3.1009":
     {
