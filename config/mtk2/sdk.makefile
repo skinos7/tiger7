@@ -33,8 +33,8 @@ update:
 		cd ${gSDK_DIR}; tar zxvf ${gPLATFORM_DIR}/${OPENWRT_FEED_NAME}; \
 	fi
 	# 更新fpk
-	if [ -e ${gCUSTOM_DIR} ]; then \
-		cd ${gCUSTOM_DIR}; rm -fr *.fpk*; \
+	if [ -e ${gPLATFORM_DIR} ]; then \
+		cd ${gPLATFORM_DIR}; rm -fr *.fpk*; \
 		cd ${gPLATFORM_DIR}; sdk-update mtk2 ${gHARDWARE} ${gCUSTOM} fpk; \
 	fi
 adjust:
