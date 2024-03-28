@@ -30,7 +30,8 @@
         "20240301":"don't setup the wifi and no memtester on factory mode",
         "20240302":"agent and devms project work ok for gate2gate",
         "20240310":"fix the json_client/he_client/g2g bug",
-        "20240321":"fix the connect to server network delay 15 to work, fix heclient endless loop"
+        "20240321":"fix the connect to server network delay 15 to work, fix heclient endless loop",
+        "20240323":"fix heclient/portc dead-loop when use time for date crack"
     },
     "v7.3.1009":
     {
