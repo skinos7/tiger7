@@ -890,6 +890,7 @@ boole_t _online( obj_t this, param_t param )
 	/* get mode */
 	mode = register_pointer( object, "mode" );
 
+	gateway = json_string( v, "gw" );
 	/* get the custom_dns */
 	snprintf( path, sizeof(path), "%s/%s", RESOLV_DIR, object );
 	unlink( path );
@@ -915,17 +916,22 @@ boole_t _online( obj_t this, param_t param )
 	if ( dns != NULL && *dns != '\0' )
 	{
 		string3file( path, "nameserver %s\n", dns );
-		route_switch( dns, NULL, NULL, v, true );
+		if ( gateway == NULL || 0 != strcmp( gateway, dns ) )
+		{
+			route_switch( dns, NULL, NULL, v, true );
+		}
 	}
 	register_set( object, "dns", dns, stringlen(dns)+1, 20 );
 	if ( dns2 != NULL && *dns2 != '\0' )
 	{
 		string3file( path, "nameserver %s\n", dns2 );
-		route_switch( dns2, NULL, NULL, v, true );
+		if ( gateway == NULL || 0 != strcmp( gateway, dns2 ) )
+		{
+			route_switch( dns2, NULL, NULL, v, true );
+		}
 	}
 	register_set( object, "dns2", dns2, stringlen(dns2)+1, 20 );
 
-	gateway = json_string( v, "gw" );
 	netdev_info( netdev, ipaddr, sizeof(ipaddr), NULL, 0, NULL, 0, NULL, 0 );
 	if ( gateway != NULL && *gateway != '\0' )
 	{

@@ -313,13 +313,13 @@ static int ec200x_set_profileset( atcmd_t fd, talk_t profile )
 	/* transition the ip type */
 	iptype	= "1";
 	ptr = json_get_string( profile, "type" );
-	if ( ptr != NULL && ( 0 == strcasecmp( ptr, "ipv4v6" ) || 0 == strcasecmp( ptr, "ipv6" ) ) )
+	if ( ptr != NULL && 0 == strcasecmp( ptr, "ipv4v6" ) )
+	{
+		iptype = "3";
+	}
+	if ( ptr != NULL && 0 == strcasecmp( ptr, "ipv6" ) )
 	{
 		iptype = "2";
-	}
-	else
-	{
-		iptype = "1";
 	}
 	/* private network settings the apn, username, passward */
 	i = ec200x_qicsgp( fd, cid, iptype, apn, auth, user, pass, true );
@@ -1091,6 +1091,7 @@ boole_t _at_connected( obj_t this, param_t param )
 	int i;
 	talk_t dev;
 	atcmd_t fd;
+	const char *ptr;
 	char recvbuf[LINE_MAX];
 
 	/* get the information */
@@ -1115,9 +1116,23 @@ boole_t _at_connected( obj_t this, param_t param )
 		return tfalse;
 	}
 	i = atcmd_rx( fd, recvbuf, sizeof(recvbuf) );
-	if ( i > 0 && strstr( recvbuf, "." ) != NULL )
+	if ( i > 0 )
 	{
-		return ttrue;
+		// IPV4
+		if ( strstr( recvbuf, "." ) != NULL )
+		{
+			return ttrue;
+		}
+		// IPV6
+		// +QIACT: 1,1,1,"240E:47D:32E8:C294:2:2:79C6:65C4"
+		ptr = strstr( recvbuf, "\"" );
+		if ( ptr != NULL )
+		{
+			if ( strstr( ptr, ":" ) != NULL )
+			{
+				return ttrue;
+			}
+		}
 	}
 
 	return tfalse;

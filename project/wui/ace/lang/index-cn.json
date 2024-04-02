@@ -113,6 +113,11 @@
 	"LAN3":"本地网络3",
 	"LAN4":"本地网络4",
 	"AP Client":"无线网卡",
+
+
+
+	"agent@g2g":"自组网",
+
 	"ifname@lte":"4G网络",
 	"ifname@lte2":"4G/5G网络",
 	"ifname@wisp":"无线连网(2.4G)",

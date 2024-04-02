@@ -1,5 +1,7 @@
 {
 
+	"agent@g2g":"G2G",
+
 	"ifname@lte":"LTE",
 	"ifname@lte2":"LTE/NR",
 	"ifname@wisp":"WISP",
