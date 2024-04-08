@@ -21,7 +21,7 @@ int main( int argc, const char **argv )
 	while (1)
 	{
 		line = readline("# ");
-		if ( line == NULL )
+		if ( line == NULL || isprint( *line ) == 0 )
 		{
 			continue;
 		}
