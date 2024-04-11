@@ -196,7 +196,7 @@
                     <select class="col-xs-10 col-sm-5" id="method">
                       <option value="disable" data-i18n="Disable"></option>
                       <option value="relay" data-i18n="Relay"></option>
-                      <!-- <option value="manual" data-i18n="Manual"></option> -->
+                      <option value="manual" data-i18n="Manual"></option>
                     </select>
                 </div>
             </div>
@@ -421,9 +421,11 @@
               {
                 case 'disable':
                   $('#manual_cfg').hide();
+                  $('#dhcpsv6_cfg').hide();
                   break;
                 case 'relay':
                   $('#manual_cfg').hide();
+                  $('#dhcpsv6_cfg').hide();
                   break;
                 case 'manual':
                   $('#manual_cfg').show();

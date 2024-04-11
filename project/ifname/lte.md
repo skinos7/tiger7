@@ -47,7 +47,7 @@ Usually ifname@lte is the first LTE/NR network and module. If there are multiple
     "mtu":"Maximum transmission unit",                                            // [ number ], The unit is in bytes
 
     // IPv6
-    "method":"IPv6 address mode",             // [ "disable", "manual", "automatic", "slaac", "relay" ]
+    "method":"IPv6 address mode",             // [ "disable", "manual", "automatic", "slaac" ]
                                                     // "disable" is not use ipv6
                                                     // "manual" for manual setting
                                                     // "automatic" for DHCPv6
@@ -62,9 +62,9 @@ Usually ifname@lte is the first LTE/NR network and module. If there are multiple
     },
     "automatic":                             // detial configure for "method" is "automatic"
     {
-        "custom_dns":"Custom DNS",                   // [ "disable", "enable" ]
-        "dns":"Custom DNS1",                         // [ ipv6 address ], This is valid when "custom_dns" is "enable"
-        "dns2":"Custom DNS2"                         // [ ipv6 address ], This is valid when "custom_dns" is "enable"
+        "custom_resolve":"Custom DNS",                   // [ "disable", "enable" ]
+        "resolve":"Custom DNS1",                         // [ ipv6 address ], This is valid when "custom_dns" is "enable"
+        "resolve2":"Custom DNS2"                         // [ ipv6 address ], This is valid when "custom_dns" is "enable"
     },
     "masquerade":"out stream share the interface IPv6 address to access the Internet",   // [ "disable", "enable" ]
 

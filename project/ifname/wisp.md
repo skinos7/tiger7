@@ -67,7 +67,7 @@ Usually ifname@wisp is the first WISP(2.4G) network. If there are multiple WISP 
     "mtu":"Maximum transmission unit",                                            // [ number ], The unit is in bytes
 
     // IPv6
-    "method":"IPv6 address mode",         [ "disable", "manual", "automatic", "slaac", "relay" ]
+    "method":"IPv6 address mode",         [ "disable", "manual", "automatic", "slaac" ]
                                                     // "disable" is not use ipv6
                                                     // "manual" for manual setting
                                                     // "automatic" for DHCPv6

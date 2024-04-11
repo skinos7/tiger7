@@ -281,7 +281,10 @@ boole_t _setup( obj_t this, param_t param )
     object = obj_combine( this );
     /* get the ifname configure */
     cfg = config_get( this, NULL ); 
-	
+	if ( cfg == NULL )
+	{
+		return ttrue;
+	}
     /* exit when the status is disable */
     ptr = json_string( cfg, "status" );
     if ( ptr != NULL && 0 == strcmp( ptr, "disable" ) )
@@ -1210,16 +1213,24 @@ boole_t _online( obj_t this, param_t param )
 	unlink( path );
 	value = json_value( cfg, mode );
 	custom_dns = json_string( value, "custom_dns" );
-	if ( custom_dns != NULL && 0 == strcmp( custom_dns, "enbale" ) )
+	if ( custom_dns != NULL && 0 == strcmp( custom_dns, "enable" ) )
 	{
 		dns = json_string( value, "dns" );
 		dns2 = json_string( value, "dns2" );
-		register_set( object, "custom_dns", "enbale", strlen("enbale")+1, 20 );
+		register_set( object, "custom_dns", "enable", strlen("enable")+1, 20 );
 	}
 	else
 	{
 		dns = json_string( v, "dns" );
+		if ( dns == NULL || *dns == '\0' )
+		{
+			dns = "8.8.8.8";
+		}
 		dns2 = json_string( v, "dns2" );
+		if ( dns2 == NULL || *dns2 == '\0' )
+		{
+			dns2 = "114.114.114.114";
+		}
 		ptr = json_string( value, "domain" );
 		if ( ptr != NULL )
 		{
@@ -1247,7 +1258,16 @@ boole_t _online( obj_t this, param_t param )
 	register_set( object, "dns2", dns2, stringlen(dns2)+1, 20 );
 
 	netdev_info( netdev, ipaddr, sizeof(ipaddr), NULL, 0, NULL, 0, NULL, 0 );
-	info( "%s(%s) %s online[ %s, %s ]", object, netdev, ipaddr, gateway?:"", dns?:"" );
+	if ( gateway != NULL && *gateway != '\0' )
+	{
+		info( "%s(%s) %s online[ %s, %s ]", object, netdev, ipaddr, gateway?:"", dns?:"" );
+		register_set( object, "gateway", gateway, stringlen(gateway)+1, 20 );
+	}
+	else
+	{
+		info( "%s(%s) %s online", object, netdev, ipaddr );
+		register_set( object, "gateway", NULL, 0, 20 );
+	}
 
 	/* clear the failed count, dnon't clear at the icmp keeplive(clear in the keeplive) */
 	ptr = json_string( json_value( cfg, "keeplive" ), "type" );
@@ -1337,6 +1357,90 @@ talk_t _offline( obj_t this, param_t param )
 		scalls( ifdev, "offline", object );
 	}
 
+	return ttrue;
+}
+boole_t _upline( obj_t this, param_t param )
+{
+	talk_t v;
+	talk_t cfg;
+	talk_t value;
+	const char *ptr;
+	const char *object;
+	const char *netdev;
+	const char *method;
+	const char *hop;
+	const char *custom_resolve;
+	const char *resolve;
+	const char *resolve2;
+	char path[PATH_MAX];
+
+	object = obj_combine( this );
+	v = param_talk( param, 1 );
+	/* get netdev */
+	netdev = json_string( v, "netdev" );
+	/* get the configure */
+	cfg = config_get( this, NULL ); 
+	if ( cfg == NULL )
+	{
+		return tfalse;
+	}
+
+	/* get mode */
+	method = register_pointer( object, "method" );
+
+	hop = json_string( v, "hop" );
+	/* get the custom_resolve */
+	snprintf( path, sizeof(path), "%s/%s.ipv6", RESOLV_DIR, object );
+	unlink( path );
+	value = json_value( cfg, method );
+	custom_resolve = json_string( value, "custom_resolve" );
+	if ( custom_resolve != NULL && 0 == strcmp( custom_resolve, "enable" ) )
+	{
+		resolve = json_string( value, "resolve" );
+		resolve2 = json_string( value, "resolve2" );
+		register_set( object, "custom_resolve", "enable", strlen("enable")+1, 20 );
+	}
+	else
+	{
+		resolve = json_string( v, "resolve" );
+		if ( resolve == NULL || *resolve == '\0' )
+		{
+			resolve = "8.8.8.8";
+		}
+		resolve2 = json_string( v, "resolve2" );
+		if ( resolve2 == NULL || *resolve2 == '\0' )
+		{
+			resolve2 = "114.114.114.114";
+		}
+		ptr = json_string( value, "domain" );
+		if ( ptr != NULL )
+		{
+			string3file( path, "search %s\n", ptr );
+		}
+		register_set( object, "custom_resolve", "disable", strlen("disable")+1, 20 );
+	}
+	if ( resolve != NULL && *resolve != '\0' )
+	{
+		string3file( path, "nameserver %s\n", resolve );
+	}
+	register_set( object, "resolve", resolve, stringlen(resolve)+1, 20 );
+	if ( resolve2 != NULL && *resolve2 != '\0' )
+	{
+		string3file( path, "nameserver %s\n", resolve2 );
+	}
+	register_set( object, "resolve2", resolve2, stringlen(resolve2)+1, 20 );
+
+	info( "%s(%s) upline[ %s, %s ]", object, netdev, hop?:"", resolve?:"" );
+
+	/* masquerade */
+	ip6tables( "-t nat -D %s -o %s -j MASQUERADE", MASQ_CHAIN, netdev );
+	ptr = json_string( cfg, "masquerade" );
+	if ( ptr != NULL && 0 == strcmp( ptr, "enable" ) )
+	{
+		ip6tables("-t nat -A %s -o %s -j MASQUERADE", MASQ_CHAIN, netdev );
+	}
+
+	talk_free( cfg );
 	return ttrue;
 }
 

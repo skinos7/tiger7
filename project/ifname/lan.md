@@ -51,11 +51,10 @@ Usually ifname@lan is the first local network. If there are multiple local netwo
     },
 
     // IPv6
-    "method":"IPv6 address mode",             // [ "disable", "manual", "automatic", "slaac", "relay" ]
+    "method":"IPv6 address mode",             // [ "disable", "manual", "automatic", "relay" ]
                                                     // "disable" is not use ipv6
                                                     // "manual" for manual setting
                                                     // "automatic" for DHCPv6
-                                                    // "slaac" for Stateless address autoconfiguration
                                                     // "relay" for relay the extern network ipv6 address
     "manual":                                 // detial configure for "method" is "manual"
     {
@@ -73,7 +72,7 @@ Usually ifname@lan is the first local network. If there are multiple local netwo
     },
     "addrpool":
     {
-        "status":"Whether to start the DHCPv6 service",                      // [ "disable", "enable" ]
+        "status":"DHCPv6 service type",                                      // [ "disable", "enable" ]
         "startaddr":"The start address within the IPv6 allocation pool",     // [ ipv6 address ]
         "endaddr":"IPv6 assigns the end address within the pool",            // [ ipv4 address ]
         "prefix":"IPv6 assigns a subnet mask within a pool",                 // [ ipv4 netmask ]

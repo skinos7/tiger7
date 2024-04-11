@@ -114,13 +114,13 @@
               <input type="text" id="dial" class="col-xs-10 col-sm-5" maxlength="128" />
             </div>
           </div>
-          <!-- 拨号CID -->
+          <!-- 拨号CID
           <div class="form-group">
             <label class="col-sm-3 control-label no-padding-right" data-i18n="Dial CID"></label>
             <div class="col-sm-9">
               <input type="text" id="cid" class="col-xs-10 col-sm-5" maxlength="128" />
             </div>
-          </div>
+          </div> -->
         </div>
                     
 
@@ -331,9 +331,9 @@
                   <div class="col-sm-9">
                     <select class="col-xs-10 col-sm-5" id="method">
                       <option value="disable" data-i18n="Disable"></option>
-                      <option value="slaac" data-i18n="SLAAC"></option>
-                      <!-- <option value="automatic" data-i18n="Automatic"></option>
-                      <option value="manual" data-i18n="Manual"></option> -->
+                      <!-- <option value="slaac" data-i18n="SLAAC"></option> -->
+                      <option value="automatic" data-i18n="Automatic"></option>
+                      <option value="manual" data-i18n="Manual"></option>
                     </select>
                   </div>
                 </div>
@@ -776,7 +776,7 @@
           $('#passwd').val(lte.profile_cfg.passwd);
           $('#type').val(lte.profile_cfg.type);
           $('#auth').val(lte.profile_cfg.auth);
-          $('#cid').val(lte.profile_cfg.cid);
+          //$('#cid').val(lte.profile_cfg.cid);
         }
         else if ( ltes )
         {
@@ -788,7 +788,7 @@
                 $('#password').val(ltes.operator_advise.passwd);
                 $('#type').val(ltes.operator_advise.type);
                 $('#auth').val(ltes.operator_advise.auth);
-                $('#cid').val(ltes.operator_advise.cid);
+                //$('#cid').val(ltes.operator_advise.cid);
             }
         }
         $('#profile').unbind('change').change(function () {
@@ -1107,12 +1107,12 @@
         lte.profile_cfg.passwd = $('#passwd').val();
         lte.profile_cfg.type = $('#type').val();
         lte.profile_cfg.auth = $('#auth').val();
-        lte.profile_cfg.cid = $('#cid').val();
-        if ( lte.profile_cfg.cid && check.number(lte.profile_cfg.cid) == false )
-        {
-            page.alert( { message: $.i18n('Dial CID')+" "+$.i18n('must be a valid number') } );
-            return;
-        }
+        //lte.profile_cfg.cid = $('#cid').val();
+        //if ( lte.profile_cfg.cid && check.number(lte.profile_cfg.cid) == false )
+        //{
+        //    page.alert( { message: $.i18n('Dial CID')+" "+$.i18n('must be a valid number') } );
+        //    return;
+        //}
       }
 
       /* status */
@@ -1139,7 +1139,7 @@
             if ( lte.ppp.custom_dns == "enable" )
             {
               lte.ppp.dns = $('#cdns').val();
-              if ( check.ip(lte.ppp.dns) == false )
+              if ( lte.ppp.dns && check.ip(lte.ppp.dns) == false )
               {
                   page.alert( { message: $.i18n('DNS')+" "+$.i18n('must be a valid IP address') } );
                   return;
@@ -1175,7 +1175,7 @@
             if ( lte.dhcpc.custom_dns == "enable" )
             {
               lte.dhcpc.dns = $('#cdns').val();
-              if ( check.ip(lte.dhcpc.dns) == false )
+              if ( lte.dhcpc.dns && check.ip(lte.dhcpc.dns) == false )
               {
                   page.alert( { message: $.i18n('DNS')+" "+$.i18n('must be a valid IP address') } );
                   return;

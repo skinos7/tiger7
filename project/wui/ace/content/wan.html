@@ -216,9 +216,9 @@
                 <div class="col-sm-9">
                   <select class="col-xs-10 col-sm-5" id="method">
                     <option value="disable" data-i18n="Disable"></option>
-                    <option value="slaac" data-i18n="SLAAC"></option>
-                    <!-- <option value="automatic" data-i18n="Automatic"></option>
-                    <option value="manual" data-i18n="Manual"></option> -->
+                    <!-- <option value="slaac" data-i18n="SLAAC"></option> -->
+                    <option value="automatic" data-i18n="Automatic"></option>
+                    <option value="manual" data-i18n="Manual"></option>
                   </select>
                 </div>
               </div>
@@ -715,7 +715,7 @@
             if ( wan.pppoec.custom_dns == "enable" )
             {
               wan.pppoec.dns = $('#cdns').val();
-              if ( check.ip(wan.pppoec.dns) == false )
+              if ( wan.pppoec.dns && check.ip(wan.pppoec.dns) == false )
               {
                   page.alert( { message: $.i18n('DNS')+" "+$.i18n('must be a valid IP address') } );
                   return;
@@ -753,7 +753,7 @@
             if ( wan.dhcpc.custom_dns == "enable" )
             {
               wan.dhcpc.dns = $('#cdns').val();
-              if ( check.ip(wan.dhcpc.dns) == false )
+              if ( wan.dhcpc.dns && check.ip(wan.dhcpc.dns) == false )
               {
                   page.alert( { message: $.i18n('DNS')+" "+$.i18n('must be a valid IP address') } );
                   return;

@@ -50,7 +50,7 @@ Usually ifname@wan is the first WAN network. If there are multiple WAN network i
     "mtu":"Maximum transmission unit",                                            // [ number ], The unit is in bytes
 
     // IPv6
-    "method":"IPv6 address mode",         [ "disable", "manual", "automatic", "slaac", "relay" ]
+    "method":"IPv6 address mode",         [ "disable", "manual", "automatic", "slaac" ]
                                                     // "disable" is not use ipv6
                                                     // "manual" for manual setting
                                                     // "automatic" for DHCPv6
@@ -65,6 +65,8 @@ Usually ifname@wan is the first WAN network. If there are multiple WAN network i
     },
     "automatic":                             // detial configure for "method" is "automatic"
     {
+        "mode":"mode for get the ipv6",              // [ "try", "force", "disable" ]
+        "prefix":"ipv6-prefix of length for request",// [ "auto", "48", "52", "56", "60", "60", "disable" ]
         "custom_dns":"Custom DNS",                   // [ "disable", "enable" ]
         "dns":"Custom DNS1",                         // [ ipv6 address ], This is valid when "custom_dns" is "enable"
         "dns2":"Custom DNS2"                         // [ ipv6 address ], This is valid when "custom_dns" is "enable"
