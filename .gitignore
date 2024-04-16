@@ -11,26 +11,31 @@
 
 /project/.vscode/
 
+/config/host/*.fpk
 /config/host/x86/store/
 /config/host/aarch64/store/
 
 /srkw/
 /srkw_boot/
+/config/srkw/*.fpk
 /config/srkw/
 /rkw/
 
 /smtk2/
 /smtk2_boot/
+/config/smtk2/*.fpk
 /config/smtk2/
 /mtk2/
 
 /swrt/
 /swrt_boot/
+/config/swrt/*.fpk
 /config/swrt/
 /wrt/
 
 /srkl/
 /srkl_boot/
+/config/srkl/*.fpk
 /config/srkl/
 /rkl/
 
