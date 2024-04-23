@@ -826,9 +826,9 @@ boole_t _service( obj_t this, param_t param )
     	return terror;
     }
 	failed_timeout = 45;
-	failed_threshold = 3;
-	failed_threshold2 = 15;
-	failed_everytime = 24;
+	failed_threshold = 3;       // 3*48 = 144
+	failed_threshold2 = 15;     // 37*48 = 720
+	failed_everytime = 37;      // 37*48 = 1800
 	ptr = json_string( cfg, "failed_timeout" );
 	if ( ptr != NULL && *ptr != '\0' )
 	{

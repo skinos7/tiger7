@@ -34,7 +34,8 @@
         "20240323":"fix heclient/portc dead-loop when use time for date crack",
         "20240327":"fix daemon exit when fast start/stop a service",
         "20240328":"add the ipv6 support",
-        "20240401":"fix devms cannot list all client when the client to much"
+        "20240401":"fix devms cannot list all client when the client to much",
+        "20240410":"modify the reset modem when lte connect failed 37 times"
     },
     "v7.3.1009":
     {
