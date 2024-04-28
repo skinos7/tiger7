@@ -155,6 +155,9 @@
 	"PIN Code":"PIN码",
 	"Lock Band":"锁定频段",
 	"Lock Cell":"锁定小区",
+    "Lock":"锁定",
+    "Unlocked":"未锁定",
+    "Locked":"已锁定",
 
 	"Custom setting AT":"自定义设置AT指令",
 	"Custom watching AT":"自定义轮询AT指令",
