@@ -11,7 +11,7 @@ make
 make sz
 make ftp
 make repo
-for tmp in wlinkr320 wlinkr522 ctcunion h728 xexagon giant xabg hx zwzx hsta
+for tmp in wlinker120 wlinkr100 wlinkr222 wlinkr320 wlinkr522 ctcunion h728 xexagon giant xabg hx zwzx hsta xyc
 do
     make gBOARDID=smtk2-mt7628-r600-std-${tmp} pid
     ./mkdel
@@ -33,22 +33,22 @@ do
     make ftp
 done
 
-make gBOARDID=swrt-mt7628-r600-std pid
-make clean
-make distclean
-make dep
-make
-make sz
-make ftp
-make repo
-for tmp in wlinkr320 wlinkr522
-do
-    make gBOARDID=swrt-mt7628-r600-std-${tmp} pid
-    ./mkdel
-    make dep
-    make
-    make sz
-    make ftp
-done
+#make gBOARDID=swrt-mt7628-r600-std pid
+#make clean
+#make distclean
+#make dep
+#make
+#make sz
+#make ftp
+#make repo
+#for tmp in wlinkr320 wlinkr522
+#do
+#    make gBOARDID=swrt-mt7628-r600-std-${tmp} pid
+#    ./mkdel
+#    make dep
+#    make
+#    make sz
+#    make ftp
+#done
 
 

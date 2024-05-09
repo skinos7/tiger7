@@ -11,7 +11,7 @@ make
 make sz
 make ftp
 make repo
-for tmp in greatwall donkey ddonkey zebra ltruck szsh udeer hifly
+for tmp in greatwall zebra szsh udeer hifly
 do
     make gBOARDID=smtk2-mt7621-v520-${tmp} pid
     make pidinfo

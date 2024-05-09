@@ -11,7 +11,7 @@ make
 make sz
 make ftp
 make repo
-for tmp in ff sr
+for tmp in ff sr shfly hmjtx
 do
     make gBOARDID=smtk2-mt7621-d228-${tmp} pid
     make pidinfo

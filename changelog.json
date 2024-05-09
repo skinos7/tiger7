@@ -1,5 +1,10 @@
 {
-    "v7.4.0219":
+    "v7.4.0502":
+    {
+        "20240501":"add the heclient support tls",
+        "20240502":"new agent network frame, only broadcast the change"
+    },
+    "v7.4.0410":
     {
         "20231201":"update openvpn to support tls",
         "20231202":"update the dropbear to support new cipber",
