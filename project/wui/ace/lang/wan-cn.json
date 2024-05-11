@@ -87,6 +87,7 @@
 	"tkipaes":"自动",
 	"Password":"密码",
 	"Hidden SSID":"隐藏的SSID",
+    "Disable Local SSID":"禁用本地热点",
 	"Radio":"基带",
 	"wifi@nsta":"2.4G基带",
 	"wifi@asta":"5.8G基带",
