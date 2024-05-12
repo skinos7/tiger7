@@ -1,10 +1,12 @@
 {
-    "v7.4.0504":
+    "v7.4.0510":
     {
         "20240501":"add the heclient support tls",
         "20240502":"new agent network frame, only broadcast the change",
         "20240503":"leaf add keeplive to server for network",
-        "20240504":"add wifi sta scan buffer for up"
+        "20240504":"add wifi sta scan buffer for up",
+        "20240507":"portc only remain one connection when no use",
+        "20240508":"devma add modify the network can settings the device"
     },
     "v7.4.0410":
     {

@@ -23,13 +23,13 @@ do
     make ftp
 done
 
-make gBOARDID=swrt-mt7621-v520-std pid
-make clean
-make distclean
-make dep
-make
-make sz
-make ftp
-make repo
+#make gBOARDID=swrt-mt7621-v520-std pid
+#make clean
+#make distclean
+#make dep
+#make
+#make sz
+#make ftp
+#make repo
 
 
