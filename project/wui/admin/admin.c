@@ -343,7 +343,7 @@ boole_t _log_traceroute( obj_t this, param_t param )
 	var2path( path, sizeof(path), "traceroute.txt" );
     shell( "killall -9 traceroute" );
     shell( "rm -fr %s", path );
-    shell( "traceroute %s  2>&1 > %s&", dest, path );
+    shell( "traceroute %s 2>&1 >%s &", dest, path );
 	sleep( 2 );
     return ttrue;
 }   
@@ -382,7 +382,7 @@ boole_t _log_ping( obj_t this, param_t param )
 	var2path( path, sizeof(path), "ping.txt" );
     shell( "killall -9 ping" );
     shell( "rm -fr %s", path );
-    shell( "ping %s  2>&1 > %s&", dest, path );
+    shell( "ping -c 10 %s 2>&1 >%s &", dest, path );
 	sleep( 2 );
     return ttrue;
 }   
@@ -419,11 +419,11 @@ boole_t _log_iperf( obj_t this, param_t param )
     shell( "rm -fr %s", path );
 	if ( dest == NULL )
 	{
-		shell( "iperf -i 1 -s 2>&1 > %s&", path );
+		shell( "iperf -i 1 -s 2>&1 >%s &", path );
 	}
 	else
 	{
-		shell( "iperf -i 1 -c %s 2>&1 > %s&", dest, path );
+		shell( "iperf -i 1 -c %s 2>&1 >%s &", dest, path );
 	}
 	sleep( 2 );
     return ttrue;
@@ -464,7 +464,7 @@ boole_t _log_tcpdump( obj_t this, param_t param )
 	var2path( path, sizeof(path), "tcpdump.cap" );
     shell( "killall -9 tcpdump" );
     shell( "rm -fr %s", path );
-    shell( "tcpdump %s -C 20 -W 1 -w %s&", dest, path );
+    shell( "tcpdump %s -C 20 -W 1 -w %s &", dest, path );
 	sleep( 3 );
     return ttrue;
 }   
@@ -488,6 +488,182 @@ boole_t _clear_tcpdump( obj_t this, param_t param )
     shell( "killall -9 tcpdump" );
     shell( "rm -fr %s", path );
 	return ttrue;
+}   
+talk_t _test_upload( obj_t this, param_t param )
+{
+	int i;
+	char *s;
+	char rate[20];
+	char buff[4096];
+	const char *ptr;
+	const char *ifname = NULL;
+    const char *user = "dl";
+    const char *pass = "tiger7@ASHYELF";
+    const char *udir = "/test/";
+	const char *site = "ftp://dimmalex.wicp.net";
+    const char *upload = "/tmp/u6u";
+    const char *result = "/tmp/test_upload.txt";
+
+	ptr = param_string( param, 1 );
+	if ( ptr != NULL )
+	{
+		site = ptr;
+	}
+	ptr = param_string( param, 2 );
+	if ( ptr != NULL )
+	{
+		user = ptr;
+	}
+	ptr = param_string( param, 3 );
+	if ( ptr != NULL )
+	{
+		pass = ptr;
+	}
+	ptr = param_string( param, 4 );
+	if ( ptr != NULL )
+	{
+		udir = ptr;
+	}
+	ptr = param_string( param, 5 );
+	if ( ptr != NULL )
+	{
+		ifname = ptr;
+	}
+	// dd if=/dev/zero of=/tmp/u8u bs=1M count=6
+	shell( "dd if=/dev/zero of=%s bs=1M count=%d 2>/dev/null", upload, 6 );
+	if ( ifname != NULL )
+	{
+		// curl ftp://dimmalex.wicp.net/test/ -u "dl:tiger7@ASHYELF" -T /tmp/u6u --interface usb0
+		//info( "rate test --- curl %s%s --connect-timeout 20 -m 300 -u \"%s:%s\" -T %s --interface %s \n", site, udir, user, pass, upload, ifname );
+		i = shell( "curl %s%s --connect-timeout 20 -m 300 -u \"%s:%s\" -T %s --interface %s 2>%s\n", site, udir, user, pass, upload, ifname, result );
+	}
+	else
+	{
+		// curl ftp://dimmalex.wicp.net/test/ -u "dl:tiger7@ASHYELF" -T /tmp/u6u
+		//info( "rate test --- curl %s%s --connect-timeout 20 -m 300 -u \"%s:%s\" -T %s --interface %s \n", site, udir, user, pass, upload );
+		i = shell( "curl %s%s --connect-timeout 20 -m 300 -u \"%s:%s\" -T %s 2>%s\n", site, udir, user, pass, upload, result );
+	}
+	if ( i != 0 )
+	{
+		warn( "rate test --- %s upload file failed", ifname?:"" );
+		goto failed;
+	}
+	if ( file2string( result, buff, sizeof(buff) ) == NULL )
+	{
+		warn( "rate test --- %s upload retrun file read failed", ifname?:"" );
+		goto failed;
+	}
+	ptr = strrchr( buff, ' ' );
+	if ( ptr == NULL )
+	{
+		warn( "rate test --- %s upload retrun file format wrong", ifname?:"" );
+		goto failed;
+	}
+	ptr++;
+	strncpy( rate, ptr, sizeof(rate)-1 );
+	s = rate;
+	while( *s != '\0' )
+	{
+		if ( isalnum( *s ) == 0 )
+		{
+			*s = '\0';
+			break;
+		}
+		s++;
+	}
+	unlink( upload );
+	return string2talk( rate );
+
+failed:
+	unlink( upload );
+	return tfalse;
+}
+talk_t _test_download( obj_t this, param_t param )
+{
+	int i;
+	char *s;
+	char rate[20];
+	char buff[4096];
+	const char *ptr;
+	const char *ifname = NULL;
+	const char *user = "dl";
+	const char *pass = "tiger7@ASHYELF";
+	const char *file = "/test/m6m";
+	const char *site = "ftp://dimmalex.wicp.net";
+	const char *output = "/tmp/m6m";
+	const char *result = "/tmp/test_download.txt";
+
+	ptr = param_string( param, 1 );
+	if ( ptr != NULL )
+	{
+		site = ptr;
+	}
+	ptr = param_string( param, 2 );
+	if ( ptr != NULL )
+	{
+		user = ptr;
+	}
+	ptr = param_string( param, 3 );
+	if ( ptr != NULL )
+	{
+		pass = ptr;
+	}
+	ptr = param_string( param, 4 );
+	if ( ptr != NULL )
+	{
+		file = ptr;
+	}
+	ptr = param_string( param, 5 );
+	if ( ptr != NULL )
+	{
+		ifname = ptr;
+	}
+	if ( ifname != NULL )
+	{
+		// curl ftp://dimmalex.wicp.net/test/m6m -u "dl:tiger7@ASHYELF" --interface usb1 -o /tmp/m6m
+		//info( "rate test --- curl %s%s -k --connect-timeout 20 -m 300 -u \"%s:%s\" --interface %s -o %s\n", site, file, user, pass, ifname, output );
+		i = shell( "curl %s/%s --connect-timeout 20 -m 300 -u \"%s:%s\" --interface %s -o %s 2>%s\n", site, file, user, pass, ifname, output, result );
+	}
+	else
+	{
+		// curl ftp://dimmalex.wicp.net/test/m6m -u "dl:tiger7@ASHYELF" -o /tmp/m6m
+		//info( "rate test --- curl %s%s -k --connect-timeout 20 -m 300 -u \"%s:%s\" -o %s\n", site, file, user, pass, output );
+		i = shell( "curl %s/%s --connect-timeout 20 -m 300 -u \"%s:%s\" -o %s 2>%s\n", site, file, user, pass, output, result );
+	}
+	if ( i != 0 )
+	{
+		warn( "rate test --- %s download file failed", ifname?:"" );
+		goto failed;
+	}
+	if ( file2string( result, buff, sizeof(buff) ) == NULL )
+	{
+		warn( "rate test --- %s download retrun file read failed", ifname?:"" );
+		goto failed;
+	}
+	ptr = strrchr( buff, ' ' );
+	if ( ptr == NULL )
+	{
+		warn( "rate test --- %s download retrun file format wrong", ifname?:"" );
+		goto failed;
+	}
+	ptr++;
+	strncpy( rate, ptr, sizeof(rate)-1 );
+	s = rate;
+	while( *s != '\0' )
+	{
+		if ( isalnum( *s ) == 0 )
+		{
+			*s = '\0';
+			break;
+		}
+		s++;
+	}
+	unlink( output );
+	return string2talk( rate );
+
+failed:
+	unlink( output );
+	return tfalse;
 }   
 
 
