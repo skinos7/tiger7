@@ -383,6 +383,7 @@
 			window.wuiterm = "<%shell( 'which ttyd | tr -d "\n"' ); %>";
 			window.tcpdump = "<%shell( 'which tcpdump | tr -d "\n"' ); %>";
 			window.iperf = "<%shell( 'which iperf | tr -d "\n"' ); %>";
+			window.smsd = "<%shell( 'which smsd | tr -d "\n"' ); %>";
 			window.lang = window.machine.language;
 			document.title = window.machine.name;
 			var wuimenu = wui.menu;
@@ -921,7 +922,10 @@
                         if ( !wuimenu || wuimenu.lte != "disable" )
                         {
     					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE' ), 'lte?object=ifname@lte' );
-    					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE SMS' ), 'ltesms?object=modem@lte' );
+    					    if ( window.smsd )
+    					    {
+    					        menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE SMS' ), 'ltesms?object=modem@lte' );
+    					    }
     					    var bsim = window.gpio["modem@lte_sim"];
     					    if ( bsim && bsim != "" )
     					    {
@@ -934,7 +938,10 @@
                         if ( !wuimenu || wuimenu.lte2 != "disable" )
                         {
     					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE/NR' ), 'lte?object=ifname@lte2' );
-    					    menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE/NR SMS' ), 'ltesms?object=modem@lte2' );
+    					    if ( window.smsd )
+    					    {
+                                menu.addlink( menus, $.i18n( 'Network' ), $.i18n( 'LTE/NR SMS' ), 'ltesms?object=modem@lte2' );
+    					    }
     					    var bsim = window.gpio["modem@lte2_sim"];
     					    if ( bsim && bsim != "" )
     					    {
