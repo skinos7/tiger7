@@ -1,5 +1,5 @@
 {
-    "v7.4.0520":
+    "v7.4.0525":
     {
         "20240501":"add the heclient support tls",
         "20240502":"new agent network frame, only broadcast the change",
@@ -7,7 +7,10 @@
         "20240504":"add wifi sta scan buffer for up",
         "20240507":"portc only remain one connection when no use",
         "20240508":"devms add modify the network can settings the device",
-        "20240518":"add p2p for LTE/NR gateway"
+        "20240517":"add set master or branch for LTE/NR gateway",
+        "20240518":"add test_upload and test_downlaod on wui component",
+        "20240519":"modify the sms setup time",
+        "20240525":"fix the g2g bug"
     },
     "v7.4.0410":
     {
