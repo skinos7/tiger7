@@ -1,5 +1,5 @@
 {
-    "v7.4.0525":
+    "v7.4.0603":
     {
         "20240501":"add the heclient support tls",
         "20240502":"new agent network frame, only broadcast the change",
@@ -10,7 +10,8 @@
         "20240517":"add set master or branch for LTE/NR gateway",
         "20240518":"add test_upload and test_downlaod on wui component",
         "20240519":"modify the sms setup time",
-        "20240525":"fix the g2g bug"
+        "20240525":"fix the g2g bug",
+        "20240602":"fix the leaf gateway cannot set other leaf gateway endpoint network"
     },
     "v7.4.0410":
     {
