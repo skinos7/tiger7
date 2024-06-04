@@ -164,7 +164,7 @@ static void ppp_chat_build( const char *chatfile, talk_t pppcfg, talk_t profile 
         }
         else if ( type != NULL && 0 == strcasecmp( type, "ipv4" ) )
         {
-            iptype = "IPV4";
+            iptype = "IP";
         }
         else if ( type != NULL && 0 == strcasecmp( type, "ipv6" ) )
         {
