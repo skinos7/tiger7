@@ -57,7 +57,7 @@ output:
 
 ![avatar](./component.png)
 
-**land** 项目, SkinOS核心项目, 管理网关的基本信息   
+**land** 项目, SkinOS核心项目, 管理网关的基本功能   
 - **[设备基本信息](https://gitee.com/tiger7/doc/blob/master/com/land/machine.md)** , machine组件, 命名为 **land@machine**, 别名为 **machine**   
 - **[系统服务](https://gitee.com/tiger7/doc/blob/master/com/land/service.md)**, service组件, 命名为 **land@service**, 别名为 **service**   
 - **[用户名密码及权限](https://gitee.com/tiger7/doc/blob/master/com/land/auth.md)**, auth组件, 命名为 **land@auth**, 别名为 **auth**   
@@ -283,7 +283,7 @@ ttrue
     }
 }
 ```   
-**注意此功能默认关闭, 使用此功能需要通过界面打开, 更多TCP(JSON)协议介绍见此文档 [TCP(JSON)协议](https://gitee.com/tiger7/doc/blob/master/protocol/localport_protocol_cn.md)**
+**注意此功能默认关闭, 使用此功能需要通过界面打开, 更多TCP(JSON)协议介绍见此文档 [TCP(JSON)协议](https://gitee.com/tiger7/doc/blob/master/protocol/localport/localport_protocol_cn.md)**
 
 
 
