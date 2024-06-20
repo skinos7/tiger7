@@ -155,16 +155,16 @@ SkinOS的系统组件通过**Skin Layer**对项目的管理
 
 # 项目的开发指导
 
-- **[在线Shell组件开发](https://gitee.com/tiger7/doc/blob/master/dev/online_development.md)**
+- **[在线Shell组件开发](https://gitee.com/tiger7/doc/blob/master/dev/shell-com/online_development_cn.md)**
 介绍及演示在运行系统中直接编写Shell脚本组件
 
-- **[项目及组件开发](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)**
+- **[项目及组件开发](https://gitee.com/tiger7/doc/blob/master/dev/project/beginner_development_cn.md)**
 介绍及演示SkinSDK **项目** 开发步骤, 并以示例的方式演示如何开发一个功能
 
-- **[移植Openwrt项目到SkinSDK中-简单版](https://gitee.com/tiger7/doc/blob/master/dev/porting_openwrt.md)**
+- **[移植Openwrt项目到SkinSDK中-简单版](https://gitee.com/tiger7/doc/blob/master/dev/porting-openwrt/porting_openwrt_cn.md)**
 介绍及演示移植Openwrt下的开源项目到SkinSDK中，并使其开机运行
 
-- **[移植Openwrt项目到SkinSDK中-进阶版](https://gitee.com/tiger7/doc/blob/master/dev/porting_openwrt_adv.md)**
+- **[移植Openwrt项目到SkinSDK中-进阶版](https://gitee.com/tiger7/doc/blob/master/dev/porting-openwrt/porting_openwrt_adv_cn.md)**
 介绍及演示移植Openwrt下的开源项目到SkinSDK中, 并为其开发WEB管理界面, 允许用户通过WEB管理界或命令行对其管理
 
 

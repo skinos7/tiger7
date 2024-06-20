@@ -534,14 +534,14 @@ talk_t _test_upload( obj_t this, param_t param )
 	if ( ifname != NULL )
 	{
 		// curl ftp://dimmalex.wicp.net/test/ -u "dl:tiger7@ASHYELF" -T /tmp/u6u --interface usb0
-		//info( "rate test --- curl %s%s --connect-timeout 20 -m 300 -u \"%s:%s\" -T %s --interface %s \n", site, udir, user, pass, upload, ifname );
-		i = shell( "curl %s%s --connect-timeout 20 -m 300 -u \"%s:%s\" -T %s --interface %s 2>%s\n", site, udir, user, pass, upload, ifname, result );
+		//info( "rate test --- curl %s%s --connect-timeout 20 -m 300 -u \"%s:%s\" -T %s --interface %s", site, udir, user, pass, upload, ifname );
+		i = shell( "curl %s%s --connect-timeout 20 -m 300 -u \"%s:%s\" -T %s --interface %s 2>%s", site, udir, user, pass, upload, ifname, result );
 	}
 	else
 	{
 		// curl ftp://dimmalex.wicp.net/test/ -u "dl:tiger7@ASHYELF" -T /tmp/u6u
-		//info( "rate test --- curl %s%s --connect-timeout 20 -m 300 -u \"%s:%s\" -T %s --interface %s \n", site, udir, user, pass, upload );
-		i = shell( "curl %s%s --connect-timeout 20 -m 300 -u \"%s:%s\" -T %s 2>%s\n", site, udir, user, pass, upload, result );
+		//info( "rate test --- curl %s%s --connect-timeout 20 -m 300 -u \"%s:%s\" -T %s --interface %s", site, udir, user, pass, upload );
+		i = shell( "curl %s%s --connect-timeout 20 -m 300 -u \"%s:%s\" -T %s 2>%s", site, udir, user, pass, upload, result );
 	}
 	if ( i != 0 )
 	{
@@ -621,14 +621,14 @@ talk_t _test_download( obj_t this, param_t param )
 	if ( ifname != NULL )
 	{
 		// curl ftp://dimmalex.wicp.net/test/m6m -u "dl:tiger7@ASHYELF" --interface usb1 -o /tmp/m6m
-		//info( "rate test --- curl %s%s -k --connect-timeout 20 -m 300 -u \"%s:%s\" --interface %s -o %s\n", site, file, user, pass, ifname, output );
-		i = shell( "curl %s/%s --connect-timeout 20 -m 300 -u \"%s:%s\" --interface %s -o %s 2>%s\n", site, file, user, pass, ifname, output, result );
+		//info( "rate test --- curl %s%s -k --connect-timeout 20 -m 300 -u \"%s:%s\" --interface %s -o %s", site, file, user, pass, ifname, output );
+		i = shell( "curl %s/%s --connect-timeout 20 -m 300 -u \"%s:%s\" --interface %s -o %s 2>%s", site, file, user, pass, ifname, output, result );
 	}
 	else
 	{
 		// curl ftp://dimmalex.wicp.net/test/m6m -u "dl:tiger7@ASHYELF" -o /tmp/m6m
-		//info( "rate test --- curl %s%s -k --connect-timeout 20 -m 300 -u \"%s:%s\" -o %s\n", site, file, user, pass, output );
-		i = shell( "curl %s/%s --connect-timeout 20 -m 300 -u \"%s:%s\" -o %s 2>%s\n", site, file, user, pass, output, result );
+		//info( "rate test --- curl %s%s -k --connect-timeout 20 -m 300 -u \"%s:%s\" -o %s", site, file, user, pass, output );
+		i = shell( "curl %s/%s --connect-timeout 20 -m 300 -u \"%s:%s\" -o %s 2>%s", site, file, user, pass, output, result );
 	}
 	if ( i != 0 )
 	{

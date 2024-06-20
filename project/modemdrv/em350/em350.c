@@ -181,6 +181,47 @@ int em350_cgpaddr( atcmd_t fd, const char *cid, char *ip )
 	}
 	return ret;
 }
+#if 0
+/* get current network ip address infomation
+	0 for succeed
+	>0 for failed
+	<0 for error */
+int em350_cgcontrdp( atcmd_t fd, const char *cid, char *ip, char *mask, char *gw, char *dns, char *dns2 )
+{
+	int ret;
+	const char *ptr;
+	const char *str;
+	char scid[NAME_MAX];
+	char sid[NAME_MAX];
+	char sapn[NAME_MAX];
+	char sipmask[NAME_MAX];
+	char sgw[NAME_MAX];
+	char sdns[NAME_MAX];
+	char sdns2[NAME_MAX];
+
+	ret = atcmd_tx( fd, 3, NULL, ATCMD_DEF, "AT+CGCONTRDP=%s", cid );
+	if ( ret != ATCMD_ret_succeed )
+	{
+		return ret;
+	}
+	ret = ATCMD_ret_failed;
+	ip[0] = '\0';
+	ptr = atcmd_lastack( fd );
+	str = strstr( ptr, "CGCONTRDP:" );
+	if ( str != NULL )
+	{
+		if ( sscanf( str, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],", scid, sid, sapn, sipmask, sgw, sdns, sdns2 ) == 7 )
+		{
+			debug( "get the ip %s", ip );
+			if ( ip[0] != '\0' && NULL == strstr( ip, "0.0.0.0" ) )
+			{
+				ret = ATCMD_ret_succeed;
+			}
+		}
+	}
+	return ret;
+}
+#endif
 
 /* set the APN profile
 	0 for setings is succeed

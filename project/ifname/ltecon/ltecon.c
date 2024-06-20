@@ -1090,7 +1090,14 @@ boole_t _service( obj_t this, param_t param )
 			/* disable the smsd/atport first */
 			scall( ifdev, "smsdisable", NULL );
 			scalls( ATPORT_COM, "delete", ifdev );
-			sleep( 1 );
+			if ( connect_failed > 1 )
+			{
+				sleep( 10 );
+			}
+			else
+			{
+				sleep( 1 );
+			}
 			/* ppp dial */
 			v = scalls( ifdev, "profile", NULL );
 			ret = ppp_client_connect( object, ifdev, cfg, v );

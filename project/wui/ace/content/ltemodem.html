@@ -351,6 +351,10 @@
       {
         lte.custom_set = data;
       }
+      else
+      {
+        lte.custom_set= {};
+      }
       var data = {};
       var rows = $("#watch-grid-table").jqGrid('getDataIDs');
       for ( var i = 0; i < rows.length; i++ )
@@ -361,6 +365,10 @@
       if ( rows.length > 0 )
       {
         lte.custom_watch = data;
+      }
+      else
+      {
+        lte.custom_watch= {};
       }
 
       lte.need_simcard = boole2able( $('#need_simcard').prop('checked') );

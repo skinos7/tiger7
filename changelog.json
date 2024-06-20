@@ -1,4 +1,11 @@
 {
+    "v7.4.0610":
+    {
+        "20240605":"Dual simcards are also tested when the arch@factory:status is enabled",
+        "20240606":"Add flow test to production test",
+        "20240607":"Fixed an issue where custom lte/nr module AT command could not be deleted",
+        "20240608":"Add 10 seconds to wait after LTE PPP dial-up fails"
+    },
     "v7.4.0603":
     {
         "20240501":"add the heclient support tls",
@@ -11,7 +18,8 @@
         "20240518":"add test_upload and test_downlaod on wui component",
         "20240519":"modify the sms setup time",
         "20240525":"fix the g2g bug",
-        "20240602":"fix the leaf gateway cannot set other leaf gateway endpoint network"
+        "20240601":"fix the leaf gateway cannot set other leaf gateway endpoint network",
+        "20240602":"fix ppp dial error when ipv4"
     },
     "v7.4.0410":
     {
