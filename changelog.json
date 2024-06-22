@@ -4,7 +4,8 @@
         "20240605":"Dual simcards are also tested when the arch@factory:status is enabled",
         "20240606":"Add flow test to production test",
         "20240607":"Fixed an issue where custom lte/nr module AT command could not be deleted",
-        "20240608":"Add 10 seconds to wait after LTE PPP dial-up fails"
+        "20240608":"Add 10 seconds to wait after LTE PPP dial-up fails",
+        "20240609":"Add three test modes, factory test, hang up test and out of storage test"
     },
     "v7.4.0603":
     {
