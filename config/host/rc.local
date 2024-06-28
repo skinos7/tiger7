@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# add by dimmalex
+runuser -u ubuntu /usr/prj/setup.sh
+

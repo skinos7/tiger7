@@ -34,6 +34,15 @@ start:
 	if [ -f /usr/prj/setup.sh ]; then \
 		/usr/prj/setup.sh; \
 	fi
+bootup:
+	if [ -f /etc/rc.local ]; then \
+		alreadybootup=`cat /etc/rc.local|grep /usr/prj/setup.sh`; \
+		if [ "X${alreadybootup} = "X" ]; then \
+			sudo "runuser -u ${LOGNAME} /usr/prj/setup.sh"; \
+		fi \
+	else \
+		sudo cp ${gPLATFORM_DIR}/rc.local /etc/; \
+	fi
 stop:
 	if [ -f /usr/prj/shut.sh ]; then \
 		/usr/prj/shut.sh; \
@@ -61,7 +70,7 @@ repo:
 	if [ -d ${gSTORE_DIR} ]; then\
 		firmware-upload host ${gHARDWARE} ${gCUSTOM} ${gSCOPE} ${gSTORE_DIR} fpk; \
 	fi
-.PHONY: local start stop purge sz zzb tar ftp repo
+.PHONY: local start bootup stop purge sz zzb tar ftp repo
 
 
 
