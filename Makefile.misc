@@ -62,7 +62,7 @@ bufclean sdkclean:
 ######## Misc Target ################
 #####################################
 
-local start stop purge:
+local start stop purge bootup:
 	make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@
 sz:
 	make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@
@@ -75,7 +75,7 @@ tar: boot
 		fi; \
 	fi
 	make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@
-.PHONY: local start sz zzb tar
+.PHONY: local start stop purge bootup sz zzb tar
 
 
 
