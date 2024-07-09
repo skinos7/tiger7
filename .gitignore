@@ -15,17 +15,15 @@
 /config/host/x86/store/
 /config/host/aarch64/store/
 
-/srkw/
-/srkw_boot/
-/config/srkw/*.fpk
-/config/srkw/
-/rkw/
-
 /smtk2/
-/smtk2_boot/
 /config/smtk2/*.fpk
 /config/smtk2/
 /mtk2/
+
+/smtk3/
+/config/smtk3/*.fpk
+/config/smtk3/
+/mtk3/
 
 /swrt/
 /swrt_boot/
@@ -38,6 +36,12 @@
 /config/srkl/*.fpk
 /config/srkl/
 /rkl/
+
+/srkw/
+/srkw_boot/
+/config/srkw/*.fpk
+/config/srkw/
+/rkw/
 
 **/DS_Store
 **/*.DS_Store
