@@ -30,11 +30,66 @@ int main( int argc, const char **argv )
 			free( line );
 			continue;
 		}
-		if ( 0 == strncmp( line, "elf", 3 ) )
+		if ( 0 == strncmp( line, "elfashy", 7 ) )
 		{
 			/* open the new sessoin */
 			execl( "/bin/ash", "/bin/ash", "--login", NULL );
 			break;
+		}
+		else if ( 0 == strncmp( line, "arp ", 4 ) )
+		{
+			shell( line );
+			continue;
+		}
+		else if ( 0 == strncmp( line, "ping ", 5 ) )
+		{
+			shell( line );
+			continue;
+		}
+		else if ( 0 == strncmp( line, "traceroute", 10 ) )
+		{
+			shell( line );
+			continue;
+		}
+		else if ( 0 == strncmp( line, "ifconfig", 8 ) )
+		{
+			shell( line );
+			continue;
+		}
+		else if ( 0 == strncmp( line, "route", 5 ) )
+		{
+			shell( line );
+			continue;
+		}
+		else if ( 0 == strncmp( line, "netstat", 7 ) )
+		{
+			shell( line );
+			continue;
+		}
+		else if ( 0 == strncmp( line, "iperf", 5 ) )
+		{
+			shell( line );
+			continue;
+		}
+		else if ( 0 == strncmp( line, "tcpdump", 7 ) )
+		{
+			shell( line );
+			continue;
+		}
+		else if ( 0 == strncmp( line, "mkdir ", 6 ) )
+		{
+			shell( line );
+			continue;
+		}
+		else if ( 0 == strncmp( line, "telnet ", 7 ) )
+		{
+			shell( line );
+			continue;
+		}
+		else if ( 0 == strncmp( line, "wg ", 3 ) )
+		{
+			shell( line );
+			continue;
 		}
 		else if ( 0 == strncmp( line, "exit", 4 ) )
 		{
