@@ -65,6 +65,7 @@
 	"Signal failed times":"信号失败次数",
 	"Dial failed times":"拨号失败次数",
 	"Failover duration(sec)":"备用SIM卡使用时长(秒)",
+    "Availability Check Switch":"可用性检测失败切卡",
 
 	
 
@@ -144,7 +145,11 @@
 	"Query Interval(sec)":"检测间隔(秒)",
 	"Count Duration(sec)":"统计时间段(秒)",
 	"Count Times":"统计次数",
-	"Received packets":"要求包数",
+	"Received Packets":"要求包数",
+	"Failed TODO":"失败后操作",
+	"Reconnection":"重新连接",
+	"Reset Modem":"重置模块",
+	"Reboot System":"重启系统",
 
 
 	"Advanced Settings":"高级设置",

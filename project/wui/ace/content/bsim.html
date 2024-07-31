@@ -76,6 +76,15 @@
                     <input type="text" id="failover" class="col-xs-10 col-sm-5" maxlength="128" />
                   </div>
                 </div>
+	            <div class="form-group">
+	              <label class="col-sm-3 control-label no-padding-right" data-i18n="Availability Check Switch"></label>
+	              <div class="col-sm-9">
+	                <label>
+	                  <input id="keeplive_switch" class="ace ace-switch ace-switch-6" type="checkbox" />
+	                  <span class="lbl"></span>
+	                </label>
+	              </div>
+	            </div>
             </div><!-- bsim_cfg -->
 
             
@@ -314,6 +323,14 @@
         $('#signal_failed').val(bsim_cfg.signal_failed || '');
         $('#dial_failed').val(bsim_cfg.dial_failed || '');
         $('#failover').val(bsim_cfg.failover || '');
+        if ( bsim_cfg.keeplive_switch == "enable" )
+        {
+            $('#keeplive_switch').prop('checked', true );
+        }
+        else
+        {
+            $('#keeplive_switch').prop('checked', false );
+        }
         /* lock pin */
         $('#lock_pin').val(bsim_cfg.lock_pin || '');
         /* profile */
@@ -385,6 +402,7 @@
         bsim_cfg.signal_failed = $('#signal_failed').val();
         bsim_cfg.dial_failed = $('#dial_failed').val();
         bsim_cfg.failover = $('#failover').val();
+        bsim_cfg.keeplive_switch = boole2able( $('#keeplive_switch').prop('checked') );
         /* lock pin */
         bsim_cfg.lock_pin = $('#lock_pin').val();
         /* profile */

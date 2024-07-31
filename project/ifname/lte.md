@@ -76,6 +76,11 @@ Usually ifname@lte is the first LTE/NR network and module. If there are multiple
                                   // [ "dns" ] for test the dns response
                                   // [ "recv" ] for count receive packet to keeplive
                                   // [ "auto" ] for count receive packet to keeplive when test the dns response failed
+
+        "action":"failed to do",  // [ "reboot" ] reboot the system
+                                  // [ "reset" ] reset the modem
+                                  // [ ] other redial the connetion
+
         "icmp":                                                   // detial configure for "type" is "icmp"
         {
             "dest":                                                         // destination address for ICMP keeplive

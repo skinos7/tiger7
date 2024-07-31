@@ -181,7 +181,6 @@ int em350_cgpaddr( atcmd_t fd, const char *cid, char *ip )
 	}
 	return ret;
 }
-#if 0
 /* get current network ip address infomation
 	0 for succeed
 	>0 for failed
@@ -189,6 +188,7 @@ int em350_cgpaddr( atcmd_t fd, const char *cid, char *ip )
 int em350_cgcontrdp( atcmd_t fd, const char *cid, char *ip, char *mask, char *gw, char *dns, char *dns2 )
 {
 	int ret;
+	char *end;
 	const char *ptr;
 	const char *str;
 	char scid[NAME_MAX];
@@ -199,29 +199,110 @@ int em350_cgcontrdp( atcmd_t fd, const char *cid, char *ip, char *mask, char *gw
 	char sdns[NAME_MAX];
 	char sdns2[NAME_MAX];
 
+	//at+CGCONTRDP=1
+	//+CGCONTRDP: 1,5,"rapid.com","172.18.9.5.255.255.255.252","172.18.9.6","192.168.3.40",,,,
 	ret = atcmd_tx( fd, 3, NULL, ATCMD_DEF, "AT+CGCONTRDP=%s", cid );
 	if ( ret != ATCMD_ret_succeed )
 	{
 		return ret;
 	}
-	ret = ATCMD_ret_failed;
 	ip[0] = '\0';
+	ret = ATCMD_ret_failed;
+	//sprintf( fd->ackbuf, "+CGCONTRDP: 1,5,\"rapid.com\",\"172.18.9.5.255.255.255.252\",\"172.18.9.6\",\"192.168.3.40\",,,," );
 	ptr = atcmd_lastack( fd );
 	str = strstr( ptr, "CGCONTRDP:" );
 	if ( str != NULL )
 	{
+		scid[0] = sid[0] = sapn[0] = sipmask[0] = sgw[0] = sdns[0] = sdns2[0] = '\0';
 		if ( sscanf( str, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],", scid, sid, sapn, sipmask, sgw, sdns, sdns2 ) == 7 )
 		{
-			debug( "get the ip %s", ip );
-			if ( ip[0] != '\0' && NULL == strstr( ip, "0.0.0.0" ) )
+			debug( "get the ipstr %s, %s, %s, %s", sipmask, sgw, sdns, sdns2 );
+			if ( sipmask[0] != '\0' && NULL == strstr( sipmask, "0.0.0.0" ) )
 			{
 				ret = ATCMD_ret_succeed;
+			}
+		}
+		else if ( sscanf( str, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],", scid, sid, sapn, sipmask, sgw, sdns ) == 6 )
+		{
+			debug( "get the ipstr %s, %s, %s, %s", sipmask, sgw, sdns, sdns2 );
+			if ( sipmask[0] != '\0' && NULL == strstr( sipmask, "0.0.0.0" ) )
+			{
+				ret = ATCMD_ret_succeed;
+			}
+		}
+		else if ( sscanf( str, "%[^,],%[^,],%[^,],%[^,],%[^,],", scid, sid, sapn, sipmask, sgw ) == 5 )
+		{
+			debug( "get the ipstr %s, %s, %s, %s", sipmask, sgw, sdns, sdns2 );
+			if ( sipmask[0] != '\0' && NULL == strstr( sipmask, "0.0.0.0" ) )
+			{
+				ret = ATCMD_ret_succeed;
+			}
+		}
+		else if ( sscanf( str, "%[^,],%[^,],%[^,],%[^,],", scid, sid, sapn, sipmask ) == 4 )
+		{
+			debug( "get the ipstr %s, %s, %s, %s", sipmask, sgw, sdns, sdns2 );
+			if ( sipmask[0] != '\0' && NULL == strstr( sipmask, "0.0.0.0" ) )
+			{
+				ret = ATCMD_ret_succeed;
+			}
+		}
+		if ( ret == ATCMD_ret_succeed )
+		{
+			int p1, p2, p3, p4, p5, p6, p7, p8;
+
+			ret = ATCMD_ret_failed;
+			// get ip mask
+			ptr = sipmask+1;
+			end = strstr( sipmask+1, "\"" );
+			if ( end != NULL )
+			{
+				*end = '\0';
+			}
+			info( "==ipmask=%s====", ptr );
+			if ( sscanf( ptr, "%d.%d.%d.%d.%d.%d.%d.%d", &p1, &p2, &p3, &p4, &p5, &p6, &p7, &p8 ) == 8 )
+			{
+				ret = ATCMD_ret_succeed;
+				sprintf( ip, "%d.%d.%d.%d", p1, p2, p3, p4 );
+				sprintf( mask, "%d.%d.%d.%d", p5, p6, p7, p8 );
+				debug( "get the ip and mask %s/%s", ip, mask );
+			}
+			// get gw
+			if ( sgw[0] != '\0' )
+			{
+				ptr = sgw+1;
+				end = strstr( ptr, "\"" );
+				if ( end != NULL )
+				{
+					*end = '\0';
+				}
+				sprintf( gw, "%s", ptr );
+			}
+			// get dns
+			if ( sdns[0] != '\0' )
+			{
+				ptr = sdns+1;
+				end = strstr( ptr, "\"" );
+				if ( end != NULL )
+				{
+					*end = '\0';
+				}
+				sprintf( dns, "%s", ptr );
+			}
+			// get dns2
+			if ( sdns2[0] != '\0' )
+			{
+				ptr = sdns2+1;
+				end = strstr( ptr, "\"" );
+				if ( end != NULL )
+				{
+					*end = '\0';
+				}
+				sprintf( dns2, "%s", ptr );
 			}
 		}
 	}
 	return ret;
 }
-#endif
 
 /* set the APN profile
 	0 for setings is succeed
@@ -1082,6 +1163,10 @@ boole_t _at_connected( obj_t this, param_t param )
 	const char *cid;
 	const char *netdev;
 	char ip[NAME_MAX];
+	char mask[NAME_MAX];
+	char gw[NAME_MAX];
+	char dns[NAME_MAX];
+	char dns2[NAME_MAX];
 
 	/* get the information */
 	dev = param_talk( param, 1 );
@@ -1114,7 +1199,7 @@ boole_t _at_connected( obj_t this, param_t param )
 	{
 		return terror;
 	}
-	else if (i == ATCMD_ret_succeed )
+	else if ( i == ATCMD_ret_succeed )
 	{
 		ret = ttrue;
 	}
@@ -1131,6 +1216,33 @@ boole_t _at_connected( obj_t this, param_t param )
 	{
 		ret = ttrue;
 		shell( "ifconfig %s %s up", netdev, ip );
+	}
+	gw[0] = dns[0] = dns2[0] = '\0';
+	i = em350_cgcontrdp( fd, cid, ip, mask, gw, dns, dns2 );
+	if ( i < ATCMD_ret_succeed )
+	{
+		return terror;
+	}
+	else if ( i == ATCMD_ret_term )
+	{
+		return tfalse;
+	}
+	else if ( i == ATCMD_ret_succeed )
+	{
+		ret = ttrue;
+		shell( "ifconfig %s %s netmask %s up", netdev, ip, mask );
+		if ( gw[0] != '\0' )
+		{
+			shell( "route add default gw %s dev %s", gw, netdev );
+		}
+		if ( dns[0] != '\0' && dns2[0] != '\0' )
+		{
+			string2file( ETC_DNS_FILE, "nameserver %s\nnameserver %s\n", dns, dns2 );
+		}
+		else if ( dns[0] != '\0' )
+		{
+			string2file( ETC_DNS_FILE, "nameserver %s\n", dns );
+		}
 	}
 
 	return ret;

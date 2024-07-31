@@ -545,6 +545,19 @@
               </div>
             </div>
           </div>
+          <!-- 失败操作 -->
+          <div id="action_cfg" style="display: none;">
+	          <div class="form-group">
+	            <label class="col-sm-3 control-label no-padding-right" data-i18n="Failed TODO"></label>
+	            <div class="col-sm-9">
+	              <select class="col-xs-10 col-sm-5" id="action">
+	                <option value="" data-i18n="Reconnection"></option>
+	                <option value="reset" data-i18n="Reset Modem"></option>
+	                <option value="reboot" data-i18n="Reboot System"></option>
+	              </select>
+	            </div>
+	          </div>
+          </div>
 
         </div> <!-- status_config -->
 
@@ -710,6 +723,7 @@
         {
             if ( ltes.hwnat == "enable" )
             {
+                $("#mode").append("<option value='ppp'>"+$.i18n('PPP')+"</option>");
                 $("#lock_nettype").append("<option value='nsa'>" + "NSA(5G)" + "</option>");
                 $("#lock_nettype").append("<option value='sa'>" + "SA(5G)" + "</option>");
                 $("#lock_nettype").append("<option value='lte'>" + "LTE(4G)" + "</option>");
@@ -1010,6 +1024,7 @@
 
         /* Keeplive */
         $('#keeplive').val( lte.keeplive.type || 'disable');
+        $('#action').val( lte.keeplive.action || '');
         if ( lte.keeplive.icmp )
         {
           if (lte.keeplive.icmp.dest)
@@ -1042,26 +1057,31 @@
               $('#icmp_cfg').hide();
               $('#dns_cfg').hide();
               $('#recv_cfg').hide();
+              $('#action_cfg').hide();
               break;
             case 'icmp':
               $('#icmp_cfg').show();
               $('#dns_cfg').hide();
               $('#recv_cfg').hide();
+              $('#action_cfg').show();
               break;
             case 'dns':
               $('#icmp_cfg').hide();
               $('#dns_cfg').show();
               $('#recv_cfg').hide();
+              $('#action_cfg').show();
               break;
             case 'recv':
               $('#icmp_cfg').hide();
               $('#dns_cfg').hide();
               $('#recv_cfg').show();
+              $('#action_cfg').show();
               break;
             case 'auto':
               $('#icmp_cfg').hide();
               $('#dns_cfg').show();
               $('#recv_cfg').show();
+              $('#action_cfg').show();
               break;
           }
         }).trigger('change');
@@ -1373,6 +1393,7 @@
                 page.alert( { message: $.i18n('Test Interval(sec)')+" "+$.i18n('must be a valid number') } );
                 return;
             }
+            lte.keeplive.action = $('#action').val();
           }
           if ( lte.keeplive.type == "dns" || lte.keeplive.type == "auto" )
           {
@@ -1398,6 +1419,7 @@
                 page.alert( { message: $.i18n('Query Interval(sec)')+" "+$.i18n('must be a valid number') } );
                 return;
             }
+            lte.keeplive.action = $('#action').val();
           }
           if ( lte.keeplive.type == "recv" || lte.keeplive.type == "auto" )
           {
@@ -1420,9 +1442,10 @@
             lte.keeplive.recv.packets = $('#recv_packets').val();
             if ( check.number(lte.keeplive.recv.packets) == false )
             {
-                page.alert( { message: $.i18n('Received packets')+" "+$.i18n('must be a valid number') } );
+                page.alert( { message: $.i18n('Received Packets')+" "+$.i18n('must be a valid number') } );
                 return;
             }
+            lte.keeplive.action = $('#action').val();
           }
       }
 

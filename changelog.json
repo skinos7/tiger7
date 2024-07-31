@@ -1,11 +1,19 @@
 {
-    "v7.4.0610":
+    "v7.4.0620":
     {
         "20240605":"Dual simcards are also tested when the arch@factory:status is enabled",
         "20240606":"Add flow test to production test",
         "20240607":"Fixed an issue where custom lte/nr module AT command could not be deleted",
         "20240608":"Add 10 seconds to wait after LTE PPP dial-up fails",
-        "20240609":"Add three test modes, factory test, hang up test and out of storage test"
+        "20240609":"Add three test modes, factory test, hang up test and out of storage test",
+        "20240611":"Fix the pport of devms drop the buffer when proxy close to fast",
+        "20240612":"He command support network debug tools",
+        "20240613":"Add the bind ip add to arp table options",
+        "20240614":"Add ViewSheen camera OSD support",
+        "20240616":"Support sync the date from devms",
+        "20240617":"Add options(switch sim/reset modem/reboot system) for keeplive failed",
+        "20240618":"Fix the UART dtu mqtt connect failed when no mqtt identify settings",
+        "20240619":"Add sline support Interactive set"
     },
     "v7.4.0603":
     {
