@@ -195,7 +195,7 @@ ttrue
 
 ### 4. 命令行调用网关接口   
 示例获取网关基本状态, 即调用组件land@machine的status接口, 命令行中给出组件名及接口名称   
-```
+```shell
 $ land@machine.status                  # HE Command show the gateway basic status
 {
     "mode":"gateway",
