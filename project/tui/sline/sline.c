@@ -82,7 +82,14 @@ int main( int argc, const char **argv )
 					}
 					else if ( 0 == strcmp( line, "s" ) ) // set
 					{
-						sset( object, cfg, NULL );
+						if ( sset( object, cfg, NULL ) == true )
+						{
+							printf( "ttrue\n" );
+						}
+						else
+						{
+							printf( "tfalse\n" );
+						}
 						talk_free( cfg );
 						break;
 					}

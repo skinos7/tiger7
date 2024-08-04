@@ -3,13 +3,15 @@
 Manage LTE/NR networks and 4G/NR basebands. This component must depend on the LTE/NR baseband components and network Management Framework project  
 Usually ifname@lte is the first LTE/NR network and module. If there are multiple LTE/NR modules in the system, ifname@lte2 will be the second LTE/NR network and module, and increase by degress
 
-#### **configuration( ifname@lte )**   
+#### **Configuration( ifname@lte )**   
 **ifname@lte** is first LTE network   
 **ifname@lte2** is second LTE network   
 
 ```json
 // Attribute introduction
 {
+    // For LTE/NR Network Settings
+    // Status for network
     "status":"start at system startup",    // [ "enable", "disable" ]
 
     // IPv4
@@ -115,19 +117,152 @@ Usually ifname@lte is the first LTE/NR network and module. If there are multiple
             "failed":"failed times"                                                    // [ number ]
         }
     },
-    // configure connect failed to action
+
+    // Configure connect failed to action
     "failed_timeout":"connect timeout",                                                // [ number ], the unit is second
     "failed_threshold":"first failed to reset time",                                   // [ number ]
     "failed_threshold2":"second failed to reset time",                                 // [ number ]
     "failed_everytime":"every failed to reset time",                                   // [ number ]
 
-    // For LTE/NR baseband Settings, the parameters are the same as modem@lte
-    // ##### For details, see configuration of modem@lte  #####
+    // For LTE/NR baseband Settings, the parameters are the same as modem@lte or modem@lte2
+    // lock attributes
+    "lock_imei":"lock imei",                   // [ "", "enable", IMEI ], enable: The IMEI detected for the first time will be locked
+    "lock_imsi":"lock imsi",                   // [ "", "enable", IMEI ], enable will lock current imei
+    "lock_pin":"simcard pin",                  // [ string ]
+    "lock_nettype":"network type",             // [ "2g", "3g", "4g", "nsa", "sa" ]
+    "lock_band":"lock band",                   // The format varies depending on the module
+    "lock_cell":"lock cell",                   // The format varies depending on the module
+
+    // UART other function    
+    "gnss":"gps function",                     // [ "disable", "enable" ]
+    "atport":"atport function",                // [ "disable", "enable" ]
+
+    // custom at command
+    "custom_set":                              // custom at setting list at the modem setup
+    {
+        "AT command":"AT exeucte result"             // [ string ]:[ string ]
+        // ...more AT command
+    },
+    "custom_watch":                            // custom at watch list at the modem watch
+    {
+        "AT command":"AT exeucte result"             // [ string ]:[ string ]
+        // ...more AT command
+    },
+
+    // simcard dial attributes
+    "need_simcard":"SIMcard must be detected",                                                 // [ "enable", "disable" ]
+    "simcard_failed_threshold":"first failed to reset time",                                   // [ number ]
+    "simcard_failed_threshold2":"second failed to reset time",                                 // [ number ]
+    "simcard_failed_threshold3":"third failed to reset time",                                  // [ number ]
+    "simcard_failed_everytime":"every failed to reset time",                                   // [ number ]
+
+    // signal dial attributes
+    "need_plmn":"must register to plmn",                                                       // [ "enable", "disable" ]
+    "need_signal":"Signal must be effectivity",                                                // [ "enable", "disable" ]
+    "signal_failed_threshold":"first failed to reset time",                                    // [ number ]
+    "signal_failed_threshold2":"second failed to reset time",                                  // [ number ]
+    "signal_failed_threshold3":"third failed to reset time",                                   // [ number ]
+    "signal_failed_everytime":"every failed to reset time",                                    // [ number ]
+
+    // watch attributes
+    "watch_interval":"How often do query the modem",  // [ number ], the unit in second
+
+    // profile attributes
+    "profile":"custom the profile",            // [ "disable", "enable" ]
+    "profile_cfg":                             // custom profile save here, the json be used when "profile" value is enable
+    {
+        "dial":"dial number",                     // [ number ]
+        "cid":"dial CID",                         // [ number ], default is 1
+        "type":"ip address type",                 // [ "ipv4", "ipv6", "ipv4v6" ]
+        "auth":"authentication method",           // [ "pap", "chap", "papchap" ]
+        "apn":"APN name",                         // [ string ]
+        "user":"user name",                       // [ string ]
+        "passwd":"user password",                 // [ string ]
+        "cids":"multi CID settings",              // [ "disable", "enable" ], "enable" for set multi-CID for modem
+        "cids_cfg":                               // settings of multi-CID save here, the json be used when "cids" value is enable
+        {
+            "CID number":                                 // [ number ]
+            {
+                "type":"ip address type",                 // [ "ipv4", "ipv6", "ipv4v6" ]
+                "apn":"APN name",                         // [ string ]
+                "user":"user name",                       // [ string ]
+                "passwd":"user password",                 // [ string ]
+            }
+            //"CID nubmer ":{ CID profile }     How many CID profile need setting save how many properties
+        }
+    },
+
+    // backup simcard configure
+    "bsim":"backup simcard function",                         // [ "disable", "enable" ]
+    "bsim_cfg":                                               // settings of backup simcard save here, the json be used when "bsim" value is enable
+    {
+        "mode":"Specify the simcard",                               // [ "auto", "bsim", "msim", "detect" ]
+                                                                        // "bsim" for backup simcard
+                                                                        // "msim" for main simcard
+                                                                        // "detect" the IO for auto that need detect IO support
+        "signal_failed":"Check the signal failed how many times to switch the simcard",  // [ number ]
+        "dial_failed":"connect to internet failed how many times to switch the simcard", // [ number ]
+        "failover":"backup simcard usage duration",                                      // [ number ], the unit is second
+        "keeplive_switch":"keeplive faeild to switch",                                   // [ "disable", "enable" ]
+        // backup simcard lock attributes
+        "lock_imei":"lock imei",                   // [ "disable", "enable", IMEI ], "enable": The IMEI detected for the first time will be locked
+        "lock_imsi":"lock imsi",                   // [ "disable", "enable", IMEI ], enable will lock current imei
+        "lock_pin":"simcard pin",                  // [ string ]
+        "lock_netmode":"network type",             // [ "2g", "3g", "4g", "nsa", "sa" ]
+        "lock_band":"lock band",                   // The format varies depending on the module
+        "lock_cell":"lock cell",                   // The format varies depending on the module
+        // backup profile attributes
+        "profile":"custom the profile",            // [ "disable", "enable" ]
+        "profile_cfg":                             // custom profile save here, the json be used when "profile" value is enable
+        {
+            "dial":"dial number",                     // [ number ]
+            "cid":"dial CID",                         // [ number ], default is 1
+            "type":"ip address type",                 // [ "ipv4", "ipv6", "ipv4v6" ]
+            "apn":"APN name",                         // [ string ]
+            "user":"user name",                       // [ string ]
+            "passwd":"user password",                 // [ string ]
+            "cids":"multi CID settings",              // [ "disable", "enable" ], enable for set multi-CID for modem
+            "cids_cfg":                                   // settings of multi-CID save here, the json be used when "cids" value is enable
+            {
+                "CID number":                                 // [ number ]
+                {
+                    "type":"ip address type",                 // [ "ipv4", "ipv6", "ipv4v6" ]
+                    "apn":"APN name",                         // [ string ]
+                    "user":"user name",                       // [ string ]
+                    "passwd":"user password",                 // [ string ]
+                }
+                // ... more CID profile
+            }
+        }
+    },
+
+    // soft backup simcard configure
+    "ssim":"soft backup simcard function",                         // [ "disable", "enable" ]
+    "ssim_cfg":                                                    // settings of soft backup simcard save here, the json be used when "ssim" value is enable
+    {
+        "mode":"Specify the operator",                                   // [ "signal", "plmn" ]
+                                                                            // "signal" for test and use the The best signal operator
+                                                                            // "46000" for china mobile
+                                                                            // "46001" china union
+                                                                            // "46003" for china telecom
+        "signal_failed":"Check the signal failed how many times to switch the simcard",  // [ number ]
+        "dial_failed":"connect to internet failed how many times to switch the simcard", // [ number ]
+    },
+
+    // SMS configure
+    "sms":"SMS function enable or disable",
+    "sms_cfg":
+    {
+        "center":"SMS center number",                             // [ number ]
+        "he":"enable or disable the he command",                  // [ "disable", "enable" ]
+        "he_contact":"set a contact to send the he command",      // [ number ]
+        "he_prefix":"set a prefix at the he command"              // [ string ]
+    }
 
 }
-```
+```   
 
-Example, show LTE all configure
+Example, show first LTE all configure   
 ```shell
 ifname@lte
 {
@@ -150,29 +285,38 @@ ifname@lte
             "failed":"30",
             "packets":"1"
         }
+    },
+ 
+    "lock_imei":"enable",              # The IMEI detected for the first time will be locked
+    "lock_imsi":"460015356123463",     # the simcard imsi must be 460015356123463
+
+    "gnss":"enable",                   # enbale the GPS function
+
+    "profile":"enable",                # custom the APN profile
+    "profile_cfg":
+    {
+        "dial":"*99#",                     # dial number is *99#
+        "type":"ipv4v6",                   # ip address type is ipv4 and ipv6
+        "apn":"internet",                  # APN is internet
+        "user":"card",                     # username is card
+        "passwd":"card"                    # password is card
     }
 }
-```
+```   
 
-Example, modify the keeplive to icmp for first LTE
+Example, modify the keeplive to icmp for first LTE network  
 ```shell
 ifname@lte:keeplive/type=icmp
 ttrue
-```
+```   
 
-Example, modify the mode to ppp for first LTE
+Example, modify the mode to ppp for first LTE network  
 ```shell
 ifname@lte:mode=ppp
 ttrue
-```
+```   
 
-Example, modify the keeplive to icmp for first LTE
-```shell
-ifname@lte:keeplive/type=icmp
-ttrue
-```
-
-Example, modify the icmp keeplive destination address for first LTE
+Example, modify the icmp keeplive destination address for first LTE network  
 ```shell
 ifname@lte:keeplive/icmp/dest/test=8.8.8.8            # modify the icmp keeplive first destination address to 8.8.8.8
 ttrue
@@ -183,19 +327,25 @@ ttrue
 # You can also use one command to complete the operation of the above three command
 ifname@lte:keeplive/icmp/dest|{"test":"8.8.8.8", "test2":"8.8.4.4", "test3":"114.114.114.114"}
 ttrue
-```
+```   
 
-Example, disable the first LTE network
+Example, disable the first LTE network   
 ```shell
 ifname@lte:status=disable
 ttrue
-```
+```   
 
-Example, modify the keeplive to icmp for second LTE
+Example, modify the keeplive to icmp for second LTE/NR network  
 ```shell
 ifname@lte2:keeplive/type=icmp
 ttrue
-```
+```   
+
+Examples, enable the GNSS for first LTE modem   
+```shell
+ifname@lte:gnss=enable
+ttrue
+```   
 
 #### **Methods**   
 **ifname@lte** is first LTE network   
@@ -205,6 +355,7 @@ ttrue
     ```json
     // Attributes introduction of talk by the method return
     {
+        // For LTE/NR Network status    
         "status":"Current state",        // [ "setup", "register", "ready", "nodevice", "reset", "down", "up" ]
                                              // "setup" for setup the modem
                                              // "register" for register the network
@@ -227,10 +378,58 @@ ttrue
         "tx_bytes":"receive bytes",     // [ number ]
         "tx_packets":"receive packets", // [ number ]
         "mac":"MAC address",            // [ mac address ]
-        "method":"IPv6 address mode",   // [ "disable" ] is not use ipv6, [ "manual" ] for manual setting, [ "automatic" ] for DHCPv6, [ "slaac" ] for Stateless address autoconfiguration
+        "method":"IPv6 address mode",   // [ "disable", "manual", "automatic", "slaac" ]
+                                            // "disable" is not use ipv6
+                                            // "manual" for manual setting
+                                            // "automatic" for DHCPv6
+                                            // "slaac" for Stateless address autoconfiguration
         "addr":"IPv6 address",          // [ ipv6 address ]
-        // For LTE/NR baseband Status, the parameters are the same as modem@lte.status
-        // ##### For details, see status of modem@lte  #####
+
+        // For LTE/NR baseband Status, the parameters are the same as modem@lte or modem@lte2
+        "state":"Current state",        // [ "setup", "register", "ready", "connecting", "connected", "reset" ]
+                                             // "setup" for setup the modem
+                                             // "register" for register the network
+                                             // "ready" for ready to connect to internet, hint signal/network/simcard all ok
+                                             // "connecting" for connect to the internet
+                                             // "connected" for connect internet succeed
+                                             // "reset" for reset the modem
+        "mversion":"Modem version",     // [ string ]
+        "imei":"IMEI numer",            // [ string ]
+        "imsi":"IMSI number",           // [ string ]
+        "iccid":"ICCID number",         // [ number, "nosim", "pin", "puk" ]
+                                                // number for iccid
+                                                // "nosim" for cannot found the simcard
+                                                // "pin" for the simcard need PIN code
+                                                // "puk" for the simcard pin error
+        "plmn":"MCC and MNC",           // [ number, "noreg", "dereg" ]
+                                                // number for MCC and MNC
+                                                // "noreg" for cannot register to opeartor
+                                                // "unreg" for cannot register to opeartor
+                                                // "dereg" for register to operator be refused
+        "netera":"technology Generation",// [ "2G", "3G", "4G", "5G" ], Optional
+        "nettype":"network type",        // The format varies depending on the module
+                                         // 2G usually shows GSM, GPRS, EDGE, CDMA
+                                         // 3G usually shows WCDMA, EVDO, TDSCDMA, HSPA, HSDPA, HSUPA
+                                         // 4G usually shows LTE, FDD, TDD
+        "signal":"signal level",         // [ "0", "1", "2", "3", "4" ], "0" for no signal, "1" for weakest signal , "4" for strongest signal
+        "csq":"CSQ number",              // [ number ]
+        "rssi":"signal intensity",       // [ number ], the unit is dBm
+        "rsrp":"RSRP value",             // Optional, The format varies depending on the module
+        "rsrq":"RSRQ value",             // Optional, The format varies depending on the module
+        "sinr":"sinr value",             // Optional, The format varies depending on the module 
+        "band":"current band",           // Optional, The format varies depending on the module
+        "pcid":"Physical Cell ID",       // [ number ], Optional
+        "operator":"operator name",      // [ string ]
+        "operator_advise":               // Recommended profile for PLMN
+        {
+            "name":"operator name",               
+            "dial":"dial number",                     // [ number ]
+            "cid":"dial CID",                         // [ number ], default is 1
+            "type":"ip address type",                 // [ "ipv4", "ipv6", "ipv4v6" ]
+            "apn":"APN name",                         // [ string ]
+            "user":"user name",                       // [ string ]
+            "passwd":"user password"                  // [ string ]
+        }
     }
     ```
 
@@ -254,6 +453,7 @@ ttrue
         "mac":"02:50:F4:00:00:00",         # netdev MAC address is 02:50:F4:00:00:00
         "method":"slaac",                  # IPv6 address mode is slaac
         "addr":"fe80::50:f4ff:fe00:0",     # local IPv6 address is fe80::50:f4ff:fe00:0
+        
         "imei":"867160040494084",          # imei is 867160040494084
         "imsi":"460015356123463",          # imei is 460015356123463
         "iccid":"89860121801097564807",    # imei is 89860121801097564807
