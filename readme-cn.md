@@ -529,7 +529,7 @@ ubuntu@VM-0-8-ubuntu:~$
 
 ### 3. 命令行远程调用指定网关接口   
 示例获取macid为00037F120910网关基本状态, 即调用其组件land@machine的status接口   
-```
+```shell
 ubuntu@VM-0-8-ubuntu:~$ he devms@heport.he[00037F120910,land@machine.status]
 {
     "mode":"gateway",
