@@ -20,7 +20,11 @@ int main( int argc, const char **argv )
 	}
 	while (1)
 	{
+		#if defined (gSCOPE__sx) || defined (gSCOPE__sr) || defined (gSCOPE__gg) || defined (gSCOPE__gs) || defined (gSCOPE__ok) || defined (gSCOPE__oled) || defined (gSCOPE__base) || defined (gSCOPE__rover)
 		line = readline("# ");
+		#else
+		line = readline("$ ");
+		#endif
 		if ( line == NULL )
 		{
 			continue;

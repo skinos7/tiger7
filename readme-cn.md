@@ -62,7 +62,7 @@ SkinOS API即 **统一的接口**
 - 网关更容易维护及管理和使用, 更新换代减少大量重复学习   
 - 在SkinOS上开发应用复用性更好, 更好移植
 - 接口丰富更智能化   
-- SkinOS的全新的开发方式事关功倍   
+- SkinOS的全新的开发方式提供更多的交互性   
 - 统一的API实现真正的物与物的交互, 并且在升级换代中有更好的延续性   
 
 下图为运行SkinOS的网关常用的 **功能项及硬件** 对应的组件   
@@ -169,13 +169,13 @@ Password:
  <com>:<config> ---------- Get component configure attribute
  <com>:<config>=<value> -- Set component configure attribute
  -----------------------------------------------------------
-#
+$ 
 ```   
 
 ### 2. 命令行查询网关配置   
 示例查询网关基本配置, 即查询组件land@machine的配置, 命令行中给出组件名即可   
 ```shell
-# land@machine                         # HE Command show the gateway basic configure
+$ land@machine                         # HE Command show the gateway basic configure
 {
     "mode":"misp",
     "name":"LTE&NR-Gateway",
@@ -189,14 +189,14 @@ Password:
 ### 3. 命令行修改网关配置   
 示例修改网关的名称为MyGateway, 即修改组件land@machine的name的值   
 ```shell
-# land@machine:name=MyGateway          # HE Command modify the gateway basic configure
+$ land@machine:name=MyGateway          # HE Command modify the gateway basic configure
 ttrue
 ```
 
 ### 4. 命令行调用网关接口   
 示例获取网关基本状态, 即调用组件land@machine的status接口, 命令行中给出组件名及接口名称   
 ```
-# land@machine.status                  # HE Command show the gateway basic status
+$ land@machine.status                  # HE Command show the gateway basic status
 {
     "mode":"gateway",
     "name":"MyGateway",
@@ -212,7 +212,7 @@ ttrue
     "cmodel":"",
     "cfgversion":"8"
 }
-# 
+$ 
 ```   
 **更多介绍见此文档 [<<终端管理命令行使用介绍>>](https://gitee.com/tiger7/doc/blob/master/use/tui_use_cn.md)**   
 
