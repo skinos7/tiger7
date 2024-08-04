@@ -399,7 +399,7 @@ eyJoZSI6eyJtb2RlIjoiZ2F0ZXdheSIsIm5hbWUiOiJNeUdhdGV3YXkiLCJwbGF0Zm9ybSI6InNtdGsy
 
 
 
-# 云管理中常用的SkinOS API   
+# 云管理   
 为远程及批量管理运行SkinOS的网关产品, 基于SkinOS栽剪后在Ubunut上开发的 **云管理(SkinCloud)**, 具有以下功能   
 - 收集网关及网关上传感器的信息   
 - 远程管理配置网关, 升级网关等常的云平台管理功能   
