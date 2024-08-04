@@ -261,7 +261,6 @@ Usually ifname@lte is the first LTE/NR network and module. If there are multiple
 
 }
 ```   
-
 Example, show first LTE all configure   
 ```shell
 ifname@lte
@@ -303,19 +302,16 @@ ifname@lte
     }
 }
 ```   
-
 Example, modify the keeplive to icmp for first LTE network  
 ```shell
 ifname@lte:keeplive/type=icmp
 ttrue
 ```   
-
 Example, modify the mode to ppp for first LTE network  
 ```shell
 ifname@lte:mode=ppp
 ttrue
 ```   
-
 Example, modify the icmp keeplive destination address for first LTE network  
 ```shell
 ifname@lte:keeplive/icmp/dest/test=8.8.8.8            # modify the icmp keeplive first destination address to 8.8.8.8
@@ -328,19 +324,16 @@ ttrue
 ifname@lte:keeplive/icmp/dest|{"test":"8.8.8.8", "test2":"8.8.4.4", "test3":"114.114.114.114"}
 ttrue
 ```   
-
 Example, disable the first LTE network   
 ```shell
 ifname@lte:status=disable
 ttrue
 ```   
-
 Example, modify the keeplive to icmp for second LTE/NR network  
 ```shell
 ifname@lte2:keeplive/type=icmp
 ttrue
 ```   
-
 Examples, enable the GNSS for first LTE modem   
 ```shell
 ifname@lte:gnss=enable
@@ -431,10 +424,9 @@ ttrue
             "passwd":"user password"                  // [ string ]
         }
     }
-    ```
-
+    ```   
+    Example, get the first lte network infomation
     ```shell
-    # examples, get the first lte network infomation
     ifname@lte.status
     {
         "mode":"dhcpc",                    # IPv4 connect mode is DHCP
@@ -471,39 +463,44 @@ ttrue
             "apn":"3gnet"                      # APN is 3gnet
         }
     }
-    ```
+    ```   
 
 + `netdev[]` **get the netdev**, *succeed return netdev, failed return NULL, error return terror*   
+    Example, get the first LTE network netdev
     ```shell
-    # examples, get the first LTE network netdev
     ifname@lte.netdev
     usb0
-    ```
+    ```   
 
 + `ifdev[]` **get the ifdev**, *succeed return ifdev, failed return NULL, error return terror*   
+    Example, get the first LTE network ifdev
     ```shell
-    # examples, get the first LTE network ifdev
     ifname@lte.ifdev
     modem@lte
-    ```
+    ```   
 
 + `shut[]` **shutdown the modem network**, *succeed return ttrue, failed return tfalse, error return terror*   
+    Example, shutdown the frist LTE network
     ```shell
-    # examples, shutdown the frist LTE network
     ifname@lte.shut
     ttrue
-    # examples, shutdown the second LTE network
+    ```   
+    Example, shutdown the second LTE network
+    ```shell
     ifname@lte2.shut
     ttrue
-    ```
+    ```   
 
 + `setup[]` **setup the modem network**, *succeed return tttrue, failed return tfalse, error return terror*   
+    Example, setup the frist LTE network
     ```shell
-    # examples, setup the frist LTE network
     ifname@lte.setup
     ttrue
-    # examples, setup the second LTE network
+    ```   
+    Example, setup the second LTE network
+    ```shell
     ifname@lte2.setup
     ttrue
-    ```
+    ```   
+
 
