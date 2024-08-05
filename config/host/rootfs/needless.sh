@@ -10,6 +10,10 @@ rm -fr ./usr/prj/network/hosts.cfg
 # delete clock
 rm -fr ./usr/prj/clock/date.cfg
 rm -fr ./usr/prj/clock/restart.cfg
+# delete tui
+rm -fr ./etc/dropbear
+rm -fr ./usr/prj/tui/ssh.cfg
+rm -fr ./usr/prj/tui/telnet.cfg
 
 # delete self
 rm -fr ./needless.sh
