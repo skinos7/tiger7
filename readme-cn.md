@@ -11,7 +11,7 @@ output:
 
 # SkinOS系统的来由   
 Linux, Ubuntu, Openwrt未统一或规范应用程序与管理员之间的接口, 导致对管理员或使用者重复学习重复开发, 为了解决此问题而开发了此系统   
-- SkinOS的最重要的目标是在应用程序与管理员之间提供一套 **统一的接口** 规范   
+- SkinOS最重要的目标是在应用程序与管理员之间提供一套 **统一的接口** 规范   
 - 开发者以 **统一的接口** 的规范开发应用程序, 并给出接口文档   
 - 管理员及使用者通过 **统一的接口** 对应用程序进行管理   
 - 也可通过 **统一的接口** 二次开发应用或定制化应用   
@@ -424,11 +424,11 @@ eyJoZSI6eyJtb2RlIjoiZ2F0ZXdheSIsIm5hbWUiOiJNeUdhdGV3YXkiLCJwbGF0Zm9ybSI6InNtdGsy
 - **[WEB服务器](https://gitee.com/tiger7/doc/blob/master/com/wui/admin.md)**, admin组件, 命名为 **wui@admin**, 此WEB服务为云管理的网页管理界面 用于让管理员登陆后配置云管理   
 
 **devms** 项目, 管理所有接入网关的项目   
-- **[状态收集](https://gitee.com/tiger7/doc/blob/master/com/devms/devport.md)**, devport组件, 命名为 **devms@devport**, 专用于收集网关上报的状态   
-- **[实时管理](https://gitee.com/tiger7/doc/blob/master/com/devms/heport.md)**, heport组件, 命名为 **devms@heport**, 实现与网关实时通信   
-- **[内网穿透](https://gitee.com/tiger7/doc/blob/master/com/devms/pport.md)**, pport组件, 命名为 **devms@pport**, 实现内网穿透   
+- **[接入管理](https://gitee.com/tiger7/doc/blob/master/com/devms/devport.md)**, devport组件, 命名为 **devms@devport**, 别名为 **dport**, 专用于收集网关上报的状态, 规类到指定的用户帐号下   
+- **[实时管理](https://gitee.com/tiger7/doc/blob/master/com/devms/heport.md)**, heport组件, 命名为 **devms@heport**, 别名为 **hport**, 实现与网关实时通信   
+- **[内网穿透](https://gitee.com/tiger7/doc/blob/master/com/devms/pport.md)**, pport组件, 命名为 **devms@pport**, 别名为 **pport**, 实现内网穿透   
 - **[网页服务](https://gitee.com/tiger7/doc/blob/master/com/devms/webs.md)**, webs组件, 命名为 **devms@webs**, 此WEB服务提供管理网关的用户网页界面, 用于让用户登录后管理网关   
-- **[API接口](https://gitee.com/tiger7/doc/blob/master/com/devms/api_device.md)**, api组件, 命名为 **devms@api**, 通过此组件向外提供命令行及编程接口   
+- **[API接口](https://gitee.com/tiger7/doc/blob/master/com/devms/api_device.md)**, api组件, 命名为 **devms@api**, 别名为 **devapi**, 通过此组件向外提供命令行及编程接口   
     - **[管理网关](https://gitee.com/tiger7/doc/blob/master/com/devms/api_device.md)**, 对接入网关的管理   
     - **[管理用户](https://gitee.com/tiger7/doc/blob/master/com/devms/api_user.md)**, 对云管理上用户的管理   
     - **[固件升级](https://gitee.com/tiger7/doc/blob/master/com/devms/api_firmware.md)**, 对云管理上固件及网关升级的管理   
@@ -558,5 +558,5 @@ ubuntu@VM-0-8-ubuntu:~$
 
 ## 云管理上用户网页界面的使用   
 网关接入云管理时需要指定用户, 因此通过此用户登录 **用户网页界面** 即可对其管理  
-**更多介绍见此文档 [<<云管理用户网页界面使用介绍>>](https://gitee.com/tiger7/doc/blob/master/use/cloud_wui_use_cn.md)**   
+**更多介绍见此文档 [<<云管理使用说明>>](https://gitee.com/tiger7/doc/blob/master/use/cloud_wui_use_cn.md)**   
 
