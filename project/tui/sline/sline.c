@@ -56,7 +56,7 @@ int main( int argc, const char **argv )
 			char prompt[NAME_MAX];
 
 			object = line+4;
-			if ( object == '\0' )
+			if ( *object == '\0' )
 			{
 				free( line );
 				continue;
