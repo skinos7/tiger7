@@ -65,7 +65,7 @@ SkinOS API即 **统一的接口**
 - SkinOS的全新的开发方式给应用程序更多的交互性   
 - 统一的API实现真正的物与物的交互, 并且在升级换代中有更好的延续性   
 
-下图为运行SkinOS的网关常用的 **功能项及硬件** 对应的组件   
+下图为运行SkinOS的网关常用 **功能项及硬件** 对应的组件   
 ![avatar](./component.png)   
 **land** 项目, SkinOS核心项目, 管理网关的基本功能   
 - **[网关基本信息](https://gitee.com/tiger7/doc/blob/master/com/land/machine.md)** , machine组件, 命名为 **land@machine**, 别名为 **machine**   
