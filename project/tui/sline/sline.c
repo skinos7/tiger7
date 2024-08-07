@@ -136,6 +136,7 @@ int main( int argc, const char **argv )
 			|| 0 == strncmp( line, "mkdir ", 6 )
 			|| 0 == strncmp( line, "telnet ", 7 )
 			|| 0 == strncmp( line, "wg ", 3 )
+			|| 0 == strncmp( line, "tip ", 4 )
 			)
 		{
 			add_history( line );
