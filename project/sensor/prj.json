@@ -75,6 +75,19 @@
                 "cn": "cn.json",
                 "en": "en.json"
             }
+        },
+        "ok-coh2so2lel":
+        {
+            "menu":"Sensor",
+            "en": "OK CO/H2S/O2/LEL",
+            "cn": "欧克监测器",
+            "object":"sensor@ok-coh2so2lel",
+            "page": "ok-coh2so2lel.html",
+            "lang":
+            {
+                "cn": "cn.json",
+                "en": "en.json"
+            }
         }
     }
 }
