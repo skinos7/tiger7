@@ -1,4 +1,8 @@
 {
+    "v7.4.0710":
+    {
+        "20240701":"Change the command line prompt to $"
+    },
     "v7.4.0620":
     {
         "20240605":"Dual simcards are also tested when the arch@factory:status is enabled",
