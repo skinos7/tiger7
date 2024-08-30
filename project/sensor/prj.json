@@ -80,7 +80,7 @@
         {
             "menu":"Sensor",
             "en": "OK CO/H2S/O2/LEL",
-            "cn": "欧克监测器",
+            "cn": "欧克定制监测器",
             "object":"sensor@ok-coh2so2lel",
             "page": "ok-coh2so2lel.html",
             "lang":
