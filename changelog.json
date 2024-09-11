@@ -1,7 +1,11 @@
 {
     "v7.4.0710":
     {
-        "20240701":"Change the command line prompt to $"
+        "20240701":"Change the command line prompt to $",
+        "20240702":"Add the password check and test failed to delay",
+        "20240703":"Add a setting of timeout for agent network when first hole test",
+        "20240704":"Add a setting of port for devms branch when branch outport dyn",
+        "20240705":"Add new hikvision osd options"
     },
     "v7.4.0620":
     {
