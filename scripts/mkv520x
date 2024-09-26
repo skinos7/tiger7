@@ -23,3 +23,26 @@ do
     make ftp
 done
 
+###################################
+############# V520E ###############
+###################################
+make gBOARDID=smtk2-mt7621-v520e pid
+make clean
+make distclean
+make dep
+make
+make sz
+make ftp
+make repo
+for tmp in donkey udeer3vlan
+do
+    make gBOARDID=smtk2-mt7621-v520e-${tmp} pid
+    make pidinfo
+    make clean
+    make distclean
+    make dep
+    make
+    make sz
+    make ftp
+done
+

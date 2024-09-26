@@ -29,17 +29,7 @@ make
 make sz
 make ftp
 make repo
-for tmp in wlinkr222 wlinkr100 wlinkr320 wlinkr522 wlinker120 wlinkr200e ctcunion
-do
-    make gBOARDID=smtk2-mt7628-d218-std-${tmp} pid
-    ./mkdel
-    make dep
-    make
-    make sz
-    make ftp
-done
-
-for tmp in oled ipsec sr sx ok gs gg ggnw xyc lega tqstd inrico zwzx jjsd hmjtx base rover wlinkr200e xexagon
+for tmp in oled ipsec sr sx ok gs gg ggnw xyc lega tqstd inrico zwzx hmjtx base rover
 do
     make gBOARDID=smtk2-mt7628-d218-${tmp} pid
     make pidinfo
