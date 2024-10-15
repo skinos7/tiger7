@@ -173,7 +173,7 @@
 
 		<!-- basic scripts -->
 		<!--[if !IE]> -->
-		<script src="/assets/js/jquery-2.2.1.min.js"></script>
+		<script src="/assets/js/jquery-fix.min.js"></script>
 		<!-- <![endif]-->
 		<!--[if IE]>
 		<script src="/assets/js/jquery-1.12.1.min.js"></script>
@@ -1050,6 +1050,8 @@
 
                 menu.add( false, menus, $.i18n( 'Cloud' ), '', 'menu-icon fa fa-eye' );
 
+                menu.add( false, menus, $.i18n( 'Service' ), '', 'menu-icon glyphicon glyphicon-inbox' );
+
 				menu.add( false, menus, $.i18n( 'System' ), 'device', 'menu-icon fa fa-cogs' );
 				menu.addlink( menus, $.i18n( 'System' ), $.i18n( 'Device' ), 'device' );
                 if ( !wuimenu || wuimenu.configure != "disable" )
@@ -1092,7 +1094,7 @@
                         menu.addlink( menus, $.i18n( 'Development' ), $.i18n( 'Inittab' ), 'inittab' );
                         menu.addlink( menus, $.i18n( 'Development' ), $.i18n( 'Uninittab' ), 'uninittab' );
                         menu.addlink( menus, $.i18n( 'Development' ), $.i18n( 'Jointtab' ), 'jointtab' );
-                        menu.addlink( menus, $.i18n( 'Development' ), $.i18n( 'Service' ), 'service' );
+                        menu.addlink( menus, $.i18n( 'Development' ), $.i18n( 'Daemon' ), 'daemon' );
                         menu.addlink( menus, $.i18n( 'Development' ), $.i18n( 'Crontab' ), 'crontab' );
                     }
                 }

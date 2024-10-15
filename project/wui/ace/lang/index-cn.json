@@ -241,6 +241,7 @@
 	"Sensor":"传感",
 	"Indicator":"指示",
 	"Cloud":"集群",
+	"Service":"服务",
 
 
 
@@ -270,7 +271,7 @@
 	"Inittab":"开机启动",
 	"Uninittab":"关机执行",
 	"Jointtab":"事件处理",
-	"Service":"后台服务",
+	"Daemon":"后台服务",
 
 
 

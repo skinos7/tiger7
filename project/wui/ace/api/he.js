@@ -106,7 +106,9 @@ var he =
                         window.location.href = 'login.html';
                         return;
                     }
-                    paramter = base64.decode( x.responseText );
+					//console.log( "Server Response1: "+x.responseText );
+                    paramter = base64.decode( x.responseText  );
+					//console.log( "Server Response3: "+paramter );
                     // string for Exception
                     if ( paramter.indexOf("{" ) < 0 )
                     {
@@ -115,7 +117,8 @@ var he =
                     }
                     else
                     {
-                        callbak = eval( "(" + paramter + ")" );
+						callbak = $.parseJSON( paramter );
+                        //callbak = eval( "(" + paramter + ")" );
                         if ( callbak == null )
                         {
                             console.log( "Server Response Not JSON: "+paramter );
@@ -150,7 +153,9 @@ var he =
                 window.location.href = 'login.html';
                 return null;
             }
-            paramter = base64.decode( htmlobj.responseText);
+			//console.log( "Server Response1: "+htmlobj.responseText );
+			paramter = base64.decode( htmlobj.responseText  );
+			//console.log( "Server Response3: "+paramter );
             // string for Exception
             if ( paramter.indexOf("{" ) < 0 )
             {
@@ -159,7 +164,8 @@ var he =
             }
             else
             {
-                callbak = eval( "(" + paramter + ")" );
+				callbak = $.parseJSON( paramter );
+                //callbak = eval( "(" + paramter + ")" );
                 if ( callbak == null )
                 {
                     console.log( "Server Response Not JSON: "+paramter );

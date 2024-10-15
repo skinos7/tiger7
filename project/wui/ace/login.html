@@ -62,7 +62,7 @@
 										<div class="widget-main">
 											<h4 class="header blue lighter bigger" id="login-header" ><i class="ace-icon fa fa-coffee main-color"></i>&nbsp;<span class="main-color" id="prompt"></span></h4>
 											<div class="space-6"></div>
-											<form method="post" action="/action/login">
+											<form method="post" action="/action/loginen" onsubmit='return checkForm()' autocomplete="off">
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right"><input type="text" class="form-control" name="username" id="username" /><i class="ace-icon fa fa-user"></i></span>
@@ -100,7 +100,7 @@
 		<!-- basic scripts -->
 
 		<!--[if !IE]> -->
-		<script src="/assets/js/jquery-2.2.1.min.js"></script>
+		<script src="/assets/js/jquery-fix.min.js"></script>
 		<!-- <![endif]-->
 		<!--[if IE]>
 		<script src="/assets/js/jquery-1.12.1.min.js"></script>
@@ -115,6 +115,8 @@
 		<!-- add by dimmalex for i18n -->
 		<script src="/assets/js/jquery.i18n.js"></script>
 		<script src="/assets/js/jquery.i18n.messagestore.js"></script>
+		<!-- add by dimmalex for MD5 -->
+        <script src="/assets/js/md5.min.js"></script>
 		<!-- add by dimmalex for api -->
 		<script src="/api/code.js"></script>
 		<script src="/api/misc.js"></script>
@@ -165,6 +167,20 @@
                     document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
                 }
             }
+			/* check form */
+			function checkForm()
+			{
+				var u = $('#username').val();
+				var p = $('#password').val();
+				if ( !u || !p )
+				{
+					return false;
+				}
+		    	var m = md5( p+":"+u );
+		    	var k = base64.encode( m )
+				$('#password').val( k );
+				return true;
+			}
 
             $('#username').val( window.obj );
 			page.password('password', 'password-icon' );
@@ -180,16 +196,15 @@
 							color: 'red'
 						});
 				}
-                        
 			})
 
 			jQuery(function($) {
-			 $(document).on('click', '.toolbar a[data-target]', function(e) {
-				e.preventDefault();
-				var target = $(this).data('target');
-				$('.widget-box.visible').removeClass('visible');//hide others
-				$(target).addClass('visible');//show target
-			 });
+				$(document).on('click', '.toolbar a[data-target]', function(e) {
+					e.preventDefault();
+					var target = $(this).data('target');
+					$('.widget-box.visible').removeClass('visible');//hide others
+					$(target).addClass('visible');//show target
+				});
 			});
 
 		</script>

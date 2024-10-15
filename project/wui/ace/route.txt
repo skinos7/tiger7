@@ -9,6 +9,7 @@ route uri=/lang/
 route uri=/pub/ handler=jst
 route uri=/login.html handler=jst
 route uri=/action/login methods=GET|POST handler=action redirect=200@/index.html redirect=401@/login.html?warn=loginfailed
+route uri=/action/loginen methods=GET|POST handler=action redirect=200@/index.html redirect=401@/login.html?warn=loginfailed
 route uri=/action/logout methods=POST handler=action redirect=200@/login.html
 
 route uri=/ auth=form handler=continue redirect=401@/login.html
