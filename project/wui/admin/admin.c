@@ -852,6 +852,21 @@ boole_t _match( obj_t this, param_t param )
     }
     return scalls( AUTH_COM, "match", "%s,%s,%s", obj_com(this), account, passwd );
 }
+boole_t _authenticate( obj_t this, param_t param )
+{
+    const char *tok;
+    const char *passwd;
+    const char *account;
+
+    account = param_string( param, 1 );
+    passwd = param_string( param, 2 );
+    tok = param_string( param, 3 );
+    if ( account == NULL || passwd == NULL )
+    {
+        return tfalse;
+    }
+    return scalls( AUTH_COM, "authenticate", "%s,%s,%s,%s", obj_com(this), account, passwd, tok?:"" );
+}
 talk_t _service( obj_t this, param_t param )
 {
     talk_t cfg;

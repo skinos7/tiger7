@@ -242,8 +242,10 @@
 	"Original Password":"原密码",
 	"New Password":"新密码",
 	"Repeat New Password":"重输新密码",
+	"Device Token":"设备Token",
 	"Username cannot be empty":"用户名不能为空",
 	"Password cannot be empty":"新密码不能为空",
+	"Device token cannot be empty":"设备Token不能为空",
 	"The two password input is inconsistent":"新密码不一致"
 
 

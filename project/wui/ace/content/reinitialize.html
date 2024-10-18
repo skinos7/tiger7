@@ -47,6 +47,17 @@
         </div>
       </div>
 
+      <!-- 设备Token -->
+      <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" data-i18n="Device Token"></label>
+        <div class="col-sm-9">
+          <span class="input-icon input-icon-right input-icon-form col-xs-10 col-sm-5">
+            <input type="password" id="token" maxlength="128" autocomplete="off" />
+            <i class="ace-icon fa fa-key" id="token-icon"></i>
+          </span>
+        </div>
+      </div>
+      
 
 
       <div class="clearfix form-actions">
@@ -66,11 +77,12 @@
 <script type="text/javascript">
   (function () {
 
-    page.password('oldPassword', 'oldPassword-icon');
     page.password('newPassword', 'newPassword-icon');
     page.password('repeat', 'repeat-icon');
+    page.password('token', 'token-icon');
     $.i18n().load( page.lang('device') ).then( function () {
         $('#username').val(window.username);
+        $('#token').val( <%he('land@auth.random'); %> );
         /* init the langauage */
         $.i18n().locale = lang; $('body').i18n();
         /* bind the refresh */
@@ -83,6 +95,7 @@
             var oldPassword = $('#oldPassword').val();
             var newPassword = $('#newPassword').val();
             var repeat = $('#repeat').val();
+			var token = $('#token').val();
 
             if ( !username )
             {
@@ -101,6 +114,14 @@
                 return;
             }
 
+            if ( !token )
+            {
+                page.alert( { message: $.i18n('Device token cannot be empty')} ).then(function () {
+                    setTimeout(function () { $('#token').focus();}, 0);
+                })
+                return;
+            }
+
             if ( newPassword !== repeat )
             {
                 page.alert( { message: $.i18n('The two password input is inconsistent')} ).then(function () {
@@ -109,7 +130,7 @@
                 return;
             }
 
-            he.cmd( ["land@auth.modify[," + window.username + ','+ oldPassword+ ',' + newPassword + ',' + username + ']'], {"loading":$.i18n('Modifying...')}, function( v ){
+            he.cmd( ["land@auth.reinitialize[," + window.username + ','+ oldPassword+ ',' + newPassword + ',' + token + ']'], {"loading":$.i18n('Modifying...')}, function( v ){
                 if ( v[0] == true )
                 {
                     $.ajax({
