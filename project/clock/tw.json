@@ -1,0 +1,12 @@
+﻿{
+	"Reboot Mode":"重啟模式",
+	"Disable":"禁用",
+	"Idle Reboot":"空閒時重啟",
+	"Age":"間隔時間重啟",
+	"Point":"定時重啟",
+	"Minimum running time(sec)":"最小運行時長(秒)",
+	"None Client duration(sec)":"無客戶端時長(秒)",
+	"Maximum running time(sec)":"最大運行時長(秒)",
+	"Reboot time interval(sec)":"間隔時長(秒)",
+	"Point Reboot Time":"重啟時間點"
+}

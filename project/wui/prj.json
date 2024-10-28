@@ -24,6 +24,7 @@
         {
             "menu":"System",
             "cn":"WEB服务器",
+            "tw":"WEB伺服器",
             "en":"Web Server",
             "page":"admin.html",
             "config":"wui@admin",

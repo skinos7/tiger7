@@ -1,0 +1,50 @@
+﻿{
+	"IPv4 Mode":"IPv4模式",
+	"Static IP":"手動設置",
+	"DHCP":"自動獲取",
+
+	"Alternate IP Address":"備用IP地址",
+	"Address 2":"地址2",
+	"Address 3":"地址3",
+	"IPv4 Address":"IPv4地址",
+	"Subnet Mask":"子網掩碼",
+	"Gateway":"網關",
+	"DNS":"DNS伺服器",
+	"DNS2":"備用DNS伺服器",
+	"Custom DNS":"自定義DNS",
+
+	"DHCP Server":"DHCP伺服器",
+	"Start IP Address":"起始IP地址",
+	"End IP Address":"結束IP地址",
+	"Subnet Mask":"子網掩碼",
+	"Lease(Sec)":"租期",
+	"Assign Gateway":"指定網關",
+	"Assign DNS":"指定DNS",
+	"Assign DNS2":"指定備用DNS",
+	"DHCP Server Options(separated by semicolons)":"DHCP伺服器選項(分號分隔)",
+
+	"IPv6 Mode":"IPV6地址模式",
+	"Disable":"禁用",
+	"Manual":"手動設置",
+	"Relay":"中繼",	"IPv6 Address":"IPV6地址",
+	"Subnet Prefix":"IPV6子網首碼",
+	"Next Hop":"IPV6下一跳地址",
+
+	"DHCPV6 Server":"DHCPV6伺服器",
+	"Start IPv6 Address":"起始IPV6地址",
+	"End IPv6 Address":"結束IPV6地址",
+	"IPv6 Lease(Sec)":"IPV6租期",
+	"IPv6 Next Hop":"IPV6下一跳地址",
+	"IPv6 DNS":"指定IPV6 DNS",
+	"IPv6 DNS2":"指定備用IPV6 DNS",
+
+
+
+	"Hosts Table":"Hosts映射表",
+	"Hostname":"主機名",
+	"IP Address":"IP地址",
+	"Operation":"操作",
+	"Warnning: Intranet device to use this mapping need set DNS to this router":"注意：局域網設備要使用此映射，需要將DNS設置為此路由器"
+	
+
+}

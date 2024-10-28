@@ -1,0 +1,47 @@
+﻿{
+	"Voltameter":"電量計",
+    "Battary":"電池電量",
+	"State":"狀態",
+	"Disable":"禁用",
+	"noboard":"無電源板",
+	"nobattary":"無電池",
+	"charge":"充電中",
+	"uncharge":"電池電量",
+	"Percent(%)":"電量(%)",
+	"Voltage(V)":"電壓(V)",
+    "Remind: Contact Sales to add more sensor support":"提醒: 聯繫銷售添加更多的感測器支持",
+
+	"Solar Power":"太陽能板",
+    "Night or Day":"晝夜",
+    "night":"夜晚",
+    "day":"白天",
+    "Charge Status":"充電狀態",
+    "uncharge":"未充電",
+    "charge":"充電中",
+    "Discharge Status":"放電狀態",
+    "undischarge":"未放電",
+    "discharge":"放電中",
+    "Environment Temperature":"環境溫度",
+    "Device Temperature":"設備溫度",
+    "Battery Status":"電池狀態",
+    "Load Status":"負載狀態",
+    "Solar Status":"太陽能狀態",
+    "Charge Summary":"充電總結",
+    "Consumption Summary":"用電總結",
+
+	"Methanometry":"甲烷監測儀",
+    "Light Level":"燈光亮度",
+    "Methane Concentration":"甲烷濃度",
+    "Turn On Light":"打開藍光",
+    "Turn Off Light":"關閉藍光",
+    "Succeed":"成功",
+    "Failed":"失敗",
+
+    "Hygrometer":"溫濕度計",
+    "Humidity":"濕度",
+    "Temperature":"濕度",
+
+    "IS-IOT 201":"多合一監測器",
+    "OK CO/H2S/O2/LEL":"歐克定制監測器"
+
+}

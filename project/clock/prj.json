@@ -27,6 +27,7 @@
         {
             "menu":"System",
             "cn":"自动重启",
+            "tw":"自動重啓",
             "en":"Auto Reboot",
             "config":"clock@restart",
             "page":"restart.html",

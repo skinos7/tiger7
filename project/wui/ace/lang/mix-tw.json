@@ -1,0 +1,35 @@
+﻿{
+	"Type":"類型",
+	"Backup(Cold) on Main/Alternate":"鏈路備份(主/備用)",
+	"Backup(Hot) on Main/Alternate":"熱備份(主/備用)",
+	"Backup(Hot) on Main/Alternate/King":"熱備份(主/備用/導流)",
+	"Backup(Hot) on Main/Alternate/King/Reserve":"熱備份(主/備用/導流/保留)",
+	"Balancing on Main/Alternate":"負載均衡(主/備用)",
+	"Balancing on Main/Alternate/King/Reserve":"負載均衡(主/備用/導流/保留)",
+	"Aggregation":"鏈接聚合",
+	"Main Connection":"主鏈接",
+	"Alternate Connection":"備用鏈接",
+	"Alternate Connection2":"備用鏈接2",
+	"King Connection":"導流鏈接",
+	"Reserve Connection":"保留鏈接",
+	"NONE":"無",
+	"Online":"線上",
+	"Offline":"離線",
+	"In Use":"正在使用",
+	"Unused":"未使用",
+	"valid":"可用",
+	"invalid":"不可用",
+
+	"Custom DNS":"自定義DNS",
+	"Disable":"禁用",
+	"Enable":"啟用",
+	"DNS":"功能變數名稱伺服器",
+	"DNS2":"功能變數名稱伺服器2",
+	
+
+	"Delay Statistics":"延遲統計次數",
+	"Delay Boundary(ms)":"延遲分界(毫秒)",
+	"Delay Difference(ms)":"延遲差值(毫秒)",
+	"Statistics <Delay Statistics> times, in the link average delay are located in <Delay Boundary(ms)> different sides and the average delay between links is greater than <Delay Difference(ms)> disables the link with high average delay":"統計<延遲統計次數>次, 在鏈路平均延遲分別位於<延遲分界(毫秒)>不同側並且鏈路之間的平均延遲大於<延遲差值(毫秒)>禁用平均延遲大的鏈路"
+	
+}

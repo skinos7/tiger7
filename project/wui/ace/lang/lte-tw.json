@@ -1,0 +1,197 @@
+﻿{
+
+	"Status":"狀態",
+	"disable":"未啟用",
+	"down":"未連接",
+	"scanning":"正在掃描",
+	"uping":"正在連接",
+	"connect":"正在連接",
+	"connecting":"正在連接",
+	"connected":"正在連接",
+	"up":"連接成功",	
+    "China Mobile":"中國移動",
+    "China Unicom":"中國聯通",
+    "China Telecom":"中國電信",
+	"nodevice":"無基帶",
+	"noimei":"IMEI錯誤",
+	"noimsi":"IMSI錯誤",
+	"pin":"PIN碼",
+	"puk":"PIN碼錯誤",
+	"sim":"發現SIM卡",
+	"nosim":"無SIM卡",
+	"switch":"正在切換",
+	"noreg":"未註冊",
+	"unreg":"未註冊",
+	"dereg":"拒絕註冊",
+	"nosignal":"無信號",
+	"search":"查找基帶",
+	"setup":"初始化",
+	"register":"正在註冊",
+	"ready":"基帶正常",
+	"reset":"重啟基帶",
+	"Network":"網路",
+	"RSSI":"信號強度",
+	"Online Time":"線上時長",
+	"Rx/Tx":"收/發(位元組)",
+
+
+
+	"Attach Mode":"駐網模式",
+	"Auto":"自動",
+	"5G NSA":"5G非獨立組網",
+	"5G SA":"5G獨立組網",
+	"3G":"3G",
+	"2G":"2G",
+	"GNSS":"定位功能",
+	"AT Port":"AT串口",
+	"Modem Settings":"模組設置",
+
+
+	"Backup Simcard":"備用SIM卡",
+	"Backup Simcard Settings":"備用SIM卡設置",
+	"Main Simcard":"主SIM卡",
+	"Backup Simcard":"備用SIM卡",
+	"Detection":"卡槽檢測",
+	"In Use":"正在使用",
+	"Disable":"禁用",
+	"Main Simcard ICCID":"主SIM卡ICCID",
+	"Backup Simcard ICCID":"備用SIM卡ICCID",
+	"Main Simcard IMSI":"主SIM卡IMSI",
+	"Backup Simcard IMSI":"備用SIM卡IMSI",
+	"Main Simcard Detection":"主SIM卡在位",
+	"Backup Simcard Detection":"備用SIM卡在位",
+	"Simcard select":"SIM卡選擇",
+	"PLMN failed times":"PLMN失敗次數",
+	"Signal failed times":"信號失敗次數",
+	"Dial failed times":"撥號失敗次數",
+	"Failover duration(sec)":"備用SIM卡使用時長(秒)",
+    "Availability Check Switch":"可用性檢測失敗切卡",
+
+	
+
+	"SMS Settings":"短信設置",
+	"SMS Function":"短信功能",
+	"HE Agent":"HE指令支持",
+	"Command Contact":"指令聯繫人",
+	"Command Prefix":"指令首碼",
+	"SMS List":"短信列表",
+	"Contact":"聯繫人",
+	"Date":"時間",
+	"Content":"內容",
+	"Operation":"操作",
+
+
+
+	"APN Custom":"APN自定義",
+	"Username":"用戶名",
+	"Password":"密碼",
+	"IP Type":"IP類型",
+	"Authentication":"認證方式",
+	"Dial Number":"撥號號碼",
+	"Dial CID":"撥號CID",
+
+
+
+	"Network Status":"網路功能",
+	"IPv4 Mode":"IPv4模式",
+	"Advise":"基帶建議",
+	"DHCP":"動態獲取",
+	"PPP":"點對點",
+	"Static IP":"靜態地址",
+
+	"MTU":"最大傳輸單元(MTU)",
+	"LCP Echo Interval":"LCP檢測間隔(秒)",
+	"LCP Echo Times":"LCP檢測次數",
+	"PPP Option":"PPP選項",
+
+	"IPv4 Address":"IPV4地址",
+	"Subnet Mask":"子網掩碼",
+	"Gateway":"網關",
+	"DNS":"功能變數名稱伺服器",
+	"DNS2":"功能變數名稱伺服器2",
+	"Custom DNS":"自定義DNS",
+	"IPv4 Masquerade(NAT)": "地址共用(NAT)",
+
+
+
+	"IPv6 Mode":"IPV6地址模式",
+	"Disable":"禁用",
+	"SLAAC":"無狀態地址自動配置",
+	"Automatic":"自動獲取",
+	"Manual":"手動設置",
+
+	"IPv6 Address":"IPV6地址",
+	"Subnet Prefix":"子網首碼",
+	"Next Hop":"下一跳地址",
+    "IPv6 DNS":"功能變數名稱伺服器",
+    "IPv6 DNS2":"功能變數名稱伺服器2",
+	"Custom IPv6 DNS":"自定義DNS",
+    "IPv6 Masquerade(NAT)":"地址共用(NAT)",
+
+
+
+	"Availability Check":"可用性檢測(保活)",
+	"Disable":"禁用",
+	"Receive Count":"接收包計數",
+	"UDP&TCP":"UDP&TCP",
+	"Auto":"自動",
+	"Test Address":"檢測地址",
+	"Test Address 2":"檢測地址2",
+	"Test Address 3":"檢測地址3",
+	"Each Query Timeout(sec)":"單次檢測超時(秒)",
+	"Test Times":"檢測次數",
+	"Test Interval(sec)":"檢測間隔(秒)",
+	"Query Times":"檢測次數",
+	"Query Interval(sec)":"檢測間隔(秒)",
+	"Count Duration(sec)":"統計時間段(秒)",
+	"Count Times":"統計次數",
+	"Received Packets":"要求包數",
+	"Failed TODO":"失敗後操作",
+	"Reconnection":"重新連接",
+	"Reset Modem":"重置模組",
+	"Reboot System":"重啟系統",
+
+
+	"Advanced Settings":"高級設置",
+
+	"Lock IMEI":"鎖定IMEI",
+	"Lock IMSI":"鎖定IMSI",
+	"Lock PIN":"SIM卡PIN碼",
+	"PIN Code":"PIN碼",
+	"Lock Band":"鎖定頻段",
+	"Lock Cell":"鎖定社區",
+    "Lock":"鎖定",
+    "Unlocked":"未鎖定",
+    "Locked":"已鎖定",
+    "Once locked cannot be undone":"鎖定後無法撤銷",
+
+	"Custom setting AT":"自定義設置AT指令",
+	"Custom watching AT":"自定義輪詢AT指令",
+	"Command Name":"名稱",
+	"AT Command":"AT指令",
+	"Return":"返回資訊",
+	
+	"Need SIM Card":"檢查SIM卡",
+	"Frist number of simcard failures reset modem":"查卡失敗次數重置模組",
+	"Second number of simcard failures reset modem":"查卡失敗次數重置模組2",
+	"Third number of simcard failures reset modem":"查卡失敗次數重置模組3",
+	"Interval number of simcard failures reset modem":"間隔查卡失敗次數重置模組",
+	
+	"Need PLMN":"檢查網路",
+	"Need Signal":"檢查信號",
+	"Frist number of signal failures reset modem":"查信號失敗次數重置模組",
+	"Second number of signal failures reset modem":"查信號失敗次數重置模組2",
+	"Third number of signal failures reset modem":"查信號失敗次數重置模組3",
+	"Interval number of signal failures reset modem":"間隔查信號失敗次數重置模組",
+
+	"Watch Interval":"查詢間隔",
+	
+	"Dial timeout":"撥號超時",
+	"Frist number of dial failures reset modem":"撥號失敗次數重置模組",
+	"Second number of dial failures reset modem":"撥號失敗次數重置模組2",
+	"Interval number of dial failures reset modem":"間隔撥號失敗次數重置模組",
+	
+
+	"The LTE connecttion will be disconneted because of the change of configuration":"設備LTE配置將導致網路斷開重連"
+
+}

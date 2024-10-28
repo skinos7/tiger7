@@ -35,11 +35,13 @@
             "menu":"System",
             "en":"Telnet Server",
             "cn":"Telnet服务器",
+            "tw":"Telnet伺服器",
             "page":"telnet.html",
             "config":"tui@telnet",
             "lang":
             {
                 "cn":"cn.json",
+                "tw":"tw.json",
                 "en":"en.json"
             }
         },
@@ -48,11 +50,13 @@
             "menu":"System",
             "en":"SSH Server",
             "cn":"SSH服务器",
+            "tw":"SSH伺服器",
             "page":"ssh.html",
             "config":"tui@ssh",
             "lang":
             {
                 "cn":"cn.json",
+                "tw":"tw.json",
                 "en":"en.json"
             }
         }

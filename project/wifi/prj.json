@@ -27,6 +27,7 @@
         {
             "menu":"Wireless",
             "cn":"2.4G热点",
+            "tw":"2.4G熱點",
             "en":"2.4G SSID",
             "page":"radio.html",
             "object":"wifi@n",
@@ -40,6 +41,7 @@
         {
             "menu":"Wireless",
             "cn":"2.4G多SSID",
+            "tw":"2.4G多SSID",
             "en":"2.4G MSSID",
             "page":"mssid.html",
             "object":"wifi@n",
@@ -53,6 +55,7 @@
         {
             "menu":"Wireless",
             "cn":"2.4G网卡",
+            "tw":"2.4G網卡",
             "en":"2.4G ApClient",
             "page":"sta.html",
             "object":"wifi@nsta",
@@ -75,6 +78,7 @@
         {
             "menu":"Wireless",
             "cn":"2.4G客户端",
+            "tw":"2.4G客戶端",
             "en":"2.4G Clients",
             "page":"client.html",
             "object":"wifi@n",
@@ -89,6 +93,7 @@
         {
             "menu":"Wireless",
             "cn":"5.8G热点",
+            "tw":"5.8G熱點",
             "en":"5.8G SSID",
             "page":"radio.html",
             "object":"wifi@a",
@@ -102,6 +107,7 @@
         {
             "menu":"Wireless",
             "cn":"5.8G多SSID",
+            "tw":"5.8G多SSID",
             "en":"5.8G MSSID",
             "page":"mssid.html",
             "object":"wifi@a",
@@ -115,6 +121,7 @@
         {
             "menu":"Wireless",
             "cn":"5.8G网卡",
+            "tw":"5.8G網卡",
             "en":"5.8G ApClient",
             "page":"sta.html",
             "object":"wifi@asta",
@@ -137,6 +144,7 @@
         {
             "menu":"Wireless",
             "cn":"5.8G客户端",
+            "tw":"5.8G客戶端",
             "en":"5.8G Clients",
             "page":"client.html",
             "object":"wifi@a",

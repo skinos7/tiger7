@@ -11,6 +11,7 @@
             "menu":"Indicator",
             "en": "OLED Screen",
             "cn": "OLED屏",
+            "tw": "OLED屏",
             "object":"indicator@oled",
             "page": "oled.html",
             "lang":

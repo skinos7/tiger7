@@ -16,6 +16,7 @@
             "menu":"Sensor",
             "en": "Voltameter",
             "cn": "电量计",
+            "tw": "電量計",
             "object":"sensor@voltameter",
             "page": "voltameter.html",
             "lang":
@@ -29,6 +30,7 @@
             "menu":"Sensor",
             "en": "Solar Power",
             "cn": "太阳能板",
+            "tw": "太陽能板",
             "object":"sensor@solarpower",
             "page": "solarpower.html",
             "lang":
@@ -42,6 +44,7 @@
             "menu":"Sensor",
             "en": "Hygrometer",
             "cn": "温湿度计",
+            "tw": "溫溼度計",
             "object":"sensor@hygrometer",
             "page": "hygrometer.html",
             "lang":
@@ -55,6 +58,7 @@
             "menu":"Sensor",
             "en": "Methanometry",
             "cn": "甲烷监测仪",
+            "tw": "甲烷監測儀",
             "object":"sensor@methanometry",
             "page": "methanometry.html",
             "lang":
@@ -68,6 +72,7 @@
             "menu":"Sensor",
             "en": "IS-IOT 201",
             "cn": "多合一监测器",
+            "tw": "多合一監測器",
             "object":"sensor@isiot-201",
             "page": "isiot-201.html",
             "lang":
@@ -81,6 +86,7 @@
             "menu":"Sensor",
             "en": "OK CO/H2S/O2/LEL",
             "cn": "欧克定制监测器",
+            "tw": "歐克定製監測器",
             "object":"sensor@ok-coh2so2lel",
             "page": "ok-coh2so2lel.html",
             "lang":

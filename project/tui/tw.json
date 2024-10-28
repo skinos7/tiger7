@@ -1,0 +1,7 @@
+﻿{
+    "SSH Server":"SSH伺服器",
+    "Telnet Server":"Telnet伺服器",
+    "Designated Address Access":"指定地址訪問",
+    "Address(separated by semicolon)":"地址(多個以;號分隔)",
+    "Port":"端口"
+}

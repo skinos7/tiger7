@@ -1,0 +1,34 @@
+﻿{
+    "Web Server":"WEB伺服器",
+
+    "Enable HTTP":"開啟HTTP",
+    "Port":"端口",
+
+    "Enable HTTPS":"開啟HTTPS",
+    "SSL Port":"SSL端口",
+    
+    "Designated Address Access":"指定地址訪問",
+    "Address(separated by semicolon)":"地址(多個以;號分隔)",
+
+
+
+
+	"HE Terminal":"HE終端",
+	"Serial Terminal":"串口終端",
+	"Serial2 Terminal":"串口2終端",
+	"Serial3 Terminal":"串口3終端",
+	"LTE Terminal":"4G模組終端",
+	"LTE/NR Terminal":"4G/5G模組終端",
+	"Close before leave":"離開前必須點此關閉",
+	"I'm sorry that this feature does not support the current browser. It is recommended that you update and install Chrome, Firefox or IE11+.":"當前流覽器不支持終端模式, 請將使用IE11以上的流覽器或穀歌火狐最新的流覽器",
+	"Opening...":"正在打開...",
+	"Closing...":"正在關閉...",
+	"Will shutdown serial application when open the serial terminal, Are you sure you want to open it":"打開串口終端將導致所有此串口上的應用被強制關閉, 確認是否打開",
+	"Will shutdown LTE application when open the LTE terminal, Are you sure you want to open it":"打開4G模組終端將導致所有此模組上的應用被強制關閉, 確認是否打開",
+	"Will shutdown LTE/NR application when open the LTE/NR terminal, Are you sure you want to open it":"打開4G/5G模組終端將導致所有此模組上的應用被強制關閉, 確認是否打開",
+	"Cannot open it":"未能正常打開, 請確認設備是否正常",
+	"Cannot close it":"未能正常關閉, 請重啟設備"
+
+
+    
+}
