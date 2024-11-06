@@ -364,7 +364,7 @@ ttrue
         "dns2":"dns2 ip address",       // [ ip address ]
         "ip":"ip address",              // [ ip address ]
         "mask":"network mask",          // [ ip address ]
-        "delay":"delay time",           // [ "failed", number ], "failed" for icmp failed
+        "delay":"delay time",           // [ "failed", number ], "block" for first connect to send icmp test, "failed" for icmp failed
         "livetime":"online time",       // [ string ], format is hour:minute:second:day
         "rx_bytes":"send bytes",        // [ number ]
         "rx_packets":"send packets",    // [ number ]

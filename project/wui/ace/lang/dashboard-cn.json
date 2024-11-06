@@ -42,6 +42,7 @@
 
 	"Delay":"延迟",
 	"failed":"访问失败",
+	"block":"未通数据",
 	"Mode":"模式",
 	"dhcpc":"自动获取",
 	"pppoec":"PPPOE宽带拨号",

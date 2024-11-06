@@ -273,9 +273,13 @@ talk_t _state( obj_t this, param_t param )
 				{
                     json_set_number( ret, "delay", delay );
 				}
-				else
+				else if ( delay < 0 )
 				{
                     json_set_string( ret, "delay", "failed" );
+				}
+				else
+				{
+                    json_set_string( ret, "delay", "block" );
 				}
             }
             /* get the livetime */

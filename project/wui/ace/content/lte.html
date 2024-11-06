@@ -809,18 +809,24 @@
           if ($(this).prop('checked'))
           {
             $('#profile_cfg').show();
-            if ( ltes.hwnat != "enable" )
-            {
-                $('#mode').val( "ppp" );
-            }
+			if ( ltes )
+			{
+	            if ( ltes.hwnat != "enable" )
+	            {
+	                $('#mode').val( "ppp" );
+	            }
+			}
           } 
           else
           {
             $('#profile_cfg').hide();
-            if ( ltes.hwnat != "enable" )
-            {
-                $('#mode').val( "" );
-            }
+			if ( ltes )
+			{
+	            if ( ltes.hwnat != "enable" )
+	            {
+	                $('#mode').val( "" );
+	            }
+			}
           }
         }).trigger('change');
 
