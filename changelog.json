@@ -1,5 +1,5 @@
 {
-    "v7.4.0720":
+    "v7.4.0730":
     {
         "20240701":"Change the command line prompt to $",
         "20240702":"Add the password check and test failed to delay",
@@ -8,7 +8,8 @@
         "20240705":"Add new hikvision osd options",
         "20240715":"Fix the 7603/7663 UTF8 ssid",
         "20240716":"Add the encode password to login",
-        "20240717":"Add more other style he command on sms control"
+        "20240717":"Add more other style he command on sms control",
+        "20240721":"Add the keeplive block state"
     },
     "v7.4.0620":
     {
