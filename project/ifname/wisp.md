@@ -125,6 +125,7 @@ Usually ifname@wisp is the first WISP(2.4G) network. If there are multiple WISP 
 
 Example, show first WISP(2.4G) all configure
 ```shell
+ifname@wisp
 {
     "tid":"3",                                       # exclusive route table ID is 2
 
@@ -196,6 +197,76 @@ Example, enable the second WISP(5.8G)
 ifname@wisp2:status=enable
 ttrue
 ```
+
+Example, show first WISP(5.8G) all configure
+```shell
+ifname@wisp2
+{
+    "tid":"6",                                       # exclusive route table ID is 6
+
+    # WIFI peer
+    "peer":"V520-5G-D21D20",    # connect V520-5G-D21D20
+    "secure":"wpapsk",          # security is WPAPSK
+    "wpa_encrypt":"aes",        # encrypt use AES
+    "wpa_key":"87654321",       # password 87654321
+
+    "mode":"dhcpc",# mode is DHCP client
+    "masq":"enable",                                 # out stream share the interface IPv4 address to access the Internet
+    "keeplive":                                      # keeplive mechanism configure save here
+    {
+        "type":"icmp",                               # use ICMP to keeplive
+        "icmp":                                      
+        {
+            "dest":                                             # ping the 8.8.4.4 and 114.114.115.115
+            {
+                "test":"8.8.4.4",
+                "test2":"114.114.115.115"
+            },
+            "timeout":"10",                                     # The timeout exceeded 10 seconds for 5 consecutive times, the link is considered unavailable
+            "failed":"5",
+            "interval":"5"
+        }
+    }
+}
+```
+
+Example, modify the SSID for first WISP(5.8G) connect
+```shell
+ifname@wisp2:peer=Myhotpot
+ttrue
+ifname@wisp2:secure=wpapsk
+ttrue
+ifname@wisp2:wpa_key=88888888
+ttrue
+# You can also use one command to complete the operation of the above three command
+ifname@wisp2|{"peer":"Myhotpot", "secure":"wpapsk", "wpa_key":"88888888"}
+ttrue
+```
+
+Example, disable the first WISP(5.8G) keeplive function
+```shell
+ifname@wisp2:keeplive=disable
+ttrue
+```
+
+Example, disable the first WISP(5.8G)
+```shell
+ifname@wisp2:status=disable
+ttrue
+```
+
+Example, enable the first WISP(5.8G)
+```shell
+ifname@wisp2:status=enable
+ttrue
+```
+
+Example, enable the second WISP(5.8G)
+```shell
+ifname@wisp2:status=enable
+ttrue
+```
+
 
 
 

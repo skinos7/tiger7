@@ -983,7 +983,11 @@ boole_t _online( obj_t this, param_t param )
 		}
 		txqueue_set_ifname( object, netdev, ptr );
 	}
-	pmtu_adjust_ifname( object, netdev, mtu );
+	/* set the pmtu on wan */
+	if ( 0 != strncmp( object, LAN_COM, strlen(LAN_COM) ) )
+	{
+		pmtu_adjust_ifname( object, netdev, mtu );
+	}
 
 	/* tid route table init */
 	tid = register_pointer( object, "tid" );
