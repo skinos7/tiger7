@@ -53,6 +53,20 @@
                 "en": "en.json"
             }
         },
+        "noisedetector":
+        {
+            "menu":"Sensor",
+            "en": "Noise Detector",
+            "cn": "噪音检测",
+            "tw": "噪音检测",
+            "object":"sensor@noisedetector",
+            "page": "noisedetector.html",
+            "lang":
+            {
+                "cn": "cn.json",
+                "en": "en.json"
+            }
+        },
         "methanometry":
         {
             "menu":"Sensor",
