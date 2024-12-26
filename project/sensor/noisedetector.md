@@ -39,7 +39,7 @@ ttrue
     # examples, get the current noise detector status
     sensor@noisedetector.status
     {
-        "voltage":"71.3"               # current noise 71.3DB
+        "noise":"71.3"               # current noise 71.3DB
     }  
     ```
 
