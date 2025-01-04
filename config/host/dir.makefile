@@ -15,7 +15,7 @@ all dep:
 				mkdir ${gBUILD_DIR}/$$i; \
 				cp -fr $$i/* ${gBUILD_DIR}/$$i; \
 			fi; \
-			if [ -f ${gBUILD_DIR}/$$i/${gPROJECT_INF} ];then \
+			if [ -f ${gBUILD_DIR}/$$i/${gPROJECT_INF} ]; then \
 				if [ -f ${gBUILD_DIR}/$$i/fpk.makefile ]; then \
 					echo "[`pwd`] make -f ${gBUILD_DIR/}$$i/fpk.makefile -C $$i $@"; \
 					make -f ${gBUILD_DIR}/$$i/fpk.makefile -C ${gBUILD_DIR}/$$i $@ || exit $?; \
@@ -33,7 +33,7 @@ install:
 				mkdir ${gBUILD_DIR}/$$i; \
 				cp -fr $$i/* ${gBUILD_DIR}/$$i; \
 			fi; \
-			if [ -f ${gBUILD_DIR}/$$i/${gPROJECT_INF} ];then \
+			if [ -f ${gBUILD_DIR}/$$i/${gPROJECT_INF} ]; then \
 				if [ -f ${gBUILD_DIR}/$$i/fpk.makefile ]; then \
 					echo "[`pwd`] make -f ${gBUILD_DIR}/$$i/fpk.makefile -C $$i $@"; \
 					make -f ${gBUILD_DIR}/$$i/fpk.makefile -C ${gBUILD_DIR}/$$i $@ || exit $?; \

@@ -1,5 +1,5 @@
 
-# 包含skin项目的一些有关包处理的函数
+# 包含skinos项目的一些有关包处理的函数
 include $(gSKIN_MKFILE)
 # 项目的注册信息
 PKG_NAME:=$(shell prj-read name)

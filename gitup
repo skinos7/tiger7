@@ -41,6 +41,17 @@ do
     fi
 done
 
+# MTK3 platform
+for tmp in config/smtk3/
+do
+    if [ -d ${TOPDIR}/${tmp} ]; then
+        echo "################################################"
+        echo "############## update the ${tmp} ###############"
+        echo "################################################"
+        cd ${TOPDIR}/${tmp};git pull
+    fi
+done
+
 # WRT platform
 for tmp in config/swrt/
 do

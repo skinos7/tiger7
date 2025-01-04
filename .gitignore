@@ -1,7 +1,10 @@
 
-/.vscode/
+**/.*
+**/DS_Store
+**/*.DS_Store
+**/.vscode/
+
 /doc/
-/docen/
 /core/
 /rice/
 /var/
@@ -9,9 +12,8 @@
 /build/
 /gBOARDID
 
-/project/.vscode/
-
 /config/host/*.fpk
+/config/host/tools/
 /config/host/x86/store/
 /config/host/aarch64/store/
 
@@ -43,6 +45,4 @@
 /config/srkw/
 /rkw/
 
-**/DS_Store
-**/*.DS_Store
 

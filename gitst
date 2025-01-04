@@ -30,6 +30,17 @@ do
     fi
 done
 
+# MTK3 platform
+for tmp in config/smtk3/
+do
+    if [ -d ${TOPDIR}/${tmp} ]; then
+        echo "################################################"
+        echo "############## status the ${tmp} ###############"
+        echo "################################################"
+        cd ${TOPDIR}/${tmp};git status
+    fi
+done
+
 # MTK2 platform
 for tmp in config/smtk2/
 do

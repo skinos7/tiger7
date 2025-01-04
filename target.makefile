@@ -7,50 +7,45 @@ COMPILE_PROJECT := ${COMPILE_PROJECT}
 export COMPILE_PROJECT
 
 # SDK complie
-menu menuclean menuconfig:
+boot:
 	if [ -d ${gSDK_DIR} ]; then \
 		make -f ${gSDK_MAKEFILE} -C ${gSDK_DIR} $@; \
 	else \
 		make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@; \
 	fi
-boot_menuconfig boot_dep boot boot_install boot_clean boot_distclean:
+boot_%:
 	if [ -d ${gSDK_DIR} ]; then \
 		make -f ${gSDK_MAKEFILE} -C ${gSDK_DIR} $@; \
 	else \
 		make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@; \
 	fi
-kernel_menuconfig kernel_dep kernel kernel_install kernel_clean kernel_distclean:
+kernel:
 	if [ -d ${gSDK_DIR} ]; then \
 		make -f ${gSDK_MAKEFILE} -C ${gSDK_DIR} $@; \
 	else \
 		make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@; \
 	fi
-app_menuconfig app_dep app app_install app_clean app_distclean:
+kernel_%:
 	if [ -d ${gSDK_DIR} ]; then \
 		make -f ${gSDK_MAKEFILE} -C ${gSDK_DIR} $@; \
 	else \
 		make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@; \
 	fi
-
-# SDK update
-update adjust:
-	# Adjust the Platform-specific SDK
+app:
 	if [ -d ${gSDK_DIR} ]; then \
 		make -f ${gSDK_MAKEFILE} -C ${gSDK_DIR} $@; \
 	else \
 		make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@; \
 	fi
-# Firmware upload
-ftp repo:
+app_%:
 	if [ -d ${gSDK_DIR} ]; then \
 		make -f ${gSDK_MAKEFILE} -C ${gSDK_DIR} $@; \
 	else \
 		make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@; \
 	fi
-
-.PHONY: menu menuclean menuconfig
-.PHONY: boot_menuconfig boot_dep boot boot_install boot_clean boot_distclean
-.PHONY: kernel_menuconfig kernel_dep kernel kernel_install kernel_clean kernel_distclean
-.PHONY: app_menuconfig app_dep app app_install app_clean app_distclean
-.PHONY: update adjust ftp repo
-
+sdk_%:
+	if [ -d ${gSDK_DIR} ]; then \
+		make -f ${gSDK_MAKEFILE} -C ${gSDK_DIR} $@; \
+	else \
+		make -f ${gSDK_MAKEFILE} -C ${gPLATFORM_DIR} $@; \
+	fi
