@@ -108,6 +108,20 @@
                 "cn": "cn.json",
                 "en": "en.json"
             }
+        },
+        "twzn-btgnss":
+        {
+            "menu":"Sensor",
+            "en": "TWZN Battry&GNNS",
+            "cn": "图微智能監測器",
+            "tw": "图微智能監測器",
+            "object":"sensor@twzn-btgnss",
+            "page": "twzn-btgnss.html",
+            "lang":
+            {
+                "cn": "cn.json",
+                "en": "en.json"
+            }
         }
     }
 }
