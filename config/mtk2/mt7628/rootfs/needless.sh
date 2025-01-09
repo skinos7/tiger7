@@ -86,7 +86,7 @@ rm -fr ./usr/share/acl.d
 rm -fr ./usr/share/dnsmasq
 
 rm -fr ./media
-rm -fr ./prj/pdriver/regdir.ko
+#rm -fr ./prj/pdriver/regdir.ko
 rm -fr ./prj/pdriver/yuga_gobinet.ko
 rm -fr ./usr/sbin/hwnat-disable.sh
 rm -fr ./usr/sbin/hwnat-enable.sh

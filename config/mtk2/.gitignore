@@ -1,16 +1,22 @@
 
-/openwrt.tar.gz
+/openwrt-raw.tar.xz
+/openwrt-raw.tar.gz
 /openwrt.tar.xz
+/openwrt.tar.gz
 /openwrt.tar
 /openwrt
 /openwrt/
-/dl.tar.gz
+/dl-raw.tar.xz
+/dl-raw.tar.gz
 /dl.tar.xz
+/dl.tar.gz
 /dl.tar
 /dl
 /dl/
-/feeds.tar.gz
+/feeds-raw.tar.xz
+/feeds-raw.tar.gz
 /feeds.tar.xz
+/feeds.tar.gz
 /feeds.tar
 /feeds
 /feeds/
@@ -20,4 +26,6 @@
 **/*.DS_Store
 
 /boot/
+/boot_old/
+/boot_new/
 

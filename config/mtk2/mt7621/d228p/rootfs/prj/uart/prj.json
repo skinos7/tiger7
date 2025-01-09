@@ -20,10 +20,12 @@
     "com":
     {
         "frame":"uart frame",
-        "hetui":"UART application components for he command",
         "modbus":"UART application components for modbus",
+        "modbusm":"UART application components for modbus master",
         "dtu":"UART application components for DTU",
-        "nmea":"UART application components for GNSS"
+        "httppost":"UART application components for HTTP Post",
+        "nmea":"UART application components for GNSS",
+        "hetui":"UART application components for sline"
     },
     "init":
     {

@@ -1,0 +1,14 @@
+--- a/src/odhcp6c.c	2023-04-23 03:21:10.000000000 +0800
++++ b/src/odhcp6c.c	2024-04-07 01:50:21.866938296 +0800
+@@ -34,6 +34,11 @@
+ #include <arpa/inet.h>
+ #include <linux/if_addr.h>
+ 
++/* add by dimmalex */
++#ifndef IFA_F_DADFAILED
++#define IFA_F_DADFAILED		0x08
++#endif
++
+ #include "odhcp6c.h"
+ #include "ra.h"
+ 

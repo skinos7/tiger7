@@ -1,0 +1,11 @@
+--- a/src/config.c	2023-10-24 23:50:02.000000000 +0800
++++ b/src/config.c	2024-04-07 02:01:46.834439905 +0800
+@@ -1320,7 +1320,7 @@
+ 	if (config.dhcp_statefile) {
+ 		char *path = strdup(config.dhcp_statefile);
+ 
+-		mkdir_p(dirname(path), 0755);
++		mkdir(dirname(path), 0755);
+ 		free(path);
+ 	}
+ 

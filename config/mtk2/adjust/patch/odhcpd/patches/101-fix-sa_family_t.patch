@@ -1,0 +1,12 @@
+--- a/src/netlink.c	2023-10-24 23:50:02.000000000 +0800
++++ b/src/netlink.c	2024-04-07 02:08:02.654557200 +0800
+@@ -16,6 +16,9 @@
+ #include <string.h>
+ #include <syslog.h>
+ 
++/* add by dimmalex */
++#include <sys/socket.h>
++
+ #include <linux/netlink.h>
+ #include <linux/if_addr.h>
+ #include <linux/neighbour.h>

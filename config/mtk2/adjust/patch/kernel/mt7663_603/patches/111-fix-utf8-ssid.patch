@@ -1,0 +1,72 @@
+--- linux-3.10.108/drivers/net/wireless/mtk/mt7663_603/mt_wifi/embedded/common/cmm_info.c	2024-10-15 17:39:15.321560452 +0800
++++ linux-3.10.108b/drivers/net/wireless/mtk/mt7663_603/mt_wifi/embedded/common/cmm_info.c	2024-10-15 17:48:32.722764371 +0800
+@@ -3928,7 +3928,10 @@
+ 			3.) UI needs to prepare at least 4096bytes to get the results
+     ==========================================================================
+ */
+-#define	LINE_LEN	(4+33+20+23+9+7+7+3)	/* Channel+SSID+Bssid+Security+Signal+WiressMode+ExtCh+NetworkType*/
++
++// modify by dimmalex for UTF8 code */
++#define	LINE_LEN	(4+66+20+23+9+7+7+3)	/* Channel+SSID+Bssid+Security+Signal+WiressMode+ExtCh+NetworkType*/
++//#define	LINE_LEN	(4+33+20+23+9+7+7+3)	/* Channel+SSID+Bssid+Security+Signal+WiressMode+ExtCh+NetworkType*/
+ 
+ #ifdef CONFIG_STA_SUPPORT
+ #ifdef WSC_STA_SUPPORT
+@@ -3946,12 +3949,19 @@
+ 	INT         Rssi = 0;
+ 	UINT        Rssi_Quality = 0;
+ 	NDIS_802_11_NETWORK_TYPE    wireless_mode;
+-	CHAR		Ssid[MAX_LEN_OF_SSID + 1];
++
++    // modify by dimmalex for UTF8 code */
++	CHAR		Ssid[(MAX_LEN_OF_SSID+1)*2+1];
++	//CHAR		Ssid[MAX_LEN_OF_SSID + 1];
++
+ 	RTMP_STRING SecurityStr[32] = {0};
+ 	/*Channel*/
+ 	sprintf(msg + strlen(msg), "%-4d", pBss->Channel);
+ 	/*SSID*/
+-	NdisZeroMemory(Ssid, (MAX_LEN_OF_SSID + 1));
++    
++    // modify by dimmalex for UTF8 code */
++	NdisZeroMemory(Ssid, (MAX_LEN_OF_SSID+1)*2+1);
++	//NdisZeroMemory(Ssid, (MAX_LEN_OF_SSID +1));
+ 
+ 	if (RTMPCheckStrPrintAble((PCHAR)pBss->Ssid, pBss->SsidLen))
+ 		NdisMoveMemory(Ssid, pBss->Ssid, pBss->SsidLen);
+@@ -3960,11 +3970,18 @@
+ 
+ 		sprintf(Ssid, "0x");
+ 
+-		for (idx = 0; (idx < 14) && (idx < pBss->SsidLen); idx++)
++        // modify by dimmalex for UTF8 code */
++		for (idx = 0; (idx < 32) && (idx < pBss->SsidLen); idx++)
+ 			sprintf(Ssid + 2 + (idx * 2), "%02X", (UCHAR)pBss->Ssid[idx]);
++		//for (idx = 0; (idx < 14) && (idx < pBss->SsidLen); idx++)
++		//	sprintf(Ssid + 2 + (idx * 2), "%02X", (UCHAR)pBss->Ssid[idx]);
++
+ 	}
+ 
+-	sprintf(msg + strlen(msg), "%-33s", Ssid);
++    // modify by dimmalex for UTF8 code */
++	sprintf(msg + strlen(msg), "%-66s", Ssid);
++	//sprintf(msg + strlen(msg), "%-33s", Ssid);
++ 
+ 	/*BSSID*/
+ 	sprintf(msg + strlen(msg), "%02x:%02x:%02x:%02x:%02x:%02x   ",
+ 			pBss->Bssid[0],
+@@ -4148,8 +4165,13 @@
+ 	sprintf(msg, "%s", "\n");
+ 	sprintf(msg + strlen(msg), "Total=%-4d", ScanTab->BssNr);
+ 	sprintf(msg + strlen(msg), "%s", "\n");
+-	sprintf(msg + strlen(msg), "%-4s%-4s%-33s%-20s%-23s%-9s%-7s%-7s%-3s%-8s\n",
++
++    // modify by dimmalex for UTF8 code
++	sprintf(msg + strlen(msg), "%-4s%-4s%-66s%-20s%-23s%-9s%-7s%-7s%-3s%-8s\n",
+ 			"No", "Ch", "SSID", "BSSID", "Security", "Siganl(%)", "W-Mode", " ExtCH", " NT", " SSID_Len");
++	//sprintf(msg + strlen(msg), "%-4s%-4s%-33s%-20s%-23s%-9s%-7s%-7s%-3s%-8s\n",
++	//		"No", "Ch", "SSID", "BSSID", "Security", "Siganl(%)", "W-Mode", " ExtCH", " NT", " SSID_Len");
++
+ #ifdef WSC_INCLUDED
+ 	sprintf(msg + strlen(msg) - 1, "%-4s%-5s\n", " WPS", " DPID");
+ #endif /* WSC_INCLUDED */

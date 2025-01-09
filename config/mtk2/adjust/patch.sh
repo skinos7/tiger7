@@ -95,6 +95,7 @@ cp ${gPLATFORM_DIR}/adjust/patch/kernel/mt7603/files/mt7603.dat   ${gSDK_DIR}/pa
 cp ${gPLATFORM_DIR}/adjust/patch/kernel/mt7603/patches/001-driver-path.patch   ${gSDK_DIR}/package/mtk/drivers/mt7603/patches/001-driver-path.patch
 cp ${gPLATFORM_DIR}/adjust/patch/kernel/mt7603/patches/mt7603_no_wps_compile_fix.patch   ${gSDK_DIR}/package/mtk/drivers/mt7603/patches/020-wps_compile_fix.patch
 cp ${gPLATFORM_DIR}/adjust/patch/kernel/mt7603/patches/mt7603_no_wpa3_compile_fix.patch   ${gSDK_DIR}/package/mtk/drivers/mt7603/patches/021-wpa3_compile_fix.patch
+cp ${gPLATFORM_DIR}/adjust/patch/kernel/mt7603/patches/111-utf8-ssid-fix.patch   ${gSDK_DIR}/package/mtk/drivers/mt7603/patches/
 # patch to mt76x2 chip to platform
 rm -fr ${gSDK_DIR}/package/mtk/drivers/mt76x2/
 cp -r ${gPLATFORM_DIR}/adjust/patch/kernel/mt76x2 ${gSDK_DIR}/package/mtk/drivers/mt76x2
@@ -215,4 +216,15 @@ cp -r ${gPLATFORM_DIR}/adjust/patch/openvpn ${gSDK_DIR}/package/network/services
 # update the dropbear
 rm -fr ${gSDK_DIR}/package/network/services/dropbear
 cp -r ${gPLATFORM_DIR}/adjust/patch/dropbear ${gSDK_DIR}/package/network/services/
+
+# update the libnl-tiny
+cp ${gPLATFORM_DIR}/adjust/patch/libnl-tiny/if_addr.h ${gSDK_DIR}/package/libs/libnl-tiny/src/include/linux/
+
+# update the odhcp6c
+rm -fr ${gSDK_DIR}/package/network/ipv6/odhcp6c
+cp -r ${gPLATFORM_DIR}/adjust/patch/odhcp6c ${gSDK_DIR}/package/network/ipv6
+
+# update the odhcpd
+rm -fr ${gSDK_DIR}/package/network/services/odhcpd
+cp -r ${gPLATFORM_DIR}/adjust/patch/odhcpd ${gSDK_DIR}/package/network/services/
 
