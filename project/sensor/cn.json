@@ -41,7 +41,15 @@
     "Humidity":"湿度",
     "Temperature":"湿度",
 
+    "Battery Voltage":"电池电压",
+    "Battery Percent":"电池电量",
+    "Charge State":"充电状态",
+    "Charge Voltage":"充电电压",
+    "Latitude":"纬度",
+    "Longitude":"经度",
+
     "IS-IOT 201":"多合一监测器",
-    "OK CO/H2S/O2/LEL":"欧克定制监测器"
+    "OK CO/H2S/O2/LEL":"欧克定制监测器",
+    "TWZN Battary&GNSS":"图微智能监测器"
 
 }

@@ -113,7 +113,7 @@
         {
             "menu":"Sensor",
             "en": "TWZN Battry&GNNS",
-            "cn": "图微智能監測器",
+            "cn": "图微智能监测器",
             "tw": "图微智能監測器",
             "object":"sensor@twzn-btgnss",
             "page": "twzn-btgnss.html",
