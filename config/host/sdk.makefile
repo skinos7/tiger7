@@ -134,7 +134,7 @@ sdk_uninstall:
 	sudo rm -fr /var/skin
 	sudo rm -fr /usr/prj
 	sudo ldconfig
-.PHONY: sdk_install sdk_bootup sdk_start sdk_stop sdk_uninstall
+.PHONY: sdk_install sdk_start sdk_stop sdk_uninstall
 
 
 
