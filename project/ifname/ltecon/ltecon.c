@@ -1319,7 +1319,7 @@ boole_t _online( obj_t this, param_t param )
 	tid = register_pointer( object, "tid" );
 	if ( tid != NULL && *tid != 0 )
 	{
-		routes_create_ifname( *tid, v );
+		routes_ifname( *tid, v );
 	}
 
 	/* tell the ifdev */
