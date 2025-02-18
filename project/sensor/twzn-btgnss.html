@@ -126,8 +126,11 @@
                 $('#charge_voltage').text( comstat.charge_voltage );
                 $('#charge_state').text( comstat.charge_state );
                 $('#temperature').text( comstat.temperature );
-                $('#latitude').text( comstat.latitude_high+"."+comstat.latitude_low+" "+comstat.latitude_dir );
-                $('#longitude').text( comstat.longitude_high+"."+comstat.longitude_low+" "+comstat.longitude_dir );
+                if ( comstat.located == 1 )
+                {
+                    $('#latitude').text( comstat.latitude+" "+comstat.latitude_dir );
+                    $('#longitude').text( comstat.longitude+" "+comstat.longitude_dir );
+                }
             }
 
             // 将组件配置状态填入状态选项
