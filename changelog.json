@@ -1,4 +1,10 @@
 {
+    "v7.4.0915":
+    {
+        "20240910":"fix backup error",
+        "20240911":"add ssid rekey API",
+        "20240912":"fix mark cannot work"
+    },
     "v7.4.0730":
     {
         "20240701":"Change the command line prompt to $",
