@@ -44,7 +44,6 @@ gOEM := default
 endif 
 # Get the date
 #gPUBLISH ?= $(shell date +%m%d%y)
-#gPUBLISH ?= v7.4.0731
 gPUBLISH ?= v7.4.0915
 gVERSION ?= $(gPUBLISH)
 # Name for compiler
@@ -71,9 +70,8 @@ gTOOLS_DIR := ${gTOP_DIR}/tools
 # Runing-system's rootfs directory
 gosROOT_DIR := ${gBUILD_DIR}/rootfs
 # Project directory name
-gosPRJ_NAME := prj
 # Runing-system's project directory
-gosPRJ_DIR := ${gosROOT_DIR}/${gosPRJ_NAME}
+gosPRJ_DIR := ${gosROOT_DIR}/prj
 # Platform-specific configure directory
 gPLATFORM_DIR := ${gTOP_DIR}/config/${gPLATFORM}
 # Chip-specific configure directory
@@ -84,10 +82,8 @@ gCUSTOM_DIR := ${gHARDWARE_DIR}/${gCUSTOM}
 gSCOPE_DIR := ${gCUSTOM_DIR}/${gSCOPE}
 # OEM configure directory
 gOEM_DIR := ${gCUSTOM_DIR}/${gOEM}
-gOEM_SH := ${gOEM}.sh
-gOEM_SH_FILE := ${gOEM_DIR}/${gOEM}.sh
+gOEM_SHELL := ${gOEM_DIR}/${gOEM}.sh
 gOEM_CONFIG := ${gOEM}.dtar
-gOEM_CONFIG_DIR := ${gOEM_DIR}/rootfs/prj/
 # Platform-specific tools directory for compile
 gpTOOLS_DIR := ${gPLATFORM_DIR}/tools
 # Project source code directory
@@ -128,9 +124,9 @@ gEXE_MAKEFILE := ${gPLATFORM_DIR}/exe.makefile
 gPACK_MAKEFILE := ${gPLATFORM_DIR}/pack.makefile
 # Export macro
 export gTOP_DIR gBUILD_DIR gINSTALL_DIR gSTORE_DIR gCOMFACE_DIR gTOOLS_DIR
-export gosROOT_DIR gosPRJ_NAME gosPRJ_DIR
+export gosROOT_DIR gosPRJ_DIR
 export gPLATFORM_DIR gHARDWARE_DIR gCUSTOM_DIR gSCOPE_DIR
-export gOEM_DIR gOEM_SH gOEM_SH_FILE gOEM_CONFIG gOEM_CONFIG_DIR
+export gOEM_DIR gOEM_SH gOEM_SHELL gOEM_CONFIG
 export gpTOOLS_DIR
 export gPROJECT_DIR gRICE_DIR gPROJECT_INF gMAKEFILE_CFGFILE gCONFIGURE_SH gMAKEFILE_SH
 export gSDK_DIR gSDK_MAKEFILE gLAY_MAKEFILE gDIR_MAKEFILE gFPK_MAKEFILE gCOM_MAKEFILE gLIB_MAKEFILE gEXE_MAKEFILE gPACK_MAKEFILE
@@ -146,7 +142,7 @@ all:
 		make -f target.makefile kernel COMPILE_PROJECT=package/${obj}/compile; \
 		make -f target.makefile app COMPILE_PROJECT=package/${obj}/compile; \
 	else \
-		make lay; \
+		make dep; \
 		make kernel_dep app_dep; \
 		make kernel||exit -1; \
 		make app||exit -1; \
@@ -161,28 +157,13 @@ pid:
 pidinfo:
 	echo 'gBOARDID=${gBOARDID}'
 
-lay:
+dep:            # prepare gBUILD_DIR gINSTALL_DIR gosROOT_DIR gSTORE_DIR, install fpk to gosROOT_DIR
 	./mkdel
 	rm -rf ${gINSTALL_DIR} ${gBUILD_DIR}
 	install -d ${gBUILD_DIR} ${gINSTALL_DIR} ${gINSTALL_DIR}/lib ${gINSTALL_DIR}/include ${gosROOT_DIR} ${gSTORE_DIR}
-	if [ -d ${gPLATFORM_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gPLATFORM_DIR}; fi
-	if [ -d ${gHARDWARE_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gHARDWARE_DIR}; fi
-	if [ -d ${gCUSTOM_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gCUSTOM_DIR}; fi
-	if [ -d ${gSCOPE_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gSCOPE_DIR}; fi
-	make -f ${gLAY_MAKEFILE} fpk_distinct
-	make -f ${gLAY_MAKEFILE} fpk_install
-lay_install:
-	if [ -d ${gPLATFORM_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gPLATFORM_DIR} rootfs_install; fi
-	if [ -d ${gHARDWARE_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gHARDWARE_DIR} rootfs_install; fi
-	if [ -d ${gCUSTOM_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gCUSTOM_DIR} rootfs_install; fi
-	if [ -d ${gSCOPE_DIR} ]; then make -f ${gLAY_MAKEFILE} -C ${gSCOPE_DIR} rootfs_install; fi
-	if [ -e ${gOEM_SH_FILE} ]; then \
-		cp ${gOEM_SH_FILE} ${gBUILD_DIR}; \
-	fi
-	if [ -e ${gOEM_CONFIG_DIR} ]; then \
-		cd ${gOEM_CONFIG_DIR}; \
-		tar -c * -f ${gBUILD_DIR}/${gOEM_CONFIG}; \
-	fi
+	make -f ${gLAY_MAKEFILE} rootfs_prepare
+rootfs_install: # call before image, copy all the file of config/xxxx/**rootfs** to gosROOT_DIR
+	make -f ${gLAY_MAKEFILE} rootfs_install
 
 clean:
 	if [ "X${obj}" != "X" ]; then \
@@ -194,7 +175,7 @@ clean:
 		rm -rf ${gINSTALL_DIR} ${gBUILD_DIR}; \
 	fi
 
-.PHONY: all pid pidinfo lay lay_install clean
+.PHONY: all pid pidinfo dep rootfs_install clean
 
 #####################################
 ######### Tools target ##############

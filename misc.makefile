@@ -34,13 +34,25 @@ update:
 
 # SDK rebuild for HOST
 rebuild:
-	make sdk_stop;make sdk_uninstall;make;make sdk_install;make sdk_start
+	make sdk_stop;make;make sdk_install;make sdk_start
 # SDK help for smtk2/smtk3
 menu:
 	make sdk_menu
 menuconfig:
 	make sdk_menuconfig
+
+tftp:
+	make sdk_tftp
+ftp:
+	make sdk_ftp
 sz:
 	make sdk_sz
 
-.PHONY: update rebuild menu menuconfig sz
+stop:
+	make sdk_stop
+start:
+	make sdk_start
+install:
+	make sdk_install
+
+.PHONY: update rebuild menu menuconfig tftp ftp sz stop start install

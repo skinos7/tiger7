@@ -252,11 +252,14 @@ define Image/mkfs/prepare/default
 endef
 
 # modify by dimmalex
-sinclude ${gSDK_MKFILE}
 define Image/mkfs/prepare
 	$(call Image/mkfs/prepare/default)
-	$(call Lay/install)
-	$(call Build/install,$(TARGET_DIR))
+	#
+	# add by dimmalex for lay install
+	cd ${gTOP_DIR}; make rootfs_install;
+	cp -fdRp ${gosROOT_DIR}/* $(TARGET_DIR)
+	cd $(TARGET_DIR); chmod a+rwx needless.sh;./needless.sh
+	#
 endef
 #define Image/mkfs/prepare
 #	$(call Image/mkfs/prepare/default)

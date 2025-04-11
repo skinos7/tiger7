@@ -9,7 +9,7 @@ define Package/Define
   OSC_LIST:=$(shell prj-read osc)
   KO_LIST:=$(shell prj-read ko)
   RES_LIST:=$(shell prj-read res)
-  SH_LIST:=$(wildcard *.sh *.ash)
+  SH_LIST:=$(wildcard *.sh *.ash *.lua)
   MKD_LIST:=$(wildcard *.md)
   PNG_LIST:=$(wildcard *.png *.jpg)
   MISC_LIST:=$(wildcard *.json *.cfg *.html)
@@ -19,8 +19,8 @@ define Package/Define
   FPK_ETC_DIR:=$(PKG_BUILD_DIR)/.fpk/etc
   FPK_INT_DIR:=$(PKG_BUILD_DIR)/.fpk/internal
   FPK_ROOTFS_DIR:=$(PKG_BUILD_DIR)/.fpk/rootfs
-  PROJECT_ID:=${PKG_NAME}
-  VERSION_ID:=${PKG_VERSION}
+  PROJECT_ID?=${PKG_NAME}
+  VERSION_ID?=${PKG_VERSION}
   export PROJECT_ID VERSION_ID
 endef
 

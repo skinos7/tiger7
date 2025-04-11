@@ -53,7 +53,11 @@ kernel: kernel_dep
 	cp ${gpUPGRADE_IMAGE} ${gBUILD_DIR}/${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.upgrade
 	cd ${gBUILD_DIR}; \
 	if [ -e ${gOEM_DIR} ]; then \
-		firmware-encode ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}_${gOEM}.zz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.upgrade ${gOEM_SH} ${gOEM_CONFIG}; \
+	    if [ -e ${gOEM_DIR}/rootfs/prj/ ]; then \
+			cd ${gOEM_DIR}/rootfs/prj/; \
+			tar -c * -f ${gBUILD_DIR}/${gOEM_CONFIG}; \
+		fi ; \
+		firmware-encode ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}_${gOEM}.zz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.upgrade ${gOEM_SHELL} ${gOEM_CONFIG}; \
 	else \
 		firmware-encode ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.zz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.upgrade; \
 	fi
@@ -177,6 +181,10 @@ sdk_distclean: sdk_clean
 
 
 sdk_sz:
+	# 通过tftp协议发送固件到本地
+	@sz ${gBUILD_DIR}/${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.zz
+	@sz ${gBUILD_DIR}/${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.upgrade
+sdk_tftp:
 	# 通过xmodem协议发送固件到本地
 	cd ${gBUILD_DIR} && sz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.zz
 	#cd ${gBUILD_DIR} && sz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.upgrade
@@ -193,21 +201,7 @@ sdk_tar:
 		tar jcvf ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.tar.bz2 ${gHARDWARE}_${gCUSTOM}_${gSCOPE}*; \
 		sz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.tar.bz2; \
 	fi
-sdk_zzb:
-	cd ${gBUILD_DIR}; \
-	if [ -e ${gHARDWARE}_${gCUSTOM}_${gSCOPE}.uboot ] && [ -e ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.upgrade ]; then \
-		rm -fr ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.zzb; \
-		if [ -e ${gOEM_DIR} ]; then \
-			firmware-encode ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}_${gOEM}.zzb ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.upgrade ${gHARDWARE}_${gCUSTOM}_${gSCOPE}.uboot ${gOEM_SH} ${gOEM_CONFIG}; \
-			sz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}_${gOEM}.zzb; \
-			mv ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}_${gOEM}.zzb ~/tftp; \
-		else \
-			firmware-encode ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.zzb ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.upgrade ${gHARDWARE}_${gCUSTOM}_${gSCOPE}.uboot; \
-			sz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.zzb; \
-			mv ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.zzb ~/tftp; \
-		fi; \
-	fi
-.PHONY: sdk_sz sdk_zzb sdk_tar
+.PHONY: sdk_sz sdk_tftp sdk_tar
 
 
 

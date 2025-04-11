@@ -1,19 +1,36 @@
 ### Common Actions
-all:
-	@mkdir -p ${gosROOT_DIR}
-	@if [ -f mkdir.sh ]; then \
-		./mkdir.sh ${gosROOT_DIR}; \
+rootfs_prepare:
+	# make the rootfs
+	mkdir -p ${gosROOT_DIR}
+	if [ -f ${gPLATFORM_DIR}/mkrootfs.sh ]; then \
+		${gPLATFORM_DIR}/mkrootfs.sh ${gosROOT_DIR}; \
 	fi
-	@if [ -f mkdev.sh ]; then \
-		./mkdev.sh ${gosROOT_DIR}; \
+	if [ -f ${gHARDWARE_DIR}/mkrootfs.sh ]; then \
+		${gHARDWARE_DIR}/mkrootfs.sh ${gosROOT_DIR}; \
+	fi
+	if [ -f ${gCUSTOM_DIR}/mkrootfs.sh ]; then \
+		${gCUSTOM_DIR}/mkrootfs.sh ${gosROOT_DIR}; \
+	fi
+	if [ -f ${gSCOPE_DIR}/mkrootfs.sh ]; then \
+		${gSCOPE_DIR}/mkrootfs.sh ${gosROOT_DIR}; \
 	fi
 	# copy a fpk to build
-	@tmpls=`find ./ -maxdepth 1 -name "*.fpk"`; \
+	tmpls=`find ${gPLATFORM_DIR}/ -maxdepth 1 -name "*.fpk"`; \
 	if [ "X$${tmpls}" != "X" ]; then \
-		cp *.fpk $(gBUILD_DIR); \
+		cp ${gPLATFORM_DIR}/*.fpk $(gBUILD_DIR); \
 	fi
-
-fpk_distinct:
+	tmpls=`find ${gHARDWARE_DIR}/ -maxdepth 1 -name "*.fpk"`; \
+	if [ "X$${tmpls}" != "X" ]; then \
+		cp ${gHARDWARE_DIR}/*.fpk $(gBUILD_DIR); \
+	fi
+	tmpls=`find ${gCUSTOM_DIR}/ -maxdepth 1 -name "*.fpk"`; \
+	if [ "X$${tmpls}" != "X" ]; then \
+		cp ${gCUSTOM_DIR}/*.fpk $(gBUILD_DIR); \
+	fi
+	tmpls=`find ${gSCOPE_DIR}/ -maxdepth 1 -name "*.fpk"`; \
+	if [ "X$${tmpls}" != "X" ]; then \
+		cp ${gSCOPE_DIR}/*.fpk $(gBUILD_DIR); \
+	fi
 	# clear the exsit project fpk for core
 	cd ${gPROJECT_DIR}; \
 	list=`ls`; \
@@ -39,8 +56,6 @@ fpk_distinct:
 			rm -fr $(gBUILD_DIR)/$$i-*.fpk; \
 		fi \
 	done
-
-fpk_install:
 	# install the fpk to rootfs
 	@tmpls=`find $(gBUILD_DIR) -maxdepth 1 -name "*.fpk"`; \
 	if [ "X$${tmpls}" != "X" ]; then \
@@ -52,14 +67,23 @@ fpk_install:
 	fi
 
 rootfs_install:
-	@if [ -d rootfs ]; then \
-		cp -fdRp rootfs/* ${gosROOT_DIR}; \
+	if [ -d ${gPLATFORM_DIR}/rootfs ]; then \
+		cp -fdRp ${gPLATFORM_DIR}/rootfs/* ${gosROOT_DIR}; \
 	fi
-	@if [ -d ${gosROOT_DIR} ]; then \
+	if [ -d ${gHARDWARE_DIR}/rootfs ]; then \
+		cp -fdRp ${gHARDWARE_DIR}/rootfs/* ${gosROOT_DIR}; \
+	fi
+	if [ -d ${gCUSTOM_DIR}/rootfs ]; then \
+		cp -fdRp ${gCUSTOM_DIR}/rootfs/* ${gosROOT_DIR}; \
+	fi
+	if [ -d ${gSCOPE_DIR}/rootfs ]; then \
+		cp -fdRp ${gSCOPE_DIR}/rootfs/* ${gosROOT_DIR}; \
+	fi
+	if [ -d ${gosROOT_DIR} ]; then \
 		find ${gosROOT_DIR} -type d -name ".svn"|xargs rm -rf; \
 		find ${gosROOT_DIR} -type d -name ".git"|xargs rm -rf; \
 	fi
 
 ### Phony Target Declare
-.PHONY: all fpk_distinct fpk_install rootfs_install
+.PHONY: rootfs_prepare rootfs_install
 
