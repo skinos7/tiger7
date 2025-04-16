@@ -31,24 +31,15 @@ rootfs_prepare:
 	if [ "X$${tmpls}" != "X" ]; then \
 		cp ${gSCOPE_DIR}/*.fpk $(gBUILD_DIR); \
 	fi
-	# clear the exsit project fpk for core
-	cd ${gPROJECT_DIR}; \
-	list=`ls`; \
-	for i in $${list}; do \
-		if [ -f ${gPROJECT_DIR}/$$i/${gPROJECT_INF} ]; then \
-			rm -fr $(gBUILD_DIR)/$$i-*.fpk; \
-		fi \
-	done;
-	if [ -d ${gRICE_DIR} ]; then \
-		cd ${gRICE_DIR}; \
-		list=`ls`; \
+	# clear the exsit project fpk
+	for d in ${gPROJECT_DIR} ${gRICE_DIR} ${gPLATFORM_DIR}/cdriver; do \
+		cd $${d}; list=`ls`; \
 		for i in $${list}; do \
-			if [ -f ${gRICE_DIR}/$$i/prj.json ]; then \
+			if [ -f $${d}/$$i/${gPROJECT_INF} ]; then \
 				rm -fr $(gBUILD_DIR)/$$i-*.fpk; \
 			fi \
-		done; \
-	fi
-	# clear the exsit project fpk for platform
+		done;
+	done
 	cd ${gPLATFORM_DIR}; \
 	list="arch pdriver"; \
 	for i in $${list}; do \

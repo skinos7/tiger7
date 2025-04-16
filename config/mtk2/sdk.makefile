@@ -53,11 +53,15 @@ kernel: kernel_dep
 	cp ${gpUPGRADE_IMAGE} ${gBUILD_DIR}/${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.upgrade
 	cd ${gBUILD_DIR}; \
 	if [ -e ${gOEM_DIR} ]; then \
+	    if [ -e ${gOEM_SHELL} ]; then \
+			cp ${gOEM_SHELL} ${gBUILD_DIR}/${gOEM}.sh; \
+		fi; \
 	    if [ -e ${gOEM_DIR}/rootfs/prj/ ]; then \
 			cd ${gOEM_DIR}/rootfs/prj/; \
-			tar -c * -f ${gBUILD_DIR}/${gOEM_CONFIG}; \
-		fi ; \
-		firmware-encode ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}_${gOEM}.zz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.upgrade ${gOEM_SHELL} ${gOEM_CONFIG}; \
+			tar -c * -f ${gBUILD_DIR}/${gOEM}.dtar; \
+		fi; \
+		cd ${gBUILD_DIR}; \
+		firmware-encode ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}_${gOEM}.zz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.upgrade ${gOEM}.sh ${gOEM}.dtar; \
 	else \
 		firmware-encode ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.zz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}_${gVERSION}.upgrade; \
 	fi
@@ -182,13 +186,12 @@ sdk_distclean: sdk_clean
 
 sdk_sz:
 	# 通过tftp协议发送固件到本地
-	@sz ${gBUILD_DIR}/${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.zz
-	@sz ${gBUILD_DIR}/${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.upgrade
+	cd ${gBUILD_DIR} && sz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.zz
+	cd ${gBUILD_DIR} && sz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.upgrade
 sdk_tftp:
 	# 通过xmodem协议发送固件到本地
-	cd ${gBUILD_DIR} && sz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.zz
-	#cd ${gBUILD_DIR} && sz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.upgrade
-	#cd ${gBUILD_DIR} && sz ${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.txt
+	cd ${gBUILD_DIR} && tftp ${gTFTPD} -c put ${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.zz
+	cd ${gBUILD_DIR} && tftp ${gTFTPD} -c put ${gHARDWARE}_${gCUSTOM}_${gSCOPE}*.upgrade
 sdk_tar:
 	if [ "X${gPACK_MAKEFILE}" != "X" ]; then \
 		if [ -f ${gPACK_MAKEFILE} ]; then \

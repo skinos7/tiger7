@@ -45,8 +45,8 @@
     {
         "serial":
         {
-            "cn":"串口1",
-            "en":"Serial#1",
+            "cn":"串口(RS232)",
+            "en":"Serial#RS232",
             "page":"serial.html",
             "object":"uart@serial",
             "lang":
@@ -57,8 +57,8 @@
         },
         "serial2":
         {
-            "cn":"串口2",
-            "en":"Serial#2",
+            "cn":"串口2(调试)",
+            "en":"Serial#2(Debug)",
             "page":"serial.html",
             "object":"uart@serial2",
             "lang":
@@ -69,8 +69,8 @@
         },
         "serial3":
         {
-            "cn":"串口3(RS485)",
-            "en":"Serial#3(RS485)",
+            "cn":"串口(RS485)",
+            "en":"Serial#RS485",
             "page":"serial.html",
             "object":"uart@serial3",
             "lang":

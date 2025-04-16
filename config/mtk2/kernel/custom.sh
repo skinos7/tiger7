@@ -61,6 +61,10 @@ src2kernel qmi_wwan.c ${LINUX_DIR}/drivers/net/usb/
 src2kernel init.c ${LINUX_DIR}/arch/mips/ralink/
 src2kernel cmdline.c ${LINUX_DIR}/arch/mips/ralink/
 
+# mount root process
+src2kernel do_mounts.c ${LINUX_DIR}/init
+
+
 # ralink ethernet comment gpio operator
 src2kernel raether.c ${LINUX_DIR}/drivers/net/raeth/
 

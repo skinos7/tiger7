@@ -99,17 +99,17 @@ make
 
 # SkinOS中项目架构介绍
 
-在SkinOS中的开发都是基于以项目为基础
+为了方便在Linux下管理及开发可执行程序, 共享库, Skinos的组件, linux内核模块, 网页界面, Shell脚本及资源文件, Skinos以 **目录** 的方式将其统一存放以方便开发编译及打包成安装包, 并称之为 **项目**, 以下是项目通常包含的文件 
 
-- 开发可执行程序, 首先创建项目, 再创建可执行程序模板, 基于模板编写代码
-- 开发可组件程序, 首先创建项目, 再创建组件程序模板, 基于模板编写代码
-- 开发库程序, 首先创建项目, 再创建库程序模板, 基于模板编写代码
-- 开发内核模块程序, 首先创建项目, 再创建内核模块程序模板, 基于模板编写代码
-- 开发网页界面程序, 首先创建项目, 再创建网页界面程序模板, 基于模板编写网页
-- 开发Shell脚本, 首先创建项目, 再直接在项目目录下创建Shell文件即可
-- 放入其它文件, 首先创建项目, 再把文件放入项目目录下, 在项目配置文件中指明
+- 可执行程序, Linux下的可执行程序, 通过项目的方式创建将自动生成模板及编译脚本, 并会将编译后的二进制程序安装到运行系统中
+- 共享库程序, Linux下的库程序, 通过项目的方式创建将自动生成模板及编译脚本, 并会将编译后的二进制库安装到运行系统中
+- 组件程序, SkinOS组件, 向系统提供接口实现与SkinOS交互, 并会将编译后的二进制程序安装到运行系统中
+- 网页界面程序, HTML网页文件, 通过项目的方式创建将自动生成模板及安装后直接显示在管理界面中生成菜单项(点击菜单项将显示对应的HTML网页)
+- 开发Shell脚本, Linux下的Shell脚本文件, 项目目录下的Shell的脚本会自动安装到运行系统中
+- 开发内核模块程序, Linux下的内模模块, 通过项目的方式创建将自动生成模板及编译脚本, 并会将编译后的二进制程序安装到运行系统中
+- 放入其它文件, 在项目配置文件中指明即可安装到运行系统中
 
-*通过创建项目来开发, SkinSDK编译系统会自动编译, 打包成安装包或安装到固件中, 不需要开发者关心编译打包安装等细节, 开发者只需要在编译时勾选创建的项目即可*
+*通过创建项目来开发, SkinSDK编译系统会自动编译, 打包成安装包或安装到固件中, 不需要开发者关心编译打包安装等细节, 开发者只需要在编译时勾选创建的项目即可, 并了解如何查询项目安装后在运行系统中的位置即可*
 
 **以下是项目结构的介绍**
 
@@ -128,7 +128,7 @@ make
 - **shell** 脚本
 - **Resource file** 资源文件
 
-SkinOS的系统组件通过**Skin Layer**对项目的管理
+SkinOS的系统组件通过 **Skin Layer** 对项目的管理, 并实现项目间的相互调用及功能模块间的高耦合低内聚
 
 ![avatar](./project3.png)
 
@@ -161,6 +161,12 @@ SkinOS的系统组件通过**Skin Layer**对项目的管理
 - **[项目及组件开发](https://gitee.com/tiger7/doc/blob/master/dev/project/beginner_development_cn.md)**
 介绍及演示SkinSDK **项目** 开发步骤, 并以示例的方式演示如何开发一个功能
 
+- **[在项目中编写Linux可执行程序](https://gitee.com/tiger7/doc/blob/master/dev/execute_development_cn.md)**
+演示在SkinSDK **项目** 中开发Linux的可执行程序
+
+- **[在项目中编写共享库](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)**
+演示在SkinSDK **项目** 中开发共享动态库
+
 - **[移植Openwrt项目到SkinSDK中-简单版](https://gitee.com/tiger7/doc/blob/master/dev/porting-openwrt/porting_openwrt_cn.md)**
 介绍及演示移植Openwrt下的开源项目到SkinSDK中，并使其开机运行
 
@@ -171,46 +177,39 @@ SkinOS的系统组件通过**Skin Layer**对项目的管理
 
 
 
-- [在项目中编写Linux可执行程序](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)
-演示在SkinSDK **项目** 中开发Linux的可执行程序
 
-- [在项目中编写共享库](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)
-演示在SkinSDK **项目** 中开发共享动态库
 
-- [在项目中编写内核模块](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)
-演示在SkinSDK **项目** 中开发内核模块
+- *[移植Linux程序到SkinSDK中-简单版](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)*
+介绍及演示移植Linux程序到SkinSDK中，并使其开机运行
 
-- [在项目中编写脚本程序](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)
+- *[移植Linux程序到SkinSDK中-进阶版](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)*
+介绍及演示移植Linux程序到SkinSDK中, 并为其开发WEB管理界面, 允许用户通过WEB管理界或CLI对其管理
+
+- *[在项目中编写脚本程序](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)*
 演示在SkinSDK **项目** 中编写Shell等脚本程序
 
 - [在项目中加入其它文件](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)
 演示在SkinSDK **项目** 中添加一些资源文件
 
-- [移植Linux程序到SkinSDK中-简单版](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)
-介绍及演示移植Linux程序到SkinSDK中，并使其开机运行
+- *[在项目中编写内核模块](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)*
+演示在SkinSDK **项目** 中开发内核模块
 
-- [移植Linux程序到SkinSDK中-进阶版](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)
-介绍及演示移植Linux程序到SkinSDK中, 并为其开发WEB管理界面, 允许用户通过WEB管理界或CLI对其管理
-
-- [在modemdrv项目下添加LTE/NR模块驱动](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)
-介绍在如何加入新的LTE/NR模块的驱动, 让SkinSDK支持更多的4G或5G模块的驱动
-
-- [自定义网络连接模式](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)
+- *[自定义网络连接模式](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)*
 介绍在自定义网络连接策略, 实现更复杂的连接逻辑
 
-- [自定义默认配置](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)
+- *[自定义默认配置](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)*
 介绍在如何自定义产品的默认配置, 允许自定义设备在恢复出厂后的原始配置
 
-- [SkinOS的事件系统](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)
+- *[SkinOS的事件系统](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)*
 介绍SkinOS的事件, 通过注册事件事件来触发操作
 
-- [SkinOS的寄存变量系统](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)
+- *[SkinOS的寄存变量系统](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)*
 介绍通过寄存变量系统实现简单的组件间交互, 组件生存周期之外保存信息
 
-- [编程中调用组件接口](https://gitee.com/tiger7/doc/blob/master/dev/call_component.md)
+- *[编程中调用组件接口](https://gitee.com/tiger7/doc/blob/master/dev/call_component.md)*
 介绍在程序中如何调用其它组件的接口、
 
-- [编程中管理组件配置](https://gitee.com/tiger7/doc/blob/master/dev/component_config.md)
+- *[编程中管理组件配置](https://gitee.com/tiger7/doc/blob/master/dev/component_config.md)*
 介绍在程序中如何管理其它组件的配置
 
 
