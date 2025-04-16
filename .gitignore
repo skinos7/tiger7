@@ -13,9 +13,6 @@
 /gBOARDID
 
 /config/host/*.fpk
-/config/host/tools/
-/config/host/x86/store/
-/config/host/aarch64/store/
 
 /smtk2/
 /config/smtk2/*.fpk
