@@ -33,12 +33,14 @@ rootfs_prepare:
 	fi
 	# clear the exsit project fpk
 	for d in ${gPROJECT_DIR} ${gRICE_DIR} ${gPLATFORM_DIR}/cdriver; do \
+	if [ -d $${d} ]; then \
 		cd $${d}; list=`ls`; \
 		for i in $${list}; do \
 			if [ -f $${d}/$$i/${gPROJECT_INF} ]; then \
 				rm -fr $(gBUILD_DIR)/$$i-*.fpk; \
 			fi; \
 		done; \
+	fi; \
 	done
 	cd ${gPLATFORM_DIR}; \
 	list="arch pdriver"; \
