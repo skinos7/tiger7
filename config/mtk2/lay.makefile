@@ -37,15 +37,15 @@ rootfs_prepare:
 		for i in $${list}; do \
 			if [ -f $${d}/$$i/${gPROJECT_INF} ]; then \
 				rm -fr $(gBUILD_DIR)/$$i-*.fpk; \
-			fi \
-		done;
+			fi; \
+		done; \
 	done
 	cd ${gPLATFORM_DIR}; \
 	list="arch pdriver"; \
 	for i in $${list}; do \
 		if [ -f ${gPLATFORM_DIR}/$$i/Makefile ]; then \
 			rm -fr $(gBUILD_DIR)/$$i-*.fpk; \
-		fi \
+		fi; \
 	done
 	# install the fpk to rootfs
 	@tmpls=`find $(gBUILD_DIR) -maxdepth 1 -name "*.fpk"`; \
