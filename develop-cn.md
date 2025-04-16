@@ -167,6 +167,8 @@ SkinOS的系统组件通过 **Skin Layer** 对项目的管理, 并实现项目�
 - **[在项目中编写共享库](https://gitee.com/tiger7/doc/blob/master/dev/beginner_development.md)**
 演示在SkinSDK **项目** 中开发共享动态库
 
+
+
 - **[移植Openwrt项目到SkinSDK中-简单版](https://gitee.com/tiger7/doc/blob/master/dev/porting-openwrt/porting_openwrt_cn.md)**
 介绍及演示移植Openwrt下的开源项目到SkinSDK中，并使其开机运行
 
