@@ -161,10 +161,10 @@ SkinOS的系统组件通过 **Skin Layer** 对项目的管理, 并实现项目�
 - **[项目及组件开发](https://gitee.com/tiger7/doc/blob/master/dev/project/beginner_development_cn.md)**
 介绍及演示SkinSDK **项目** 开发步骤, 并以示例的方式演示如何开发一个功能
 
-- **[在项目中编写Linux可执行程序](https://gitee.com/tiger7/doc/blob/master/dev/execute_development_cn.md)**
+- **[在项目中编写Linux可执行程序](https://gitee.com/tiger7/doc/blob/master/dev/execute/execute_development_cn.md)**
 演示在SkinSDK **项目** 中开发Linux的可执行程序
 
-- **[在项目中编写共享库](https://gitee.com/tiger7/doc/blob/master/dev/library_development_cn.md)**
+- **[在项目中编写共享库](https://gitee.com/tiger7/doc/blob/master/dev/library/library_development_cn.md)**
 演示在SkinSDK **项目** 中开发共享动态库
 
 
